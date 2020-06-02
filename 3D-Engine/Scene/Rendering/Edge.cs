@@ -8,10 +8,10 @@
             Matrix4x4 view_to_screen)
         {
             // Move the edge from model space to world space
+            edge.World_P1 = new Vector3D(model_to_world * edge.P1);
+            edge.World_P2 = new Vector3D(model_to_world * edge.P2);
             edge.P1 = model_to_world * edge.P1;
             edge.P2 = model_to_world * edge.P2;
-            edge.World_P1 = model_to_world * edge.World_P1;
-            edge.World_P2 = model_to_world * edge.World_P2;
 
             // Move the edge from world space to view space
             edge.P1 = world_to_view * edge.P1;

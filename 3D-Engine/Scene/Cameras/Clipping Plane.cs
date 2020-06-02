@@ -3,7 +3,7 @@
     /// <summary>
     /// Class that defines planes that clip shapes.
     /// </summary>
-    public sealed class Clipping_Plane
+    internal sealed class Clipping_Plane
     {
         /// <summary>
         /// A point on the clipping plane.

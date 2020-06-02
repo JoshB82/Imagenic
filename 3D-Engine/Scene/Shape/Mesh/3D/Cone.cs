@@ -5,6 +5,7 @@ namespace _3D_Engine
 {
     public sealed class Cone : Mesh
     {
+        /*
         private double height, radius;
         public double Height
         {
@@ -68,5 +69,6 @@ namespace _3D_Engine
         {
 
         }
+        */
     }
 }

@@ -16,9 +16,9 @@ namespace _3D_Engine
 
         // Origins
         /// <summary>
-        /// The position of the camera in model space.
+        /// The position of the camera starting from model space.
         /// </summary>
-        public Vector4D Origin { get; }
+        internal Vector4D Origin { get; } = Vector4D.Zero;
         /// <summary>
         /// The position of the camera in world space.
         /// </summary>
@@ -56,8 +56,8 @@ namespace _3D_Engine
         public bool Draw_Near_View { get; set; } = false;
 
         // Clipping planes
-        public Clipping_Plane[] View_Clipping_Planes { get; protected set; }
-        public abstract void Calculate_Clipping_Planes();
+        internal Clipping_Plane[] View_Clipping_Planes { get; set; }
+        internal abstract void Calculate_Clipping_Planes();
 
         #endregion
 
@@ -164,7 +164,7 @@ namespace _3D_Engine
 
         #endregion
 
-        public override void Calculate_Clipping_Planes()
+        internal override void Calculate_Clipping_Planes()
         {
             double semi_width = Width / 2, semi_height = Height / 2;
 
@@ -263,7 +263,7 @@ namespace _3D_Engine
 
         #endregion
 
-        public override void Calculate_Clipping_Planes()
+        internal override void Calculate_Clipping_Planes()
         {
             double semi_width = Width / 2, semi_height = Height / 2, z_ratio = Z_Far / Z_Near;
 

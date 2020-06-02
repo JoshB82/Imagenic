@@ -166,7 +166,7 @@ namespace _3D_Engine
 
                 // Calculate camera properties
                 Render_Camera.Calculate_Model_to_World_Matrix();
-                Render_Camera.World_Origin = Render_Camera.Model_to_World * Render_Camera.Model_Origin;
+                Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin);
                 Render_Camera.Calculate_World_to_View_Matrix();
                 string camera_type = Render_Camera.GetType().Name;
                 Matrix4x4 world_to_view = Render_Camera.World_to_View;

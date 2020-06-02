@@ -10,10 +10,12 @@ namespace _3D_Engine
             Matrix4x4 view_to_screen)
         {
             // Move the face from model space to world space
+            face.World_P1 = new Vector3D(model_to_world * face.P1);
+            face.World_P2 = new Vector3D(model_to_world * face.P2);
             face.P1 = model_to_world * face.P1;
             face.P2 = model_to_world * face.P2;
-
-            Vector3D camera_to_face = new Vector3D(face.P1 - Render_Camera.World_Origin);
+            
+            Vector3D camera_to_face = new Vector3D(face.P1 - new Vector4D(Render_Camera.World_Origin));
             Vector3D normal = Vector3D.Normal_From_Plane(face.World_P1, face.World_P2, face.World_P3);
 
             // Discard face if its not visible
@@ -22,9 +24,9 @@ namespace _3D_Engine
             // Draw outline if needed
             if (face.Draw_Outline)
             {
-                Draw_Edge(new Edge(face.World_P1, face.World_P2), camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(new Edge(face.World_P1, face.World_P3), camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(new Edge(face.World_P2, face.World_P3), camera_type, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(new Edge(face.P1, face.P2), camera_type, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(new Edge(face.P1, face.P3), camera_type, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(new Edge(face.P2, face.P3), camera_type, model_to_world, world_to_view, view_to_screen);
             }
 
             // Move the face from world space to view space

@@ -103,7 +103,7 @@ namespace _3D_Engine
                             {
                                 p1 = Int32.Parse(data[no_end_points]) - 1;
                                 p2 = Int32.Parse(data[no_end_points - 1]) - 1;
-                                edges.Add(new Edge(new Vector3D(vertices[p1 - 1]), new Vector3D(vertices[p2 - 1]), Color.Black));
+                                edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1], Color.Black));
                                 no_end_points--;
                             }
                             while (no_end_points > 1);
@@ -113,7 +113,7 @@ namespace _3D_Engine
                             p1 = Int32.Parse(data[1]) - 1;
                             p2 = Int32.Parse(data[2]) - 1;
                             p3 = Int32.Parse(data[3]) - 1;
-                            faces.Add(new Face(new Vector3D(vertices[p1 - 1]), new Vector3D(vertices[p2 - 1]), new Vector3D(vertices[p3 - 1]), Color.BlueViolet));
+                            faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1], Color.BlueViolet));
                             break;
                     }
                 }

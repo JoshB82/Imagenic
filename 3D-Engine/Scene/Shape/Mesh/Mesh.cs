@@ -7,7 +7,7 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // Origins
-        public Vector3D Origin { get; set; }
+        internal Vector4D Origin { get; set; } = Vector4D.Zero;
         public Vector3D World_Origin { get; set; }
 
         // Structure
