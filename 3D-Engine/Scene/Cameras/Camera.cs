@@ -28,9 +28,9 @@ namespace _3D_Engine
         /// <summary>
         /// The direction the camera faces in model space.
         /// </summary>
-        public Vector3D Model_Direction { get; } = Vector3D.Unit_Negative_Z;
-        public Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
-        public Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
+        internal Vector3D Model_Direction { get; } = Vector3D.Unit_Negative_Z;
+        internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
+        internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
 
         /// <summary>
         /// The direction the camera faces in world space.
@@ -40,9 +40,9 @@ namespace _3D_Engine
         public Vector3D World_Direction_Right { get; private set; }
 
         // Matrices
-        public Matrix4x4 Model_to_World { get; protected set; }
-        public Matrix4x4 World_to_View { get; protected set; }
-        public Matrix4x4 View_to_Screen { get; protected set; }
+        internal Matrix4x4 Model_to_World { get; set; }
+        internal Matrix4x4 World_to_View { get; set; }
+        internal Matrix4x4 View_to_Screen { get; set; }
 
         // View volume parameters
         public abstract double Width { get; set; }
@@ -158,9 +158,9 @@ namespace _3D_Engine
 
         public Orthogonal_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double width, double height, double z_near, double z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public Orthogonal_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, string ignore, double fov_x, double fov_y, double z_near, double z_far) : this(origin, direction, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Orthogonal_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, direction, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
-        public Orthogonal_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, string ignore, double fov_x, double fov_y, double z_near, double z_far) : this(origin, pointed_at.World_Origin, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Orthogonal_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
         #endregion
 
@@ -257,9 +257,9 @@ namespace _3D_Engine
 
         public Perspective_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double width, double height, double z_near, double z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public Perspective_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, string ignore, double fov_x, double fov_y, double z_near, double z_far) : this(origin, direction, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Perspective_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, direction, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
-        public Perspective_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, string ignore, double fov_x, double fov_y, double z_near, double z_far) : this(origin, pointed_at.World_Origin, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Perspective_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
         #endregion
 

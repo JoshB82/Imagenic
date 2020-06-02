@@ -37,6 +37,7 @@ namespace _3D_Engine
         }
 
         #region Common Vectors
+
         public static readonly Vector4D Zero = new Vector4D(0, 0, 0);
         public static readonly Vector4D One = new Vector4D(1, 1, 1);
         public static readonly Vector4D Unit_X = new Vector4D(1, 0, 0);
@@ -45,9 +46,11 @@ namespace _3D_Engine
         public static readonly Vector4D Unit_Negative_X = new Vector4D(-1, 0, 0);
         public static readonly Vector4D Unit_Negative_Y = new Vector4D(0, -1, 0);
         public static readonly Vector4D Unit_Negative_Z = new Vector4D(0, 0, -1);
+
         #endregion
 
         #region Vector Operations (Common)
+
         public double Angle(Vector4D v)
         {
             double quotient = (this * v) / (this.Magnitude() * v.Magnitude());
@@ -62,9 +65,11 @@ namespace _3D_Engine
         public Vector4D Normalise() => this / Magnitude();
 
         public override string ToString() => $"({X}, {Y}, {Z}, {W})";
+
         #endregion
 
         #region Vector Operations (Operator Overloading)
+
         public static Vector4D operator +(Vector4D v1, Vector4D v2) => new Vector4D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z, v1.W);
         public static Vector4D operator +(Vector4D v1, Vector3D v2) => new Vector4D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z, v1.W);
         public static Vector4D operator -(Vector4D v1, Vector4D v2) => new Vector4D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z, v1.W);
@@ -74,6 +79,7 @@ namespace _3D_Engine
         public static Vector4D operator -(Vector4D v) => new Vector4D(-v.X, -v.Y, -v.Z, -v.W);
         public static bool operator ==(Vector4D v1, Vector4D v2) => (v1.X == v2.X && v1.Y == v2.Y && v1.Z == v2.Z && v1.W == v2.W);
         public static bool operator !=(Vector4D v1, Vector4D v2) => !(v1 == v2);
+
         #endregion
     }
 }

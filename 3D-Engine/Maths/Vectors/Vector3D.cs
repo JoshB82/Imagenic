@@ -18,7 +18,7 @@ namespace _3D_Engine
             Z = z;
         }
 
-        public Vector3D(Vector2D v, double z)
+        internal Vector3D(Vector2D v, double z)
         {
             X = v.X;
             Y = v.Y;
@@ -33,6 +33,7 @@ namespace _3D_Engine
         }
 
         #region Common Vectors
+
         public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
         public static readonly Vector3D One = new Vector3D(1, 1, 1);
         public static readonly Vector3D Unit_X = new Vector3D(1, 0, 0);
@@ -41,9 +42,11 @@ namespace _3D_Engine
         public static readonly Vector3D Unit_Negative_X = new Vector3D(-1, 0, 0);
         public static readonly Vector3D Unit_Negative_Y = new Vector3D(0, -1, 0);
         public static readonly Vector3D Unit_Negative_Z = new Vector3D(0, 0, -1);
+
         #endregion
 
         #region Vector Operations (Common)
+
         // SMALLEST ANGLE
         public double Angle(Vector3D v)
         {
@@ -59,9 +62,11 @@ namespace _3D_Engine
         public Vector3D Normalise() => this / Magnitude();
 
         public override string ToString() => $"({X}, {Y}, {Z})";
+
         #endregion
 
         #region Vector Operations (Geometry)
+
         public static Vector3D Line_Intersect_Plane(Vector3D line_start, Vector3D line_finish, Vector3D plane_point, Vector3D plane_normal, out double d)
         {
             Vector3D line = (line_finish - line_start);
@@ -75,9 +80,11 @@ namespace _3D_Engine
         public static Vector3D Normal_From_Plane(Vector3D p1, Vector3D p2, Vector3D p3) => (p3 - p1).Cross_Product(p2 - p1).Normalise();
 
         public static double Point_Distance_From_Plane(Vector3D point, Vector3D plane_point, Vector3D plane_normal) => point * plane_normal - plane_point * plane_normal;
+
         #endregion
 
         #region Vector Operations (Operator Overloading)
+
         public static Vector3D operator +(Vector3D v1, Vector3D v2) => new Vector3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
         public static Vector3D operator -(Vector3D v1, Vector3D v2) => new Vector3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
         public static double operator *(Vector3D v1, Vector3D v2) => v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
@@ -86,6 +93,7 @@ namespace _3D_Engine
         public static Vector3D operator -(Vector3D v) => new Vector3D(-v.X, -v.Y, -v.Z);
         public static bool operator ==(Vector3D v1, Vector3D v2) => (v1.X == v2.X && v1.Y == v2.Y && v1.Z == v2.Z);
         public static bool operator !=(Vector3D v1, Vector3D v2) => !(v1 == v2);
+
         #endregion
     }
 }

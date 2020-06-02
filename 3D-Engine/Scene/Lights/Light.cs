@@ -14,13 +14,13 @@ namespace _3D_Engine
         private static int next_id = -1;
 
         // Origins
-        public Vector3D Origin { get; }
-        public Vector4D World_Origin { get; set; }
+        internal Vector3D Origin { get; }
+        public Vector3D World_Origin { get; set; }
 
         // Directions
-        public Vector3D Model_Direction { get; } = Vector3D.Unit_X;
-        public Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
-        public Vector3D Model_Direction_Right { get; } = Vector3D.Unit_Z;
+        internal Vector3D Model_Direction { get; } = Vector3D.Unit_X;
+        internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
+        internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_Z;
 
         // See other files on using methods
         private Vector3D world_direction;

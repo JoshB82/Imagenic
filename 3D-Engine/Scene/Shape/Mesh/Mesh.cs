@@ -97,8 +97,8 @@ namespace _3D_Engine
         public bool Visible { get; set; } = true;
 
         // Object transformations
-        public Matrix4x4 Model_to_World { get; private set; }
-        public Vector3D Scaling { get; protected set; } = Vector3D.One;
+        internal Matrix4x4 Model_to_World { get; private set; }
+        internal Vector3D Scaling { get; set; } = Vector3D.One;
 
         #endregion
 

@@ -149,7 +149,6 @@ namespace _3D_Engine
 
         public void Render()
         {
-            if (Canvas_Box == null) throw new Exception("No picture box has been set yet!");
             if (Render_Camera == null) throw new Exception("No camera has been set yet!");
 
             // Only render if a change in scene has taken place
