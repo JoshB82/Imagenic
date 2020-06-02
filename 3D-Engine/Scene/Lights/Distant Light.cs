@@ -8,7 +8,7 @@ namespace _3D_Engine
         public Distant_Light(Vector3D origin, Vector3D direction, Color? colour, double intensity)
         {
             Translation = origin;
-            World_Origin = new Vector4D(origin);
+            World_Origin = origin;
             World_Direction = direction;
             Colour = colour ?? Color.White;
             Intensity = intensity;

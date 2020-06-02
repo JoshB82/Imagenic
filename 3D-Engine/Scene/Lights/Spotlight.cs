@@ -31,7 +31,7 @@ namespace _3D_Engine
         public Spotlight(Vector3D origin, Vector3D direction, Color? colour, double intensity, double angle, double distance)
         {
             Translation = origin;
-            World_Origin = new Vector4D(origin);
+            World_Origin = origin;
             World_Direction = direction;
             Colour = colour ?? Color.White;
             Intensity = intensity;
