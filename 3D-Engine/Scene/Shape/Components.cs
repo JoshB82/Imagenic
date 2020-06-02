@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
-    internal struct Spot
+    public struct Spot
     {
         #region Fields and Properties
 
@@ -30,7 +30,7 @@ namespace _3D_Graphics
         #endregion
     }
 
-    internal struct Edge
+    public struct Edge
     {
         #region Fields and Properties
 
@@ -59,7 +59,7 @@ namespace _3D_Graphics
     }
 
     // Don't understand how this() works :(
-    internal struct Face
+    public struct Face
     {
         #region Fields and Properties
 

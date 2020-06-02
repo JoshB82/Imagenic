@@ -1,4 +1,4 @@
-﻿namespace _3D_Graphics
+﻿namespace _3D_Engine
 {
     public class Shape : Scene_Object
     {

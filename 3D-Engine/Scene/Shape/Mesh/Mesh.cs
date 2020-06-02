@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
-    internal abstract partial class Mesh
+    public abstract partial class Mesh
     {
         #region Fields and Properties
 

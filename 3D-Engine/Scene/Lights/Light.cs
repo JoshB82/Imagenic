@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
     public abstract class Light : Scene_Object
     {

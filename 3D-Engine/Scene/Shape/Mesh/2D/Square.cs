@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
     /// <summary>
     /// Handles creation of a square mesh.

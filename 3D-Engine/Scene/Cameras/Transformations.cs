@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
     public abstract partial class Camera : Scene_Object
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
     public struct Quaternion
     {

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
     public sealed class Arrow : Mesh
     {
@@ -11,6 +11,7 @@ namespace _3D_Graphics
 
         public Arrow(Vector3D start_position, Vector3D end_position, double tip_length, double tip_radius, int tip_resolution)
         {
+            /*
             Tip_Length = tip_length;
             Tip_Radius = tip_radius;
 
@@ -29,6 +30,7 @@ namespace _3D_Graphics
             {
                 arrow_cone.Spots
             };
+            */
         }
     }
 }

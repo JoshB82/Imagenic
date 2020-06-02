@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
-    internal abstract class Scene_Object { } // Used to group scene objects together.
+    public abstract class Scene_Object { } // Used to group scene objects together.
 
     public sealed partial class Scene
     {

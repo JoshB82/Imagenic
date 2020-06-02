@@ -5,7 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
     /// <summary>
     /// Handles creation of a custom mesh.

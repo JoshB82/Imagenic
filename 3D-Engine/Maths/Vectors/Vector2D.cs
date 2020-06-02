@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _3D_Graphics
+namespace _3D_Engine
 {
     /// <summary>
     /// Handles constructors and operations involving two-dimensional vectors.
