@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 
 namespace _3D_Engine
 {
+    /// <summary>
+    /// Handles creation of a <see cref="Circle"/> mesh.
+    /// </summary>
     public sealed class Circle : Mesh
     {
-        /*
+        #region Fields and Properties
+
         private double radius;
+        private int resolution;
+
+        /// <summary>
+        /// The radius of the <see cref="Circle"/>.
+        /// </summary>
         public double Radius
         {
             get => radius;
@@ -17,82 +25,86 @@ namespace _3D_Engine
                 Scaling = new Vector3D(radius, 1, radius);
             }
         }
-        public int Resolution { get; set; }
+        /// <summary>
+        /// The number of points that are on the perimeter of the <see cref="Circle"/>.
+        /// </summary>
+        public int Resolution
+        {
+            get => resolution;
+            set
+            {
+                resolution = value;
 
+                Vertices = new Vector4D[resolution + 1]; // ?
+                Vertices[0] = Vector4D.Zero; // ?
+
+                double angle = 2 * Math.PI / resolution;
+                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vector4D(Math.Cos(angle * i), 0, Math.Sin(angle * i));
+
+                if (Textures != null)
+                {
+                    Texture_Vertices = new Vector3D[resolution + 1];
+                    Texture_Vertices[0] = new Vector3D(0.5, 0.5, 1);
+
+                    for (int i = 0; i < resolution; i++) Texture_Vertices[i + 1] = new Vector3D(Math.Cos(angle * i) * 0.5, Math.Sin(angle * i) * 0.5, 1);
+                }
+
+                Spots = new Spot[1] { new Spot(Vertices[0]) };
+
+                Edges = new Edge[resolution];
+                for (int i = 0; i < resolution - 1; i++) Edges[i] = new Edge(Vertices[i + 1], Vertices[i + 2]);
+                Edges[resolution - 1] = new Edge(Vertices[resolution], Vertices[1]);
+
+                Faces = new Face[resolution];
+                for (int i = 0; i < resolution - 1; i++) Faces[i] = new Face(Vertices[i + 1], Vertices[0], Vertices[i + 2]);
+                Faces[resolution - 1] = new Face(Vertices[resolution], Vertices[0], Vertices[1]);
+            }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Creates a <see cref="Circle"/> mesh.
+        /// </summary>
+        /// <param name="origin">The position of the <see cref="Circle"/>.</param>
+        /// <param name="direction">The direction the <see cref="Circle"/> faces.</param>
+        /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
+        /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
+        /// <param name="resolution">The number of points that are on the perimeter of the <see cref="Circle"/>.</param>
         public Circle(Vector3D origin, Vector3D direction, Vector3D normal, double radius, int resolution)
         {
             Radius = radius;
             Resolution = resolution;
 
-            World_Origin = new Vector4D(origin);
+            World_Origin = origin;
             Set_Shape_Direction_1(direction, normal);
-
-            Model_Vertices = new Vector4D[resolution + 1] { new Vector4D(0, 0, 0) };
-
-            double angle = 2 * Math.PI / resolution;
-            double sin_angle = Math.Sin(angle), cos_angle = Math.Cos(angle);
-
-            for (int i = 0; i < resolution; i++) Model_Vertices[i + 1] = new Vector4D(cos_angle * i, 0, sin_angle * i);
-
-            Spots = new Spot[1]
-            {
-                new Spot(Model_Vertices[0])
-            };
-
-            Edges = new Edge[resolution];
-            for (int i = 0; i < resolution - 1; i++) Edges[i] = new Edge(Model_Vertices[i + 1], Model_Vertices[i + 2]);
-            Edges[resolution - 1] = new Edge(Model_Vertices[resolution], Model_Vertices[1]);
-
-            Faces = new Face[resolution];
-            for (int i = 0; i < resolution - 1; i++) Faces[i] = new Face(Model_Vertices[i + 1], Model_Vertices[0], Model_Vertices[i + 2]);
-            Faces[resolution - 1] = new Face(Model_Vertices[resolution], Model_Vertices[0], Model_Vertices[1]);
-
-            Spot_Colour = Color.Blue;
-            Edge_Colour = Color.Black;
-            Face_Colour = Color.FromArgb(0xFF, 0x00, 0xFF, 0x00); // Green
 
             Debug.WriteLine($"Circle created at {origin}");
         }
 
-        public Circle(Vector3D origin, Vector3D direction, Vector3D normal, double radius, int resolution, Bitmap texture)
+        /// <summary>
+        /// Creates a textured <see cref="Circle"/> mesh.
+        /// </summary>
+        /// <param name="origin">The position of the <see cref="Circle"/>.</param>
+        /// <param name="direction">The direction the <see cref="Circle"/> faces.</param>
+        /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
+        /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
+        /// <param name="resolution">The number of points that are on the perimeter of the <see cref="Circle"/>.</param>
+        /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Circle"/>.</param>
+        public Circle(Vector3D origin, Vector3D direction, Vector3D normal, double radius, int resolution, Texture texture)
         {
             Radius = radius;
+            Textures = new Texture[1] { texture };
             Resolution = resolution;
 
-            World_Origin = new Vector4D(origin);
+            World_Origin = origin;
             Set_Shape_Direction_1(direction, normal);
-
-            Model_Vertices = new Vector4D[resolution + 1] { new Vector4D(0, 0, 0) };
-
-            double angle = 2 * Math.PI / resolution;
-            double sin_angle = Math.Sin(angle), cos_angle = Math.Cos(angle);
-
-            for (int i = 0; i < resolution; i++) Model_Vertices[i + 1] = new Vector4D(cos_angle * i, 0, sin_angle * i);
-
-            //Texture_Vertices = new Vector3D[resolution + 1]-
-            //{ new Vector3D(0.5, 0.5, 1) };
-
-            for (int i = 0; i < resolution; i++) Model_Vertices[i + 1] = new Vector4D(cos_angle * i, 0, sin_angle * i);
-
-            Spots = new Spot[1]
-            {
-                new Spot(Model_Vertices[0])
-            };
-
-            Edges = new Edge[resolution];
-            for (int i = 0; i < resolution - 1; i++) Edges[i] = new Edge(Model_Vertices[i + 1], Model_Vertices[i + 2]);
-            Edges[resolution - 1] = new Edge(Model_Vertices[resolution], Model_Vertices[1]);
-
-            Faces = new Face[resolution];
-            for (int i = 0; i < resolution - 1; i++) Faces[i] = new Face(Model_Vertices[i + 1], Model_Vertices[0], Model_Vertices[i + 2]);
-            Faces[resolution - 1] = new Face(Model_Vertices[resolution], Model_Vertices[0], Model_Vertices[1]);
-
-            Spot_Colour = Color.Blue;
-            Edge_Colour = Color.Black;
-            Face_Colour = Color.FromArgb(0xFF, 0x00, 0xFF, 0x00); // Green
-
+            
             Debug.WriteLine($"Circle created at {origin}");
         }
-        */
+
+        #endregion
     }
 }

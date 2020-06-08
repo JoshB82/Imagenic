@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace _3D_Engine
 {
@@ -93,6 +94,8 @@ namespace _3D_Engine
                 new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_Y), // Top
                 new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_Z) // Far
             };
+
+            Debug.WriteLine("Scene created.");
         }
 
         #region Add to scene methods

@@ -178,10 +178,7 @@ namespace _3D_Engine
                 new Face(Vertices[4], Vertices[1], Vertices[0], Texture_Vertices[3], Texture_Vertices[1], Texture_Vertices[0], texture) // 11
             };
 
-            Textures = new Texture[1]
-            {
-                texture // 0
-            };
+            Textures = new Texture[1] { texture };
 
             Spot_Colour = Color.Blue;
             Edge_Colour = Color.Black;

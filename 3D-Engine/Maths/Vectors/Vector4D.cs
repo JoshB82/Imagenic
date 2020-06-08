@@ -7,16 +7,30 @@ namespace _3D_Engine
     /// </summary>
     public struct Vector4D
     {
+        #region Fields and Properties
+
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
         public double W { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public Vector4D(double x, double y, double z, double w = 1)
         {
             X = x;
             Y = y;
             Z = z;
+            W = w;
+        }
+
+        public Vector4D(Vector3D v, double w = 1)
+        {
+            X = v.X;
+            Y = v.Y;
+            Z = v.Z;
             W = w;
         }
 
@@ -28,13 +42,7 @@ namespace _3D_Engine
             W = data[3];
         }
 
-        public Vector4D(Vector3D v, double w = 1)
-        {
-            X = v.X;
-            Y = v.Y;
-            Z = v.Z;
-            W = w;
-        }
+        #endregion
 
         #region Common Vectors
 

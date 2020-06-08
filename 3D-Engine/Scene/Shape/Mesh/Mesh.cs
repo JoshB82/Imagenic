@@ -22,9 +22,9 @@ namespace _3D_Engine
         public Face[] Faces { get; protected set; }
 
         // Directions
-        public Vector3D Model_Direction { get; } = Vector3D.Unit_X;
-        public Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
-        public Vector3D Model_Direction_Right { get; } = Vector3D.Unit_Z;
+        internal Vector3D Model_Direction { get; } = Vector3D.Unit_X;
+        internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
+        internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_Z;
 
         public Vector3D World_Direction { get; private set; }
         public Vector3D World_Direction_Up { get; private set; }
@@ -45,7 +45,9 @@ namespace _3D_Engine
         public bool Draw_Faces { get; set; } = true;
 
         // Colours
-        private Color spot_colour, edge_colour, face_colour;
+        private Color spot_colour = Color.Green;
+        private Color edge_colour = Color.Black;
+        private Color face_colour = Color.BlueViolet;
         /// <summary>
         /// The colour of each spot in the mesh.
         /// </summary>
@@ -68,7 +70,6 @@ namespace _3D_Engine
             set
             {
                 edge_colour = value;
-                // Not entirely sure why can't use foreach loop :/
                 for (int i = 0; i < Edges.Length; i++) Edges[i].Colour = value;
             }
         }
@@ -81,7 +82,6 @@ namespace _3D_Engine
             set
             {
                 face_colour = value;
-                // Not entirely sure why can't use foreach loop :/
                 for (int i = 0; i < Faces.Length; i++) Faces[i].Colour = value;
             }
         }

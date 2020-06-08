@@ -51,7 +51,7 @@ namespace _3D_Engine
                     new_view_triangles[i].P2 /= new_view_triangles[i].P2.W;
                     new_view_triangles[i].P3 /= new_view_triangles[i].P3.W;
                     
-                    if (face.Texture_Object.File != null)
+                    if (face.Texture_Object != null)
                     {
                         new_view_triangles[i].T1 /= new_view_triangles[i].P1.W;
                         new_view_triangles[i].T2 /= new_view_triangles[i].P1.W;
@@ -83,7 +83,7 @@ namespace _3D_Engine
                 double result_point_3_z = new_screen_triangles[i].P3.Z;
 
                 // Finally draw the triangle
-                if (face.Texture_Object.File == null)
+                if (face.Texture_Object == null)
                 {
                     Solid_Triangle(new_screen_triangles[i].Colour,
                         result_point_1_x, result_point_1_y, result_point_1_z,

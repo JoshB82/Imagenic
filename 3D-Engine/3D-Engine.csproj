@@ -6,4 +6,9 @@
 	<UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\jbrya\source\repos\3D-Engine\3D-Engine\3D-Engine.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
 </Project>

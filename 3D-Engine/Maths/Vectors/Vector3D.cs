@@ -7,9 +7,15 @@ namespace _3D_Engine
     /// </summary>
     public struct Vector3D
     {
+        #region Fields and Properties
+
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public Vector3D(double x, double y, double z)
         {
@@ -31,6 +37,15 @@ namespace _3D_Engine
             Y = v.Y;
             Z = v.Z;
         }
+
+        public Vector3D(double[] data)
+        {
+            X = data[0];
+            Y = data[1];
+            Z = data[2];
+        }
+
+        #endregion
 
         #region Common Vectors
 

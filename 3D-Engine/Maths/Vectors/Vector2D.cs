@@ -7,8 +7,14 @@ namespace _3D_Engine
     /// </summary>
     internal struct Vector2D
     {
+        #region Fields and Properties
+
         public double X { get; set; }
         public double Y { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public Vector2D(double x, double y)
         {
@@ -21,6 +27,14 @@ namespace _3D_Engine
             X = v.X;
             Y = v.Y;
         }
+
+        public Vector2D(double[] data)
+        {
+            X = data[0];
+            Y = data[1];
+        }
+
+        #endregion
 
         #region Common Vectors
 
