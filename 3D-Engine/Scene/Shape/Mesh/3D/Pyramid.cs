@@ -4,7 +4,7 @@ using System.Drawing;
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a pyramid mesh.
+    /// Handles creation of a <see cref="Pyramid"/> mesh.
     /// </summary>
     public sealed class Pyramid : Mesh
     {
@@ -29,7 +29,7 @@ namespace _3D_Engine
                 Scaling = new Vector3D(radius, height, radius);
             }
         }
-        public int Resolution { get; set; };
+        public int Resolution { get; set; }
 
         #endregion
 

@@ -1,0 +1,573 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>3D-Engine</name>
+    </assembly>
+    <members>
+        <member name="T:_3D_Engine.Constants">
+            <summary>
+            Collection of frequently used constants.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Constants.Grav_Acc">
+            <summary>
+            Gravitational acceleration near the surface of the Earth.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Matrix4x4.Zeroed_Matrix">
+            <summary>
+            Creates a zeroed 4x4 matrix.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Matrix4x4.Identity_Matrix">
+            <summary>
+            Creates an 4x4 identity matrix.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Vector2D">
+            <summary>
+            Handles constructors and operations involving two-dimensional vectors.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Vector3D">
+            <summary>
+            Handles constructors and operations involving three-dimensional vectors.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Vector4D">
+            <summary>
+            Handles constructors and operations involving four-dimensional vectors for use in 3D graphics.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Camera.ID">
+            <summary>
+            Unique identification number for this camera.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Camera.Origin">
+            <summary>
+            The position of the camera starting from model space.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Camera.World_Origin">
+            <summary>
+            The position of the camera in world space.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Camera.Model_Direction">
+            <summary>
+            The direction the camera faces in model space.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Camera.World_Direction">
+            <summary>
+            The direction the camera faces in world space.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Clipping_Plane">
+            <summary>
+            Class that defines planes that clip shapes.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Clipping_Plane.Point">
+            <summary>
+            A point on the clipping plane.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Clipping_Plane.Normal">
+            <summary>
+            Normal vector pointing towards the volume to keep.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Scene.Create_Origin">
+            <summary>
+            Creates an origin point at (0, 0, 0) and adds it to the scene.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Scene.Create_Axes">
+            <summary>
+            Creates axes starting from (0, 0, 0) and adds them to the scene.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Scene.Round_To_Int(System.Double)">
+            <summary>
+            Rounds a double value to the nearest integer.
+            </summary>
+            <param name="x">Double value to round.</param>
+            <returns>Rounded value.</returns>
+        </member>
+        <member name="M:_3D_Engine.Scene.Swap``1(``0@,``0@)">
+            <summary>
+            Swaps the values of two variables.
+            </summary>
+            <param name="x1">First variable to be swapped.</param>
+            <param name="x2">Second variable to be swapped.</param>
+        </member>
+        <member name="P:_3D_Engine.Scene.Canvas_Box">
+            <summary>
+            <see cref="T:System.Windows.Forms.PictureBox"/> where the <see cref="T:_3D_Engine.Scene"/> will be rendered.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Scene.Background_Colour">
+            <summary>
+            The background colour of the <see cref="T:_3D_Engine.Scene"/>.
+            </summary>
+        </member>
+        <member name="F:_3D_Engine.Scene.Cameras">
+            <summary>
+            List of all cameras in the current <see cref="T:_3D_Engine.Scene"/>.
+            </summary>
+        </member>
+        <member name="F:_3D_Engine.Scene.Lights">
+            <summary>
+            List of all lights in the current <see cref="T:_3D_Engine.Scene"/>.
+            </summary>
+        </member>
+        <member name="F:_3D_Engine.Scene.Shapes">
+            <summary>
+            List of all shapes in the current <see cref="T:_3D_Engine.Scene"/>.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Scene.#ctor(System.Windows.Forms.PictureBox,System.Int32,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:_3D_Engine.Scene"/>.
+            </summary>
+            <param name="canvas_box"><see cref="T:System.Windows.Forms.PictureBox"/> where the <see cref="T:_3D_Engine.Scene"/> will be rendered.</param>
+            <param name="width">The width of the <see cref="T:_3D_Engine.Scene"/>.</param>
+            <param name="height">The height of the <see cref="T:_3D_Engine.Scene"/>.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene.Add(_3D_Engine.Scene_Object)">
+            <summary>
+            Add an object to the scene.
+            </summary>
+            <param name="object">Object to add.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene.Add(_3D_Engine.Scene_Object[])">
+            <summary>
+            Add objects to the scene.
+            </summary>
+            <param name="objects">Array of objects to add.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene.Render">
+            <summary>
+            Renders the <see cref="T:_3D_Engine.Scene"/>. A Render Camera must be set before this method is called.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Light.ID">
+            <summary>
+            Unique identification number for this light.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Texture.File">
+            <summary>
+            The <see cref="T:System.Drawing.Bitmap"/> containing the texture data.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Texture.Outside_Behaviour">
+            <summary>
+            Defines how the outside of a <see cref="T:_3D_Engine.Texture"/> file should be drawn.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Texture.Outside_Colour">
+            <summary>
+            <see cref="T:System.Drawing.Color"/> used to fill outside of <see cref="T:_3D_Engine.Texture"/> should Outside_Texture_Behaviour.Colour_Fill be selected for Outside_Behaviour.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Circle">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Circle"/> mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Circle.Radius">
+            <summary>
+            The radius of the <see cref="T:_3D_Engine.Circle"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Circle.Resolution">
+            <summary>
+            The number of points that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Int32)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Circle"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Circle"/>.</param>
+            <param name="direction">The direction the <see cref="T:_3D_Engine.Circle"/> faces.</param>
+            <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Circle"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Circle"/>.</param>
+            <param name="radius">The radius of the <see cref="T:_3D_Engine.Circle"/>.</param>
+            <param name="resolution">The number of points that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.</param>
+        </member>
+        <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Int32,_3D_Engine.Texture)">
+            <summary>
+            Creates a textured <see cref="T:_3D_Engine.Circle"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Circle"/>.</param>
+            <param name="direction">The direction the <see cref="T:_3D_Engine.Circle"/> faces.</param>
+            <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Circle"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Circle"/>.</param>
+            <param name="radius">The radius of the <see cref="T:_3D_Engine.Circle"/>.</param>
+            <param name="resolution">The number of points that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.</param>
+            <param name="texture">The <see cref="T:_3D_Engine.Texture"/> that defines what to draw on the surface of the <see cref="T:_3D_Engine.Circle"/>.</param>
+        </member>
+        <member name="T:_3D_Engine.Plane">
+            <summary>
+            Handles creation of a plane mesh.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Square">
+            <summary>
+            Handles creation of a square mesh.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Cube">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Cube"/> mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cube.Side_Length">
+            <summary>
+            The length of each side of the <see cref="T:_3D_Engine.Cube"/>.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Cube.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Cube"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Cube"/>.</param>
+            <param name="direction">The direction the <see cref="T:_3D_Engine.Cube"/> faces.</param>
+            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cube"/>.</param>
+            <param name="side_length">The length of each side of the <see cref="T:_3D_Engine.Cube"/>.</param>
+        </member>
+        <member name="M:_3D_Engine.Cube.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,_3D_Engine.Texture)">
+            <summary>
+            Creates a textured <see cref="T:_3D_Engine.Cube"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Cube"/>.</param>
+            <param name="direction">The direction the <see cref="T:_3D_Engine.Cube"/> faces.</param>
+            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cube"/>.</param>
+            <param name="side_length">The length of each side of the <see cref="T:_3D_Engine.Cube"/>.</param>
+            <param name="texture">The <see cref="T:_3D_Engine.Texture"/> that defines what to draw on the surface of the <see cref="T:_3D_Engine.Cube"/>.</param>
+        </member>
+        <member name="T:_3D_Engine.Cuboid">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Cuboid"/> mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cuboid.Length">
+            <summary>
+            The length of the <see cref="T:_3D_Engine.Cuboid"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cuboid.Width">
+            <summary>
+            The width of the <see cref="T:_3D_Engine.Cuboid"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cuboid.Height">
+            <summary>
+            The height of the <see cref="T:_3D_Engine.Cuboid"/>.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Cuboid.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Cuboid"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="direction">The direction the <see cref="T:_3D_Engine.Cuboid"/> faces.</param>
+            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="length">The length of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="width">The width of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="height">The height of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+        </member>
+        <member name="M:_3D_Engine.Cuboid.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Double,System.Double,_3D_Engine.Texture)">
+            <summary>
+            Creates a textured <see cref="T:_3D_Engine.Cuboid"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="direction">The direction the <see cref="T:_3D_Engine.Cuboid"/> faces.</param>
+            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="length">The length of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="width">The width of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="height">The height of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+            <param name="texture">The <see cref="T:_3D_Engine.Texture"/> that defines what to draw on the surface of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
+        </member>
+        <member name="T:_3D_Engine.Cylinder">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Cylinder"/> mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cylinder.Height">
+            <summary>
+            The height of the <see cref="T:_3D_Engine.Cylinder"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cylinder.Radius">
+            <summary>
+            The radius of the top and bottom circles that make up the <see cref="T:_3D_Engine.Cylinder"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cylinder.Resolution">
+            <summary>
+            The number of points that are on the perimeter of each of the circles that make up the <see cref="T:_3D_Engine.Cylinder"/>.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Cylinder.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Double,System.Int32)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Cylinder"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="direction">The direction the <see cref="T:_3D_Engine.Cylinder"/> faces.</param>
+            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="height">The height of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="radius">The radius of the top and bottom circles that make up the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="resolution">The number of points that are on the perimeter of each of the circles that make up the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+        </member>
+        <member name="M:_3D_Engine.Cylinder.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Double,System.Int32,_3D_Engine.Texture)">
+            <summary>
+            Creates a textured <see cref="T:_3D_Engine.Cylinder"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="direction">The direction the <see cref="T:_3D_Engine.Cylinder"/> faces.</param>
+            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="height">The height of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="radius">The radius of the top and bottom circles that make up the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="resolution">The number of points that are on the perimeter of each of the circles that make up the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="texture">The <see cref="T:_3D_Engine.Texture"/> that defines what to draw on the surface of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+        </member>
+        <member name="T:_3D_Engine.Pyramid">
+            <summary>
+            Handles creation of a pyramid mesh.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Custom">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Custom"/> mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Draw_Spots">
+            <summary>
+            Determines if the mesh's spots are drawn.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Draw_Edges">
+            <summary>
+            Determines if the mesh's edges are drawn.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Draw_Faces">
+            <summary>
+            Determines if the mesh's faces are drawn.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Spot_Colour">
+            <summary>
+            The colour of each spot in the mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Edge_Colour">
+            <summary>
+            The colour of each edge in the mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Face_Colour">
+            <summary>
+            The colour of each face in the mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Draw_Outline">
+            <summary>
+            Determines if an outline is drawn with the mesh.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Visible">
+            <summary>
+            Determines if the mesh is visible or not.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Shape.ID">
+            <summary>
+            Unique identification number for this shape.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Shape.Selected">
+            <summary>
+            Determines if the shape is selected or not.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Shape.Visible">
+            <summary>
+            Determines if the shape is visible or not.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Shape.#ctor(_3D_Engine.Mesh,_3D_Engine.Mesh)">
+            <summary>
+            Create a shape with a collision mesh and a render mesh.
+            </summary>
+            <param name="collision_mesh">The mesh that will be used when determing collisions.</param>
+            <param name="render_mesh">The mesh that will be rendered to the screen.</param>
+        </member>
+        <member name="M:_3D_Engine.Shape.#ctor(_3D_Engine.Mesh)">
+            <summary>
+            Create a shape with a render mesh that is also a collision mesh.
+            </summary>
+            <param name="render_mesh">The mesh that will be rendered and used for determining collisions.</param>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate_X(System.Double)">
+            <summary>
+            Creates a matrix for rotation about the x-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate_Y(System.Double)">
+            <summary>
+            Creates a matrix for rotation about the y-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate_Z(System.Double)">
+            <summary>
+            Creates a matrix for rotation about the z-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate(_3D_Engine.Vector3D,System.Double)">
+            <summary>
+            Creates a matrix for rotation about any axis.
+            </summary>
+            <param name="axis">Axis that will be rotated around.</param>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})">
+            <summary>
+            Creates a rotation matrix that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
+            </summary>
+            <param name="v1">The first vector.</param>
+            <param name="v2">The secind vector.</param>
+            <param name="axis">Axis that will be rotated around if vectors are antiparallel.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_X(System.Double)">
+            <summary>
+            Creates a quaternion for rotation about the x-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Y(System.Double)">
+            <summary>
+            Creates a quaternion for rotation about the y-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Z(System.Double)">
+            <summary>
+            Creates a quaternion for rotation about the z-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate(_3D_Engine.Vector3D,System.Double)">
+            <summary>
+            Create a quaternion that represents a rotation around any axis.
+            </summary>
+            <param name="axis">Axis that will be rotated around.</param>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})">
+            <summary>
+            Creates a quaternion that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
+            </summary>
+            <param name="v1">The first vector.</param>
+            <param name="v2">The secind vector.</param>
+            <param name="axis"></param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_to_Matrix(_3D_Engine.Quaternion)">
+            <summary>
+            Creates the corresponding rotation matrix for the specified quaternion.
+            </summary>
+            <param name="q">The quaternion to convert.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale_X(System.Double)">
+            <summary>
+            Creates a matrix for scaling in the x-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale_Y(System.Double)">
+            <summary>
+            Creates a matrix for scaling in the y-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale_Z(System.Double)">
+            <summary>
+            Creates a matrix for scaling in the z-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale(System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a matrix for scaling in all directions.
+            </summary>
+            <param name="scale_factor_x">Factor to scale by in x-direction.</param>
+            <param name="scale_factor_y">Factor to scale by in y-direction.</param>
+            <param name="scale_factor_z">Factor to scale by in z-direction.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale(System.Double)">
+            <summary>
+            Creates a matrix for scaling in all directions by the same scale factor.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate_X(System.Double)">
+            <summary>
+            Creates a matrix for translation in the x-direction.
+            </summary>
+            <param name="distance">Distance to move by.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate_Y(System.Double)">
+            <summary>
+            Creates a matrix for translation in the y-direction.
+            </summary>
+            <param name="distance">Distance to move by.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate_Z(System.Double)">
+            <summary>
+            Creates a matrix for translation in the z-direction.
+            </summary>
+            <param name="distance">Distance to move by.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate(System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a matrix for translation in all directions.
+            </summary>
+            <param name="distance_x">Distance to move by in x-direction.</param>
+            <param name="distance_y">Distance to move by in y-direction.</param>
+            <param name="distance_z">Distance to move by in z-direction.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate(_3D_Engine.Vector3D)">
+            <summary>
+            Creates a matrix for translation in all directions.
+            </summary>
+            <param name="distance">Vector to translate by.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+    </members>
+</doc>

@@ -19,8 +19,13 @@ namespace _3D_Engine
             Vector3D normal = Vector3D.Normal_From_Plane(face.World_P1, face.World_P2, face.World_P3);
 
             // Discard face if its not visible
-            if (camera_to_face * normal >= 0 && shape_type != "Plane") return;
-
+            if (camera_to_face * normal >= 0
+                && shape_type != "Circle"
+                && shape_type != "Plane"
+                && shape_type != "Square"
+                && shape_type != "Text2D")
+            return;
+            
             // Draw outline if needed
             if (face.Draw_Outline)
             {

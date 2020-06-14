@@ -8,8 +8,18 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
+        private double tip_resolution;
+
         public double Tip_Length { get; set; }
         public double Tip_Radius { get; set; }
+        public double Tip_Resolution
+        {
+            get => tip_resolution;
+            set
+            {
+
+            }
+        }
 
         #endregion
 
@@ -17,6 +27,7 @@ namespace _3D_Engine
 
         public Arrow(Vector3D start_position, Vector3D end_position, double tip_length, double tip_radius, int tip_resolution)
         {
+            /*
             Tip_Length = tip_length;
             Tip_Radius = tip_radius;
 
@@ -44,6 +55,7 @@ namespace _3D_Engine
             for (int i = 0; i < resolution; i++) Faces[i] = cone_base.Faces[i];
 
             Debug.WriteLine($"Arrow created at {start_position}");
+            */
         }
 
         #endregion

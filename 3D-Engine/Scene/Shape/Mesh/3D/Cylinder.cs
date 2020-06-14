@@ -46,7 +46,7 @@ namespace _3D_Engine
             {
                 resolution = value;
                 
-                Circle cylinder_top_and_bottom = new Circle(World_Origin, World_Direction, World_Direction_Up, radius, resolution);
+                Circle cylinder_top_and_bottom = new Circle(World_Origin, World_Direction, World_Direction_Up, 1, resolution);
                 
                 Vertices = new Vector4D[2 * resolution + 2];
                 Vertices[0] = cylinder_top_and_bottom.Vertices[0];
@@ -123,6 +123,8 @@ namespace _3D_Engine
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Cylinder"/>.</param>
         public Cylinder(Vector3D origin, Vector3D direction, Vector3D direction_up, double height, double radius, int resolution, Texture texture)
         {
+            Height = height;
+            Radius = radius;
 
         }
 

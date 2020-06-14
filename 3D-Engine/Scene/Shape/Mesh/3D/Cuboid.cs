@@ -1,16 +1,19 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a cuboid mesh.
+    /// Handles creation of a <see cref="Cuboid"/> mesh.
     /// </summary>
     public sealed class Cuboid : Mesh
     {
         #region Fields and Properties
 
         private double length, width, height;
+
+        /// <summary>
+        /// The length of the <see cref="Cuboid"/>.
+        /// </summary>
         public double Length
         {
             get => length;
@@ -20,6 +23,9 @@ namespace _3D_Engine
                 Scaling = new Vector3D(length, width, height);
             }
         }
+        /// <summary>
+        /// The width of the <see cref="Cuboid"/>.
+        /// </summary>
         public double Width
         {
             get => width;
@@ -29,6 +35,9 @@ namespace _3D_Engine
                 Scaling = new Vector3D(length, width, height);
             }
         }
+        /// <summary>
+        /// The height of the <see cref="Cuboid"/>.
+        /// </summary>
         public double Height
         {
             get => height;
@@ -43,6 +52,15 @@ namespace _3D_Engine
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a <see cref="Cuboid"/> mesh.
+        /// </summary>
+        /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
+        /// <param name="direction">The direction the <see cref="Cuboid"/> faces.</param>
+        /// <param name="direction_up">The upward orientation of the <see cref="Cuboid"/>.</param>
+        /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
+        /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
+        /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
         public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height)
         {
             Length = length;
@@ -114,13 +132,19 @@ namespace _3D_Engine
                 new Face(Vertices[4], Vertices[1], Vertices[0]) // 11
             };
 
-            Spot_Colour = Color.Blue;
-            Edge_Colour = Color.Black;
-            Face_Colour = Color.FromArgb(0xFF, 0x00, 0xFF, 0x00); // Green
-
             Debug.WriteLine($"Cuboid created at {origin}");
         }
 
+        /// <summary>
+        /// Creates a textured <see cref="Cuboid"/> mesh.
+        /// </summary>
+        /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
+        /// <param name="direction">The direction the <see cref="Cuboid"/> faces.</param>
+        /// <param name="direction_up">The upward orientation of the <see cref="Cuboid"/>.</param>
+        /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
+        /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
+        /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
+        /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Cuboid"/>.</param>
         public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height, Texture texture)
         {
             Length = length;
@@ -142,6 +166,7 @@ namespace _3D_Engine
                 new Vector4D(0, 1, 1) // 7
             };
 
+            Textures = new Texture[1] { texture };
             Texture_Vertices = new Vector3D[4]
             {
                 new Vector3D(0, 0, 1), // 0
@@ -199,11 +224,6 @@ namespace _3D_Engine
                 new Face(Vertices[4], Vertices[5], Vertices[1], Texture_Vertices[3], Texture_Vertices[2], Texture_Vertices[1], texture), // 10
                 new Face(Vertices[4], Vertices[1], Vertices[0], Texture_Vertices[3], Texture_Vertices[1], Texture_Vertices[0], texture) // 11
             };
-
-            Textures = new Texture[1] { texture };
-
-            Spot_Colour = Color.Blue;
-            Edge_Colour = Color.Black;
 
             Debug.WriteLine($"Cuboid created at {origin}");
         }

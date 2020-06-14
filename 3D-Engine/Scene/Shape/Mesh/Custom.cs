@@ -8,7 +8,7 @@ using System.Linq;
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a custom mesh.
+    /// Handles creation of a <see cref="Custom"/> mesh.
     /// </summary>
     public sealed class Custom : Mesh
     {
