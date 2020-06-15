@@ -195,71 +195,67 @@ namespace _3D_Engine
                 string camera_type = Render_Camera.GetType().Name;
                 Matrix4x4 world_to_view = Render_Camera.World_to_View;
                 Matrix4x4 view_to_screen = Render_Camera.View_to_Screen;
-
-                // Draw graphics
-                using (Graphics g = Graphics.FromImage(temp_canvas))
+                
+                // Draw shapes
+                foreach (Shape shape in Shapes)
                 {
-                    // Draw shapes
-                    foreach (Shape shape in Shapes)
-                    {
-                        Mesh shape_mesh = shape.Render_Mesh;
+                    Mesh shape_mesh = shape.Render_Mesh;
 
-                        // Calculate shape matrix
-                        shape_mesh.Calculate_Model_to_World_Matrix();
-                        Matrix4x4 model_to_world = shape_mesh.Model_to_World;
+                    // Calculate shape matrix
+                    shape_mesh.Calculate_Model_to_World_Matrix();
+                    Matrix4x4 model_to_world = shape_mesh.Model_to_World;
 
-                        shape_mesh.Origin = screen_to_window * view_to_screen * world_to_view * model_to_world * shape_mesh.Origin;
+                    shape_mesh.Origin = screen_to_window * view_to_screen * world_to_view * model_to_world * shape_mesh.Origin;
                         
-                        string shape_type = shape_mesh.GetType().Name;
+                    string shape_type = shape_mesh.GetType().Name;
 
-                        // Draw faces
-                        if (shape_mesh.Draw_Faces && shape_mesh.Visible)
-                        {
-                            foreach (Face face in shape.Render_Mesh.Faces)
-                            {
-                                if (face.Visible) Draw_Face(face, camera_type, shape_type, model_to_world, world_to_view, view_to_screen);
-                            }
-                        }
-
-                        // Draw edges
-                        if (shape_mesh.Draw_Edges && shape_mesh.Visible)
-                        {
-                            foreach (Edge edge in shape.Render_Mesh.Edges)
-                            {
-                                if (edge.Visible) Draw_Edge(edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                            }
-                        }
-
-                        // Draw spots
-                        if (shape_mesh.Draw_Spots && shape_mesh.Visible)
-                        {
-                            foreach (Spot spot in shape.Render_Mesh.Spots) if (spot.Visible) Draw_Spot(spot, Render_Camera);
-                        }
-                    }
-
-                    // Draw camera views
-                    foreach (Camera camera_to_draw in Cameras)
+                    // Draw faces
+                    if (shape_mesh.Draw_Faces && shape_mesh.Visible)
                     {
-                        // Calculate camera matrix
-                        camera_to_draw.Calculate_Model_to_World_Matrix();
-                        Matrix4x4 model_to_world = camera_to_draw.Model_to_World;
-                        
-                        Draw_Camera(camera_to_draw, camera_type, model_to_world, world_to_view, view_to_screen);
-                    }
-
-                    Draw_Colour_Buffer(temp_canvas, colour_buffer);
-
-                    /*
-                    // Draw each pixel from the colour buffer
-                    for (int x = 0; x < Width; x++)
-                    {
-                        for (int y = 0; y < Height; y++)
+                        foreach (Face face in shape.Render_Mesh.Faces)
                         {
-                            using (SolidBrush face_brush = new SolidBrush(colour_buffer[x][y])) g.FillRectangle(face_brush, x, y * -1 + Height - 1, 1, 1);
+                            if (face.Visible) Draw_Face(face, camera_type, shape_type, model_to_world, world_to_view, view_to_screen);
                         }
                     }
-                    */
+
+                    // Draw edges
+                    if (shape_mesh.Draw_Edges && shape_mesh.Visible)
+                    {
+                        foreach (Edge edge in shape.Render_Mesh.Edges)
+                        {
+                            if (edge.Visible) Draw_Edge(edge, camera_type, model_to_world, world_to_view, view_to_screen);
+                        }
+                    }
+
+                    // Draw spots
+                    if (shape_mesh.Draw_Spots && shape_mesh.Visible)
+                    {
+                        foreach (Spot spot in shape.Render_Mesh.Spots) if (spot.Visible) Draw_Spot(spot, Render_Camera);
+                    }
                 }
+
+                // Draw camera views
+                foreach (Camera camera_to_draw in Cameras)
+                {
+                    // Calculate camera matrix
+                    camera_to_draw.Calculate_Model_to_World_Matrix();
+                    Matrix4x4 model_to_world = camera_to_draw.Model_to_World;
+                        
+                    Draw_Camera(camera_to_draw, camera_type, model_to_world, world_to_view, view_to_screen);
+                }
+
+                Draw_Colour_Buffer(temp_canvas, colour_buffer);
+
+                /*
+                // Draw each pixel from the colour buffer
+                for (int x = 0; x < Width; x++)
+                {
+                    for (int y = 0; y < Height; y++)
+                    {
+                        using (SolidBrush face_brush = new SolidBrush(colour_buffer[x][y])) g.FillRectangle(face_brush, x, y * -1 + Height - 1, 1, 1);
+                    }
+                }
+                */
 
                 Canvas = temp_canvas;
                 Canvas_Box.Invalidate();

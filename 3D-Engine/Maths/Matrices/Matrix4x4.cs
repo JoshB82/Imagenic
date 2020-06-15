@@ -2,13 +2,19 @@
 
 namespace _3D_Engine
 {
+    /// <summary>
+    /// Handles creation of a <see cref="Matrix4x4"/> (square matrix with four rows and four columns).
+    /// </summary>
     public struct Matrix4x4
     {
         // init as double[4][4]?
+        /// <summary>
+        /// The values held within the <see cref="Matrix4x4"/>.
+        /// </summary>
         public double[][] Data { get; set; }
 
         /// <summary>
-        /// Creates a zeroed 4x4 matrix.
+        /// Creates a zeroed <see cref="Matrix4x4"/>.
         /// </summary>
         // why no parameterless constructor?
         public static Matrix4x4 Zeroed_Matrix()
@@ -19,7 +25,7 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates an 4x4 identity matrix.
+        /// Creates an identity <see cref="Matrix4x4"/>.
         /// </summary>
         public static Matrix4x4 Identity_Matrix()
         {
@@ -54,6 +60,7 @@ namespace _3D_Engine
             $"{Data[3][0]}, {Data[3][1]}, {Data[3][2]}, {Data[3][3]})";
 
         #region Operator overloading
+
         public static Matrix4x4 operator +(Matrix4x4 m1, Matrix4x4 m2)
         {
             double[][] result = new double[4][];
@@ -160,6 +167,7 @@ namespace _3D_Engine
             for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) m.Data[i][j] /= scalar;
             return m;
         }
+        
         #endregion
     }
 }

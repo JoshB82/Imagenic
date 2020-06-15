@@ -22,6 +22,7 @@ namespace _3D_Engine
         /// <summary>
         /// The position of the camera in world space.
         /// </summary>
+        ]
         public Vector3D World_Origin { get; set; }
 
         // Directions

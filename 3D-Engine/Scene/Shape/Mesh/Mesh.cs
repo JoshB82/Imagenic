@@ -8,19 +8,26 @@ namespace _3D_Engine
 
         // Origins
         internal Vector4D Origin { get; set; } = Vector4D.Zero;
+        /// <summary>
+        /// The position of the <see cref="Mesh"/> in world space.
+        /// </summary>
         public Vector3D World_Origin { get; set; }
 
         // Structure
-        internal Vector4D[] Vertices { get; set; }
-        public Vector3D[] World_Vertices { get; protected set; }
-
-        public Vector3D[] Texture_Vertices { get; protected set; }
+        /// <summary>
+        /// The <see cref="Texture"/>s that define what to draw on the surface of the <see cref="Mesh"/>.
+        /// </summary>
         public Texture[] Textures { get; protected set; }
-
+        internal Vector4D[] Vertices { get; set; }
+        /// <summary>
+        /// The positions of the vertices that make up the <see cref="Mesh"/> in world space.
+        /// </summary>
+        public Vector3D[] World_Vertices { get; protected set; }
         public Spot[] Spots { get; protected set; }
         public Edge[] Edges { get; protected set; }
         public Face[] Faces { get; protected set; }
 
+        
         // Directions
         internal Vector3D Model_Direction { get; } = Vector3D.Unit_X;
         internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;

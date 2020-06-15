@@ -14,14 +14,24 @@
             Gravitational acceleration near the surface of the Earth.
             </summary>
         </member>
+        <member name="T:_3D_Engine.Matrix4x4">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Matrix4x4"/> (square matrix with four rows and four columns).
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Matrix4x4.Data">
+            <summary>
+            The values held within the <see cref="T:_3D_Engine.Matrix4x4"/>.
+            </summary>
+        </member>
         <member name="M:_3D_Engine.Matrix4x4.Zeroed_Matrix">
             <summary>
-            Creates a zeroed 4x4 matrix.
+            Creates a zeroed <see cref="T:_3D_Engine.Matrix4x4"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.Identity_Matrix">
             <summary>
-            Creates an 4x4 identity matrix.
+            Creates an identity <see cref="T:_3D_Engine.Matrix4x4"/>.
             </summary>
         </member>
         <member name="T:_3D_Engine.Vector2D">
@@ -336,7 +346,7 @@
         </member>
         <member name="T:_3D_Engine.Pyramid">
             <summary>
-            Handles creation of a pyramid mesh.
+            Handles creation of a <see cref="T:_3D_Engine.Pyramid"/> mesh.
             </summary>
         </member>
         <member name="T:_3D_Engine.Custom">
