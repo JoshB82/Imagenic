@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 
 namespace _3D_Engine
 {
@@ -69,13 +68,6 @@ namespace _3D_Engine
 
             Debug.WriteLine($"Pyramid created at {origin}");
         }
-
-        /*
-        public Pyramid(Vector3D origin, Vector3D direction, Vector3D direction_up, double height, double radius, int resolution, Bitmap texture)
-        {
-
-        }
-        */
 
         #endregion
     }

@@ -61,13 +61,13 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a textured <see cref="Cube"/> mesh, specifying a single texture for all sides.
+        /// Creates a textured <see cref="Cube"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cube"/>.</param>
         /// <param name="direction">The direction the <see cref="Cube"/> faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Cube"/>.</param>
         /// <param name="side_length">The length of each side of the <see cref="Cube"/>.</param>
-        /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Cube"/>.</param>
+        /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cube"/>.</param>
         public Cube(Vector3D origin, Vector3D direction, Vector3D direction_up, double side_length, Texture texture)
         {
             World_Origin = origin;
@@ -95,7 +95,7 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a textured <see cref="Cube"/> mesh, specifying a texture for each side.
+        /// Creates a textured <see cref="Cube"/> mesh, specifying a <see cref="Texture"/> for each side.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cube"/>.</param>
         /// <param name="direction">The direction the <see cref="Cube"/> faces.</param>
@@ -198,7 +198,13 @@ namespace _3D_Engine
         /// Casts the <see cref="Cube"/> into a <see cref="Cuboid"/>.
         /// </summary>
         /// <param name="cube"><see cref="Cube"/> to cast.</param>
-        public static explicit operator Cuboid(Cube cube) => new Cuboid(cube.World_Origin, cube.World_Direction, cube.World_Direction_Up, cube.side_length, cube.side_length, cube.side_length);
+        public static explicit operator Cuboid(Cube cube)
+        {
+            Cuboid cuboid_cast = new Cuboid(cube.World_Origin, cube.World_Direction, cube.World_Direction_Up, cube.side_length, cube.side_length, cube.side_length);
+            cuboid_cast.Textures = cube.Textures;
+            cuboid_cast.Faces = cube.Faces;
+            return cuboid_cast;
+        }
 
         #endregion
     }

@@ -4,13 +4,17 @@ using System.Drawing;
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a plane mesh.
+    /// Handles creation of a <see cref="Plane"/> mesh.
     /// </summary>
     public sealed class Plane : Mesh
     {
         #region Fields and Properties
 
         private double length, width;
+
+        /// <summary>
+        /// The length of the <see cref="Plane"/>.
+        /// </summary>
         public double Length
         {
             get => length;
@@ -20,6 +24,9 @@ namespace _3D_Engine
                 Scaling = new Vector3D(length, 1, width);
             }
         }
+        /// <summary>
+        /// The width of the <see cref="Plane"/>.
+        /// </summary>
         public double Width
         {
             get => width;

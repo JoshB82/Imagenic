@@ -1,16 +1,19 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a square mesh.
+    /// Handles creation of a <see cref="Square"/> mesh.
     /// </summary>
     public sealed class Square : Mesh
     {
         #region Fields and Properties
 
         private double side_length;
+
+        /// <summary>
+        /// The length of each side of the <see cref="Square"/>.
+        /// </summary>
         public double Side_Length
         {
             get => side_length;
@@ -25,57 +28,55 @@ namespace _3D_Engine
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a <see cref="Square"/> mesh.
+        /// </summary>
+        /// <param name="origin">The position of the <see cref="Square"/>.</param>
+        /// <param name="direction">The direction the <see cref="Square"/> faces.</param>
+        /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
+        /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
         public Square(Vector3D origin, Vector3D direction, Vector3D normal, double side_length)
         {
-            Side_Length = side_length;
-
             World_Origin = origin;
             Set_Shape_Direction_1(direction, normal);
 
-            Vertices = new Vector4D[4]
-            {
-                new Vector4D(0, 0, 0), // 0
-                new Vector4D(1, 0, 0), // 1
-                new Vector4D(1, 0, 1), // 2
-                new Vector4D(0, 0, 1) // 3
-            };
-
-            Spots = new Spot[4]
-            {
-                new Spot(Vertices[0]), // 0
-                new Spot(Vertices[1]), // 1
-                new Spot(Vertices[2]), // 2
-                new Spot(Vertices[3]) // 3
-            };
-
-            Edges = new Edge[5]
-            {
-                new Edge(Vertices[0], Vertices[1]), // 0
-                new Edge(Vertices[1], Vertices[2]), // 1
-                new Edge(Vertices[0], Vertices[2]) { Visible = false }, // 2
-                new Edge(Vertices[2], Vertices[3]), // 3
-                new Edge(Vertices[0], Vertices[3]) // 4
-            };
-
+            Set_Structure(side_length);
             Faces = new Face[2]
             {
                 new Face(Vertices[0], Vertices[1], Vertices[2]), // 0
                 new Face(Vertices[0], Vertices[2], Vertices[3]) // 1
             };
 
-            Spot_Colour = Color.Blue;
-            Edge_Colour = Color.Black;
-            Face_Colour = Color.FromArgb(0xFF, 0x00, 0xFF, 0x00); // Green
+            Debug.WriteLine($"Square created at {origin}");
+        }
+
+        /// <summary>
+        /// Creates a textured <see cref="Square"/> mesh, specifying a single <see cref="Texture"/> for all sides.
+        /// </summary>
+        /// <param name="origin">The position of the <see cref="Square"/>.</param>
+        /// <param name="direction">The direction the <see cref="Square"/> faces.</param>
+        /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
+        /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
+        /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Square"/>.</param>
+        public Square(Vector3D origin, Vector3D direction, Vector3D normal, double side_length, Texture texture)
+        {
+            World_Origin = origin;
+            Set_Shape_Direction_1(direction, normal);
+
+            Set_Structure(side_length);
+            Textures = new Texture[1] { texture };
+            Faces = new Face[2]
+            {
+                new Face(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[0], texture.Vertices[1], texture.Vertices[2], texture), // 0
+                new Face(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1
+            };
 
             Debug.WriteLine($"Square created at {origin}");
         }
 
-        public Square(Vector3D origin, Vector3D direction, Vector3D normal, double side_length, Texture texture)
+        private void Set_Structure(double side_length)
         {
             Side_Length = side_length;
-
-            World_Origin = origin;
-            Set_Shape_Direction_1(direction, normal);
 
             Vertices = new Vector4D[4]
             {
@@ -84,16 +85,6 @@ namespace _3D_Engine
                 new Vector4D(1, 0, 1), // 2
                 new Vector4D(0, 0, 1) // 3
             };
-
-            Texture_Vertices = new Vector3D[4]
-            {
-                // WHY Z=1?
-                new Vector3D(0, 0, 1), // 0
-                new Vector3D(1, 0, 1), // 1
-                new Vector3D(1, 1, 1), // 2
-                new Vector3D(0, 1, 1) // 3
-            };
-
             Spots = new Spot[4]
             {
                 new Spot(Vertices[0]), // 0
@@ -101,7 +92,6 @@ namespace _3D_Engine
                 new Spot(Vertices[2]), // 2
                 new Spot(Vertices[3]) // 3
             };
-
             Edges = new Edge[5]
             {
                 new Edge(Vertices[0], Vertices[1]), // 0
@@ -110,22 +100,22 @@ namespace _3D_Engine
                 new Edge(Vertices[2], Vertices[3]), // 3
                 new Edge(Vertices[0], Vertices[3]) // 4
             };
+        }
 
-            Faces = new Face[2]
-            {
-                new Face(Vertices[0], Vertices[1], Vertices[2], Texture_Vertices[0], Texture_Vertices[1], Texture_Vertices[2], texture), // 0
-                new Face(Vertices[0], Vertices[2], Vertices[3], Texture_Vertices[0], Texture_Vertices[2], Texture_Vertices[3], texture) // 1
-            };
+        #endregion
 
-            Textures = new Texture[1]
-            {
-                texture // 0
-            };
+        #region Casting
 
-            Spot_Colour = Color.Blue;
-            Edge_Colour = Color.Black;
-
-            Debug.WriteLine($"Square created at {origin}");
+        /// <summary>
+        /// Casts the <see cref="Square"/> into a <see cref="Plane"/>.
+        /// </summary>
+        /// <param name="square"><see cref="Square"/> to cast.</param>
+        public static explicit operator Plane(Square square)
+        {
+            Plane plane_cast = new Plane(square.World_Origin, square.World_Direction, square.World_Direction_Up, square.side_length, square.side_length);
+            plane_cast.Textures = square.Textures;
+            plane_cast.Faces = square.Faces;
+            return plane_cast;
         }
 
         #endregion

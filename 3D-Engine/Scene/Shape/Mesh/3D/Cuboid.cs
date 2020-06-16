@@ -87,7 +87,7 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a textured <see cref="Cuboid"/> mesh, specifying a single texture for all sides.
+        /// Creates a textured <see cref="Cuboid"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
         /// <param name="direction">The direction the <see cref="Cuboid"/> faces.</param>
@@ -95,7 +95,7 @@ namespace _3D_Engine
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
-        /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Cuboid"/>.</param>
+        /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cuboid"/>.</param>
         public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height, Texture texture)
         {
             World_Origin = origin;
@@ -123,7 +123,7 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a textured <see cref="Cuboid"/> mesh, specifying a texture for each side.
+        /// Creates a textured <see cref="Cuboid"/> mesh, specifying a <see cref="Texture"/> for each side.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
         /// <param name="direction">The direction the <see cref="Cuboid"/> faces.</param>
@@ -168,7 +168,7 @@ namespace _3D_Engine
                 new Face(Vertices[4], Vertices[1], Vertices[0], bottom.Vertices[3], bottom.Vertices[1], bottom.Vertices[0], bottom) // 11
             };
 
-            Debug.WriteLine($"Cube created at {origin}");
+            Debug.WriteLine($"Cuboid created at {origin}");
         }
 
         private void Set_Structure(double length, double width, double height)

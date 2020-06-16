@@ -17,7 +17,7 @@ namespace _3D_Engine
         /// <summary>
         /// The <see cref="Texture"/>s that define what to draw on the surface of the <see cref="Mesh"/>.
         /// </summary>
-        public Texture[] Textures { get; protected set; }
+        public Texture[] Textures { get; internal set; }
         internal Vector4D[] Vertices { get; set; }
         /// <summary>
         /// The positions of the vertices that make up the <see cref="Mesh"/> in world space.
@@ -25,7 +25,7 @@ namespace _3D_Engine
         public Vector3D[] World_Vertices { get; protected set; }
         public Spot[] Spots { get; protected set; }
         public Edge[] Edges { get; protected set; }
-        public Face[] Faces { get; protected set; }
+        public Face[] Faces { get; internal set; }
 
         
         // Directions
