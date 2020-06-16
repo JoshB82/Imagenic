@@ -131,42 +131,41 @@ namespace _3D_Engine
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
-        /// <param name="textures">The <see cref="Texture"/>s that define what to draw on the surface of the <see cref="Cuboid"/>. <br/><br/>The order of textures in this array is:
-        /// <list type="table">
-        /// <item><term>textures[0]</term>
-        /// <description>Front</description></item>
-        /// <item><term>textures[1]</term>
-        /// <description>Right</description></item>
-        /// <item><term>textures[2]</term>
-        /// <description>Back</description></item>
-        /// <item><term>textures[3]</term>
-        /// <description>Left</description></item>
-        /// <item><term>textures[4]</term>
-        /// <description>Top</description></item>
-        /// <item><term>textures[5]</term>
-        /// <description>Bottom</description></item>
-        /// </list></param>
-        public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height, Texture[] textures)
+        /// <param name="front">The <see cref="Texture"/> for the front face of the <see cref="Cuboid"/>.</param>
+        /// <param name="right">The <see cref="Texture"/> for the right face of the <see cref="Cuboid"/>.</param>
+        /// <param name="back">The <see cref="Texture"/> for the back face of the <see cref="Cuboid"/>.</param>
+        /// <param name="left">The <see cref="Texture"/> for the left face of the <see cref="Cuboid"/>.</param>
+        /// <param name="top">The <see cref="Texture"/> for the top face of the <see cref="Cuboid"/>.</param>
+        /// <param name="bottom">The <see cref="Texture"/> for the bottom face of the <see cref="Cuboid"/>.</param>
+        public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom)
         {
             World_Origin = origin;
             Set_Shape_Direction_1(direction, direction_up);
 
             Set_Structure(length, width, height);
-            Textures = textures;
+            Textures = new Texture[6]
+            {
+                front,
+                right,
+                back,
+                left,
+                top,
+                bottom
+            };
             Faces = new Face[12]
             {
-                new Face(Vertices[1], Vertices[6], Vertices[2], textures[0].Vertices[1], textures[0].Vertices[3], textures[0].Vertices[2], textures[0]), // 0
-                new Face(Vertices[1], Vertices[5], Vertices[6], textures[0].Vertices[1], textures[0].Vertices[0], textures[0].Vertices[3], textures[0]), // 1
-                new Face(Vertices[4], Vertices[7], Vertices[5], textures[1].Vertices[0], textures[1].Vertices[3], textures[1].Vertices[1], textures[1]), // 2
-                new Face(Vertices[5], Vertices[7], Vertices[6], textures[1].Vertices[1], textures[1].Vertices[3], textures[1].Vertices[2], textures[1]), // 3
-                new Face(Vertices[0], Vertices[3], Vertices[4], textures[2].Vertices[0], textures[2].Vertices[3], textures[2].Vertices[1], textures[2]), // 4
-                new Face(Vertices[4], Vertices[3], Vertices[7], textures[2].Vertices[1], textures[2].Vertices[3], textures[2].Vertices[2], textures[2]), // 5
-                new Face(Vertices[0], Vertices[1], Vertices[2], textures[3].Vertices[1], textures[3].Vertices[0], textures[3].Vertices[3], textures[3]), // 6
-                new Face(Vertices[0], Vertices[2], Vertices[3], textures[3].Vertices[1], textures[3].Vertices[3], textures[3].Vertices[2], textures[3]), // 7
-                new Face(Vertices[7], Vertices[3], Vertices[6], textures[4].Vertices[0], textures[4].Vertices[3], textures[4].Vertices[1], textures[4]), // 8
-                new Face(Vertices[6], Vertices[3], Vertices[2], textures[4].Vertices[1], textures[4].Vertices[3], textures[4].Vertices[2], textures[4]), // 9
-                new Face(Vertices[4], Vertices[5], Vertices[1], textures[5].Vertices[3], textures[5].Vertices[2], textures[5].Vertices[1], textures[5]), // 10
-                new Face(Vertices[4], Vertices[1], Vertices[0], textures[5].Vertices[3], textures[5].Vertices[1], textures[5].Vertices[0], textures[5]) // 11
+                new Face(Vertices[1], Vertices[6], Vertices[2], front.Vertices[1], front.Vertices[3], front.Vertices[2], front), // 0
+                new Face(Vertices[1], Vertices[5], Vertices[6], front.Vertices[1], front.Vertices[0], front.Vertices[3], front), // 1
+                new Face(Vertices[4], Vertices[7], Vertices[5], right.Vertices[0], right.Vertices[3], right.Vertices[1], right), // 2
+                new Face(Vertices[5], Vertices[7], Vertices[6], right.Vertices[1], right.Vertices[3], right.Vertices[2], right), // 3
+                new Face(Vertices[0], Vertices[3], Vertices[4], back.Vertices[0], back.Vertices[3], back.Vertices[1], back), // 4
+                new Face(Vertices[4], Vertices[3], Vertices[7], back.Vertices[1], back.Vertices[3], back.Vertices[2], back), // 5
+                new Face(Vertices[0], Vertices[1], Vertices[2], left.Vertices[1], left.Vertices[0], left.Vertices[3], left), // 6
+                new Face(Vertices[0], Vertices[2], Vertices[3], left.Vertices[1], left.Vertices[3], left.Vertices[2], left), // 7
+                new Face(Vertices[7], Vertices[3], Vertices[6], top.Vertices[0], top.Vertices[3], top.Vertices[1], top), // 8
+                new Face(Vertices[6], Vertices[3], Vertices[2], top.Vertices[1], top.Vertices[3], top.Vertices[2], top), // 9
+                new Face(Vertices[4], Vertices[5], Vertices[1], bottom.Vertices[3], bottom.Vertices[2], bottom.Vertices[1], bottom), // 10
+                new Face(Vertices[4], Vertices[1], Vertices[0], bottom.Vertices[3], bottom.Vertices[1], bottom.Vertices[0], bottom) // 11
             };
 
             Debug.WriteLine($"Cube created at {origin}");

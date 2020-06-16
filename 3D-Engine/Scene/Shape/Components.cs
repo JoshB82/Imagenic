@@ -122,19 +122,15 @@ namespace _3D_Engine
         public Color Outside_Colour { get; set; } = Color.Black;
         public Vector3D[] Vertices { get; set; }
 
-        Texture_Vertices = new Vector3D[4]
-            {
-                new Vector3D(0, 0, 1), // 0
-                new Vector3D(1, 0, 1), // 1
-                new Vector3D(1, 1, 1), // 2
-                new Vector3D(0, 1, 1) // 3
-            };
+        #endregion
 
-    #endregion
+        #region Constructors
 
-    #region Constructors
-
-    public Texture(Bitmap file) => File = file;
+        public Texture(Bitmap file, Vector3D[] vertices)
+        {
+            File = file;
+            Vertices = vertices;
+        }
 
         #endregion
     }
