@@ -9,18 +9,15 @@ namespace _3D_Engine
         
         // ID
         /// <summary>
-        /// Unique identification number for this camera.
+        /// Unique identification number for this <see cref="Camera"/>.
         /// </summary>
         public int ID { get; private set; }
         private static int next_id = -1;
 
         // Origins
-        /// <summary>
-        /// The position of the camera starting from model space.
-        /// </summary>
         internal Vector4D Origin { get; } = Vector4D.Zero;
         /// <summary>
-        /// The position of the camera in world space.
+        /// The position of the <see cref="Camera"/> in world space.
         /// </summary>
         public Vector3D World_Origin { get; set; }
 
@@ -33,7 +30,7 @@ namespace _3D_Engine
         internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
 
         /// <summary>
-        /// The direction the camera faces in world space.
+        /// The direction the <see cref="Camera"/> faces in world space.
         /// </summary>
         public Vector3D World_Direction { get; private set; }
         public Vector3D World_Direction_Up { get; private set; }

@@ -39,15 +39,15 @@ namespace _3D_Engine
 
         // Appearance
         /// <summary>
-        /// Determines if the mesh's spots are drawn.
+        /// Determines if the <see cref="Mesh"/>'s <see cref="Spot"/>s are drawn.
         /// </summary>
         public bool Draw_Spots { get; set; } = true;
         /// <summary>
-        /// Determines if the mesh's edges are drawn.
+        /// Determines if the <see cref="Mesh"/>'s <see cref="Edge"/>s are drawn.
         /// </summary>
         public bool Draw_Edges { get; set; } = true;
         /// <summary>
-        /// Determines if the mesh's faces are drawn.
+        /// Determines if the <see cref="Mesh"/>'s <see cref="Face"/>s are drawn.
         /// </summary>
         public bool Draw_Faces { get; set; } = true;
 

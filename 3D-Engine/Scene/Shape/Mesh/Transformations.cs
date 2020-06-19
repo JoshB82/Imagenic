@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace _3D_Engine
 {
@@ -12,13 +13,13 @@ namespace _3D_Engine
             new_world_direction = new_world_direction.Normalise(); new_world_direction_up = new_world_direction_up.Normalise();
             World_Direction = new_world_direction;
             World_Direction_Up = new_world_direction_up;
-            World_Direction_Right = new_world_direction.Cross_Product(new_world_direction_up);
+            World_Direction_Right = Calculate_Direction_Right(new_world_direction, new_world_direction_up);
         }
         public void Set_Shape_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
         {
             if (new_world_direction_up * new_world_direction_right != 0) throw new Exception("Shape direction vectors are not orthogonal.");
             new_world_direction_up = new_world_direction_up.Normalise(); new_world_direction_right = new_world_direction_right.Normalise();
-            World_Direction = new_world_direction_up.Cross_Product(new_world_direction_right); ;
+            World_Direction = Calculate_Direction(new_world_direction_up, new_world_direction_right);
             World_Direction_Up = new_world_direction_up;
             World_Direction_Right = new_world_direction_right;
         }
@@ -27,9 +28,31 @@ namespace _3D_Engine
             if (new_world_direction_right * new_world_direction != 0) throw new Exception("Shape direction vectors are not orthogonal.");
             new_world_direction_right = new_world_direction_right.Normalise(); new_world_direction = new_world_direction.Normalise();
             World_Direction = new_world_direction;
-            World_Direction_Up = new_world_direction_right.Cross_Product(new_world_direction);
+            World_Direction_Up = Calculate_Direction_Up(new_world_direction_right, new_world_direction);
             World_Direction_Right = new_world_direction_right;
         }
+
+        /// <summary>
+        /// Calculates the forward direction given the up direction and the right direction.
+        /// </summary>
+        /// <param name="direction_up">The up direction.</param>
+        /// <param name="direction_right">The right direction.</param>
+        /// <returns>The forward direction.</returns>
+        public static Vector3D Calculate_Direction(Vector3D direction_up, Vector3D direction_right) => direction_up.Cross_Product(direction_right);
+        /// <summary>
+        /// Calculates the up direction given the right direction and the forward direction.
+        /// </summary>
+        /// <param name="direction_right">The right direction.</param>
+        /// <param name="direction">The forward direction.</param>
+        /// <returns>The up direction.</returns>
+        public static Vector3D Calculate_Direction_Up(Vector3D direction_right, Vector3D direction) => direction_right.Cross_Product(direction);
+        /// <summary>
+        /// Calculates the right direction given the forward direction and the up direction.
+        /// </summary>
+        /// <param name="direction">The forward direction.</param>
+        /// <param name="direction_up">The up direction.</param>
+        /// <returns>The right direction.</returns>
+        public static Vector3D Calculate_Direction_Right(Vector3D direction, Vector3D direction_up) => direction.Cross_Product(direction_up);
 
         #endregion
 

@@ -1,8 +1,10 @@
 ﻿using System.Drawing;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace _3D_Engine
 {
+    /// <summary>
+    /// Handles creation of a <see cref="Spot"/>.
+    /// </summary>
     public struct Spot
     {
         #region Fields and Properties
@@ -20,7 +22,12 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Spot(Vector4D origin, Color? colour = null) : this()
+        /// <summary>
+        /// Creates a <see cref="Spot"/>.
+        /// </summary>
+        /// <param name="origin">The position of the <see cref="Spot"/>.</param>
+        /// <param name="colour">The colour of the <see cref="Spot"/>.</param>
+        public Spot(Vector4D origin, Color? colour = null) : this()
         {
             Point = origin;
             Colour = colour ?? Color.BlueViolet;
@@ -31,6 +38,9 @@ namespace _3D_Engine
         #endregion
     }
 
+    /// <summary>
+    /// Handles creation of an <see cref="Edge"/>.
+    /// </summary>
     public struct Edge
     {
         #region Fields and Properties
@@ -49,7 +59,13 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Edge(Vector4D p1, Vector4D p2, Color? colour = null) : this()
+        /// <summary>
+        /// Creates an <see cref="Edge"/>
+        /// </summary>
+        /// <param name="p1">The position of the first point on the <see cref="Edge"/>.</param>
+        /// <param name="p2">The position of the second point on the <see cref="Edge"/>.</param>
+        /// <param name="colour">The colour of the <see cref="Edge"/>.</param>
+        public Edge(Vector4D p1, Vector4D p2, Color? colour = null) : this()
         {
             P1 = p1; P2 = p2;
             Colour = colour ?? Color.Black;
@@ -60,6 +76,9 @@ namespace _3D_Engine
     }
 
     // Don't understand how this() works :(
+    /// <summary>
+    /// Handles creation of a <see cref="Face"/>.
+    /// </summary>
     public struct Face
     {
         #region Fields and Properties
@@ -85,7 +104,14 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Face(Vector4D p1, Vector4D p2, Vector4D p3, Color? colour = null) : this()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="p3"></param>
+        /// <param name="colour"></param>
+        public Face(Vector4D p1, Vector4D p2, Vector4D p3, Color? colour = null) : this()
         {
             P1 = p1; P2 = p2; P3 = p3;
             Colour = colour ?? Color.SeaGreen;
@@ -93,7 +119,17 @@ namespace _3D_Engine
             Visible = true;
         }
 
-        internal Face(Vector4D p1, Vector4D p2, Vector4D p3, Vector3D t1, Vector3D t2, Vector3D t3, Texture texture_object) : this()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="p3"></param>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <param name="t3"></param>
+        /// <param name="texture_object"></param>
+        public Face(Vector4D p1, Vector4D p2, Vector4D p3, Vector3D t1, Vector3D t2, Vector3D t3, Texture texture_object) : this()
         {
             P1 = p1; P2 = p2; P3 = p3;
             T1 = t1; T2 = t2; T3 = t3;

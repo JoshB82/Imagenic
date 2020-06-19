@@ -43,10 +43,10 @@ namespace _3D_Engine
 
                 if (Textures != null)
                 {
-                    Texture_Vertices = new Vector3D[resolution + 1];
-                    Texture_Vertices[0] = new Vector3D(0.5, 0.5, 1);
+                    Textures[0].Vertices = new Vector3D[resolution + 1];
+                    Textures[0].Vertices[0] = new Vector3D(0.5, 0.5, 1);
 
-                    for (int i = 0; i < resolution; i++) Texture_Vertices[i + 1] = new Vector3D(Math.Cos(angle * i) * 0.5, Math.Sin(angle * i) * 0.5, 1);
+                    for (int i = 0; i < resolution; i++) Textures[0].Vertices[i + 1] = new Vector3D(Math.Cos(angle * i) * 0.5, Math.Sin(angle * i) * 0.5, 1);
                 }
 
                 Spots = new Spot[1] { new Spot(Vertices[0]) };
@@ -85,7 +85,7 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a textured <see cref="Circle"/> mesh.
+        /// Creates a textured <see cref="Circle"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Circle"/>.</param>
         /// <param name="direction">The direction the <see cref="Circle"/> faces.</param>

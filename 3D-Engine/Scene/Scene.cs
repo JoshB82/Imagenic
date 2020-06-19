@@ -174,8 +174,12 @@ namespace _3D_Engine
         /// </summary>
         public void Render()
         {
-            if (Render_Camera == null) throw new Exception("No camera has been set yet!");
-
+            if (Render_Camera == null)
+            {
+                Debug.WriteLine("No camera has been set yet!");
+                return;
+            }
+            
             // Only render if a change in scene has taken place
             // if (!Change_scene) return;
 
@@ -245,17 +249,6 @@ namespace _3D_Engine
                 }
 
                 Draw_Colour_Buffer(temp_canvas, colour_buffer);
-
-                /*
-                // Draw each pixel from the colour buffer
-                for (int x = 0; x < Width; x++)
-                {
-                    for (int y = 0; y < Height; y++)
-                    {
-                        using (SolidBrush face_brush = new SolidBrush(colour_buffer[x][y])) g.FillRectangle(face_brush, x, y * -1 + Height - 1, 1, 1);
-                    }
-                }
-                */
 
                 Canvas = temp_canvas;
                 Canvas_Box.Invalidate();
