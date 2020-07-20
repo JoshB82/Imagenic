@@ -22,10 +22,7 @@ namespace _3D_Engine
         public Vector3D World_Origin { get; set; }
 
         // Directions
-        /// <summary>
-        /// The direction the camera faces in model space.
-        /// </summary>
-        internal Vector3D Model_Direction { get; } = Vector3D.Unit_Negative_Z;
+        internal Vector3D Model_Direction { get; } = Vector3D.Unit_Z;
         internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
         internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
 
@@ -41,6 +38,10 @@ namespace _3D_Engine
         internal Matrix4x4 World_to_View { get; set; }
         internal Matrix4x4 View_to_Screen { get; set; }
 
+        // Clipping planes
+        internal Clipping_Plane[] View_Clipping_Planes { get; set; }
+        internal abstract void Calculate_Clipping_Planes();
+
         // View volume parameters
         public abstract double Width { get; set; }
         public abstract double Height { get; set; }
@@ -48,32 +49,48 @@ namespace _3D_Engine
         public abstract double Z_Far { get; set; }
 
         // Appearance
+        /// <summary>
+        /// Determines if the <see cref="Camera"/> is drawn in the <see cref="Scene"/>.
+        /// </summary>
         public bool Draw_Camera_Model { get; set; } = false;
+        /// <summary>
+        /// Determines if the outline of the <see cref="Camera"/>'s view is drawn.
+        /// </summary>
         public bool Draw_Entire_View { get; set; } = false;
+        /// <summary>
+        /// Determines if the outline of the <see cref="Camera"/>'s view is drawn, up to the near plane.
+        /// </summary>
         public bool Draw_Near_View { get; set; } = false;
-
-        // Clipping planes
-        internal Clipping_Plane[] View_Clipping_Planes { get; set; }
-        internal abstract void Calculate_Clipping_Planes();
 
         #endregion
 
         #region Matrix calculations
         
-        public void Calculate_Model_to_World_Matrix()
+        internal void Calculate_Model_to_World_Matrix()
         {
+            // Calculate required transformations
             Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction, World_Direction);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
             Matrix4x4 translation = Transform.Translate(World_Origin);
 
+            // String the transformations together in the following order:
+            // 1) Rotation around direction vector
+            // 2) Rotation around direction up vector
+            // 3) Translation to final position in world space
             Model_to_World = translation * direction_up_rotation * direction_rotation;
         }
-        public void Calculate_World_to_View_Matrix()
+
+        internal void Calculate_World_to_View_Matrix()
         {
+            // Calculate required transformations
             Matrix4x4 translation = Transform.Translate(-World_Origin);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(World_Direction_Up, Model_Direction_Up);
             Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_up_rotation * new Vector4D(World_Direction)), Model_Direction);
 
+            // String the transformations together in the following order:
+            // 1) Translation to final position in view space
+            // 2) Rotation around direction up vector
+            // 3) Rotation around direction vector
             World_to_View = direction_rotation * direction_up_rotation * translation;
         }
 
@@ -81,7 +98,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Camera(Vector3D origin, Vector3D direction, Vector3D direction_up)
+        internal Camera(Vector3D origin, Vector3D direction, Vector3D direction_up)
         {
             ID = ++next_id;
 
@@ -201,7 +218,7 @@ namespace _3D_Engine
             set
             {
                 width = value;
-                View_to_Screen.Data[0][0] = 2 * z_near / width;
+                View_to_Screen.Data[0][0] = z_near / width;
             }
         }
         public override double Height
@@ -210,7 +227,7 @@ namespace _3D_Engine
             set
             {
                 height = value;
-                View_to_Screen.Data[1][1] = 2 * z_near / height;
+                View_to_Screen.Data[1][1] = z_near / height;
             }
         }
         public override double Z_Near
@@ -219,7 +236,7 @@ namespace _3D_Engine
             set
             {
                 z_near = value;
-                View_to_Screen.Data[2][2] = -(z_far + z_near) / (z_far - z_near);
+                View_to_Screen.Data[2][2] = (z_far + z_near) / (z_far - z_near);
                 View_to_Screen.Data[2][3] = -(2 * z_far * z_near) / (z_far - z_near);
             }
         }
@@ -229,7 +246,7 @@ namespace _3D_Engine
             set
             {
                 z_far = value;
-                View_to_Screen.Data[2][2] = -(z_far + z_near) / (z_far - z_near);
+                View_to_Screen.Data[2][2] = (z_far + z_near) / (z_far - z_near);
                 View_to_Screen.Data[2][3] = -(2 * z_far * z_near) / (z_far - z_near);
             }
         }
@@ -241,7 +258,7 @@ namespace _3D_Engine
         public Perspective_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, double width, double height, double z_near, double z_far) : base(origin, direction, direction_up)
         {
             View_to_Screen = Matrix4x4.Zeroed_Matrix();
-            View_to_Screen.Data[3][2] = -1;
+            View_to_Screen.Data[3][2] = 1;
 
             Z_Near = z_near;
             Z_Far = z_far;

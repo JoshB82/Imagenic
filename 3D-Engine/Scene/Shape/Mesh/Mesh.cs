@@ -23,18 +23,35 @@ namespace _3D_Engine
         /// The positions of the vertices that make up the <see cref="Mesh"/> in world space.
         /// </summary>
         public Vector3D[] World_Vertices { get; protected set; }
+        /// <summary>
+        /// The <see cref="Spot"/>s in the <see cref="Mesh"/>.
+        /// </summary>
         public Spot[] Spots { get; protected set; }
+        /// <summary>
+        /// The <see cref="Edge"/>s in the <see cref="Mesh"/>.
+        /// </summary>
         public Edge[] Edges { get; protected set; }
+        /// <summary>
+        /// The <see cref="Face"/>s in the <see cref="Mesh"/>.
+        /// </summary>
         public Face[] Faces { get; internal set; }
 
-        
         // Directions
         internal Vector3D Model_Direction { get; } = Vector3D.Unit_X;
         internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
         internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_Z;
 
+        /// <summary>
+        /// The forward direction of the <see cref="Mesh"/> in world space.
+        /// </summary>
         public Vector3D World_Direction { get; private set; }
+        /// <summary>
+        /// The up direction of the <see cref="Mesh"/> in world space.
+        /// </summary>
         public Vector3D World_Direction_Up { get; private set; }
+        /// <summary>
+        /// The right direction of the <see cref="Mesh"/> in world space.
+        /// </summary>
         public Vector3D World_Direction_Right { get; private set; }
 
         // Appearance
@@ -56,7 +73,7 @@ namespace _3D_Engine
         private Color edge_colour = Color.Black;
         private Color face_colour = Color.BlueViolet;
         /// <summary>
-        /// The colour of each spot in the mesh.
+        /// The <see cref="Color"/> of each <see cref="Spot"/> in the <see cref="Mesh"/>.
         /// </summary>
         public Color Spot_Colour
         {
@@ -69,7 +86,7 @@ namespace _3D_Engine
             }
         }
         /// <summary>
-        /// The colour of each edge in the mesh.
+        /// The <see cref="Color"/> of each <see cref="Edge"/> in the <see cref="Mesh"/>.
         /// </summary>
         public Color Edge_Colour
         {
@@ -81,7 +98,7 @@ namespace _3D_Engine
             }
         }
         /// <summary>
-        /// The colour of each face in the mesh.
+        /// The <see cref="Color"/> of each <see cref="Face"/> in the <see cref="Mesh"/>.
         /// </summary>
         public Color Face_Colour
         {
@@ -95,11 +112,11 @@ namespace _3D_Engine
 
         // Miscellaneous
         /// <summary>
-        /// Determines if an outline is drawn with the mesh.
+        /// Determines if an outline is drawn with the <see cref="Mesh"/>.
         /// </summary>
         public bool Draw_Outline { get; set; } = false;
         /// <summary>
-        /// Determines if the mesh is visible or not.
+        /// Determines if the <see cref="Mesh"/> is visible or not.
         /// </summary>
         public bool Visible { get; set; } = true;
 
@@ -109,7 +126,7 @@ namespace _3D_Engine
 
         #endregion
 
-        public void Calculate_Model_to_World_Matrix()
+        internal void Calculate_Model_to_World_Matrix()
         {
             // Scale, then rotate, then translate
             Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction, World_Direction);

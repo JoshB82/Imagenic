@@ -1,9 +1,7 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
-using Microsoft.CSharp;
 using System.Drawing.Imaging;
 
 namespace _3D_Engine
@@ -27,20 +25,20 @@ namespace _3D_Engine
         public PictureBox Canvas_Box { get; set; }
         public Bitmap Canvas { get; private set; }
         /// <summary>
-        /// The background colour of the <see cref="Scene"/>.
+        /// The background <see cref="Color"/> of the <see cref="Scene"/>.
         /// </summary>
-        public Color Background_Colour { get; set; }
+        public Color Background_Colour { get; set; } = Color.White;
 
         /// <summary>
-        /// List of all cameras in the current <see cref="Scene"/>.
+        /// List of all <see cref="Camera"/>s in the current <see cref="Scene"/>.
         /// </summary>
         public readonly List<Camera> Cameras = new List<Camera>();
         /// <summary>
-        /// List of all lights in the current <see cref="Scene"/>.
+        /// List of all <see cref="Light"/>s in the current <see cref="Scene"/>.
         /// </summary>
         public readonly List<Light> Lights = new List<Light>();
         /// <summary>
-        /// List of all shapes in the current <see cref="Scene"/>.
+        /// List of all <see cref="Shape"/>s in the current <see cref="Scene"/>.
         /// </summary>
         public readonly List<Shape> Shapes = new List<Shape>();
         
@@ -49,7 +47,11 @@ namespace _3D_Engine
         #region Dimensions
 
         private Matrix4x4 screen_to_window;
+
         private int width, height;
+        /// <summary>
+        /// The width of the <see cref="Scene"/>.
+        /// </summary>
         public int Width
         {
             get => width;
@@ -63,6 +65,9 @@ namespace _3D_Engine
                 }
             }
         }
+        /// <summary>
+        /// The height of the <see cref="Scene"/>.
+        /// </summary>
         public int Height
         {
             get => height;
@@ -99,7 +104,6 @@ namespace _3D_Engine
             Width = width;
             Height = height;
 
-            Background_Colour = Color.White;
             Canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
             entire_canvas_rectangle = new Rectangle(0, 0, width, height);
 
@@ -120,29 +124,30 @@ namespace _3D_Engine
         #region Add to scene methods
 
         /// <summary>
-        /// Add an object to the scene.
+        /// Adds an object to the <see cref="Scene"/>.
         /// </summary>
-        /// <param name="object">Object to add.</param>
-        public void Add(Scene_Object @object)
+        /// <typeparam name="T">The type of the object to add.</typeparam>
+        /// <param name="scene_object">The object to add.</param>
+        public void Add<T>(T scene_object) where T : Scene_Object
         {
-            switch (@object.GetType().Name)
+            switch(scene_object.GetType().Name)
             {
                 case "Orthogonal_Camera":
                 case "Perspective_Camera":
-                    Cameras.Add((Camera)@object);
+                    Cameras.Add((Camera)(object)scene_object);
                     break;
                 case "Light":
-                    Lights.Add((Light)@object);
+                    Lights.Add((Light)(object)scene_object);
                     break;
                 case "Shape":
-                    Shapes.Add((Shape)@object);
+                    Shapes.Add((Shape)(object)scene_object);
                     break;
             }
         }
 
         // Probably not working
         /// <summary>
-        /// Add objects to the scene.
+        /// Add objects to the <see cref="Scene"/>.
         /// </summary>
         /// <param name="objects">Array of objects to add.</param>
         public void Add(Scene_Object[] objects)
@@ -176,7 +181,7 @@ namespace _3D_Engine
         {
             if (Render_Camera == null)
             {
-                Debug.WriteLine("No camera has been set yet!");
+                Debug.WriteLine("Failed to draw frame: No camera has been set yet!");
                 return;
             }
             

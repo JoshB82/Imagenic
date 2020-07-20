@@ -34,6 +34,16 @@ namespace _3D_Engine
                 Draw_Edge(new Edge(face.P2, face.P3), camera_type, model_to_world, world_to_view, view_to_screen);
             }
 
+            /*
+            // Adjust face based on lighting
+            foreach (Light light in Lights)
+            {
+                Vector3D light_to_face = face.World_P1 - light.World_Origin;
+                double intensity_at_face = 1 / light_to_face.Magnitude() * light.Intensity;
+
+            }
+            */
+
             // Move the face from world space to view space
             face.P1 = world_to_view * face.P1;
             face.P2 = world_to_view * face.P2;
@@ -90,7 +100,7 @@ namespace _3D_Engine
                 // Finally draw the triangle
                 if (face.Texture_Object == null)
                 {
-                    Solid_Triangle(new_screen_triangles[i].Colour,
+                    Solid_Triangle(new_screen_triangles[i],
                         result_point_1_x, result_point_1_y, result_point_1_z,
                         result_point_2_x, result_point_2_y, result_point_2_z,
                         result_point_3_x, result_point_3_y, result_point_3_z);

@@ -11,7 +11,7 @@ namespace _3D_Engine
             World_Origin = origin;
             World_Direction = direction;
             Colour = colour ?? Color.White;
-            Intensity = intensity;
+            //Intensity = intensity;
 
             Debug.WriteLine($"Point light created at {origin}");
         }

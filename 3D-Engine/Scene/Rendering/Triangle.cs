@@ -6,7 +6,7 @@ namespace _3D_Engine
     public sealed partial class Scene
     {
         /// <summary>
-        /// Rounds a double value to the nearest integer.
+        /// Rounds a double-precision floating-point value to the nearest integer.
         /// </summary>
         /// <param name="x">Double value to round.</param>
         /// <returns>Rounded value.</returns>
@@ -82,7 +82,7 @@ namespace _3D_Engine
             }
         }
 
-        private void Solid_Triangle(Color colour,
+        private void Solid_Triangle(Face face,
              int x1, int y1, double z1,
              int x2, int y2, double z2,
              int x3, int y3, double z3)
@@ -128,13 +128,36 @@ namespace _3D_Engine
                     double sz = (y - y2) * z_step_1 + z2;
                     double ez = (y - y3) * z_step_2 + z3;
 
-                    // ???
-                    if (sx > ex) Swap(ref sx, ref ex);
-                    if (sz > ez) Swap(ref sz, ref ez);
+                    if (sx > ex)
+                    {
+                        Swap(ref sx, ref ex);
+                        Swap(ref sz, ref ez);
+                    }
 
+                    double t = 0, t_step = (double)1 / (ex - sx);
                     for (int x = sx; x <= ex; x++)
                     {
-                        Check_Against_Z_Buffer(x, y, 1, colour); // ?
+                        double z = sz + t * (ez - sz);
+                        t += t_step;
+
+                        /*
+                        // Adjust point colour based on lighting
+                        Color adjusted_colour = face.Colour;
+                        foreach (Light light in Lights)
+                        {
+                            Vector3D light_to_face = new Vector3D() - light.World_Origin;
+                            double intensity_at_face = 1 / Math.Pow(light_to_face.Magnitude(), 2) * light.Intensity;
+
+                            switch (light.GetType().Name)
+                            {
+                                case "Point_Light":
+                                    adjusted_colour = Mix_Colour();
+                                    adjusted_colour = new Color() + new Color();
+                                    break;
+                            }
+                        }*/
+
+                        Check_Against_Z_Buffer(x, y, z, face.Colour);
                     }
                 }
             }
@@ -149,12 +172,20 @@ namespace _3D_Engine
                     double sz = (y - y3) * z_step_3 + z3;
                     double ez = (y - y3) * z_step_2 + z3;
 
-                    if (sx > ex) Swap(ref sx, ref ex);
-                    if (sz > ez) Swap(ref sz, ref ez);
+                    if (sx > ex)
+                    {
+                        Swap(ref sx, ref ex);
+                        Swap(ref sz, ref ez);
+                    }
 
+                    double t = 0, t_step = (double)1 / (ex - sx);
                     for (int x = sx; x <= ex; x++)
                     {
-                        Check_Against_Z_Buffer(x, y, 1, colour); // ?
+                        double z = sz + t * (ez - sz);
+                        t += t_step;
+
+
+                        Check_Against_Z_Buffer(x, y, z, face.Colour);
                     }
                 }
             }
@@ -265,6 +296,8 @@ namespace _3D_Engine
                 }
             }
         }
+
+        private static Color Mix_Colour(Color c1, Color c2) => Color.FromArgb((c1.ToArgb() + c2.ToArgb()));
 
         /*
         private void Textured_Triangle(int x1, int y1, double z1, int x2, int y2, double z2, int x3, int y3, double z3, int tx1, int ty1, int tx2, int ty2, int tx3, int ty3, Bitmap texture)

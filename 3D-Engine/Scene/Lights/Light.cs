@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace _3D_Engine
 {
@@ -8,9 +10,9 @@ namespace _3D_Engine
 
         // ID
         /// <summary>
-        /// Unique identification number for this light.
+        /// Unique identification number for this <see cref="Light"/>.
         /// </summary>
-        public int ID { get; private set; }
+        public int ID { get; private set; } // ?
         private static int next_id = -1;
 
         // Origins
@@ -37,14 +39,24 @@ namespace _3D_Engine
 
         // Appearance
         public Color Colour { get; set; }
-        public double Intensity { get; set; }
+        public double Strength { get; set; }
+
+        /*private double intensity; // should it be set to something initially?
+        public double Intensity
+        {
+            get => intensity;
+            set { intensity = (value < 0) ? 0 : (value > 1) ? 1 : intensity; }
+        }
+        */
         public string Icon { get; } = "";
+
+        internal double[][] z_buffer;
 
         #endregion
 
         #region Constructors
 
-        public Light()
+        internal Light() // ?
         {
             ID = ++next_id;
         }
