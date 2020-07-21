@@ -49,6 +49,15 @@
             Handles constructors and operations involving three-dimensional vectors.
             </summary>
         </member>
+        <member name="M:_3D_Engine.Vector3D.Normal_From_Plane(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Calculates a normal vector to a plane defined by three points. Looking in the direction of the vector, the points are arranged in an anticlockwise order.
+            </summary>
+            <param name="p1">First point on the plane.</param>
+            <param name="p2">Second point on the plane.</param>
+            <param name="p3">Third point on the plane.</param>
+            <returns>A normal vector.</returns>
+        </member>
         <member name="T:_3D_Engine.Vector4D">
             <summary>
             Handles constructors and operations involving four-dimensional vectors for use in 3D graphics.

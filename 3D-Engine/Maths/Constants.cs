@@ -41,7 +41,7 @@ namespace _3D_Engine
 
         public static Resolution Z_Buffer_Resolution = Resolution.Double;
         public static bool View_Space_Clip = true;
-        public static bool Camera_Space_Clip = true;
+        public static bool Screen_Space_Clip = true;
 
         public static Viewport Viewport_Style = Viewport.Single;
 

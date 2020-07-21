@@ -118,7 +118,7 @@ namespace _3D_Engine
                 new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_Z) // Far
             };
 
-            Debug.WriteLine("Scene created.");
+            Debug.WriteLine("Scene created");
         }
 
         #region Add to scene methods
@@ -200,7 +200,9 @@ namespace _3D_Engine
                 // Calculate camera properties
                 Render_Camera.Calculate_Model_to_World_Matrix();
                 Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin);
+                Render_Camera.Origin = Render_Camera.Model_to_World * Render_Camera.Origin;
                 Render_Camera.Calculate_World_to_View_Matrix();
+                Render_Camera.Origin = Render_Camera.World_to_View * Render_Camera.Origin;
                 string camera_type = Render_Camera.GetType().Name;
                 Matrix4x4 world_to_view = Render_Camera.World_to_View;
                 Matrix4x4 view_to_screen = Render_Camera.View_to_Screen;
@@ -270,9 +272,9 @@ namespace _3D_Engine
                 byte* row_start = (byte*)data.Scan0 + y * data.Stride;
                 for (int x = 0; x < width; x++)
                 {
-                    row_start[x * 3] = colour_buffer[x][y * -1 + height - 1].B; // Blue;
-                    row_start[x * 3 + 1] = colour_buffer[x][y * -1 + height - 1].G; // Green;
-                    row_start[x * 3 + 2] = colour_buffer[x][y * -1 + height - 1].R; // Red;
+                    row_start[x * 3] = colour_buffer[x][y * -1 + height - 1].B; // Blue
+                    row_start[x * 3 + 1] = colour_buffer[x][y * -1 + height - 1].G; // Green
+                    row_start[x * 3 + 2] = colour_buffer[x][y * -1 + height - 1].R; // Red
                 }
             }
 

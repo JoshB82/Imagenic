@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using System.Diagnostics;
+
+namespace _3D_Engine
 {
     public sealed partial class Scene
     {
@@ -12,15 +14,18 @@
             edge.World_P2 = new Vector3D(model_to_world * edge.P2);
             edge.P1 = model_to_world * edge.P1;
             edge.P2 = model_to_world * edge.P2;
-
+            
             // Move the edge from world space to view space
             edge.P1 = world_to_view * edge.P1;
             edge.P2 = world_to_view * edge.P2;
 
             // Clip the edge in view space
-            foreach (Clipping_Plane view_clipping_plane in Render_Camera.View_Clipping_Planes)
+            if (Settings.View_Space_Clip)
             {
-                if (!Clip_Edge(view_clipping_plane.Point, view_clipping_plane.Normal, ref edge)) return;
+                foreach (Clipping_Plane view_clipping_plane in Render_Camera.View_Clipping_Planes)
+                {
+                    if (!Clip_Edge(view_clipping_plane.Point, view_clipping_plane.Normal, ref edge)) return;
+                }
             }
 
             // Move the edge from view space to screen space, including a correction for perspective
@@ -30,13 +35,16 @@
             if (camera_type == "Perspective_Camera")
             {
                 edge.P1 /= edge.P1.W;
-                edge.P2 /= edge.P2.W;
+                edge.P2 /= edge.P2.W; 
             }
 
             // Clip the edge in screen space
-            foreach (Clipping_Plane screen_clipping_plane in screen_clipping_planes)
+            if (Settings.Screen_Space_Clip)
             {
-                if (!Clip_Edge(screen_clipping_plane.Point, screen_clipping_plane.Normal, ref edge)) return;
+                foreach (Clipping_Plane screen_clipping_plane in screen_clipping_planes)
+                {
+                    if (!Clip_Edge(screen_clipping_plane.Point, screen_clipping_plane.Normal, ref edge)) return;
+                }
             }
 
             // Mode the edge from screen space to window space
