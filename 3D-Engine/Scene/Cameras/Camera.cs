@@ -215,7 +215,7 @@ namespace _3D_Engine
             set
             {
                 width = value;
-                View_to_Screen.Data[0][0] = z_near / width;
+                View_to_Screen.Data[0][0] = 2 * z_near / width;
             }
         }
         public override double Height
@@ -224,7 +224,7 @@ namespace _3D_Engine
             set
             {
                 height = value;
-                View_to_Screen.Data[1][1] = z_near / height;
+                View_to_Screen.Data[1][1] = 2 * z_near / height;
             }
         }
         public override double Z_Near

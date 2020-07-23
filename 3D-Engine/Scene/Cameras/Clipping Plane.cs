@@ -10,7 +10,7 @@
         /// </summary>
         internal Vector3D Point { get; set; }
         /// <summary>
-        /// Normal vector pointing towards the volume to keep.
+        /// Normal vector pointing towards the volume to keep. //?
         /// </summary>
         internal Vector3D Normal { get; set; }
 

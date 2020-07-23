@@ -100,7 +100,7 @@
         </member>
         <member name="P:_3D_Engine.Clipping_Plane.Normal">
             <summary>
-            Normal vector pointing towards the volume to keep.
+            Normal vector pointing towards the volume to keep. //?
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene.Create_Origin">
