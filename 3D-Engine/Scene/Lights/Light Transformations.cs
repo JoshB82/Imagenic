@@ -34,20 +34,23 @@ namespace _3D_Engine
             Output_Light_Direction();
         }
 
-        private void Output_Light_Direction() =>
-            Debug.WriteLine("==========\n" +
-                "Light direction changed to:\n" +
-                $"Forward: {World_Direction_Forward}\n" +
-                $"Up: {World_Direction_Up}\n" +
-                $"Right: {World_Direction_Right}\n" +
-                "=========="
-            );
+        private void Output_Light_Direction()
+        {
+            if (Settings.Debug_Output_Verbosity == Verbosity.All || Settings.Light_Debug_Output_Verbosity == Verbosity.All)
+                Debug.WriteLine("<=========\n" +
+                    GetType().Name + " direction changed to:\n" +
+                    $"Forward: {World_Direction_Forward}\n" +
+                    $"Up: {World_Direction_Up}\n" +
+                    $"Right: {World_Direction_Right}\n" +
+                    "=========>"
+                );
+        }
 
-        #endregion
+    #endregion
 
-        #region Translations
+    #region Translations
 
-        public void Translate_X(double distance) => World_Origin += new Vector3D(distance, 0, 0);
+    public void Translate_X(double distance) => World_Origin += new Vector3D(distance, 0, 0);
         public void Translate_Y(double distance) => World_Origin += new Vector3D(0, distance, 0);
         public void Translate_Z(double distance) => World_Origin += new Vector3D(0, 0, distance);
         public void Translate(Vector3D distance) => World_Origin += distance;

@@ -5,7 +5,7 @@ namespace _3D_Engine
     public sealed partial class Scene
     {
         /// <summary>
-        /// Creates an origin point at (0, 0, 0) and adds it to the scene.
+        /// Creates an origin point at (0, 0, 0) and adds it to the <see cref="Scene"/>.
         /// </summary>
         public void Create_Origin()
         {
@@ -15,7 +15,7 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates axes starting from (0, 0, 0) and adds them to the scene.
+        /// Creates axes starting from (0, 0, 0) and adds them to the <see cref="Scene"/>.
         /// </summary>
         public void Create_Axes()
         {

@@ -32,6 +32,12 @@ namespace _3D_Engine
         Double_Top_Bottom
     }
 
+    public enum Verbosity
+    {
+        None,
+        All
+    }
+
     /// <summary>
     /// Collection of settings.
     /// </summary>
@@ -44,6 +50,11 @@ namespace _3D_Engine
         public static bool Screen_Space_Clip = true;
 
         public static Viewport Viewport_Style = Viewport.Single;
+
+        public static Verbosity Debug_Output_Verbosity = Verbosity.None;
+        public static Verbosity Camera_Debug_Output_Verbosity = Verbosity.None;
+        public static Verbosity Light_Debug_Output_Verbosity = Verbosity.None;
+        public static Verbosity Mesh_Debug_Output_Verbosity = Verbosity.None;
 
         #endregion
     }

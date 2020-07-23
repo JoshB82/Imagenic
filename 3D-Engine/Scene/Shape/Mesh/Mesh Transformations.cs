@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace _3D_Engine
 {
@@ -13,6 +14,7 @@ namespace _3D_Engine
             World_Direction_Forward = new_world_direction_forward;
             World_Direction_Up = new_world_direction_up;
             World_Direction_Right = Transform.Calculate_Direction_Right(new_world_direction_forward, new_world_direction_up);
+            Output_Mesh_Direction();
         }
         public void Set_Shape_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
         {
@@ -21,6 +23,7 @@ namespace _3D_Engine
             World_Direction_Forward = Transform.Calculate_Direction_Forward(new_world_direction_up, new_world_direction_right);
             World_Direction_Up = new_world_direction_up;
             World_Direction_Right = new_world_direction_right;
+            Output_Mesh_Direction();
         }
         public void Set_Shape_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
         {
@@ -29,6 +32,19 @@ namespace _3D_Engine
             World_Direction_Forward = new_world_direction_forward;
             World_Direction_Up = Transform.Calculate_Direction_Up(new_world_direction_right, new_world_direction_forward);
             World_Direction_Right = new_world_direction_right;
+            Output_Mesh_Direction();
+        }
+
+        private void Output_Mesh_Direction()
+        {
+            if (Settings.Debug_Output_Verbosity == Verbosity.All || Settings.Mesh_Debug_Output_Verbosity == Verbosity.All)
+                Debug.WriteLine("<=========\n" +
+                    GetType().Name +" direction changed to:\n" +
+                    $"Forward: {World_Direction_Forward}\n" +
+                    $"Up: {World_Direction_Up}\n" +
+                    $"Right: {World_Direction_Right}\n" +
+                    "=========>"
+                );
         }
 
         #endregion

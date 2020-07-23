@@ -36,15 +36,18 @@ namespace _3D_Engine
             Calculate_Clipping_Planes();
             Output_Camera_Direction();
         }
-        
-        private void Output_Camera_Direction() =>
-            Debug.WriteLine("==========\n" +
-                "Camera direction changed to:\n" +
-                $"Forward: {World_Direction_Forward}\n" +
-                $"Up: {World_Direction_Up}\n" +
-                $"Right: {World_Direction_Right}\n" +
-                "=========="
-            );
+
+        private void Output_Camera_Direction()
+        {
+            if (Settings.Debug_Output_Verbosity == Verbosity.All || Settings.Camera_Debug_Output_Verbosity == Verbosity.All)
+                Debug.WriteLine("<=========\n" +
+                    GetType().Name + " direction changed to:\n" +
+                    $"Forward: {World_Direction_Forward}\n" +
+                    $"Up: {World_Direction_Up}\n" +
+                    $"Right: {World_Direction_Right}\n" +
+                    "=========>"
+                );
+        }
 
         #endregion
 

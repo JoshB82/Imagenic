@@ -37,9 +37,9 @@ namespace _3D_Engine
         public Face[] Faces { get; internal set; }
 
         // Directions
-        internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_X;
+        internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_Z;
         internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
-        internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_Z;
+        internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
 
         /// <summary>
         /// The forward direction of the <see cref="Mesh"/> in world space.
