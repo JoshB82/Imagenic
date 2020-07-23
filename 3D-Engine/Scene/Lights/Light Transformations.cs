@@ -10,7 +10,7 @@ namespace _3D_Engine
         {
             //if (new_world_direction * new_world_direction_up != 0) throw new Exception("Light direction vectors are not orthogonal.");
             new_world_direction_forward = new_world_direction_forward.Normalise(); new_world_direction_up = new_world_direction_up.Normalise();
-            World_Direction = new_world_direction_forward;
+            World_Direction_Forward = new_world_direction_forward;
             World_Direction_Up = new_world_direction_up;
             World_Direction_Right = Transform.Calculate_Direction_Right(new_world_direction_forward, new_world_direction_up);
             Output_Light_Direction();
@@ -19,7 +19,7 @@ namespace _3D_Engine
         {
             //if (new_world_direction_up * new_world_direction_right != 0) throw new Exception("Light direction vectors are not orthogonal.");
             new_world_direction_up = new_world_direction_up.Normalise(); new_world_direction_right = new_world_direction_right.Normalise();
-            World_Direction = Transform.Calculate_Direction_Forward(new_world_direction_up, new_world_direction_right);
+            World_Direction_Forward = Transform.Calculate_Direction_Forward(new_world_direction_up, new_world_direction_right);
             World_Direction_Up = new_world_direction_up;
             World_Direction_Right = new_world_direction_right;
             Output_Light_Direction();
@@ -28,17 +28,19 @@ namespace _3D_Engine
         {
             //if (new_world_direction_right * new_world_direction != 0) throw new Exception("Light direction vectors are not orthogonal.");
             new_world_direction_right = new_world_direction_right.Normalise(); new_world_direction_forward = new_world_direction_forward.Normalise();
-            World_Direction = new_world_direction_forward;
+            World_Direction_Forward = new_world_direction_forward;
             World_Direction_Up = Transform.Calculate_Direction_Up(new_world_direction_right, new_world_direction_forward);
             World_Direction_Right = new_world_direction_right;
             Output_Light_Direction();
         }
 
         private void Output_Light_Direction() =>
-            Debug.WriteLine("Light direction changed to:\n" +
-                $"Forward: {World_Direction}\n" +
+            Debug.WriteLine("==========\n" +
+                "Light direction changed to:\n" +
+                $"Forward: {World_Direction_Forward}\n" +
                 $"Up: {World_Direction_Up}\n" +
-                $"Right: {World_Direction_Right}"
+                $"Right: {World_Direction_Right}\n" +
+                "=========="
             );
 
         #endregion

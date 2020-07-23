@@ -20,17 +20,11 @@ namespace _3D_Engine
         public Vector3D World_Origin { get; set; }
 
         // Directions
-        internal Vector3D Model_Direction { get; } = Vector3D.Unit_X;
+        internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_X;
         internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
         internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_Z;
 
-        // See other files on using methods
-        private Vector3D world_direction;
-        public Vector3D World_Direction
-        {
-            get => world_direction;
-            set { world_direction = value.Normalise(); }
-        }
+        public Vector3D World_Direction_Forward { get; set; }
         public Vector3D World_Direction_Up { get; set; }
         public Vector3D World_Direction_Right { get; set; }
 

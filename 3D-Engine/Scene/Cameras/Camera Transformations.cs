@@ -38,10 +38,12 @@ namespace _3D_Engine
         }
         
         private void Output_Camera_Direction() =>
-            Debug.WriteLine("Camera direction changed to:\n" +
+            Debug.WriteLine("==========\n" +
+                "Camera direction changed to:\n" +
                 $"Forward: {World_Direction_Forward}\n" +
                 $"Up: {World_Direction_Up}\n" +
-                $"Right: {World_Direction_Right}"
+                $"Right: {World_Direction_Right}\n" +
+                "=========="
             );
 
         #endregion

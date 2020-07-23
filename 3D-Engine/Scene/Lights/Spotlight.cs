@@ -32,7 +32,7 @@ namespace _3D_Engine
         {
             Translation = origin;
             World_Origin = origin;
-            World_Direction = direction;
+            World_Direction_Forward = direction;
             Colour = colour ?? Color.White;
             //Intensity = intensity;
             Angle = angle;
