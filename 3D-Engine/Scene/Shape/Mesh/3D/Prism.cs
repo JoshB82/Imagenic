@@ -46,7 +46,7 @@ namespace _3D_Engine
             {
                 resolution = value;
                 
-                Circle Prism_top_and_bottom = new Circle(World_Origin, World_Direction, World_Direction_Up, 1, resolution);
+                Circle Prism_top_and_bottom = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, 1, resolution);
                 
                 Vertices = new Vector4D[2 * resolution + 2];
                 Vertices[0] = Prism_top_and_bottom.Vertices[0];

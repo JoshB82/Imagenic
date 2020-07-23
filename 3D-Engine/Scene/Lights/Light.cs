@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace _3D_Engine
 {
-    public abstract class Light : Scene_Object
+    public abstract partial class Light : Scene_Object
     {
         #region Fields and Properties
 

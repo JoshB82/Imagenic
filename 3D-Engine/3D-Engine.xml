@@ -73,11 +73,6 @@
             The position of the <see cref="T:_3D_Engine.Camera"/> in world space.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Camera.World_Direction">
-            <summary>
-            The direction the <see cref="T:_3D_Engine.Camera"/> faces in world space.
-            </summary>
-        </member>
         <member name="P:_3D_Engine.Camera.Draw_Camera_Model">
             <summary>
             Determines if the <see cref="T:_3D_Engine.Camera"/> is drawn in the <see cref="T:_3D_Engine.Scene"/>.
@@ -611,7 +606,7 @@
             The <see cref="T:_3D_Engine.Face"/>s in the <see cref="T:_3D_Engine.Mesh"/>.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Mesh.World_Direction">
+        <member name="P:_3D_Engine.Mesh.World_Direction_Forward">
             <summary>
             The forward direction of the <see cref="T:_3D_Engine.Mesh"/> in world space.
             </summary>
@@ -666,30 +661,6 @@
             Determines if the <see cref="T:_3D_Engine.Mesh"/> is visible or not.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Mesh.Calculate_Direction(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
-            <summary>
-            Calculates the forward direction given the up direction and the right direction.
-            </summary>
-            <param name="direction_up">The up direction.</param>
-            <param name="direction_right">The right direction.</param>
-            <returns>The forward direction.</returns>
-        </member>
-        <member name="M:_3D_Engine.Mesh.Calculate_Direction_Up(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
-            <summary>
-            Calculates the up direction given the right direction and the forward direction.
-            </summary>
-            <param name="direction_right">The right direction.</param>
-            <param name="direction">The forward direction.</param>
-            <returns>The up direction.</returns>
-        </member>
-        <member name="M:_3D_Engine.Mesh.Calculate_Direction_Right(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
-            <summary>
-            Calculates the right direction given the forward direction and the up direction.
-            </summary>
-            <param name="direction">The forward direction.</param>
-            <param name="direction_up">The up direction.</param>
-            <returns>The right direction.</returns>
-        </member>
         <member name="P:_3D_Engine.Shape.ID">
             <summary>
             Unique identification number for this shape.
@@ -717,6 +688,30 @@
             Create a shape with a render mesh that is also a collision mesh.
             </summary>
             <param name="render_mesh">The mesh that will be rendered and used for determining collisions.</param>
+        </member>
+        <member name="M:_3D_Engine.Transform.Calculate_Direction_Forward(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Calculates the forward direction given the up direction and the right direction.
+            </summary>
+            <param name="direction_up">The up direction.</param>
+            <param name="direction_right">The right direction.</param>
+            <returns>The forward direction.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Calculate_Direction_Up(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Calculates the up direction given the right direction and the forward direction.
+            </summary>
+            <param name="direction_right">The right direction.</param>
+            <param name="direction_forward">The forward direction.</param>
+            <returns>The up direction.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Calculate_Direction_Right(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Calculates the right direction given the forward direction and the up direction.
+            </summary>
+            <param name="direction_forward">The forward direction.</param>
+            <param name="direction_up">The up direction.</param>
+            <returns>The right direction.</returns>
         </member>
         <member name="M:_3D_Engine.Transform.Rotate_X(System.Double)">
             <summary>

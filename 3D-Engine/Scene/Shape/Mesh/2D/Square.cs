@@ -112,7 +112,7 @@ namespace _3D_Engine
         /// <param name="square"><see cref="Square"/> to cast.</param>
         public static explicit operator Plane(Square square)
         {
-            Plane plane_cast = new Plane(square.World_Origin, square.World_Direction, square.World_Direction_Up, square.side_length, square.side_length);
+            Plane plane_cast = new Plane(square.World_Origin, square.World_Direction_Forward, square.World_Direction_Up, square.side_length, square.side_length);
             plane_cast.Textures = square.Textures;
             plane_cast.Faces = square.Faces;
             return plane_cast;

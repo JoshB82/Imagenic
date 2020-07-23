@@ -15,21 +15,18 @@ namespace _3D_Engine
         private static int next_id = -1;
 
         // Origins
-        internal Vector4D Origin { get; set; } = Vector4D.Zero;
+        internal Vector4D Model_Origin { get; set; } = Vector4D.Zero;
         /// <summary>
         /// The position of the <see cref="Camera"/> in world space.
         /// </summary>
-        public Vector3D World_Origin { get; set; } // Default?
+        public Vector3D World_Origin { get; set; } // Default value?
 
         // Directions
-        internal Vector3D Model_Direction { get; } = Vector3D.Unit_Z;
+        internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_Z;
         internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
         internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
 
-        /// <summary>
-        /// The direction the <see cref="Camera"/> faces in world space.
-        /// </summary>
-        public Vector3D World_Direction { get; private set; }
+        public Vector3D World_Direction_Forward { get; private set; }
         public Vector3D World_Direction_Up { get; private set; }
         public Vector3D World_Direction_Right { get; private set; }
 
@@ -69,7 +66,7 @@ namespace _3D_Engine
         internal void Calculate_Model_to_World_Matrix()
         {
             // Calculate required transformations
-            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction, World_Direction);
+            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
             Matrix4x4 translation = Transform.Translate(World_Origin);
 
@@ -85,7 +82,7 @@ namespace _3D_Engine
             // Calculate required transformations
             Matrix4x4 translation = Transform.Translate(-World_Origin);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(World_Direction_Up, Model_Direction_Up);
-            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_up_rotation * new Vector4D(World_Direction)), Model_Direction);
+            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_up_rotation * new Vector4D(World_Direction_Forward)), Model_Direction_Forward);
 
             // String the transformations together in the following order:
             // 1) Translation to final position in view space
@@ -157,7 +154,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Orthogonal_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, double width, double height, double z_near, double z_far) : base(origin, direction, direction_up)
+        public Orthogonal_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double width, double height, double z_near, double z_far) : base(origin, direction_forward, direction_up)
         {
             View_to_Screen = Matrix4x4.Identity_Matrix();
 
@@ -172,7 +169,7 @@ namespace _3D_Engine
 
         public Orthogonal_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double width, double height, double z_near, double z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public Orthogonal_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, direction, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Orthogonal_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, direction_forward, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
         public Orthogonal_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
@@ -255,7 +252,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Perspective_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, double width, double height, double z_near, double z_far) : base(origin, direction, direction_up)
+        public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double width, double height, double z_near, double z_far) : base(origin, direction_forward, direction_up)
         {
             View_to_Screen = Matrix4x4.Zeroed_Matrix();
             View_to_Screen.Data[3][2] = 1;
@@ -271,7 +268,7 @@ namespace _3D_Engine
 
         public Perspective_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double width, double height, double z_near, double z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public Perspective_Camera(Vector3D origin, Vector3D direction, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, direction, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, direction_forward, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
         public Perspective_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 

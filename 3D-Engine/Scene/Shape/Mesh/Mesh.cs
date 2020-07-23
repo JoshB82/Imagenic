@@ -37,14 +37,14 @@ namespace _3D_Engine
         public Face[] Faces { get; internal set; }
 
         // Directions
-        internal Vector3D Model_Direction { get; } = Vector3D.Unit_X;
+        internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_X;
         internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
         internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_Z;
 
         /// <summary>
         /// The forward direction of the <see cref="Mesh"/> in world space.
         /// </summary>
-        public Vector3D World_Direction { get; private set; }
+        public Vector3D World_Direction_Forward { get; private set; }
         /// <summary>
         /// The up direction of the <see cref="Mesh"/> in world space.
         /// </summary>
@@ -129,7 +129,7 @@ namespace _3D_Engine
         internal void Calculate_Model_to_World_Matrix()
         {
             // Scale, then rotate, then translate
-            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction, World_Direction);
+            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
             Matrix4x4 scale = Transform.Scale(Scaling.X, Scaling.Y, Scaling.Z);
             Matrix4x4 translation = Transform.Translate(World_Origin);
