@@ -12,9 +12,11 @@ namespace _3D_Engine
             // Move the face from model space to world space
             face.World_P1 = new Vector3D(model_to_world * face.P1);
             face.World_P2 = new Vector3D(model_to_world * face.P2);
+            face.World_P3 = new Vector3D(model_to_world * face.P3);
             face.P1 = model_to_world * face.P1;
             face.P2 = model_to_world * face.P2;
-            
+            face.P3 = model_to_world * face.P3;
+
             Vector3D camera_to_face = new Vector3D(face.P1 - new Vector4D(Render_Camera.World_Origin));
             Vector3D normal = Vector3D.Normal_From_Plane(face.World_P1, face.World_P2, face.World_P3);
 
@@ -47,6 +49,7 @@ namespace _3D_Engine
             // Move the face from world space to view space
             face.P1 = world_to_view * face.P1;
             face.P2 = world_to_view * face.P2;
+            face.P3 = world_to_view * face.P3;
 
             // Clip the face in view space
             Queue<Face> view_face_clip = new Queue<Face>(); view_face_clip.Enqueue(face);
@@ -69,8 +72,8 @@ namespace _3D_Engine
                     if (face.Texture_Object != null)
                     {
                         new_view_triangles[i].T1 /= new_view_triangles[i].P1.W;
-                        new_view_triangles[i].T2 /= new_view_triangles[i].P1.W;
-                        new_view_triangles[i].T3 /= new_view_triangles[i].P1.W;
+                        new_view_triangles[i].T2 /= new_view_triangles[i].P2.W;
+                        new_view_triangles[i].T3 /= new_view_triangles[i].P3.W;
                     }
                 }
             }
@@ -96,7 +99,7 @@ namespace _3D_Engine
                 int result_point_3_x = Round_To_Int(new_screen_triangles[i].P3.X);
                 int result_point_3_y = Round_To_Int(new_screen_triangles[i].P3.Y);
                 double result_point_3_z = new_screen_triangles[i].P3.Z;
-
+                
                 // Finally draw the triangle
                 if (face.Texture_Object == null)
                 {
@@ -130,6 +133,7 @@ namespace _3D_Engine
 
         private int Queue_Clip_Face(Queue<Face> face_clip, Clipping_Plane[] clipping_planes, out Face[] new_triangles)
         {
+            // TODO Settings.View_Space_Clip
             int no_triangles = 1;
 
             foreach (Clipping_Plane clipping_plane in clipping_planes)

@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Drawing;
 
 namespace _3D_Engine
@@ -98,9 +99,9 @@ namespace _3D_Engine
                 ref x3, ref y3, ref z3);
 
             // Create steps
-            int dy_step_1 = y1 - y2;
-            int dy_step_2 = y1 - y3;
-            int dy_step_3 = y2 - y3;
+            double dy_step_1 = y1 - y2;
+            double dy_step_2 = y1 - y3;
+            double dy_step_3 = y2 - y3;
 
             double x_step_1 = 0, z_step_1 = 0;
             double x_step_3 = 0, z_step_3 = 0;
@@ -157,6 +158,7 @@ namespace _3D_Engine
                             }
                         }*/
 
+                        //Debug.WriteLine("Drawing point!: x: " + x + " y: " + y + " z: " + z);
                         Check_Against_Z_Buffer(x, y, z, face.Colour);
                     }
                 }
