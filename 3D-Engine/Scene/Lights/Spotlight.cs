@@ -28,12 +28,11 @@ namespace _3D_Engine
 
         public double Distance { get; set; }
 
-        public Spotlight(Vector3D origin, Vector3D direction, Color? colour, double intensity, double angle, double distance)
+        public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double intensity, double angle, double distance) : base(origin, direction_forward, direction_up)
         {
             Translation = origin;
             World_Origin = origin;
-            World_Direction_Forward = direction;
-            Colour = colour ?? Color.White;
+
             //Intensity = intensity;
             Angle = angle;
             Distance = distance;
@@ -41,6 +40,6 @@ namespace _3D_Engine
             Debug.WriteLine($"Spotlight light created at {origin}");
         }
 
-        public Spotlight(Vector3D origin, Vector3D direction, Color? colour, string ignore, double intensity, double radius, double distance) : this(origin, direction, colour, intensity, Math.Atan2(radius, distance) * 2, distance) { }
+        //public Spotlight(Vector3D origin, Vector3D direction, Color? colour, string ignore, double intensity, double radius, double distance) : this(origin, direction, colour, intensity, Math.Atan2(radius, distance) * 2, distance) { }
     }
 }

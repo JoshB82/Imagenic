@@ -7,7 +7,8 @@ namespace _3D_Engine
         private void Draw_Face(Face face, string camera_type, string shape_type,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_view,
-            Matrix4x4 view_to_screen)
+            Matrix4x4 view_to_screen,
+            Camera camera)
         {
             // Move the face from model space to world space
             face.World_P1 = new Vector3D(model_to_world * face.P1);
@@ -20,7 +21,7 @@ namespace _3D_Engine
             Vector3D camera_to_face = new Vector3D(face.P1 - new Vector4D(Render_Camera.World_Origin));
             Vector3D normal = Vector3D.Normal_From_Plane(face.World_P1, face.World_P2, face.World_P3);
 
-            // Discard face if its not visible
+            // Discard the face if it is not visible
             if (camera_to_face * normal >= 0
                 && shape_type != "Circle"
                 && shape_type != "Plane"
@@ -80,7 +81,7 @@ namespace _3D_Engine
 
             // Clip the face in screen space
             Queue<Face> screen_face_clip = new Queue<Face>(new_view_triangles);
-            if (Queue_Clip_Face(screen_face_clip, screen_clipping_planes, out Face[] new_screen_triangles) == 0) return;
+            if (Queue_Clip_Face(screen_face_clip, screen_clipping_planes, out Face[] new_screen_triangles) == 0) return; // anything outside cube?
 
             for (int i = 0; i < new_screen_triangles.Length; i++)
             {
@@ -103,7 +104,7 @@ namespace _3D_Engine
                 // Finally draw the triangle
                 if (face.Texture_Object == null)
                 {
-                    Solid_Triangle(new_screen_triangles[i],
+                    Solid_Triangle(camera, new_screen_triangles[i],
                         result_point_1_x, result_point_1_y, result_point_1_z,
                         result_point_2_x, result_point_2_y, result_point_2_z,
                         result_point_3_x, result_point_3_y, result_point_3_z);

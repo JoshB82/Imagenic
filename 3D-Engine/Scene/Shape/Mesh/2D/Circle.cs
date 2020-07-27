@@ -79,7 +79,7 @@ namespace _3D_Engine
             Resolution = resolution;
 
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, normal);
+            Set_Direction_1(direction, normal);
 
             Debug.WriteLine($"Circle created at {origin}");
         }
@@ -100,7 +100,7 @@ namespace _3D_Engine
             Resolution = resolution;
 
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, normal);
+            Set_Direction_1(direction, normal);
             
             Debug.WriteLine($"Circle created at {origin}");
         }

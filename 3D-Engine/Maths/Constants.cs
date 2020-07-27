@@ -35,6 +35,8 @@ namespace _3D_Engine
     public enum Verbosity
     {
         None,
+        Brief,
+        Detailed,
         All
     }
 
@@ -51,7 +53,11 @@ namespace _3D_Engine
 
         public static Viewport Viewport_Style = Viewport.Single;
 
-        public static Verbosity Debug_Output_Verbosity = Verbosity.None;
+        // Debug
+        /// <summary>
+        /// Determines if any debug text is outputted.
+        /// </summary>
+        public static bool Debug_Output = false;
         public static Verbosity Camera_Debug_Output_Verbosity = Verbosity.None;
         public static Verbosity Light_Debug_Output_Verbosity = Verbosity.None;
         public static Verbosity Mesh_Debug_Output_Verbosity = Verbosity.None;

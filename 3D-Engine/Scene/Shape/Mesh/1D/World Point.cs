@@ -8,7 +8,7 @@ namespace _3D_Engine
         public World_Point(Vector3D origin)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(Vector3D.Unit_X, Vector3D.Unit_Y);
+            Set_Direction_1(Vector3D.Unit_X, Vector3D.Unit_Y);
 
             Vertices = new Vector4D[1]
             {

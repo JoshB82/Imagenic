@@ -32,7 +32,7 @@ namespace _3D_Engine
             Tip_Radius = tip_radius;
 
             World_Origin = start_position;
-            Set_Shape_Direction_1(Vector3D.Unit_X, Vector3D.Unit_Y);
+            Set_Direction_1(Vector3D.Unit_X, Vector3D.Unit_Y);
 
             Vector3D cone_line_intersect = (end_position - start_position) * (1 - tip_length / (end_position - start_position).Magnitude());
             Cone arrow_cone = new Cone(cone_line_intersect,,, tip_length, tip_radius, tip_resolution);

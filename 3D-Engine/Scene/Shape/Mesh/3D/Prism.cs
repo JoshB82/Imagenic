@@ -102,7 +102,7 @@ namespace _3D_Engine
         public Prism(Vector3D origin, Vector3D direction, Vector3D direction_up, double height, double radius, int resolution)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Height = height;
             Radius = radius;

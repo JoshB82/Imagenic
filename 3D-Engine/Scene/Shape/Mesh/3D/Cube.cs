@@ -38,7 +38,7 @@ namespace _3D_Engine
         public Cube(Vector3D origin, Vector3D direction, Vector3D direction_up, double side_length)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Set_Structure(side_length);
             Faces = new Face[12]
@@ -71,7 +71,7 @@ namespace _3D_Engine
         public Cube(Vector3D origin, Vector3D direction, Vector3D direction_up, double side_length, Texture texture)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Set_Structure(side_length);
             Textures = new Texture[1] { texture };
@@ -110,7 +110,7 @@ namespace _3D_Engine
         public Cube(Vector3D origin, Vector3D direction, Vector3D direction_up, double side_length, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Set_Structure(side_length);
             Textures = new Texture[6]

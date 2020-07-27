@@ -2,16 +2,9 @@
 
 namespace _3D_Engine
 {
-    public abstract partial class Mesh
+    public abstract partial class Mesh : Scene_Object
     {
         #region Fields and Properties
-
-        // Origins
-        internal Vector4D Origin { get; set; } = Vector4D.Zero;
-        /// <summary>
-        /// The position of the <see cref="Mesh"/> in world space.
-        /// </summary>
-        public Vector3D World_Origin { get; set; }
 
         // Structure
         /// <summary>
@@ -35,24 +28,6 @@ namespace _3D_Engine
         /// The <see cref="Face"/>s in the <see cref="Mesh"/>.
         /// </summary>
         public Face[] Faces { get; internal set; }
-
-        // Directions
-        internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_Z;
-        internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
-        internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
-
-        /// <summary>
-        /// The forward direction of the <see cref="Mesh"/> in world space.
-        /// </summary>
-        public Vector3D World_Direction_Forward { get; private set; }
-        /// <summary>
-        /// The up direction of the <see cref="Mesh"/> in world space.
-        /// </summary>
-        public Vector3D World_Direction_Up { get; private set; }
-        /// <summary>
-        /// The right direction of the <see cref="Mesh"/> in world space.
-        /// </summary>
-        public Vector3D World_Direction_Right { get; private set; }
 
         // Appearance
         /// <summary>
@@ -118,7 +93,6 @@ namespace _3D_Engine
         /// <summary>
         /// Determines if the <see cref="Mesh"/> is visible or not.
         /// </summary>
-        public bool Visible { get; set; } = true;
 
         // Object transformations
         internal Matrix4x4 Model_to_World { get; private set; }

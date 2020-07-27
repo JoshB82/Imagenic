@@ -64,7 +64,7 @@ namespace _3D_Engine
         public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Set_Structure(length, width, height);
             Faces = new Face[12]
@@ -99,7 +99,7 @@ namespace _3D_Engine
         public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height, Texture texture)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Set_Structure(length, width, height);
             Textures = new Texture[1] { texture };
@@ -140,7 +140,7 @@ namespace _3D_Engine
         public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Set_Structure(length, width, height);
             Textures = new Texture[6]

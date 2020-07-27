@@ -6,29 +6,6 @@ namespace _3D_Engine
     public abstract partial class Camera : Scene_Object
     {
         #region Fields and properties
-        
-        // ID
-        /// <summary>
-        /// Unique identification number for this <see cref="Camera"/>.
-        /// </summary>
-        public int ID { get; private set; }
-        private static int next_id = -1;
-
-        // Origins
-        internal Vector4D Model_Origin { get; set; } = Vector4D.Zero;
-        /// <summary>
-        /// The position of the <see cref="Camera"/> in world space.
-        /// </summary>
-        public Vector3D World_Origin { get; set; } // Default value?
-
-        // Directions
-        internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_Z;
-        internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
-        internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
-
-        public Vector3D World_Direction_Forward { get; private set; }
-        public Vector3D World_Direction_Up { get; private set; }
-        public Vector3D World_Direction_Right { get; private set; }
 
         // Matrices
         internal Matrix4x4 Model_to_World { get; set; }
@@ -59,6 +36,8 @@ namespace _3D_Engine
         /// </summary>
         public bool Draw_Near_View { get; set; } = false;
 
+        public string Icon { get; protected set; }
+
         #endregion
 
         #region Matrix calculations
@@ -76,7 +55,6 @@ namespace _3D_Engine
             // 3) Translation to final position in world space
             Model_to_World = translation * direction_up_rotation * direction_rotation;
         }
-
         internal void Calculate_World_to_View_Matrix()
         {
             // Calculate required transformations
@@ -95,13 +73,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Camera(Vector3D origin, Vector3D direction, Vector3D direction_up)
-        {
-            ID = ++next_id;
-
-            World_Origin = origin;
-            Set_Camera_Direction_1(direction, direction_up);
-        }
+        internal Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up) { }
 
         #endregion
     }

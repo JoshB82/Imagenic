@@ -51,7 +51,7 @@ namespace _3D_Engine
         public Plane(Vector3D origin, Vector3D direction, Vector3D normal, double length, double width)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, normal);
+            Set_Direction_1(direction, normal);
 
             Set_Structure(length, width);
             Faces = new Face[2]
@@ -75,7 +75,7 @@ namespace _3D_Engine
         public Plane(Vector3D origin, Vector3D direction, Vector3D normal, double length, double width, Texture texture)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, normal);
+            Set_Direction_1(direction, normal);
 
             Set_Structure(length, width);
             Textures = new Texture[1] { texture };

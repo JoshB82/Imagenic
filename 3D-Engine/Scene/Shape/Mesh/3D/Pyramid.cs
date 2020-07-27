@@ -40,7 +40,7 @@ namespace _3D_Engine
             Radius = radius;
 
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Circle pyramid_base = new Circle(origin, direction, direction_up, radius, resolution);
 

@@ -6,8 +6,6 @@ using System.Drawing.Imaging;
 
 namespace _3D_Engine
 {
-    public abstract class Scene_Object { } // Used to group scene objects together.
-
     public sealed partial class Scene
     {
         private static readonly object locker = new object();
@@ -38,9 +36,9 @@ namespace _3D_Engine
         /// </summary>
         public readonly List<Light> Lights = new List<Light>();
         /// <summary>
-        /// List of all <see cref="Shape"/>s in the current <see cref="Scene"/>.
+        /// List of all <see cref="Mesh"/>es in the current <see cref="Scene"/>.
         /// </summary>
-        public readonly List<Shape> Shapes = new List<Shape>();
+        public readonly List<Mesh> Meshes = new List<Mesh>();
         
         public bool Change_scene { get; set; } = true;
 
@@ -122,34 +120,25 @@ namespace _3D_Engine
         }
 
         #region Add to scene methods
-
-        /// <summary>
-        /// Adds an object to the <see cref="Scene"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the object to add.</typeparam>
-        /// <param name="scene_object">The object to add.</param>
-        public void Add<T>(T scene_object) where T : Scene_Object
+        
+        public void Add<T>(Scene_Object scene_object)
         {
             switch(scene_object.GetType().Name)
             {
                 case "Orthogonal_Camera":
                 case "Perspective_Camera":
-                    Cameras.Add((Camera)(object)scene_object);
+                    Cameras.Add((Camera)scene_object);
                     break;
                 case "Light":
-                    Lights.Add((Light)(object)scene_object);
+                    Lights.Add((Light)scene_object);
                     break;
                 case "Shape":
-                    Shapes.Add((Shape)(object)scene_object);
+                    Meshes.Add((Mesh)scene_object);
                     break;
             }
         }
 
-        // Probably not working
-        /// <summary>
-        /// Add objects to the <see cref="Scene"/>.
-        /// </summary>
-        /// <param name="objects">Array of objects to add.</param>
+        // Probably not working (review add method code)
         public void Add(Scene_Object[] objects)
         {
             switch (objects.GetType().Name)
@@ -162,7 +151,7 @@ namespace _3D_Engine
                     foreach (object light in objects) Lights.Add((Light)light);
                     break;
                 case "Shape[]":
-                    foreach (object shape in objects) Shapes.Add((Shape)shape);
+                    foreach (object shape in objects) Meshes.Add((Mesh)shape);
                     break;
             }
         }
@@ -171,7 +160,7 @@ namespace _3D_Engine
 
         public void Remove(int ID)
         {
-            lock (locker) Shapes.RemoveAll(x => x.ID == ID);
+            lock (locker) Meshes.RemoveAll(x => x.ID == ID);
         }
 
         /// <summary>
@@ -199,7 +188,7 @@ namespace _3D_Engine
 
                 // Calculate camera properties
                 Render_Camera.Calculate_Model_to_World_Matrix();
-                Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Model_Origin);
+                Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin);
                 //Render_Camera.Origin = Render_Camera.Model_to_World * Render_Camera.Origin;
                 Render_Camera.Calculate_World_to_View_Matrix();
                 string camera_type = Render_Camera.GetType().Name;
@@ -208,40 +197,38 @@ namespace _3D_Engine
                 //Render_Camera.Origin = world_to_view * Render_Camera.Origin;
 
                 // Draw shapes
-                foreach (Shape shape in Shapes)
+                foreach (Mesh mesh in Meshes)
                 {
-                    Mesh shape_mesh = shape.Render_Mesh;
-
                     // Calculate shape matrix
-                    shape_mesh.Calculate_Model_to_World_Matrix();
-                    Matrix4x4 model_to_world = shape_mesh.Model_to_World;
+                    mesh.Calculate_Model_to_World_Matrix();
+                    Matrix4x4 model_to_world = mesh.Model_to_World;
 
-                    shape_mesh.Origin = screen_to_window * view_to_screen * world_to_view * model_to_world * shape_mesh.Origin;
+                    mesh.Origin = screen_to_window * view_to_screen * world_to_view * model_to_world * mesh.Origin;
                         
-                    string shape_type = shape_mesh.GetType().Name;
+                    string shape_type = mesh.GetType().Name;
 
                     // Draw faces
-                    if (shape_mesh.Draw_Faces && shape_mesh.Visible)
+                    if (mesh.Draw_Faces && mesh.Visible)
                     {
-                        foreach (Face face in shape.Render_Mesh.Faces)
+                        foreach (Face face in mesh.Faces)
                         {
-                            if (face.Visible) Draw_Face(face, camera_type, shape_type, model_to_world, world_to_view, view_to_screen);
+                            if (face.Visible) Draw_Face(face, camera_type, shape_type, model_to_world, world_to_view, view_to_screen, Render_Camera);
                         }
                     }
 
                     // Draw edges
-                    if (shape_mesh.Draw_Edges && shape_mesh.Visible)
+                    if (mesh.Draw_Edges && mesh.Visible)
                     {
-                        foreach (Edge edge in shape.Render_Mesh.Edges)
+                        foreach (Edge edge in mesh.Edges)
                         {
                             if (edge.Visible) Draw_Edge(edge, camera_type, model_to_world, world_to_view, view_to_screen);
                         }
                     }
 
                     // Draw spots
-                    if (shape_mesh.Draw_Spots && shape_mesh.Visible)
+                    if (mesh.Draw_Spots && mesh.Visible)
                     {
-                        foreach (Spot spot in shape.Render_Mesh.Spots) if (spot.Visible) Draw_Spot(spot, Render_Camera);
+                        foreach (Spot spot in mesh.Spots) if (spot.Visible) Draw_Spot(spot, Render_Camera);
                     }
                 }
 

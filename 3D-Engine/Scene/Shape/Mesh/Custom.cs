@@ -31,7 +31,7 @@ namespace _3D_Engine
             Face[] faces)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Vertices = vertices;
             Spots = spots;
@@ -60,7 +60,7 @@ namespace _3D_Engine
             Texture[] textures)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Vertices = vertices;
             Spots = spots;
@@ -88,7 +88,7 @@ namespace _3D_Engine
             }
 
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
             
             List<Vector4D> vertices = new List<Vector4D>();
             List<Edge> edges = new List<Edge>();
@@ -170,7 +170,7 @@ namespace _3D_Engine
             }
 
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             List<Vector4D> vertices = new List<Vector4D>();
             List<Vector3D> texture_vertices = new List<Vector3D>();
@@ -254,7 +254,7 @@ namespace _3D_Engine
         public Custom(Vector3D origin, Vector3D direction, Vector3D direction_up, Mesh m1, Mesh m2)
         {
             World_Origin = origin;
-            Set_Shape_Direction_1(direction, direction_up);
+            Set_Direction_1(direction, direction_up);
 
             Vertices = m1.Vertices.Concat(m2.Vertices).ToArray(); // Not entirely sure how this works?
             Spots = m1.Spots.Concat(m2.Spots).ToArray();

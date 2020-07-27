@@ -8,7 +8,7 @@ namespace _3D_Engine
         public Line(Vector3D start_position, Vector3D end_position)
         {
             World_Origin = start_position;
-            Set_Shape_Direction_1(Vector3D.Unit_Z, Vector3D.Unit_Y);
+            Set_Direction_1(Vector3D.Unit_Z, Vector3D.Unit_Y);
 
             Vertices = new Vector4D[2]
             {
