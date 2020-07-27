@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     /// <summary>
     /// Handles creation of a <see cref="Plane"/> mesh.
@@ -44,39 +42,31 @@ namespace _3D_Engine
         /// Creates a <see cref="Plane"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Plane"/>.</param>
-        /// <param name="direction">The direction the <see cref="Plane"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Plane"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Plane"/>. This is also a normal to the surface of the <see cref="Plane"/>.</param>
         /// <param name="length">The length of the <see cref="Plane"/>.</param>
         /// <param name="width">The width of the <see cref="Plane"/>.</param>
-        public Plane(Vector3D origin, Vector3D direction, Vector3D normal, double length, double width)
+        public Plane(Vector3D origin, Vector3D direction_forward, Vector3D normal, double length, double width) : base(origin, direction_forward, normal)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, normal);
-
             Set_Structure(length, width);
             Faces = new Face[2]
             {
                 new Face(Vertices[0], Vertices[1], Vertices[2]), // 0
                 new Face(Vertices[0], Vertices[2], Vertices[3]) // 1
             };
-
-            Debug.WriteLine($"Plane created at {origin}");
         }
 
         /// <summary>
         /// Creates a textured <see cref="Plane"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Plane"/>.</param>
-        /// <param name="direction">The direction the <see cref="Plane"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Plane"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Plane"/>. This is also a normal to the surface of the <see cref="Plane"/>.</param>
         /// <param name="length">The length of the <see cref="Plane"/>.</param>
         /// <param name="width">The width of the <see cref="Plane"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Plane"/>.</param>
-        public Plane(Vector3D origin, Vector3D direction, Vector3D normal, double length, double width, Texture texture)
+        public Plane(Vector3D origin, Vector3D direction_forward, Vector3D normal, double length, double width, Texture texture) : base(origin, direction_forward, normal)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, normal);
-
             Set_Structure(length, width);
             Textures = new Texture[1] { texture };
             Faces = new Face[2]
@@ -84,8 +74,6 @@ namespace _3D_Engine
                 new Face(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[0], texture.Vertices[1], texture.Vertices[2], texture), // 0
                 new Face(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1
             };
-
-            Debug.WriteLine($"Plane created at {origin}");
         }
 
         private void Set_Structure(double length, double width)

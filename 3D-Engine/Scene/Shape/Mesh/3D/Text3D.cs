@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     public sealed class Text3D : Mesh
     {
@@ -15,7 +13,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Text3D(Vector3D origin, Vector3D direction, Vector3D direction_up, string[] fonts, double size, char style, double depth)
+        public Text3D(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string[] fonts, double size, char style, double depth) : base(origin, direction_forward, direction_up)
         {
 
         }

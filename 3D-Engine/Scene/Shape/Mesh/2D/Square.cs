@@ -32,37 +32,29 @@ namespace _3D_Engine
         /// Creates a <see cref="Square"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Square"/>.</param>
-        /// <param name="direction">The direction the <see cref="Square"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Square"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
         /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D direction, Vector3D normal, double side_length)
+        public Square(Vector3D origin, Vector3D direction_forward, Vector3D normal, double side_length) : base(origin, direction_forward, normal)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, normal);
-
             Set_Structure(side_length);
             Faces = new Face[2]
             {
                 new Face(Vertices[0], Vertices[1], Vertices[2]), // 0
                 new Face(Vertices[0], Vertices[2], Vertices[3]) // 1
             };
-
-            Debug.WriteLine($"Square created at {origin}");
         }
 
         /// <summary>
         /// Creates a textured <see cref="Square"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Square"/>.</param>
-        /// <param name="direction">The direction the <see cref="Square"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Square"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
         /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D direction, Vector3D normal, double side_length, Texture texture)
+        public Square(Vector3D origin, Vector3D direction_forward, Vector3D normal, double side_length, Texture texture) : base(origin, direction_forward, normal)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, normal);
-
             Set_Structure(side_length);
             Textures = new Texture[1] { texture };
             Faces = new Face[2]
@@ -70,8 +62,6 @@ namespace _3D_Engine
                 new Face(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[0], texture.Vertices[1], texture.Vertices[2], texture), // 0
                 new Face(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1
             };
-
-            Debug.WriteLine($"Square created at {origin}");
         }
 
         private void Set_Structure(double side_length)

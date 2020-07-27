@@ -112,5 +112,11 @@ namespace _3D_Engine
         }
 
         // Could world and model points be put into a single struct? With overloading possibly so the computer knows how to handle them?
+
+        #region Constructors
+
+        internal Mesh(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up) { }
+
+        #endregion
     }
 }

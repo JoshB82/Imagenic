@@ -1,14 +1,38 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     public sealed class Line : Mesh
     {
-        public Line(Vector3D start_position, Vector3D end_position)
+        #region Fields and Properties
+
+        private Vector3D start_position, end_position;
+
+        public Vector3D Start_Position
         {
-            World_Origin = start_position;
-            Set_Direction_1(Vector3D.Unit_Z, Vector3D.Unit_Y);
+            get => start_position;
+            set
+            {
+                Vector3D line_vector = end_position - start_position;
+                Scaling = new Vector3D(line_vector.X, line_vector.Y, line_vector.Z);
+            }
+        }
+        public Vector3D End_Position
+        {
+            get => end_position;
+            set
+            {
+                Vector3D line_vector = end_position - start_position;
+                Scaling = new Vector3D(line_vector.X, line_vector.Y, line_vector.Z);
+            }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        public Line(Vector3D start_position, Vector3D end_position) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y)
+        {
+            Start_Position = start_position;
+            End_Position = end_position;
 
             Vertices = new Vector4D[2]
             {
@@ -28,14 +52,8 @@ namespace _3D_Engine
             };
 
             Draw_Faces = false;
-
-            Vector3D line_vector = end_position - start_position;
-            Scaling = new Vector3D(line_vector.X, line_vector.Y, line_vector.Z);
-
-            Spot_Colour = Color.Blue;
-            Edge_Colour = Color.Black;
-
-            Debug.WriteLine($"Line created at {start_position}");
         }
+
+        #endregion
     }
 }

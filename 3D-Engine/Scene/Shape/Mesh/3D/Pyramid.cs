@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     /// <summary>
     /// Handles creation of a <see cref="Pyramid"/> mesh.
@@ -34,15 +32,12 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Pyramid(Vector3D origin, Vector3D direction, Vector3D direction_up, double height, double radius, int resolution)
+        public Pyramid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double height, double radius, int resolution) : base(origin, direction_forward, direction_up)
         {
             Height = height;
             Radius = radius;
 
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-
-            Circle pyramid_base = new Circle(origin, direction, direction_up, radius, resolution);
+            Circle pyramid_base = new Circle(origin, direction_forward, direction_up, radius, resolution);
 
             Vertices = new Vector4D[resolution + 2];
             Vertices[resolution + 1] = new Vector4D(0, 1, 0);
@@ -65,8 +60,6 @@ namespace _3D_Engine
             for (int i = 0; i < resolution; i++) Faces[i] = pyramid_base.Faces[i];
             for (int i = resolution; i < 2 * resolution - 1; i++) Faces[i] = new Face(Vertices[i - resolution + 1], Vertices[resolution + 1], Vertices[i - resolution + 2]);
             Faces[2 * resolution - 1] = new Face(Vertices[resolution], Vertices[resolution + 1], Vertices[1]);
-
-            Debug.WriteLine($"Pyramid created at {origin}");
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿namespace _3D_Engine
 {
-    public abstract partial class Mesh
+    public abstract partial class Mesh : Scene_Object
     {
         #region Scaling
 

@@ -1,15 +1,13 @@
-﻿using System.Diagnostics;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
-    #region Fields and Properties
-    #endregion
-
-    #region Constructors
-
     public sealed class Bézier_Curve
     {
-    }
+        #region Fields and Properties
 
-    #endregion
+        #endregion
+
+        #region Constructors
+
+        #endregion
+    }
 }

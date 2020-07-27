@@ -18,67 +18,57 @@ namespace _3D_Engine
         /// Creates a <see cref="Custom"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
-        /// <param name="direction">The direction the <see cref="Custom"/> mesh faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
         /// <param name="vertices">The vertices that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="spots">The <see cref="Spot"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="edges">The <see cref="Edge"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="faces">The <see cref="Face"/>s that make up the <see cref="Custom"/> mesh.</param>
-        public Custom(Vector3D origin, Vector3D direction, Vector3D direction_up,
+        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up,
             Vector4D[] vertices,
             Spot[] spots,
             Edge[] edges,
-            Face[] faces)
+            Face[] faces) : base(origin, direction_forward, direction_up)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-
             Vertices = vertices;
             Spots = spots;
             Edges = edges;
             Faces = faces;
-
-            Debug.WriteLine($"Custom mesh created at {origin}");
         }
 
         /// <summary>
         /// Creates a textured <see cref="Custom"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
-        /// <param name="direction">The direction the <see cref="Custom"/> mesh faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
         /// <param name="vertices">The vertices that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="spots">The <see cref="Spot"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="edges">The <see cref="Edge"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="faces">The <see cref="Face"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="textures">The <see cref="Texture"/>s that make up the surface of the <see cref="Custom"/> mesh.</param>
-        public Custom(Vector3D origin, Vector3D direction, Vector3D direction_up,
+        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up,
             Vector4D[] vertices,
             Spot[] spots,
             Edge[] edges,
             Face[] faces,
-            Texture[] textures)
+            Texture[] textures) : base(origin, direction_forward, direction_up)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-
             Vertices = vertices;
             Spots = spots;
             Edges = edges;
             Faces = faces;
             Textures = textures;
-
-            Debug.WriteLine($"Custom mesh created at {origin}");
         }
 
         /// <summary>
         /// Creates a <see cref="Custom"/> mesh from an OBJ file.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
-        /// <param name="direction">The direction the <see cref="Custom"/> mesh faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
         /// <param name="file_path">The path to the OBJ file.</param>
-        public Custom(Vector3D origin, Vector3D direction, Vector3D direction_up, string file_path)
+        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string file_path) : base(origin, direction_forward, direction_up)
         {
             // Check if the file exists
             if (!File.Exists(file_path))
@@ -87,9 +77,6 @@ namespace _3D_Engine
                 return;
             }
 
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-            
             List<Vector4D> vertices = new List<Vector4D>();
             List<Edge> edges = new List<Edge>();
             List<Face> faces = new List<Face>();
@@ -148,19 +135,17 @@ namespace _3D_Engine
             Draw_Spots = false;
             Edges = edges.ToArray();
             Faces = faces.ToArray();
-            
-            Debug.WriteLine($"Custom mesh created at {origin}");
         }
 
         /// <summary>
         /// Creates a textured <see cref="Custom"/> mesh from an OBJ file.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
-        /// <param name="direction">The direction the <see cref="Custom"/> mesh faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
         /// <param name="file_path">The path to the OBJ file.</param>
         /// <param name="texture">The <see cref="Bitmap"/> that makes up the surface of the <see cref="Custom"/> mesh.</param>
-        public Custom(Vector3D origin, Vector3D direction, Vector3D direction_up, string file_path, Bitmap texture)
+        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string file_path, Bitmap texture) : base(origin, direction_forward, direction_up)
         {
             // Check if the file exists
             if (!File.Exists(file_path))
@@ -168,9 +153,6 @@ namespace _3D_Engine
                 Debug.WriteLine($"Error generating Custom mesh: {file_path} not found.");
                 return;
             }
-
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
 
             List<Vector4D> vertices = new List<Vector4D>();
             List<Vector3D> texture_vertices = new List<Vector3D>();
@@ -239,30 +221,23 @@ namespace _3D_Engine
             Edges = edges.ToArray();
             Faces = faces.ToArray();
             Textures = new Texture[] { new Texture(texture, texture_vertices.ToArray()) };
-
-            Debug.WriteLine($"Custom mesh created at {origin}");
         }
 
         /// <summary>
         /// Creates a <see cref="Custom"/> mesh from joining two other meshes.
         /// </summary>
         /// <param name="origin">The position of the resultant <see cref="Custom"/> mesh.</param>
-        /// <param name="direction">The direction the resultant <see cref="Custom"/> mesh faces.</param>
+        /// <param name="direction_forward">The direction the resultant <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the resultant <see cref="Custom"/> mesh.</param>
         /// <param name="m1">The first <see cref="Mesh"/> to be joined.</param>
         /// <param name="m2">The second <see cref="Mesh"/> to be joined.</param>
-        public Custom(Vector3D origin, Vector3D direction, Vector3D direction_up, Mesh m1, Mesh m2)
+        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, Mesh m1, Mesh m2) : base(origin, direction_forward, direction_up)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-
             Vertices = m1.Vertices.Concat(m2.Vertices).ToArray(); // Not entirely sure how this works?
             Spots = m1.Spots.Concat(m2.Spots).ToArray();
             Edges = m1.Edges.Concat(m2.Edges).ToArray();
             Faces = m1.Faces.Concat(m2.Faces).ToArray();
             Textures = m1.Textures.Concat(m2.Textures).ToArray();
-
-            Debug.WriteLine($"Custom mesh created at {origin}");
         }
 
         #endregion

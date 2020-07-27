@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     /// <summary>
     /// Handles creation of a <see cref="Cuboid"/> mesh.
@@ -56,16 +54,13 @@ namespace _3D_Engine
         /// Creates a <see cref="Cuboid"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
-        /// <param name="direction">The direction the <see cref="Cuboid"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Cuboid"/> faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Cuboid"/>.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height)
+        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double length, double width, double height) : base(origin, direction_forward, direction_up)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-
             Set_Structure(length, width, height);
             Faces = new Face[12]
             {
@@ -82,25 +77,20 @@ namespace _3D_Engine
                 new Face(Vertices[4], Vertices[5], Vertices[1]), // 10
                 new Face(Vertices[4], Vertices[1], Vertices[0]) // 11
             };
-
-            Debug.WriteLine($"Cuboid created at {origin}");
         }
 
         /// <summary>
         /// Creates a textured <see cref="Cuboid"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
-        /// <param name="direction">The direction the <see cref="Cuboid"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Cuboid"/> faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Cuboid"/>.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height, Texture texture)
+        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double length, double width, double height, Texture texture) : base(origin, direction_forward, direction_up)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-
             Set_Structure(length, width, height);
             Textures = new Texture[1] { texture };
             Faces = new Face[12]
@@ -118,15 +108,13 @@ namespace _3D_Engine
                 new Face(Vertices[4], Vertices[5], Vertices[1], texture.Vertices[3], texture.Vertices[2], texture.Vertices[1], texture), // 10
                 new Face(Vertices[4], Vertices[1], Vertices[0], texture.Vertices[3], texture.Vertices[1], texture.Vertices[0], texture) // 11
             };
-
-            Debug.WriteLine($"Cuboid created at {origin}");
         }
 
         /// <summary>
         /// Creates a textured <see cref="Cuboid"/> mesh, specifying a <see cref="Texture"/> for each side.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
-        /// <param name="direction">The direction the <see cref="Cuboid"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Cuboid"/> faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Cuboid"/>.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
@@ -137,11 +125,8 @@ namespace _3D_Engine
         /// <param name="left">The <see cref="Texture"/> for the left face of the <see cref="Cuboid"/>.</param>
         /// <param name="top">The <see cref="Texture"/> for the top face of the <see cref="Cuboid"/>.</param>
         /// <param name="bottom">The <see cref="Texture"/> for the bottom face of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D direction, Vector3D direction_up, double length, double width, double height, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom)
+        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double length, double width, double height, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom) : base(origin, direction_forward, direction_up)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-
             Set_Structure(length, width, height);
             Textures = new Texture[6]
             {
@@ -167,8 +152,6 @@ namespace _3D_Engine
                 new Face(Vertices[4], Vertices[5], Vertices[1], bottom.Vertices[3], bottom.Vertices[2], bottom.Vertices[1], bottom), // 10
                 new Face(Vertices[4], Vertices[1], Vertices[0], bottom.Vertices[3], bottom.Vertices[1], bottom.Vertices[0], bottom) // 11
             };
-
-            Debug.WriteLine($"Cuboid created at {origin}");
         }
 
         private void Set_Structure(double length, double width, double height)

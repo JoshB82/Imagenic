@@ -1,11 +1,9 @@
-﻿using System.Diagnostics;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     /// <summary>
     /// Handles creation of a <see cref="Torus"/> mesh.
     /// </summary>
-    public sealed class Torus
+    public sealed class Torus : Mesh
     {
         #region Fields and Properties
 
@@ -16,7 +14,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Torus(Vector3D origin, Vector3D direction, Vector3D direction_up, double radius, double inner_radius, double outer_radius)
+        public Torus(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double radius, double inner_radius, double outer_radius) : base(origin, direction_forward, direction_up)
         {
 
         }

@@ -19,6 +19,11 @@
             Collection of settings.
             </summary>
         </member>
+        <member name="F:_3D_Engine.Settings.Debug_Output">
+            <summary>
+            Determines if any debug text is outputted.
+            </summary>
+        </member>
         <member name="T:_3D_Engine.Matrix4x4">
             <summary>
             Handles creation of a <see cref="T:_3D_Engine.Matrix4x4"/> (square matrix with four rows and four columns).
@@ -61,16 +66,6 @@
         <member name="T:_3D_Engine.Vector4D">
             <summary>
             Handles constructors and operations involving four-dimensional vectors for use in 3D graphics.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Camera.ID">
-            <summary>
-            Unique identification number for this <see cref="T:_3D_Engine.Camera"/>.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Camera.World_Origin">
-            <summary>
-            The position of the <see cref="T:_3D_Engine.Camera"/> in world space.
             </summary>
         </member>
         <member name="P:_3D_Engine.Camera.Draw_Camera_Model">
@@ -147,9 +142,9 @@
             List of all <see cref="T:_3D_Engine.Light"/>s in the current <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
-        <member name="F:_3D_Engine.Scene.Shapes">
+        <member name="F:_3D_Engine.Scene.Meshes">
             <summary>
-            List of all <see cref="T:_3D_Engine.Shape"/>s in the current <see cref="T:_3D_Engine.Scene"/>.
+            List of all <see cref="T:_3D_Engine.Mesh"/>es in the current <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Scene.Width">
@@ -170,27 +165,84 @@
             <param name="width">The width of the <see cref="T:_3D_Engine.Scene"/>.</param>
             <param name="height">The height of the <see cref="T:_3D_Engine.Scene"/>.</param>
         </member>
-        <member name="M:_3D_Engine.Scene.Add``1(``0)">
-            <summary>
-            Adds an object to the <see cref="T:_3D_Engine.Scene"/>.
-            </summary>
-            <typeparam name="T">The type of the object to add.</typeparam>
-            <param name="scene_object">The object to add.</param>
-        </member>
-        <member name="M:_3D_Engine.Scene.Add(_3D_Engine.Scene_Object[])">
-            <summary>
-            Add objects to the <see cref="T:_3D_Engine.Scene"/>.
-            </summary>
-            <param name="objects">Array of objects to add.</param>
-        </member>
         <member name="M:_3D_Engine.Scene.Render">
             <summary>
             Renders the <see cref="T:_3D_Engine.Scene"/>. A Render Camera must be set before this method is called.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Light.ID">
+        <member name="M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
-            Unique identification number for this <see cref="T:_3D_Engine.Light"/>.
+            Sets the forward, up and right directions given the forward and up directions.
+            </summary>
+            <param name="new_world_direction_forward">The forward direction.</param>
+            <param name="new_world_direction_up">The up direction.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene_Object.Set_Direction_2(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Sets the forward, up and right directions given the up and right directions.
+            </summary>
+            <param name="new_world_direction_up">The up direction.</param>
+            <param name="new_world_direction_right">The right direction.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene_Object.Set_Direction_3(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Sets the forward, up and right directions given the right and forward directions.
+            </summary>
+            <param name="new_world_direction_right">The right direction.</param>
+            <param name="new_world_direction_forward">The forward direction.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene_Object.Translate_X(System.Double)">
+            <summary>
+            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the x-direction.
+            </summary>
+            <param name="distance">Amount to translate by.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene_Object.Translate_Y(System.Double)">
+            <summary>
+            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the y-direction.
+            </summary>
+            <param name="distance">Amount to translate by.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene_Object.Translate_Z(System.Double)">
+            <summary>
+            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the z-direction.
+            </summary>
+            <param name="distance">Amount to translate by.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene_Object.Translate(_3D_Engine.Vector3D)">
+            <summary>
+            Translates the <see cref="T:_3D_Engine.Scene_Object"/> by the given vector.
+            </summary>
+            <param name="displacement">Vector to translate by.</param>
+        </member>
+        <member name="P:_3D_Engine.Scene_Object.ID">
+            <summary>
+            Identification number.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Scene_Object.World_Origin">
+            <summary>
+            The position of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Scene_Object.World_Direction_Forward">
+            <summary>
+            The forward direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Scene_Object.World_Direction_Up">
+            <summary>
+            The up direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Scene_Object.World_Direction_Right">
+            <summary>
+            The right direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Scene_Object.Visible">
+            <summary>
+            Determines whether the <see cref="T:_3D_Engine.Scene_Object"/> is visible or not.
             </summary>
         </member>
         <member name="T:_3D_Engine.Spot">
@@ -259,6 +311,11 @@
             <see cref="T:System.Drawing.Color"/> used to fill outside of <see cref="T:_3D_Engine.Texture"/> should <see cref="F:_3D_Engine.Outside_Texture_Behaviour.Colour_Fill"/> be selected for Outside_Behaviour.
             </summary>
         </member>
+        <member name="T:_3D_Engine.World_Point">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.World_Point"/> mesh.
+            </summary>
+        </member>
         <member name="T:_3D_Engine.Circle">
             <summary>
             Handles creation of a <see cref="T:_3D_Engine.Circle"/> mesh.
@@ -279,7 +336,7 @@
             Creates a <see cref="T:_3D_Engine.Circle"/> mesh.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Circle"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Circle"/> faces.</param>
             <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Circle"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Circle"/>.</param>
             <param name="radius">The radius of the <see cref="T:_3D_Engine.Circle"/>.</param>
             <param name="resolution">The number of points that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.</param>
@@ -289,7 +346,7 @@
             Creates a textured <see cref="T:_3D_Engine.Circle"/> mesh, specifying a single <see cref="T:_3D_Engine.Texture"/> for all sides.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Circle"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Circle"/> faces.</param>
             <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Circle"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Circle"/>.</param>
             <param name="radius">The radius of the <see cref="T:_3D_Engine.Circle"/>.</param>
             <param name="resolution">The number of points that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.</param>
@@ -315,7 +372,7 @@
             Creates a <see cref="T:_3D_Engine.Plane"/> mesh.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Plane"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Plane"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Plane"/> faces.</param>
             <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Plane"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Plane"/>.</param>
             <param name="length">The length of the <see cref="T:_3D_Engine.Plane"/>.</param>
             <param name="width">The width of the <see cref="T:_3D_Engine.Plane"/>.</param>
@@ -325,7 +382,7 @@
             Creates a textured <see cref="T:_3D_Engine.Plane"/> mesh, specifying a single <see cref="T:_3D_Engine.Texture"/> for all sides.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Plane"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Plane"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Plane"/> faces.</param>
             <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Plane"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Plane"/>.</param>
             <param name="length">The length of the <see cref="T:_3D_Engine.Plane"/>.</param>
             <param name="width">The width of the <see cref="T:_3D_Engine.Plane"/>.</param>
@@ -346,7 +403,7 @@
             Creates a <see cref="T:_3D_Engine.Square"/> mesh.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Square"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Square"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Square"/> faces.</param>
             <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Square"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Square"/>.</param>
             <param name="side_length">The length of each side of the <see cref="T:_3D_Engine.Square"/>.</param>
         </member>
@@ -355,7 +412,7 @@
             Creates a textured <see cref="T:_3D_Engine.Square"/> mesh, specifying a single <see cref="T:_3D_Engine.Texture"/> for all sides.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Square"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Square"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Square"/> faces.</param>
             <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Square"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Square"/>.</param>
             <param name="side_length">The length of each side of the <see cref="T:_3D_Engine.Square"/>.</param>
             <param name="texture">The <see cref="T:_3D_Engine.Texture"/> that defines what to draw on each surface of the <see cref="T:_3D_Engine.Square"/>.</param>
@@ -381,7 +438,7 @@
             Creates a <see cref="T:_3D_Engine.Cube"/> mesh.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Cube"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Cube"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Cube"/> faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cube"/>.</param>
             <param name="side_length">The length of each side of the <see cref="T:_3D_Engine.Cube"/>.</param>
         </member>
@@ -390,7 +447,7 @@
             Creates a textured <see cref="T:_3D_Engine.Cube"/> mesh, specifying a single <see cref="T:_3D_Engine.Texture"/> for all sides.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Cube"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Cube"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Cube"/> faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cube"/>.</param>
             <param name="side_length">The length of each side of the <see cref="T:_3D_Engine.Cube"/>.</param>
             <param name="texture">The <see cref="T:_3D_Engine.Texture"/> that defines what to draw on each surface of the <see cref="T:_3D_Engine.Cube"/>.</param>
@@ -400,7 +457,7 @@
             Creates a textured <see cref="T:_3D_Engine.Cube"/> mesh, specifying a <see cref="T:_3D_Engine.Texture"/> for each side.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Cube"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Cube"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Cube"/> faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cube"/>.</param>
             <param name="side_length">The length of each side of the <see cref="T:_3D_Engine.Cube"/>.</param>
             <param name="front">The <see cref="T:_3D_Engine.Texture"/> for the front face of the <see cref="T:_3D_Engine.Cube"/>.</param>
@@ -441,7 +498,7 @@
             Creates a <see cref="T:_3D_Engine.Cuboid"/> mesh.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Cuboid"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Cuboid"/> faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
             <param name="length">The length of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
             <param name="width">The width of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
@@ -452,7 +509,7 @@
             Creates a textured <see cref="T:_3D_Engine.Cuboid"/> mesh, specifying a single <see cref="T:_3D_Engine.Texture"/> for all sides.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Cuboid"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Cuboid"/> faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
             <param name="length">The length of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
             <param name="width">The width of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
@@ -464,7 +521,7 @@
             Creates a textured <see cref="T:_3D_Engine.Cuboid"/> mesh, specifying a <see cref="T:_3D_Engine.Texture"/> for each side.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Cuboid"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Cuboid"/> faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
             <param name="length">The length of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
             <param name="width">The width of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
@@ -501,7 +558,7 @@
             Creates a <see cref="T:_3D_Engine.Prism"/> mesh.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Prism"/>.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Prism"/> faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Prism"/> faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Prism"/>.</param>
             <param name="height">The height of the <see cref="T:_3D_Engine.Prism"/>.</param>
             <param name="radius">The radius of the top and bottom <see cref="T:_3D_Engine.Circle"/>s that make up the <see cref="T:_3D_Engine.Prism"/>.</param>
@@ -527,7 +584,7 @@
             Creates a <see cref="T:_3D_Engine.Custom"/> mesh.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="vertices">The vertices that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="spots">The <see cref="T:_3D_Engine.Spot"/>s that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
@@ -539,7 +596,7 @@
             Creates a textured <see cref="T:_3D_Engine.Custom"/> mesh.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="vertices">The vertices that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="spots">The <see cref="T:_3D_Engine.Spot"/>s that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
@@ -552,7 +609,7 @@
             Creates a <see cref="T:_3D_Engine.Custom"/> mesh from an OBJ file.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="file_path">The path to the OBJ file.</param>
         </member>
@@ -561,7 +618,7 @@
             Creates a textured <see cref="T:_3D_Engine.Custom"/> mesh from an OBJ file.
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
-            <param name="direction">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="file_path">The path to the OBJ file.</param>
             <param name="texture">The <see cref="T:System.Drawing.Bitmap"/> that makes up the surface of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
@@ -571,15 +628,10 @@
             Creates a <see cref="T:_3D_Engine.Custom"/> mesh from joining two other meshes.
             </summary>
             <param name="origin">The position of the resultant <see cref="T:_3D_Engine.Custom"/> mesh.</param>
-            <param name="direction">The direction the resultant <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
+            <param name="direction_forward">The direction the resultant <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
             <param name="direction_up">The upward orientation of the resultant <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="m1">The first <see cref="T:_3D_Engine.Mesh"/> to be joined.</param>
             <param name="m2">The second <see cref="T:_3D_Engine.Mesh"/> to be joined.</param>
-        </member>
-        <member name="P:_3D_Engine.Mesh.World_Origin">
-            <summary>
-            The position of the <see cref="T:_3D_Engine.Mesh"/> in world space.
-            </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Textures">
             <summary>
@@ -604,21 +656,6 @@
         <member name="P:_3D_Engine.Mesh.Faces">
             <summary>
             The <see cref="T:_3D_Engine.Face"/>s in the <see cref="T:_3D_Engine.Mesh"/>.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.World_Direction_Forward">
-            <summary>
-            The forward direction of the <see cref="T:_3D_Engine.Mesh"/> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.World_Direction_Up">
-            <summary>
-            The up direction of the <see cref="T:_3D_Engine.Mesh"/> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.World_Direction_Right">
-            <summary>
-            The right direction of the <see cref="T:_3D_Engine.Mesh"/> in world space.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Draw_Spots">
@@ -656,38 +693,10 @@
             Determines if an outline is drawn with the <see cref="T:_3D_Engine.Mesh"/>.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Mesh.Visible">
+        <member name="P:_3D_Engine.Mesh.Model_to_World">
             <summary>
             Determines if the <see cref="T:_3D_Engine.Mesh"/> is visible or not.
             </summary>
-        </member>
-        <member name="P:_3D_Engine.Shape.ID">
-            <summary>
-            Unique identification number for this shape.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Shape.Selected">
-            <summary>
-            Determines if the shape is selected or not.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Shape.Visible">
-            <summary>
-            Determines if the shape is visible or not.
-            </summary>
-        </member>
-        <member name="M:_3D_Engine.Shape.#ctor(_3D_Engine.Mesh,_3D_Engine.Mesh)">
-            <summary>
-            Create a shape with a collision mesh and a render mesh.
-            </summary>
-            <param name="collision_mesh">The mesh that will be used when determing collisions.</param>
-            <param name="render_mesh">The mesh that will be rendered to the screen.</param>
-        </member>
-        <member name="M:_3D_Engine.Shape.#ctor(_3D_Engine.Mesh)">
-            <summary>
-            Create a shape with a render mesh that is also a collision mesh.
-            </summary>
-            <param name="render_mesh">The mesh that will be rendered and used for determining collisions.</param>
         </member>
         <member name="M:_3D_Engine.Transform.Calculate_Direction_Forward(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>

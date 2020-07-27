@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace _3D_Engine
 {
@@ -69,40 +68,30 @@ namespace _3D_Engine
         /// Creates a <see cref="Circle"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Circle"/>.</param>
-        /// <param name="direction">The direction the <see cref="Circle"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Circle"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
         /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of points that are on the perimeter of the <see cref="Circle"/>.</param>
-        public Circle(Vector3D origin, Vector3D direction, Vector3D normal, double radius, int resolution)
+        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution) : base(origin, direction_forward, normal)
         {
             Radius = radius;
             Resolution = resolution;
-
-            World_Origin = origin;
-            Set_Direction_1(direction, normal);
-
-            Debug.WriteLine($"Circle created at {origin}");
         }
 
         /// <summary>
         /// Creates a textured <see cref="Circle"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Circle"/>.</param>
-        /// <param name="direction">The direction the <see cref="Circle"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Circle"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
         /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of points that are on the perimeter of the <see cref="Circle"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Circle"/>.</param>
-        public Circle(Vector3D origin, Vector3D direction, Vector3D normal, double radius, int resolution, Texture texture)
+        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution, Texture texture) : base(origin, direction_forward, normal)
         {
             Radius = radius;
             Textures = new Texture[1] { texture };
             Resolution = resolution;
-
-            World_Origin = origin;
-            Set_Direction_1(direction, normal);
-            
-            Debug.WriteLine($"Circle created at {origin}");
         }
 
         #endregion

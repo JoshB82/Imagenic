@@ -139,19 +139,19 @@ namespace _3D_Engine
         }
 
         // Probably not working (review add method code)
-        public void Add(Scene_Object[] objects)
+        public void Add(Scene_Object[] scene_objects)
         {
-            switch (objects.GetType().Name)
+            switch (scene_objects.GetType().Name)
             {
                 case "Orthogonal_Camera[]":
                 case "Perspective_Camera[]":
-                    foreach (Camera camera in objects) Cameras.Add(camera);
+                    foreach (Camera camera in scene_objects) Cameras.Add(camera);
                     break;
                 case "Light[]":
-                    foreach (Light light in objects) Lights.Add(light);
+                    foreach (Light light in scene_objects) Lights.Add(light);
                     break;
                 case "Shape[]":
-                    foreach (Mesh mesh in objects) Meshes.Add(mesh);
+                    foreach (Mesh mesh in scene_objects) Meshes.Add(mesh);
                     break;
             }
         }

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     /// <summary>
     /// Handles creation of a <see cref="Prism"/> mesh.
@@ -94,21 +92,16 @@ namespace _3D_Engine
         /// Creates a <see cref="Prism"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Prism"/>.</param>
-        /// <param name="direction">The direction the <see cref="Prism"/> faces.</param>
+        /// <param name="direction_forward">The direction the <see cref="Prism"/> faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Prism"/>.</param>
         /// <param name="height">The height of the <see cref="Prism"/>.</param>
         /// <param name="radius">The radius of the top and bottom <see cref="Circle"/>s that make up the <see cref="Prism"/>.</param>
         /// <param name="resolution">The number of points that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Prism"/>.</param>
-        public Prism(Vector3D origin, Vector3D direction, Vector3D direction_up, double height, double radius, int resolution)
+        public Prism(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double height, double radius, int resolution) : base(origin, direction_forward, direction_up)
         {
-            World_Origin = origin;
-            Set_Direction_1(direction, direction_up);
-
             Height = height;
             Radius = radius;
             Resolution = resolution;
-
-            Debug.WriteLine($"Prism created at {origin}");
         }
 
         #endregion
