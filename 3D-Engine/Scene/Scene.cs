@@ -121,7 +121,7 @@ namespace _3D_Engine
 
         #region Add to scene methods
         
-        public void Add<T>(Scene_Object scene_object)
+        public void Add(Scene_Object scene_object)
         {
             switch(scene_object.GetType().Name)
             {
@@ -145,13 +145,13 @@ namespace _3D_Engine
             {
                 case "Orthogonal_Camera[]":
                 case "Perspective_Camera[]":
-                    foreach (object camera in objects) Cameras.Add((Camera)camera);
+                    foreach (Camera camera in objects) Cameras.Add(camera);
                     break;
                 case "Light[]":
-                    foreach (object light in objects) Lights.Add((Light)light);
+                    foreach (Light light in objects) Lights.Add(light);
                     break;
                 case "Shape[]":
-                    foreach (object shape in objects) Meshes.Add((Mesh)shape);
+                    foreach (Mesh mesh in objects) Meshes.Add(mesh);
                     break;
             }
         }
