@@ -93,7 +93,7 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Calculates a normal vector to a plane defined by three points. Looking in the direction of the vector, the points are arranged in an anticlockwise order.
+        /// Calculates a normal vector to a plane defined by three points. Looking in the direction of the desired normal vector, the points are arranged in an anticlockwise order.
         /// </summary>
         /// <param name="p1">First point on the plane.</param>
         /// <param name="p2">Second point on the plane.</param>

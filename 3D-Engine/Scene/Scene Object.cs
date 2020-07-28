@@ -12,7 +12,7 @@ namespace _3D_Engine
         private static int next_id = -1;
 
         // Origins
-        internal Vector4D Origin { get; set; }
+        internal Vector4D Origin { get; set; } = Vector4D.Zero;
         /// <summary>
         /// The position of the <see cref="Scene_Object"/> in world space.
         /// </summary>

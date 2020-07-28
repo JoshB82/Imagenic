@@ -121,18 +121,21 @@ namespace _3D_Engine
 
         #region Add to scene methods
         
+        /// <summary>
+        /// Adds a <see cref="Scene_Object"/> to the <see cref="Scene"/>.
+        /// </summary>
+        /// <param name="scene_object"><see cref="Scene_Object"/> to add.</param>
         public void Add(Scene_Object scene_object)
         {
-            switch(scene_object.GetType().Name)
+            switch(scene_object.GetType().BaseType.Name)
             {
-                case "Orthogonal_Camera":
-                case "Perspective_Camera":
+                case "Camera":
                     Cameras.Add((Camera)scene_object);
                     break;
                 case "Light":
                     Lights.Add((Light)scene_object);
                     break;
-                case "Shape":
+                case "Mesh":
                     Meshes.Add((Mesh)scene_object);
                     break;
             }
@@ -150,7 +153,7 @@ namespace _3D_Engine
                 case "Light[]":
                     foreach (Light light in scene_objects) Lights.Add(light);
                     break;
-                case "Shape[]":
+                case "Mesh[]":
                     foreach (Mesh mesh in scene_objects) Meshes.Add(mesh);
                     break;
             }
@@ -183,52 +186,55 @@ namespace _3D_Engine
                 Bitmap temp_canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
 
                 // Reset buffers
-                for (int i = 0; i < width; i++) for (int j = 0; j < height; j++) z_buffer[i][j] = 2; // 2 is always greater than anything to be rendered??///
-                for (int i = 0; i < width; i++) for (int j = 0; j < height; j++) colour_buffer[i][j] = Background_Colour;
+                for (int i = 0; i < width; i++) for (int j = 0; j < height; j++)
+                {
+                    z_buffer[i][j] = 2;
+                    colour_buffer[i][j] = Background_Colour;
+                }
 
                 // Calculate camera properties
                 Render_Camera.Calculate_Model_to_World_Matrix();
                 Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin);
-                //Render_Camera.Origin = Render_Camera.Model_to_World * Render_Camera.Origin;
                 Render_Camera.Calculate_World_to_View_Matrix();
                 string camera_type = Render_Camera.GetType().Name;
                 Matrix4x4 world_to_view = Render_Camera.World_to_View;
                 Matrix4x4 view_to_screen = Render_Camera.View_to_Screen;
-                //Render_Camera.Origin = world_to_view * Render_Camera.Origin;
 
-                // Draw shapes
+                // Draw meshes
                 foreach (Mesh mesh in Meshes)
                 {
-                    // Calculate shape matrix
                     mesh.Calculate_Model_to_World_Matrix();
                     Matrix4x4 model_to_world = mesh.Model_to_World;
 
                     mesh.Origin = screen_to_window * view_to_screen * world_to_view * model_to_world * mesh.Origin;
                         
-                    string shape_type = mesh.GetType().Name;
+                    string mesh_type = mesh.GetType().Name;
 
-                    // Draw faces
-                    if (mesh.Draw_Faces && mesh.Visible)
+                    if (mesh.Visible)
                     {
-                        foreach (Face face in mesh.Faces)
+                        // Draw faces
+                        if (mesh.Draw_Faces)
                         {
-                            if (face.Visible) Draw_Face(face, camera_type, shape_type, model_to_world, world_to_view, view_to_screen, Render_Camera);
+                            foreach (Face face in mesh.Faces)
+                            {
+                                if (face.Visible) Draw_Face(face, camera_type, mesh_type, model_to_world, world_to_view, view_to_screen, Render_Camera);
+                            }
                         }
-                    }
 
-                    // Draw edges
-                    if (mesh.Draw_Edges && mesh.Visible)
-                    {
-                        foreach (Edge edge in mesh.Edges)
+                        // Draw edges
+                        if (mesh.Draw_Edges)
                         {
-                            if (edge.Visible) Draw_Edge(edge, camera_type, model_to_world, world_to_view, view_to_screen);
+                            foreach (Edge edge in mesh.Edges)
+                            {
+                                if (edge.Visible) Draw_Edge(edge, camera_type, model_to_world, world_to_view, view_to_screen);
+                            }
                         }
-                    }
 
-                    // Draw spots
-                    if (mesh.Draw_Spots && mesh.Visible)
-                    {
-                        foreach (Spot spot in mesh.Spots) if (spot.Visible) Draw_Spot(spot, Render_Camera);
+                        // Draw spots
+                        if (mesh.Draw_Spots)
+                        {
+                            foreach (Spot spot in mesh.Spots) if (spot.Visible) Draw_Spot(spot, Render_Camera);
+                        }
                     }
                 }
 

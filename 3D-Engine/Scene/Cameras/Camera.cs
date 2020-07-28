@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Net.NetworkInformation;
 
 namespace _3D_Engine
 {
@@ -42,7 +42,7 @@ namespace _3D_Engine
 
         #region Matrix calculations
         
-        internal void Calculate_Model_to_World_Matrix()
+        internal void Calculate_Model_to_World_Matrix() // make part of get
         {
             // Calculate required transformations
             Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
@@ -135,8 +135,6 @@ namespace _3D_Engine
             Z_Near = z_near;
             Z_Far = z_far;
             Calculate_Clipping_Planes();
-
-            Debug.WriteLine($"Orthogonal camera created at {origin}");
         }
 
         public Orthogonal_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double width, double height, double z_near, double z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
@@ -166,12 +164,12 @@ namespace _3D_Engine
 
             View_Clipping_Planes = new Clipping_Plane[]
             {
-                    new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Z), // Near z
-                    new Clipping_Plane(far_top_left_point, Vector3D.Unit_Negative_Z), // Far z
-                    new Clipping_Plane(near_bottom_left_point, bottom_normal), // Bottom
-                    new Clipping_Plane(near_bottom_left_point, left_normal), // Left
-                    new Clipping_Plane(near_top_right_point, top_normal), // Top
-                    new Clipping_Plane(near_top_right_point, right_normal) // Right
+                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Z), // Near z
+                new Clipping_Plane(far_top_left_point, Vector3D.Unit_Negative_Z), // Far z
+                new Clipping_Plane(near_bottom_left_point, bottom_normal), // Bottom
+                new Clipping_Plane(near_bottom_left_point, left_normal), // Left
+                new Clipping_Plane(near_top_right_point, top_normal), // Top
+                new Clipping_Plane(near_top_right_point, right_normal) // Right
             };
         }
     }
@@ -234,8 +232,6 @@ namespace _3D_Engine
             Width = width;
             Height = height;
             Calculate_Clipping_Planes();
-
-            Debug.WriteLine($"Perspective camera created at {origin}");
         }
 
         public Perspective_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double width, double height, double z_near, double z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
@@ -248,7 +244,7 @@ namespace _3D_Engine
 
         internal override void Calculate_Clipping_Planes()
         {
-            double semi_width = Width / 2, semi_height = Height / 2, z_ratio = Z_Far / Z_Near;
+            double semi_width = Width / 2, semi_height = Height / 2, z_ratio = Z_Far / Z_Near; // put in get
 
             Vector3D near_bottom_left_point = new Vector3D(-semi_width, -semi_height, Z_Near);
             Vector3D near_bottom_right_point = new Vector3D(semi_width, -semi_height, Z_Near);
@@ -265,12 +261,12 @@ namespace _3D_Engine
 
             View_Clipping_Planes = new Clipping_Plane[]
             {
-                    new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Z), // Near z
-                    new Clipping_Plane(far_top_left_point, Vector3D.Unit_Negative_Z), // Far z
-                    new Clipping_Plane(near_bottom_left_point, bottom_normal), // Bottom
-                    new Clipping_Plane(near_bottom_left_point, left_normal), // Left
-                    new Clipping_Plane(near_top_right_point, top_normal), // Top
-                    new Clipping_Plane(near_top_right_point, right_normal) // Right
+                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Z), // Near z
+                new Clipping_Plane(far_top_left_point, Vector3D.Unit_Negative_Z), // Far z
+                new Clipping_Plane(near_bottom_left_point, bottom_normal), // Bottom
+                new Clipping_Plane(near_bottom_left_point, left_normal), // Left
+                new Clipping_Plane(near_top_right_point, top_normal), // Top
+                new Clipping_Plane(near_top_right_point, right_normal) // Right
             };
         }
     }

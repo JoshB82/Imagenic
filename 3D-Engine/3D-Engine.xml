@@ -56,7 +56,7 @@
         </member>
         <member name="M:_3D_Engine.Vector3D.Normal_From_Plane(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
-            Calculates a normal vector to a plane defined by three points. Looking in the direction of the vector, the points are arranged in an anticlockwise order.
+            Calculates a normal vector to a plane defined by three points. Looking in the direction of the desired normal vector, the points are arranged in an anticlockwise order.
             </summary>
             <param name="p1">First point on the plane.</param>
             <param name="p2">Second point on the plane.</param>
@@ -85,7 +85,7 @@
         </member>
         <member name="T:_3D_Engine.Clipping_Plane">
             <summary>
-            Class that defines planes that clip shapes.
+            Class that defines planes that clip vertices.
             </summary>
         </member>
         <member name="P:_3D_Engine.Clipping_Plane.Point">
@@ -100,7 +100,7 @@
         </member>
         <member name="M:_3D_Engine.Scene.Create_Origin">
             <summary>
-            Creates an origin point at (0, 0, 0) and adds it to the <see cref="T:_3D_Engine.Scene"/>.
+            Creates a <see cref="T:_3D_Engine.World_Point"/> at (0, 0, 0) and adds it to the <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene.Create_Axes">
@@ -164,6 +164,12 @@
             <param name="canvas_box"><see cref="T:System.Windows.Forms.PictureBox"/> where the <see cref="T:_3D_Engine.Scene"/> will be rendered.</param>
             <param name="width">The width of the <see cref="T:_3D_Engine.Scene"/>.</param>
             <param name="height">The height of the <see cref="T:_3D_Engine.Scene"/>.</param>
+        </member>
+        <member name="M:_3D_Engine.Scene.Add(_3D_Engine.Scene_Object)">
+            <summary>
+            Adds a <see cref="T:_3D_Engine.Scene_Object"/> to the <see cref="T:_3D_Engine.Scene"/>.
+            </summary>
+            <param name="scene_object"><see cref="T:_3D_Engine.Scene_Object"/> to add.</param>
         </member>
         <member name="M:_3D_Engine.Scene.Render">
             <summary>

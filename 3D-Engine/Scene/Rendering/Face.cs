@@ -4,7 +4,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Draw_Face(Face face, string camera_type, string shape_type,
+        private void Draw_Face(Face face, string camera_type, string mesh_type,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_view,
             Matrix4x4 view_to_screen,
@@ -23,10 +23,10 @@ namespace _3D_Engine
 
             // Discard the face if it is not visible
             if (camera_to_face * normal >= 0
-                && shape_type != "Circle"
-                && shape_type != "Plane"
-                && shape_type != "Square"
-                && shape_type != "Text2D")
+                && mesh_type != "Circle"
+                && mesh_type != "Plane"
+                && mesh_type != "Square"
+                && mesh_type != "Text2D")
             return;
             
             // Draw outline if needed
@@ -174,8 +174,8 @@ namespace _3D_Engine
                     true_intensity = Math.Max(0, -new Vector3D(point_1 - light.World_Origin).Normalise() * normal) * light.Intensity;
                     break;
                 case "Spot_Light":
-                    Vector3D light_to_shape = new Vector3D(point_1 - light.World_Origin);
-                    if (light_to_shape.Angle(light.World_Direction) > ((Spotlight)light).Angle || light_to_shape * light.World_Direction > ((Spotlight)light).Distance) continue;
+                    Vector3D light_to_mesh = new Vector3D(point_1 - light.World_Origin);
+                    if (light_to_mesh.Angle(light.World_Direction) > ((Spotlight)light).Angle || light_to_mesh * light.World_Direction > ((Spotlight)light).Distance) continue;
                     true_intensity = Math.Max(0, -light.World_Direction * normal) * light.Intensity;
                     break;
                 case "Ambient_Light":

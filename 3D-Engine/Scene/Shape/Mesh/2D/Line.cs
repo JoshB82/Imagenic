@@ -11,6 +11,7 @@
             get => start_position;
             set
             {
+                start_position = value;
                 Vector3D line_vector = end_position - start_position;
                 Scaling = new Vector3D(line_vector.X, line_vector.Y, line_vector.Z);
             }
@@ -20,6 +21,7 @@
             get => end_position;
             set
             {
+                end_position = value;
                 Vector3D line_vector = end_position - start_position;
                 Scaling = new Vector3D(line_vector.X, line_vector.Y, line_vector.Z);
             }
