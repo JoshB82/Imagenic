@@ -4,7 +4,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Draw_Edge(Edge edge, string camera_type,
+        private void Draw_Edge(Edge edge,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_view,
             Matrix4x4 view_to_screen)
@@ -32,7 +32,7 @@ namespace _3D_Engine
             edge.P1 = view_to_screen * edge.P1;
             edge.P2 = view_to_screen * edge.P2;
 
-            if (camera_type == "Perspective_Camera")
+            if (render_camera_type == "Perspective_Camera")
             {
                 edge.P1 /= edge.P1.W;
                 edge.P2 /= edge.P2.W; 

@@ -27,6 +27,9 @@
             }
         }
 
+        public double Length { get; set; } //ss
+        public Vector3D Unit_Vector { get; set; } //s
+
         #endregion
 
         #region Constructors
@@ -54,6 +57,12 @@
             };
 
             Draw_Faces = false;
+        }
+
+        public Line(Vector3D start_position, Vector3D unit_vector, double length) : this(start_position, start_position + unit_vector * length)
+        {
+            Length = length;
+            Unit_Vector = unit_vector;
         }
 
         #endregion

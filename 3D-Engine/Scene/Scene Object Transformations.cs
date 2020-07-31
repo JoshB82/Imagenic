@@ -14,10 +14,12 @@ namespace _3D_Engine
         public virtual void Set_Direction_1(Vector3D new_world_direction_forward, Vector3D new_world_direction_up)
         {
             // if (new_world_direction_forward * new_world_direction_up != 0) throw new Exception("Direction vectors are not orthogonal.");
-            new_world_direction_forward = new_world_direction_forward.Normalise(); new_world_direction_up = new_world_direction_up.Normalise();
-            World_Direction_Forward = new_world_direction_forward;
-            World_Direction_Up = new_world_direction_up;
-            World_Direction_Right = Transform.Calculate_Direction_Right(new_world_direction_forward, new_world_direction_up);
+
+            Adjust_Vectors(
+                new_world_direction_forward.Normalise(),
+                new_world_direction_up.Normalise(),
+                Transform.Calculate_Direction_Right(new_world_direction_forward, new_world_direction_up)
+            );
             Output_Direction();
         }
         /// <summary>
@@ -28,10 +30,12 @@ namespace _3D_Engine
         public virtual void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
         {
             // if (new_world_direction_up * new_world_direction_right != 0) throw new Exception("Direction vectors are not orthogonal.");
-            new_world_direction_up = new_world_direction_up.Normalise(); new_world_direction_right = new_world_direction_right.Normalise();
-            World_Direction_Forward = Transform.Calculate_Direction_Forward(new_world_direction_up, new_world_direction_right);
-            World_Direction_Up = new_world_direction_up;
-            World_Direction_Right = new_world_direction_right;
+
+            Adjust_Vectors(
+                Transform.Calculate_Direction_Forward(new_world_direction_up, new_world_direction_right),
+                new_world_direction_up.Normalise(),
+                new_world_direction_right.Normalise()
+            );
             Output_Direction();
         }
         /// <summary>
@@ -42,13 +46,24 @@ namespace _3D_Engine
         public virtual void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
         {
             // if (new_world_direction_right * new_world_direction_forward != 0) throw new Exception("Direction vectors are not orthogonal.");
-            new_world_direction_right = new_world_direction_right.Normalise(); new_world_direction_forward = new_world_direction_forward.Normalise();
-            World_Direction_Forward = new_world_direction_forward;
-            World_Direction_Up = Transform.Calculate_Direction_Up(new_world_direction_right, new_world_direction_forward);
-            World_Direction_Right = new_world_direction_right;
+
+            Adjust_Vectors(
+                new_world_direction_forward.Normalise(),
+                Transform.Calculate_Direction_Up(new_world_direction_right, new_world_direction_forward),
+                new_world_direction_right.Normalise()
+            );
             Output_Direction();
         }
 
+        private void Adjust_Vectors(Vector3D direction_forward, Vector3D direction_up, Vector3D direction_right)
+        {
+            World_Direction_Forward = direction_forward;
+            World_Direction_Up = direction_up;
+            World_Direction_Right = direction_right;
+            World_Direction_Forward_Line.Unit_Vector = direction_forward;
+            World_Direction_Up_Line.Unit_Vector = direction_up;
+            World_Direction_Right_Line.Unit_Vector = direction_right;
+        }
         private void Output_Direction()
         {
             if (!Settings.Debug_Output) return;
@@ -94,7 +109,11 @@ namespace _3D_Engine
         /// Translates the <see cref="Scene_Object"/> in the x-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void Translate_X(double distance) => World_Origin += new Vector3D(distance, 0, 0);
+        public virtual void Translate_X(double distance)
+        {
+            World_Origin += new Vector3D(distance, 0, 0);
+            World_DirectionWorld_Origin += new Vector3D(distance, 0, 0);
+        }
         /// <summary>
         /// Translates the <see cref="Scene_Object"/> in the y-direction.
         /// </summary>

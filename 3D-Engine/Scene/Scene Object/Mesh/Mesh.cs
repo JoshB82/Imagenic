@@ -103,12 +103,12 @@ namespace _3D_Engine
         internal void Calculate_Model_to_World_Matrix()
         {
             // Scale, then rotate, then translate
-            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
+            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
+            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_forward_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
             Matrix4x4 scale = Transform.Scale(Scaling.X, Scaling.Y, Scaling.Z);
             Matrix4x4 translation = Transform.Translate(World_Origin);
 
-            Model_to_World = translation * direction_up_rotation * direction_rotation * scale;
+            Model_to_World = translation * direction_up_rotation * direction_forward_rotation * scale;
         }
 
         // Could world and model points be put into a single struct? With overloading possibly so the computer knows how to handle them?

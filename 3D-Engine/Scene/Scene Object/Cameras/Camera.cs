@@ -42,31 +42,31 @@ namespace _3D_Engine
 
         #region Matrix calculations
         
-        internal void Calculate_Model_to_World_Matrix() // make part of get
+        internal void Calculate_Model_to_World_Matrix()
         {
             // Calculate required transformations
-            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
+            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
+            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_forward_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
             Matrix4x4 translation = Transform.Translate(World_Origin);
 
             // String the transformations together in the following order:
-            // 1) Rotation around direction vector
+            // 1) Rotation around direction forward vector
             // 2) Rotation around direction up vector
             // 3) Translation to final position in world space
-            Model_to_World = translation * direction_up_rotation * direction_rotation;
+            Model_to_World = translation * direction_up_rotation * direction_forward_rotation;
         }
         internal void Calculate_World_to_View_Matrix()
         {
             // Calculate required transformations
             Matrix4x4 translation = Transform.Translate(-World_Origin);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(World_Direction_Up, Model_Direction_Up);
-            Matrix4x4 direction_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_up_rotation * new Vector4D(World_Direction_Forward)), Model_Direction_Forward);
+            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_up_rotation * new Vector4D(World_Direction_Forward)), Model_Direction_Forward);
 
             // String the transformations together in the following order:
             // 1) Translation to final position in view space
             // 2) Rotation around direction up vector
-            // 3) Rotation around direction vector
-            World_to_View = direction_rotation * direction_up_rotation * translation;
+            // 3) Rotation around direction forward vector
+            World_to_View = direction_forward_rotation * direction_up_rotation * translation;
         }
 
         #endregion

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace _3D_Engine
 {
@@ -16,7 +18,7 @@ namespace _3D_Engine
         /// <summary>
         /// The position of the <see cref="Scene_Object"/> in world space.
         /// </summary>
-        public Vector3D World_Origin { get; set; }
+        public virtual Vector3D World_Origin { get; set; }
 
         // Directions
         internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_Z;
@@ -36,7 +38,14 @@ namespace _3D_Engine
         /// </summary>
         public Vector3D World_Direction_Right { get; private set; }
 
+        internal Group Direction_Arrows { get; }
+        internal bool Has_Direction_Arrows { get; set; } = true;
+
         // Appearance
+        /// <summary>
+        /// Determines whether the <see cref="Scene_Object"/> directions are shown or not.
+        /// </summary>
+        public bool Display_Directions { get; set; } = false;
         /// <summary>
         /// Determines whether the <see cref="Scene_Object"/> is visible or not.
         /// </summary>
@@ -48,6 +57,18 @@ namespace _3D_Engine
 
             World_Origin = origin;
             Set_Direction_1(direction_forward, direction_up);
+
+            if (Has_Direction_Arrows)
+            {
+                int resolution = 20, body_radius = 20, tip_radius = 30, body_length = 20, tip_length = 5;
+                List<Scene_Object> direction_arrows = new List<Scene_Object>
+                {
+                    new Arrow(origin, World_Direction_Forward, body_length, body_radius, resolution, tip_length, tip_radius, resolution) { Face_Colour = Color.Blue, Has_Direction_Arrows = false },
+                    new Arrow(origin, World_Direction_Up, body_length, body_radius, resolution, tip_length, tip_radius, resolution) { Face_Colour = Color.Green, Has_Direction_Arrows = false },
+                    new Arrow(origin, World_Direction_Right, body_length, body_radius, resolution, tip_length, tip_radius, resolution) { Face_Colour = Color.Red, Has_Direction_Arrows = false }
+                };
+                Direction_Arrows = new Group(origin, direction_forward, direction_up, direction_arrows);
+            }
 
             Debug.WriteLine(GetType().Name + $" created at {origin}");
         }

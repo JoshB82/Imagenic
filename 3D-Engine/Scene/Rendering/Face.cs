@@ -4,7 +4,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Draw_Face(Face face, string camera_type, string mesh_type,
+        private void Draw_Face(Face face, string mesh_type,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_view,
             Matrix4x4 view_to_screen,
@@ -32,9 +32,9 @@ namespace _3D_Engine
             // Draw outline if needed
             if (face.Draw_Outline)
             {
-                Draw_Edge(new Edge(face.P1, face.P2), camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(new Edge(face.P1, face.P3), camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(new Edge(face.P2, face.P3), camera_type, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(new Edge(face.P1, face.P2), model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(new Edge(face.P1, face.P3), model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(new Edge(face.P2, face.P3), model_to_world, world_to_view, view_to_screen);
             }
 
             /*
@@ -64,7 +64,7 @@ namespace _3D_Engine
                 new_view_triangles[i].P2 = view_to_screen * new_view_triangles[i].P2;
                 new_view_triangles[i].P3 = view_to_screen * new_view_triangles[i].P3;
 
-                if (camera_type == "Perspective_Camera")
+                if (render_camera_type == "Perspective_Camera")
                 {
                     new_view_triangles[i].P1 /= new_view_triangles[i].P1.W;
                     new_view_triangles[i].P2 /= new_view_triangles[i].P2.W;

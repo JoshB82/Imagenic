@@ -179,7 +179,6 @@ namespace _3D_Engine
                                     break;
                             }
                         }*/
-                        ;
                     }
                 }
             }
@@ -206,8 +205,23 @@ namespace _3D_Engine
                         double z = sz + t * (ez - sz);
                         t += t_step;
 
+                        // Find corresponding view space co-ordinate
+                        double view_space_z = 2 * camera.Z_Near * camera.Z_Far / (camera.Z_Near + camera.Z_Far - z * (camera.Z_Far - camera.Z_Near));
+                        double view_space_x = camera.Width / (2 * camera.Z_Near) * view_space_z * x;
+                        double view_space_y = camera.Height / (2 * camera.Z_Near) * view_space_z * y;
+                        Vector3D view_space_point = new Vector3D(view_space_x, view_space_y, view_space_z);
 
-                        Check_Against_Z_Buffer(x, y, z, face.Colour);
+                        Color new_colour = face.Colour;
+                        foreach (Light light in Lights)
+                        {
+                            double light_distance = (light.World_Origin - view_space_point).Magnitude();
+                            double light_source_strength = light.Strength;
+                            double light_distance_strength = light_source_strength / Math.Pow(light_distance, 2); // ? ?
+
+                            new_colour = Mix_Colour(new_colour, light.Colour);
+                        }
+
+                        Check_Against_Z_Buffer(x, y, z, new_colour);
                     }
                 }
             }

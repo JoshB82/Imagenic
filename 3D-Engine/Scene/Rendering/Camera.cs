@@ -2,7 +2,7 @@
 {
     public sealed partial class Scene
     {
-        private void Draw_Camera(Camera camera, string camera_type,
+        private void Draw_Camera(Camera camera,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_view,
             Matrix4x4 view_to_screen)
@@ -25,14 +25,14 @@
                 Edge near_left_edge = new Edge(near_top_left_point, near_bottom_left_point);
                 Edge near_right_edge = new Edge(near_top_right_point, near_bottom_right_point);
 
-                Draw_Edge(near_top_left_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(near_top_right_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(near_bottom_left_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(near_bottom_right_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(near_top_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(near_bottom_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(near_left_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(near_right_edge, camera_type, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(near_top_left_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(near_top_right_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(near_bottom_left_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(near_bottom_right_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(near_top_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(near_bottom_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(near_left_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(near_right_edge, model_to_world, world_to_view, view_to_screen);
             }
             if (camera.Draw_Entire_View)
             {
@@ -53,14 +53,14 @@
                 Edge far_left_edge = new Edge(far_top_left_point, far_bottom_left_point);
                 Edge far_right_edge = new Edge(far_top_right_point, far_bottom_right_point);
                 
-                Draw_Edge(far_top_left_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(far_top_right_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(far_bottom_left_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(far_bottom_right_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(far_top_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(far_bottom_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(far_left_edge, camera_type, model_to_world, world_to_view, view_to_screen);
-                Draw_Edge(far_right_edge, camera_type, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(far_top_left_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(far_top_right_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(far_bottom_left_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(far_bottom_right_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(far_top_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(far_bottom_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(far_left_edge, model_to_world, world_to_view, view_to_screen);
+                Draw_Edge(far_right_edge, model_to_world, world_to_view, view_to_screen);
             }
         }
     }

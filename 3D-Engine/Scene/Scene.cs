@@ -8,6 +8,8 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
+        #region Fields and Properties
+
         private static readonly object locker = new object();
         private Clipping_Plane[] screen_clipping_planes;
         private Rectangle entire_canvas_rectangle;
@@ -16,7 +18,19 @@ namespace _3D_Engine
         private double[][] z_buffer;
         private Color[][] colour_buffer;
 
-        public Camera Render_Camera { get; set; }
+        // Camera used for rendering
+        private Camera render_camera;
+        public Camera Render_Camera
+        {
+            get => render_camera;
+            set
+            {
+                render_camera = value;
+                render_camera_type = render_camera.GetType().Name;
+            }
+        }
+        private string render_camera_type;
+
         /// <summary>
         /// <see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.
         /// </summary>
@@ -41,6 +55,8 @@ namespace _3D_Engine
         public readonly List<Mesh> Meshes = new List<Mesh>();
         
         public bool Change_scene { get; set; } = true;
+
+        #endregion
 
         #region Dimensions
 
@@ -196,7 +212,6 @@ namespace _3D_Engine
                 Render_Camera.Calculate_Model_to_World_Matrix();
                 Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin);
                 Render_Camera.Calculate_World_to_View_Matrix();
-                string camera_type = Render_Camera.GetType().Name;
                 Matrix4x4 world_to_view = Render_Camera.World_to_View;
                 Matrix4x4 view_to_screen = Render_Camera.View_to_Screen;
 
@@ -212,12 +227,29 @@ namespace _3D_Engine
 
                     if (mesh.Visible)
                     {
+                        // Draw directions
+                        if (mesh.Display_Directions)
+                        {
+                            int direction_line_length = 30;
+                            Line direction_forward = new Line(mesh.World_Origin, mesh.World_Direction_Forward, direction_line_length) { Edge_Colour = Color.Blue };
+                            Line direction_up = new Line(mesh.World_Origin, mesh.World_Direction_Up, direction_line_length) { Edge_Colour = Color.Green };
+                            Line direction_right = new Line(mesh.World_Origin, mesh.World_Direction_Right, direction_line_length) { Edge_Colour = Color.Red };
+
+                            direction_forward.Calculate_Model_to_World_Matrix();
+                            direction_up.Calculate_Model_to_World_Matrix();
+                            direction_right.Calculate_Model_to_World_Matrix();
+
+                            Draw_Edge(direction_forward.Edges[0], direction_forward.Model_to_World, world_to_view, view_to_screen);
+                            Draw_Edge(direction_up.Edges[0], direction_up.Model_to_World, world_to_view, view_to_screen);
+                            Draw_Edge(direction_right.Edges[0], direction_right.Model_to_World, world_to_view, view_to_screen);
+                        }
+
                         // Draw faces
                         if (mesh.Draw_Faces)
                         {
                             foreach (Face face in mesh.Faces)
                             {
-                                if (face.Visible) Draw_Face(face, camera_type, mesh_type, model_to_world, world_to_view, view_to_screen, Render_Camera);
+                                if (face.Visible) Draw_Face(face, mesh_type, model_to_world, world_to_view, view_to_screen, Render_Camera);
                             }
                         }
 
@@ -226,7 +258,7 @@ namespace _3D_Engine
                         {
                             foreach (Edge edge in mesh.Edges)
                             {
-                                if (edge.Visible) Draw_Edge(edge, camera_type, model_to_world, world_to_view, view_to_screen);
+                                if (edge.Visible) Draw_Edge(edge, model_to_world, world_to_view, view_to_screen);
                             }
                         }
 
@@ -245,7 +277,7 @@ namespace _3D_Engine
                     camera_to_draw.Calculate_Model_to_World_Matrix();
                     Matrix4x4 model_to_world = camera_to_draw.Model_to_World;
                         
-                    Draw_Camera(camera_to_draw, camera_type, model_to_world, world_to_view, view_to_screen);
+                    Draw_Camera(camera_to_draw, model_to_world, world_to_view, view_to_screen);
                 }
 
                 Draw_Colour_Buffer(temp_canvas, colour_buffer);

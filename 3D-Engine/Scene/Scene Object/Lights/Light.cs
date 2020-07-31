@@ -6,9 +6,6 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        // Transformations
-        public Vector3D Translation { get; protected set; }
-
         // Appearance
         public Color Colour { get; set; } = Color.White;
         public double Strength { get; set; }
