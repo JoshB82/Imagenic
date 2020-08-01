@@ -73,23 +73,31 @@ namespace _3D_Engine
         public double Body_Radius { get; set; }
         public double Tip_Radius { get; set; }
 
-        public int Body_Resolution { get; set; }
-        public int Tip_Resolution { get; set; }
+        public int Resolution { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Arrow(Vector3D start_position, Vector3D end_position, double body_radius, int body_resolution, double tip_length, double tip_radius, int tip_resolution) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y)
+        public Arrow(Vector3D start_position, Vector3D end_position, double body_radius, double tip_length, double tip_radius, int resolution) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y)//////
         {
             Start_Position = start_position;
             Body_Length = (end_position - start_position).Magnitude() - tip_length;
             Tip_Length = tip_length;
             End_Position = end_position;
             Body_Radius = body_radius;
-            Body_Resolution = body_resolution;
             Tip_Radius = tip_radius;
-            Tip_Resolution = tip_resolution;
+            Resolution = resolution;
+
+            Circle arrow_base = new Circle(start_position, , unit_vector, body_radius, resolution);
+            Vector3D body_tip_intersection = unit_vector * body_length + start_position;
+            Ring arrow_ring = new Ring(body_tip_intersection,, unit_vector, body_radius, tip_radius, resolution);
+
+            Vertices = new Vector4D[3 * resolution + 3];
+            Vertices[0] = Vector4D.Unit_Z;
+            Vertices[1] = new Vector4D(unit_vector * body_length);
+            Vertices[2] = Vector4D.One;
+
 
             /*
             Vector3D cone_line_intersect = (end_position - start_position) * (1 - tip_length / (end_position - start_position).Magnitude());
@@ -115,9 +123,15 @@ namespace _3D_Engine
             */
         }
 
-        public Arrow(Vector3D start_position, Vector3D unit_vector, double body_length, double body_radius, int body_resolution, double tip_length, double tip_radius, int tip_resolution) : this(start_position, start_position+unit_vector*(body_length+tip_length),body_radius,)
+        public Arrow(Vector3D start_position, Vector3D unit_vector, double body_length, double body_radius, double tip_length, double tip_radius, int resolution) : this(start_position, start_position+unit_vector*(body_length+tip_length),body_radius,)
         {
             Start_Position = start_position;
+            Body_Length = (end_position - start_position).Magnitude() - tip_length;//gjgjgj
+            Tip_Length = tip_length;
+            End_Position = end_position;
+            Body_Radius = body_radius;
+            Tip_Radius = tip_radius;
+            Resolution = resolution;
         }
 
         #endregion

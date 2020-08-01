@@ -60,9 +60,9 @@ namespace _3D_Engine
             World_Direction_Forward = direction_forward;
             World_Direction_Up = direction_up;
             World_Direction_Right = direction_right;
-            World_Direction_Forward_Line.Unit_Vector = direction_forward;
-            World_Direction_Up_Line.Unit_Vector = direction_up;
-            World_Direction_Right_Line.Unit_Vector = direction_right;
+            ((Arrow)Direction_Arrows.Scene_Objects[0]).Unit_Vector = direction_forward;
+            ((Arrow)Direction_Arrows.Scene_Objects[1]).Unit_Vector = direction_up;
+            ((Arrow)Direction_Arrows.Scene_Objects[2]).Unit_Vector = direction_right;
         }
         private void Output_Direction()
         {
@@ -109,11 +109,7 @@ namespace _3D_Engine
         /// Translates the <see cref="Scene_Object"/> in the x-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void Translate_X(double distance)
-        {
-            World_Origin += new Vector3D(distance, 0, 0);
-            World_DirectionWorld_Origin += new Vector3D(distance, 0, 0);
-        }
+        public virtual void Translate_X(double distance) => World_Origin += new Vector3D(distance, 0, 0);
         /// <summary>
         /// Translates the <see cref="Scene_Object"/> in the y-direction.
         /// </summary>
