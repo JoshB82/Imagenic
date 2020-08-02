@@ -1,5 +1,5 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Linq.Expressions;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace _3D_Engine
 {
@@ -93,11 +93,41 @@ namespace _3D_Engine
             Vector3D body_tip_intersection = unit_vector * body_length + start_position;
             Ring arrow_ring = new Ring(body_tip_intersection,, unit_vector, body_radius, tip_radius, resolution);
 
+            // Vertices must line up so that the arrow isn't twisted.
             Vertices = new Vector4D[3 * resolution + 3];
             Vertices[0] = Vector4D.Unit_Z;
             Vertices[1] = new Vector4D(unit_vector * body_length);
             Vertices[2] = Vector4D.One;
+            for (int i = 1; i <= resolution; i++)
+            {
+                Vertices[i + 2] = arrow_base.Vertices[i];
+                Vertices[i + resolution + 2] = arrow_ring.Vertices[i];
+                Vertices[i + 2 * resolution + 2] = arrow_ring.Vertices[i + resolution];
+            }
 
+            Edges = new Edge[5 * resolution];
+            Faces = new Face[6 * resolution];
+
+            for (int i = 0; i < resolution; i++)
+            {
+                Edges[i] = arrow_base.Edges[i];
+                Edges[i + resolution] = arrow_ring.Edges[i];
+                Edges[i + 2 * resolution] = arrow_ring.Edges[i + resolution];
+                Edges[i + 3 * resolution] = new Edge(arrow_base.Vertices[i + 1], arrow_ring.Vertices[i + 1]);
+                Edges[i + 4 * resolution] = new Edge(Vertices[2], arrow_ring.Vertices[i + resolution + 1]);
+
+                Faces[i] = arrow_base.Faces[i];
+            }
+            for (int i = 0; i < resolution - 1; i++)
+            {
+                Faces[i + resolution] = new Face(arrow_base.Vertices[i + 1], arrow_ring.Vertices[i + 1], arrow_ring.Vertices[i + 2]);
+                Faces[i + 2 * resolution] = new Face(arrow_base.Vertices[i + 1], arrow_ring.Vertices[i + 2], arrow_base.Vertices[i + 2]);
+            }
+            Faces[2 * resolution - 1] = new Face(arrow_base.Vertices[resolution - 1], arrow_ring.Vertices[resolution], arrow_ring.Vertices[1]);
+            Faces[3 * resolution - 1] = new Face(arrow_base.Vertices[resolution - 1], arrow_ring.Vertices[1], arrow_base.Vertices[0]);
+            for (int i = 0; i < 2 * resolution; i++) Faces[i + 3 * resolution] = arrow_ring.Faces[i];
+            for (int i = 0; i < resolution - 1; i++) Faces[i + 5 * resolution] = new Face(arrow_ring.Vertices[i + resolution + 1], arrow_ring.Vertices[i + resolution + 2], Vertices[2]);
+            Faces[6 * resolution - 1] = new Face(arrow_ring.Vertices[2 * resolution], arrow_ring.Vertices[resolution + 1], Vertices[2]);
 
             /*
             Vector3D cone_line_intersect = (end_position - start_position) * (1 - tip_length / (end_position - start_position).Magnitude());
@@ -107,11 +137,6 @@ namespace _3D_Engine
             Vertices = new Vector4D[tip_resolution + 3];
             for (int i = 0; i < tip_resolution + 2) Vertices[i] = arrow_cone.Vertices[i];
             Vertices[tip_resolution + 2] = new Vector4D(start_position);
-
-            //Spots = new Spot[2]
-            //{
-            //    arrow_cone.Spots
-            //}; ;
 
             Edges = new Edge[2 * tip_resolution + 1];
             for (int i = 0; i < 2 * tip_resolution; i++) Edges[i] = arrow_cone.Edges[i];

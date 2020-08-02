@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace _3D_Engine
 {
@@ -27,6 +28,7 @@ namespace _3D_Engine
         /// </summary>
         /// <param name="origin">The position of the <see cref="Spot"/>.</param>
         /// <param name="colour">The colour of the <see cref="Spot"/>.</param>
+        [Obsolete("This will be removed in the future.")]
         public Spot(Vector4D origin, Color? colour = null) : this()
         {
             Point = origin;
@@ -60,7 +62,7 @@ namespace _3D_Engine
         #region Constructors
 
         /// <summary>
-        /// Creates an <see cref="Edge"/>
+        /// Creates an <see cref="Edge"/>.
         /// </summary>
         /// <param name="p1">The position of the first point on the <see cref="Edge"/>.</param>
         /// <param name="p2">The position of the second point on the <see cref="Edge"/>.</param>

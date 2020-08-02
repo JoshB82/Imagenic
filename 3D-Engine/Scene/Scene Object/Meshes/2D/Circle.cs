@@ -34,6 +34,7 @@ namespace _3D_Engine
             {
                 resolution = value;
 
+                // Vertices are defined in anti-clockwise order.
                 Vertices = new Vector4D[resolution + 1]; // ?
                 Vertices[0] = Vector4D.Zero; // ?
 
