@@ -1,7 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Runtime.InteropServices.ComTypes;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     public sealed class Arrow : Mesh
     {
@@ -79,7 +76,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Arrow(Vector3D start_position, Vector3D end_position, double body_radius, double tip_length, double tip_radius, int resolution) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y)//////
+        public Arrow(Vector3D start_position, Vector3D end_position, double body_radius, double tip_length, double tip_radius, int resolution) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y)
         {
             Start_Position = start_position;
             Body_Length = (end_position - start_position).Magnitude() - tip_length;
@@ -89,15 +86,17 @@ namespace _3D_Engine
             Tip_Radius = tip_radius;
             Resolution = resolution;
 
-            Circle arrow_base = new Circle(start_position, , unit_vector, body_radius, resolution);
+            double up_x = 10, up_y = 20; // Arbitrary choices
+            Vector3D up = new Vector3D(up_x, up_y, -(unit_vector.X * up_x + unit_vector.Y * up_y) / unit_vector.Z);
+            Circle arrow_base = new Circle(start_position, up, unit_vector, body_radius, resolution);
             Vector3D body_tip_intersection = unit_vector * body_length + start_position;
-            Ring arrow_ring = new Ring(body_tip_intersection,, unit_vector, body_radius, tip_radius, resolution);
+            Ring arrow_ring = new Ring(body_tip_intersection, up, unit_vector, body_radius, tip_radius, resolution);
 
             // Vertices must line up so that the arrow isn't twisted.
             Vertices = new Vector4D[3 * resolution + 3];
-            Vertices[0] = Vector4D.Unit_Z;
+            Vertices[0] = Vector4D.Zero;
             Vertices[1] = new Vector4D(unit_vector * body_length);
-            Vertices[2] = Vector4D.One;
+            Vertices[2] = new Vector4D(unit_vector * (body_length + tip_length));
             for (int i = 1; i <= resolution; i++)
             {
                 Vertices[i + 2] = arrow_base.Vertices[i];
@@ -128,36 +127,9 @@ namespace _3D_Engine
             for (int i = 0; i < 2 * resolution; i++) Faces[i + 3 * resolution] = arrow_ring.Faces[i];
             for (int i = 0; i < resolution - 1; i++) Faces[i + 5 * resolution] = new Face(arrow_ring.Vertices[i + resolution + 1], arrow_ring.Vertices[i + resolution + 2], Vertices[2]);
             Faces[6 * resolution - 1] = new Face(arrow_ring.Vertices[2 * resolution], arrow_ring.Vertices[resolution + 1], Vertices[2]);
-
-            /*
-            Vector3D cone_line_intersect = (end_position - start_position) * (1 - tip_length / (end_position - start_position).Magnitude());
-            Cone arrow_cone = new Cone(cone_line_intersect,,, tip_length, tip_radius, tip_resolution);
-            Line arrow_line = new Line(start_position, cone_line_intersect);
-
-            Vertices = new Vector4D[tip_resolution + 3];
-            for (int i = 0; i < tip_resolution + 2) Vertices[i] = arrow_cone.Vertices[i];
-            Vertices[tip_resolution + 2] = new Vector4D(start_position);
-
-            Edges = new Edge[2 * tip_resolution + 1];
-            for (int i = 0; i < 2 * tip_resolution; i++) Edges[i] = arrow_cone.Edges[i];
-            Edges[2 * tip_resolution] = new Edge(new Vector4D(start_position), new Vector4D(cone_line_intersect));
-
-            Faces = new Face[2 * resolution];
-            for (int i = 0; i < resolution; i++) Faces[i] = cone_base.Faces[i];
-
-            */
         }
 
-        public Arrow(Vector3D start_position, Vector3D unit_vector, double body_length, double body_radius, double tip_length, double tip_radius, int resolution) : this(start_position, start_position+unit_vector*(body_length+tip_length),body_radius,)
-        {
-            Start_Position = start_position;
-            Body_Length = (end_position - start_position).Magnitude() - tip_length;//gjgjgj
-            Tip_Length = tip_length;
-            End_Position = end_position;
-            Body_Radius = body_radius;
-            Tip_Radius = tip_radius;
-            Resolution = resolution;
-        }
+        public Arrow(Vector3D start_position, Vector3D unit_vector, double body_length, double body_radius, double tip_length, double tip_radius, int resolution) : this(start_position, unit_vector * (body_length + tip_length) + start_position, body_radius, tip_length, tip_radius, resolution) { }
 
         #endregion
     }

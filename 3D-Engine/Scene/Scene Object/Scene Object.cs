@@ -63,9 +63,9 @@ namespace _3D_Engine
                 int resolution = 20, body_radius = 20, tip_radius = 30, body_length = 20, tip_length = 5;
                 List<Scene_Object> direction_arrows = new List<Scene_Object>
                 {
-                    new Arrow(origin, World_Direction_Forward, body_length, body_radius, resolution, tip_length, tip_radius, resolution) { Face_Colour = Color.Blue, Has_Direction_Arrows = false },
-                    new Arrow(origin, World_Direction_Up, body_length, body_radius, resolution, tip_length, tip_radius, resolution) { Face_Colour = Color.Green, Has_Direction_Arrows = false },
-                    new Arrow(origin, World_Direction_Right, body_length, body_radius, resolution, tip_length, tip_radius, resolution) { Face_Colour = Color.Red, Has_Direction_Arrows = false }
+                    new Arrow(origin, World_Direction_Forward, body_length, body_radius, tip_length, tip_radius, resolution) { Face_Colour = Color.Blue, Has_Direction_Arrows = false },
+                    new Arrow(origin, World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution) { Face_Colour = Color.Green, Has_Direction_Arrows = false },
+                    new Arrow(origin, World_Direction_Right, body_length, body_radius, tip_length, tip_radius, resolution) { Face_Colour = Color.Red, Has_Direction_Arrows = false }
                 };
                 Direction_Arrows = new Group(origin, direction_forward, direction_up, direction_arrows);
             }

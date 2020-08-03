@@ -79,6 +79,187 @@
             <param name="m2">Second addend.</param>
             <returns>Sum of two <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
         </member>
+        <member name="M:_3D_Engine.Transform.Calculate_Direction_Forward(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Calculates the forward direction given the up direction and the right direction.
+            </summary>
+            <param name="direction_up">The up direction.</param>
+            <param name="direction_right">The right direction.</param>
+            <returns>The forward direction.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Calculate_Direction_Up(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Calculates the up direction given the right direction and the forward direction.
+            </summary>
+            <param name="direction_right">The right direction.</param>
+            <param name="direction_forward">The forward direction.</param>
+            <returns>The up direction.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Calculate_Direction_Right(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+            <summary>
+            Calculates the right direction given the forward direction and the up direction.
+            </summary>
+            <param name="direction_forward">The forward direction.</param>
+            <param name="direction_up">The up direction.</param>
+            <returns>The right direction.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate_X(System.Double)">
+            <summary>
+            Creates a matrix for rotation about the x-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate_Y(System.Double)">
+            <summary>
+            Creates a matrix for rotation about the y-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate_Z(System.Double)">
+            <summary>
+            Creates a matrix for rotation about the z-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate(_3D_Engine.Vector3D,System.Double)">
+            <summary>
+            Creates a matrix for rotation about any axis.
+            </summary>
+            <param name="axis">Axis that will be rotated around.</param>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})">
+            <summary>
+            Creates a rotation matrix that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
+            </summary>
+            <param name="v1">The first vector.</param>
+            <param name="v2">The secind vector.</param>
+            <param name="axis">Axis that will be rotated around if vectors are antiparallel.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_X(System.Double)">
+            <summary>
+            Creates a quaternion for rotation about the x-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Y(System.Double)">
+            <summary>
+            Creates a quaternion for rotation about the y-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Z(System.Double)">
+            <summary>
+            Creates a quaternion for rotation about the z-axis.
+            </summary>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate(_3D_Engine.Vector3D,System.Double)">
+            <summary>
+            Create a quaternion that represents a rotation around any axis.
+            </summary>
+            <param name="axis">Axis that will be rotated around.</param>
+            <param name="angle">Angle to rotate.</param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})">
+            <summary>
+            Creates a quaternion that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
+            </summary>
+            <param name="v1">The first vector.</param>
+            <param name="v2">The secind vector.</param>
+            <param name="axis"></param>
+            <returns>A rotation quaternion.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Quaternion_to_Matrix(_3D_Engine.Quaternion)">
+            <summary>
+            Creates the corresponding rotation matrix for the specified quaternion.
+            </summary>
+            <param name="q">The quaternion to convert.</param>
+            <returns>A rotation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale_X(System.Double)">
+            <summary>
+            Creates a matrix for scaling in the x-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale_Y(System.Double)">
+            <summary>
+            Creates a matrix for scaling in the y-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale_Z(System.Double)">
+            <summary>
+            Creates a matrix for scaling in the z-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale(System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a matrix for scaling in all directions.
+            </summary>
+            <param name="scale_factor_x">Factor to scale by in x-direction.</param>
+            <param name="scale_factor_y">Factor to scale by in y-direction.</param>
+            <param name="scale_factor_z">Factor to scale by in z-direction.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Scale(System.Double)">
+            <summary>
+            Creates a matrix for scaling in all directions by the same scale factor.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+            <returns>Scaling matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate_X(System.Double)">
+            <summary>
+            Creates a matrix for translation in the x-direction.
+            </summary>
+            <param name="distance">Distance to move by.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate_Y(System.Double)">
+            <summary>
+            Creates a matrix for translation in the y-direction.
+            </summary>
+            <param name="distance">Distance to move by.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate_Z(System.Double)">
+            <summary>
+            Creates a matrix for translation in the z-direction.
+            </summary>
+            <param name="distance">Distance to move by.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate(System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a matrix for translation in all directions.
+            </summary>
+            <param name="distance_x">Distance to move by in x-direction.</param>
+            <param name="distance_y">Distance to move by in y-direction.</param>
+            <param name="distance_z">Distance to move by in z-direction.</param>
+            <returns>A translation matrix.</returns>
+        </member>
+        <member name="M:_3D_Engine.Transform.Translate(_3D_Engine.Vector3D)">
+            <summary>
+            Creates a matrix for translation in all directions.
+            </summary>
+            <param name="distance">Vector to translate by.</param>
+            <returns>A translation matrix.</returns>
+        </member>
         <member name="T:_3D_Engine.Vector2D">
             <summary>
             Handles constructors and operations involving two-dimensional vectors.
@@ -101,36 +282,6 @@
         <member name="T:_3D_Engine.Vector4D">
             <summary>
             Handles constructors and operations involving four-dimensional vectors for use in 3D graphics.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Camera.Draw_Camera_Model">
-            <summary>
-            Determines if the <see cref="T:_3D_Engine.Camera"/> is drawn in the <see cref="T:_3D_Engine.Scene"/>.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Camera.Draw_Entire_View">
-            <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Camera"/>'s view is drawn.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Camera.Draw_Near_View">
-            <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Camera"/>'s view is drawn, up to the near plane.
-            </summary>
-        </member>
-        <member name="T:_3D_Engine.Clipping_Plane">
-            <summary>
-            Class that defines planes that clip vertices.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Clipping_Plane.Point">
-            <summary>
-            A point on the clipping plane.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Clipping_Plane.Normal">
-            <summary>
-            Normal vector pointing towards the volume to keep. //?
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene.Create_Origin">
@@ -211,86 +362,6 @@
             Renders the <see cref="T:_3D_Engine.Scene"/>. A Render Camera must be set before this method is called.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
-            <summary>
-            Sets the forward, up and right directions given the forward and up directions.
-            </summary>
-            <param name="new_world_direction_forward">The forward direction.</param>
-            <param name="new_world_direction_up">The up direction.</param>
-        </member>
-        <member name="M:_3D_Engine.Scene_Object.Set_Direction_2(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
-            <summary>
-            Sets the forward, up and right directions given the up and right directions.
-            </summary>
-            <param name="new_world_direction_up">The up direction.</param>
-            <param name="new_world_direction_right">The right direction.</param>
-        </member>
-        <member name="M:_3D_Engine.Scene_Object.Set_Direction_3(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
-            <summary>
-            Sets the forward, up and right directions given the right and forward directions.
-            </summary>
-            <param name="new_world_direction_right">The right direction.</param>
-            <param name="new_world_direction_forward">The forward direction.</param>
-        </member>
-        <member name="M:_3D_Engine.Scene_Object.Translate_X(System.Double)">
-            <summary>
-            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the x-direction.
-            </summary>
-            <param name="distance">Amount to translate by.</param>
-        </member>
-        <member name="M:_3D_Engine.Scene_Object.Translate_Y(System.Double)">
-            <summary>
-            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the y-direction.
-            </summary>
-            <param name="distance">Amount to translate by.</param>
-        </member>
-        <member name="M:_3D_Engine.Scene_Object.Translate_Z(System.Double)">
-            <summary>
-            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the z-direction.
-            </summary>
-            <param name="distance">Amount to translate by.</param>
-        </member>
-        <member name="M:_3D_Engine.Scene_Object.Translate(_3D_Engine.Vector3D)">
-            <summary>
-            Translates the <see cref="T:_3D_Engine.Scene_Object"/> by the given vector.
-            </summary>
-            <param name="displacement">Vector to translate by.</param>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.ID">
-            <summary>
-            Identification number.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.World_Origin">
-            <summary>
-            The position of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.World_Direction_Forward">
-            <summary>
-            The forward direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.World_Direction_Up">
-            <summary>
-            The up direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.World_Direction_Right">
-            <summary>
-            The right direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.Display_Directions">
-            <summary>
-            Determines whether the <see cref="T:_3D_Engine.Scene_Object"/> directions are shown or not.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.Visible">
-            <summary>
-            Determines whether the <see cref="T:_3D_Engine.Scene_Object"/> is visible or not.
-            </summary>
-        </member>
         <member name="T:_3D_Engine.Spot">
             <summary>
             Handles creation of a <see cref="T:_3D_Engine.Spot"/>.
@@ -310,7 +381,7 @@
         </member>
         <member name="M:_3D_Engine.Edge.#ctor(_3D_Engine.Vector4D,_3D_Engine.Vector4D,System.Nullable{System.Drawing.Color})">
             <summary>
-            Creates an <see cref="T:_3D_Engine.Edge"/>
+            Creates an <see cref="T:_3D_Engine.Edge"/>.
             </summary>
             <param name="p1">The position of the first point on the <see cref="T:_3D_Engine.Edge"/>.</param>
             <param name="p2">The position of the second point on the <see cref="T:_3D_Engine.Edge"/>.</param>
@@ -355,6 +426,36 @@
         <member name="P:_3D_Engine.Texture.Outside_Colour">
             <summary>
             <see cref="T:System.Drawing.Color"/> used to fill outside of <see cref="T:_3D_Engine.Texture"/> should <see cref="F:_3D_Engine.Outside_Texture_Behaviour.Colour_Fill"/> be selected for Outside_Behaviour.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Camera.Draw_Camera_Model">
+            <summary>
+            Determines if the <see cref="T:_3D_Engine.Camera"/> is drawn in the <see cref="T:_3D_Engine.Scene"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Camera.Draw_Entire_View">
+            <summary>
+            Determines if the outline of the <see cref="T:_3D_Engine.Camera"/>'s view is drawn.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Camera.Draw_Near_View">
+            <summary>
+            Determines if the outline of the <see cref="T:_3D_Engine.Camera"/>'s view is drawn, up to the near plane.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Clipping_Plane">
+            <summary>
+            Class that defines planes that clip vertices.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Clipping_Plane.Point">
+            <summary>
+            A point on the clipping plane.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Clipping_Plane.Normal">
+            <summary>
+            Normal vector pointing towards the volume to keep. //?
             </summary>
         </member>
         <member name="T:_3D_Engine.World_Point">
@@ -433,6 +534,11 @@
             <param name="length">The length of the <see cref="T:_3D_Engine.Plane"/>.</param>
             <param name="width">The width of the <see cref="T:_3D_Engine.Plane"/>.</param>
             <param name="texture">The <see cref="T:_3D_Engine.Texture"/> that defines what to draw on each surface of the <see cref="T:_3D_Engine.Plane"/>.</param>
+        </member>
+        <member name="T:_3D_Engine.Ring">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Ring"/> mesh.
+            </summary>
         </member>
         <member name="T:_3D_Engine.Square">
             <summary>
@@ -744,186 +850,85 @@
             Determines if the <see cref="T:_3D_Engine.Mesh"/> is visible or not.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Transform.Calculate_Direction_Forward(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+        <member name="M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
-            Calculates the forward direction given the up direction and the right direction.
+            Sets the forward, up and right directions given the forward and up directions.
             </summary>
-            <param name="direction_up">The up direction.</param>
-            <param name="direction_right">The right direction.</param>
-            <returns>The forward direction.</returns>
+            <param name="new_world_direction_forward">The forward direction.</param>
+            <param name="new_world_direction_up">The up direction.</param>
         </member>
-        <member name="M:_3D_Engine.Transform.Calculate_Direction_Up(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+        <member name="M:_3D_Engine.Scene_Object.Set_Direction_2(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
-            Calculates the up direction given the right direction and the forward direction.
+            Sets the forward, up and right directions given the up and right directions.
             </summary>
-            <param name="direction_right">The right direction.</param>
-            <param name="direction_forward">The forward direction.</param>
-            <returns>The up direction.</returns>
+            <param name="new_world_direction_up">The up direction.</param>
+            <param name="new_world_direction_right">The right direction.</param>
         </member>
-        <member name="M:_3D_Engine.Transform.Calculate_Direction_Right(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
+        <member name="M:_3D_Engine.Scene_Object.Set_Direction_3(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
-            Calculates the right direction given the forward direction and the up direction.
+            Sets the forward, up and right directions given the right and forward directions.
             </summary>
-            <param name="direction_forward">The forward direction.</param>
-            <param name="direction_up">The up direction.</param>
-            <returns>The right direction.</returns>
+            <param name="new_world_direction_right">The right direction.</param>
+            <param name="new_world_direction_forward">The forward direction.</param>
         </member>
-        <member name="M:_3D_Engine.Transform.Rotate_X(System.Double)">
+        <member name="M:_3D_Engine.Scene_Object.Translate_X(System.Double)">
             <summary>
-            Creates a matrix for rotation about the x-axis.
+            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the x-direction.
             </summary>
-            <param name="angle">Angle to rotate.</param>
-            <returns>A rotation matrix.</returns>
+            <param name="distance">Amount to translate by.</param>
         </member>
-        <member name="M:_3D_Engine.Transform.Rotate_Y(System.Double)">
+        <member name="M:_3D_Engine.Scene_Object.Translate_Y(System.Double)">
             <summary>
-            Creates a matrix for rotation about the y-axis.
+            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the y-direction.
             </summary>
-            <param name="angle">Angle to rotate.</param>
-            <returns>A rotation matrix.</returns>
+            <param name="distance">Amount to translate by.</param>
         </member>
-        <member name="M:_3D_Engine.Transform.Rotate_Z(System.Double)">
+        <member name="M:_3D_Engine.Scene_Object.Translate_Z(System.Double)">
             <summary>
-            Creates a matrix for rotation about the z-axis.
+            Translates the <see cref="T:_3D_Engine.Scene_Object"/> in the z-direction.
             </summary>
-            <param name="angle">Angle to rotate.</param>
-            <returns>A rotation matrix.</returns>
+            <param name="distance">Amount to translate by.</param>
         </member>
-        <member name="M:_3D_Engine.Transform.Rotate(_3D_Engine.Vector3D,System.Double)">
+        <member name="M:_3D_Engine.Scene_Object.Translate(_3D_Engine.Vector3D)">
             <summary>
-            Creates a matrix for rotation about any axis.
+            Translates the <see cref="T:_3D_Engine.Scene_Object"/> by the given vector.
             </summary>
-            <param name="axis">Axis that will be rotated around.</param>
-            <param name="angle">Angle to rotate.</param>
-            <returns>A rotation matrix.</returns>
+            <param name="displacement">Vector to translate by.</param>
         </member>
-        <member name="M:_3D_Engine.Transform.Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})">
+        <member name="P:_3D_Engine.Scene_Object.ID">
             <summary>
-            Creates a rotation matrix that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
+            Identification number.
             </summary>
-            <param name="v1">The first vector.</param>
-            <param name="v2">The secind vector.</param>
-            <param name="axis">Axis that will be rotated around if vectors are antiparallel.</param>
-            <returns>A rotation matrix.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_X(System.Double)">
+        <member name="P:_3D_Engine.Scene_Object.World_Origin">
             <summary>
-            Creates a quaternion for rotation about the x-axis.
+            The position of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
             </summary>
-            <param name="angle">Angle to rotate.</param>
-            <returns>A rotation quaternion.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Y(System.Double)">
+        <member name="P:_3D_Engine.Scene_Object.World_Direction_Forward">
             <summary>
-            Creates a quaternion for rotation about the y-axis.
+            The forward direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
             </summary>
-            <param name="angle">Angle to rotate.</param>
-            <returns>A rotation quaternion.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Z(System.Double)">
+        <member name="P:_3D_Engine.Scene_Object.World_Direction_Up">
             <summary>
-            Creates a quaternion for rotation about the z-axis.
+            The up direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
             </summary>
-            <param name="angle">Angle to rotate.</param>
-            <returns>A rotation quaternion.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate(_3D_Engine.Vector3D,System.Double)">
+        <member name="P:_3D_Engine.Scene_Object.World_Direction_Right">
             <summary>
-            Create a quaternion that represents a rotation around any axis.
+            The right direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
             </summary>
-            <param name="axis">Axis that will be rotated around.</param>
-            <param name="angle">Angle to rotate.</param>
-            <returns>A rotation quaternion.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})">
+        <member name="P:_3D_Engine.Scene_Object.Display_Directions">
             <summary>
-            Creates a quaternion that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
+            Determines whether the <see cref="T:_3D_Engine.Scene_Object"/> directions are shown or not.
             </summary>
-            <param name="v1">The first vector.</param>
-            <param name="v2">The secind vector.</param>
-            <param name="axis"></param>
-            <returns>A rotation quaternion.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_to_Matrix(_3D_Engine.Quaternion)">
+        <member name="P:_3D_Engine.Scene_Object.Visible">
             <summary>
-            Creates the corresponding rotation matrix for the specified quaternion.
+            Determines whether the <see cref="T:_3D_Engine.Scene_Object"/> is visible or not.
             </summary>
-            <param name="q">The quaternion to convert.</param>
-            <returns>A rotation matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Scale_X(System.Double)">
-            <summary>
-            Creates a matrix for scaling in the x-direction.
-            </summary>
-            <param name="scale_factor">Factor to scale by.</param>
-            <returns>Scaling matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Scale_Y(System.Double)">
-            <summary>
-            Creates a matrix for scaling in the y-direction.
-            </summary>
-            <param name="scale_factor">Factor to scale by.</param>
-            <returns>Scaling matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Scale_Z(System.Double)">
-            <summary>
-            Creates a matrix for scaling in the z-direction.
-            </summary>
-            <param name="scale_factor">Factor to scale by.</param>
-            <returns>Scaling matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Scale(System.Double,System.Double,System.Double)">
-            <summary>
-            Creates a matrix for scaling in all directions.
-            </summary>
-            <param name="scale_factor_x">Factor to scale by in x-direction.</param>
-            <param name="scale_factor_y">Factor to scale by in y-direction.</param>
-            <param name="scale_factor_z">Factor to scale by in z-direction.</param>
-            <returns>Scaling matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Scale(System.Double)">
-            <summary>
-            Creates a matrix for scaling in all directions by the same scale factor.
-            </summary>
-            <param name="scale_factor">Factor to scale by.</param>
-            <returns>Scaling matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate_X(System.Double)">
-            <summary>
-            Creates a matrix for translation in the x-direction.
-            </summary>
-            <param name="distance">Distance to move by.</param>
-            <returns>A translation matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate_Y(System.Double)">
-            <summary>
-            Creates a matrix for translation in the y-direction.
-            </summary>
-            <param name="distance">Distance to move by.</param>
-            <returns>A translation matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate_Z(System.Double)">
-            <summary>
-            Creates a matrix for translation in the z-direction.
-            </summary>
-            <param name="distance">Distance to move by.</param>
-            <returns>A translation matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate(System.Double,System.Double,System.Double)">
-            <summary>
-            Creates a matrix for translation in all directions.
-            </summary>
-            <param name="distance_x">Distance to move by in x-direction.</param>
-            <param name="distance_y">Distance to move by in y-direction.</param>
-            <param name="distance_z">Distance to move by in z-direction.</param>
-            <returns>A translation matrix.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate(_3D_Engine.Vector3D)">
-            <summary>
-            Creates a matrix for translation in all directions.
-            </summary>
-            <param name="distance">Vector to translate by.</param>
-            <returns>A translation matrix.</returns>
         </member>
     </members>
 </doc>
