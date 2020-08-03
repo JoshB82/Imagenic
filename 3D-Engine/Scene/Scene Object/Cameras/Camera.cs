@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 
 namespace _3D_Engine
 {
     public abstract partial class Camera : Scene_Object
     {
-        #region Fields and properties
+        #region Fields and Properties
 
         // Matrices
         internal Matrix4x4 Model_to_World { get; set; }
@@ -80,7 +79,7 @@ namespace _3D_Engine
 
     public class Orthogonal_Camera : Camera
     {
-        #region Fields and properties
+        #region Fields and Properties
 
         private double width, height, z_near, z_far;
         public override double Width
@@ -176,7 +175,7 @@ namespace _3D_Engine
 
     public class Perspective_Camera : Camera
     {
-        #region Fields and properties
+        #region Fields and Properties
 
         private double width, height, z_near, z_far;
         public override double Width

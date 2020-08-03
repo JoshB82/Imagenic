@@ -38,14 +38,16 @@ namespace _3D_Engine
         /// </summary>
         public Vector3D World_Direction_Right { get; private set; }
 
+        // Direction Arrows
         internal Group Direction_Arrows { get; }
         internal bool Has_Direction_Arrows { get; set; }
-
-        // Appearance
         /// <summary>
         /// Determines whether the <see cref="Scene_Object"/> directions are shown or not.
         /// </summary>
         public bool Display_Direction_Arrows { get; set; } = false;
+
+        // Appearance
+
         /// <summary>
         /// Determines whether the <see cref="Scene_Object"/> is visible or not.
         /// </summary>

@@ -228,20 +228,23 @@ namespace _3D_Engine
                     if (mesh.Visible)
                     {
                         // Draw directions
-                        if (mesh.Display_Direction_Arrows && mesh.Has_Direction_Arrows)
+                        if (mesh.Has_Direction_Arrows && mesh.Display_Direction_Arrows)
                         {
-                            int direction_line_length = 30;
-                            Line direction_forward = new Line(mesh.World_Origin, mesh.World_Direction_Forward, direction_line_length) { Edge_Colour = Color.Blue };
-                            Line direction_up = new Line(mesh.World_Origin, mesh.World_Direction_Up, direction_line_length) { Edge_Colour = Color.Green };
-                            Line direction_right = new Line(mesh.World_Origin, mesh.World_Direction_Right, direction_line_length) { Edge_Colour = Color.Red };
+                            Arrow direction_forward = (Arrow)mesh.Direction_Arrows.Scene_Objects[0];
+                            Arrow direction_up = (Arrow)mesh.Direction_Arrows.Scene_Objects[1];
+                            Arrow direction_right = (Arrow)mesh.Direction_Arrows.Scene_Objects[2];
 
                             direction_forward.Calculate_Model_to_World_Matrix();
                             direction_up.Calculate_Model_to_World_Matrix();
                             direction_right.Calculate_Model_to_World_Matrix();
 
-                            Draw_Edge(direction_forward.Edges[0], direction_forward.Model_to_World, world_to_view, view_to_screen);
-                            Draw_Edge(direction_up.Edges[0], direction_up.Model_to_World, world_to_view, view_to_screen);
-                            Draw_Edge(direction_right.Edges[0], direction_right.Model_to_World, world_to_view, view_to_screen);
+                            foreach (Face face in direction_forward.Faces) Draw_Face(face, "Arrow", direction_forward.Model_to_World, world_to_view, view_to_screen, Render_Camera);
+                            foreach (Face face in direction_up.Faces) Draw_Face(face, "Arrow", direction_up.Model_to_World, world_to_view, view_to_screen, Render_Camera);
+                            foreach (Face face in direction_right.Faces) Draw_Face(face, "Arrow", direction_right.Model_to_World, world_to_view, view_to_screen, Render_Camera);
+
+                            foreach (Edge edge in direction_forward.Edges) Draw_Edge(edge, direction_forward.Model_to_World, world_to_view, view_to_screen);
+                            foreach (Edge edge in direction_up.Edges) Draw_Edge(edge, direction_up.Model_to_World, world_to_view, view_to_screen);
+                            foreach (Edge edge in direction_right.Edges) Draw_Edge(edge, direction_right.Model_to_World, world_to_view, view_to_screen);
                         }
 
                         // Draw faces

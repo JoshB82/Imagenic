@@ -14,17 +14,16 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates axes starting from (0, 0, 0) and adds them to the <see cref="Scene"/>.
+        /// Creates axes (arrows) starting from (0, 0, 0) and adds them to the <see cref="Scene"/>.
         /// </summary>
         public void Create_Axes()
         {
-            Line x_axis = new Line(new Vector3D(0, 0, 0), new Vector3D(250, 0, 0)) { Edge_Colour = Color.Red };
-            Line y_axis = new Line(new Vector3D(0, 0, 0), new Vector3D(0, 250, 0)) { Edge_Colour = Color.Green };
-            Line z_axis = new Line(new Vector3D(0, 0, 0), new Vector3D(0, 0, 250)) { Edge_Colour = Color.Blue };
+            int resolution = 30, body_radius = 50, tip_radius = 100, tip_length = 50;
+            Arrow x_axis = new Arrow(new Vector3D(0, 0, 0), new Vector3D(250, 0, 0), body_radius, tip_length, tip_radius, resolution) { Edge_Colour = Color.Red };
+            Arrow y_axis = new Arrow(new Vector3D(0, 0, 0), new Vector3D(0, 250, 0), body_radius, tip_length, tip_radius, resolution) { Edge_Colour = Color.Green };
+            Arrow z_axis = new Arrow(new Vector3D(0, 0, 0), new Vector3D(0, 0, 250), body_radius, tip_length, tip_radius, resolution) { Edge_Colour = Color.Blue };
 
-            Add(x_axis);
-            Add(y_axis);
-            Add(z_axis);
+            Add(x_axis); Add(y_axis); Add(z_axis);
         }
     }
 }
