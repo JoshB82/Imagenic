@@ -18,7 +18,8 @@
             set
             {
                 inner_radius = value;
-                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, Has_Direction_Arrows);
+                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, false);
+                Set_Circle(inner_circle);
 
                 for (int i = 1; i <= resolution; i++) Vertices[i] = inner_circle.Vertices[i];
                 
@@ -33,7 +34,8 @@
             set
             {
                 outer_radius = value;
-                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, Has_Direction_Arrows);
+                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, false);
+                Set_Circle(outer_circle);
 
                 for (int i = 1; i <= resolution; i++) Vertices[i + resolution] = outer_circle.Vertices[i];
 
@@ -48,8 +50,10 @@
             set
             {
                 resolution = value;
-                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, Has_Direction_Arrows);
-                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, Has_Direction_Arrows);
+                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, false);
+                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, false);
+                Set_Circle(inner_circle);
+                Set_Circle(outer_circle);
 
                 Vertices = new Vector4D[2 * resolution + 1];
                 Vertices[0] = Vector4D.Zero;
@@ -80,6 +84,14 @@
             }
             Faces[resolution - 1] = new Face(inner_circle.Vertices[resolution - 1], outer_circle.Vertices[0], outer_circle.Vertices[resolution - 1]);
             Faces[2 * resolution - 1] = new Face(inner_circle.Vertices[resolution - 1], inner_circle.Vertices[0], outer_circle.Vertices[0]);
+        }
+
+        private void Set_Circle(Circle circle)
+        {
+            circle.Calculate_Model_to_World_Matrix();
+            for (int i = 0; i < resolution; i++) circle.Vertices[i] = circle.Model_to_World * circle.Vertices[i];
+            for (int i = 0; i < resolution; i++) circle.Edges[i] = new Edge(circle.Model_to_World * circle.Edges[i].P1, circle.Model_to_World * circle.Edges[i].P2);
+            for (int i = 0; i < resolution; i++) circle.Faces[i] = new Face(circle.Model_to_World * circle.Faces[i].P1, circle.Model_to_World * circle.Faces[i].P2, circle.Model_to_World * circle.Faces[i].P3);
         }
 
         #endregion

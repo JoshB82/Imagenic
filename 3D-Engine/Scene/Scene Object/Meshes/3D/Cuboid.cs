@@ -160,28 +160,18 @@
             Width = width;
             Height = height;
 
-            Vertices = new Vector4D[8]
+            Vertices = new Vertex[8]
             {
-                new Vector4D(0, 0, 0), // 0
-                new Vector4D(1, 0, 0), // 1
-                new Vector4D(1, 1, 0), // 2
-                new Vector4D(0, 1, 0), // 3
-                new Vector4D(0, 0, 1), // 4
-                new Vector4D(1, 0, 1), // 5
-                new Vector4D(1, 1, 1), // 6
-                new Vector4D(0, 1, 1) // 7
+                new Vertex(new Vector4D(0, 0, 0)), // 0
+                new Vertex(new Vector4D(1, 0, 0)), // 1
+                new Vertex(new Vector4D(1, 1, 0)), // 2
+                new Vertex(new Vector4D(0, 1, 0)), // 3
+                new Vertex(new Vector4D(0, 0, 1)), // 4
+                new Vertex(new Vector4D(1, 0, 1)), // 5
+                new Vertex(new Vector4D(1, 1, 1)), // 6
+                new Vertex(new Vector4D(0, 1, 1)) // 7
             }; // need to be oriented to front side
-            Spots = new Spot[8]
-            {
-                new Spot(Vertices[0]), // 0
-                new Spot(Vertices[1]), // 1
-                new Spot(Vertices[2]), // 2
-                new Spot(Vertices[3]), // 3
-                new Spot(Vertices[4]), // 4
-                new Spot(Vertices[5]), // 5
-                new Spot(Vertices[6]), // 6
-                new Spot(Vertices[7]) // 7
-            };
+
             Edges = new Edge[18]
             {
                 new Edge(Vertices[0], Vertices[1]), // 0

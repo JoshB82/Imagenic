@@ -39,15 +39,9 @@
 
             Circle pyramid_base = new Circle(origin, direction_forward, direction_up, radius, resolution);
 
-            Vertices = new Vector4D[resolution + 2];
-            Vertices[resolution + 1] = new Vector4D(0, 1, 0);
+            Vertices = new Vertex[resolution + 2];
+            Vertices[resolution + 1] = new Vertex(new Vector4D(0, 1, 0));
             for (int i = 0; i <= resolution; i++) Vertices[i] = pyramid_base.Vertices[i];
-
-            Spots = new Spot[2]
-            {
-                pyramid_base.Spots[0],
-                new Spot()
-            };
 
             Edges = new Edge[2 * resolution];
             for (int i = 0; i < resolution; i++)

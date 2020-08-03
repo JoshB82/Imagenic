@@ -15,9 +15,12 @@ namespace _3D_Engine
         {
             // if (new_world_direction_forward * new_world_direction_up != 0) throw new Exception("Direction vectors are not orthogonal.");
 
+            new_world_direction_forward = new_world_direction_forward.Normalise();
+            new_world_direction_up = new_world_direction_up.Normalise();
+
             Adjust_Vectors(
-                new_world_direction_forward.Normalise(),
-                new_world_direction_up.Normalise(),
+                new_world_direction_forward,
+                new_world_direction_up,
                 Transform.Calculate_Direction_Right(new_world_direction_forward, new_world_direction_up)
             );
             Output_Direction();
@@ -31,10 +34,13 @@ namespace _3D_Engine
         {
             // if (new_world_direction_up * new_world_direction_right != 0) throw new Exception("Direction vectors are not orthogonal.");
 
+            new_world_direction_up = new_world_direction_up.Normalise();
+            new_world_direction_right = new_world_direction_right.Normalise();
+
             Adjust_Vectors(
                 Transform.Calculate_Direction_Forward(new_world_direction_up, new_world_direction_right),
-                new_world_direction_up.Normalise(),
-                new_world_direction_right.Normalise()
+                new_world_direction_up,
+                new_world_direction_right
             );
             Output_Direction();
         }
@@ -47,10 +53,13 @@ namespace _3D_Engine
         {
             // if (new_world_direction_right * new_world_direction_forward != 0) throw new Exception("Direction vectors are not orthogonal.");
 
+            new_world_direction_forward = new_world_direction_forward.Normalise();
+            new_world_direction_right = new_world_direction_right.Normalise();
+
             Adjust_Vectors(
-                new_world_direction_forward.Normalise(),
+                new_world_direction_forward,
                 Transform.Calculate_Direction_Up(new_world_direction_right, new_world_direction_forward),
-                new_world_direction_right.Normalise()
+                new_world_direction_right
             );
             Output_Direction();
         }

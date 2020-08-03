@@ -291,7 +291,7 @@
         </member>
         <member name="M:_3D_Engine.Scene.Create_Axes">
             <summary>
-            Creates axes (arrows) starting from (0, 0, 0) and adds them to the <see cref="T:_3D_Engine.Scene"/>.
+            Creates axes (<see cref="T:_3D_Engine.Arrow"/>) starting from (0, 0, 0) and adds them to the <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene.Round_To_Int(System.Double)">

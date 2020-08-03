@@ -1,19 +1,26 @@
-﻿using System.Diagnostics;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
     public sealed partial class Scene
     {
         private void Draw_Edge(Edge edge,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_view,
-            Matrix4x4 view_to_screen)
+            Matrix4x4 view_to_screen,
+            bool apply_model_to_world = true)
         {
             // Move the edge from model space to world space
-            edge.World_P1 = new Vector3D(model_to_world * edge.P1);
-            edge.World_P2 = new Vector3D(model_to_world * edge.P2);
-            edge.P1 = model_to_world * edge.P1;
-            edge.P2 = model_to_world * edge.P2;
+            if (apply_model_to_world)
+            {
+                edge.World_P1 = new Vector3D(model_to_world * edge.P1);
+                edge.World_P2 = new Vector3D(model_to_world * edge.P2);
+                edge.P1 = model_to_world * edge.P1;
+                edge.P2 = model_to_world * edge.P2;
+            }
+            else
+            {
+                edge.World_P1 = new Vector3D(edge.P1);
+                edge.World_P2 = new Vector3D(edge.P2);
+            }
             
             // Move the edge from world space to view space
             edge.P1 = world_to_view * edge.P1;

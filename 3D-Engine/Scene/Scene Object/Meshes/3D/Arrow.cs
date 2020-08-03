@@ -86,11 +86,18 @@
             Tip_Radius = tip_radius;
             Resolution = resolution;
 
-            double up_x = 10, up_y = 20; // Arbitrary choices
-            Vector3D up = new Vector3D(up_x, up_y, -(unit_vector.X * up_x + unit_vector.Y * up_y) / unit_vector.Z);
-            Circle arrow_base = new Circle(start_position, up, unit_vector, body_radius, resolution, false);
+            // Is the has_direction_arrows parameter completely necessary?
+
+            double forward_x = 10, forward_y = 20; // Arbitrary choices
+            Vector3D forward = new Vector3D(forward_x, forward_y, -(unit_vector.X * forward_x + unit_vector.Y * forward_y) / unit_vector.Z);
+            Circle arrow_base = new Circle(start_position, forward, unit_vector, body_radius, resolution, false);
+            arrow_base.Calculate_Model_to_World_Matrix();
+            for (int i = 0; i < resolution; i++) arrow_base.Vertices[i] = arrow_base.Model_to_World * arrow_base.Vertices[i];
+            for (int i = 0; i < resolution; i++) arrow_base.Edges[i] = new Edge(arrow_base.Model_to_World * arrow_base.Edges[i].P1, arrow_base.Model_to_World * arrow_base.Edges[i].P2);
+            for (int i = 0; i < resolution; i++) arrow_base.Faces[i] = new Face(arrow_base.Model_to_World * arrow_base.Faces[i].P1, arrow_base.Model_to_World * arrow_base.Faces[i].P2, arrow_base.Model_to_World * arrow_base.Faces[i].P3);
+
             Vector3D body_tip_intersection = unit_vector * body_length + start_position;
-            Ring arrow_ring = new Ring(body_tip_intersection, up, unit_vector, body_radius, tip_radius, resolution, false);
+            Ring arrow_ring = new Ring(body_tip_intersection, forward, unit_vector, body_radius, tip_radius, resolution, false);
 
             // Vertices must line up so that the arrow isn't twisted.
             Vertices = new Vector4D[3 * resolution + 3];

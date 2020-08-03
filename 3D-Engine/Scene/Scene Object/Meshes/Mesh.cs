@@ -11,7 +11,7 @@ namespace _3D_Engine
         /// The <see cref="Texture"/>s that define what to draw on the surface of the <see cref="Mesh"/>.
         /// </summary>
         public Texture[] Textures { get; internal set; }
-        internal Vector4D[] Vertices { get; set; }
+        internal Vertex[] Vertices { get; set; }
         /// <summary>
         /// The positions of the vertices that make up the <see cref="Mesh"/> in world space.
         /// </summary>
@@ -45,8 +45,8 @@ namespace _3D_Engine
 
         // Colours
         private Color spot_colour = Color.Green;
-        private Color edge_colour = Color.Black;
-        private Color face_colour = Color.BlueViolet;
+        private Color edge_colour;
+        private Color face_colour;
         /// <summary>
         /// The <see cref="Color"/> of each <see cref="Spot"/> in the <see cref="Mesh"/>.
         /// </summary>
@@ -95,7 +95,7 @@ namespace _3D_Engine
         /// </summary>
 
         // Object transformations
-        internal Matrix4x4 Model_to_World { get; private set; }
+        internal Matrix4x4 Model_to_World { get; private set; } = Matrix4x4.Identity_Matrix();
         internal Vector3D Scaling { get; set; } = Vector3D.One;
 
         #endregion
