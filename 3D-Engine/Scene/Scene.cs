@@ -228,7 +228,7 @@ namespace _3D_Engine
                     if (mesh.Visible)
                     {
                         // Draw directions
-                        if (mesh.Display_Directions)
+                        if (mesh.Display_Direction_Arrows && mesh.Has_Direction_Arrows)
                         {
                             int direction_line_length = 30;
                             Line direction_forward = new Line(mesh.World_Origin, mesh.World_Direction_Forward, direction_line_length) { Edge_Colour = Color.Blue };
@@ -260,12 +260,6 @@ namespace _3D_Engine
                             {
                                 if (edge.Visible) Draw_Edge(edge, model_to_world, world_to_view, view_to_screen);
                             }
-                        }
-
-                        // Draw spots
-                        if (mesh.Draw_Spots)
-                        {
-                            foreach (Spot spot in mesh.Spots) if (spot.Visible) Draw_Spot(spot, Render_Camera);
                         }
                     }
                 }

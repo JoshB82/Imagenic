@@ -76,7 +76,7 @@
 
         #region Constructors
 
-        public Arrow(Vector3D start_position, Vector3D end_position, double body_radius, double tip_length, double tip_radius, int resolution) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y)
+        public Arrow(Vector3D start_position, Vector3D end_position, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y, has_direction_arrows)
         {
             Start_Position = start_position;
             Body_Length = (end_position - start_position).Magnitude() - tip_length;
@@ -88,9 +88,9 @@
 
             double up_x = 10, up_y = 20; // Arbitrary choices
             Vector3D up = new Vector3D(up_x, up_y, -(unit_vector.X * up_x + unit_vector.Y * up_y) / unit_vector.Z);
-            Circle arrow_base = new Circle(start_position, up, unit_vector, body_radius, resolution);
+            Circle arrow_base = new Circle(start_position, up, unit_vector, body_radius, resolution, false);
             Vector3D body_tip_intersection = unit_vector * body_length + start_position;
-            Ring arrow_ring = new Ring(body_tip_intersection, up, unit_vector, body_radius, tip_radius, resolution);
+            Ring arrow_ring = new Ring(body_tip_intersection, up, unit_vector, body_radius, tip_radius, resolution, false);
 
             // Vertices must line up so that the arrow isn't twisted.
             Vertices = new Vector4D[3 * resolution + 3];
@@ -129,7 +129,7 @@
             Faces[6 * resolution - 1] = new Face(arrow_ring.Vertices[2 * resolution], arrow_ring.Vertices[resolution + 1], Vertices[2]);
         }
 
-        public Arrow(Vector3D start_position, Vector3D unit_vector, double body_length, double body_radius, double tip_length, double tip_radius, int resolution) : this(start_position, unit_vector * (body_length + tip_length) + start_position, body_radius, tip_length, tip_radius, resolution) { }
+        public Arrow(Vector3D start_position, Vector3D unit_vector, double body_length, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : this(start_position, unit_vector * (body_length + tip_length) + start_position, body_radius, tip_length, tip_radius, resolution, has_direction_arrows) { }
 
         #endregion
     }

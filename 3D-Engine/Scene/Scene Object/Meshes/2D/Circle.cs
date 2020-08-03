@@ -49,8 +49,6 @@ namespace _3D_Engine
                     for (int i = 0; i < resolution; i++) Textures[0].Vertices[i + 1] = new Vector3D(Math.Cos(angle * i) * 0.5, Math.Sin(angle * i) * 0.5, 1);
                 }
 
-                Spots = new Spot[1] { new Spot(Vertices[0]) };
-
                 Edges = new Edge[resolution];
                 for (int i = 0; i < resolution - 1; i++) Edges[i] = new Edge(Vertices[i + 1], Vertices[i + 2]);
                 Edges[resolution - 1] = new Edge(Vertices[resolution], Vertices[1]);
@@ -73,7 +71,7 @@ namespace _3D_Engine
         /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
         /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of points that are on the perimeter of the <see cref="Circle"/>.</param>
-        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution) : base(origin, direction_forward, normal)
+        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution, bool has_direction_arrows = true) : base(origin, direction_forward, normal, has_direction_arrows)
         {
             Radius = radius;
             Resolution = resolution;
@@ -88,7 +86,7 @@ namespace _3D_Engine
         /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of points that are on the perimeter of the <see cref="Circle"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Circle"/>.</param>
-        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution, Texture texture) : base(origin, direction_forward, normal)
+        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution, Texture texture, bool has_direction_arrows = true) : base(origin, direction_forward, normal, has_direction_arrows)
         {
             Radius = radius;
             Textures = new Texture[1] { texture };

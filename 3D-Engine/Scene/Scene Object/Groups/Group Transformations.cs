@@ -8,7 +8,7 @@
         {
             base.Set_Direction_1(new_world_direction_forward, new_world_direction_up);
 
-            if (Scene_Objects.Count == 0) return;
+            if (Scene_Objects == null || Scene_Objects.Count == 0) return;
 
             // Calculate rotation matrices
             Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(World_Direction_Forward, new_world_direction_forward);

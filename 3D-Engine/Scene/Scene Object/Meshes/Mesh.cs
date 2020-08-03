@@ -115,7 +115,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Mesh(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up) { }
+        internal Mesh(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows) { }
 
         #endregion
     }

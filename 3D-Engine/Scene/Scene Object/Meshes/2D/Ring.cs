@@ -18,7 +18,7 @@
             set
             {
                 inner_radius = value;
-                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution);
+                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, Has_Direction_Arrows);
 
                 for (int i = 1; i <= resolution; i++) Vertices[i] = inner_circle.Vertices[i];
                 
@@ -33,7 +33,7 @@
             set
             {
                 outer_radius = value;
-                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution);
+                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, Has_Direction_Arrows);
 
                 for (int i = 1; i <= resolution; i++) Vertices[i + resolution] = outer_circle.Vertices[i];
 
@@ -48,8 +48,8 @@
             set
             {
                 resolution = value;
-                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution);
-                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution);
+                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, Has_Direction_Arrows);
+                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, Has_Direction_Arrows);
 
                 Vertices = new Vector4D[2 * resolution + 1];
                 Vertices[0] = Vector4D.Zero;
@@ -86,11 +86,11 @@
 
         #region Constructors
 
-        public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double inner_radius, double outer_radius, int resolution) : base(origin, direction_forward, direction_up)
+        public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double inner_radius, double outer_radius, int resolution, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
         {
+            Resolution = resolution;
             Inner_Radius = inner_radius;
             Outer_Radius = outer_radius;
-            Resolution = resolution;
         }
 
         #endregion

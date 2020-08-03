@@ -478,7 +478,7 @@
             The number of points that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Int32)">
+        <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Int32,System.Boolean)">
             <summary>
             Creates a <see cref="T:_3D_Engine.Circle"/> mesh.
             </summary>
@@ -488,7 +488,7 @@
             <param name="radius">The radius of the <see cref="T:_3D_Engine.Circle"/>.</param>
             <param name="resolution">The number of points that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.</param>
         </member>
-        <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Int32,_3D_Engine.Texture)">
+        <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Int32,_3D_Engine.Texture,System.Boolean)">
             <summary>
             Creates a textured <see cref="T:_3D_Engine.Circle"/> mesh, specifying a single <see cref="T:_3D_Engine.Texture"/> for all sides.
             </summary>
@@ -920,7 +920,7 @@
             The right direction of the <see cref="T:_3D_Engine.Scene_Object"/> in world space.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Scene_Object.Display_Directions">
+        <member name="P:_3D_Engine.Scene_Object.Display_Direction_Arrows">
             <summary>
             Determines whether the <see cref="T:_3D_Engine.Scene_Object"/> directions are shown or not.
             </summary>
