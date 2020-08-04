@@ -21,17 +21,14 @@ namespace _3D_Engine
         /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
         /// <param name="vertices">The vertices that make up the <see cref="Custom"/> mesh.</param>
-        /// <param name="spots">The <see cref="Spot"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="edges">The <see cref="Edge"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="faces">The <see cref="Face"/>s that make up the <see cref="Custom"/> mesh.</param>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up,
-            Vector4D[] vertices,
-            Spot[] spots,
+            Vertex[] vertices,
             Edge[] edges,
             Face[] faces) : base(origin, direction_forward, direction_up)
         {
             Vertices = vertices;
-            Spots = spots;
             Edges = edges;
             Faces = faces;
         }
@@ -43,19 +40,16 @@ namespace _3D_Engine
         /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
         /// <param name="vertices">The vertices that make up the <see cref="Custom"/> mesh.</param>
-        /// <param name="spots">The <see cref="Spot"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="edges">The <see cref="Edge"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="faces">The <see cref="Face"/>s that make up the <see cref="Custom"/> mesh.</param>
         /// <param name="textures">The <see cref="Texture"/>s that make up the surface of the <see cref="Custom"/> mesh.</param>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up,
-            Vector4D[] vertices,
-            Spot[] spots,
+            Vertex[] vertices,
             Edge[] edges,
             Face[] faces,
             Texture[] textures) : base(origin, direction_forward, direction_up)
         {
             Vertices = vertices;
-            Spots = spots;
             Edges = edges;
             Faces = faces;
             Textures = textures;
@@ -77,7 +71,7 @@ namespace _3D_Engine
                 return;
             }
 
-            List<Vector4D> vertices = new List<Vector4D>();
+            List<Vertex> vertices = new List<Vertex>();
             List<Edge> edges = new List<Edge>();
             List<Face> faces = new List<Face>();
 
@@ -101,7 +95,7 @@ namespace _3D_Engine
                             y = double.Parse(data[2]);
                             z = double.Parse(data[3]);
                             w = (data.Length == 5) ? Double.Parse(data[4]) : 1;
-                            vertices.Add(new Vector4D(x, y, z, w));
+                            vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
                             break;
                         case "l":
                             // Line (or polyline)
@@ -110,7 +104,7 @@ namespace _3D_Engine
                             {
                                 p1 = int.Parse(data[no_end_points]) - 1;
                                 p2 = int.Parse(data[no_end_points - 1]) - 1;
-                                edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1], Color.Black));
+                                edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1]));
                                 no_end_points--;
                             }
                             while (no_end_points > 1);
@@ -120,7 +114,7 @@ namespace _3D_Engine
                             p1 = int.Parse(data[1]) - 1;
                             p2 = int.Parse(data[2]) - 1;
                             p3 = int.Parse(data[3]) - 1;
-                            faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1], Color.BlueViolet));
+                            faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
                             break;
                     }
                 }
@@ -132,7 +126,6 @@ namespace _3D_Engine
             }  
 
             Vertices = vertices.ToArray();
-            Draw_Spots = false;
             Edges = edges.ToArray();
             Faces = faces.ToArray();
         }
@@ -154,7 +147,7 @@ namespace _3D_Engine
                 return;
             }
 
-            List<Vector4D> vertices = new List<Vector4D>();
+            List<Vertex> vertices = new List<Vertex>();
             List<Vector3D> texture_vertices = new List<Vector3D>();
             List<Edge> edges = new List<Edge>();
             List<Face> faces = new List<Face>();
@@ -179,7 +172,7 @@ namespace _3D_Engine
                             y = double.Parse(data[2]);
                             z = double.Parse(data[3]);
                             w = (data.Length == 5) ? Double.Parse(data[4]) : 1;
-                            vertices.Add(new Vector4D(x, y, z, w));
+                            vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
                             break;
                         case "vt":
                             // Texture vertex
@@ -195,7 +188,7 @@ namespace _3D_Engine
                             {
                                 p1 = int.Parse(data[no_end_points]) - 1;
                                 p2 = int.Parse(data[no_end_points - 1]) - 1;
-                                edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1], Color.Black));
+                                edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1]));
                                 no_end_points--;
                             }
                             while (no_end_points > 1);
@@ -205,7 +198,7 @@ namespace _3D_Engine
                             p1 = int.Parse(data[1]) - 1;
                             p2 = int.Parse(data[2]) - 1;
                             p3 = int.Parse(data[3]) - 1;
-                            faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1], Color.BlueViolet));
+                            faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
                             break;
                     }
                 }
@@ -217,7 +210,6 @@ namespace _3D_Engine
             }
 
             Vertices = vertices.ToArray();
-            Draw_Spots = false;
             Edges = edges.ToArray();
             Faces = faces.ToArray();
             Textures = new Texture[] { new Texture(texture, texture_vertices.ToArray()) };
@@ -234,7 +226,6 @@ namespace _3D_Engine
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, Mesh m1, Mesh m2) : base(origin, direction_forward, direction_up)
         {
             Vertices = m1.Vertices.Concat(m2.Vertices).ToArray(); // Not entirely sure how this works?
-            Spots = m1.Spots.Concat(m2.Spots).ToArray();
             Edges = m1.Edges.Concat(m2.Edges).ToArray();
             Faces = m1.Faces.Concat(m2.Faces).ToArray();
             Textures = m1.Textures.Concat(m2.Textures).ToArray();

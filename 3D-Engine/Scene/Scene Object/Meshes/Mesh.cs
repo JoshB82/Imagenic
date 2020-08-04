@@ -17,10 +17,6 @@ namespace _3D_Engine
         /// </summary>
         public Vector3D[] World_Vertices { get; protected set; }
         /// <summary>
-        /// The <see cref="Spot"/>s in the <see cref="Mesh"/>.
-        /// </summary>
-        public Spot[] Spots { get; protected set; }
-        /// <summary>
         /// The <see cref="Edge"/>s in the <see cref="Mesh"/>.
         /// </summary>
         public Edge[] Edges { get; protected set; }
@@ -29,11 +25,9 @@ namespace _3D_Engine
         /// </summary>
         public Face[] Faces { get; internal set; }
 
+        public bool apply_model_to_world = true;f
+
         // Appearance
-        /// <summary>
-        /// Determines if the <see cref="Mesh"/>'s <see cref="Spot"/>s are drawn.
-        /// </summary>
-        public bool Draw_Spots { get; set; } = true;
         /// <summary>
         /// Determines if the <see cref="Mesh"/>'s <see cref="Edge"/>s are drawn.
         /// </summary>
@@ -44,22 +38,8 @@ namespace _3D_Engine
         public bool Draw_Faces { get; set; } = true;
 
         // Colours
-        private Color spot_colour = Color.Green;
         private Color edge_colour;
         private Color face_colour;
-        /// <summary>
-        /// The <see cref="Color"/> of each <see cref="Spot"/> in the <see cref="Mesh"/>.
-        /// </summary>
-        public Color Spot_Colour
-        {
-            get => spot_colour;
-            set
-            {
-                spot_colour = value;
-                // Not entirely sure why can't use foreach loop :/
-                for (int i = 0; i < Spots.Length; i++) Spots[i].Colour = value;
-            }
-        }
         /// <summary>
         /// The <see cref="Color"/> of each <see cref="Edge"/> in the <see cref="Mesh"/>.
         /// </summary>
@@ -69,7 +49,7 @@ namespace _3D_Engine
             set
             {
                 edge_colour = value;
-                for (int i = 0; i < Edges.Length; i++) Edges[i].Colour = value;
+                for (int i = 0; i < Edges.Length; i++) Edges[i].Colour = value; // ?
             }
         }
         /// <summary>
@@ -81,7 +61,7 @@ namespace _3D_Engine
             set
             {
                 face_colour = value;
-                for (int i = 0; i < Faces.Length; i++) Faces[i].Colour = value;
+                for (int i = 0; i < Faces.Length; i++) Faces[i].Colour = value; // ?
             }
         }
 

@@ -227,13 +227,13 @@ namespace _3D_Engine
                             Arrow direction_up = (Arrow)mesh.Direction_Arrows.Scene_Objects[1];
                             Arrow direction_right = (Arrow)mesh.Direction_Arrows.Scene_Objects[2];
 
-                            foreach (Face face in direction_forward.Faces) Draw_Face(face, "Arrow", direction_forward.Model_to_World, world_to_view, view_to_screen, Render_Camera, false);
-                            foreach (Face face in direction_up.Faces) Draw_Face(face, "Arrow", direction_up.Model_to_World, world_to_view, view_to_screen, Render_Camera, false);
-                            foreach (Face face in direction_right.Faces) Draw_Face(face, "Arrow", direction_right.Model_to_World, world_to_view, view_to_screen, Render_Camera, false);
+                            foreach (Face face in direction_forward.Faces) Draw_Face(face, "Arrow", direction_forward.Model_to_World, world_to_view, view_to_screen);
+                            foreach (Face face in direction_up.Faces) Draw_Face(face, "Arrow", direction_up.Model_to_World, world_to_view, view_to_screen);
+                            foreach (Face face in direction_right.Faces) Draw_Face(face, "Arrow", direction_right.Model_to_World, world_to_view, view_to_screen);
 
-                            foreach (Edge edge in direction_forward.Edges) Draw_Edge(edge, direction_forward.Model_to_World, world_to_view, view_to_screen, false);
-                            foreach (Edge edge in direction_up.Edges) Draw_Edge(edge, direction_up.Model_to_World, world_to_view, view_to_screen, false);
-                            foreach (Edge edge in direction_right.Edges) Draw_Edge(edge, direction_right.Model_to_World, world_to_view, view_to_screen, false);
+                            foreach (Edge edge in direction_forward.Edges) Draw_Edge(edge, direction_forward.Model_to_World, world_to_view, view_to_screen);
+                            foreach (Edge edge in direction_up.Edges) Draw_Edge(edge, direction_up.Model_to_World, world_to_view, view_to_screen);
+                            foreach (Edge edge in direction_right.Edges) Draw_Edge(edge, direction_right.Model_to_World, world_to_view, view_to_screen);
                         }
 
                         mesh.Calculate_Model_to_World_Matrix();
@@ -248,7 +248,7 @@ namespace _3D_Engine
                         {
                             foreach (Face face in mesh.Faces)
                             {
-                                if (face.Visible) Draw_Face(face, mesh_type, model_to_world, world_to_view, view_to_screen, Render_Camera);
+                                if (face.Visible) Draw_Face(face, mesh_type, model_to_world, world_to_view, view_to_screen);
                             }
                         }
 

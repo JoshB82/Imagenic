@@ -39,22 +39,13 @@
             Start_Position = start_position;
             End_Position = end_position;
 
-            Vertices = new Vector4D[2]
+            Vertices = new Vertex[2]
             {
-                new Vector4D(0, 0, 0), // 0
-                new Vector4D(1, 1, 1) // 1
+                new Vertex(new Vector4D(0, 0, 0)), // 0
+                new Vertex(new Vector4D(1, 1, 1)) // 1
             };
 
-            Spots = new Spot[]
-            {
-                new Spot(Vertices[0]), // 0
-                new Spot(Vertices[1]) // 1
-            };
-
-            Edges = new Edge[1]
-            {
-                new Edge(Vertices[0], Vertices[1]) // 0
-            };
+            Edges = new Edge[1] { new Edge(Vertices[0], Vertices[1]) };
 
             Draw_Faces = false;
         }

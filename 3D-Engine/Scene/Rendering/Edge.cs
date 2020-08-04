@@ -5,26 +5,17 @@
         private void Draw_Edge(Edge edge,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_view,
-            Matrix4x4 view_to_screen,
-            bool apply_model_to_world = true)
+            Matrix4x4 view_to_screen)
         {
             // Move the edge from model space to world space
-            if (apply_model_to_world)
-            {
-                edge.World_P1 = new Vector3D(model_to_world * edge.P1);
-                edge.World_P2 = new Vector3D(model_to_world * edge.P2);
-                edge.P1 = model_to_world * edge.P1;
-                edge.P2 = model_to_world * edge.P2;
-            }
-            else
-            {
-                edge.World_P1 = new Vector3D(edge.P1);
-                edge.World_P2 = new Vector3D(edge.P2);
-            }
+            edge.World_P1 = new Vector3D(model_to_world * edge.P1.Point);
+            edge.World_P2 = new Vector3D(model_to_world * edge.P2.Point);
+            edge.P1.Point = model_to_world * edge.P1.Point;
+            edge.P2.Point = model_to_world * edge.P2.Point;
             
             // Move the edge from world space to view space
-            edge.P1 = world_to_view * edge.P1;
-            edge.P2 = world_to_view * edge.P2;
+            edge.P1.Point = world_to_view * edge.P1.Point;
+            edge.P2.Point = world_to_view * edge.P2.Point;
 
             // Clip the edge in view space
             if (Settings.View_Space_Clip)
@@ -36,13 +27,13 @@
             }
 
             // Move the edge from view space to screen space, including a correction for perspective
-            edge.P1 = view_to_screen * edge.P1;
-            edge.P2 = view_to_screen * edge.P2;
+            edge.P1.Point = view_to_screen * edge.P1.Point;
+            edge.P2.Point = view_to_screen * edge.P2.Point;
 
             if (render_camera_type == "Perspective_Camera")
             {
-                edge.P1 /= edge.P1.W;
-                edge.P2 /= edge.P2.W; 
+                edge.P1.Point /= edge.P1.Point.W;
+                edge.P2.Point /= edge.P2.Point.W; 
             }
 
             // Clip the edge in screen space

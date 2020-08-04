@@ -68,20 +68,14 @@ namespace _3D_Engine
         {
             Side_Length = side_length;
 
-            Vertices = new Vector4D[4]
+            Vertices = new Vertex[4]
             {
-                new Vector4D(0, 0, 0), // 0
-                new Vector4D(1, 0, 0), // 1
-                new Vector4D(1, 0, 1), // 2
-                new Vector4D(0, 0, 1) // 3
+                new Vertex(new Vector4D(0, 0, 0)), // 0
+                new Vertex(new Vector4D(1, 0, 0)), // 1
+                new Vertex(new Vector4D(1, 0, 1)), // 2
+                new Vertex(new Vector4D(0, 0, 1)) // 3
             };
-            Spots = new Spot[4]
-            {
-                new Spot(Vertices[0]), // 0
-                new Spot(Vertices[1]), // 1
-                new Spot(Vertices[2]), // 2
-                new Spot(Vertices[3]) // 3
-            };
+
             Edges = new Edge[5]
             {
                 new Edge(Vertices[0], Vertices[1]), // 0
@@ -102,9 +96,11 @@ namespace _3D_Engine
         /// <param name="square"><see cref="Square"/> to cast.</param>
         public static explicit operator Plane(Square square)
         {
-            Plane plane_cast = new Plane(square.World_Origin, square.World_Direction_Forward, square.World_Direction_Up, square.side_length, square.side_length);
-            plane_cast.Textures = square.Textures;
-            plane_cast.Faces = square.Faces;
+            Plane plane_cast = new Plane(square.World_Origin, square.World_Direction_Forward, square.World_Direction_Up, square.side_length, square.side_length)
+            {
+                Textures = square.Textures,
+                Faces = square.Faces
+            };
             return plane_cast;
         }
 

@@ -52,12 +52,6 @@
                 Vertices[resolution + 1] = Prism_top_and_bottom.Vertices[0] + new Vector4D(0, 1, 0);
                 for (int i = resolution + 2; i <= 2 * resolution + 1; i++) Vertices[i] = Prism_top_and_bottom.Vertices[i] + new Vector4D(0, 1, 0);
 
-                Spots = new Spot[2]
-                {
-                    new Spot(Vertices[0]),
-                    new Spot(Vertices[resolution + 1])
-                };
-
                 Edges = new Edge[4 * resolution];
                 for (int i = 0; i < resolution; i++)
                 {

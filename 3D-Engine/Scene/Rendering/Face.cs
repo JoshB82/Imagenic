@@ -7,31 +7,20 @@ namespace _3D_Engine
         private void Draw_Face(Face face, string mesh_type,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_view,
-            Matrix4x4 view_to_screen,
-            Camera camera,
-            bool apply_model_to_world = true)
+            Matrix4x4 view_to_screen)
         {
             // Move the face from model space to world space
-            if (apply_model_to_world)
-            {
-                face.World_P1 = new Vector3D(model_to_world * face.P1);
-                face.World_P2 = new Vector3D(model_to_world * face.P2);
-                face.World_P3 = new Vector3D(model_to_world * face.P3);
-                face.P1 = model_to_world * face.P1;
-                face.P2 = model_to_world * face.P2;
-                face.P3 = model_to_world * face.P3;
-            }
-            else
-            {
-                face.World_P1 = new Vector3D(face.P1);
-                face.World_P2 = new Vector3D(face.P2);
-                face.World_P3 = new Vector3D(face.P3);
-            }
-            
-            Vector3D camera_to_face = new Vector3D(face.P1 - new Vector4D(Render_Camera.World_Origin));
-            Vector3D normal = Vector3D.Normal_From_Plane(face.World_P1, face.World_P2, face.World_P3);
+            face.World_P1 = new Vector3D(model_to_world * face.P1.Point);
+            face.World_P2 = new Vector3D(model_to_world * face.P2.Point);
+            face.World_P3 = new Vector3D(model_to_world * face.P3.Point);
+            face.P1.Point = model_to_world * face.P1.Point;
+            face.P2.Point = model_to_world * face.P2.Point;
+            face.P3.Point = model_to_world * face.P3.Point;
 
             // Discard the face if it is not visible
+            Vector3D camera_to_face = new Vector3D(face.P1.Point - new Vector4D(Render_Camera.World_Origin));
+            Vector3D normal = Vector3D.Normal_From_Plane(face.World_P1, face.World_P2, face.World_P3);
+            
             if (camera_to_face * normal >= 0
                 && mesh_type != "Circle"
                 && mesh_type != "Plane"
@@ -40,51 +29,50 @@ namespace _3D_Engine
             return;
             
             // Draw outline if needed
-            if (face.Draw_Outline)
+            if (face.Draw_Outline)//
             {
                 Draw_Edge(new Edge(face.P1, face.P2), model_to_world, world_to_view, view_to_screen);
                 Draw_Edge(new Edge(face.P1, face.P3), model_to_world, world_to_view, view_to_screen);
                 Draw_Edge(new Edge(face.P2, face.P3), model_to_world, world_to_view, view_to_screen);
             }
 
-            /*
-            // Adjust face based on lighting
-            foreach (Light light in Lights)
-            {
-                Vector3D light_to_face = face.World_P1 - light.World_Origin;
-                double intensity_at_face = 1 / light_to_face.Magnitude() * light.Intensity;
-
-            }
-            */
-
             // Move the face from world space to view space
-            face.P1 = world_to_view * face.P1;
-            face.P2 = world_to_view * face.P2;
-            face.P3 = world_to_view * face.P3;
+            face.P1.Point = world_to_view * face.P1.Point;
+            face.P2.Point = world_to_view * face.P2.Point;
+            face.P3.Point = world_to_view * face.P3.Point;
 
             // Clip the face in view space
-            Queue<Face> view_face_clip = new Queue<Face>(); view_face_clip.Enqueue(face);
-            if (Queue_Clip_Face(view_face_clip, Render_Camera.View_Clipping_Planes, out Face[] new_view_triangles) == 0) return;
+            Face[] new_view_triangles;
+            
+            if (Settings.View_Space_Clip)
+            {
+                Queue<Face> view_face_clip = new Queue<Face>();
+                view_face_clip.Enqueue(face);
+                if (Queue_Clip_Face(view_face_clip, Render_Camera.View_Clipping_Planes, out new_view_triangles) == 0) return;
+            }
+            else
+            {
+                new_view_triangles = new Face[1] { face };
+            }
 
-            // Not entirely sure why can't use foreach loop :/ (check how for loop works for 0,1,2,etc. for all for loops)
+            // Move the new triangles from view space to screen space, including a correction for perspective
             for (int i = 0; i < new_view_triangles.Length; i++)
             {
-                // Move the new triangles from view space to screen space, including a correction for perspective
-                new_view_triangles[i].P1 = view_to_screen * new_view_triangles[i].P1;
-                new_view_triangles[i].P2 = view_to_screen * new_view_triangles[i].P2;
-                new_view_triangles[i].P3 = view_to_screen * new_view_triangles[i].P3;
+                new_view_triangles[i].P1.Point = view_to_screen * new_view_triangles[i].P1.Point;
+                new_view_triangles[i].P2.Point = view_to_screen * new_view_triangles[i].P2.Point;
+                new_view_triangles[i].P3.Point = view_to_screen * new_view_triangles[i].P3.Point;
 
                 if (render_camera_type == "Perspective_Camera")
                 {
-                    new_view_triangles[i].P1 /= new_view_triangles[i].P1.W;
-                    new_view_triangles[i].P2 /= new_view_triangles[i].P2.W;
-                    new_view_triangles[i].P3 /= new_view_triangles[i].P3.W;
+                    new_view_triangles[i].P1.Point /= new_view_triangles[i].P1.Point.W;
+                    new_view_triangles[i].P2.Point /= new_view_triangles[i].P2.Point.W;
+                    new_view_triangles[i].P3.Point /= new_view_triangles[i].P3.Point.W;
                     
                     if (face.Texture_Object != null)
                     {
-                        new_view_triangles[i].T1 /= new_view_triangles[i].P1.W;
-                        new_view_triangles[i].T2 /= new_view_triangles[i].P2.W;
-                        new_view_triangles[i].T3 /= new_view_triangles[i].P3.W;
+                        new_view_triangles[i].T1 /= new_view_triangles[i].P1.Point.W;
+                        new_view_triangles[i].T2 /= new_view_triangles[i].P2.Point.W;
+                        new_view_triangles[i].T3 /= new_view_triangles[i].P3.Point.W;
                     }
                 }
             }
@@ -96,25 +84,25 @@ namespace _3D_Engine
             for (int i = 0; i < new_screen_triangles.Length; i++)
             {
                 // Mode the new triangles from screen space to window space
-                new_screen_triangles[i].P1 = screen_to_window * new_screen_triangles[i].P1;
-                new_screen_triangles[i].P2 = screen_to_window * new_screen_triangles[i].P2;
-                new_screen_triangles[i].P3 = screen_to_window * new_screen_triangles[i].P3;
+                new_screen_triangles[i].P1.Point = screen_to_window * new_screen_triangles[i].P1.Point;
+                new_screen_triangles[i].P2.Point = screen_to_window * new_screen_triangles[i].P2.Point;
+                new_screen_triangles[i].P3.Point = screen_to_window * new_screen_triangles[i].P3.Point;
 
                 // Round the vertices
-                int result_point_1_x = Round_To_Int(new_screen_triangles[i].P1.X);
-                int result_point_1_y = Round_To_Int(new_screen_triangles[i].P1.Y);
-                double result_point_1_z = new_screen_triangles[i].P1.Z;
-                int result_point_2_x = Round_To_Int(new_screen_triangles[i].P2.X);
-                int result_point_2_y = Round_To_Int(new_screen_triangles[i].P2.Y);
-                double result_point_2_z = new_screen_triangles[i].P2.Z;
-                int result_point_3_x = Round_To_Int(new_screen_triangles[i].P3.X);
-                int result_point_3_y = Round_To_Int(new_screen_triangles[i].P3.Y);
-                double result_point_3_z = new_screen_triangles[i].P3.Z;
+                int result_point_1_x = Round_To_Int(new_screen_triangles[i].P1.Point.X);
+                int result_point_1_y = Round_To_Int(new_screen_triangles[i].P1.Point.Y);
+                double result_point_1_z = new_screen_triangles[i].P1.Point.Z;
+                int result_point_2_x = Round_To_Int(new_screen_triangles[i].P2.Point.X);
+                int result_point_2_y = Round_To_Int(new_screen_triangles[i].P2.Point.Y);
+                double result_point_2_z = new_screen_triangles[i].P2.Point.Z;
+                int result_point_3_x = Round_To_Int(new_screen_triangles[i].P3.Point.X);
+                int result_point_3_y = Round_To_Int(new_screen_triangles[i].P3.Point.Y);
+                double result_point_3_z = new_screen_triangles[i].P3.Point.Z;
                 
                 // Finally draw the triangle
                 if (face.Texture_Object == null)
                 {
-                    Solid_Triangle(camera, new_screen_triangles[i],
+                    Solid_Triangle(Render_Camera, new_screen_triangles[i],
                         result_point_1_x, result_point_1_y, result_point_1_z,
                         result_point_2_x, result_point_2_y, result_point_2_z,
                         result_point_3_x, result_point_3_y, result_point_3_z);
@@ -167,7 +155,7 @@ namespace _3D_Engine
 }
 
 /*
-    // Adjust colour based on lighting
+    
     Color face_colour = face.Colour;
     if (Light_List.Count > 0)
     {
@@ -192,11 +180,6 @@ namespace _3D_Engine
                     break;
             }
             double scaled_intensity = true_intensity / max_intensity;
-
-            if (face.Texture == null)
-            {
-
-            }
 
             byte new_red = (byte)Round_To_Int((face.Colour.R + light.Colour.R) * 255 / 510 * scaled_intensity);
             byte new_green = (byte)Round_To_Int((face.Colour.G + light.Colour.G) * 255 / 510 * scaled_intensity);
