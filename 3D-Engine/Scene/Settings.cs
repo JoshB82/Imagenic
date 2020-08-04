@@ -34,10 +34,41 @@ namespace _3D_Engine
         #region Engine Settings
 
         public static Resolution Z_Buffer_Resolution = Resolution.Double;
-        public static bool View_Space_Clip = true;
-        public static bool Screen_Space_Clip = true;
 
         public static Viewport Viewport_Style = Viewport.Single;
+
+        // Clipping
+        private static bool view_space_clip = true, screen_space_clip = true;
+        public static bool View_Space_Clip
+        {
+            get => view_space_clip;
+            set
+            {
+                if (value == false && screen_space_clip == false)
+                {
+                    view_space_clip = true;
+                }
+                else
+                {
+                    view_space_clip = value;
+                }
+            }
+        }
+        public static bool Screen_Space_Clip
+        {
+            get => screen_space_clip;
+            set
+            {
+                if (value == false && view_space_clip == false)
+                {
+                    screen_space_clip = true;
+                }
+                else
+                {
+                    screen_space_clip = value;
+                }
+            }
+        }
 
         // Debug
         /// <summary>

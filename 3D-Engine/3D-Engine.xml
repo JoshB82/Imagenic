@@ -6,22 +6,12 @@
     <members>
         <member name="T:_3D_Engine.Constants">
             <summary>
-            Collection of frequently used constants.
+            Collection of frequently used <see cref="T:_3D_Engine.Constants"/>.
             </summary>
         </member>
         <member name="F:_3D_Engine.Constants.Grav_Acc">
             <summary>
             Gravitational acceleration near the surface of the Earth.
-            </summary>
-        </member>
-        <member name="T:_3D_Engine.Settings">
-            <summary>
-            Collection of settings.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Settings.Debug_Output">
-            <summary>
-            Determines if any debug text is outputted.
             </summary>
         </member>
         <member name="T:_3D_Engine.Matrix4x4">
@@ -362,72 +352,6 @@
             Renders the <see cref="T:_3D_Engine.Scene"/>. A Render Camera must be set before this method is called.
             </summary>
         </member>
-        <member name="T:_3D_Engine.Spot">
-            <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Spot"/>.
-            </summary>
-        </member>
-        <member name="M:_3D_Engine.Spot.#ctor(_3D_Engine.Vector4D,System.Nullable{System.Drawing.Color})">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Spot"/>.
-            </summary>
-            <param name="origin">The position of the <see cref="T:_3D_Engine.Spot"/>.</param>
-            <param name="colour">The colour of the <see cref="T:_3D_Engine.Spot"/>.</param>
-        </member>
-        <member name="T:_3D_Engine.Edge">
-            <summary>
-            Handles creation of an <see cref="T:_3D_Engine.Edge"/>.
-            </summary>
-        </member>
-        <member name="M:_3D_Engine.Edge.#ctor(_3D_Engine.Vector4D,_3D_Engine.Vector4D,System.Nullable{System.Drawing.Color})">
-            <summary>
-            Creates an <see cref="T:_3D_Engine.Edge"/>.
-            </summary>
-            <param name="p1">The position of the first point on the <see cref="T:_3D_Engine.Edge"/>.</param>
-            <param name="p2">The position of the second point on the <see cref="T:_3D_Engine.Edge"/>.</param>
-            <param name="colour">The colour of the <see cref="T:_3D_Engine.Edge"/>.</param>
-        </member>
-        <member name="T:_3D_Engine.Face">
-            <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Face"/>.
-            </summary>
-        </member>
-        <member name="M:_3D_Engine.Face.#ctor(_3D_Engine.Vector4D,_3D_Engine.Vector4D,_3D_Engine.Vector4D,System.Nullable{System.Drawing.Color})">
-            <summary>
-            
-            </summary>
-            <param name="p1"></param>
-            <param name="p2"></param>
-            <param name="p3"></param>
-            <param name="colour"></param>
-        </member>
-        <member name="M:_3D_Engine.Face.#ctor(_3D_Engine.Vector4D,_3D_Engine.Vector4D,_3D_Engine.Vector4D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Texture)">
-            <summary>
-            
-            </summary>
-            <param name="p1"></param>
-            <param name="p2"></param>
-            <param name="p3"></param>
-            <param name="t1"></param>
-            <param name="t2"></param>
-            <param name="t3"></param>
-            <param name="texture_object"></param>
-        </member>
-        <member name="P:_3D_Engine.Texture.File">
-            <summary>
-            The <see cref="T:System.Drawing.Bitmap"/> containing the texture data.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Texture.Outside_Behaviour">
-            <summary>
-            Defines how the outside of a <see cref="T:_3D_Engine.Texture"/> file should be drawn.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Texture.Outside_Colour">
-            <summary>
-            <see cref="T:System.Drawing.Color"/> used to fill outside of <see cref="T:_3D_Engine.Texture"/> should <see cref="F:_3D_Engine.Outside_Texture_Behaviour.Colour_Fill"/> be selected for Outside_Behaviour.
-            </summary>
-        </member>
         <member name="P:_3D_Engine.Camera.Draw_Camera_Model">
             <summary>
             Determines if the <see cref="T:_3D_Engine.Camera"/> is drawn in the <see cref="T:_3D_Engine.Scene"/>.
@@ -462,6 +386,12 @@
             <summary>
             Handles creation of a <see cref="T:_3D_Engine.World_Point"/> mesh.
             </summary>
+        </member>
+        <member name="M:_3D_Engine.World_Point.#ctor(_3D_Engine.Vector3D)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.World_Point"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.World_Point"/>.</param>
         </member>
         <member name="T:_3D_Engine.Circle">
             <summary>
@@ -685,36 +615,36 @@
             <param name="top">The <see cref="T:_3D_Engine.Texture"/> for the top face of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
             <param name="bottom">The <see cref="T:_3D_Engine.Texture"/> for the bottom face of the <see cref="T:_3D_Engine.Cuboid"/>.</param>
         </member>
-        <member name="T:_3D_Engine.Prism">
+        <member name="T:_3D_Engine.Cylinder">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Prism"/> mesh.
+            Handles creation of a <see cref="T:_3D_Engine.Cylinder"/> mesh.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Prism.Height">
+        <member name="P:_3D_Engine.Cylinder.Height">
             <summary>
-            The height of the <see cref="T:_3D_Engine.Prism"/>.
+            The height of the <see cref="T:_3D_Engine.Cylinder"/>.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Prism.Radius">
+        <member name="P:_3D_Engine.Cylinder.Radius">
             <summary>
-            The radius of the top and bottom <see cref="T:_3D_Engine.Circle"/>s that make up the <see cref="T:_3D_Engine.Prism"/>.
+            The radius of the top and bottom <see cref="T:_3D_Engine.Circle"/> that make up the <see cref="T:_3D_Engine.Cylinder"/>.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Prism.Resolution">
+        <member name="P:_3D_Engine.Cylinder.Resolution">
             <summary>
-            The number of points that are on the perimeter of each of the <see cref="T:_3D_Engine.Circle"/>s that make up the <see cref="T:_3D_Engine.Prism"/>.
+            The number of points that are on the perimeter of each of the <see cref="T:_3D_Engine.Circle"/> that make up the <see cref="T:_3D_Engine.Cylinder"/>.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Prism.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Double,System.Int32)">
+        <member name="M:_3D_Engine.Cylinder.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Double,System.Int32)">
             <summary>
-            Creates a <see cref="T:_3D_Engine.Prism"/> mesh.
+            Creates a <see cref="T:_3D_Engine.Cylinder"/> mesh.
             </summary>
-            <param name="origin">The position of the <see cref="T:_3D_Engine.Prism"/>.</param>
-            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Prism"/> faces.</param>
-            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Prism"/>.</param>
-            <param name="height">The height of the <see cref="T:_3D_Engine.Prism"/>.</param>
-            <param name="radius">The radius of the top and bottom <see cref="T:_3D_Engine.Circle"/>s that make up the <see cref="T:_3D_Engine.Prism"/>.</param>
-            <param name="resolution">The number of points that are on the perimeter of each of the <see cref="T:_3D_Engine.Circle"/>s that make up the <see cref="T:_3D_Engine.Prism"/>.</param>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Cylinder"/> faces.</param>
+            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="height">The height of the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="radius">The radius of the top and bottom <see cref="T:_3D_Engine.Circle"/>s that make up the <see cref="T:_3D_Engine.Cylinder"/>.</param>
+            <param name="resolution">The number of points that are on the perimeter of each of the <see cref="T:_3D_Engine.Circle"/>s that make up the <see cref="T:_3D_Engine.Cylinder"/>.</param>
         </member>
         <member name="T:_3D_Engine.Pyramid">
             <summary>
@@ -726,12 +656,59 @@
             Handles creation of a <see cref="T:_3D_Engine.Torus"/> mesh.
             </summary>
         </member>
+        <member name="T:_3D_Engine.Edge">
+            <summary>
+            Handles creation of an <see cref="T:_3D_Engine.Edge"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Edge.World_P1">
+            <summary>
+            The position of the first point of the <see cref="T:_3D_Engine.Edge"/> in world space.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Edge.World_P2">
+            <summary>
+            The position of the second point of the <see cref="T:_3D_Engine.Edge"/> in world space.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Edge.#ctor(_3D_Engine.Vertex,_3D_Engine.Vertex)">
+            <summary>
+            Creates an <see cref="T:_3D_Engine.Edge"/>.
+            </summary>
+            <param name="p1">The position of the first point on the <see cref="T:_3D_Engine.Edge"/>.</param>
+            <param name="p2">The position of the second point on the <see cref="T:_3D_Engine.Edge"/>.</param>
+        </member>
+        <member name="T:_3D_Engine.Face">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Face"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Texture.File">
+            <summary>
+            The <see cref="T:System.Drawing.Bitmap"/> containing the texture data.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Texture.Outside_Behaviour">
+            <summary>
+            Defines how the outside of a <see cref="T:_3D_Engine.Texture"/> file should be drawn.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Texture.Outside_Colour">
+            <summary>
+            The <see cref="T:System.Drawing.Color"/> used to fill outside of <see cref="T:_3D_Engine.Texture"/> should <see cref="F:_3D_Engine.Outside_Texture_Behaviour.Colour_Fill"/> be selected for Outside_Behaviour.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Vertex">
+            <summary>
+            Handles creation of an <see cref="T:_3D_Engine.Vertex"/>.
+            </summary>
+        </member>
         <member name="T:_3D_Engine.Custom">
             <summary>
             Handles creation of a <see cref="T:_3D_Engine.Custom"/> mesh.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector4D[],_3D_Engine.Spot[],_3D_Engine.Edge[],_3D_Engine.Face[])">
+        <member name="M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])">
             <summary>
             Creates a <see cref="T:_3D_Engine.Custom"/> mesh.
             </summary>
@@ -739,11 +716,10 @@
             <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="vertices">The vertices that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
-            <param name="spots">The <see cref="T:_3D_Engine.Spot"/>s that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="edges">The <see cref="T:_3D_Engine.Edge"/>s that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="faces">The <see cref="T:_3D_Engine.Face"/>s that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
         </member>
-        <member name="M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector4D[],_3D_Engine.Spot[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])">
+        <member name="M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])">
             <summary>
             Creates a textured <see cref="T:_3D_Engine.Custom"/> mesh.
             </summary>
@@ -751,7 +727,6 @@
             <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Custom"/> mesh faces.</param>
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="vertices">The vertices that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
-            <param name="spots">The <see cref="T:_3D_Engine.Spot"/>s that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="edges">The <see cref="T:_3D_Engine.Edge"/>s that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="faces">The <see cref="T:_3D_Engine.Face"/>s that make up the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
             <param name="textures">The <see cref="T:_3D_Engine.Texture"/>s that make up the surface of the <see cref="T:_3D_Engine.Custom"/> mesh.</param>
@@ -795,11 +770,6 @@
             The positions of the vertices that make up the <see cref="T:_3D_Engine.Mesh"/> in world space.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Mesh.Spots">
-            <summary>
-            The <see cref="T:_3D_Engine.Spot"/>s in the <see cref="T:_3D_Engine.Mesh"/>.
-            </summary>
-        </member>
         <member name="P:_3D_Engine.Mesh.Edges">
             <summary>
             The <see cref="T:_3D_Engine.Edge"/>s in the <see cref="T:_3D_Engine.Mesh"/>.
@@ -810,11 +780,6 @@
             The <see cref="T:_3D_Engine.Face"/>s in the <see cref="T:_3D_Engine.Mesh"/>.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Mesh.Draw_Spots">
-            <summary>
-            Determines if the <see cref="T:_3D_Engine.Mesh"/>'s <see cref="T:_3D_Engine.Spot"/>s are drawn.
-            </summary>
-        </member>
         <member name="P:_3D_Engine.Mesh.Draw_Edges">
             <summary>
             Determines if the <see cref="T:_3D_Engine.Mesh"/>'s <see cref="T:_3D_Engine.Edge"/>s are drawn.
@@ -823,11 +788,6 @@
         <member name="P:_3D_Engine.Mesh.Draw_Faces">
             <summary>
             Determines if the <see cref="T:_3D_Engine.Mesh"/>'s <see cref="T:_3D_Engine.Face"/>s are drawn.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.Spot_Colour">
-            <summary>
-            The <see cref="T:System.Drawing.Color"/> of each <see cref="T:_3D_Engine.Spot"/> in the <see cref="T:_3D_Engine.Mesh"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Edge_Colour">
@@ -928,6 +888,16 @@
         <member name="P:_3D_Engine.Scene_Object.Visible">
             <summary>
             Determines whether the <see cref="T:_3D_Engine.Scene_Object"/> is visible or not.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Settings">
+            <summary>
+            Collection of <see cref="T:_3D_Engine.Settings"/>.
+            </summary>
+        </member>
+        <member name="F:_3D_Engine.Settings.Debug_Output">
+            <summary>
+            Determines if any <see cref="T:System.Diagnostics.Debug"/> text is outputted.
             </summary>
         </member>
     </members>

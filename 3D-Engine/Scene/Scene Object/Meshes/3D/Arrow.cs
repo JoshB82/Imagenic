@@ -93,8 +93,8 @@
             Circle arrow_base = new Circle(start_position, forward, unit_vector, body_radius, resolution, false);
             arrow_base.Calculate_Model_to_World_Matrix();
             for (int i = 0; i < resolution; i++) arrow_base.Vertices[i].Point = arrow_base.Model_to_World * arrow_base.Vertices[i].Point;
-            for (int i = 0; i < resolution; i++) arrow_base.Edges[i] = new Edge(arrow_base.Model_to_World * arrow_base.Edges[i].P1.Point, arrow_base.Model_to_World * arrow_base.Edges[i].P2.Point);
-            for (int i = 0; i < resolution; i++) arrow_base.Faces[i] = new Face(arrow_base.Model_to_World * arrow_base.Faces[i].P1.Point, arrow_base.Model_to_World * arrow_base.Faces[i].P2.Point, arrow_base.Model_to_World * arrow_base.Faces[i].P3.Point);
+            for (int i = 0; i < resolution; i++) arrow_base.Edges[i] = new Edge(new Vertex(arrow_base.Model_to_World * arrow_base.Edges[i].P1.Point), new Vertex(arrow_base.Model_to_World * arrow_base.Edges[i].P2.Point));
+            for (int i = 0; i < resolution; i++) arrow_base.Faces[i] = new Face(new Vertex(arrow_base.Model_to_World * arrow_base.Faces[i].P1.Point), new Vertex(arrow_base.Model_to_World * arrow_base.Faces[i].P2.Point), new Vertex(arrow_base.Model_to_World * arrow_base.Faces[i].P3.Point));
 
             Vector3D body_tip_intersection = unit_vector * body_length + start_position;
             Ring arrow_ring = new Ring(body_tip_intersection, forward, unit_vector, body_radius, tip_radius, resolution, false);

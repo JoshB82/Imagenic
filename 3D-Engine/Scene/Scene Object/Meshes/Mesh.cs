@@ -25,7 +25,7 @@ namespace _3D_Engine
         /// </summary>
         public Face[] Faces { get; internal set; }
 
-        public bool apply_model_to_world = true;f
+        public bool Apply_Model_to_World = true;
 
         // Appearance
         /// <summary>

@@ -9,17 +9,18 @@
         {
             double semi_width = camera.Width / 2, semi_height = camera.Height / 2;
 
-            Vector4D near_top_left_point = new Vector4D(-semi_width, semi_height, -camera.Z_Near);
-            Vector4D near_top_right_point = new Vector4D(semi_width, semi_height, -camera.Z_Near);
-            Vector4D near_bottom_left_point = new Vector4D(-semi_width, -semi_height, -camera.Z_Near);
-            Vector4D near_bottom_right_point = new Vector4D(semi_width, -semi_height, -camera.Z_Near);
+            Vertex zero_point = new Vertex(Vector4D.Zero);
+            Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, -camera.Z_Near));
+            Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, -camera.Z_Near));
+            Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, -camera.Z_Near));
+            Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, -camera.Z_Near));
 
             if (camera.Draw_Near_View || camera.Draw_Entire_View)
             {
-                Edge near_top_left_edge = new Edge(Vector4D.Zero, near_top_left_point);
-                Edge near_top_right_edge = new Edge(Vector4D.Zero, near_top_right_point);
-                Edge near_bottom_left_edge = new Edge(Vector4D.Zero, near_bottom_left_point);
-                Edge near_bottom_right_edge = new Edge(Vector4D.Zero, near_bottom_right_point);
+                Edge near_top_left_edge = new Edge(zero_point, near_top_left_point);
+                Edge near_top_right_edge = new Edge(zero_point, near_top_right_point);
+                Edge near_bottom_left_edge = new Edge(zero_point, near_bottom_left_point);
+                Edge near_bottom_right_edge = new Edge(zero_point, near_bottom_right_point);
                 Edge near_top_edge = new Edge(near_top_left_point, near_top_right_point);
                 Edge near_bottom_edge = new Edge(near_bottom_left_point, near_bottom_right_point);
                 Edge near_left_edge = new Edge(near_top_left_point, near_bottom_left_point);
@@ -39,10 +40,10 @@
                 double ratio = camera.Z_Far / camera.Z_Near;
                 double semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
 
-                Vector4D far_top_left_point = new Vector4D(-semi_width_ratio, semi_height_ratio, -camera.Z_Far);
-                Vector4D far_top_right_point = new Vector4D(semi_width_ratio, semi_height_ratio, -camera.Z_Far);
-                Vector4D far_bottom_left_point = new Vector4D(-semi_width_ratio, -semi_height_ratio, -camera.Z_Far);
-                Vector4D far_bottom_right_point = new Vector4D(semi_width_ratio, -semi_height_ratio, -camera.Z_Far);
+                Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, -camera.Z_Far));
+                Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, -camera.Z_Far));
+                Vertex far_bottom_left_point = new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, -camera.Z_Far));
+                Vertex far_bottom_right_point = new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, -camera.Z_Far));
 
                 Edge far_top_left_edge = new Edge(near_top_left_point, far_top_left_point);
                 Edge far_top_right_edge = new Edge(near_top_right_point, far_top_right_point);

@@ -35,11 +35,11 @@ namespace _3D_Engine
                 resolution = value;
 
                 // Vertices are defined in anti-clockwise order.
-                Vertices = new Vector4D[resolution + 1]; // ?
-                Vertices[0] = Vector4D.Zero; // ?
+                Vertices = new Vertex[resolution + 1]; // ?
+                Vertices[0] = new Vertex(Vector4D.Zero); // ?
 
                 double angle = 2 * Math.PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vector4D(Math.Cos(angle * i), 0, Math.Sin(angle * i));
+                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Math.Cos(angle * i), 0, Math.Sin(angle * i)));
 
                 if (Textures != null)
                 {
