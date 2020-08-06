@@ -8,14 +8,9 @@ namespace _3D_Engine
 
         // Structure
         /// <summary>
-        /// The <see cref="Texture"/>s that define what to draw on the surface of the <see cref="Mesh"/>.
+        /// The <see cref="Vertex"/>s in the <see cref="Mesh"/>.
         /// </summary>
-        public Texture[] Textures { get; internal set; }
-        internal Vertex[] Vertices { get; set; }
-        /// <summary>
-        /// The positions of the vertices that make up the <see cref="Mesh"/> in world space.
-        /// </summary>
-        public Vector3D[] World_Vertices { get; protected set; }
+        public Vertex[] Vertices { get; set; }
         /// <summary>
         /// The <see cref="Edge"/>s in the <see cref="Mesh"/>.
         /// </summary>
@@ -24,8 +19,10 @@ namespace _3D_Engine
         /// The <see cref="Face"/>s in the <see cref="Mesh"/>.
         /// </summary>
         public Face[] Faces { get; internal set; }
-
-        public bool Apply_Model_to_World = true;
+        /// <summary>
+        /// The <see cref="Texture"/>s that define what to draw on the surface of the <see cref="Mesh"/>.
+        /// </summary>
+        public Texture[] Textures { get; internal set; }
 
         // Appearance
         /// <summary>
@@ -38,8 +35,7 @@ namespace _3D_Engine
         public bool Draw_Faces { get; set; } = true;
 
         // Colours
-        private Color edge_colour;
-        private Color face_colour;
+        private Color edge_colour, face_colour;
         /// <summary>
         /// The <see cref="Color"/> of each <see cref="Edge"/> in the <see cref="Mesh"/>.
         /// </summary>
@@ -49,7 +45,7 @@ namespace _3D_Engine
             set
             {
                 edge_colour = value;
-                for (int i = 0; i < Edges.Length; i++) Edges[i].Colour = value; // ?
+                foreach (Edge edge in Edges) edge.Colour = edge_colour;
             }
         }
         /// <summary>
@@ -61,7 +57,7 @@ namespace _3D_Engine
             set
             {
                 face_colour = value;
-                for (int i = 0; i < Faces.Length; i++) Faces[i].Colour = value; // ?
+                foreach (Face face in Faces) face.Colour = face_colour;
             }
         }
 

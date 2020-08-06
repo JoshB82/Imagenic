@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace _3D_Engine
 {
@@ -6,19 +7,33 @@ namespace _3D_Engine
     {
         private void Check_Against_Z_Buffer(int x, int y, double z, Color new_colour)
         {
-            if (z < z_buffer[x][y])
+            try
             {
-                z_buffer[x][y] = z;
-                colour_buffer[x][y] = new_colour;
+                if (z < z_buffer[x][y])
+                {
+                    z_buffer[x][y] = z;
+                    colour_buffer[x][y] = new_colour;
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new Exception("Attempted to draw outside the canvas.");
             }
         }
 
         private void Textured_Check_Against_Z_Buffer(int x, int y, double z, int tx, int ty, Bitmap texture)
         {
-            if (z < z_buffer[x][y])
+            try
             {
-                z_buffer[x][y] = z;
-                colour_buffer[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);
+                if (z < z_buffer[x][y])
+                {
+                    z_buffer[x][y] = z;
+                    colour_buffer[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new Exception("Attempted to draw outside the canvas.");
             }
         }
     }

@@ -1,4 +1,7 @@
-﻿namespace _3D_Engine
+﻿using System;
+using System.Windows.Forms.VisualStyles;
+
+namespace _3D_Engine
 {
     /// <summary>
     /// Handles creation of a <see cref="Ring"/> mesh.
@@ -18,6 +21,7 @@
             set
             {
                 inner_radius = value;
+                if (resolution == 0) return;
                 inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, false);
                 Set_Circle(inner_circle);
 
@@ -30,6 +34,7 @@
             set
             {
                 outer_radius = value;
+                if (resolution == 0) return;
                 outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, false);
                 Set_Circle(outer_circle);
 
@@ -55,6 +60,13 @@
                     Vertices[i + resolution] = outer_circle.Vertices[i];
                 }
 
+                Edges = new Edge[2 * resolution];
+                for (int i = 0; i < resolution - 1; i++)
+                {
+                    Edges[i] = inner_circle.Edges[i];
+                    Edges[i + resolution] = outer_circle.Edges[i];
+                }
+
                 Faces = new Face[2 * resolution];
                 for (int i = 0; i < resolution - 1; i++)
                 {
@@ -78,9 +90,9 @@
 
         public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double inner_radius, double outer_radius, int resolution, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
         {
-            Resolution = resolution;
             Inner_Radius = inner_radius;
             Outer_Radius = outer_radius;
+            Resolution = resolution;
         }
 
         #endregion

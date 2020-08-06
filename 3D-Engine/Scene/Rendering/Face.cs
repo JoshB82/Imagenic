@@ -24,6 +24,7 @@ namespace _3D_Engine
             if (camera_to_face * normal >= 0
                 && mesh_type != "Circle"
                 && mesh_type != "Plane"
+                && mesh_type != "Ring"
                 && mesh_type != "Square"
                 && mesh_type != "Text2D")
             return;

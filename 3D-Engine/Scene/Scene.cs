@@ -236,7 +236,7 @@ namespace _3D_Engine
                             foreach (Edge edge in direction_right.Edges) Draw_Edge(edge, direction_right.Model_to_World, world_to_view, view_to_screen);
                         }
 
-                        if (mesh.Apply_Model_to_World) mesh.Calculate_Model_to_World_Matrix();
+                        mesh.Calculate_Model_to_World_Matrix();
                         Matrix4x4 model_to_world = mesh.Model_to_World;
 
                         mesh.Origin = screen_to_window * view_to_screen * world_to_view * model_to_world * mesh.Origin;
