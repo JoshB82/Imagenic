@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms.VisualStyles;
 
 namespace _3D_Engine
 {
@@ -13,8 +12,9 @@ namespace _3D_Engine
         private double inner_radius, outer_radius;
         private int resolution;
 
-        private Circle inner_circle, outer_circle;
-
+        /// <summary>
+        /// The radius of the inner <see cref="Circle"/>.
+        /// </summary>
         public double Inner_Radius
         {
             get => inner_radius;
@@ -22,12 +22,15 @@ namespace _3D_Engine
             {
                 inner_radius = value;
                 if (resolution == 0) return;
-                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, false);
-                Set_Circle(inner_circle);
 
-                for (int i = 1; i <= resolution; i++) Vertices[i] = inner_circle.Vertices[i];
+                // Vertices are defined in anti-clockwise order.
+                double angle = 2 * Math.PI / resolution;
+                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Math.Cos(angle * i) * inner_radius, 0, Math.Sin(angle * i) * inner_radius));
             }
         }
+        /// <summary>
+        /// The radius of the outer <see cref="Circle"/>.
+        /// </summary>
         public double Outer_Radius
         {
             get => outer_radius;
@@ -35,60 +38,66 @@ namespace _3D_Engine
             {
                 outer_radius = value;
                 if (resolution == 0) return;
-                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, false);
-                Set_Circle(outer_circle);
 
-                for (int i = 1; i <= resolution; i++) Vertices[i + resolution] = outer_circle.Vertices[i];
+                double angle = 2 * Math.PI / resolution;
+                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D(Math.Cos(angle * i) * outer_radius, 0, Math.Sin(angle * i) * outer_radius));
             }
         }
+        /// <summary>
+        /// The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Ring"/>.
+        /// </summary>
         public int Resolution
         {
             get => resolution;
             set
             {
                 resolution = value;
-                inner_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, inner_radius, resolution, false);
-                outer_circle = new Circle(World_Origin, World_Direction_Forward, World_Direction_Up, outer_radius, resolution, false);
-                Set_Circle(inner_circle);
-                Set_Circle(outer_circle);
 
                 Vertices = new Vertex[2 * resolution + 1];
                 Vertices[0] = new Vertex(Vector4D.Zero);
-                for (int i = 1; i <= resolution; i++)
+
+                double angle = 2 * Math.PI / resolution;
+                for (int i = 0; i < resolution; i++)
                 {
-                    Vertices[i] = inner_circle.Vertices[i];
-                    Vertices[i + resolution] = outer_circle.Vertices[i];
+                    double sin = Math.Sin(angle * i), cos = Math.Cos(angle * i);
+                    Vertices[i + 1] = new Vertex(new Vector4D(cos * inner_radius, 0, sin * inner_radius));
+                    Vertices[i + resolution + 1] = new Vertex(new Vector4D(cos * outer_radius, 0, sin * outer_radius));
                 }
 
                 Edges = new Edge[2 * resolution];
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Edges[i] = inner_circle.Edges[i];
-                    Edges[i + resolution] = outer_circle.Edges[i];
+                    Edges[i] = new Edge(Vertices[i + 1], Vertices[i + 2]);
+                    Edges[i + resolution] = new Edge(Vertices[i + resolution + 1], Vertices[i + resolution + 2]);
                 }
+                Edges[resolution - 1] = new Edge(Vertices[resolution], Vertices[1]);
+                Edges[2 * resolution - 1] = new Edge(Vertices[2 * resolution], Vertices[resolution + 1]);
 
                 Faces = new Face[2 * resolution];
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Faces[i] = new Face(inner_circle.Vertices[i], outer_circle.Vertices[i + 1], outer_circle.Vertices[i]);
-                    Faces[i + resolution] = new Face(inner_circle.Vertices[i], inner_circle.Vertices[i + 1], outer_circle.Vertices[i + 1]);
+                    Faces[i] = new Face(Vertices[i], Vertices[resolution + 1], Vertices[resolution]);
+                    Faces[i + resolution] = new Face(Vertices[i], Vertices[i + 1], Vertices[resolution + 1]);
                 }
-                Faces[resolution - 1] = new Face(inner_circle.Vertices[resolution - 1], outer_circle.Vertices[0], outer_circle.Vertices[resolution - 1]);
-                Faces[2 * resolution - 1] = new Face(inner_circle.Vertices[resolution - 1], inner_circle.Vertices[0], outer_circle.Vertices[0]);
+                Faces[resolution - 1] = new Face(Vertices[resolution - 1], Vertices[resolution], Vertices[2 * resolution - 1]);
+                Faces[2 * resolution - 1] = new Face(Vertices[resolution - 1], Vertices[0], Vertices[resolution]);
             }
-        }
-
-        private void Set_Circle(Circle circle)
-        {
-            circle.Calculate_Model_to_World_Matrix();
-            for (int i = 0; i < resolution; i++) circle.Vertices[i].Point = circle.Model_to_World * circle.Vertices[i].Point;
         }
 
         #endregion
 
         #region Constructors
 
-        public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double inner_radius, double outer_radius, int resolution, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
+        /// <summary>
+        /// Creates a <see cref="Ring"/> mesh.
+        /// </summary>
+        /// <param name="origin">The position of the <see cref="Ring"/>.</param>
+        /// <param name="direction_forward">The direction the <see cref="Ring"/> faces.</param>
+        /// <param name="direction_up">The upward orientation of the <see cref="Ring"/>.</param>
+        /// <param name="inner_radius">The radius of the inner <see cref="Circle"/>.</param>
+        /// <param name="outer_radius">The radius of the outer <see cref="Circle"/>.</param>
+        /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Ring"/>.</param>
+        public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double inner_radius, double outer_radius, int resolution) : base(origin, direction_forward, direction_up)
         {
             Inner_Radius = inner_radius;
             Outer_Radius = outer_radius;

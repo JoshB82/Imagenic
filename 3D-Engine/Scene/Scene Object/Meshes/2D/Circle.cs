@@ -25,7 +25,7 @@ namespace _3D_Engine
             }
         }
         /// <summary>
-        /// The number of points that are on the perimeter of the <see cref="Circle"/>.
+        /// The number of vertices that are on the perimeter of the <see cref="Circle"/>.
         /// </summary>
         public int Resolution
         {
@@ -70,8 +70,8 @@ namespace _3D_Engine
         /// <param name="direction_forward">The direction the <see cref="Circle"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
         /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
-        /// <param name="resolution">The number of points that are on the perimeter of the <see cref="Circle"/>.</param>
-        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution, bool has_direction_arrows = true) : base(origin, direction_forward, normal, has_direction_arrows)
+        /// <param name="resolution">The number of vertices that are on the perimeter of the <see cref="Circle"/>.</param>
+        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution) : base(origin, direction_forward, normal)
         {
             Radius = radius;
             Resolution = resolution;
@@ -84,9 +84,9 @@ namespace _3D_Engine
         /// <param name="direction_forward">The direction the <see cref="Circle"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
         /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
-        /// <param name="resolution">The number of points that are on the perimeter of the <see cref="Circle"/>.</param>
+        /// <param name="resolution">The number of vertices that are on the perimeter of the <see cref="Circle"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Circle"/>.</param>
-        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution, Texture texture, bool has_direction_arrows = true) : base(origin, direction_forward, normal, has_direction_arrows)
+        public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution, Texture texture) : base(origin, direction_forward, normal)
         {
             Radius = radius;
             Textures = new Texture[1] { texture };

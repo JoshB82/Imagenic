@@ -4,8 +4,13 @@ using System.Drawing;
 
 namespace _3D_Engine
 {
+    /// <summary>
+    /// Handles creation of a <see cref="Scene_Object"/>.
+    /// </summary>
     public abstract partial class Scene_Object
     {
+        #region Fields and Properties
+
         // ID
         /// <summary>
         /// Identification number.
@@ -47,11 +52,14 @@ namespace _3D_Engine
         public bool Display_Direction_Arrows { get; set; } = false;
 
         // Appearance
-
         /// <summary>
         /// Determines whether the <see cref="Scene_Object"/> is visible or not.
         /// </summary>
         public bool Visible { get; set; } = true;
+
+        #endregion
+
+        #region Constructors
 
         internal Scene_Object(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true)
         {
@@ -74,5 +82,7 @@ namespace _3D_Engine
 
             Debug.WriteLine(GetType().Name + $" created at {origin}");
         }
+
+        #endregion
     }
 }

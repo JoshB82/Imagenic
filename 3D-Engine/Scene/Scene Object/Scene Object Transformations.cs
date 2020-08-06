@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace _3D_Engine
 {
@@ -13,6 +14,7 @@ namespace _3D_Engine
         /// <param name="new_world_direction_up">The up direction.</param>
         public virtual void Set_Direction_1(Vector3D new_world_direction_forward, Vector3D new_world_direction_up)
         {
+            if (new_world_direction_forward == Vector3D.Zero || new_world_direction_up == Vector3D.Zero) throw new Exception("New direction vector(s) cannot be set to zero vector.");
             // if (new_world_direction_forward * new_world_direction_up != 0) throw new Exception("Direction vectors are not orthogonal.");
 
             new_world_direction_forward = new_world_direction_forward.Normalise();
@@ -32,6 +34,7 @@ namespace _3D_Engine
         /// <param name="new_world_direction_right">The right direction.</param>
         public virtual void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
         {
+            if (new_world_direction_up == Vector3D.Zero || new_world_direction_right == Vector3D.Zero) throw new Exception("New direction vector(s) cannot be set to zero vector.");
             // if (new_world_direction_up * new_world_direction_right != 0) throw new Exception("Direction vectors are not orthogonal.");
 
             new_world_direction_up = new_world_direction_up.Normalise();
@@ -51,6 +54,7 @@ namespace _3D_Engine
         /// <param name="new_world_direction_forward">The forward direction.</param>
         public virtual void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
         {
+            if (new_world_direction_right == Vector3D.Zero || new_world_direction_forward == Vector3D.Zero) throw new Exception("New direction vector(s) cannot be set to zero vector.");
             // if (new_world_direction_right * new_world_direction_forward != 0) throw new Exception("Direction vectors are not orthogonal.");
 
             new_world_direction_forward = new_world_direction_forward.Normalise();
