@@ -760,14 +760,9 @@
             <param name="m1">The first <see cref="T:_3D_Engine.Mesh"/> to be joined.</param>
             <param name="m2">The second <see cref="T:_3D_Engine.Mesh"/> to be joined.</param>
         </member>
-        <member name="P:_3D_Engine.Mesh.Textures">
+        <member name="P:_3D_Engine.Mesh.Vertices">
             <summary>
-            The <see cref="T:_3D_Engine.Texture"/>s that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh"/>.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.World_Vertices">
-            <summary>
-            The positions of the vertices that make up the <see cref="T:_3D_Engine.Mesh"/> in world space.
+            The <see cref="T:_3D_Engine.Vertex"/>s in the <see cref="T:_3D_Engine.Mesh"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Edges">
@@ -778,6 +773,11 @@
         <member name="P:_3D_Engine.Mesh.Faces">
             <summary>
             The <see cref="T:_3D_Engine.Face"/>s in the <see cref="T:_3D_Engine.Mesh"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Textures">
+            <summary>
+            The <see cref="T:_3D_Engine.Texture"/>s that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Draw_Edges">

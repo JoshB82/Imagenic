@@ -88,8 +88,7 @@
 
             // Is the has_direction_arrows parameter completely necessary?
 
-            double forward_x = 10, forward_y = 20; // Arbitrary choices
-            Vector3D forward = new Vector3D(forward_x, forward_y, -(unit_vector.X * forward_x + unit_vector.Y * forward_y) / unit_vector.Z);
+            Vector3D forward = unit_vector.Cross_Product(Vector3D.Unit_Negative_X);
             Circle arrow_base = new Circle(start_position, forward, unit_vector, body_radius, resolution, false);
             arrow_base.Calculate_Model_to_World_Matrix();
             for (int i = 0; i < resolution; i++) arrow_base.Vertices[i].Point = arrow_base.Model_to_World * arrow_base.Vertices[i].Point;

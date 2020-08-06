@@ -10,7 +10,7 @@ namespace _3D_Engine
         /// <summary>
         /// The <see cref="Vertex"/>s in the <see cref="Mesh"/>.
         /// </summary>
-        public Vertex[] Vertices { get; set; }
+        public Vertex[] Vertices { get; protected set; }
         /// <summary>
         /// The <see cref="Edge"/>s in the <see cref="Mesh"/>.
         /// </summary>
