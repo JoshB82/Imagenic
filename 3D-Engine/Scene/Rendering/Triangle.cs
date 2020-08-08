@@ -87,6 +87,7 @@ namespace _3D_Engine
             }
         }
 
+        // RANGE TO DRAW X: [0,WIDTH-1] Y: [0,HEIGHT-1]
         private void Solid_Triangle(Camera camera, Face face,
              int x1, int y1, double z1,
              int x2, int y2, double z2,

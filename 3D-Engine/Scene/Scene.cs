@@ -109,7 +109,7 @@ namespace _3D_Engine
         /// <summary>
         /// Creates a new <see cref="Scene"/>.
         /// </summary>
-        /// <param name="canvas_box"><see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.</param>
+        /// <param name="canvas_box">The <see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.</param>
         /// <param name="width">The width of the <see cref="Scene"/>.</param>
         /// <param name="height">The height of the <see cref="Scene"/>.</param>
         public Scene(PictureBox canvas_box, int width, int height)
@@ -208,7 +208,7 @@ namespace _3D_Engine
                     colour_buffer[i][j] = Background_Colour;
                 }
 
-                // Calculate camera properties
+                // Calculate render camera properties
                 Render_Camera.Calculate_Model_to_World_Matrix();
                 Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin);
                 Render_Camera.Calculate_World_to_View_Matrix();
@@ -241,11 +241,11 @@ namespace _3D_Engine
 
                         mesh.Origin = screen_to_window * view_to_screen * world_to_view * model_to_world * mesh.Origin;
 
-                        string mesh_type = mesh.GetType().Name;
-
                         // Draw faces
                         if (mesh.Draw_Faces)
                         {
+                            string mesh_type = mesh.GetType().Name;
+
                             foreach (Face face in mesh.Faces)
                             {
                                 if (face.Visible) Draw_Face(face, mesh_type, model_to_world, world_to_view, view_to_screen);
@@ -281,7 +281,7 @@ namespace _3D_Engine
             }
         }
 
-        private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] colour_buffer)
+        private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] colour_buffer) // source of this method?!
         {
             BitmapData data = canvas.LockBits(entire_canvas_rectangle, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
 

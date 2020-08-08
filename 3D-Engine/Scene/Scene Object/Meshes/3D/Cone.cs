@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic.CompilerServices;
-using System;
+﻿using System;
 
 namespace _3D_Engine
 {
@@ -40,7 +39,7 @@ namespace _3D_Engine
             Height = height;
             Radius = radius;
 
-            // Vertices are defined in anti-clockwise order.
+            // Vertices are defined in anti-clockwise order, looking from above and then downwards.
             Vertices = new Vertex[resolution + 2];
             Vertices[0] = new Vertex(Vector4D.Zero);
             Vertices[1] = new Vertex(new Vector4D(0, 1, 0));

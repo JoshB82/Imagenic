@@ -10,8 +10,8 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // Positions
-        internal Vertex P1 { get; set; }
-        internal Vertex P2 { get; set; }
+        internal Vertex Model_P1 { get; set; }
+        internal Vertex Model_P2 { get; set; }
         /// <summary>
         /// The position of the first point of the <see cref="Edge"/> in world space.
         /// </summary>
@@ -20,6 +20,8 @@ namespace _3D_Engine
         /// The position of the second point of the <see cref="Edge"/> in world space.
         /// </summary>
         public Vector3D World_P2 { get; internal set; }
+        internal Vector4D P1 { get; set; }
+        internal Vector4D P2 { get; set; }
 
         // Appearance
         public Color Colour { get; set; } = Settings.Default_Edge_Colour;
@@ -29,14 +31,16 @@ namespace _3D_Engine
 
         #region Constructors
 
+        internal Edge() { }
+
         /// <summary>
         /// Creates an <see cref="Edge"/>.
         /// </summary>
-        /// <param name="p1">The position of the first point on the <see cref="Edge"/>.</param>
-        /// <param name="p2">The position of the second point on the <see cref="Edge"/>.</param>
-        public Edge(Vertex p1, Vertex p2)
+        /// <param name="model_p1">The position of the first point on the <see cref="Edge"/>.</param>
+        /// <param name="model_p2">The position of the second point on the <see cref="Edge"/>.</param>
+        public Edge(Vertex model_p1, Vertex model_p2)
         {
-            P1 = p1; P2 = p2;
+            Model_P1 = model_p1; Model_P2 = model_p2;
             Visible = true;
         }
 
