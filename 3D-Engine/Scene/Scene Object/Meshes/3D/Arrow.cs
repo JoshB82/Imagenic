@@ -92,16 +92,16 @@ namespace _3D_Engine
             // Vertices are defined in anti-clockwise order.
             Vertices = new Vertex[3 * resolution + 3];
             Vertices[0] = new Vertex(Vector4D.Zero);
-            Vertices[1] = new Vertex(new Vector4D(Vector3D.Unit_Y * body_length));
-            Vertices[2] = new Vertex(new Vector4D(Vector3D.Unit_Y * (body_length + tip_length)));
+            Vertices[1] = new Vertex(new Vector4D(Vector3D.Unit_Z * body_length));
+            Vertices[2] = new Vertex(new Vector4D(Vector3D.Unit_Z * (body_length + tip_length)));
 
             double angle = 2 * Math.PI / resolution;
             for (int i = 0; i < resolution; i++)
             {
                 double sin = Math.Sin(angle * i), cos = Math.Cos(angle * i);
-                Vertices[i + 3] = new Vertex(new Vector4D(cos * body_radius, 0, sin * body_radius));
-                Vertices[i + resolution + 3] = new Vertex(new Vector4D(cos * body_radius, body_length, sin * body_radius));
-                Vertices[i + 2 * resolution + 3] = new Vertex(new Vector4D(cos * tip_radius, body_length, sin * tip_radius));
+                Vertices[i + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, 0));
+                Vertices[i + resolution + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, body_length));
+                Vertices[i + 2 * resolution + 3] = new Vertex(new Vector4D(cos * tip_radius, sin * tip_radius, body_length));
             }
 
             Edges = new Edge[5 * resolution];
@@ -112,7 +112,7 @@ namespace _3D_Engine
                 Edges[i + resolution] = new Edge(Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
                 Edges[i + 2 * resolution] = new Edge(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4]);
             }
-            Edges[resolution - 1] = new Edge(Vertices[resolution + 3], Vertices[3]);
+            Edges[resolution - 1] = new Edge(Vertices[resolution + 2], Vertices[3]);
             Edges[2 * resolution - 1] = new Edge(Vertices[2 * resolution + 2], Vertices[resolution + 3]);
             Edges[3 * resolution - 1] = new Edge(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3]);
 
