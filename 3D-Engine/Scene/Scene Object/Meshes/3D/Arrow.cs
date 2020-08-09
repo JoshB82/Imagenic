@@ -79,7 +79,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Arrow(Vector3D start_position, Vector3D end_position, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y, has_direction_arrows)
+        public Arrow(Vector3D start_position, Vector3D end_position, Vector3D direction_up, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : base(start_position, end_position - start_position, direction_up, has_direction_arrows)
         {
             Start_Position = start_position;
             Body_Length = (end_position - start_position).Magnitude() - tip_length;
@@ -122,6 +122,8 @@ namespace _3D_Engine
                 Edges[i + 4 * resolution] = new Edge(Vertices[i + 2 * resolution + 3], Vertices[2]);
             }
 
+            Draw_Edges = false;
+
             Faces = new Face[6 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
@@ -141,7 +143,7 @@ namespace _3D_Engine
             Faces[6 * resolution - 1] = new Face(Vertices[3 * resolution + 2], Vertices[2], Vertices[2 * resolution + 3]);
         }
 
-        public Arrow(Vector3D start_position, Vector3D unit_vector, double body_length, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : this(start_position, unit_vector * (body_length + tip_length) + start_position, body_radius, tip_length, tip_radius, resolution, has_direction_arrows) { }
+        public Arrow(Vector3D start_position, Vector3D unit_vector, Vector3D direction_up, double body_length, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : this(start_position, unit_vector * (body_length + tip_length) + start_position, direction_up, body_radius, tip_length, tip_radius, resolution, has_direction_arrows) { }
 
         #endregion
     }
