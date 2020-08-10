@@ -133,14 +133,14 @@ namespace _3D_Engine
                 Faces[i + 2 * resolution] = new Face(Vertices[i + 3], Vertices[i + resolution + 4], Vertices[i + 4]);
                 Faces[i + 3 * resolution] = new Face(Vertices[i + resolution + 3], Vertices[2 * resolution + 4], Vertices[2 * resolution + 3]);
                 Faces[i + 4 * resolution] = new Face(Vertices[resolution + 3], Vertices[resolution + 4], Vertices[2 * resolution + 4]);
-                Faces[i + 5 * resolution] = new Face(Vertices[2 * resolution + 3], Vertices[2], Vertices[2 * resolution + 4]);
+                Faces[i + 5 * resolution] = new Face(Vertices[2 * resolution + 3], Vertices[2 * resolution + 4], Vertices[2]);
             }
             Faces[resolution - 1] = new Face(Vertices[resolution], Vertices[0], Vertices[1]);
             Faces[2 * resolution - 1] = new Face(Vertices[resolution + 2], Vertices[2 * resolution + 2], Vertices[resolution + 3]);
             Faces[3 * resolution - 1] = new Face(Vertices[resolution + 2], Vertices[resolution + 3], Vertices[3]);
             Faces[4 * resolution - 1] = new Face(Vertices[2 * resolution + 2], Vertices[2 * resolution + 3], Vertices[3 * resolution + 2]);
             Faces[5 * resolution - 1] = new Face(Vertices[2 * resolution + 2], Vertices[resolution + 3], Vertices[2 * resolution + 3]);
-            Faces[6 * resolution - 1] = new Face(Vertices[3 * resolution + 2], Vertices[2], Vertices[2 * resolution + 3]);
+            Faces[6 * resolution - 1] = new Face(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3], Vertices[2]);
         }
 
         public Arrow(Vector3D start_position, Vector3D unit_vector, Vector3D direction_up, double body_length, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : this(start_position, unit_vector * (body_length + tip_length) + start_position, direction_up, body_radius, tip_length, tip_radius, resolution, has_direction_arrows) { }

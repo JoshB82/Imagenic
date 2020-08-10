@@ -102,7 +102,7 @@ namespace _3D_Engine
                     }
                     else
                     {
-                        new_triangles[0] = new Face(new Vector4D(inside_points[0]), new Vector4D(first_intersection), new Vector4D(second_intersection));
+                        new_triangles[0] = new Face(new Vector4D(inside_points[0]), new Vector4D(first_intersection), new Vector4D(second_intersection)) { Colour = f.Colour };
                     }
                     
                     return (1, new_triangles);
@@ -110,18 +110,19 @@ namespace _3D_Engine
                     // Two points are on the inside, so a quadrilateral is formed and split into two triangles
                     first_intersection = Vector3D.Line_Intersect_Plane(inside_points[0], outside_points[0], plane_point, plane_normal, out d1);
                     second_intersection = Vector3D.Line_Intersect_Plane(inside_points[1], outside_points[0], plane_point, plane_normal, out d2);
-                    if (f.Texture_Object == null)
-                    {
-                        new_triangles[0] = new Face(new Vector4D(inside_points[0]), new Vector4D(inside_points[1]), new Vector4D(first_intersection));
-                        new_triangles[1] = new Face(new Vector4D(inside_points[1]), new Vector4D(second_intersection), new Vector4D(first_intersection));
-                    }
-                    else
+                    if (f.Has_Texture)
                     {
                         Vector3D t_intersection_1 = (outside_texture_points[0] - inside_texture_points[0]) * d1 + inside_texture_points[0];
                         Vector3D t_intersection_2 = (outside_texture_points[0] - inside_texture_points[1]) * d2 + inside_texture_points[1];
                         new_triangles[0] = new Face(new Vector4D(inside_points[0]), new Vector4D(inside_points[1]), new Vector4D(first_intersection), inside_texture_points[0], inside_texture_points[1], t_intersection_1, f.Texture_Object);
                         new_triangles[1] = new Face(new Vector4D(inside_points[1]), new Vector4D(first_intersection), new Vector4D(second_intersection), inside_texture_points[1], t_intersection_1, t_intersection_2, f.Texture_Object);
                     }
+                    else
+                    {
+                        new_triangles[0] = new Face(new Vector4D(inside_points[0]), new Vector4D(inside_points[1]), new Vector4D(first_intersection)) { Colour = f.Colour };
+                        new_triangles[1] = new Face(new Vector4D(inside_points[1]), new Vector4D(second_intersection), new Vector4D(first_intersection)) { Colour = f.Colour };
+                    }
+
                     return (2, new_triangles);
                 case 3:
                     // All points are on the inside, so return the triangle unchanged

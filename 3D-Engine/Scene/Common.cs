@@ -18,7 +18,7 @@ namespace _3D_Engine
         /// </summary>
         public void Create_Axes()
         {
-            int resolution = 50, body_radius = 5, tip_radius = 10, tip_length = 20;
+            int resolution = 50, body_radius = 5, tip_radius = 10, tip_length = 50;
             Arrow x_axis = new Arrow(Vector3D.Zero, new Vector3D(150, 0, 0), Vector3D.Unit_Y, body_radius, tip_length, tip_radius, resolution) { Face_Colour = Color.Red };
             Arrow y_axis = new Arrow(Vector3D.Zero, new Vector3D(0, 150, 0), Vector3D.Unit_Negative_Z, body_radius, tip_length, tip_radius, resolution) { Face_Colour = Color.Green };
             Arrow z_axis = new Arrow(Vector3D.Zero, new Vector3D(0, 0, 150), -Vector3D.Unit_Y, body_radius, tip_length, tip_radius, resolution) { Face_Colour = Color.Blue };

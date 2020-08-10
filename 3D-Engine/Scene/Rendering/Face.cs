@@ -34,7 +34,7 @@ namespace _3D_Engine
                 && mesh_type != "Square"
                 && mesh_type != "Text2D")
             return;
-            
+
             // Draw outline if needed
             if (face.Draw_Outline)//
             {
