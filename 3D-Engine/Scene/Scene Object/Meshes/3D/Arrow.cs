@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 
 namespace _3D_Engine
 {
@@ -131,11 +130,11 @@ namespace _3D_Engine
                 Faces[i] = new Face(Vertices[i + 3], Vertices[0], Vertices[i + 4]);
                 Faces[i + resolution] = new Face(Vertices[i + 3], Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
                 Faces[i + 2 * resolution] = new Face(Vertices[i + 3], Vertices[i + resolution + 4], Vertices[i + 4]);
-                Faces[i + 3 * resolution] = new Face(Vertices[i + resolution + 3], Vertices[2 * resolution + 4], Vertices[2 * resolution + 3]);
-                Faces[i + 4 * resolution] = new Face(Vertices[resolution + 3], Vertices[resolution + 4], Vertices[2 * resolution + 4]);
-                Faces[i + 5 * resolution] = new Face(Vertices[2 * resolution + 3], Vertices[2 * resolution + 4], Vertices[2]);
+                Faces[i + 3 * resolution] = new Face(Vertices[i + resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[i + 2 * resolution + 3]);
+                Faces[i + 4 * resolution] = new Face(Vertices[i + resolution + 3], Vertices[i + resolution + 4], Vertices[i + 2 * resolution + 4]);
+                Faces[i + 5 * resolution] = new Face(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[2]);
             }
-            Faces[resolution - 1] = new Face(Vertices[resolution], Vertices[0], Vertices[1]);
+            Faces[resolution - 1] = new Face(Vertices[resolution + 2], Vertices[0], Vertices[3]);
             Faces[2 * resolution - 1] = new Face(Vertices[resolution + 2], Vertices[2 * resolution + 2], Vertices[resolution + 3]);
             Faces[3 * resolution - 1] = new Face(Vertices[resolution + 2], Vertices[resolution + 3], Vertices[3]);
             Faces[4 * resolution - 1] = new Face(Vertices[2 * resolution + 2], Vertices[2 * resolution + 3], Vertices[3 * resolution + 2]);

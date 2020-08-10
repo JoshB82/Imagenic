@@ -140,26 +140,20 @@
                 new Vertex(new Vector4D(0, 1, 1)) // 7
             }; // need to be oriented to front side
 
-            Edges = new Edge[18]
+            Edges = new Edge[12]
             {
                 new Edge(Vertices[0], Vertices[1]), // 0
                 new Edge(Vertices[1], Vertices[2]), // 1
-                new Edge(Vertices[0], Vertices[2]) { Visible = false }, // 2
-                new Edge(Vertices[2], Vertices[3]), // 3
-                new Edge(Vertices[0], Vertices[3]), // 4
-                new Edge(Vertices[1], Vertices[5]), // 5
-                new Edge(Vertices[5], Vertices[6]), // 6
-                new Edge(Vertices[1], Vertices[6]) { Visible = false }, // 7
-                new Edge(Vertices[2], Vertices[6]), // 8
-                new Edge(Vertices[4], Vertices[5]), // 9
-                new Edge(Vertices[4], Vertices[7]), // 10
-                new Edge(Vertices[5], Vertices[7]) { Visible = false }, // 11
-                new Edge(Vertices[6], Vertices[7]), // 12
-                new Edge(Vertices[0], Vertices[4]), // 13
-                new Edge(Vertices[3], Vertices[4]) { Visible = false }, // 14
-                new Edge(Vertices[3], Vertices[7]), // 15
-                new Edge(Vertices[3], Vertices[6]) { Visible = false }, // 16
-                new Edge(Vertices[1], Vertices[4]) { Visible = false } // 17
+                new Edge(Vertices[2], Vertices[3]), // 2
+                new Edge(Vertices[0], Vertices[3]), // 3
+                new Edge(Vertices[1], Vertices[5]), // 4
+                new Edge(Vertices[5], Vertices[6]), // 5
+                new Edge(Vertices[2], Vertices[6]), // 6
+                new Edge(Vertices[4], Vertices[5]), // 7
+                new Edge(Vertices[4], Vertices[7]), // 8
+                new Edge(Vertices[6], Vertices[7]), // 9
+                new Edge(Vertices[0], Vertices[4]), // 10
+                new Edge(Vertices[3], Vertices[7]), // 11
             };
         }
 

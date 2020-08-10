@@ -52,8 +52,6 @@ namespace _3D_Engine
             for (int i = 0; i < resolution - 1; i++) Edges[i] = new Edge(Vertices[i + 2], Vertices[i + 3]);
             Edges[resolution - 1] = new Edge(Vertices[resolution + 1], Vertices[2]);
 
-            for (int i = 0; i < resolution; i++) Edges[i + resolution] = new Edge(Vertices[i + 2], Vertices[1]);
-
             Faces = new Face[2 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)

@@ -89,13 +89,12 @@
                 new Vertex(new Vector4D(0, 0, 1)) // 3
             };
 
-            Edges = new Edge[5]
+            Edges = new Edge[4]
             {
                 new Edge(Vertices[0], Vertices[1]), // 0
                 new Edge(Vertices[1], Vertices[2]), // 1
-                new Edge(Vertices[0], Vertices[2]) { Visible = false }, // 2
-                new Edge(Vertices[2], Vertices[3]), // 3
-                new Edge(Vertices[0], Vertices[3]) // 4
+                new Edge(Vertices[2], Vertices[3]), // 2
+                new Edge(Vertices[0], Vertices[3]) // 3
             };
         }
 

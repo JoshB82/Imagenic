@@ -68,8 +68,6 @@ namespace _3D_Engine
                 Edges[resolution - 1] = new Edge(Vertices[resolution + 1], Vertices[2]);
                 Edges[2 * resolution - 1] = new Edge(Vertices[2 * resolution + 1], Vertices[resolution + 2]);
 
-                for (int i = 0; i < resolution; i++) Edges[i + 2 * resolution] = new Edge(Vertices[i + 2], Vertices[i + resolution + 2]);
-
                 Faces = new Face[4 * resolution];
 
                 // vertex order may need to be fixed
