@@ -76,11 +76,11 @@ namespace _3D_Engine
                 Faces = new Face[2 * resolution];
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Faces[i] = new Face(Vertices[i], Vertices[resolution + 1], Vertices[resolution]);
-                    Faces[i + resolution] = new Face(Vertices[i], Vertices[i + 1], Vertices[resolution + 1]);
+                    Faces[i] = new Face(Vertices[i + 1], Vertices[i + resolution + 2], Vertices[i + resolution + 1]);
+                    Faces[i + resolution] = new Face(Vertices[i + 1], Vertices[i + 2], Vertices[i + resolution + 2]);
                 }
-                Faces[resolution - 1] = new Face(Vertices[resolution - 1], Vertices[resolution], Vertices[2 * resolution - 1]);
-                Faces[2 * resolution - 1] = new Face(Vertices[resolution - 1], Vertices[0], Vertices[resolution]);
+                Faces[resolution - 1] = new Face(Vertices[resolution], Vertices[resolution + 1], Vertices[2 * resolution]);
+                Faces[2 * resolution - 1] = new Face(Vertices[resolution], Vertices[1], Vertices[resolution + 1]);
             }
         }
 

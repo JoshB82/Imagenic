@@ -58,7 +58,7 @@ namespace _3D_Engine
                     Vertices[i + resolution + 2] = new Vertex(new Vector4D(Math.Cos(angle * i), 1, Math.Sin(angle * i)));
                 }
 
-                Edges = new Edge[4 * resolution];
+                Edges = new Edge[2 * resolution];
 
                 for (int i = 0; i < resolution - 1; i++)
                 {
@@ -74,8 +74,8 @@ namespace _3D_Engine
                 {
                     Faces[i] = new Face(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
                     Faces[i + resolution] = new Face(Vertices[i + 2], Vertices[i + resolution + 3], Vertices[i + resolution + 2]);
-                    Faces[2 * resolution] = new Face(Vertices[i + 2], Vertices[i + 3], Vertices[i + resolution + 3]);
-                    Faces[3 * resolution] = new Face(Vertices[i + resolution + 2], Vertices[i + resolution + 3], Vertices[1]);
+                    Faces[i + 2 * resolution] = new Face(Vertices[i + 2], Vertices[i + 3], Vertices[i + resolution + 3]);
+                    Faces[i + 3 * resolution] = new Face(Vertices[i + resolution + 2], Vertices[i + resolution + 3], Vertices[1]);
                 }
                 Faces[resolution - 1] = new Face(Vertices[resolution + 1], Vertices[0], Vertices[2]);
                 Faces[2 * resolution - 1] = new Face(Vertices[resolution + 1], Vertices[resolution + 2], Vertices[2 * resolution + 1]);
