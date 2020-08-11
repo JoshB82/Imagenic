@@ -75,6 +75,7 @@ namespace _3D_Engine
                 {
                     width = value;
                     screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
+                    entire_canvas_rectangle = new Rectangle(0, 0, width, height);
                     Set_Buffer();
                 }
             }
@@ -91,6 +92,7 @@ namespace _3D_Engine
                 {
                     height = value;
                     screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
+                    entire_canvas_rectangle = new Rectangle(0, 0, width, height);
                     Set_Buffer();
                 }
             }
@@ -119,7 +121,6 @@ namespace _3D_Engine
             Height = height;
 
             Canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-            entire_canvas_rectangle = new Rectangle(0, 0, width, height);
 
             Vector3D near_bottom_left_point = new Vector3D(-1, -1, -1), far_top_right_point = new Vector3D(1, 1, 1);
             screen_clipping_planes = new Clipping_Plane[]

@@ -70,18 +70,17 @@ namespace _3D_Engine
 
                 Faces = new Face[4 * resolution];
 
-                // vertex order may need to be fixed
                 for (int i = 0; i < resolution - 1; i++)
                 {
                     Faces[i] = new Face(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
-                    Faces[i + resolution] = new Face(Vertices[i + 2], Vertices[i + resolution + 2], Vertices[i + resolution + 3]);
-                    Faces[2 * resolution] = new Face(Vertices[i + 2], Vertices[i + resolution + 3], Vertices[i + 3]);
-                    Faces[3 * resolution] = new Face(Vertices[resolution + 2], Vertices[1], Vertices[resolution + 3]);
+                    Faces[i + resolution] = new Face(Vertices[i + 2], Vertices[i + resolution + 3], Vertices[i + resolution + 2]);
+                    Faces[2 * resolution] = new Face(Vertices[i + 2], Vertices[i + 3], Vertices[i + resolution + 3]);
+                    Faces[3 * resolution] = new Face(Vertices[i + resolution + 2], Vertices[i + resolution + 3], Vertices[1]);
                 }
                 Faces[resolution - 1] = new Face(Vertices[resolution + 1], Vertices[0], Vertices[2]);
-                Faces[2 * resolution - 1] = new Face(Vertices[resolution + 1], Vertices[2 * resolution + 1], Vertices[resolution + 2]);
-                Faces[3 * resolution - 1] = new Face(Vertices[resolution + 1], Vertices[resolution + 2], Vertices[2]);
-                Faces[4 * resolution - 1] = new Face(Vertices[2 * resolution + 1], Vertices[1], Vertices[resolution + 2]);
+                Faces[2 * resolution - 1] = new Face(Vertices[resolution + 1], Vertices[resolution + 2], Vertices[2 * resolution + 1]);
+                Faces[3 * resolution - 1] = new Face(Vertices[resolution + 1], Vertices[2], Vertices[resolution + 2]);
+                Faces[4 * resolution - 1] = new Face(Vertices[2 * resolution + 1], Vertices[resolution + 2], Vertices[1]);
             }
         }
 

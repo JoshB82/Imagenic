@@ -111,9 +111,9 @@ namespace _3D_Engine
                             break;
                         case "f":
                             // Face
-                            p1 = int.Parse(data[1]) - 1;
-                            p2 = int.Parse(data[2]) - 1;
-                            p3 = int.Parse(data[3]) - 1;
+                            p1 = int.Parse(data[1]);
+                            p2 = int.Parse(data[2]);
+                            p3 = int.Parse(data[3]);
                             faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
                             break;
                     }
@@ -123,7 +123,7 @@ namespace _3D_Engine
             {
                 Debug.WriteLine($"Error generating Custom mesh: {error.Message}");
                 return;
-            }  
+            }
 
             Vertices = vertices.ToArray();
             Edges = edges.ToArray();
@@ -195,9 +195,9 @@ namespace _3D_Engine
                             break;
                         case "f":
                             // Face
-                            p1 = int.Parse(data[1]) - 1;
-                            p2 = int.Parse(data[2]) - 1;
-                            p3 = int.Parse(data[3]) - 1;
+                            p1 = int.Parse(data[1]);
+                            p2 = int.Parse(data[2]);
+                            p3 = int.Parse(data[3]);
                             faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
                             break;
                     }
