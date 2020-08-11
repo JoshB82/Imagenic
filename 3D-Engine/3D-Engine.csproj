@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>_3D_Engine</RootNamespace>
 	<UseWindowsForms>true</UseWindowsForms>
+	<RepositoryUrl>https://github.com/JoshB82/3D-Engine</RepositoryUrl>
+	<Authors>Josh Bryant</Authors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -162,7 +162,7 @@
         #region Casting
 
         /// <summary>
-        /// Casts the <see cref="Cube"/> into a <see cref="Cuboid"/>.
+        /// Casts a <see cref="Cube"/> into a <see cref="Cuboid"/>.
         /// </summary>
         /// <param name="cube"><see cref="Cube"/> to cast.</param>
         public static explicit operator Cuboid(Cube cube)

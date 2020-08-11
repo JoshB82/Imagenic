@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 
 namespace _3D_Engine
 {
@@ -36,8 +37,8 @@ namespace _3D_Engine
         {
             switch (type)
             {
-                case "plane":
-                case "square":
+                case "Plane":
+                case "Square":
                     return new Vector3D[4] // WHY Z=1?
                     {
                     new Vector3D(0, 0, 1), // 0
@@ -46,6 +47,7 @@ namespace _3D_Engine
                     new Vector3D(0, 1, 1) // 3
                     };
                 default:
+                    Debug.WriteLine("Could not generate texture vertices; unknown type: " + type);
                     return null;
             }
         }

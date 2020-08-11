@@ -90,7 +90,7 @@ namespace _3D_Engine
         #region Casting
 
         /// <summary>
-        /// Casts the <see cref="Square"/> into a <see cref="Plane"/>.
+        /// Casts a <see cref="Square"/> into a <see cref="Plane"/>.
         /// </summary>
         /// <param name="square"><see cref="Square"/> to cast.</param>
         public static explicit operator Plane(Square square)
