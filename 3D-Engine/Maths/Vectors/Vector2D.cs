@@ -5,7 +5,7 @@ namespace _3D_Engine
     /// <summary>
     /// Handles constructors and operations involving two-dimensional vectors.
     /// </summary>
-    internal struct Vector2D
+    public struct Vector2D
     {
         #region Fields and Properties
 
@@ -64,7 +64,7 @@ namespace _3D_Engine
 
         #endregion
 
-        #region Vector Operations (Operator Overloading)
+        #region Vector Operations
 
         public static Vector2D operator +(Vector2D v1, Vector2D v2) => new Vector2D(v1.X + v2.X, v1.Y + v2.Y);
         public static Vector2D operator -(Vector2D v1, Vector2D v2) => new Vector2D(v1.X - v2.X, v1.Y - v2.Y);
@@ -72,9 +72,17 @@ namespace _3D_Engine
         public static Vector2D operator *(Vector2D v, double scalar) => new Vector2D(v.X * scalar, v.Y * scalar);
         public static Vector2D operator /(Vector2D v, double scalar) => new Vector2D(v.X / scalar, v.Y / scalar);
         public static Vector2D operator -(Vector2D v) => new Vector2D(-v.X, -v.Y);
-        public static bool operator ==(Vector2D v1, Vector2D v2) => (v1.X == v2.X && v1.Y == v2.Y);
-        public static bool operator !=(Vector2D v1, Vector2D v2) => !(v1 == v2);
 
         #endregion
+        
+        #region Equality
+
+        public static bool operator ==(Vector2D v1, Vector2D v2) => (v1.X == v2.X && v1.Y == v2.Y);
+        public static bool operator !=(Vector2D v1, Vector2D v2) => !(v1 == v2);
+        public override bool Equals(object obj) => this == (Vector2D)obj;
+        // Get hash code
+
+        #endregion
+
     }
 }

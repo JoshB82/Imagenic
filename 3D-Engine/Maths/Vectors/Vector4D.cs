@@ -76,7 +76,7 @@ namespace _3D_Engine
 
         #endregion
 
-        #region Vector Operations (Operator Overloading)
+        #region Vector Operations
 
         public static Vector4D operator +(Vector4D v1, Vector4D v2) => new Vector4D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z, v1.W);
         public static Vector4D operator +(Vector4D v1, Vector3D v2) => new Vector4D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z, v1.W);
@@ -85,8 +85,15 @@ namespace _3D_Engine
         public static Vector4D operator *(Vector4D v, double scalar) => new Vector4D(v.X * scalar, v.Y * scalar, v.Z * scalar, v.W * scalar);
         public static Vector4D operator /(Vector4D v, double scalar) => new Vector4D(v.X / scalar, v.Y / scalar, v.Z / scalar, v.W / scalar);
         public static Vector4D operator -(Vector4D v) => new Vector4D(-v.X, -v.Y, -v.Z, -v.W);
+
+        #endregion
+
+        #region Equality
+
         public static bool operator ==(Vector4D v1, Vector4D v2) => (v1.X == v2.X && v1.Y == v2.Y && v1.Z == v2.Z && v1.W == v2.W);
         public static bool operator !=(Vector4D v1, Vector4D v2) => !(v1 == v2);
+        public override bool Equals(object obj) => this == (Vector4D)obj;
+        // Get hash code
 
         #endregion
     }
