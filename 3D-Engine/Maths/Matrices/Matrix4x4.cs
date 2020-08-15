@@ -2,19 +2,19 @@
 
 namespace _3D_Engine
 {
-    /// <include file="Comments.xml" path="doc/members/member[@name='T:_3D_Engine.Matrix4x4']/*"/>
+    /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='T:_3D_Engine.Matrix4x4']/*"/>
     public struct Matrix4x4
     {
         #region Fields and Properties
 
-        /// <include file="Comments.xml" path="doc/members/member[@name='P:_3D_Engine.Matrix4x4.Data']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='P:_3D_Engine.Matrix4x4.Data']/*"/>
         public double[][] Data { get; set; }
 
         #endregion
 
         #region Constructors
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Zeroed_Matrix']/*"/>
+        /// <include file="Help_Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Zeroed_Matrix']/*"/>
         public static Matrix4x4 Zeroed_Matrix()
         {
             double[][] data = new double[4][];
@@ -22,7 +22,7 @@ namespace _3D_Engine
             return new Matrix4x4(data);
         }
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Identity_Matrix']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Identity_Matrix']/*"/>
         public static Matrix4x4 Identity_Matrix()
         {
             double[][] data = new double[4][];
@@ -34,7 +34,7 @@ namespace _3D_Engine
             return new Matrix4x4(data);
         }
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)']/*"/>
         public Matrix4x4(double i1, double i2, double i3, double i4, double i5, double i6, double i7, double i8, double i9, double i10, double i11, double i12, double i13, double i14, double i15, double i16)
         {
             Data = new double[4][];
@@ -44,7 +44,7 @@ namespace _3D_Engine
             Data[3] = new double[4] { i13, i14, i15, i16 };
         }
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Double[][])']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Double[][])']/*"/>
         public Matrix4x4(double[][] data)
         {
             if (data.Length != 4 || data[0].Length != 4 || data[1].Length != 4 || data[2].Length != 4 || data[3].Length != 4) throw new Exception("Array must be of size 4x4.");
@@ -55,7 +55,7 @@ namespace _3D_Engine
 
         #region Matrix Operations (Common)
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.ToString']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.ToString']/*"/>
         public override string ToString() =>
             $"({Data[0][0]}, {Data[0][1]}, {Data[0][2]}, {Data[0][3]}, \n" +
             $"{Data[1][0]}, {Data[1][1]}, {Data[1][2]}, {Data[1][3]}, \n" +
@@ -66,7 +66,7 @@ namespace _3D_Engine
 
         #region Matrix Operations (Operator Overloading)
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Addition(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Addition(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator +(Matrix4x4 m1, Matrix4x4 m2)
         {
             double[][] result = new double[4][];
@@ -74,7 +74,7 @@ namespace _3D_Engine
             return new Matrix4x4(result);
         }
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator -(Matrix4x4 m1, Matrix4x4 m2)
         {
             double[][] result = new double[4][];
@@ -82,7 +82,7 @@ namespace _3D_Engine
             return new Matrix4x4(result);
         }
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator *(Matrix4x4 m1, Matrix4x4 m2)
         {
             return new Matrix4x4(
@@ -105,7 +105,7 @@ namespace _3D_Engine
             );
         }
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)']/*"/>
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)']/*"/>
         public static Vector4D operator *(Matrix4x4 m, Vector4D v)
         {
             return new Vector4D(
@@ -116,15 +116,15 @@ namespace _3D_Engine
             );
         }
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(System.Double,_3D_Engine.Matrix4x4)']/*"/>
-        public static Matrix4x4 operator *(double scalar, Matrix4x4 m)
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Double)']/*"/>
+        public static Matrix4x4 operator *(Matrix4x4 m, double scalar)
         {
             for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) m.Data[i][j] *= scalar;
             return m;
         }
 
-        /// <include file="test.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Division(System.Double,_3D_Engine.Matrix4x4)']/*"/>
-        public static Matrix4x4 operator /(double scalar, Matrix4x4 m)
+        /// <include file="Help_Comments 2.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Double)']/*"/>
+        public static Matrix4x4 operator /(Matrix4x4 m, double scalar)
         {
             for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) m.Data[i][j] /= scalar;
             return m;

@@ -11,7 +11,17 @@ namespace _3D_Engine
         #region Fields and Properties
 
         private static readonly object locker = new object();
-        private Clipping_Plane[] screen_clipping_planes;
+        private static Clipping_Plane[] screen_clipping_planes =
+        new Clipping_Plane[]
+        {
+            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_X), // Left
+            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_Y), // Bottom
+            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_Z), // Near
+            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_X), // Right
+            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Y), // Top
+            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Z) // Far
+        };
+
         private Rectangle entire_canvas_rectangle;
 
         // Buffers
@@ -35,22 +45,21 @@ namespace _3D_Engine
         /// <see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.
         /// </summary>
         public PictureBox Canvas_Box { get; set; }
-        public Bitmap Canvas { get; private set; }
         /// <summary>
         /// The background <see cref="Color"/> of the <see cref="Scene"/>.
         /// </summary>
         public Color Background_Colour { get; set; } = Color.White;
 
         /// <summary>
-        /// List of all <see cref="Camera"/>s in the current <see cref="Scene"/>.
+        /// List of all <see cref="Camera">Cameras</see> in the current <see cref="Scene"/>.
         /// </summary>
         public readonly List<Camera> Cameras = new List<Camera>();
         /// <summary>
-        /// List of all <see cref="Light"/>s in the current <see cref="Scene"/>.
+        /// List of all <see cref="Light">Lights</see> in the current <see cref="Scene"/>.
         /// </summary>
         public readonly List<Light> Lights = new List<Light>();
         /// <summary>
-        /// List of all <see cref="Mesh"/>es in the current <see cref="Scene"/>.
+        /// List of all <see cref="Mesh">Meshes</see> in the current <see cref="Scene"/>.
         /// </summary>
         public readonly List<Mesh> Meshes = new List<Mesh>();
         
@@ -76,7 +85,7 @@ namespace _3D_Engine
                     width = value;
                     screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
                     entire_canvas_rectangle = new Rectangle(0, 0, width, height);
-                    Set_Buffer();
+                    Set_Buffers();
                 }
             }
         }
@@ -93,20 +102,27 @@ namespace _3D_Engine
                     height = value;
                     screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
                     entire_canvas_rectangle = new Rectangle(0, 0, width, height);
-                    Set_Buffer();
+                    Set_Buffers();
                 }
             }
         }
 
-        private void Set_Buffer()
+        private void Set_Buffers()
         {
             z_buffer = new double[width][];
-            colour_buffer = new Color[width][];
             for (int i = 0; i < width; i++) z_buffer[i] = new double[height];
+            colour_buffer = new Color[width][];
             for (int i = 0; i < width; i++) colour_buffer[i] = new Color[height];
+            foreach (Light light in Lights)
+            {
+                light.z_buffer = new double[width][];
+                for (int i = 0; i < width; i++) light.z_buffer[i] = new double[height];
+            }
         }
 
         #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Creates a new <see cref="Scene"/>.
@@ -120,24 +136,13 @@ namespace _3D_Engine
             Width = width;
             Height = height;
 
-            Canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-
-            Vector3D near_bottom_left_point = new Vector3D(-1, -1, -1), far_top_right_point = new Vector3D(1, 1, 1);
-            screen_clipping_planes = new Clipping_Plane[]
-            {
-                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_X), // Left
-                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Y), // Bottom
-                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Z), // Near
-                new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_X), // Right
-                new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_Y), // Top
-                new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_Z) // Far
-            };
-
             Debug.WriteLine("Scene created");
         }
 
+        #endregion
+
         #region Add to scene methods
-        
+
         /// <summary>
         /// Adds a <see cref="Scene_Object"/> to the <see cref="Scene"/>.
         /// </summary>
@@ -150,7 +155,10 @@ namespace _3D_Engine
                     Cameras.Add((Camera)scene_object);
                     break;
                 case "Light":
-                    Lights.Add((Light)scene_object);
+                    Light light = (Light)scene_object;
+                    Lights.Add(light);
+                    light.z_buffer = new double[width][];
+                    for (int i = 0; i < width; i++) light.z_buffer[i] = new double[height];
                     break;
                 case "Mesh":
                     Meshes.Add((Mesh)scene_object);
@@ -158,30 +166,26 @@ namespace _3D_Engine
             }
         }
 
-        // Probably not working (review add method code)
         public void Add(Scene_Object[] scene_objects)
         {
-            switch (scene_objects.GetType().Name)
-            {
-                case "Orthogonal_Camera[]":
-                case "Perspective_Camera[]":
-                    foreach (Camera camera in scene_objects) Cameras.Add(camera);
-                    break;
-                case "Light[]":
-                    foreach (Light light in scene_objects) Lights.Add(light);
-                    break;
-                case "Mesh[]":
-                    foreach (Mesh mesh in scene_objects) Meshes.Add(mesh);
-                    break;
-            }
+            foreach (Scene_Object scene_object in scene_objects) Add(scene_object);
         }
 
         #endregion
 
-        public void Remove(int ID)
+        #region Remove from scene methods
+
+        public void Remove(int ID) /////
         {
             lock (locker) Meshes.RemoveAll(x => x.ID == ID);
         }
+
+        public void Remove(int start_ID, int finish_ID)
+        {
+
+        }
+
+        #endregion
 
         /// <summary>
         /// Renders the <see cref="Scene"/>. A Render Camera must be set before this method is called.
@@ -207,6 +211,13 @@ namespace _3D_Engine
                 {
                     z_buffer[i][j] = 2;
                     colour_buffer[i][j] = Background_Colour;
+                }
+                foreach (Light light in Lights)
+                {
+                    for (int i = 0; i < width; i++) for (int j = 0; j < height; j++)
+                    {
+                        light.z_buffer[i][j] = 2;
+                    }
                 }
 
                 // Calculate render camera properties
@@ -273,11 +284,11 @@ namespace _3D_Engine
                         
                     Draw_Camera(camera_to_draw, model_to_world, world_to_view, view_to_screen);
                 }
-
+                
+                // Draw theh frame on the canvas and push it to the screen
                 Draw_Colour_Buffer(temp_canvas, colour_buffer);
+                Canvas_Box.Image = temp_canvas;
 
-                Canvas = temp_canvas;
-                Canvas_Box.Invalidate();
                 Change_scene = false;
             }
         }

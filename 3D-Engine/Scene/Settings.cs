@@ -11,6 +11,9 @@ namespace _3D_Engine
         Decimal // More memory (??)
     }
 
+    /// <summary>
+    /// Options for the style of the viewport.
+    /// </summary>
     public enum Viewport
     {
         Single,
@@ -18,6 +21,9 @@ namespace _3D_Engine
         Double_Top_Bottom
     }
 
+    /// <summary>
+    /// Options for how verbose output should be.
+    /// </summary>
     public enum Verbosity
     {
         None,

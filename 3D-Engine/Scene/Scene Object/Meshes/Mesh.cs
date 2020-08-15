@@ -8,7 +8,7 @@ namespace _3D_Engine
 
         // Structure
         /// <summary>
-        /// The <see cref="Vertex"/>s in the <see cref="Mesh"/>.
+        /// The <see cref="Vertex">Vertices</see> in the <see cref="Mesh"/>.
         /// </summary>
         public Vertex[] Vertices { get; protected set; }
         /// <summary>
@@ -66,9 +66,6 @@ namespace _3D_Engine
         /// Determines if an outline is drawn with the <see cref="Mesh"/>.
         /// </summary>
         public bool Draw_Outline { get; set; } = false;
-        /// <summary>
-        /// Determines if the <see cref="Mesh"/> is visible or not.
-        /// </summary>
 
         // Object transformations
         internal Matrix4x4 Model_to_World { get; private set; } = Matrix4x4.Identity_Matrix();
@@ -86,8 +83,6 @@ namespace _3D_Engine
 
             Model_to_World = translation * direction_up_rotation * direction_forward_rotation * scale;
         }
-
-        // Could world and model points be put into a single struct? With overloading possibly so the computer knows how to handle them?
 
         #region Constructors
 

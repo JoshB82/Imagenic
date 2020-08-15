@@ -14,10 +14,7 @@
 
         #region Constructors
 
-        public Vertex(Vector4D point)
-        {
-            Point = point;
-        }
+        public Vertex(Vector4D point) => Point = point;
 
         #endregion
     }

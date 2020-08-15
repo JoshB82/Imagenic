@@ -25,7 +25,7 @@ namespace _3D_Engine
             }
         }
         /// <summary>
-        /// The number of vertices that are on the perimeter of the <see cref="Circle"/>.
+        /// The number of <see cref="Vertex">Vertices</see> that are on the perimeter of the <see cref="Circle"/>.
         /// </summary>
         public int Resolution
         {

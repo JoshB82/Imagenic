@@ -39,7 +39,7 @@ namespace _3D_Engine
 
         #endregion
 
-        #region Matrix calculations
+        #region Matrix Calculations
         
         internal void Calculate_Model_to_World_Matrix()
         {

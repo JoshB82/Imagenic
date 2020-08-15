@@ -150,14 +150,22 @@ namespace _3D_Engine
                         double view_space_z = 2 * camera.Z_Near * camera.Z_Far / (camera.Z_Near + camera.Z_Far - z * (camera.Z_Far - camera.Z_Near));
                         double view_space_x = camera.Width / (2 * camera.Z_Near) * view_space_z * x;
                         double view_space_y = camera.Height / (2 * camera.Z_Near) * view_space_z * y;
-                        Vector3D view_space_point = new Vector3D(view_space_x, view_space_y, view_space_z);
+                        Vector4D view_space_point = new Vector4D(view_space_x, view_space_y, view_space_z);
+
+                        // Check if the point is illuminated
+                        foreach (Light light in Lights)
+                        {
+                            light.Calculate_World_to_Light_Matrix();
+                            Vector4D light_space_point = light.world_to_light * view_space_point;
+
+                        }
 
                         Color new_colour = face.Colour;
                         foreach (Light light in Lights)
                         {
-                            double light_distance = (light.World_Origin - view_space_point).Magnitude();
+                            //double light_distance = (light.World_Origin - view_space_point).Magnitude();
                             double light_source_strength = light.Strength;
-                            double light_distance_strength = light_source_strength / Math.Pow(light_distance, 2); // ? ?
+                            //double light_distance_strength = light_source_strength / Math.Pow(light_distance, 2); // ? ?
 
                             new_colour = Mix_Colour(new_colour, light.Colour);
                         }

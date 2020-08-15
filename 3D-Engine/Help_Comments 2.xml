@@ -46,7 +46,7 @@
         </member>
         <member name="M:_3D_Engine.Matrix4x4.ToString">
             <summary>
-            Returns the <see cref="T:_3D_Engine.Matrix4x4" /> data in a formatted 4x4 grid.
+            Shows the <see cref="T:_3D_Engine.Matrix4x4" /> data in a formatted 4x4 grid.
             </summary><returns>Formatted <see cref="T:_3D_Engine.Matrix4x4" /> data.</returns>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.op_Addition(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)">
@@ -57,7 +57,7 @@
         <member name="M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)">
             <summary>
             Finds the element-wise difference of two <see cref="T:_3D_Engine.Matrix4x4" />.
-            </summary><param name="m1">Minuend.</param><param name="m2">Subtrahend.</param><returns>Element-wise difference.</returns>
+            </summary><param name="m1">Minuend.</param><param name="m2">Subtrahend.</param><returns>Difference of two <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)">
             <summary>
@@ -69,15 +69,106 @@
             Post-multiplies a matrix by a vector.
             </summary><param name="m">The matrix to be multiplied.</param><param name="v">The vector to be multiplied.</param><returns>The result of post-multiplying a matrix by a vector.</returns>
         </member>
-        <member name="M:_3D_Engine.Matrix4x4.op_Multiply(System.Double,_3D_Engine.Matrix4x4)">
+        <member name="M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Double)">
             <summary>
-            Finds the product of a scalar and a matrix.
-            </summary><param name="scalar">The scalar to be multiplied.</param><param name="m">The matrix to be multiplied.</param><returns>The product of a scalar and a matrix.</returns>
+            Finds the product of a scalar and a <see cref="T:_3D_Engine.Matrix4x4" />.
+            </summary><param name="m">The matrix to be multiplied.</param><param name="scalar">The scalar to be multiplied.</param><returns>The product of a scalar and a matrix.</returns>
         </member>
-        <member name="M:_3D_Engine.Matrix4x4.op_Division(System.Double,_3D_Engine.Matrix4x4)">
+        <member name="M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Double)">
             <summary>
-            Divides each element of a matrix by a scalar.
-            </summary><param name="scalar">The scalar used in the division.</param><param name="m">The matrix used in the division.</param><returns>A matrix with each element divided by a scalar.</returns>
+            Divides each element of a <see cref="T:_3D_Engine.Matrix4x4" /> by a scalar.
+            </summary><param name="m">The matrix used in the division.</param><param name="scalar">The scalar used in the division.</param><returns>A matrix with each element divided by a scalar.</returns>
+        </member>
+        <member name="T:_3D_Engine.Quaternion">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Quaternion" />.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Quaternion.Q1">
+            <summary>
+            First component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the X component of a <see cref="T:_3D_Engine.Vector4D" />.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Quaternion.Q2">
+            <summary>
+            Second component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the Y component of a <see cref="T:_3D_Engine.Vector4D" />.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Quaternion.Q3">
+            <summary>
+            Third component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the Z component of a <see cref="T:_3D_Engine.Vector4D" />.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Quaternion.Q4">
+            <summary>
+            Fourth component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the W component of a <see cref="T:_3D_Engine.Vector4D" />.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Quaternion" /> from four values.
+            </summary><param name="q1">First value.</param><param name="q2">Second value.</param><param name="q3">Third value.</param><param name="q4">Fourth value.</param>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.#ctor(System.Double[])">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Quaternion" /> from an array of data.
+            </summary><param name="data">The array containing data to put in the <see cref="T:_3D_Engine.Quaternion" />.</param>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.#ctor(_3D_Engine.Vector4D)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Quaternion" /> from the values in a <see cref="T:_3D_Engine.Vector4D" />.
+            </summary><param name="v">The <see cref="T:_3D_Engine.Vector4D" /> containing the values to be put in the <see cref="T:_3D_Engine.Quaternion" />.</param>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.#ctor(System.Double,_3D_Engine.Vector3D)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Quaternion" /> from a scalar and the values in a <see cref="T:_3D_Engine.Vector3D" />.
+            </summary><param name="scalar">The scalar to be put in the <see cref="T:_3D_Engine.Quaternion" />.</param><param name="v">The <see cref="T:_3D_Engine.Vector3D" /> containing values to be put in the <see cref="T:_3D_Engine.Quaternion" />.</param>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.Magnitude">
+            <summary>
+            Finds the magnitude of a <see cref="T:_3D_Engine.Quaternion" />.
+            </summary><returns>The magnitude of a <see cref="T:_3D_Engine.Quaternion" />.</returns>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.Squared_Magnitude">
+            <summary>
+            Finds the squared magnitude of a <see cref="T:_3D_Engine.Quaternion"/>.
+            </summary>
+            <returns>The squared magnitude of a <see cref="T:_3D_Engine.Quaternion"/>.</returns>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.Normalise">
+            <summary>
+            Normalises a <see cref="T:_3D_Engine.Quaternion" />.
+            </summary><returns>A normalised <see cref="T:_3D_Engine.Quaternion" />.</returns>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.ToString">
+            <summary>
+            Shows the <see cref="T:_3D_Engine.Quaternion" /> data in a formatted string.
+            </summary><returns>Formatted <see cref="T:_3D_Engine.Quaternion" /> data.</returns>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.op_Addition(_3D_Engine.Quaternion,_3D_Engine.Quaternion)">
+            <summary>
+            Finds the element-wise sum of two <see cref="T:_3D_Engine.Quaternion">Quaternions.</see>
+            </summary><param name="q1">First addend.</param><param name="q2">Second addend.</param><returns>Sum of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.</returns>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.op_Subtraction(_3D_Engine.Quaternion,_3D_Engine.Quaternion)">
+            <summary>
+            Finds the element-wise difference of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.
+            </summary><param name="q1">Minuend.</param><param name="q2">Subtrahend.</param><returns>Difference of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.</returns>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,_3D_Engine.Quaternion)">
+            <summary>
+            Finds the product of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.
+            </summary><param name="q1">The first <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><param name="q2">The second <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><returns>The product of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.</returns>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Double)">
+            <summary>
+            Finds the product of a scalar and a <see cref="T:_3D_Engine.Quaternion" />.
+            </summary><param name="q">The <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><param name="scalar">The scalar to be multiplied.</param><returns>The product of a scalar and a <see cref="T:_3D_Engine.Quaternion" />.</returns>
+        </member>
+        <member name="M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Double)">
+            <summary>
+            Divides each element of a <see cref="T:_3D_Engine.Quaternion" /> by a scalar.
+            </summary><param name="q">The <see cref="T:_3D_Engine.Quaternion" /> used in the division.</param><param name="scalar">The scalar used in the division.</param><returns>A <see cref="T:_3D_Engine.Quaternion" /> with each element divided by a scalar.</returns>
         </member>
         <member name="M:_3D_Engine.Transform.Calculate_Direction_Forward(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
@@ -320,17 +411,17 @@
         </member>
         <member name="F:_3D_Engine.Scene.Cameras">
             <summary>
-            List of all <see cref="T:_3D_Engine.Camera"/>s in the current <see cref="T:_3D_Engine.Scene"/>.
+            List of all <see cref="T:_3D_Engine.Camera">Cameras</see> in the current <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
         <member name="F:_3D_Engine.Scene.Lights">
             <summary>
-            List of all <see cref="T:_3D_Engine.Light"/>s in the current <see cref="T:_3D_Engine.Scene"/>.
+            List of all <see cref="T:_3D_Engine.Light">Lights</see> in the current <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
         <member name="F:_3D_Engine.Scene.Meshes">
             <summary>
-            List of all <see cref="T:_3D_Engine.Mesh"/>es in the current <see cref="T:_3D_Engine.Scene"/>.
+            List of all <see cref="T:_3D_Engine.Mesh">Meshes</see> in the current <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Scene.Width">
@@ -392,6 +483,12 @@
             Normal vector pointing towards the volume to keep. //?
             </summary>
         </member>
+        <member name="M:_3D_Engine.Group.op_Explicit(_3D_Engine.Group)~_3D_Engine.Custom">
+            <summary>
+            Casts the <see cref="T:_3D_Engine.Group"/> into a <see cref="T:_3D_Engine.Custom"/>.
+            </summary>
+            <param name="group"><see cref="T:_3D_Engine.Group"/> to cast.</param>
+        </member>
         <member name="T:_3D_Engine.World_Point">
             <summary>
             Handles creation of a <see cref="T:_3D_Engine.World_Point"/> mesh.
@@ -415,7 +512,7 @@
         </member>
         <member name="P:_3D_Engine.Circle.Resolution">
             <summary>
-            The number of vertices that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.
+            The number of <see cref="T:_3D_Engine.Vertex">Vertices</see> that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Int32)">
@@ -537,7 +634,7 @@
         </member>
         <member name="M:_3D_Engine.Square.op_Explicit(_3D_Engine.Square)~_3D_Engine.Plane">
             <summary>
-            Casts the <see cref="T:_3D_Engine.Square"/> into a <see cref="T:_3D_Engine.Plane"/>.
+            Casts a <see cref="T:_3D_Engine.Square"/> into a <see cref="T:_3D_Engine.Plane"/>.
             </summary>
             <param name="square"><see cref="T:_3D_Engine.Square"/> to cast.</param>
         </member>
@@ -545,6 +642,32 @@
             <summary>
             Handles creation of a <see cref="T:_3D_Engine.Cone"/> mesh.
             </summary>
+        </member>
+        <member name="P:_3D_Engine.Cone.Height">
+            <summary>
+            The height of the <see cref="T:_3D_Engine.Cone"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cone.Radius">
+            <summary>
+            The radius of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Cone.Resolution">
+            <summary>
+            The number of <see cref="T:_3D_Engine.Vertex">Vertices</see> that are on the perimeter of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Cone.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Double,System.Double,System.Int32)">
+            <summary>
+            Creates a <see cref="T:_3D_Engine.Cone"/> mesh.
+            </summary>
+            <param name="origin">The position of the <see cref="T:_3D_Engine.Cone"/>.</param>
+            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Cone"/> faces.</param>
+            <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cone"/>.</param>
+            <param name="height">The height of the <see cref="T:_3D_Engine.Cone"/>.</param>
+            <param name="radius">The radius of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.</param>
+            <param name="resolution">The number of <see cref="T:_3D_Engine.Vertex">Vertices</see> that are on the perimeter of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.</param>
         </member>
         <member name="T:_3D_Engine.Cube">
             <summary>
@@ -592,7 +715,7 @@
         </member>
         <member name="M:_3D_Engine.Cube.op_Explicit(_3D_Engine.Cube)~_3D_Engine.Cuboid">
             <summary>
-            Casts the <see cref="T:_3D_Engine.Cube"/> into a <see cref="T:_3D_Engine.Cuboid"/>.
+            Casts a <see cref="T:_3D_Engine.Cube"/> into a <see cref="T:_3D_Engine.Cuboid"/>.
             </summary>
             <param name="cube"><see cref="T:_3D_Engine.Cube"/> to cast.</param>
         </member>
@@ -798,7 +921,7 @@
         </member>
         <member name="P:_3D_Engine.Mesh.Vertices">
             <summary>
-            The <see cref="T:_3D_Engine.Vertex"/>s in the <see cref="T:_3D_Engine.Mesh"/>.
+            The <see cref="T:_3D_Engine.Vertex">Vertices</see> in the <see cref="T:_3D_Engine.Mesh"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Edges">
@@ -839,11 +962,6 @@
         <member name="P:_3D_Engine.Mesh.Draw_Outline">
             <summary>
             Determines if an outline is drawn with the <see cref="T:_3D_Engine.Mesh"/>.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.Model_to_World">
-            <summary>
-            Determines if the <see cref="T:_3D_Engine.Mesh"/> is visible or not.
             </summary>
         </member>
         <member name="T:_3D_Engine.Scene_Object">
@@ -929,6 +1047,16 @@
         <member name="P:_3D_Engine.Scene_Object.Visible">
             <summary>
             Determines whether the <see cref="T:_3D_Engine.Scene_Object"/> is visible or not.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Viewport">
+            <summary>
+            Options for the style of the viewport.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Verbosity">
+            <summary>
+            Options for how verbose output should be.
             </summary>
         </member>
         <member name="T:_3D_Engine.Settings">

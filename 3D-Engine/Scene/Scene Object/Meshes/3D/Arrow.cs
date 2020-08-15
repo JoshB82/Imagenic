@@ -7,6 +7,7 @@ namespace _3D_Engine
         #region Fields and Properties
 
         private Vector3D start_position, end_position, unit_vector;
+
         public Vector3D Start_Position
         {
             get => start_position;
