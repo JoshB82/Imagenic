@@ -14,10 +14,12 @@ namespace _3D_Engine
         internal Vertex Model_P2 { get; set; }
         internal Vertex Model_P3 { get; set; }
 
+        /*
         public Vector3D World_P1 { get; internal set; }
         public Vector3D World_P2 { get; internal set; }
         public Vector3D World_P3 { get; internal set; }
-        
+        */
+
         internal Vector4D P1 { get; set; }
         internal Vector4D P2 { get; set; }
         internal Vector4D P3 { get; set; }
@@ -35,6 +37,19 @@ namespace _3D_Engine
         public bool Visible { get; set; } = true;
 
         #endregion
+
+        internal void Reset_Vertices()
+        {
+            P1 = Model_P1.Point;
+            P2 = Model_P2.Point;
+            P3 = Model_P3.Point;
+        }
+        internal void Apply_Matrix(Matrix4x4 matrix)
+        {
+            P1 = matrix * P1;
+            P2 = matrix * P2;
+            P3 = matrix * P3;
+        }
 
         #region Constructors
 

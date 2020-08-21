@@ -1,8 +1,5 @@
 ﻿namespace _3D_Engine
 {
-    /// <summary>
-    /// Class that defines planes that clip vertices.
-    /// </summary>
     internal sealed class Clipping_Plane
     {
         /// <summary>

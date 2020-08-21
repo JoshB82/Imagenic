@@ -1,23 +1,13 @@
 ﻿using System;
-
 using System.Drawing;
 
 namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        /// <summary>
-        /// Rounds a double-precision floating-point value to the nearest integer.
-        /// </summary>
-        /// <param name="x">Double value to round.</param>
-        /// <returns>Rounded value.</returns>
+        // Number manipulation
         private static int Round_To_Int(double x) => (int)Math.Round(x, MidpointRounding.AwayFromZero);
 
-        /// <summary>
-        /// Swaps the values of two variables.
-        /// </summary>
-        /// <param name="x1">First variable to be swapped.</param>
-        /// <param name="x2">Second variable to be swapped.</param>
         private static void Swap<T>(ref T x1, ref T x2)
         {
             T temp = x1;
@@ -26,7 +16,7 @@ namespace _3D_Engine
         }
 
         // Colours
-        private static Color Mix_Colour(Color c1, Color c2) => Color.FromArgb(c1.ToArgb() + c2.ToArgb());
+        private static Color Mix_Colour(Color c1, Color c2) => Color.FromArgb((int)(0.5 * c1.ToArgb() + 0.5 * c2.ToArgb())); // think about
 
         // Sorting
         private static void Sort_By_Y(
@@ -87,16 +77,12 @@ namespace _3D_Engine
             }
         }
 
-        // RANGE TO DRAW X: [0,WIDTH-1] Y: [0,HEIGHT-1]
-        private void Solid_Triangle(Camera camera, Face face,
-             int x1, int y1, double z1,
-             int x2, int y2, double z2,
-             int x3, int y3, double z3)
+        // Interpolation (source!)
+        private void Interpolate_Triangle(object @object, Action<object, int, int, double> action,
+            int x1, int y1, double z1,
+            int x2, int y2, double z2,
+            int x3, int y3, double z3)
         {
-            // Don't draw anything if triangle is flat
-            if (x1 == x2 && x2 == x3) return;
-            if (y1 == y2 && y2 == y3) return;
-
             // Sort the vertices by their y-co-ordinate
             Sort_By_Y(
                 ref x1, ref y1, ref z1,
@@ -146,48 +132,7 @@ namespace _3D_Engine
                         double z = sz + t * (ez - sz);
                         t += t_step;
 
-                        // Find corresponding view space co-ordinate
-                        double view_space_z = 2 * camera.Z_Near * camera.Z_Far / (camera.Z_Near + camera.Z_Far - z * (camera.Z_Far - camera.Z_Near));
-                        double view_space_x = camera.Width / (2 * camera.Z_Near) * view_space_z * x;
-                        double view_space_y = camera.Height / (2 * camera.Z_Near) * view_space_z * y;
-                        Vector4D view_space_point = new Vector4D(view_space_x, view_space_y, view_space_z);
-
-                        // Check if the point is illuminated
-                        foreach (Light light in Lights)
-                        {
-                            light.Calculate_World_to_Light_Matrix();
-                            Vector4D light_space_point = light.world_to_light * view_space_point;
-
-                        }
-
-                        Color new_colour = face.Colour;
-                        foreach (Light light in Lights)
-                        {
-                            //double light_distance = (light.World_Origin - view_space_point).Magnitude();
-                            double light_source_strength = light.Strength;
-                            //double light_distance_strength = light_source_strength / Math.Pow(light_distance, 2); // ? ?
-
-                            new_colour = Mix_Colour(new_colour, light.Colour);
-                        }
-                        
-                        Check_Against_Z_Buffer(x, y, z, new_colour);
-
-                        /*
-                        // Adjust point colour based on lighting
-                        Color adjusted_colour = face.Colour;
-                        foreach (Light light in Lights)
-                        {
-                            Vector3D light_to_face = new Vector3D() - light.World_Origin;
-                            double intensity_at_face = 1 / Math.Pow(light_to_face.Magnitude(), 2) * light.Intensity;
-
-                            switch (light.GetType().Name)
-                            {
-                                case "Point_Light":
-                                    adjusted_colour = Mix_Colour();
-                                    adjusted_colour = new Color() + new Color();
-                                    break;
-                            }
-                        }*/
+                        action(@object, x, y, z);
                     }
                 }
             }
@@ -214,23 +159,7 @@ namespace _3D_Engine
                         double z = sz + t * (ez - sz);
                         t += t_step;
 
-                        // Find corresponding view space co-ordinate
-                        double view_space_z = 2 * camera.Z_Near * camera.Z_Far / (camera.Z_Near + camera.Z_Far - z * (camera.Z_Far - camera.Z_Near));
-                        double view_space_x = camera.Width / (2 * camera.Z_Near) * view_space_z * x;
-                        double view_space_y = camera.Height / (2 * camera.Z_Near) * view_space_z * y;
-                        Vector3D view_space_point = new Vector3D(view_space_x, view_space_y, view_space_z);
-
-                        Color new_colour = face.Colour;
-                        foreach (Light light in Lights)
-                        {
-                            double light_distance = (light.World_Origin - view_space_point).Magnitude();
-                            double light_source_strength = light.Strength;
-                            double light_distance_strength = light_source_strength / Math.Pow(light_distance, 2); // ? ?
-
-                            new_colour = Mix_Colour(new_colour, light.Colour);
-                        }
-
-                        Check_Against_Z_Buffer(x, y, z, new_colour);
+                        action(@object, x, y, z);
                     }
                 }
             }
@@ -242,9 +171,6 @@ namespace _3D_Engine
             int x2, int y2, double z2, double tx2, double ty2,
             int x3, int y3, double z3, double tx3, double ty3)
         {
-            // Don't draw anything if triangle is flat
-            if (x1 == x2 && x2 == x3) return;
-            if (y1 == y2 && y2 == y3) return;
 
             // Sort the vertices by their y-co-ordinate
             Textured_Sort_By_Y(
@@ -275,7 +201,7 @@ namespace _3D_Engine
                 tx_step_3 = (tx2 - tx3) / dy_step_3; // dtx from point 2 to point 3
                 ty_step_3 = (ty2 - ty3) / dy_step_3; // dty from point 2 to point 3
             }
-            
+
             // Draw a flat-bottom triangle
             if (dy_step_1 != 0)
             {
@@ -341,7 +267,8 @@ namespace _3D_Engine
                 }
             }
         }
-
+    }
+}
         /*
         private void Textured_Triangle(int x1, int y1, double z1, int x2, int y2, double z2, int x3, int y3, double z3, int tx1, int ty1, int tx2, int ty2, int tx3, int ty3, Bitmap texture)
         {
@@ -610,5 +537,20 @@ namespace _3D_Engine
         }
 
         */
-    }
-}
+
+/*
+                        // Adjust point colour based on lighting
+                        Color adjusted_colour = face.Colour;
+                        foreach (Light light in Lights)
+                        {
+                            Vector3D light_to_face = new Vector3D() - light.World_Origin;
+                            double intensity_at_face = 1 / Math.Pow(light_to_face.Magnitude(), 2) * light.Intensity;
+
+                            switch (light.GetType().Name)
+                            {
+                                case "Point_Light":
+                                    adjusted_colour = Mix_Colour();
+                                    adjusted_colour = new Color() + new Color();
+                                    break;
+                            }
+                        }*/

@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace _3D_Engine
 {
-    public sealed class Spotlight : Light
+    public sealed class Spotlight//
     {
         private double angle, radius;
         public double Angle
@@ -27,7 +27,7 @@ namespace _3D_Engine
 
         public double Distance { get; set; }
 
-        public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double intensity, double angle, double distance) : base(origin, direction_forward, direction_up)
+        public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double intensity, double angle, double distance) //: base(origin, direction_forward, direction_up)
         {
             Angle = angle;
             Distance = distance;

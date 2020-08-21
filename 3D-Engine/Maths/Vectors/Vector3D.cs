@@ -72,7 +72,9 @@ namespace _3D_Engine
 
         public Vector3D Cross_Product(Vector3D v) => new Vector3D(this.Y * v.Z - this.Z * v.Y, this.Z * v.X - this.X * v.Z, this.X * v.Y - this.Y * v.X);
 
-        public double Magnitude() => Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2));
+        public double Magnitude() => Math.Sqrt(Squared_Magnitude());
+
+        public double Squared_Magnitude() => Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2);
 
         public Vector3D Normalise() => this / Magnitude();
 

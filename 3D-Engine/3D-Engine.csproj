@@ -14,4 +14,16 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Scene\Scene Object\Meshes\Default\Perspective Camera.obj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Scene\Scene Object\Meshes\Default\Perspective Camera.obj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Diagrams\" />
+  </ItemGroup>
+
 </Project>

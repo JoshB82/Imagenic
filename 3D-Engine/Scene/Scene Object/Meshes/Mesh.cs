@@ -20,17 +20,17 @@ namespace _3D_Engine
         /// </summary>
         public Face[] Faces { get; internal set; }
         /// <summary>
-        /// The <see cref="Texture"/>s that define what to draw on the surface of the <see cref="Mesh"/>.
+        /// The <see cref="Texture">Textures</see> that define what to draw on the surface of the <see cref="Mesh"/>.
         /// </summary>
         public Texture[] Textures { get; internal set; }
 
         // Appearance
         /// <summary>
-        /// Determines if the <see cref="Mesh"/>'s <see cref="Edge"/>s are drawn.
+        /// Determines if the <see cref="Mesh">Mesh's</see> <see cref="Edge">Edges</see> are drawn.
         /// </summary>
         public bool Draw_Edges { get; set; } = true;
         /// <summary>
-        /// Determines if the <see cref="Mesh"/>'s <see cref="Face"/>s are drawn.
+        /// Determines if the <see cref="Mesh">Mesh's</see> <see cref="Face">Faces</see> are drawn.
         /// </summary>
         public bool Draw_Faces { get; set; } = true;
 
@@ -67,22 +67,25 @@ namespace _3D_Engine
         /// </summary>
         public bool Draw_Outline { get; set; } = false;
 
-        // Object transformations
-        internal Matrix4x4 Model_to_World { get; private set; } = Matrix4x4.Identity_Matrix();
-        internal Vector3D Scaling { get; set; } = Vector3D.One;
-
-        #endregion
-
-        internal void Calculate_Model_to_World_Matrix()
+        // Matrices and Vectors
+        internal override void Calculate_Model_to_World_Matrix()
         {
-            // Scale, then rotate, then translate
             Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_forward_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
             Matrix4x4 scale = Transform.Scale(Scaling.X, Scaling.Y, Scaling.Z);
             Matrix4x4 translation = Transform.Translate(World_Origin);
 
+            // String the transformations together in the following order:
+            // 1) Scale
+            // 2) Rotation around direction forward vector
+            // 3) Rotation around direction up vector
+            // 4) Translation to final position in world space
             Model_to_World = translation * direction_up_rotation * direction_forward_rotation * scale;
         }
+
+        internal Vector3D Scaling { get; set; } = Vector3D.One;
+
+        #endregion
 
         #region Constructors
 

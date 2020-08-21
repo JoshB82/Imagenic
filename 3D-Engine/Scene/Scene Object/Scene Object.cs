@@ -18,6 +18,22 @@ namespace _3D_Engine
         public int ID { get; private set; }
         private static int next_id = -1;
 
+        // Matrices
+        internal Matrix4x4 Model_to_World { get; set; }
+
+        internal virtual void Calculate_Model_to_World_Matrix()
+        {
+            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
+            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_forward_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
+            Matrix4x4 translation = Transform.Translate(World_Origin);
+
+            // String the transformations together in the following order:
+            // 1) Rotation around direction forward vector
+            // 2) Rotation around direction up vector
+            // 3) Translation to final position in world space
+            Model_to_World = translation * direction_up_rotation * direction_forward_rotation;
+        }
+
         // Origins
         internal Vector4D Origin { get; set; } = Vector4D.Zero;
         /// <summary>
@@ -26,9 +42,9 @@ namespace _3D_Engine
         public virtual Vector3D World_Origin { get; set; }
 
         // Directions
-        internal Vector3D Model_Direction_Forward { get; } = Vector3D.Unit_Z;
-        internal Vector3D Model_Direction_Up { get; } = Vector3D.Unit_Y;
-        internal Vector3D Model_Direction_Right { get; } = Vector3D.Unit_X;
+        internal Vector3D Model_Direction_Forward => Vector3D.Unit_Z;
+        internal Vector3D Model_Direction_Up => Vector3D.Unit_Y;
+        internal Vector3D Model_Direction_Right => Vector3D.Unit_X;
 
         /// <summary>
         /// The forward direction of the <see cref="Scene_Object"/> in world space.

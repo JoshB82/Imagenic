@@ -3,10 +3,10 @@
     public static partial class Transform
     {
         /// <summary>
-        /// Creates a matrix for translation in the x-direction.
+        /// Creates a <see cref="Matrix4x4"/> for translation in the x-direction.
         /// </summary>
         /// <param name="distance">Distance to move by.</param>
-        /// <returns>A translation matrix.</returns>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Translate_X(double distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity_Matrix();
@@ -15,10 +15,10 @@
         }
 
         /// <summary>
-        /// Creates a matrix for translation in the y-direction.
+        /// Creates a <see cref="Matrix4x4"/> for translation in the y-direction.
         /// </summary>
         /// <param name="distance">Distance to move by.</param>
-        /// <returns>A translation matrix.</returns>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Translate_Y(double distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity_Matrix();
@@ -27,10 +27,10 @@
         }
 
         /// <summary>
-        /// Creates a matrix for translation in the z-direction.
+        /// Creates a <see cref="Matrix4x4"/> for translation in the z-direction.
         /// </summary>
         /// <param name="distance">Distance to move by.</param>
-        /// <returns>A translation matrix.</returns>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Translate_Z(double distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity_Matrix();
@@ -39,12 +39,12 @@
         }
 
         /// <summary>
-        /// Creates a matrix for translation in all directions.
+        /// Creates a <see cref="Matrix4x4"/> for translation in all directions.
         /// </summary>
         /// <param name="distance_x">Distance to move by in x-direction.</param>
         /// <param name="distance_y">Distance to move by in y-direction.</param>
         /// <param name="distance_z">Distance to move by in z-direction.</param>
-        /// <returns>A translation matrix.</returns>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Translate(double distance_x, double distance_y, double distance_z)
         {
             Matrix4x4 translation = Matrix4x4.Identity_Matrix();
@@ -55,10 +55,10 @@
         }
 
         /// <summary>
-        /// Creates a matrix for translation in all directions.
+        /// Creates a <see cref="Matrix4x4"/> for translation in all directions.
         /// </summary>
         /// <param name="distance">Vector to translate by.</param>
-        /// <returns>A translation matrix.</returns>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Translate(Vector3D distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity_Matrix();

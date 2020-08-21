@@ -24,7 +24,7 @@
             // Clip the edge in view space
             if (Settings.View_Space_Clip)
             {
-                foreach (Clipping_Plane view_clipping_plane in Render_Camera.View_Clipping_Planes)
+                foreach (Clipping_Plane view_clipping_plane in Render_Camera.Camera_View_Clipping_Planes)
                 {
                     if (!Clip_Edge(view_clipping_plane.Point, view_clipping_plane.Normal, edge)) return;
                 }
@@ -34,7 +34,7 @@
             edge.P1 = view_to_screen * edge.P1;
             edge.P2 = view_to_screen * edge.P2;
 
-            if (render_camera_type == "Perspective_Camera")
+            if (Render_Camera.GetType().Name == "Perspective_Camera")
             {
                 edge.P1 /= edge.P1.W;
                 edge.P2 /= edge.P2.W; 
@@ -43,7 +43,7 @@
             // Clip the edge in screen space
             if (Settings.Screen_Space_Clip)
             {
-                foreach (Clipping_Plane screen_clipping_plane in screen_clipping_planes)
+                foreach (Clipping_Plane screen_clipping_plane in camera_screen_clipping_planes)
                 {
                     if (!Clip_Edge(screen_clipping_plane.Point, screen_clipping_plane.Normal, edge)) return;
                 }

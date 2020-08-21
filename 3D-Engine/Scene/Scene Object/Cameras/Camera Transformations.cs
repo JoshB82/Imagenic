@@ -7,17 +7,17 @@
         public override void Set_Direction_1(Vector3D new_world_direction_forward, Vector3D new_world_direction_up)
         {
             base.Set_Direction_1(new_world_direction_forward, new_world_direction_up);
-            Calculate_Clipping_Planes();
+            Calculate_Camera_View_Clipping_Planes();
         }
         public override void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
         {
             base.Set_Direction_2(new_world_direction_up, new_world_direction_right);
-            Calculate_Clipping_Planes();
+            Calculate_Camera_View_Clipping_Planes();
         }
         public override void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
         {
             base.Set_Direction_3(new_world_direction_right, new_world_direction_forward);
-            Calculate_Clipping_Planes();
+            Calculate_Camera_View_Clipping_Planes();
         }
 
         #endregion
@@ -27,22 +27,22 @@
         public override void Translate_X(double distance)
         {
             base.Translate_X(distance);
-            Calculate_Clipping_Planes();
+            Calculate_Camera_View_Clipping_Planes();
         }
         public override void Translate_Y(double distance)
         {
             base.Translate_Y(distance);
-            Calculate_Clipping_Planes();
+            Calculate_Camera_View_Clipping_Planes();
         }
         public override void Translate_Z(double distance)
         {
             base.Translate_Z(distance);
-            Calculate_Clipping_Planes();
+            Calculate_Camera_View_Clipping_Planes();
         }
         public override void Translate(Vector3D displacement)
         {
             base.Translate(displacement);
-            Calculate_Clipping_Planes();
+            Calculate_Camera_View_Clipping_Planes();
         }
 
         #endregion

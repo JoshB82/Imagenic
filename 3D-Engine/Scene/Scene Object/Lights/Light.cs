@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Windows.Forms;
 
 namespace _3D_Engine
 {
@@ -7,18 +6,10 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        // Appearance
-        public Color Colour { get; set; } = Color.White;
-        public double Strength { get; set; }
+        // Matrices
+        internal Matrix4x4 World_to_Light_View { get; set; } // use fields instead?
 
-        public string Icon { get; protected set; }
-
-        internal Matrix4x4 world_to_light;
-        internal double[][] z_buffer;
-
-        #endregion
-
-        internal void Calculate_World_to_Light_Matrix()
+        internal void Calculate_World_to_Light_View_Matrix()
         {
             // Calculate required transformations
             Matrix4x4 translation = Transform.Translate(-World_Origin);
@@ -29,8 +20,25 @@ namespace _3D_Engine
             // 1) Translation to final position in view space
             // 2) Rotation around direction up vector
             // 3) Rotation around direction forward vector
-            world_to_light = direction_forward_rotation * direction_up_rotation * translation;
+            World_to_Light_View = direction_forward_rotation * direction_up_rotation * translation;
         }
+
+        // Clipping planes
+        internal Clipping_Plane[] Light_View_Clipping_Planes { get; set; }
+        internal abstract void Calculate_Light_View_Clipping_Planes(Camera camera);
+
+        // Appearance
+        public Color Colour { get; set; } = Color.White;
+        public Mesh Icon { get; protected set; }
+        public double Strength { get; set; }
+
+        public bool Draw_Camera_Model { get; set; } = false;
+        public bool Draw_View { get; set; } = false;
+
+        // Buffers
+        internal double[][] z_buffer;
+
+        #endregion
 
         #region Constructors
 

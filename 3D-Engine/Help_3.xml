@@ -25,9 +25,9 @@
             </summary>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.Zeroed_Matrix">
-            <summary>
-            Creates a zeroed <see cref="T:_3D_Engine.Matrix4x4" />.
-            </summary>
+          <summary>
+          Creates a zeroed <see cref="T:_3D_Engine.Matrix4x4" />.
+          </summary>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.Identity_Matrix">
             <summary>
@@ -43,6 +43,24 @@
             <summary>
             Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from an array of data.
             </summary><param name="data">Array containing data to be entered into the <see cref="T:_3D_Engine.Matrix4x4" />.</param>
+        </member>
+        <member name="M:_3D_Engine.Matrix4x4.Determinant">
+            <summary>
+            Finds the determinant of a <see cref="T:_3D_Engine.Matrix4x4"/>.
+            </summary>
+            <returns>Determinant of a <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
+        </member>
+        <member name="M:_3D_Engine.Matrix4x4.Inverse">
+            <summary>
+            Finds the inverse of a <see cref="T:_3D_Engine.Matrix4x4"/>.
+            </summary>
+            <returns>Inverse <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
+        </member>
+        <member name="M:_3D_Engine.Matrix4x4.Transpose">
+            <summary>
+            Finds the transpose of a <see cref="T:_3D_Engine.Matrix4x4"/>.
+            </summary>
+            <returns>Transpose of a <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.ToString">
             <summary>
@@ -61,23 +79,23 @@
         </member>
         <member name="M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)">
             <summary>
-            Finds the product of two matrices.
-            </summary><param name="m1">First matrix to be multiplied.</param><param name="m2">Second matrix to be multiplied.</param><returns>The product of two matrices.</returns>
+            Finds the product of two <see cref="T:_3D_Engine.Matrix4x4">matrices</see>.
+            </summary><param name="m1">First <see cref="T:_3D_Engine.Matrix4x4" /> to be multiplied.</param><param name="m2">Second <see cref="T:_3D_Engine.Matrix4x4" /> to be multiplied.</param><returns>The product of two <see cref="T:_3D_Engine.Matrix4x4">matrices</see>.</returns>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)">
             <summary>
-            Post-multiplies a matrix by a vector.
-            </summary><param name="m">The matrix to be multiplied.</param><param name="v">The vector to be multiplied.</param><returns>The result of post-multiplying a matrix by a vector.</returns>
+            Post-multiplies a <see cref="T:_3D_Engine.Matrix4x4" /> by a <see cref="T:_3D_Engine.Vector4D" />.
+            </summary><param name="m">The <see cref="T:_3D_Engine.Matrix4x4" /> to be multiplied.</param><param name="v">The <see cref="T:_3D_Engine.Vector4D" /> to be multiplied.</param><returns>The result of post-multiplying a <see cref="T:_3D_Engine.Matrix4x4" /> by a <see cref="T:_3D_Engine.Vector4D" />.</returns>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Double)">
             <summary>
             Finds the product of a scalar and a <see cref="T:_3D_Engine.Matrix4x4" />.
-            </summary><param name="m">The matrix to be multiplied.</param><param name="scalar">The scalar to be multiplied.</param><returns>The product of a scalar and a matrix.</returns>
+            </summary><param name="m">The <see cref="T:_3D_Engine.Matrix4x4" /> to be multiplied.</param><param name="scalar">The scalar to be multiplied.</param><returns>The product of a scalar and a <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Double)">
             <summary>
             Divides each element of a <see cref="T:_3D_Engine.Matrix4x4" /> by a scalar.
-            </summary><param name="m">The matrix used in the division.</param><param name="scalar">The scalar used in the division.</param><returns>A matrix with each element divided by a scalar.</returns>
+            </summary><param name="m">The <see cref="T:_3D_Engine.Matrix4x4" /> used in the division.</param><param name="scalar">The scalar used in the division.</param><returns>A <see cref="T:_3D_Engine.Matrix4x4" /> with each element divided by a scalar.</returns>
         </member>
         <member name="T:_3D_Engine.Quaternion">
             <summary>
@@ -131,9 +149,8 @@
         </member>
         <member name="M:_3D_Engine.Quaternion.Squared_Magnitude">
             <summary>
-            Finds the squared magnitude of a <see cref="T:_3D_Engine.Quaternion"/>.
-            </summary>
-            <returns>The squared magnitude of a <see cref="T:_3D_Engine.Quaternion"/>.</returns>
+            Finds the squared magnitude of a <see cref="T:_3D_Engine.Quaternion" />.
+            </summary><returns>The squared magnitude of a <see cref="T:_3D_Engine.Quaternion" />.</returns>
         </member>
         <member name="M:_3D_Engine.Quaternion.Normalise">
             <summary>
@@ -147,18 +164,18 @@
         </member>
         <member name="M:_3D_Engine.Quaternion.op_Addition(_3D_Engine.Quaternion,_3D_Engine.Quaternion)">
             <summary>
-            Finds the element-wise sum of two <see cref="T:_3D_Engine.Quaternion">Quaternions.</see>
-            </summary><param name="q1">First addend.</param><param name="q2">Second addend.</param><returns>Sum of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.</returns>
+            Finds the element-wise sum of two <see cref="T:_3D_Engine.Quaternion">quaternions.</see>
+            </summary><param name="q1">First addend.</param><param name="q2">Second addend.</param><returns>Sum of two <see cref="T:_3D_Engine.Quaternion">quaternions</see>.</returns>
         </member>
         <member name="M:_3D_Engine.Quaternion.op_Subtraction(_3D_Engine.Quaternion,_3D_Engine.Quaternion)">
             <summary>
-            Finds the element-wise difference of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.
-            </summary><param name="q1">Minuend.</param><param name="q2">Subtrahend.</param><returns>Difference of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.</returns>
+            Finds the element-wise difference of two <see cref="T:_3D_Engine.Quaternion">quaternions</see>.
+            </summary><param name="q1">Minuend.</param><param name="q2">Subtrahend.</param><returns>Difference of two <see cref="T:_3D_Engine.Quaternion">quaternions</see>.</returns>
         </member>
         <member name="M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,_3D_Engine.Quaternion)">
             <summary>
-            Finds the product of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.
-            </summary><param name="q1">The first <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><param name="q2">The second <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><returns>The product of two <see cref="T:_3D_Engine.Quaternion">Quaternions</see>.</returns>
+            Finds the product of two <see cref="T:_3D_Engine.Quaternion">quaternions</see>.
+            </summary><param name="q1">The first <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><param name="q2">The second <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><returns>The product of two <see cref="T:_3D_Engine.Quaternion">quaternions</see>.</returns>
         </member>
         <member name="M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Double)">
             <summary>
@@ -385,20 +402,6 @@
             Creates axes (<see cref="T:_3D_Engine.Arrow"/>) starting from (0, 0, 0) and adds them to the <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Scene.Round_To_Int(System.Double)">
-            <summary>
-            Rounds a double-precision floating-point value to the nearest integer.
-            </summary>
-            <param name="x">Double value to round.</param>
-            <returns>Rounded value.</returns>
-        </member>
-        <member name="M:_3D_Engine.Scene.Swap``1(``0@,``0@)">
-            <summary>
-            Swaps the values of two variables.
-            </summary>
-            <param name="x1">First variable to be swapped.</param>
-            <param name="x2">Second variable to be swapped.</param>
-        </member>
         <member name="P:_3D_Engine.Scene.Canvas_Box">
             <summary>
             <see cref="T:System.Windows.Forms.PictureBox"/> where the <see cref="T:_3D_Engine.Scene"/> will be rendered.
@@ -411,27 +414,27 @@
         </member>
         <member name="F:_3D_Engine.Scene.Cameras">
             <summary>
-            List of all <see cref="T:_3D_Engine.Camera">Cameras</see> in the current <see cref="T:_3D_Engine.Scene"/>.
+            List of all <see cref="T:_3D_Engine.Camera">Cameras</see> in the current <see cref="T:_3D_Engine.Scene" />.
             </summary>
         </member>
         <member name="F:_3D_Engine.Scene.Lights">
             <summary>
-            List of all <see cref="T:_3D_Engine.Light">Lights</see> in the current <see cref="T:_3D_Engine.Scene"/>.
+            List of all <see cref="T:_3D_Engine.Light">Lights</see> in the current <see cref="T:_3D_Engine.Scene" />.
             </summary>
         </member>
         <member name="F:_3D_Engine.Scene.Meshes">
             <summary>
-            List of all <see cref="T:_3D_Engine.Mesh">Meshes</see> in the current <see cref="T:_3D_Engine.Scene"/>.
+            List of all <see cref="T:_3D_Engine.Mesh">Meshes</see> in the current <see cref="T:_3D_Engine.Scene" />.
             </summary>
         </member>
         <member name="P:_3D_Engine.Scene.Width">
             <summary>
-            The width of the <see cref="T:_3D_Engine.Scene"/>.
+            The width of the <see cref="T:_3D_Engine.Scene" />.
             </summary>
         </member>
         <member name="P:_3D_Engine.Scene.Height">
             <summary>
-            The height of the <see cref="T:_3D_Engine.Scene"/>.
+            The height of the <see cref="T:_3D_Engine.Scene" />.
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene.#ctor(System.Windows.Forms.PictureBox,System.Int32,System.Int32)">
@@ -460,17 +463,12 @@
         </member>
         <member name="P:_3D_Engine.Camera.Draw_Entire_View">
             <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Camera"/>'s view is drawn.
+            Determines if the outline of the <see cref="T:_3D_Engine.Camera">Camera's</see> view is drawn.
             </summary>
         </member>
         <member name="P:_3D_Engine.Camera.Draw_Near_View">
             <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Camera"/>'s view is drawn, up to the near plane.
-            </summary>
-        </member>
-        <member name="T:_3D_Engine.Clipping_Plane">
-            <summary>
-            Class that defines planes that clip vertices.
+            Determines if the outline of the <see cref="T:_3D_Engine.Camera">Camera's</see> view is drawn, up to the near plane.
             </summary>
         </member>
         <member name="P:_3D_Engine.Clipping_Plane.Point">
@@ -936,17 +934,17 @@
         </member>
         <member name="P:_3D_Engine.Mesh.Textures">
             <summary>
-            The <see cref="T:_3D_Engine.Texture"/>s that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh"/>.
+            The <see cref="T:_3D_Engine.Texture">Textures</see> that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Draw_Edges">
             <summary>
-            Determines if the <see cref="T:_3D_Engine.Mesh"/>'s <see cref="T:_3D_Engine.Edge"/>s are drawn.
+            Determines if the <see cref="T:_3D_Engine.Mesh">Mesh's</see> <see cref="T:_3D_Engine.Edge">Edges</see> are drawn.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Draw_Faces">
             <summary>
-            Determines if the <see cref="T:_3D_Engine.Mesh"/>'s <see cref="T:_3D_Engine.Face"/>s are drawn.
+            Determines if the <see cref="T:_3D_Engine.Mesh">Mesh's</see> <see cref="T:_3D_Engine.Face">Faces</see> are drawn.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Edge_Colour">

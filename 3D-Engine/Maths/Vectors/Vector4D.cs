@@ -68,7 +68,9 @@ namespace _3D_Engine
 
         public Vector4D Cross_Product(Vector4D v) => new Vector4D(this.Y * v.Z - this.Z * v.Y, this.Z * v.X - this.X * v.Z, this.X * v.Y - this.Y * v.X, this.W);
 
-        public double Magnitude() => Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2) + Math.Pow(W, 2));
+        public double Magnitude() => Math.Sqrt(Squared_Magnitude());
+
+        public double Squared_Magnitude() => Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2) + Math.Pow(W, 2);
 
         public Vector4D Normalise() => this / Magnitude();
 
