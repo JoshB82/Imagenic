@@ -5,7 +5,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        // Number manipulation
+        // Number and variable manipulation
         private static int Round_To_Int(double x) => (int)Math.Round(x, MidpointRounding.AwayFromZero);
 
         private static void Swap<T>(ref T x1, ref T x2)
@@ -14,9 +14,6 @@ namespace _3D_Engine
             x1 = x2;
             x2 = temp;
         }
-
-        // Colours
-        private static Color Mix_Colour(Color c1, Color c2) => Color.FromArgb((int)(0.5 * c1.ToArgb() + 0.5 * c2.ToArgb())); // think about
 
         // Sorting
         private static void Sort_By_Y(
@@ -83,12 +80,6 @@ namespace _3D_Engine
             int x2, int y2, double z2,
             int x3, int y3, double z3)
         {
-            // Sort the vertices by their y-co-ordinate
-            Sort_By_Y(
-                ref x1, ref y1, ref z1,
-                ref x2, ref y2, ref z2,
-                ref x3, ref y3, ref z3);
-
             // Create steps
             double dy_step_1 = y1 - y2;
             double dy_step_2 = y1 - y3;
@@ -130,9 +121,9 @@ namespace _3D_Engine
                     for (int x = sx; x <= ex; x++)
                     {
                         double z = sz + t * (ez - sz);
-                        t += t_step;
+                        action(@object, x, y, z);//?
 
-                        action(@object, x, y, z);
+                        t += t_step;
                     }
                 }
             }
@@ -157,9 +148,9 @@ namespace _3D_Engine
                     for (int x = sx; x <= ex; x++)
                     {
                         double z = sz + t * (ez - sz);
-                        t += t_step;
+                        action(@object, x, y, z);//?
 
-                        action(@object, x, y, z);
+                        t += t_step;
                     }
                 }
             }
@@ -171,13 +162,6 @@ namespace _3D_Engine
             int x2, int y2, double z2, double tx2, double ty2,
             int x3, int y3, double z3, double tx3, double ty3)
         {
-
-            // Sort the vertices by their y-co-ordinate
-            Textured_Sort_By_Y(
-                ref x1, ref y1, ref z1, ref tx1, ref ty1,
-                ref x2, ref y2, ref z2, ref tx2, ref ty2,
-                ref x3, ref y3, ref z3, ref tx3, ref ty3);
-
             // Create steps
             int dy_step_1 = y1 - y2;
             int dy_step_2 = y1 - y3;

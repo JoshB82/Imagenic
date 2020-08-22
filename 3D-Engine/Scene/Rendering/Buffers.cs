@@ -38,7 +38,7 @@ namespace _3D_Engine
             }
             catch (IndexOutOfRangeException)
             {
-                MessageBox.Show("Error! " + x + ","+y);
+                //MessageBox.Show("Error! " + x + ","+y);
             }
         }
     }

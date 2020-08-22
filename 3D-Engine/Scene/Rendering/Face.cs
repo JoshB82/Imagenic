@@ -60,21 +60,31 @@ namespace _3D_Engine
             foreach (Face new_face in new_light_screen_triangles)
             {
                 // Round the vertices
-                int result_point_1_x = Round_To_Int(new_face.P1.X);
-                int result_point_1_y = Round_To_Int(new_face.P1.Y);
-                double result_point_1_z = new_face.P1.Z;
-                int result_point_2_x = Round_To_Int(new_face.P2.X);
-                int result_point_2_y = Round_To_Int(new_face.P2.Y);
-                double result_point_2_z = new_face.P2.Z;
-                int result_point_3_x = Round_To_Int(new_face.P3.X);
-                int result_point_3_y = Round_To_Int(new_face.P3.Y);
-                double result_point_3_z = new_face.P3.Z;
+                int x1 = Round_To_Int(new_face.P1.X);
+                int y1 = Round_To_Int(new_face.P1.Y);
+                double z1 = new_face.P1.Z;
+                int x2 = Round_To_Int(new_face.P2.X);
+                int y2 = Round_To_Int(new_face.P2.Y);
+                double z2 = new_face.P2.Z;
+                int x3 = Round_To_Int(new_face.P3.X);
+                int y3 = Round_To_Int(new_face.P3.Y);
+                double z3 = new_face.P3.Z;
+
+                // Don't interpolate anything if triangle is flat
+                if (x1 == x2 && x2 == x3) return;
+                if (y1 == y2 && y2 == y3) return;
+
+                // Sort the vertices by their y-co-ordinate
+                Sort_By_Y(
+                    ref x1, ref y1, ref z1,
+                    ref x2, ref y2, ref z2,
+                    ref x3, ref y3, ref z3);
 
                 // Interpolate each point in the triangle
                 Interpolate_Triangle(light, depth,
-                    result_point_1_x, result_point_1_y, result_point_1_z,
-                    result_point_2_x, result_point_2_y, result_point_2_z,
-                    result_point_3_x, result_point_3_y, result_point_3_z);
+                    x1, y1, z1,
+                    x2, y2, z2,
+                    x3, y3, z3);
             }
         }
 
@@ -159,48 +169,60 @@ namespace _3D_Engine
                 new_camera_screen_triangles[i].Apply_Matrix(screen_to_window);
                 
                 // Round the vertices
-                int result_point_1_x = Round_To_Int(new_camera_screen_triangles[i].P1.X);
-                int result_point_1_y = Round_To_Int(new_camera_screen_triangles[i].P1.Y);
-                double result_point_1_z = new_camera_screen_triangles[i].P1.Z;
-                int result_point_2_x = Round_To_Int(new_camera_screen_triangles[i].P2.X);
-                int result_point_2_y = Round_To_Int(new_camera_screen_triangles[i].P2.Y);
-                double result_point_2_z = new_camera_screen_triangles[i].P2.Z;
-                int result_point_3_x = Round_To_Int(new_camera_screen_triangles[i].P3.X);
-                int result_point_3_y = Round_To_Int(new_camera_screen_triangles[i].P3.Y);
-                double result_point_3_z = new_camera_screen_triangles[i].P3.Z;
+                int x1 = Round_To_Int(new_camera_screen_triangles[i].P1.X);
+                int y1 = Round_To_Int(new_camera_screen_triangles[i].P1.Y);
+                double z1 = new_camera_screen_triangles[i].P1.Z;
+                int x2 = Round_To_Int(new_camera_screen_triangles[i].P2.X);
+                int y2 = Round_To_Int(new_camera_screen_triangles[i].P2.Y);
+                double z2 = new_camera_screen_triangles[i].P2.Z;
+                int x3 = Round_To_Int(new_camera_screen_triangles[i].P3.X);
+                int y3 = Round_To_Int(new_camera_screen_triangles[i].P3.Y);
+                double z3 = new_camera_screen_triangles[i].P3.Z;
 
                 // Don't draw anything if triangle is flat
-                if (result_point_1_x == result_point_2_x && result_point_2_x == result_point_3_x) return;
-                if (result_point_1_y == result_point_2_y && result_point_2_y == result_point_3_y) return;
+                if (x1 == x2 && x2 == x3) return;
+                if (y1 == y2 && y2 == y3) return;
 
-                // Finally draw the triangle
+                // Check if the face has a texture
                 if (face.Has_Texture)
                 {
                     // Scale the texture co-ordinates
                     int width = face.Texture_Object.File.Width - 1;
                     int height = face.Texture_Object.File.Height - 1;
 
-                    // AFTERWARDS?
-                    int result_texture_point_1_x = Round_To_Int(face.T1.X * width);
-                    int result_texture_point_1_y = Round_To_Int(face.T1.Y * height);
-                    int result_texture_point_2_x = Round_To_Int(face.T2.X * width);
-                    int result_texture_point_2_y = Round_To_Int(face.T2.Y * height);
-                    int result_texture_point_3_x = Round_To_Int(face.T3.X * width);
-                    int result_texture_point_3_y = Round_To_Int(face.T3.Y * height);
+                    // afterwards?
+                    double tx1 = face.T1.X * width;
+                    double ty1 = face.T1.Y * height;
+                    double tx2 = face.T2.X * width;
+                    double ty2 = face.T2.Y * height;
+                    double tx3 = face.T3.X * width;
+                    double ty3 = face.T3.Y * height;
+
+                    // Sort the vertices by their y-co-ordinate
+                    Textured_Sort_By_Y(
+                        ref x1, ref y1, ref z1, ref tx1, ref ty1,
+                        ref x2, ref y2, ref z2, ref tx2, ref ty2,
+                        ref x3, ref y3, ref z3, ref tx3, ref ty3);
 
                     Textured_Triangle(face.Texture_Object.File,
-                        result_point_1_x, result_point_1_y, result_point_1_z, result_texture_point_1_x, result_texture_point_1_y,
-                        result_point_2_x, result_point_2_y, result_point_2_z, result_texture_point_2_x, result_texture_point_2_y,
-                        result_point_3_x, result_point_3_y, result_point_3_z, result_texture_point_3_x, result_texture_point_3_y);
+                        x1, y1, z1, tx1, ty1,
+                        x2, y2, z2, tx2, ty2,
+                        x3, y3, z3, tx3, ty3);
                 }
                 else
                 {
                     Action<object, int, int, double> camera_depth = Mesh_Depth_From_Camera;
 
+                    // Sort the vertices by their y-co-ordinate
+                    Sort_By_Y(
+                        ref x1, ref y1, ref z1,
+                        ref x2, ref y2, ref z2,
+                        ref x3, ref y3, ref z3);
+
                     Interpolate_Triangle(face, camera_depth,
-                        result_point_1_x, result_point_1_y, result_point_1_z,
-                        result_point_2_x, result_point_2_y, result_point_2_z,
-                        result_point_3_x, result_point_3_y, result_point_3_z);
+                        x1, y1, z1,
+                        x2, y2, z2,
+                        x3, y3, z3);
                 }
             }
         }
@@ -213,6 +235,7 @@ namespace _3D_Engine
                 if (z < z_buffer[x][y])
                 {
                     z_buffer[x][y] = z;
+                    colour_buffer[x][y] = ((Face)face).Colour;
                 }
                 else
                 {
@@ -223,7 +246,8 @@ namespace _3D_Engine
             {
                 throw new Exception("Attempted to draw outside the canvas.");
             }
-
+            
+            return;
             // Move the point from camera-screen space to camera-view space
             double camera_view_space_z = 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
             double camera_view_space_x = Render_Camera.Width / (2 * Render_Camera.Z_Near) * camera_view_space_z * x;
@@ -232,7 +256,7 @@ namespace _3D_Engine
 
             // Move the point from camera-view space to world space
             Vector4D world_space_point = Render_Camera.Model_to_World * camera_view_space_point;
-
+        
             // Apply light colour correction
             Color point_colour = ((Face)face).Colour;
 
