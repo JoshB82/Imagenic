@@ -7,38 +7,25 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // Structure
-        /// <summary>
-        /// The <see cref="Vertex">Vertices</see> in the <see cref="Mesh"/>.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Vertices']/*"/>
         public Vertex[] Vertices { get; protected set; }
-        /// <summary>
-        /// The <see cref="Edge"/>s in the <see cref="Mesh"/>.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edges']/*"/>
         public Edge[] Edges { get; protected set; }
-        /// <summary>
-        /// The <see cref="Face"/>s in the <see cref="Mesh"/>.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Faces']/*"/>
         public Face[] Faces { get; internal set; }
-        /// <summary>
-        /// The <see cref="Texture">Textures</see> that define what to draw on the surface of the <see cref="Mesh"/>.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Textures']/*"/>
         public Texture[] Textures { get; internal set; }
 
         // Appearance
-        /// <summary>
-        /// Determines if the <see cref="Mesh">Mesh's</see> <see cref="Edge">Edges</see> are drawn.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Edges']/*"/>
         public bool Draw_Edges { get; set; } = true;
-        /// <summary>
-        /// Determines if the <see cref="Mesh">Mesh's</see> <see cref="Face">Faces</see> are drawn.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Faces']/*"/>
         public bool Draw_Faces { get; set; } = true;
 
         // Colours
         private Color edge_colour, face_colour;
-        /// <summary>
-        /// The <see cref="Color"/> of each <see cref="Edge"/> in the <see cref="Mesh"/>.
-        /// </summary>
+
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edge_Colour']/*"/>
         public Color Edge_Colour
         {
             get => edge_colour;
@@ -48,9 +35,7 @@ namespace _3D_Engine
                 foreach (Edge edge in Edges) edge.Colour = edge_colour;
             }
         }
-        /// <summary>
-        /// The <see cref="Color"/> of each <see cref="Face"/> in the <see cref="Mesh"/>.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Face_Colour']/*"/>
         public Color Face_Colour
         {
             get => face_colour;
@@ -62,9 +47,7 @@ namespace _3D_Engine
         }
 
         // Miscellaneous
-        /// <summary>
-        /// Determines if an outline is drawn with the <see cref="Mesh"/>.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool Draw_Outline { get; set; } = false;
 
         // Matrices and Vectors
