@@ -158,14 +158,20 @@ namespace _3D_Engine
 
         #region Remove from scene methods
 
-        public void Remove(int ID) /////
+        public void Remove(int ID)
         {
             lock (locker) Meshes.RemoveAll(x => x.ID == ID);
         }
 
         public void Remove(int start_ID, int finish_ID)
         {
-
+            lock (locker)
+            {
+                for (int ID = start_ID; ID <= finish_ID; ID++)
+                {
+                    Meshes.RemoveAll(x => x.ID == ID);
+                }
+            }
         }
 
         #endregion

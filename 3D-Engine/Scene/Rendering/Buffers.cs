@@ -29,17 +29,7 @@ namespace _3D_Engine
 
         private void Light_Check_Against_Z_Buffer(Light light, int x, int y, double z)
         {
-            try
-            {
-                if (z < light.z_buffer[x][y])
-                {
-                    light.z_buffer[x][y] = z;
-                }
-            }
-            catch (IndexOutOfRangeException)
-            {
-                //MessageBox.Show("Error! " + x + ","+y);
-            }
+            
         }
     }
 }
