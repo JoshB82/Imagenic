@@ -95,12 +95,6 @@ namespace _3D_Engine
                 z_buffer[i] = new double[height];
                 colour_buffer[i] = new Color[height];
             }
-            
-            foreach (Light light in Lights)
-            {
-                light.z_buffer = new double[width][];
-                for (int i = 0; i < width; i++) light.z_buffer[i] = new double[height];
-            }
         }
 
         #endregion
@@ -140,8 +134,6 @@ namespace _3D_Engine
                 case "Light":
                     Light light = (Light)scene_object;
                     Lights.Add(light);
-                    light.z_buffer = new double[width][];
-                    for (int i = 0; i < width; i++) light.z_buffer[i] = new double[height];
                     break;
                 case "Mesh":
                     Meshes.Add((Mesh)scene_object);
@@ -193,19 +185,22 @@ namespace _3D_Engine
                 Bitmap temp_canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
 
                 // Reset scene buffers
-                for (int i = 0; i < width; i++) for (int j = 0; j < height; j++)
+                for (int i = 0; i < width; i++)
                 {
-                    z_buffer[i][j] = 2;
-                    colour_buffer[i][j] = Background_Colour;
+                    for (int j = 0; j < height; j++)
+                    {
+                        z_buffer[i][j] = 2;
+                        colour_buffer[i][j] = Background_Colour;
+                    }
                 }
 
                 //
                 foreach (Light light in Lights)
                 {
-                    light.Calculate_Light_View_Clipping_Planes(Render_Camera); // move somewhere else?
-                    for (int i = 0; i < width; i++) for (int j = 0; j < height; j++)
+                    light.Calculate_Light_View_Clipping_Planes(); // move somewhere else?
+                    for (int i = 0; i < light.Shadow_Map_Width; i++) for (int j = 0; j < light.Shadow_Map_Height; j++)
                     {
-                        light.z_buffer[i][j] = 200000000;//Could by any distance away though!!!
+                        light.Shadow_Map[i][j] = 1;
                     }
                 }
 
@@ -230,7 +225,7 @@ namespace _3D_Engine
                         {
                             foreach (Face face in mesh.Faces)
                             {
-                                if (face.Visible) Light_Face(light, face, mesh.Model_to_World, light.World_to_Light_View, view_to_screen);
+                                if (face.Visible) Generate_Shadow_Map(light, face, mesh.Model_to_World, light.World_to_Light_View, light.Light_View_to_Light_Screen);
                             }
                         }
                     }

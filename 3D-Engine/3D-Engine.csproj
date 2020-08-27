@@ -15,15 +15,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Scene\Scene Object\Meshes\Default\Perspective Camera.obj" />
+    <None Remove="Scene\Scene Objects\Meshes\Default\Perspective Camera.obj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Scene\Scene Object\Meshes\Default\Perspective Camera.obj" />
+    <Compile Include="Scene\Scene Objects\Meshes\Default\Perspective Camera.obj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Diagrams\" />
+    <Folder Include="Scene\Scene Objects\Lights\Export\" />
   </ItemGroup>
 
 </Project>

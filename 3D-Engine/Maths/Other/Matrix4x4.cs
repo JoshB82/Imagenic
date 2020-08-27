@@ -14,7 +14,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        /// <include file="Help_Help_3.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Zeroed_Matrix']/*"/>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Zeroed_Matrix']/*"/>
         public static Matrix4x4 Zeroed_Matrix()
         {
             double[][] data = new double[4][];
@@ -55,7 +55,7 @@ namespace _3D_Engine
 
         #region Matrix Operations (Common)
 
-        /// <include file="Help_3.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Determinant']/*"/>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Determinant']/*"/> // source!
         public double Determinant()
         {
             double d1 = Data[2][0] * Data[3][1] - Data[2][1] * Data[3][0]; //13

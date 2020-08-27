@@ -6,99 +6,21 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Light_Face(Light light, Face face,
-            Matrix4x4 model_to_world,
-            Matrix4x4 world_to_light_view,
-            Matrix4x4 light_view_to_light_screen)
-        {
-            // Reset the vertices to model space values
-            face.Reset_Vertices();
-
-            // Move face from model space to world space
-            face.Apply_Matrix(model_to_world);
-
-            // Move the face from world space to light-view space
-            face.Apply_Matrix(world_to_light_view);
-
-            // ohter clipping?
-
-            // Clip the face in light-view space
-            Queue<Face> face_clip = new Queue<Face>();
-            face_clip.Enqueue(face);
-
-            if (Settings.View_Space_Clip && Queue_Clip_Face(face_clip, light.Light_View_Clipping_Planes) == 0) return;
-
-            // Move the new triangles from light-view space to screen space, including a correction for perspective
-            foreach (Face clipped_face in face_clip)
-            {
-                clipped_face.Apply_Matrix(light_view_to_light_screen);
-
-                if (Render_Camera.GetType().Name == "Perspective_Camera")
-                {
-                    clipped_face.P1 /= clipped_face.P1.W;
-                    clipped_face.P2 /= clipped_face.P2.W;
-                    clipped_face.P3 /= clipped_face.P3.W;
-                }
-            }
-            
-            // Clip the face in screen space
-            if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip, camera_screen_clipping_planes) == 0) return;
-
-            foreach (Face new_light_screen_triangle in face_clip)
-            {
-                // Move the new triangles from light-screen space to window space
-                new_light_screen_triangle.Apply_Matrix(screen_to_window);
-            }
-
-            // Assign the correct method that will be called for each point in the triangle
-            Action<object, int, int, double> depth = Mesh_Depth_From_Light;
-
-            foreach (Face new_face in face_clip)
-            {
-                // Round the vertices
-                int x1 = Round_To_Int(new_face.P1.X);
-                int y1 = Round_To_Int(new_face.P1.Y);
-                double z1 = new_face.P1.Z;
-                int x2 = Round_To_Int(new_face.P2.X);
-                int y2 = Round_To_Int(new_face.P2.Y);
-                double z2 = new_face.P2.Z;
-                int x3 = Round_To_Int(new_face.P3.X);
-                int y3 = Round_To_Int(new_face.P3.Y);
-                double z3 = new_face.P3.Z;
-
-                // Don't interpolate anything if triangle is flat
-                if (x1 == x2 && x2 == x3) return;
-                if (y1 == y2 && y2 == y3) return;
-
-                // Sort the vertices by their y-co-ordinate
-                Sort_By_Y(
-                    ref x1, ref y1, ref z1,
-                    ref x2, ref y2, ref z2,
-                    ref x3, ref y3, ref z3);
-
-                // Interpolate each point in the triangle
-                Interpolate_Triangle(light, depth,
-                    x1, y1, z1,
-                    x2, y2, z2,
-                    x3, y3, z3);
-            }
-        }
-
         private void Mesh_Depth_From_Light(object @object, int x, int y, double z)
         {
             Light light = (Light)@object;  // Why the explicit cast?
 
-            // Check against z-buffer
+            // Check against shadow map
             try
             {
-                if (z < light.z_buffer[x][y])
+                if (z < light.Shadow_Map[x][y])
                 {
-                    light.z_buffer[x][y] = z;
+                    light.Shadow_Map[x][y] = z;
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                throw new Exception("Can't determine point outside the canvas.");
+                throw new Exception("Can't determine point outside the shadow map.");
             }
         }
 
@@ -259,13 +181,15 @@ namespace _3D_Engine
                 case "Orthogonal_Camera":
                     break;
                 case "Perspective_Camera":
-                    camera_screen_space_point.Z = 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
-                    camera_screen_space_point.X = Round_To_Int(camera_screen_space_point.X * camera_screen_space_point.Z);
-                    camera_screen_space_point.Y = Round_To_Int(camera_screen_space_point.Y * camera_screen_space_point.Z);
+                    double camera_view_z = 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
+                    camera_screen_space_point *= camera_view_z;
                     break;
             }
 
+            //inverse.Data[3][2] = 0;//?
             Vector4D camera_view_space_point = Render_Camera.Camera_View_to_Screen.Inverse() * camera_screen_space_point;
+
+            //camera_view_space_point *= camera_view_space_point.W;//??
 
             // Move the point from camera-view space to world space
             Vector4D world_space_point = Render_Camera.Model_to_World * camera_view_space_point;
@@ -279,17 +203,21 @@ namespace _3D_Engine
                 // Move the point from world space to light-view space
                 Vector4D light_view_space_point = light.World_to_Light_View * world_space_point;
 
-                // Move the point from world space to light-screen space
-                Vector4D light_screen_space_point = Render_Camera.Camera_View_to_Screen * light_view_space_point;
-                light_screen_space_point /= light_screen_space_point.W;
+                // Move the point from light-view space to light-screen space
+                Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
 
-                Vector4D window_space_point = screen_to_window * light_view_space_point;
+                if (light.GetType().Name == "Point_Light")
+                {
+                    light_screen_space_point /= light_screen_space_point.W;
+                }
+
+                Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
                 //double distant_intensity = light.Strength / Math.Pow(z, 2); // omg
                 Color new_light_colour = light.Colour;//.Darken(distant_intensity);
 
                 // use extension methods or not?
                 // Check if point is in shadow
-                if (window_space_point.Z <= light.z_buffer[x][y]) // ??????
+                if (light_window_space_point.Z <= light.Shadow_Map[Round_To_Int(light_window_space_point.X)][Round_To_Int(light_window_space_point.Y)]) // ??????
                 {
                     // Point is not in shadow and light does contribute to the point's overall colour
                     point_colour = point_colour.Mix(new_light_colour);

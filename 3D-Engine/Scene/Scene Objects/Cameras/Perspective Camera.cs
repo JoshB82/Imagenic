@@ -64,7 +64,7 @@ namespace _3D_Engine
             Camera_View_to_Screen = Matrix4x4.Zeroed_Matrix();
             Camera_View_to_Screen.Data[3][2] = 1;
 
-            Z_Near = z_near;
+            Z_Near = z_near; // move to base constructor?
             Z_Far = z_far;
             Width = width;
             Height = height;

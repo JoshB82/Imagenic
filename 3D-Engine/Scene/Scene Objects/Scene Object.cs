@@ -96,7 +96,7 @@ namespace _3D_Engine
                 Direction_Arrows = new Group(origin, direction_forward, direction_up, direction_arrows, false);
             }
 
-            Debug.WriteLine(GetType().Name + $" created at {origin}");
+            Debug.WriteLine($"{GetType().Name} created at {origin}");
         }
 
         #endregion

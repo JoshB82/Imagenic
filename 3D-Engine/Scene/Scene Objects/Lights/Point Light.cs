@@ -1,5 +1,6 @@
-﻿namespace _3D_Engine
-{
+﻿/*namespace _3D_Engine
+/*{
+    /*
     public sealed class Point_Light : Light
     {
         #region Fields and Properties
@@ -48,3 +49,4 @@
         #endregion
     }
 }
+    */
