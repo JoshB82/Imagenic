@@ -58,8 +58,8 @@ namespace _3D_Engine
         {
             Light_View_to_Light_Screen = Matrix4x4.Identity_Matrix();
 
-            Shadow_Map_Width = 1000;
-            Shadow_Map_Height = 1000;
+            Shadow_Map_Width = 810;
+            Shadow_Map_Height = 640;
             Shadow_Map_Z_Near = 10;
             Shadow_Map_Z_Far = 1000;
 

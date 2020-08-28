@@ -6,24 +6,6 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Mesh_Depth_From_Light(object @object, int x, int y, double z)
-        {
-            Light light = (Light)@object;  // Why the explicit cast?
-
-            // Check against shadow map
-            try
-            {
-                if (z < light.Shadow_Map[x][y])
-                {
-                    light.Shadow_Map[x][y] = z;
-                }
-            }
-            catch (IndexOutOfRangeException)
-            {
-                throw new Exception("Can't determine point outside the shadow map.");
-            }
-        }
-
         private void Draw_Face(Face face, string mesh_type,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_camera_view,
@@ -172,24 +154,19 @@ namespace _3D_Engine
                 throw new Exception("Attempted to draw outside the canvas.");
             }
 
+            //-end function!!
+
             // Move the point from window space to camera-screen space
-            Vector4D camera_screen_space_point = screen_to_window.Inverse() * new Vector4D(x, y, z);
+            Vector4D camera_screen_space_point = screen_to_window.Inverse() * new Vector4D(x, y, z); ;
 
             // Move the point from camera-screen space to camera-view space
-            switch (Render_Camera.GetType().Name)
-            {
-                case "Orthogonal_Camera":
-                    break;
-                case "Perspective_Camera":
-                    double camera_view_z = 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
-                    camera_screen_space_point *= camera_view_z;
-                    break;
+            if (Render_Camera.GetType().Name == "Perspective_Camera")
+            {    
+                camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
             }
 
             //inverse.Data[3][2] = 0;//?
             Vector4D camera_view_space_point = Render_Camera.Camera_View_to_Screen.Inverse() * camera_screen_space_point;
-
-            //camera_view_space_point *= camera_view_space_point.W;//??
 
             // Move the point from camera-view space to world space
             Vector4D world_space_point = Render_Camera.Model_to_World * camera_view_space_point;
@@ -203,6 +180,11 @@ namespace _3D_Engine
                 // Move the point from world space to light-view space
                 Vector4D light_view_space_point = light.World_to_Light_View * world_space_point;
 
+                // Darken the light's colour based on how far away the point is from the light
+                Vector3D light_to_point = new Vector3D(light_view_space_point);
+                double distant_intensity = light.Strength / light_to_point.Squared_Magnitude();
+                Color new_light_colour = light.Colour.Darken(distant_intensity);
+
                 // Move the point from light-view space to light-screen space
                 Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
 
@@ -212,20 +194,25 @@ namespace _3D_Engine
                 }
 
                 Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
-                //double distant_intensity = light.Strength / Math.Pow(z, 2); // omg
-                Color new_light_colour = light.Colour;//.Darken(distant_intensity);
 
                 // use extension methods or not?
-                // Check if point is in shadow
-                if (light_window_space_point.Z <= light.Shadow_Map[Round_To_Int(light_window_space_point.X)][Round_To_Int(light_window_space_point.Y)]) // ??????
+
+                int light_point_x = Round_To_Int(light_window_space_point.X + (double)light.Shadow_Map_Width / 2);
+                int light_point_y = Round_To_Int(light_window_space_point.Y + (double)light.Shadow_Map_Height / 2);
+                double light_point_z = light_window_space_point.Z;
+
+                if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                 {
-                    // Point is not in shadow and light does contribute to the point's overall colour
-                    point_colour = point_colour.Mix(new_light_colour);
-                }
-                else
-                {
-                    // Point is in shadow and light does not contribute to the point's overall colour
-                    shadow_count++;
+                    if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
+                    {
+                        // Point is not in shadow and light does contribute to the point's overall colour
+                        point_colour = point_colour.Mix(new_light_colour);
+                    }
+                    else
+                    {
+                        // Point is in shadow and light does not contribute to the point's overall colour
+                        shadow_count++;
+                    }
                 }
             }
 

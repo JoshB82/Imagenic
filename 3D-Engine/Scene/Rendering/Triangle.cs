@@ -6,7 +6,8 @@ namespace _3D_Engine
     public sealed partial class Scene
     {
         // Number and variable manipulation
-        private static int Round_To_Int(double x) => (int)Math.Round(x, MidpointRounding.AwayFromZero);
+        //private static int Round_To_Int(double x) => (int)Math.Round(x, MidpointRounding.AwayFromZero);
+        private static int Round_To_Int(double x) => (int)Math.Floor(x + 0.5);// ??????????
 
         private static void Swap<T>(ref T x1, ref T x2)
         {

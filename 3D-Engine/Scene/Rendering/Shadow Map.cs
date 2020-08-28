@@ -5,11 +5,22 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        // ohter clipping?
-        private void Generate_Shadow_Map(Light light, Face face,
-            Matrix4x4 model_to_world,
-            Matrix4x4 world_to_light_view,
-            Matrix4x4 light_view_to_light_screen)
+        // other clipping?
+        public void Generate_Shadow_Map(Light light)
+        {
+            foreach (Mesh mesh in Meshes)
+            {
+                if (mesh.Draw_Faces)
+                {
+                    foreach (Face face in mesh.Faces)
+                    {
+                        if (face.Visible) Calculate_Depth(mesh.Model_to_World, face, light);
+                    }
+                }
+            }
+        }
+            
+        private void Calculate_Depth(Matrix4x4 model_to_world, Face face, Light light)
         {
             // Reset the vertices to model space values
             face.Reset_Vertices();
@@ -18,7 +29,7 @@ namespace _3D_Engine
             face.Apply_Matrix(model_to_world);
 
             // Move the face from world space to light-view space
-            face.Apply_Matrix(world_to_light_view);
+            face.Apply_Matrix(light.World_to_Light_View);
 
             // Clip the face in light-view space
             Queue<Face> face_clip = new Queue<Face>();
@@ -29,7 +40,7 @@ namespace _3D_Engine
             // Move the new triangles from light-view space to screen space, including a correction for perspective
             foreach (Face clipped_face in face_clip)
             {
-                clipped_face.Apply_Matrix(light_view_to_light_screen);
+                clipped_face.Apply_Matrix(light.Light_View_to_Light_Screen);
 
                 if (light.GetType().Name == "Point_Light")
                 {
@@ -79,6 +90,17 @@ namespace _3D_Engine
                     x1, y1, z1,
                     x2, y2, z2,
                     x3, y3, z3);
+            }
+        }
+
+        private void Mesh_Depth_From_Light(object @object, int x, int y, double z)
+        {
+            Light light = (Light)@object;  // Why the explicit cast?
+
+            // Check against shadow map
+            if (z < light.Shadow_Map[x][y])
+            {
+                light.Shadow_Map[x][y] = z;
             }
         }
     }

@@ -194,41 +194,29 @@ namespace _3D_Engine
                     }
                 }
 
-                //
                 foreach (Light light in Lights)
                 {
                     light.Calculate_Light_View_Clipping_Planes(); // move somewhere else?
-                    for (int i = 0; i < light.Shadow_Map_Width; i++) for (int j = 0; j < light.Shadow_Map_Height; j++)
+                    for (int i = 0; i < light.Shadow_Map_Width; i++)
                     {
-                        light.Shadow_Map[i][j] = 1;
+                        for (int j = 0; j < light.Shadow_Map_Height; j++)
+                        {
+                            light.Shadow_Map[i][j] = 1;
+                        }
                     }
                 }
 
+                // Calculate model to world and world to view matrices for all scene objects
+                Generate_MWV_Matrices();
+
                 // Calculate render camera properties
-                Render_Camera.Calculate_Model_to_World_Matrix();
-                Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin);
-                Render_Camera.Calculate_World_to_Camera_View_Matrix();
                 Matrix4x4 world_to_view = Render_Camera.World_to_Camera_View;
                 Matrix4x4 view_to_screen = Render_Camera.Camera_View_to_Screen;
 
                 // Calculate depth information for each light
                 foreach (Light light in Lights)
                 {
-                    light.Calculate_Model_to_World_Matrix();
-                    light.World_Origin = new Vector3D(light.Model_to_World * light.Origin);
-                    light.Calculate_World_to_Light_View_Matrix();
-
-                    foreach (Mesh mesh in Meshes)
-                    {
-                        mesh.Calculate_Model_to_World_Matrix();
-                        if (mesh.Draw_Faces)
-                        {
-                            foreach (Face face in mesh.Faces)
-                            {
-                                if (face.Visible) Generate_Shadow_Map(light, face, mesh.Model_to_World, light.World_to_Light_View, light.Light_View_to_Light_Screen);
-                            }
-                        }
-                    }
+                    Generate_Shadow_Map(light);
                 }
 
                 // Draw meshes
@@ -257,11 +245,9 @@ namespace _3D_Engine
                         // Draw faces
                         if (mesh.Draw_Faces)
                         {
-                            string mesh_type = mesh.GetType().Name;
-
                             foreach (Face face in mesh.Faces)
                             {
-                                if (face.Visible) Draw_Face(face, mesh_type, mesh.Model_to_World, world_to_view, view_to_screen);
+                                if (face.Visible) Draw_Face(face, mesh.GetType().Name, mesh.Model_to_World, world_to_view, view_to_screen);
                             }
                         }
 
@@ -279,11 +265,7 @@ namespace _3D_Engine
                 // Draw camera views
                 foreach (Camera camera_to_draw in Cameras)
                 {
-                    // Calculate camera matrix
-                    camera_to_draw.Calculate_Model_to_World_Matrix();
-                    Matrix4x4 model_to_world = camera_to_draw.Model_to_World;
-                        
-                    Draw_Camera(camera_to_draw, model_to_world, world_to_view, view_to_screen);
+                    Draw_Camera(camera_to_draw, camera_to_draw.Model_to_World, world_to_view, view_to_screen);
                 }
                 
                 // Draw theh frame on the canvas and push it to the screen
@@ -308,6 +290,24 @@ namespace _3D_Engine
             }
 
             canvas.UnlockBits(data);
+        }
+
+        // Generate matrices
+        public void Generate_MWV_Matrices()
+        {
+            // Model to world
+            foreach (Camera camera in Cameras) camera.Calculate_Model_to_World_Matrix();
+            foreach (Light light in Lights) light.Calculate_Model_to_World_Matrix();
+            foreach (Mesh mesh in Meshes) mesh.Calculate_Model_to_World_Matrix();
+
+            // World to view
+            Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin); //?
+            Render_Camera.Calculate_World_to_Camera_View_Matrix();
+            foreach (Light light in Lights)
+            {
+                light.World_Origin = new Vector3D(light.Model_to_World * light.Origin); // ?
+                light.Calculate_World_to_Light_View_Matrix();
+            }
         }
     }
 }
