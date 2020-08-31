@@ -83,31 +83,31 @@ namespace _3D_Engine
         }
         private void Output_Direction()
         {
-            if (!Settings.Debug_Output) return;
+            if (!Settings.Trace_Output) return;
 
-            Verbosity Debug_Output_Verbosity = Verbosity.None;
+            Verbosity Trace_Output_Verbosity = Verbosity.None;
             switch (GetType().BaseType.Name) // ??????????????????????????
             {
                 case "Camera":
-                    Debug_Output_Verbosity = Settings.Camera_Debug_Output_Verbosity;
+                    Trace_Output_Verbosity = Settings.Camera_Trace_Output_Verbosity;
                     break;
                 case "Light":
-                    Debug_Output_Verbosity = Settings.Light_Debug_Output_Verbosity;
+                    Trace_Output_Verbosity = Settings.Light_Trace_Output_Verbosity;
                     break;
                 case "Mesh":
-                    Debug_Output_Verbosity = Settings.Mesh_Debug_Output_Verbosity;
+                    Trace_Output_Verbosity = Settings.Mesh_Trace_Output_Verbosity;
                     break;
             }
 
             string scene_object_type = GetType().Name;
-            switch (Debug_Output_Verbosity)
+            switch (Trace_Output_Verbosity)
             {
                 case Verbosity.Brief:
-                    Debug.WriteLine(scene_object_type + " changed direction.");
+                    Trace.WriteLine(scene_object_type + " changed direction.");
                     break;
                 case Verbosity.Detailed:
                 case Verbosity.All:
-                    Debug.WriteLine("<=========\n" +
+                    Trace.WriteLine("<=========\n" +
                         scene_object_type + " direction changed to:\n" +
                         $"Forward: {World_Direction_Forward}\n" +
                         $"Up: {World_Direction_Up}\n" +

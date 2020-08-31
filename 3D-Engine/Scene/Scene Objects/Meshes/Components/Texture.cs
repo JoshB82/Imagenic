@@ -47,7 +47,7 @@ namespace _3D_Engine
                     new Vector3D(0, 1, 1) // 3
                     };
                 default:
-                    Debug.WriteLine("Could not generate texture vertices; unknown type: " + type);
+                    Trace.WriteLine("Could not generate texture vertices; unknown type: " + type);
                     return null;
             }
         }

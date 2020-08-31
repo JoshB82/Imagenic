@@ -38,6 +38,7 @@ namespace _3D_Engine
         // Appearance
         public Color Colour { get; set; } = Color.White;
         public Mesh Icon { get; protected set; }
+        public bool Show_Icon { get; set; } = false;
         public double Strength { get; set; }
 
         public bool Draw_Camera_Model { get; set; } = false;
@@ -74,7 +75,7 @@ namespace _3D_Engine
 
         public void Export_Shadow_Map(string file_path)
         {
-            Debug.WriteLine($"Generating shadow map for {GetType().Name}...");
+            Trace.WriteLine($"Generating shadow map for {GetType().Name}...");
 
             using (Bitmap shadow_map_bitmap = new Bitmap(Shadow_Map_Width, Shadow_Map_Height))
             {
@@ -92,7 +93,7 @@ namespace _3D_Engine
                 shadow_map_bitmap.Save(file_path, ImageFormat.Bmp);
             }
 
-            Debug.WriteLine($"Successfully saved shadow map for {GetType().Name}");
+            Trace.WriteLine($"Successfully saved shadow map for {GetType().Name}");
         }
 
         private static int Round_To_Int(double x) => (int)Math.Round(x, MidpointRounding.AwayFromZero);

@@ -113,7 +113,7 @@ namespace _3D_Engine
             Width = width;
             Height = height;
 
-            Debug.WriteLine("Scene created");
+            Trace.WriteLine("Scene created");
         }
 
         #endregion
@@ -175,7 +175,7 @@ namespace _3D_Engine
         {
             if (Render_Camera == null)
             {
-                Debug.WriteLine("Failed to draw frame: No camera has been set yet!");
+                Trace.WriteLine("Error drawing frame: No render camera has been set yet!");
                 return;
             }
 
@@ -189,11 +189,10 @@ namespace _3D_Engine
                 {
                     for (int j = 0; j < height; j++)
                     {
-                        z_buffer[i][j] = 2;
+                        z_buffer[i][j] = 2; //?
                         colour_buffer[i][j] = Background_Colour;
                     }
                 }
-
                 foreach (Light light in Lights)
                 {
                     light.Calculate_Light_View_Clipping_Planes(); // move somewhere else?
@@ -201,7 +200,7 @@ namespace _3D_Engine
                     {
                         for (int j = 0; j < light.Shadow_Map_Height; j++)
                         {
-                            light.Shadow_Map[i][j] = 1;
+                            light.Shadow_Map[i][j] = 2; //?
                         }
                     }
                 }
@@ -216,59 +215,120 @@ namespace _3D_Engine
                 // Calculate depth information for each light
                 foreach (Light light in Lights)
                 {
-                    Generate_Shadow_Map(light);
+                    if (light.Visible)
+                    {
+                        Generate_Shadow_Map(light);
+                    }
                 }
 
-                // Draw meshes
+                // Calculate depth information for each mesh
+                foreach (Light light in Lights)
+                {
+                    if (light.Show_Icon)
+                    {
+                        foreach (Face face in light.Icon.Faces)
+                        {
+                            Generate_Z_Buffer(face, light.GetType().Name, light.Icon.Model_to_World, world_to_view, view_to_screen);
+                        }
+                    }
+                }
                 foreach (Mesh mesh in Meshes)
                 {
-                    if (mesh.Visible)
+                    if (mesh.Visible && mesh.Draw_Faces)
                     {
-                        // Draw directions
+                        string mesh_type = mesh.GetType().Name;
+                        foreach (Face face in mesh.Faces)
+                        {
+                            if (face.Visible)
+                            {
+                                Generate_Z_Buffer(face, mesh_type, mesh.Model_to_World, world_to_view, view_to_screen);
+                            }
+                        }
+
                         if (mesh.Has_Direction_Arrows && mesh.Display_Direction_Arrows)
                         {
                             Arrow direction_forward = (Arrow)mesh.Direction_Arrows.Scene_Objects[0];
                             Arrow direction_up = (Arrow)mesh.Direction_Arrows.Scene_Objects[1];
                             Arrow direction_right = (Arrow)mesh.Direction_Arrows.Scene_Objects[2];
 
-                            foreach (Face face in direction_forward.Faces) Draw_Face(face, "Arrow", direction_forward.Model_to_World, world_to_view, view_to_screen);
-                            foreach (Face face in direction_up.Faces) Draw_Face(face, "Arrow", direction_up.Model_to_World, world_to_view, view_to_screen);
-                            foreach (Face face in direction_right.Faces) Draw_Face(face, "Arrow", direction_right.Model_to_World, world_to_view, view_to_screen);
-
-                            foreach (Edge edge in direction_forward.Edges) Draw_Edge(edge, direction_forward.Model_to_World, world_to_view, view_to_screen);
-                            foreach (Edge edge in direction_up.Edges) Draw_Edge(edge, direction_up.Model_to_World, world_to_view, view_to_screen);
-                            foreach (Edge edge in direction_right.Edges) Draw_Edge(edge, direction_right.Model_to_World, world_to_view, view_to_screen);
-                        }
-
-                        mesh.Origin = screen_to_window * view_to_screen * world_to_view * mesh.Model_to_World * mesh.Origin;
-
-                        // Draw faces
-                        if (mesh.Draw_Faces)
-                        {
-                            foreach (Face face in mesh.Faces)
+                            foreach (Face face in direction_forward.Faces)
                             {
-                                if (face.Visible) Draw_Face(face, mesh.GetType().Name, mesh.Model_to_World, world_to_view, view_to_screen);
+                                Generate_Z_Buffer(face, "Arrow", direction_forward.Model_to_World, world_to_view, view_to_screen);
+                            }
+                            foreach (Face face in direction_up.Faces)
+                            {
+                                Generate_Z_Buffer(face, "Arrow", direction_up.Model_to_World, world_to_view, view_to_screen);
+                            }
+                            foreach (Face face in direction_right.Faces)
+                            {
+                                Generate_Z_Buffer(face, "Arrow", direction_right.Model_to_World, world_to_view, view_to_screen);
+                            }
+                        }
+                    }
+                }
+
+                // Apply lighting
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        // check all doubles and ints
+                        Shadow_Map_Check(colour_buffer[x][y], x, y, z_buffer[x][y]);
+                    }
+                }
+
+                // Draw edges
+                foreach (Light light in Lights)
+                {
+                    if (light.Show_Icon)
+                    {
+                        foreach (Edge edge in light.Icon.Edges)
+                        {
+                            Draw_Edge(edge, light.Icon.Model_to_World, world_to_view, view_to_screen);
+                        }
+                    }
+                }
+                foreach (Mesh mesh in Meshes)
+                {
+                    if (mesh.Draw_Edges)
+                    {
+                        foreach (Edge edge in mesh.Edges)
+                        {
+                            if (edge.Visible)
+                            {
+                                Draw_Edge(edge, mesh.Model_to_World, world_to_view, view_to_screen);
                             }
                         }
 
-                        // Draw edges
-                        if (mesh.Draw_Edges)
+                        if (mesh.Has_Direction_Arrows && mesh.Display_Direction_Arrows)
                         {
-                            foreach (Edge edge in mesh.Edges)
+                            Arrow direction_forward = (Arrow)mesh.Direction_Arrows.Scene_Objects[0];
+                            Arrow direction_up = (Arrow)mesh.Direction_Arrows.Scene_Objects[1];
+                            Arrow direction_right = (Arrow)mesh.Direction_Arrows.Scene_Objects[2];
+
+                            foreach (Edge edge in direction_forward.Edges)
                             {
-                                if (edge.Visible) Draw_Edge(edge, mesh.Model_to_World, world_to_view, view_to_screen);
+                                Draw_Edge(edge, direction_forward.Model_to_World, world_to_view, view_to_screen);
+                            }
+                            foreach (Edge edge in direction_up.Edges)
+                            {
+                                Draw_Edge(edge, direction_up.Model_to_World, world_to_view, view_to_screen);
+                            }
+                            foreach (Edge edge in direction_right.Edges)
+                            {
+                                Draw_Edge(edge, direction_right.Model_to_World, world_to_view, view_to_screen);
                             }
                         }
                     }
                 }
 
                 // Draw camera views
-                foreach (Camera camera_to_draw in Cameras)
+                foreach (Camera camera in Cameras)
                 {
-                    Draw_Camera(camera_to_draw, camera_to_draw.Model_to_World, world_to_view, view_to_screen);
+                    Draw_Camera(camera, camera.Model_to_World, world_to_view, view_to_screen);
                 }
-                
-                // Draw theh frame on the canvas and push it to the screen
+
+                // Draw all points
                 Draw_Colour_Buffer(temp_canvas, colour_buffer);
                 Canvas_Box.Image = temp_canvas;
             }
@@ -296,9 +356,28 @@ namespace _3D_Engine
         public void Generate_MWV_Matrices()
         {
             // Model to world
-            foreach (Camera camera in Cameras) camera.Calculate_Model_to_World_Matrix();
-            foreach (Light light in Lights) light.Calculate_Model_to_World_Matrix();
-            foreach (Mesh mesh in Meshes) mesh.Calculate_Model_to_World_Matrix();
+            foreach (Camera camera in Cameras)
+            {
+                camera.Calculate_Model_to_World_Matrix();//?vvvv
+            }
+            foreach (Light light in Lights)
+            {
+                if (light.Show_Icon)
+                {
+                    light.Icon.Calculate_Model_to_World_Matrix();
+                }
+                if (light.Visible)
+                {
+                    light.Calculate_Model_to_World_Matrix();
+                }
+            }
+            foreach (Mesh mesh in Meshes)
+            {
+                if (mesh.Visible)
+                {
+                    mesh.Calculate_Model_to_World_Matrix();
+                }
+            }
 
             // World to view
             Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin); //?
@@ -307,6 +386,10 @@ namespace _3D_Engine
             {
                 light.World_Origin = new Vector3D(light.Model_to_World * light.Origin); // ?
                 light.Calculate_World_to_Light_View_Matrix();
+            }
+            foreach (Mesh mesh in Meshes)
+            {
+                mesh.Origin = screen_to_window * Render_Camera.Camera_View_to_Screen * Render_Camera.World_to_Camera_View * mesh.Model_to_World * mesh.Origin;
             }
         }
     }

@@ -1062,9 +1062,9 @@
             Collection of <see cref="T:_3D_Engine.Settings"/>.
             </summary>
         </member>
-        <member name="F:_3D_Engine.Settings.Debug_Output">
+        <member name="F:_3D_Engine.Settings.Trace_Output">
             <summary>
-            Determines if any <see cref="T:System.Diagnostics.Debug"/> text is outputted.
+            Determines if any <see cref="T:System.Diagnostics.Trace"/> text is outputted.
             </summary>
         </member>
     </members>

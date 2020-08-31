@@ -24,7 +24,7 @@ namespace _3D_Engine
         internal Vector4D P2 { get; set; }
 
         // Appearance
-        public Color Colour { get; set; } = Settings.Default_Edge_Colour;
+        public Color Colour { get; set; } = Properties.Settings.Default.Edge_Colour;
         public bool Visible { get; set; } = true;
 
         #endregion

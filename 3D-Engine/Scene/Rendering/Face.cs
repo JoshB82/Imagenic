@@ -6,7 +6,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Draw_Face(Face face, string mesh_type,
+        private void Generate_Z_Buffer(Face face, string mesh_type,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_camera_view,
             Matrix4x4 camera_view_to_camera_screen)
@@ -46,7 +46,10 @@ namespace _3D_Engine
             Queue<Face> face_clip = new Queue<Face>();
             face_clip.Enqueue(face);
 
-            if (Settings.View_Space_Clip && Queue_Clip_Face(face_clip, Render_Camera.Camera_View_Clipping_Planes) == 0) return;
+            if (Settings.View_Space_Clip && Queue_Clip_Face(face_clip, Render_Camera.Camera_View_Clipping_Planes) == 0)
+            {
+                return;
+            }
 
             // Move the new triangles from camera-view space to camera-screen space, including a correction for perspective
             foreach (Face clipped_face in face_clip)
@@ -69,7 +72,10 @@ namespace _3D_Engine
             }
 
             // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip, camera_screen_clipping_planes) == 0) return; // anything outside cube?
+            if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip, camera_screen_clipping_planes) == 0)
+            {
+                return;
+            }// anything outside cube?
 
             foreach (Face clipped_face in face_clip)
             {
@@ -119,15 +125,14 @@ namespace _3D_Engine
                 }
                 else
                 {
-                    Action<object, int, int, double> camera_depth = Mesh_Depth_From_Camera;
-
                     // Sort the vertices by their y-co-ordinate
                     Sort_By_Y(
                         ref x1, ref y1, ref z1,
                         ref x2, ref y2, ref z2,
                         ref x3, ref y3, ref z3);
 
-                    Interpolate_Triangle(face, camera_depth,
+                    // Generate z-buffer
+                    Interpolate_Triangle(face, Z_Buffer_Check,
                         x1, y1, z1,
                         x2, y2, z2,
                         x3, y3, z3);
@@ -135,14 +140,15 @@ namespace _3D_Engine
             }
         }
 
-        private void Mesh_Depth_From_Camera(object face, int x, int y, double z)
+        // Check if point is visible from the camera
+        private void Z_Buffer_Check(object face, int x, int y, double z)
         {
-            // Check if point is visible from the camera
             try
             {
                 if (z < z_buffer[x][y])
                 {
                     z_buffer[x][y] = z;
+                    colour_buffer[x][y] = ((Face)face).Colour;
                 }
                 else
                 {
@@ -151,11 +157,12 @@ namespace _3D_Engine
             }
             catch (IndexOutOfRangeException)
             {
-                throw new Exception("Attempted to draw outside the canvas.");
+                throw new Exception("Attempted to render outside the canvas.");
             }
+        }
 
-            //-end function!!
-
+        private void Shadow_Map_Check(Color point_colour, int x, int y, double z)
+        {
             // Move the point from window space to camera-screen space
             Vector4D camera_screen_space_point = screen_to_window.Inverse() * new Vector4D(x, y, z); ;
 
@@ -165,16 +172,14 @@ namespace _3D_Engine
                 camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
             }
 
-            //inverse.Data[3][2] = 0;//?
             Vector4D camera_view_space_point = Render_Camera.Camera_View_to_Screen.Inverse() * camera_screen_space_point;
 
             // Move the point from camera-view space to world space
             Vector4D world_space_point = Render_Camera.Model_to_World * camera_view_space_point;
         
             // Apply light colour correction
-            Color point_colour = ((Face)face).Colour;
-
             int shadow_count = 0;
+
             foreach (Light light in Lights)
             {
                 // Move the point from world space to light-view space
@@ -188,17 +193,15 @@ namespace _3D_Engine
                 // Move the point from light-view space to light-screen space
                 Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
 
-                if (light.GetType().Name == "Point_Light")
+                if (light.GetType().Name == "Spotlight")
                 {
                     light_screen_space_point /= light_screen_space_point.W;
                 }
 
                 Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
 
-                // use extension methods or not?
-
-                int light_point_x = Round_To_Int(light_window_space_point.X + (double)light.Shadow_Map_Width / 2);
-                int light_point_y = Round_To_Int(light_window_space_point.Y + (double)light.Shadow_Map_Height / 2);
+                int light_point_x = Round_To_Int(light_window_space_point.X);
+                int light_point_y = Round_To_Int(light_window_space_point.Y);
                 double light_point_z = light_window_space_point.Z;
 
                 if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
@@ -230,8 +233,11 @@ namespace _3D_Engine
             {
                 while (no_triangles > 0)
                 {
-                    (int intersection_triangles, Face[] triangles) = Clip_Face(clipping_plane.Point, clipping_plane.Normal, face_clip.Dequeue());
-                    for (int i = 0; i < intersection_triangles; i++) face_clip.Enqueue(triangles[i]);
+                    Face[] triangles = Clip_Face(clipping_plane.Point, clipping_plane.Normal, face_clip.Dequeue());
+                    foreach (Face face in triangles)
+                    {
+                        face_clip.Enqueue(face);
+                    }
                     no_triangles--;
                 }
                 no_triangles = face_clip.Count;

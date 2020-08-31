@@ -56,6 +56,11 @@ namespace _3D_Engine
 
         public Distant_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double strength) : base(origin, direction_forward, direction_up)
         {
+            string[] icon_obj_data = Properties.Resources.Distant_Light.Split("\n");
+            Icon = new Custom(origin, direction_forward, direction_up, icon_obj_data);
+            Icon.Scale(5);
+            Icon.Face_Colour = Color.DarkGoldenrod;
+
             Light_View_to_Light_Screen = Matrix4x4.Identity_Matrix();
 
             Shadow_Map_Width = 810;
@@ -66,7 +71,7 @@ namespace _3D_Engine
             Calculate_Light_View_Clipping_Planes();
         }
 
-        //public Distant_Light(Vector3D origin, Mesh pointed_at, Color? colour, double intensity) : this(origin, pointed_at.World_Origin - origin, colour, intensity) { }
+        public Distant_Light(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double strength) : this(origin, pointed_at.World_Origin - origin, direction_up, strength) { }
 
         #endregion
 

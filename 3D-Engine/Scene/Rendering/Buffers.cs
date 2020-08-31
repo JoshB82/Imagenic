@@ -26,10 +26,5 @@ namespace _3D_Engine
                 throw new Exception("Attempted to draw outside the canvas.");
             }
         }
-
-        private void Light_Check_Against_Z_Buffer(Light light, int x, int y, double z)
-        {
-            
-        }
     }
 }

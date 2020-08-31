@@ -7,42 +7,20 @@ using System.Linq;
 
 namespace _3D_Engine
 {
-    /// <summary>
-    /// Handles creation of a <see cref="Custom"/> mesh.
-    /// </summary>
+    /// <include file="Help_3.xml" path="doc/members/member[@name='T:_3D_Engine.Custom']/*"/>
     public sealed class Custom : Mesh
     {
         #region Constructors
 
-        /// <summary>
-        /// Creates a <see cref="Custom"/> mesh.
-        /// </summary>
-        /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
-        /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
-        /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
-        /// <param name="vertices">The vertices that make up the <see cref="Custom"/> mesh.</param>
-        /// <param name="edges">The <see cref="Edge"/>s that make up the <see cref="Custom"/> mesh.</param>
-        /// <param name="faces">The <see cref="Face"/>s that make up the <see cref="Custom"/> mesh.</param>
-        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up,
-            Vertex[] vertices,
-            Edge[] edges,
-            Face[] faces) : base(origin, direction_forward, direction_up)
+        /// <include file="Help_3.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
+        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, Vertex[] vertices, Edge[] edges, Face[] faces) : base(origin, direction_forward, direction_up)
         {
             Vertices = vertices;
             Edges = edges;
             Faces = faces;
         }
 
-        /// <summary>
-        /// Creates a textured <see cref="Custom"/> mesh.
-        /// </summary>
-        /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
-        /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
-        /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
-        /// <param name="vertices">The vertices that make up the <see cref="Custom"/> mesh.</param>
-        /// <param name="edges">The <see cref="Edge"/>s that make up the <see cref="Custom"/> mesh.</param>
-        /// <param name="faces">The <see cref="Face"/>s that make up the <see cref="Custom"/> mesh.</param>
-        /// <param name="textures">The <see cref="Texture"/>s that make up the surface of the <see cref="Custom"/> mesh.</param>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up,
             Vertex[] vertices,
             Edge[] edges,
@@ -52,6 +30,8 @@ namespace _3D_Engine
             Vertices = vertices;
             Edges = edges;
             Faces = faces;
+
+            Has_Texture = true;
             Textures = textures;
         }
 
@@ -61,91 +41,97 @@ namespace _3D_Engine
         /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
         /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
-        /// <param name="file_path">The path to the OBJ file.</param>
+        /// <param name="file_path">The path of the OBJ file.</param>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string file_path) : base(origin, direction_forward, direction_up)
         {
             // Check if the file exists
             if (!File.Exists(file_path))
             {
-                Debug.WriteLine($"Error generating Custom mesh: {file_path} not found.");
+                Trace.WriteLine($"Error generating Custom mesh: The file {file_path} was not found.");
                 return;
             }
 
+            // Obtain data from file
+            string[] lines = null;
+            try
+            {
+                lines = File.ReadAllLines(file_path);
+            }
+            catch (Exception error)
+            {
+                Trace.WriteLine($"Error generating Custom mesh: {error.Message}");
+                return;
+            }
+
+            // Create the mesh
+            Generate_Custom_From_OBJ(lines);
+        }
+
+        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string[] lines) : base(origin, direction_forward, direction_up) => Generate_Custom_From_OBJ(lines);
+
+        private void Generate_Custom_From_OBJ(string[] lines)
+        {
             List<Vertex> vertices = new List<Vertex>();
             List<Edge> edges = new List<Edge>();
             List<Face> faces = new List<Face>();
 
-            try
+            foreach (string line in lines)
             {
-                string[] lines = File.ReadAllLines(file_path);
-                foreach (string line in lines)
-                {
-                    string[] data = line.Split();
-                    int p1, p2, p3;
-                    double x, y, z, w;
+                string[] data = line.Split();
+                int p1, p2, p3;
+                double x, y, z, w;
 
-                    switch (data[0])
-                    {
-                        case "#":
-                            // Comment; ignore line
-                            break;
-                        case "v":
-                            // Vertex
-                            x = double.Parse(data[1]);
-                            y = double.Parse(data[2]);
-                            z = double.Parse(data[3]);
-                            w = (data.Length == 5) ? Double.Parse(data[4]) : 1;
-                            vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
-                            break;
-                        case "l":
-                            // Line (or polyline)
-                            int no_end_points = data.Length - 1;
-                            do
-                            {
-                                p1 = int.Parse(data[no_end_points]) - 1;
-                                p2 = int.Parse(data[no_end_points - 1]) - 1;
-                                edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1]));
-                                no_end_points--;
-                            }
-                            while (no_end_points > 1);
-                            break;
-                        case "f":
-                            // Face
-                            p1 = int.Parse(data[1]);
-                            p2 = int.Parse(data[2]);
-                            p3 = int.Parse(data[3]);
-                            faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
-                            break;
-                    }
+                switch (data[0])
+                {
+                    case "#":
+                        // Comment; ignore line
+                        break;
+                    case "v":
+                        // Vertex
+                        x = double.Parse(data[1]);
+                        y = double.Parse(data[2]);
+                        z = double.Parse(data[3]);
+                        w = (data.Length == 5) ? Double.Parse(data[4]) : 1;
+                        vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
+                        break;
+                    case "l":
+                        // Line (or polyline)
+                        int no_end_points = data.Length - 1;
+                        do
+                        {
+                            p1 = int.Parse(data[no_end_points]) - 1;
+                            p2 = int.Parse(data[no_end_points - 1]) - 1;
+                            edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1]));
+                            no_end_points--;
+                        }
+                        while (no_end_points > 1);
+                        break;
+                    case "f":
+                        // Face
+                        p1 = int.Parse(data[1]);
+                        p2 = int.Parse(data[2]);
+                        p3 = int.Parse(data[3]);
+                        faces.Add(new Face(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
+                        break;
                 }
-            }
-            catch (Exception error)
-            {
-                Debug.WriteLine($"Error generating Custom mesh: {error.Message}");
-                return;
             }
 
             Vertices = vertices.ToArray();
             Edges = edges.ToArray();
             Faces = faces.ToArray();
         }
-
+//b
         /// <summary>
         /// Creates a textured <see cref="Custom"/> mesh from an OBJ file.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
         /// <param name="direction_forward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Custom"/> mesh.</param>
-        /// <param name="file_path">The path to the OBJ file.</param>
+        /// <param name="file_path">The path of the OBJ file.</param>
         /// <param name="texture">The <see cref="Bitmap"/> that makes up the surface of the <see cref="Custom"/> mesh.</param>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string file_path, Bitmap texture) : base(origin, direction_forward, direction_up)
         {
-            // Check if the file exists
-            if (!File.Exists(file_path))
-            {
-                Debug.WriteLine($"Error generating Custom mesh: {file_path} not found.");
-                return;
-            }
+            Has_Texture = true;
 
             List<Vertex> vertices = new List<Vertex>();
             List<Vector3D> texture_vertices = new List<Vector3D>();
@@ -205,7 +191,7 @@ namespace _3D_Engine
             }
             catch (Exception error)
             {
-                Debug.WriteLine($"Error generating Custom mesh: {error.Message}");
+                Trace.WriteLine($"Error generating Custom mesh: {error.Message}");
                 return;
             }
 

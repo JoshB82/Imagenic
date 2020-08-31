@@ -15,6 +15,7 @@ namespace _3D_Engine
         public Face[] Faces { get; internal set; }
         /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Textures']/*"/>
         public Texture[] Textures { get; internal set; }
+        public bool Has_Texture { get; protected set; } = false;
 
         // Appearance
         /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Edges']/*"/>
@@ -47,23 +48,17 @@ namespace _3D_Engine
         }
 
         // Miscellaneous
+        public bool Casts_Shadows { get; set; }
         /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool Draw_Outline { get; set; } = false;
 
         // Matrices and Vectors
         internal override void Calculate_Model_to_World_Matrix()
         {
-            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_forward_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
-            Matrix4x4 scale = Transform.Scale(Scaling.X, Scaling.Y, Scaling.Z);
-            Matrix4x4 translation = Transform.Translate(World_Origin);
+            base.Calculate_Model_to_World_Matrix();
 
-            // String the transformations together in the following order:
-            // 1) Scale
-            // 2) Rotation around direction forward vector
-            // 3) Rotation around direction up vector
-            // 4) Translation to final position in world space
-            Model_to_World = translation * direction_up_rotation * direction_forward_rotation * scale;
+            Matrix4x4 scale = Transform.Scale(Scaling.X, Scaling.Y, Scaling.Z);
+            Model_to_World *= scale;
         }
 
         internal Vector3D Scaling { get; set; } = Vector3D.One;

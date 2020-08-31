@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 
 namespace _3D_Engine
 {
@@ -76,18 +75,14 @@ namespace _3D_Engine
             }
         }
 
-        // Debug
+        // Trace
         /// <summary>
-        /// Determines if any <see cref="Debug"/> text is outputted.
+        /// Determines if any <see cref="Trace"/> text is outputted.
         /// </summary>
-        public static bool Debug_Output = false;
-        public static Verbosity Camera_Debug_Output_Verbosity = Verbosity.None;
-        public static Verbosity Light_Debug_Output_Verbosity = Verbosity.None;
-        public static Verbosity Mesh_Debug_Output_Verbosity = Verbosity.None;
-
-        // Colours
-        public static Color Default_Edge_Colour = Color.Black;
-        public static Color Default_Face_Colour = Color.BlueViolet;
+        public static bool Trace_Output = false;
+        public static Verbosity Camera_Trace_Output_Verbosity = Verbosity.None;
+        public static Verbosity Light_Trace_Output_Verbosity = Verbosity.None;
+        public static Verbosity Mesh_Trace_Output_Verbosity = Verbosity.None;
 
         #endregion
     }

@@ -28,10 +28,10 @@ namespace _3D_Engine
         public Vector3D T2 { get; internal set; }
         public Vector3D T3 { get; internal set; }
 
-        public bool Has_Texture { get; private set; }
+        public bool Has_Texture { get; private set; } = false;
 
         // Appearance
-        public Color Colour { get; set; } = Settings.Default_Face_Colour;
+        public Color Colour { get; set; } = Properties.Settings.Default.Face_Colour;
         public Texture Texture_Object { get; set; }
         public bool Draw_Outline { get; set; } = false;
         public bool Visible { get; set; } = true;
