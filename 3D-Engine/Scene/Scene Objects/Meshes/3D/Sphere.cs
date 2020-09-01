@@ -17,6 +17,8 @@ namespace _3D_Engine
 
         public Sphere(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double radius, int res_lat, int res_long) : base(origin, direction_forward, direction_up)
         {
+            Dimension = 3;
+
             Radius = radius;
 
             double angle_lat = 2 * Math.PI / res_lat, angle_long = Math.PI / (2 * res_long); // divide by 2?

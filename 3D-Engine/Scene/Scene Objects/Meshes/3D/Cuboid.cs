@@ -156,6 +156,8 @@
 
         private void Set_Structure(double length, double width, double height)
         {
+            Dimension = 3;
+
             Length = length;
             Width = width;
             Height = height;

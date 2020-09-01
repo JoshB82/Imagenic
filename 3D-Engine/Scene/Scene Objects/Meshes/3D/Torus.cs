@@ -16,6 +16,8 @@
 
         public Torus(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double radius, double inner_radius, double outer_radius) : base(origin, direction_forward, direction_up)
         {
+            Dimension = 3;
+
 
         }
 

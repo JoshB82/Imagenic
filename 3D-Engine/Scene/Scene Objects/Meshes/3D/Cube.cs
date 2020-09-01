@@ -126,6 +126,7 @@
 
         private void Set_Structure(double side_length)
         {
+            Dimension = 3;
             Side_Length = side_length;
 
             Vertices = new Vertex[8]

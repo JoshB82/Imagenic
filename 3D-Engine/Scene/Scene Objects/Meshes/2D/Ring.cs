@@ -99,6 +99,8 @@ namespace _3D_Engine
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Ring"/>.</param>
         public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double inner_radius, double outer_radius, int resolution) : base(origin, direction_forward, direction_up)
         {
+            Dimension = 2;
+
             Inner_Radius = inner_radius;
             Outer_Radius = outer_radius;
             Resolution = resolution;

@@ -73,6 +73,8 @@ namespace _3D_Engine
         /// <param name="resolution">The number of vertices that are on the perimeter of the <see cref="Circle"/>.</param>
         public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution) : base(origin, direction_forward, normal)
         {
+            Dimension = 2;
+
             Radius = radius;
             Resolution = resolution;
         }
@@ -88,6 +90,8 @@ namespace _3D_Engine
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Circle"/>.</param>
         public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, double radius, int resolution, Texture texture) : base(origin, direction_forward, normal)
         {
+            Dimension = 2;
+
             Radius = radius;
             Textures = new Texture[1] { texture };
             Resolution = resolution;

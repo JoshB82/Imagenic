@@ -99,6 +99,8 @@ namespace _3D_Engine
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
         public Cylinder(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double height, double radius, int resolution) : base(origin, direction_forward, direction_up)
         {
+            Dimension = 3;
+
             Height = height;
             Radius = radius;
             Resolution = resolution;

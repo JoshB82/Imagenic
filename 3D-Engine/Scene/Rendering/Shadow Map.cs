@@ -97,10 +97,16 @@ namespace _3D_Engine
         {
             Light light = (Light)@object;  // Why the explicit cast?
 
-            // Check against shadow map
-            if (z < light.Shadow_Map[x][y])
+            try
             {
-                light.Shadow_Map[x][y] = z;
+                if (z < light.Shadow_Map[x][y])
+                {
+                    light.Shadow_Map[x][y] = z;
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new Exception("Attempted to check points outside the shadow map.");
             }
         }
     }

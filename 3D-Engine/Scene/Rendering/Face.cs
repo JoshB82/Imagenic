@@ -132,7 +132,7 @@ namespace _3D_Engine
                         ref x3, ref y3, ref z3);
 
                     // Generate z-buffer
-                    Interpolate_Triangle(face, Z_Buffer_Check,
+                    Interpolate_Triangle(face.Colour, Z_Buffer_Check,
                         x1, y1, z1,
                         x2, y2, z2,
                         x3, y3, z3);
@@ -141,18 +141,14 @@ namespace _3D_Engine
         }
 
         // Check if point is visible from the camera
-        private void Z_Buffer_Check(object face, int x, int y, double z)
+        private void Z_Buffer_Check(object colour, int x, int y, double z)
         {
             try
             {
                 if (z < z_buffer[x][y])
                 {
                     z_buffer[x][y] = z;
-                    colour_buffer[x][y] = ((Face)face).Colour;
-                }
-                else
-                {
-                    return;
+                    colour_buffer[x][y] = (Color)colour;
                 }
             }
             catch (IndexOutOfRangeException)
@@ -161,22 +157,19 @@ namespace _3D_Engine
             }
         }
 
-        private void Shadow_Map_Check(Color point_colour, int x, int y, double z)
+        /*
+         * Shadow Map Checks (SMC)
+         * N.B.
+         * Checking the shadow map is performed very frequently so it makes sense to optimise the code.
+         * Therefore, there are multiple copies of the same code but with as many comparisons removed as
+         * possible to increase performance.
+        */
+
+        private void SMC_Camera_Orthogonal(Color point_colour, Matrix4x4 window_to_world, int x, int y, double z)
         {
-            // Move the point from window space to camera-screen space
-            Vector4D camera_screen_space_point = screen_to_window.Inverse() * new Vector4D(x, y, z); ;
+            // Move the point from window space to world space
+            Vector4D world_space_point = window_to_world * new Vector4D(x, y, z);
 
-            // Move the point from camera-screen space to camera-view space
-            if (Render_Camera.GetType().Name == "Perspective_Camera")
-            {    
-                camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
-            }
-
-            Vector4D camera_view_space_point = Render_Camera.Camera_View_to_Screen.Inverse() * camera_screen_space_point;
-
-            // Move the point from camera-view space to world space
-            Vector4D world_space_point = Render_Camera.Model_to_World * camera_view_space_point;
-        
             // Apply light colour correction
             int shadow_count = 0;
 
@@ -203,6 +196,63 @@ namespace _3D_Engine
                 int light_point_x = Round_To_Int(light_window_space_point.X);
                 int light_point_y = Round_To_Int(light_window_space_point.Y);
                 double light_point_z = light_window_space_point.Z;
+
+                if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
+                {
+                    if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
+                    {
+                        // Point is not in shadow and light does contribute to the point's overall colour
+                        point_colour = point_colour.Mix(new_light_colour);
+                    }
+                    else
+                    {
+                        // Point is in shadow and light does not contribute to the point's overall colour
+                        shadow_count++;
+                    }
+                }
+            }
+
+            if (shadow_count == Lights.Count) point_colour = Color.Black;
+
+            colour_buffer[x][y] = point_colour;
+        }
+
+        private void SMC_Camera_Perspective(Color point_colour, Matrix4x4 window_to_camera_screen, Matrix4x4 camera_screen_to_world, int x, int y, double z)
+        {
+            // Move the point from window space to camera-screen space
+            Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);
+
+            // Move the point from camera-screen space to world space
+            camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
+
+            Vector4D world_space_point = camera_screen_to_world * camera_screen_space_point;
+        
+            // Apply light colour correction
+            int shadow_count = 0;
+
+            foreach (Light light in Lights)
+            {
+                // Move the point from world space to light-view space
+                Vector4D light_view_space_point = light.World_to_Light_View * world_space_point;
+
+                // Darken the light's colour based on how far away the point is from the light
+                Vector3D light_to_point = new Vector3D(light_view_space_point);
+                double distant_intensity = light.Strength / light_to_point.Squared_Magnitude();
+                Color new_light_colour = light.Colour.Darken(distant_intensity);
+
+                // Move the point from light-view space to light-screen space
+                Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
+
+                if (light.GetType().Name == "Spotlight")
+                {
+                    light_screen_space_point /= light_screen_space_point.W;
+                }
+
+                Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
+
+                int light_point_x = Round_To_Int(light_window_space_point.X); //?
+                int light_point_y = Round_To_Int(light_window_space_point.Y); //?
+                double light_point_z = light_window_space_point.Z; //?
 
                 if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                 {

@@ -14,6 +14,8 @@
 
         public Text2D(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string[] fonts, double size, char style) : base(origin, direction_forward, direction_up)
         {
+            Dimension = 2;
+
 
         }
 

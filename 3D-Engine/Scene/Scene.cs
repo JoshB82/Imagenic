@@ -268,12 +268,36 @@ namespace _3D_Engine
                 }
 
                 // Apply lighting
-                for (int x = 0; x < width; x++)
+                if (Render_Camera.GetType().Name == "Orthogonal_Camera")
                 {
-                    for (int y = 0; y < height; y++)
+                    Matrix4x4 window_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Screen.Inverse() * screen_to_window.Inverse();
+
+                    for (int x = 0; x < width; x++)
                     {
-                        // check all doubles and ints
-                        Shadow_Map_Check(colour_buffer[x][y], x, y, z_buffer[x][y]);
+                        for (int y = 0; y < height; y++)
+                        {
+                            if (z_buffer[x][y] != 2)//?
+                            {
+                                SMC_Camera_Orthogonal(colour_buffer[x][y], window_to_world, x, y, z_buffer[x][y]);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Matrix4x4 window_to_camera_screen = screen_to_window.Inverse();
+                    Matrix4x4 camera_screen_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Screen.Inverse();
+
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            // check all doubles and ints
+                            if (z_buffer[x][y] != 2)//?
+                            {
+                                SMC_Camera_Perspective(colour_buffer[x][y], window_to_camera_screen, camera_screen_to_world, x, y, z_buffer[x][y]);
+                            }
+                        }
                     }
                 }
 

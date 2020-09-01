@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Check_Against_Z_Buffer(int x, int y, double z, Color new_colour)
-        {
-            
-        }
-
         private void Textured_Check_Against_Z_Buffer(int x, int y, double z, int tx, int ty, Bitmap texture)
         {
             try

@@ -13,6 +13,8 @@
         /// <param name="origin">The position of the <see cref="World_Point"/>.</param>
         public World_Point(Vector3D origin) : base(origin, Vector3D.Unit_Z, Vector3D.Unit_Y)
         {
+            Dimension = 1;
+
             Vertices = new Vertex[1] { new Vertex(new Vector4D(0, 0, 0)) };
 
             Draw_Edges = false;

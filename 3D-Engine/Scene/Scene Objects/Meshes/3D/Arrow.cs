@@ -81,6 +81,8 @@ namespace _3D_Engine
 
         public Arrow(Vector3D start_position, Vector3D end_position, Vector3D direction_up, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : base(start_position, end_position - start_position, direction_up, has_direction_arrows)
         {
+            Dimension = 3;
+
             Start_Position = start_position;
             Body_Length = (end_position - start_position).Magnitude() - tip_length;
             Tip_Length = tip_length;

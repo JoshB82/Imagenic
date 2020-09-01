@@ -39,7 +39,7 @@ namespace _3D_Engine
                     {
                         for (int i = 0; i <= D; i++)
                         {
-                            Check_Against_Z_Buffer(x, y, z_value, colour);
+                            Z_Buffer_Check(colour, x, y, z_value);
                             x += increment_x;
                             z_value += z_increase_x * increment_x;
                             R += 2 * delta_y;
@@ -55,7 +55,7 @@ namespace _3D_Engine
                     {
                         for (int i = 0; i <= D; i++)
                         {
-                            Check_Against_Z_Buffer(x, y, z_value, colour);
+                            Z_Buffer_Check(colour, x, y, z_value);
                             y += increment_y;
                             z_value += z_increase_y * increment_y;
                             R += 2 * delta_x;
@@ -82,7 +82,7 @@ namespace _3D_Engine
 
             for (int x = x1; x <= x2; x++)
             {
-                Check_Against_Z_Buffer(x, y1, z1, colour);
+                Z_Buffer_Check(colour, x, y1, z1);
                 z1 += z_increase_x;
             }
         }
@@ -98,7 +98,7 @@ namespace _3D_Engine
 
             for (int y = y1; y <= y2; y++)
             {
-                Check_Against_Z_Buffer(x1, y, z1, colour);
+                Z_Buffer_Check(colour, x1, y, z1);
                 z1 += z_increase_y;
             }
         }

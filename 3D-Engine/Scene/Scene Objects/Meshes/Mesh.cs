@@ -48,6 +48,10 @@ namespace _3D_Engine
         }
 
         // Miscellaneous
+        /// <summary>
+        /// Represents the number of dimensions the <see cref="Mesh"/> occupies.
+        /// </summary>
+        public sbyte Dimension { get; protected set; }
         public bool Casts_Shadows { get; set; }
         /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool Draw_Outline { get; set; } = false;

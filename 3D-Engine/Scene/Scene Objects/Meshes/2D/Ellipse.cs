@@ -36,6 +36,8 @@ namespace _3D_Engine
 
         public Ellipse(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double major_axis, double minor_axis, int resolution) : base(origin, direction_forward, direction_up)
         {
+            Dimension = 2;
+
             Major_Axis = major_axis;
             Minor_Axis = minor_axis;
             Resolution = resolution;

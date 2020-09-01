@@ -78,6 +78,8 @@
 
         private void Set_Structure(double length, double width)
         {
+            Dimension = 2;
+
             Length = length;
             Width = width;
 

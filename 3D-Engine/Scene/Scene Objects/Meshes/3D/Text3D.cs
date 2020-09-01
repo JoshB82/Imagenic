@@ -15,6 +15,8 @@
 
         public Text3D(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string[] fonts, double size, char style, double depth) : base(origin, direction_forward, direction_up)
         {
+            Dimension = 3;
+
 
         }
 

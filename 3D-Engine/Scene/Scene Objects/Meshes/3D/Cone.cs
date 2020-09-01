@@ -89,6 +89,8 @@ namespace _3D_Engine
         /// <param name="resolution">The number of <see cref="Vertex">Vertices</see> that are on the perimeter of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
         public Cone(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double height, double radius, int resolution) : base(origin, direction_forward, direction_up)
         {
+            Dimension = 3;
+
             Height = height;
             Radius = radius;
             Resolution = resolution;

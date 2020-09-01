@@ -36,6 +36,8 @@
 
         public Line(Vector3D start_position, Vector3D end_position) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y)
         {
+            Dimension = 2;
+
             Start_Position = start_position;
             End_Position = end_position;
 

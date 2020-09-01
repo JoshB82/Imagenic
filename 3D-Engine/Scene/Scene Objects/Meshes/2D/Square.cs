@@ -66,6 +66,8 @@ namespace _3D_Engine
 
         private void Set_Structure(double side_length)
         {
+            Dimension = 2;
+
             Side_Length = side_length;
 
             Vertices = new Vertex[4]
