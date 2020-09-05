@@ -10,11 +10,14 @@ namespace _3D_Engine
         {
             foreach (Mesh mesh in Meshes)
             {
-                if (mesh.Draw_Faces)
+                if (mesh.Visible && mesh.Draw_Faces)
                 {
                     foreach (Face face in mesh.Faces)
                     {
-                        if (face.Visible) Calculate_Depth(mesh.Model_to_World, face, light);
+                        if (face.Visible)
+                        {
+                            Calculate_Depth(mesh.Model_to_World, face, light);
+                        }
                     }
                 }
             }
@@ -59,9 +62,6 @@ namespace _3D_Engine
                 new_light_screen_triangle.Apply_Matrix(screen_to_window);
             }
 
-            // Assign the correct method that will be called for each point in the triangle
-            Action<object, int, int, double> depth = Mesh_Depth_From_Light;
-
             foreach (Face new_face in face_clip)
             {
                 // Round the vertices
@@ -86,7 +86,7 @@ namespace _3D_Engine
                     ref x3, ref y3, ref z3);
 
                 // Interpolate each point in the triangle
-                Interpolate_Triangle(light, depth,
+                Interpolate_Triangle(light, Mesh_Depth_From_Light,
                     x1, y1, z1,
                     x2, y2, z2,
                     x3, y3, z3);

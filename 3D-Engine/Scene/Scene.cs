@@ -22,7 +22,9 @@ namespace _3D_Engine
             new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Z) // Far
         };
 
-        private Rectangle entire_canvas_rectangle;
+        private Rectangle screen_rectangle;
+
+        private const byte distant_value = 2;
 
         // Buffers
         private double[][] z_buffer;
@@ -65,7 +67,7 @@ namespace _3D_Engine
                 {
                     width = value;
                     screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
-                    entire_canvas_rectangle = new Rectangle(0, 0, width, height);
+                    screen_rectangle = new Rectangle(0, 0, width, height);
                     Set_Buffers();
                 }
             }
@@ -80,7 +82,7 @@ namespace _3D_Engine
                 {
                     height = value;
                     screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
-                    entire_canvas_rectangle = new Rectangle(0, 0, width, height);
+                    screen_rectangle = new Rectangle(0, 0, width, height);
                     Set_Buffers();
                 }
             }
@@ -169,7 +171,7 @@ namespace _3D_Engine
         #endregion
 
         /// <summary>
-        /// Renders the <see cref="Scene"/>. A Render Camera must be set before this method is called.
+        /// Renders the <see cref="Scene"/>. The Render Camera must be set before this method is called.
         /// </summary>
         public void Render()
         {
@@ -189,7 +191,7 @@ namespace _3D_Engine
                 {
                     for (int j = 0; j < height; j++)
                     {
-                        z_buffer[i][j] = 2; //?
+                        z_buffer[i][j] = distant_value;
                         colour_buffer[i][j] = Background_Colour;
                     }
                 }
@@ -200,7 +202,7 @@ namespace _3D_Engine
                     {
                         for (int j = 0; j < light.Shadow_Map_Height; j++)
                         {
-                            light.Shadow_Map[i][j] = 2; //?
+                            light.Shadow_Map[i][j] = distant_value;
                         }
                     }
                 }
@@ -228,7 +230,7 @@ namespace _3D_Engine
                     {
                         foreach (Face face in light.Icon.Faces)
                         {
-                            Generate_Z_Buffer(face, light.GetType().Name, light.Icon.Model_to_World, world_to_view, view_to_screen);
+                            Generate_Z_Buffer(face, 3, light.Icon.Model_to_World, world_to_view, view_to_screen);
                         }
                     }
                 }
@@ -241,7 +243,7 @@ namespace _3D_Engine
                         {
                             if (face.Visible)
                             {
-                                Generate_Z_Buffer(face, mesh_type, mesh.Model_to_World, world_to_view, view_to_screen);
+                                Generate_Z_Buffer(face, mesh.Dimension, mesh.Model_to_World, world_to_view, view_to_screen);
                             }
                         }
 
@@ -253,19 +255,32 @@ namespace _3D_Engine
 
                             foreach (Face face in direction_forward.Faces)
                             {
-                                Generate_Z_Buffer(face, "Arrow", direction_forward.Model_to_World, world_to_view, view_to_screen);
+                                Generate_Z_Buffer(face, 3, direction_forward.Model_to_World, world_to_view, view_to_screen);
                             }
                             foreach (Face face in direction_up.Faces)
                             {
-                                Generate_Z_Buffer(face, "Arrow", direction_up.Model_to_World, world_to_view, view_to_screen);
+                                Generate_Z_Buffer(face, 3, direction_up.Model_to_World, world_to_view, view_to_screen);
                             }
                             foreach (Face face in direction_right.Faces)
                             {
-                                Generate_Z_Buffer(face, "Arrow", direction_right.Model_to_World, world_to_view, view_to_screen);
+                                Generate_Z_Buffer(face, 3, direction_right.Model_to_World, world_to_view, view_to_screen);
                             }
                         }
                     }
                 }
+
+                /*
+                string[] test = new string[width * height];
+                int r = -1;
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        test[++r] = $"{z_buffer[x][y]}";
+                    }
+                }
+                System.IO.File.WriteAllLines("Export/z.txt", test);
+                */
 
                 // Apply lighting
                 if (Render_Camera.GetType().Name == "Orthogonal_Camera")
@@ -276,7 +291,7 @@ namespace _3D_Engine
                     {
                         for (int y = 0; y < height; y++)
                         {
-                            if (z_buffer[x][y] != 2)//?
+                            if (z_buffer[x][y] != distant_value)//?
                             {
                                 SMC_Camera_Orthogonal(colour_buffer[x][y], window_to_world, x, y, z_buffer[x][y]);
                             }
@@ -293,7 +308,7 @@ namespace _3D_Engine
                         for (int y = 0; y < height; y++)
                         {
                             // check all doubles and ints
-                            if (z_buffer[x][y] != 2)//?
+                            if (z_buffer[x][y] != distant_value)//?
                             {
                                 SMC_Camera_Perspective(colour_buffer[x][y], window_to_camera_screen, camera_screen_to_world, x, y, z_buffer[x][y]);
                             }
@@ -351,7 +366,6 @@ namespace _3D_Engine
                 {
                     Draw_Camera(camera, camera.Model_to_World, world_to_view, view_to_screen);
                 }
-
                 // Draw all points
                 Draw_Colour_Buffer(temp_canvas, colour_buffer);
                 Canvas_Box.Image = temp_canvas;
@@ -360,7 +374,7 @@ namespace _3D_Engine
 
         private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] colour_buffer) // source of this method?!
         {
-            BitmapData data = canvas.LockBits(entire_canvas_rectangle, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            BitmapData data = canvas.LockBits(screen_rectangle, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
 
             for (int y = 0; y < height; y++)
             {

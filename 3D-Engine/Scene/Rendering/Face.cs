@@ -6,7 +6,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Generate_Z_Buffer(Face face, string mesh_type,
+        private void Generate_Z_Buffer(Face face, sbyte dimension,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_camera_view,
             Matrix4x4 camera_view_to_camera_screen)
@@ -20,15 +20,11 @@ namespace _3D_Engine
             // Discard the face if it is not visible
             Vector3D camera_to_face = new Vector3D(face.P1) - Render_Camera.World_Origin;
             Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(face.P1), new Vector3D(face.P2), new Vector3D(face.P3));
-            
-            if (camera_to_face * normal >= 0
-                && mesh_type != "Circle"
-                && mesh_type != "Ellipse"
-                && mesh_type != "Plane"
-                && mesh_type != "Ring"
-                && mesh_type != "Square"
-                && mesh_type != "Text2D")
-            return;
+
+            if (camera_to_face * normal >= 0 && dimension == 3)
+            {
+                return;
+            }
 
             // Draw outline if needed
             if (face.Draw_Outline)//
@@ -175,39 +171,42 @@ namespace _3D_Engine
 
             foreach (Light light in Lights)
             {
-                // Move the point from world space to light-view space
-                Vector4D light_view_space_point = light.World_to_Light_View * world_space_point;
-
-                // Darken the light's colour based on how far away the point is from the light
-                Vector3D light_to_point = new Vector3D(light_view_space_point);
-                double distant_intensity = light.Strength / light_to_point.Squared_Magnitude();
-                Color new_light_colour = light.Colour.Darken(distant_intensity);
-
-                // Move the point from light-view space to light-screen space
-                Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
-
-                if (light.GetType().Name == "Spotlight")
+                if (light.Visible)
                 {
-                    light_screen_space_point /= light_screen_space_point.W;
-                }
+                    // Move the point from world space to light-view space
+                    Vector4D light_view_space_point = light.World_to_Light_View * world_space_point;
 
-                Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
+                    // Darken the light's colour based on how far away the point is from the light
+                    Vector3D light_to_point = new Vector3D(light_view_space_point);
+                    double distant_intensity = light.Strength / light_to_point.Squared_Magnitude() * 100;
+                    Color new_light_colour = light.Colour.Darken(distant_intensity);
 
-                int light_point_x = Round_To_Int(light_window_space_point.X);
-                int light_point_y = Round_To_Int(light_window_space_point.Y);
-                double light_point_z = light_window_space_point.Z;
+                    // Move the point from light-view space to light-screen space
+                    Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
 
-                if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
-                {
-                    if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
+                    if (light.GetType().Name == "Spotlight")
                     {
-                        // Point is not in shadow and light does contribute to the point's overall colour
-                        point_colour = point_colour.Mix(new_light_colour);
+                        light_screen_space_point /= light_screen_space_point.W;
                     }
-                    else
+
+                    Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
+
+                    int light_point_x = Round_To_Int(light_window_space_point.X);
+                    int light_point_y = Round_To_Int(light_window_space_point.Y);
+                    double light_point_z = light_window_space_point.Z;
+
+                    if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                     {
-                        // Point is in shadow and light does not contribute to the point's overall colour
-                        shadow_count++;
+                        if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
+                        {
+                            // Point is not in shadow and light does contribute to the point's overall colour
+                            point_colour = point_colour.Mix(new_light_colour);
+                        }
+                        else
+                        {
+                            // Point is in shadow and light does not contribute to the point's overall colour
+                            shadow_count++;
+                        }
                     }
                 }
             }
@@ -226,45 +225,48 @@ namespace _3D_Engine
             camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
 
             Vector4D world_space_point = camera_screen_to_world * camera_screen_space_point;
-        
+
             // Apply light colour correction
             int shadow_count = 0;
 
-            foreach (Light light in Lights)
+            foreach (Light light in Lights)//movetoseparatemethod
             {
-                // Move the point from world space to light-view space
-                Vector4D light_view_space_point = light.World_to_Light_View * world_space_point;
-
-                // Darken the light's colour based on how far away the point is from the light
-                Vector3D light_to_point = new Vector3D(light_view_space_point);
-                double distant_intensity = light.Strength / light_to_point.Squared_Magnitude();
-                Color new_light_colour = light.Colour.Darken(distant_intensity);
-
-                // Move the point from light-view space to light-screen space
-                Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
-
-                if (light.GetType().Name == "Spotlight")
+                if (light.Visible)
                 {
-                    light_screen_space_point /= light_screen_space_point.W;
-                }
+                    // Move the point from world space to light-view space
+                    Vector4D light_view_space_point = light.World_to_Light_View * world_space_point;
 
-                Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
+                    // Darken the light's colour based on how far away the point is from the light
+                    Vector3D light_to_point = new Vector3D(light_view_space_point);
+                    double distant_intensity = light.Strength / light_to_point.Squared_Magnitude() * 100;
+                    Color new_light_colour = light.Colour.Darken(distant_intensity);
 
-                int light_point_x = Round_To_Int(light_window_space_point.X); //?
-                int light_point_y = Round_To_Int(light_window_space_point.Y); //?
-                double light_point_z = light_window_space_point.Z; //?
+                    // Move the point from light-view space to light-screen space
+                    Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
 
-                if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
-                {
-                    if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
+                    if (light.GetType().Name == "Spotlight")
                     {
-                        // Point is not in shadow and light does contribute to the point's overall colour
-                        point_colour = point_colour.Mix(new_light_colour);
+                        light_screen_space_point /= light_screen_space_point.W;
                     }
-                    else
+
+                    Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
+
+                    int light_point_x = Round_To_Int(light_window_space_point.X); //?
+                    int light_point_y = Round_To_Int(light_window_space_point.Y); //?
+                    double light_point_z = light_window_space_point.Z; //?
+
+                    if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                     {
-                        // Point is in shadow and light does not contribute to the point's overall colour
-                        shadow_count++;
+                        if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
+                        {
+                            // Point is not in shadow and light does contribute to the point's overall colour
+                            point_colour = point_colour.Mix(new_light_colour);
+                        }
+                        else
+                        {
+                            // Point is in shadow and light does not contribute to the point's overall colour
+                            shadow_count++;
+                        }
                     }
                 }
             }
@@ -277,10 +279,9 @@ namespace _3D_Engine
         //source!
         private int Queue_Clip_Face(Queue<Face> face_clip, Clipping_Plane[] clipping_planes)
         {
-            int no_triangles = 1;
-
             foreach (Clipping_Plane clipping_plane in clipping_planes)
             {
+                int no_triangles = face_clip.Count;
                 while (no_triangles > 0)
                 {
                     Face[] triangles = Clip_Face(clipping_plane.Point, clipping_plane.Normal, face_clip.Dequeue());
@@ -290,10 +291,9 @@ namespace _3D_Engine
                     }
                     no_triangles--;
                 }
-                no_triangles = face_clip.Count;
             }
 
-            return no_triangles;
+            return face_clip.Count;
         }
     }
 }
@@ -331,11 +331,4 @@ namespace _3D_Engine
 
             face_colour = Color.FromArgb(face.Colour.A, new_red, new_green, new_blue);
         }
-    }
-
-/*
-            double camera_view_space_z = 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
-            double camera_view_space_x = Render_Camera.Width / (2 * Render_Camera.Z_Near) * camera_view_space_z * x;
-            double camera_view_space_y = Render_Camera.Height / (2 * Render_Camera.Z_Near) * camera_view_space_z * y;
-            Vector4D camera_view_space_point = new Vector4D(camera_view_space_x, camera_view_space_y, camera_view_space_z);
-            */
+    }*/
