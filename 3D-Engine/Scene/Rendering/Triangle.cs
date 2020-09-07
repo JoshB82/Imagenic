@@ -6,8 +6,6 @@ namespace _3D_Engine
     public sealed partial class Scene
     {
         // Number and variable manipulation
-        //private static int Round_To_Int(double x) => (int)Math.Round(x, MidpointRounding.AwayFromZero);
-        private static int Round_To_Int(double x) => (int)Math.Floor(x + 0.5);// ??????????
 
         private static void Swap<T>(ref T x1, ref T x2)
         {
@@ -107,8 +105,8 @@ namespace _3D_Engine
             {
                 for (int y = y2; y <= y1; y++)
                 {
-                    int sx = Round_To_Int((y - y2) * x_step_1 + x2);
-                    int ex = Round_To_Int((y - y3) * x_step_2 + x3);
+                    int sx = ((y - y2) * x_step_1 + x2).Round_to_Int();
+                    int ex = ((y - y3) * x_step_2 + x3).Round_to_Int();
                     double sz = (y - y2) * z_step_1 + z2;
                     double ez = (y - y3) * z_step_2 + z3;
 
@@ -134,8 +132,8 @@ namespace _3D_Engine
             {
                 for (int y = y3; y <= y2; y++)
                 {
-                    int sx = Round_To_Int((y - y3) * x_step_3 + x3);
-                    int ex = Round_To_Int((y - y3) * x_step_2 + x3);
+                    int sx = ((y - y3) * x_step_3 + x3).Round_to_Int();
+                    int ex = ((y - y3) * x_step_2 + x3).Round_to_Int();
                     double sz = (y - y3) * z_step_3 + z3;
                     double ez = (y - y3) * z_step_2 + z3;
 
@@ -192,8 +190,8 @@ namespace _3D_Engine
             {
                 for (int y = y2; y <= y1; y++)
                 {
-                    int sx = Round_To_Int((y - y2) * x_step_1 + x2);
-                    int ex = Round_To_Int((y - y3) * x_step_2 + x3);
+                    int sx = ((y - y2) * x_step_1 + x2).Round_to_Int();
+                    int ex = ((y - y3) * x_step_2 + x3).Round_to_Int();
 
                     double stx = (y - y2) * tx_step_1 + tx2;
                     double sty = (y - y2) * ty_step_1 + ty2;
@@ -215,7 +213,7 @@ namespace _3D_Engine
                         double tx = stx + t * (etx - stx);
                         double ty = sty + t * (ety - sty);
                         t += t_step;
-                        Textured_Check_Against_Z_Buffer(x, y, 1, Round_To_Int(tx), Round_To_Int(ty), texture); // ?
+                        Textured_Check_Against_Z_Buffer(x, y, 1, tx.Round_to_Int(), ty.Round_to_Int(), texture); // ?
                     }
                 }
             }
@@ -225,8 +223,8 @@ namespace _3D_Engine
             {
                 for (int y = y3; y <= y2; y++)
                 {
-                    int sx = Round_To_Int((y - y3) * x_step_3 + x3);
-                    int ex = Round_To_Int((y - y3) * x_step_2 + x3);
+                    int sx = ((y - y3) * x_step_3 + x3).Round_to_Int();
+                    int ex = ((y - y3) * x_step_2 + x3).Round_to_Int();
 
                     double stx = (y - y3) * tx_step_3 + tx3;
                     double sty = (y - y3) * ty_step_3 + ty3;
@@ -247,7 +245,7 @@ namespace _3D_Engine
                         double tx = stx + t * (etx - stx);
                         double ty = sty + t * (ety - sty);
                         t += t_step;
-                        Textured_Check_Against_Z_Buffer(x, y, 1, Round_To_Int(tx), Round_To_Int(ty), texture);
+                        Textured_Check_Against_Z_Buffer(x, y, 1, tx.Round_to_Int(), ty.Round_to_Int(), texture);
                     }
                 }
             }

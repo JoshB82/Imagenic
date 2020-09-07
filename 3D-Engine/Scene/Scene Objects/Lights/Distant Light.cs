@@ -26,7 +26,7 @@ namespace _3D_Engine
             {
                 shadow_map_height = value;
                 Light_View_to_Light_Screen.Data[1][1] = (double)2 / shadow_map_height;
-                Set_Shadow_Map();
+                Set_Shadow_Map(); // move to base?
             }
         }
         public override double Shadow_Map_Z_Near
@@ -91,21 +91,16 @@ namespace _3D_Engine
             Vector3D far_bottom_left_point = new Vector3D(-semi_width, -semi_height, shadow_map_z_far);
             Vector3D far_bottom_right_point = new Vector3D(semi_width, -semi_height, shadow_map_z_far);
 
-            Vector3D bottom_normal = Vector3D.Normal_From_Plane(near_bottom_left_point, far_bottom_right_point, far_bottom_left_point);
-            Vector3D top_normal = Vector3D.Normal_From_Plane(near_top_left_point, far_top_right_point, near_top_right_point);
-            Vector3D left_normal = Vector3D.Normal_From_Plane(near_bottom_left_point, far_bottom_left_point, near_top_left_point);
-            Vector3D right_normal = Vector3D.Normal_From_Plane(near_top_right_point, far_top_right_point, far_bottom_right_point);
-            Vector3D near_normal = Vector3D.Normal_From_Plane(near_bottom_left_point, near_top_left_point, near_top_right_point);
-            Vector3D far_normal = Vector3D.Normal_From_Plane(far_bottom_right_point, far_top_right_point, far_bottom_left_point); // make order look nice! and below
+            // make order look nice! and below
 
             Light_View_Clipping_Planes = new Clipping_Plane[]
             {
-                new Clipping_Plane(near_bottom_left_point, bottom_normal), // Bottom
-                new Clipping_Plane(near_top_left_point, top_normal), // Top
-                new Clipping_Plane(near_top_left_point, left_normal), // Left
-                new Clipping_Plane(near_top_right_point, right_normal), // Right
-                new Clipping_Plane(near_top_left_point, near_normal), // Near
-                new Clipping_Plane(far_top_right_point, far_normal), // Far
+                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Y), // Bottom
+                new Clipping_Plane(near_top_left_point, Vector3D.Unit_Negative_Y), // Top
+                new Clipping_Plane(near_top_left_point, Vector3D.Unit_X), // Left
+                new Clipping_Plane(near_top_right_point, Vector3D.Unit_Negative_X), // Right
+                new Clipping_Plane(near_top_left_point, Vector3D.Unit_Z), // Near
+                new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_Z) // Far
             };
         }
 

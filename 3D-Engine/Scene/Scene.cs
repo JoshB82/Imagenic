@@ -11,6 +11,7 @@ namespace _3D_Engine
         #region Fields and Properties
 
         private static readonly object locker = new object();
+
         private readonly static Clipping_Plane[] camera_screen_clipping_planes =
         new Clipping_Plane[]
         {
@@ -21,7 +22,7 @@ namespace _3D_Engine
             new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Y), // Top
             new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Z) // Far
         };
-
+        
         private Rectangle screen_rectangle;
 
         private const byte distant_value = 2;
@@ -32,16 +33,12 @@ namespace _3D_Engine
 
         public Camera Render_Camera { get; set; }
 
-        /// <summary>
-        /// <see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
         public PictureBox Canvas_Box { get; set; }
-        /// <summary>
-        /// The background <see cref="Color"/> of the <see cref="Scene"/>.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
         public Color Background_Colour { get; set; } = Color.White;
 
-        // Lists
+        // Scene contents
         /// <include file="Help_3.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
         public readonly List<Camera> Cameras = new List<Camera>();
         /// <include file="Help_3.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
@@ -66,9 +63,7 @@ namespace _3D_Engine
                 lock (locker)
                 {
                     width = value;
-                    screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
-                    screen_rectangle = new Rectangle(0, 0, width, height);
-                    Set_Buffers();
+                    Set_Dimensions();
                 }
             }
         }
@@ -81,15 +76,14 @@ namespace _3D_Engine
                 lock (locker)
                 {
                     height = value;
-                    screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
-                    screen_rectangle = new Rectangle(0, 0, width, height);
-                    Set_Buffers();
+                    Set_Dimensions();
                 }
             }
         }
 
-        private void Set_Buffers()
+        private void Set_Dimensions()
         {
+            // Set buffers
             z_buffer = new double[width][];
             colour_buffer = new Color[width][];
             for (int i = 0; i < width; i++)
@@ -97,6 +91,10 @@ namespace _3D_Engine
                 z_buffer[i] = new double[height];
                 colour_buffer[i] = new Color[height];
             }
+
+            // Set screen-to-window matrix
+            screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
+            screen_rectangle = new Rectangle(0, 0, width, height);
         }
 
         #endregion
@@ -184,8 +182,8 @@ namespace _3D_Engine
             lock (locker)
             {
                 // Create temporary canvas for this frame
-                Bitmap temp_canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-
+                Bitmap new_frame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                
                 // Reset scene buffers
                 for (int i = 0; i < width; i++)
                 {
@@ -268,20 +266,7 @@ namespace _3D_Engine
                         }
                     }
                 }
-
-                /*
-                string[] test = new string[width * height];
-                int r = -1;
-                for (int x = 0; x < width; x++)
-                {
-                    for (int y = 0; y < height; y++)
-                    {
-                        test[++r] = $"{z_buffer[x][y]}";
-                    }
-                }
-                System.IO.File.WriteAllLines("Export/z.txt", test);
-                */
-
+                
                 // Apply lighting
                 if (Render_Camera.GetType().Name == "Orthogonal_Camera")
                 {
@@ -315,7 +300,7 @@ namespace _3D_Engine
                         }
                     }
                 }
-
+                
                 // Draw edges
                 foreach (Light light in Lights)
                 {
@@ -366,12 +351,12 @@ namespace _3D_Engine
                 {
                     Draw_Camera(camera, camera.Model_to_World, world_to_view, view_to_screen);
                 }
+                
                 // Draw all points
-                Draw_Colour_Buffer(temp_canvas, colour_buffer);
-                Canvas_Box.Image = temp_canvas;
+                Draw_Colour_Buffer(new_frame, colour_buffer);
+                Canvas_Box.Image = new_frame;
             }
         }
-
         private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] colour_buffer) // source of this method?!
         {
             BitmapData data = canvas.LockBits(screen_rectangle, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);

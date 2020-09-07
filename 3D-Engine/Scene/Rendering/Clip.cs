@@ -36,9 +36,10 @@ namespace _3D_Engine
         }
 
         // check clockwise/anticlockwise stuff
-        private static Face[] Clip_Face(Vector3D plane_point, Vector3D plane_normal, Face f)
+        // source as well
+        private static void Clip_Face(Face face_to_clip, Queue<Face> face_clip_queue, Vector3D plane_point, Vector3D plane_normal)
         {
-            Vector3D point_1 = new Vector3D(f.P1), point_2 = new Vector3D(f.P2), point_3 = new Vector3D(f.P3);
+            Vector3D point_1 = new Vector3D(face_to_clip.P1), point_2 = new Vector3D(face_to_clip.P2), point_3 = new Vector3D(face_to_clip.P3);
             int inside_point_count = 0;
             List<Vector3D> inside_points = new List<Vector3D>(3);
             List<Vector3D> outside_points = new List<Vector3D>(3);
@@ -49,94 +50,96 @@ namespace _3D_Engine
             {
                 inside_point_count++;
                 inside_points.Add(point_1);
-                inside_texture_points.Add(f.T1);
+                inside_texture_points.Add(face_to_clip.T1);
             }
             else
             {
                 outside_points.Add(point_1);
-                outside_texture_points.Add(f.T1);
+                outside_texture_points.Add(face_to_clip.T1);
             }
 
             if (Vector3D.Point_Distance_From_Plane(point_2, plane_point, plane_normal) >= 0)
             {
                 inside_point_count++;
                 inside_points.Add(point_2);
-                inside_texture_points.Add(f.T2);
+                inside_texture_points.Add(face_to_clip.T2);
             }
             else
             {
                 outside_points.Add(point_2);
-                outside_texture_points.Add(f.T2);
+                outside_texture_points.Add(face_to_clip.T2);
             }
 
             if (Vector3D.Point_Distance_From_Plane(point_3, plane_point, plane_normal) >= 0)
             {
                 inside_point_count++;
                 inside_points.Add(point_3);
-                inside_texture_points.Add(f.T3);
+                inside_texture_points.Add(face_to_clip.T3);
             }
             else
             {
                 outside_points.Add(point_3);
-                outside_texture_points.Add(f.T3);
+                outside_texture_points.Add(face_to_clip.T3);
             }
 
-            Vector3D first_intersection, second_intersection;
+            Vector3D intersection_1, intersection_2;
             double d1, d2;
 
             switch (inside_point_count)
             {
                 case 0:
-                    // All points are on the outside, so no valid triangles to return
-                    return new Face[0];
+                    // All points are on the outside, so no valid triangles to enqueue
+                    break;
                 case 1:
                     // One point is on the inside, so only a smaller triangle is needed
                     Face new_face;
 
-                    first_intersection = Vector3D.Line_Intersect_Plane(inside_points[0], outside_points[0], plane_point, plane_normal, out d1);
-                    second_intersection = Vector3D.Line_Intersect_Plane(inside_points[0], outside_points[1], plane_point, plane_normal, out d2);
+                    intersection_1 = Vector3D.Line_Intersect_Plane(inside_points[0], outside_points[0], plane_point, plane_normal, out d1);
+                    intersection_2 = Vector3D.Line_Intersect_Plane(inside_points[0], outside_points[1], plane_point, plane_normal, out d2);
                     
-                    if (f.Has_Texture)
+                    if (face_to_clip.Has_Texture)
                     {
                         Vector3D t_intersection_1 = (outside_texture_points[0] - inside_texture_points[0]) * d1 + inside_texture_points[0];
                         Vector3D t_intersection_2 = (outside_texture_points[1] - inside_texture_points[0]) * d2 + inside_texture_points[0];
 
-                        new_face = new Face(new Vector4D(inside_points[0]), new Vector4D(first_intersection), new Vector4D(second_intersection), inside_texture_points[0], t_intersection_1, t_intersection_2, f.Texture_Object);
+                        new_face = new Face(new Vector4D(inside_points[0]), new Vector4D(intersection_1), new Vector4D(intersection_2), inside_texture_points[0], t_intersection_1, t_intersection_2, face_to_clip.Texture_Object);
                     }
                     else
                     {
-                        new_face = new Face(new Vector4D(inside_points[0]), new Vector4D(first_intersection), new Vector4D(second_intersection)) { Colour = f.Colour };
+                        new_face = new Face(new Vector4D(inside_points[0]), new Vector4D(intersection_1), new Vector4D(intersection_2)) { Colour = face_to_clip.Colour };
                     }
 
-                    return new Face[1] { new_face };
+                    face_clip_queue.Enqueue(new_face);
+                    break;
                 case 2:
                     // Two points are on the inside, so a quadrilateral is formed and split into two triangles
                     Face face_1, face_2;
 
-                    first_intersection = Vector3D.Line_Intersect_Plane(inside_points[0], outside_points[0], plane_point, plane_normal, out d1);
-                    second_intersection = Vector3D.Line_Intersect_Plane(inside_points[1], outside_points[0], plane_point, plane_normal, out d2);
+                    intersection_1 = Vector3D.Line_Intersect_Plane(inside_points[0], outside_points[0], plane_point, plane_normal, out d1);
+                    intersection_2 = Vector3D.Line_Intersect_Plane(inside_points[1], outside_points[0], plane_point, plane_normal, out d2);
                     
-                    if (f.Has_Texture)
+                    if (face_to_clip.Has_Texture)
                     {
                         Vector3D t_intersection_1 = (outside_texture_points[0] - inside_texture_points[0]) * d1 + inside_texture_points[0];
                         Vector3D t_intersection_2 = (outside_texture_points[0] - inside_texture_points[1]) * d2 + inside_texture_points[1];
 
-                        face_1 = new Face(new Vector4D(inside_points[0]), new Vector4D(first_intersection), new Vector4D(inside_points[1]), inside_texture_points[0], t_intersection_1, inside_texture_points[1], f.Texture_Object);
-                        face_2 = new Face(new Vector4D(inside_points[1]), new Vector4D(first_intersection), new Vector4D(second_intersection), inside_texture_points[1], t_intersection_1, t_intersection_2, f.Texture_Object);
+                        face_1 = new Face(new Vector4D(inside_points[0]), new Vector4D(intersection_1), new Vector4D(inside_points[1]), inside_texture_points[0], t_intersection_1, inside_texture_points[1], face_to_clip.Texture_Object);
+                        face_2 = new Face(new Vector4D(inside_points[1]), new Vector4D(intersection_1), new Vector4D(intersection_2), inside_texture_points[1], t_intersection_1, t_intersection_2, face_to_clip.Texture_Object);
                     }
                     else
                     {
-                        face_1 = new Face(new Vector4D(inside_points[0]), new Vector4D(first_intersection), new Vector4D(inside_points[1])) { Colour = f.Colour };
-                        face_2 = new Face(new Vector4D(inside_points[1]), new Vector4D(first_intersection), new Vector4D(second_intersection)) { Colour = f.Colour };
+                        face_1 = new Face(new Vector4D(inside_points[0]), new Vector4D(intersection_1), new Vector4D(inside_points[1])) { Colour = face_to_clip.Colour };
+                        face_2 = new Face(new Vector4D(inside_points[1]), new Vector4D(intersection_1), new Vector4D(intersection_2)) { Colour = face_to_clip.Colour };
                     }
 
-                    return new Face[2] { face_1, face_2 };
+                    face_clip_queue.Enqueue(face_1);
+                    face_clip_queue.Enqueue(face_2);
+                    break;
                 case 3:
-                    // All points are on the inside, so return the triangle unchanged
-                    return new Face[1] { f };
+                    // All points are on the inside, so enqueue the triangle unchanged
+                    face_clip_queue.Enqueue(face_to_clip);
+                    break;
             }
-
-            return null;
         }
     }
 }

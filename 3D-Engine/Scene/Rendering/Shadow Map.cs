@@ -56,28 +56,27 @@ namespace _3D_Engine
             // Clip the face in screen space
             if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip, camera_screen_clipping_planes) == 0) return;
 
-            foreach (Face new_light_screen_triangle in face_clip)
+            foreach (Face clipped_face in face_clip)
             {
+                // Don't draw anything if the face is flat
+                if ((clipped_face.P1.X == clipped_face.P2.X && clipped_face.P2.X == clipped_face.P3.X) || (clipped_face.P1.Y == clipped_face.P2.Y && clipped_face.P2.Y == clipped_face.P3.Y))
+                {
+                    continue;
+                }
+
                 // Move the new triangles from light-screen space to window space
-                new_light_screen_triangle.Apply_Matrix(screen_to_window);
-            }
-
-            foreach (Face new_face in face_clip)
-            {
+                clipped_face.Apply_Matrix(screen_to_window);
+                
                 // Round the vertices
-                int x1 = Round_To_Int(new_face.P1.X);
-                int y1 = Round_To_Int(new_face.P1.Y);
-                double z1 = new_face.P1.Z;
-                int x2 = Round_To_Int(new_face.P2.X);
-                int y2 = Round_To_Int(new_face.P2.Y);
-                double z2 = new_face.P2.Z;
-                int x3 = Round_To_Int(new_face.P3.X);
-                int y3 = Round_To_Int(new_face.P3.Y);
-                double z3 = new_face.P3.Z;
-
-                // Don't interpolate anything if triangle is flat
-                if (x1 == x2 && x2 == x3) return;
-                if (y1 == y2 && y2 == y3) return;
+                int x1 = clipped_face.P1.X.Round_to_Int();
+                int y1 = clipped_face.P1.Y.Round_to_Int();
+                double z1 = clipped_face.P1.Z;
+                int x2 = clipped_face.P2.X.Round_to_Int();
+                int y2 = clipped_face.P2.Y.Round_to_Int();
+                double z2 = clipped_face.P2.Z;
+                int x3 = clipped_face.P3.X.Round_to_Int();
+                int y3 = clipped_face.P3.Y.Round_to_Int();
+                double z3 = clipped_face.P3.Z;
 
                 // Sort the vertices by their y-co-ordinate
                 Sort_By_Y(

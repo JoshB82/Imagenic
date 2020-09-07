@@ -404,7 +404,7 @@
         </member>
         <member name="P:_3D_Engine.Scene.Canvas_Box">
             <summary>
-            <see cref="T:System.Windows.Forms.PictureBox"/> where the <see cref="T:_3D_Engine.Scene"/> will be rendered.
+            The <see cref="T:System.Windows.Forms.PictureBox"/> where the <see cref="T:_3D_Engine.Scene"/> will be rendered.
             </summary>
         </member>
         <member name="P:_3D_Engine.Scene.Background_Colour">

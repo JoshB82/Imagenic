@@ -54,11 +54,11 @@
             edge.P2 = screen_to_window * edge.P2;
 
             // Round the vertices
-            int result_point_1_x = Round_To_Int(edge.P1.X);
-            int result_point_1_y = Round_To_Int(edge.P1.Y);
+            int result_point_1_x = edge.P1.X.Round_to_Int();
+            int result_point_1_y = edge.P1.Y.Round_to_Int();
             double result_point_1_z = edge.P1.Z;
-            int result_point_2_x = Round_To_Int(edge.P2.X);
-            int result_point_2_y = Round_To_Int(edge.P2.Y);
+            int result_point_2_x = edge.P2.X.Round_to_Int();
+            int result_point_2_y = edge.P2.Y.Round_to_Int();
             double result_point_2_z = edge.P2.Z;
 
             // Finally draw the line

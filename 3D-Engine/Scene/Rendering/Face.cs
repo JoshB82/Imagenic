@@ -18,12 +18,15 @@ namespace _3D_Engine
             face.Apply_Matrix(model_to_world);
 
             // Discard the face if it is not visible
-            Vector3D camera_to_face = new Vector3D(face.P1) - Render_Camera.World_Origin;
-            Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(face.P1), new Vector3D(face.P2), new Vector3D(face.P3));
-
-            if (camera_to_face * normal >= 0 && dimension == 3)
+            if (dimension == 3)
             {
-                return;
+                Vector3D camera_to_face = new Vector3D(face.P1) - Render_Camera.World_Origin;
+                Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(face.P1), new Vector3D(face.P2), new Vector3D(face.P3));
+
+                if (camera_to_face * normal >= 0)
+                {
+                    return;
+                }
             }
 
             // Draw outline if needed
@@ -39,16 +42,16 @@ namespace _3D_Engine
             face.Apply_Matrix(world_to_camera_view);
 
             // Clip the face in camera-view space
-            Queue<Face> face_clip = new Queue<Face>();
-            face_clip.Enqueue(face);
+            Queue<Face> face_clip_queue = new Queue<Face>();
+            face_clip_queue.Enqueue(face);
 
-            if (Settings.View_Space_Clip && Queue_Clip_Face(face_clip, Render_Camera.Camera_View_Clipping_Planes) == 0)
+            if (Settings.View_Space_Clip && Queue_Clip_Face(face_clip_queue, Render_Camera.Camera_View_Clipping_Planes) == 0)
             {
                 return;
             }
 
             // Move the new triangles from camera-view space to camera-screen space, including a correction for perspective
-            foreach (Face clipped_face in face_clip)
+            foreach (Face clipped_face in face_clip_queue)
             {
                 clipped_face.Apply_Matrix(camera_view_to_camera_screen);
 
@@ -68,31 +71,33 @@ namespace _3D_Engine
             }
 
             // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip, camera_screen_clipping_planes) == 0)
+            if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip_queue, camera_screen_clipping_planes) == 0)
             {
                 return;
             }// anything outside cube?
 
-            foreach (Face clipped_face in face_clip)
+            foreach (Face clipped_face in face_clip_queue)
             {
+                // Don't draw anything if the face is flat
+                if ((clipped_face.P1.X == clipped_face.P2.X && clipped_face.P2.X == clipped_face.P3.X) || (clipped_face.P1.Y == clipped_face.P2.Y && clipped_face.P2.Y == clipped_face.P3.Y))
+                {
+                    continue;
+                }
+
                 // Mode the new triangles from camera-screen space to camera-window space
                 clipped_face.Apply_Matrix(screen_to_window);
-                
+
                 // Round the vertices
-                int x1 = Round_To_Int(clipped_face.P1.X);
-                int y1 = Round_To_Int(clipped_face.P1.Y);
+                int x1 = clipped_face.P1.X.Round_to_Int();
+                int y1 = clipped_face.P1.Y.Round_to_Int();
                 double z1 = clipped_face.P1.Z;
-                int x2 = Round_To_Int(clipped_face.P2.X);
-                int y2 = Round_To_Int(clipped_face.P2.Y);
+                int x2 = clipped_face.P2.X.Round_to_Int();
+                int y2 = clipped_face.P2.Y.Round_to_Int();
                 double z2 = clipped_face.P2.Z;
-                int x3 = Round_To_Int(clipped_face.P3.X);
-                int y3 = Round_To_Int(clipped_face.P3.Y);
-                double z3 = clipped_face.P3.Z;
-
-                // Don't draw anything if triangle is flat
-                if (x1 == x2 && x2 == x3) return;
-                if (y1 == y2 && y2 == y3) return;
-
+                int x3 = clipped_face.P3.X.Round_to_Int();
+                int y3 = clipped_face.P3.Y.Round_to_Int();
+                double z3 = clipped_face.P3.Z;                                
+                
                 // Check if the face has a texture
                 if (face.Has_Texture)
                 {
@@ -135,7 +140,7 @@ namespace _3D_Engine
                 }
             }
         }
-
+        
         // Check if point is visible from the camera
         private void Z_Buffer_Check(object colour, int x, int y, double z)
         {
@@ -149,25 +154,32 @@ namespace _3D_Engine
             }
             catch (IndexOutOfRangeException)
             {
-                throw new Exception("Attempted to render outside the canvas.");
+                throw new Exception($"Attempted to render outside the canvas at ({x}, {y}, {z})");
             }
         }
 
-        /*
-         * Shadow Map Checks (SMC)
-         * N.B.
-         * Checking the shadow map is performed very frequently so it makes sense to optimise the code.
-         * Therefore, there are multiple copies of the same code but with as many comparisons removed as
-         * possible to increase performance.
-        */
-
+        // Shadow Map Checks (SMC)
         private void SMC_Camera_Orthogonal(Color point_colour, Matrix4x4 window_to_world, int x, int y, double z)
         {
-            // Move the point from window space to world space
-            Vector4D world_space_point = window_to_world * new Vector4D(x, y, z);
+            // Move the point from window space to world space and apply lighting
+            Apply_Lighting(window_to_world * new Vector4D(x, y, z), point_colour, x, y);
+        }
 
-            // Apply light colour correction
-            int shadow_count = 0;
+        private void SMC_Camera_Perspective(Color point_colour, Matrix4x4 window_to_camera_screen, Matrix4x4 camera_screen_to_world, int x, int y, double z)
+        {
+            // Move the point from window space to camera-screen space
+            Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);
+
+            // Move the point from camera-screen space to world space and apply lighting
+            camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
+
+            Apply_Lighting(camera_screen_to_world * camera_screen_space_point, point_colour, x, y);
+        }
+
+        // Lighting
+        private void Apply_Lighting(Vector4D world_space_point, Color point_colour, int x, int y)
+        {
+            bool light_applied = false;
 
             foreach (Light light in Lights)
             {
@@ -191,8 +203,8 @@ namespace _3D_Engine
 
                     Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
 
-                    int light_point_x = Round_To_Int(light_window_space_point.X);
-                    int light_point_y = Round_To_Int(light_window_space_point.Y);
+                    int light_point_x = light_window_space_point.X.Round_to_Int(); //?
+                    int light_point_y = light_window_space_point.Y.Round_to_Int();
                     double light_point_z = light_window_space_point.Z;
 
                     if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
@@ -201,134 +213,30 @@ namespace _3D_Engine
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
                             point_colour = point_colour.Mix(new_light_colour);
-                        }
-                        else
-                        {
-                            // Point is in shadow and light does not contribute to the point's overall colour
-                            shadow_count++;
+                            light_applied = true;
                         }
                     }
                 }
             }
 
-            if (shadow_count == Lights.Count) point_colour = Color.Black;
-
-            colour_buffer[x][y] = point_colour;
-        }
-
-        private void SMC_Camera_Perspective(Color point_colour, Matrix4x4 window_to_camera_screen, Matrix4x4 camera_screen_to_world, int x, int y, double z)
-        {
-            // Move the point from window space to camera-screen space
-            Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);
-
-            // Move the point from camera-screen space to world space
-            camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
-
-            Vector4D world_space_point = camera_screen_to_world * camera_screen_space_point;
-
-            // Apply light colour correction
-            int shadow_count = 0;
-
-            foreach (Light light in Lights)//movetoseparatemethod
-            {
-                if (light.Visible)
-                {
-                    // Move the point from world space to light-view space
-                    Vector4D light_view_space_point = light.World_to_Light_View * world_space_point;
-
-                    // Darken the light's colour based on how far away the point is from the light
-                    Vector3D light_to_point = new Vector3D(light_view_space_point);
-                    double distant_intensity = light.Strength / light_to_point.Squared_Magnitude() * 100;
-                    Color new_light_colour = light.Colour.Darken(distant_intensity);
-
-                    // Move the point from light-view space to light-screen space
-                    Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
-
-                    if (light.GetType().Name == "Spotlight")
-                    {
-                        light_screen_space_point /= light_screen_space_point.W;
-                    }
-
-                    Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
-
-                    int light_point_x = Round_To_Int(light_window_space_point.X); //?
-                    int light_point_y = Round_To_Int(light_window_space_point.Y); //?
-                    double light_point_z = light_window_space_point.Z; //?
-
-                    if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
-                    {
-                        if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
-                        {
-                            // Point is not in shadow and light does contribute to the point's overall colour
-                            point_colour = point_colour.Mix(new_light_colour);
-                        }
-                        else
-                        {
-                            // Point is in shadow and light does not contribute to the point's overall colour
-                            shadow_count++;
-                        }
-                    }
-                }
-            }
-
-            if (shadow_count == Lights.Count) point_colour = Color.Black;
-
-            colour_buffer[x][y] = point_colour;
+            // Update the colour buffer (use black if there are no lights affecting the point)
+            colour_buffer[x][y] = (light_applied) ? point_colour : Color.Black;
         }
 
         //source!
-        private int Queue_Clip_Face(Queue<Face> face_clip, Clipping_Plane[] clipping_planes)
+        private int Queue_Clip_Face(Queue<Face> face_clip_queue, Clipping_Plane[] clipping_planes)
         {
             foreach (Clipping_Plane clipping_plane in clipping_planes)
             {
-                int no_triangles = face_clip.Count;
-                while (no_triangles > 0)
+                int no_triangles = face_clip_queue.Count;
+
+                while (no_triangles-- > 0)
                 {
-                    Face[] triangles = Clip_Face(clipping_plane.Point, clipping_plane.Normal, face_clip.Dequeue());
-                    foreach (Face face in triangles)
-                    {
-                        face_clip.Enqueue(face);
-                    }
-                    no_triangles--;
+                    Clip_Face(face_clip_queue.Dequeue(), face_clip_queue, clipping_plane.Point, clipping_plane.Normal);
                 }
             }
 
-            return face_clip.Count;
+            return face_clip_queue.Count;
         }
     }
 }
-
-/*
-    
-    Color face_colour = face.Colour;
-    if (Light_List.Count > 0)
-    {
-        double max_intensity = 0, true_intensity = 0;
-        foreach (Light light in Light_List) max_intensity += light.Intensity;
-        foreach (Light light in Light_List)
-        {
-            switch (light.GetType().Name)
-            {
-                case "Distant_Light":
-                    true_intensity = Math.Max(0, -light.World_Direction * normal) * light.Intensity;
-                    break;
-                case "Point_Light":
-                    true_intensity = Math.Max(0, -new Vector3D(point_1 - light.World_Origin).Normalise() * normal) * light.Intensity;
-                    break;
-                case "Spot_Light":
-                    Vector3D light_to_mesh = new Vector3D(point_1 - light.World_Origin);
-                    if (light_to_mesh.Angle(light.World_Direction) > ((Spotlight)light).Angle || light_to_mesh * light.World_Direction > ((Spotlight)light).Distance) continue;
-                    true_intensity = Math.Max(0, -light.World_Direction * normal) * light.Intensity;
-                    break;
-                case "Ambient_Light":
-                    break;
-            }
-            double scaled_intensity = true_intensity / max_intensity;
-
-            byte new_red = (byte)Round_To_Int((face.Colour.R + light.Colour.R) * 255 / 510 * scaled_intensity);
-            byte new_green = (byte)Round_To_Int((face.Colour.G + light.Colour.G) * 255 / 510 * scaled_intensity);
-            byte new_blue = (byte)Round_To_Int((face.Colour.B + light.Colour.B) * 255 / 510 * scaled_intensity);
-
-            face_colour = Color.FromArgb(face.Colour.A, new_red, new_green, new_blue);
-        }
-    }*/
