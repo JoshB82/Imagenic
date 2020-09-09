@@ -1014,7 +1014,7 @@
         </member>
         <member name="P:_3D_Engine.Scene_Object.ID">
             <summary>
-            Identification number.
+            The identification number.
             </summary>
         </member>
         <member name="P:_3D_Engine.Scene_Object.World_Origin">

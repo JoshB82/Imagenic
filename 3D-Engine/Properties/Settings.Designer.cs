@@ -46,5 +46,53 @@ namespace _3D_Engine.Properties {
                 this["Face_Colour"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int Shadow_Map_Width {
+            get {
+                return ((int)(this["Shadow_Map_Width"]));
+            }
+            set {
+                this["Shadow_Map_Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int Shadow_Map_Height {
+            get {
+                return ((int)(this["Shadow_Map_Height"]));
+            }
+            set {
+                this["Shadow_Map_Height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public double Shadow_Map_Z_Near {
+            get {
+                return ((double)(this["Shadow_Map_Z_Near"]));
+            }
+            set {
+                this["Shadow_Map_Z_Near"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public double Shadow_Map_Z_Far {
+            get {
+                return ((double)(this["Shadow_Map_Z_Far"]));
+            }
+            set {
+                this["Shadow_Map_Z_Far"] = value;
+            }
+        }
     }
 }

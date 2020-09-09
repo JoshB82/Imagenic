@@ -92,7 +92,7 @@ namespace _3D_Engine
         /// Creates a rotation matrix that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
         /// </summary>
         /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The secind vector.</param>
+        /// <param name="v2">The second vector.</param>
         /// <param name="axis">Axis that will be rotated around if vectors are antiparallel.</param>
         /// <returns>A rotation matrix.</returns>
         public static Matrix4x4 Rotate_Between_Vectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
@@ -140,7 +140,7 @@ namespace _3D_Engine
         /// Creates a quaternion that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
         /// </summary>
         /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The secind vector.</param>
+        /// <param name="v2">The second vector.</param>
         /// <param name="axis"></param>
         /// <returns>A rotation quaternion.</returns>
         public static Quaternion Quaternion_Rotate_Between_Vectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)

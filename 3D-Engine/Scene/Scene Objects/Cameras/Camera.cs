@@ -7,25 +7,14 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // Matrices
-        internal Matrix4x4 World_to_Camera_View { get; set; }
-        internal Matrix4x4 Camera_View_to_Screen { get; set; }
-
-        internal void Calculate_World_to_Camera_View_Matrix()
-        {
-            Matrix4x4 translation = Transform.Translate(-World_Origin);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(World_Direction_Up, Model_Direction_Up);
-            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_up_rotation * new Vector4D(World_Direction_Forward)), Model_Direction_Forward);
-
-            // String the transformations together in the following order:
-            // 1) Translation to final position in view space
-            // 2) Rotation around direction up vector
-            // 3) Rotation around direction forward vector
-            World_to_Camera_View = direction_forward_rotation * direction_up_rotation * translation;
-        }
+        internal Matrix4x4 World_to_Camera_View { get; private set; }
+        internal Matrix4x4 Camera_View_to_Camera_Screen { get; set; }
+        internal Matrix4x4 Camera_Screen_to_Camera_Window { get; private set; }
+        internal void Calculate_World_To_Camera_View() => World_to_Camera_View = Model_to_World.Inverse();
 
         // Clipping planes
         internal Clipping_Plane[] Camera_View_Clipping_Planes { get; set; }
-        internal abstract void Calculate_Camera_View_Clipping_Planes(); // when's the best time to calculate this?
+        internal abstract void Calculate_Camera_View_Clipping_Planes();
 
         // View volume parameters
         public abstract double Width { get; set; }
@@ -37,7 +26,7 @@ namespace _3D_Engine
         /// <summary>
         /// Determines if the <see cref="Camera"/> is drawn in the <see cref="Scene"/>.
         /// </summary>
-        public bool Draw_Camera_Model { get; set; } = false;
+        public bool Draw_Camera_Icon { get; set; } = false;
         /// <summary>
         /// Determines if the outline of the <see cref="Camera">Camera's</see> view is drawn.
         /// </summary>

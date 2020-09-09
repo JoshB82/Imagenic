@@ -12,16 +12,14 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // ID
-        /// <summary>
-        /// Identification number.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.ID']/*"/>
         public int ID { get; private set; }
         private static int next_id = -1;
 
         // Matrices
         internal Matrix4x4 Model_to_World { get; set; }
 
-        internal virtual void Calculate_Model_to_World_Matrix()
+        internal virtual void Calculate_Model_to_World()
         {
             Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_forward_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
@@ -36,9 +34,7 @@ namespace _3D_Engine
 
         // Origins
         internal Vector4D Origin { get; set; } = Vector4D.Zero;
-        /// <summary>
-        /// The position of the <see cref="Scene_Object"/> in world space.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
         public virtual Vector3D World_Origin { get; set; }
 
         // Directions
@@ -46,31 +42,21 @@ namespace _3D_Engine
         internal Vector3D Model_Direction_Up => Vector3D.Unit_Y;
         internal Vector3D Model_Direction_Right => Vector3D.Unit_X;
 
-        /// <summary>
-        /// The forward direction of the <see cref="Scene_Object"/> in world space.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
         public Vector3D World_Direction_Forward { get; private set; }
-        /// <summary>
-        /// The up direction of the <see cref="Scene_Object"/> in world space.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Up']/*"/>
         public Vector3D World_Direction_Up { get; private set; }
-        /// <summary>
-        /// The right direction of the <see cref="Scene_Object"/> in world space.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Right']/*"/>
         public Vector3D World_Direction_Right { get; private set; }
 
         // Direction Arrows
         internal Group Direction_Arrows { get; }
         internal bool Has_Direction_Arrows { get; set; }
-        /// <summary>
-        /// Determines whether the <see cref="Scene_Object"/> directions are shown or not.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
         public bool Display_Direction_Arrows { get; set; } = false;
 
         // Appearance
-        /// <summary>
-        /// Determines whether the <see cref="Scene_Object"/> is visible or not.
-        /// </summary>
+        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Visible']/*"/>
         public bool Visible { get; set; } = true;
 
         #endregion

@@ -12,8 +12,7 @@ namespace _3D_Engine
 
         private static readonly object locker = new object();
 
-        private readonly static Clipping_Plane[] camera_screen_clipping_planes =
-        new Clipping_Plane[]
+        private static readonly Clipping_Plane[] camera_screen_clipping_planes =
         {
             new Clipping_Plane(-Vector3D.One, Vector3D.Unit_X), // Left
             new Clipping_Plane(-Vector3D.One, Vector3D.Unit_Y), // Bottom
@@ -50,7 +49,7 @@ namespace _3D_Engine
 
         #region Dimensions
 
-        private Matrix4x4 screen_to_window;
+        private Matrix4x4 screen_to_window, screen_to_window_inverse;
 
         private int width, height;
 
@@ -94,6 +93,7 @@ namespace _3D_Engine
 
             // Set screen-to-window matrix
             screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
+            screen_to_window_inverse = screen_to_window.Inverse();
             screen_rectangle = new Rectangle(0, 0, width, height);
         }
 
@@ -195,7 +195,6 @@ namespace _3D_Engine
                 }
                 foreach (Light light in Lights)
                 {
-                    light.Calculate_Light_View_Clipping_Planes(); // move somewhere else?
                     for (int i = 0; i < light.Shadow_Map_Width; i++)
                     {
                         for (int j = 0; j < light.Shadow_Map_Height; j++)
@@ -210,7 +209,7 @@ namespace _3D_Engine
 
                 // Calculate render camera properties
                 Matrix4x4 world_to_view = Render_Camera.World_to_Camera_View;
-                Matrix4x4 view_to_screen = Render_Camera.Camera_View_to_Screen;
+                Matrix4x4 view_to_screen = Render_Camera.Camera_View_to_Camera_Screen;
 
                 // Calculate depth information for each light
                 foreach (Light light in Lights)
@@ -224,7 +223,7 @@ namespace _3D_Engine
                 // Calculate depth information for each mesh
                 foreach (Light light in Lights)
                 {
-                    if (light.Show_Icon)
+                    if (light.Draw_Light_Icon)
                     {
                         foreach (Face face in light.Icon.Faces)
                         {
@@ -236,7 +235,6 @@ namespace _3D_Engine
                 {
                     if (mesh.Visible && mesh.Draw_Faces)
                     {
-                        string mesh_type = mesh.GetType().Name;
                         foreach (Face face in mesh.Faces)
                         {
                             if (face.Visible)
@@ -268,9 +266,9 @@ namespace _3D_Engine
                 }
                 
                 // Apply lighting
-                if (Render_Camera.GetType().Name == "Orthogonal_Camera")
+                if (Render_Camera is Orthogonal_Camera)
                 {
-                    Matrix4x4 window_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Screen.Inverse() * screen_to_window.Inverse();
+                    Matrix4x4 window_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Camera_Screen.Inverse() * screen_to_window_inverse;
 
                     for (int x = 0; x < width; x++)
                     {
@@ -285,8 +283,7 @@ namespace _3D_Engine
                 }
                 else
                 {
-                    Matrix4x4 window_to_camera_screen = screen_to_window.Inverse();
-                    Matrix4x4 camera_screen_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Screen.Inverse();
+                    Matrix4x4 camera_screen_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Camera_Screen.Inverse();
 
                     for (int x = 0; x < width; x++)
                     {
@@ -295,7 +292,7 @@ namespace _3D_Engine
                             // check all doubles and ints
                             if (z_buffer[x][y] != distant_value)//?
                             {
-                                SMC_Camera_Perspective(colour_buffer[x][y], window_to_camera_screen, camera_screen_to_world, x, y, z_buffer[x][y]);
+                                SMC_Camera_Perspective(colour_buffer[x][y], screen_to_window_inverse, camera_screen_to_world, x, y, z_buffer[x][y]);
                             }
                         }
                     }
@@ -304,7 +301,7 @@ namespace _3D_Engine
                 // Draw edges
                 foreach (Light light in Lights)
                 {
-                    if (light.Show_Icon)
+                    if (light.Draw_Light_Icon)
                     {
                         foreach (Edge edge in light.Icon.Edges)
                         {
@@ -381,38 +378,38 @@ namespace _3D_Engine
             // Model to world
             foreach (Camera camera in Cameras)
             {
-                camera.Calculate_Model_to_World_Matrix();//?vvvv
+                camera.Calculate_Model_to_World();//?vvvv
             }
             foreach (Light light in Lights)
             {
-                if (light.Show_Icon)
+                if (light.Draw_Light_Icon)
                 {
-                    light.Icon.Calculate_Model_to_World_Matrix();
+                    light.Icon.Calculate_Model_to_World();
                 }
                 if (light.Visible)
                 {
-                    light.Calculate_Model_to_World_Matrix();
+                    light.Calculate_Model_to_World();
                 }
             }
             foreach (Mesh mesh in Meshes)
             {
                 if (mesh.Visible)
                 {
-                    mesh.Calculate_Model_to_World_Matrix();
+                    mesh.Calculate_Model_to_World();
                 }
             }
 
             // World to view
             Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin); //?
-            Render_Camera.Calculate_World_to_Camera_View_Matrix();
+            Render_Camera.Calculate_World_To_Camera_View();
             foreach (Light light in Lights)
             {
                 light.World_Origin = new Vector3D(light.Model_to_World * light.Origin); // ?
-                light.Calculate_World_to_Light_View_Matrix();
+                light.Calculate_World_To_Light_View();
             }
             foreach (Mesh mesh in Meshes)
             {
-                mesh.Origin = screen_to_window * Render_Camera.Camera_View_to_Screen * Render_Camera.World_to_Camera_View * mesh.Model_to_World * mesh.Origin;
+                mesh.Origin = screen_to_window * Render_Camera.Camera_View_to_Camera_Screen * Render_Camera.World_to_Camera_View * mesh.Model_to_World * mesh.Origin;
             }
         }
     }

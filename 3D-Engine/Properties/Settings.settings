@@ -8,5 +8,17 @@
     <Setting Name="Face_Colour" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">BlueViolet</Value>
     </Setting>
+    <Setting Name="Shadow_Map_Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="Shadow_Map_Height" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="Shadow_Map_Z_Near" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="Shadow_Map_Z_Far" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

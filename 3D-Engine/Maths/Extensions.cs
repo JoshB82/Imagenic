@@ -5,9 +5,8 @@ namespace _3D_Engine
     public static class Extensions
     {
         // Double extensions
-
-        public static byte Round_to_Byte(this double num) => (byte)((num >= 0) ? (num + 0.5) : (num - 0.5));
-        public static int Round_to_Int(this double num) => (int)((num >= 0) ? (num + 0.5) : (num - 0.5));
+        internal static byte Round_to_Byte(this double num) => (byte)((num >= 0) ? (num + 0.5) : (num - 0.5));
+        internal static int Round_to_Int(this double num) => (int)((num >= 0) ? (num + 0.5) : (num - 0.5));
 
         // Color extensions
         public static Color Brighten(this Color colour, double fraction)

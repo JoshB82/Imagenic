@@ -14,7 +14,7 @@ namespace _3D_Engine
             set
             {
                 width = value;
-                Camera_View_to_Screen.Data[0][0] = 2 * z_near / width;
+                Camera_View_to_Camera_Screen.Data[0][0] = 2 * z_near / width;
                 Calculate_Camera_View_Clipping_Planes();
             }
         }
@@ -24,7 +24,7 @@ namespace _3D_Engine
             set
             {
                 height = value;
-                Camera_View_to_Screen.Data[1][1] = 2 * z_near / height;
+                Camera_View_to_Camera_Screen.Data[1][1] = 2 * z_near / height;
                 Calculate_Camera_View_Clipping_Planes();
             }
         }
@@ -34,8 +34,8 @@ namespace _3D_Engine
             set
             {
                 z_near = value;
-                Camera_View_to_Screen.Data[2][2] = (z_far + z_near) / (z_far - z_near);
-                Camera_View_to_Screen.Data[2][3] = -(2 * z_far * z_near) / (z_far - z_near);
+                Camera_View_to_Camera_Screen.Data[2][2] = (z_far + z_near) / (z_far - z_near);
+                Camera_View_to_Camera_Screen.Data[2][3] = -(2 * z_far * z_near) / (z_far - z_near);
                 Calculate_Camera_View_Clipping_Planes();
             }
         }
@@ -45,8 +45,8 @@ namespace _3D_Engine
             set
             {
                 z_far = value;
-                Camera_View_to_Screen.Data[2][2] = (z_far + z_near) / (z_far - z_near);
-                Camera_View_to_Screen.Data[2][3] = -(2 * z_far * z_near) / (z_far - z_near);
+                Camera_View_to_Camera_Screen.Data[2][2] = (z_far + z_near) / (z_far - z_near);
+                Camera_View_to_Camera_Screen.Data[2][3] = -(2 * z_far * z_near) / (z_far - z_near);
                 Calculate_Camera_View_Clipping_Planes();
             }
         }
@@ -60,8 +60,8 @@ namespace _3D_Engine
             //string icon_path = GetParent(GetCurrentDirectory()).FullName+"\\Meshes\\Default\\Perspective Camera.obj";
             //Icon = new Custom(origin, direction_forward, direction_up, icon_path);
 
-            Camera_View_to_Screen = Matrix4x4.Zeroed_Matrix();
-            Camera_View_to_Screen.Data[3][2] = 1;
+            Camera_View_to_Camera_Screen = Matrix4x4.Zeroed_Matrix();
+            Camera_View_to_Camera_Screen.Data[3][2] = 1;
 
             Z_Near = z_near; // move to base constructor?
             Z_Far = z_far;
@@ -69,11 +69,11 @@ namespace _3D_Engine
             Height = height;
         }
 
-        public Perspective_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double width, double height, double z_near, double z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
+        public Perspective_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, double width, double height, double z_near, double z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
         public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, direction_forward, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
-        public Perspective_Camera(Vector3D origin, Mesh pointed_at, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Perspective_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, double fov_x, double fov_y, double z_near, double z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Math.Tan(fov_x / 2) * z_near * 2, Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
         #endregion
 

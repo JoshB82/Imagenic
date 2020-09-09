@@ -51,15 +51,15 @@ namespace _3D_Engine
         /// <summary>
         /// Represents the number of dimensions the <see cref="Mesh"/> occupies.
         /// </summary>
-        public sbyte Dimension { get; protected set; }
+        public int Dimension { get; protected set; }
         public bool Casts_Shadows { get; set; }
         /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool Draw_Outline { get; set; } = false;
 
         // Matrices and Vectors
-        internal override void Calculate_Model_to_World_Matrix()
+        internal override void Calculate_Model_to_World()
         {
-            base.Calculate_Model_to_World_Matrix();
+            base.Calculate_Model_to_World();
 
             Matrix4x4 scale = Transform.Scale(Scaling.X, Scaling.Y, Scaling.Z);
             Model_to_World *= scale;

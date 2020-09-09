@@ -6,7 +6,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Generate_Z_Buffer(Face face, sbyte dimension,
+        private void Generate_Z_Buffer(Face face, int dimension,
             Matrix4x4 model_to_world,
             Matrix4x4 world_to_camera_view,
             Matrix4x4 camera_view_to_camera_screen)
@@ -196,7 +196,7 @@ namespace _3D_Engine
                     // Move the point from light-view space to light-screen space
                     Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
 
-                    if (light.GetType().Name == "Spotlight")
+                    if (light is Spotlight)
                     {
                         light_screen_space_point /= light_screen_space_point.W;
                     }
@@ -212,6 +212,7 @@ namespace _3D_Engine
                         if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
+                            //point_colour = Color.Green;
                             point_colour = point_colour.Mix(new_light_colour);
                             light_applied = true;
                         }
@@ -220,7 +221,7 @@ namespace _3D_Engine
             }
 
             // Update the colour buffer (use black if there are no lights affecting the point)
-            colour_buffer[x][y] = (light_applied) ? point_colour : Color.Black;
+            colour_buffer[x][y] = light_applied ? point_colour : Color.Black;
         }
 
         //source!

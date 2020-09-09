@@ -45,7 +45,7 @@ namespace _3D_Engine
             {
                 clipped_face.Apply_Matrix(light.Light_View_to_Light_Screen);
 
-                if (light.GetType().Name == "Point_Light")
+                if (light is Spotlight)
                 {
                     clipped_face.P1 /= clipped_face.P1.W;
                     clipped_face.P2 /= clipped_face.P2.W;
