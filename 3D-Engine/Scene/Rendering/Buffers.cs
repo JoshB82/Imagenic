@@ -15,9 +15,9 @@ namespace _3D_Engine
                     colour_buffer[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);
                 }
             }
-            catch (IndexOutOfRangeException)
+            catch (IndexOutOfRangeException e)
             {
-                throw new Exception("Attempted to draw outside the canvas.");
+                throw new IndexOutOfRangeException("Attempted to draw outside the canvas.", e);
             }
         }
     }

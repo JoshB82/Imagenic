@@ -4,6 +4,22 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
+        //source!
+        private int Queue_Clip_Face(Queue<Face> face_clip_queue, Clipping_Plane[] clipping_planes)
+        {
+            foreach (Clipping_Plane clipping_plane in clipping_planes)
+            {
+                int no_triangles = face_clip_queue.Count;
+
+                while (no_triangles-- > 0)
+                {
+                    Clip_Face(face_clip_queue.Dequeue(), face_clip_queue, clipping_plane.Point, clipping_plane.Normal);
+                }
+            }
+
+            return face_clip_queue.Count;
+        }
+
         private static bool Clip_Edge(Vector3D plane_point, Vector3D plane_normal, Edge e)
         {
             Vector3D point_1 = new Vector3D(e.P1), point_2 = new Vector3D(e.P2);
@@ -46,7 +62,7 @@ namespace _3D_Engine
             List<Vector3D> inside_texture_points = new List<Vector3D>(3);
             List<Vector3D> outside_texture_points = new List<Vector3D>(3);
 
-            if (Vector3D.Point_Distance_From_Plane(point_1, plane_point, plane_normal) >= 0)
+             if (Vector3D.Point_Distance_From_Plane(point_1, plane_point, plane_normal) >= 0)
             {
                 inside_point_count++;
                 inside_points.Add(point_1);

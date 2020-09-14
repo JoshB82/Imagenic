@@ -79,7 +79,8 @@ namespace _3D_Engine
             foreach (Face clipped_face in face_clip_queue)
             {
                 // Don't draw anything if the face is flat
-                if ((clipped_face.P1.x == clipped_face.P2.x && clipped_face.P2.x == clipped_face.P3.x) || (clipped_face.P1.y == clipped_face.P2.y && clipped_face.P2.y == clipped_face.P3.y))
+                if ((clipped_face.P1.x == clipped_face.P2.x && clipped_face.P2.x == clipped_face.P3.x) ||
+                    (clipped_face.P1.y == clipped_face.P2.y && clipped_face.P2.y == clipped_face.P3.y))
                 {
                     continue;
                 }
@@ -102,16 +103,16 @@ namespace _3D_Engine
                 if (face.Has_Texture)
                 {
                     // Scale the texture co-ordinates
-                    int width = face.Texture_Object.File.Width - 1;
-                    int height = face.Texture_Object.File.Height - 1;
+                    int texture_width = face.Texture_Object.File.Width - 1;
+                    int texture_height = face.Texture_Object.File.Height - 1;
 
                     // afterwards?
-                    float tx1 = face.T1.x * width;
-                    float ty1 = face.T1.y * height;
-                    float tx2 = face.T2.x * width;
-                    float ty2 = face.T2.y * height;
-                    float tx3 = face.T3.x * width;
-                    float ty3 = face.T3.y * height;
+                    float tx1 = face.T1.x * texture_width;
+                    float ty1 = face.T1.y * texture_height;
+                    float tx2 = face.T2.x * texture_width;
+                    float ty2 = face.T2.y * texture_height;
+                    float tx3 = face.T3.x * texture_width;
+                    float ty3 = face.T3.y * texture_height;
 
                     // Sort the vertices by their y-co-ordinate
                     Textured_Sort_By_Y(
@@ -152,9 +153,9 @@ namespace _3D_Engine
                     colour_buffer[x][y] = (Color)colour;
                 }
             }
-            catch (IndexOutOfRangeException)
+            catch (IndexOutOfRangeException e)
             {
-                throw new IndexOutOfRangeException($"Attempted to render outside the canvas at ({x}, {y}, {z})");
+                throw new IndexOutOfRangeException($"Attempted to render outside the canvas at ({x}, {y}, {z})", e);
             }
         }
 
@@ -170,9 +171,10 @@ namespace _3D_Engine
             // Move the point from window space to camera-screen space
             Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);
 
-            // Move the point from camera-screen space to world space and apply lighting
+            // Move the point from camera-screen space to world space
             camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
 
+            // Apply lighting
             Apply_Lighting(camera_screen_to_world * camera_screen_space_point, point_colour, x, y);
         }
 
@@ -196,10 +198,7 @@ namespace _3D_Engine
                     // Move the point from light-view space to light-screen space
                     Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
 
-                    if (light is Spotlight)
-                    {
-                        light_screen_space_point /= light_screen_space_point.w;
-                    }
+                    if (light is Spotlight) light_screen_space_point /= light_screen_space_point.w;
 
                     Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
 
@@ -222,23 +221,6 @@ namespace _3D_Engine
 
             // Update the colour buffer (use black if there are no lights affecting the point)
             colour_buffer[x][y] = light_applied ? point_colour : Color.Black;
-        }
-
-        //source!
-        private int Queue_Clip_Face(Queue<Face> face_clip_queue, Clipping_Plane[] clipping_planes)
-        {
-            foreach (Clipping_Plane clipping_plane in clipping_planes)
-            {
-                int no_triangles = face_clip_queue.Count;
-
-                while (no_triangles-- > 0)
-                {
-                    Face face2 = face_clip_queue.Dequeue();
-                    Clip_Face(face2, face_clip_queue, clipping_plane.Point, clipping_plane.Normal);
-                }
-            }
-
-            return face_clip_queue.Count;
         }
     }
 }

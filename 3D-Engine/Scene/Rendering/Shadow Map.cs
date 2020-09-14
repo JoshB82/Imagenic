@@ -94,7 +94,7 @@ namespace _3D_Engine
 
         private void Mesh_Depth_From_Light(object @object, int x, int y, float z)
         {
-            Light light = (Light)@object;  // Why the explicit cast?
+            Light light = @object as Light;
 
             try
             {
@@ -103,9 +103,9 @@ namespace _3D_Engine
                     light.Shadow_Map[x][y] = z;
                 }
             }
-            catch (IndexOutOfRangeException)
+            catch (IndexOutOfRangeException e)
             {
-                throw new IndexOutOfRangeException("Attempted to check points outside the shadow map.");
+                throw new IndexOutOfRangeException("Attempted to check points outside the shadow map.", e);
             }
         }
     }
