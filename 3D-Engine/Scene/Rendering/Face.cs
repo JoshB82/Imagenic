@@ -17,16 +17,13 @@ namespace _3D_Engine
             // Move face from model space to world space
             face.Apply_Matrix(model_to_world);
 
-            // Discard the face if it is not visible
+            // Discard the face if it is not visible from the camera's point of view
             if (dimension == 3)
             {
                 Vector3D camera_to_face = new Vector3D(face.P1) - Render_Camera.World_Origin;
                 Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(face.P1), new Vector3D(face.P2), new Vector3D(face.P3));
 
-                if (camera_to_face * normal >= 0)
-                {
-                    return;
-                }
+                if (camera_to_face * normal >= 0) return;
             }
 
             // Draw outline if needed

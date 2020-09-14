@@ -16,20 +16,30 @@ namespace _3D_Engine
                     {
                         if (face.Visible)
                         {
-                            Calculate_Depth(mesh.Model_to_World, face, light);
+                            Calculate_Depth(face, mesh.Dimension, light, mesh.Model_to_World);
                         }
                     }
                 }
             }
         }
             
-        private void Calculate_Depth(Matrix4x4 model_to_world, Face face, Light light)
+        private void Calculate_Depth(Face face, int dimension, Light light, 
+            Matrix4x4 model_to_world)
         {
             // Reset the vertices to model space values
             face.Reset_Vertices();
 
             // Move face from model space to world space
             face.Apply_Matrix(model_to_world);
+
+            // Discard the face if it is not visible from the light's point of view
+            if (dimension == 3)
+            {
+                Vector3D light_to_face = new Vector3D(face.P1) - light.World_Origin;
+                Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(face.P1), new Vector3D(face.P2), new Vector3D(face.P3));
+
+                if (light_to_face * normal >= 0) return;
+            }
 
             // Move the face from world space to light-view space
             face.Apply_Matrix(light.World_to_Light_View);
@@ -59,7 +69,8 @@ namespace _3D_Engine
             foreach (Face clipped_face in face_clip)
             {
                 // Don't draw anything if the face is flat
-                if ((clipped_face.P1.x == clipped_face.P2.x && clipped_face.P2.x == clipped_face.P3.x) || (clipped_face.P1.y == clipped_face.P2.y && clipped_face.P2.y == clipped_face.P3.y))
+                if ((clipped_face.P1.x == clipped_face.P2.x && clipped_face.P2.x == clipped_face.P3.x) ||
+                    (clipped_face.P1.y == clipped_face.P2.y && clipped_face.P2.y == clipped_face.P3.y))
                 {
                     continue;
                 }
