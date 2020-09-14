@@ -30,8 +30,8 @@
 
             if (Render_Camera is Perspective_Camera)
             {
-                edge.P1 /= edge.P1.W;
-                edge.P2 /= edge.P2.W; 
+                edge.P1 /= edge.P1.w;
+                edge.P2 /= edge.P2.w; 
             }
 
             // Clip the edge in camera-screen space
@@ -47,12 +47,12 @@
             edge.Apply_Matrix(screen_to_window);
 
             // Round the vertices
-            int result_point_1_x = edge.P1.X.Round_to_Int();
-            int result_point_1_y = edge.P1.Y.Round_to_Int();
-            float result_point_1_z = edge.P1.Z;
-            int result_point_2_x = edge.P2.X.Round_to_Int();
-            int result_point_2_y = edge.P2.Y.Round_to_Int();
-            float result_point_2_z = edge.P2.Z;
+            int result_point_1_x = edge.P1.x.Round_to_Int();
+            int result_point_1_y = edge.P1.y.Round_to_Int();
+            float result_point_1_z = edge.P1.z;
+            int result_point_2_x = edge.P2.x.Round_to_Int();
+            int result_point_2_y = edge.P2.y.Round_to_Int();
+            float result_point_2_z = edge.P2.z;
 
             // Finally draw the line
             Line(edge.Colour,

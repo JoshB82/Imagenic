@@ -9,9 +9,9 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        public float X;
-        public float Y;
-        public float Z;
+        public float x;
+        public float y;
+        public float z;
 
         #endregion
 
@@ -19,44 +19,44 @@ namespace _3D_Engine
 
         public Vector3D(float x, float y, float z)
         {
-            X = x;
-            Y = y;
-            Z = z;
+            this.x = x;
+            this.y = y;
+            this.z = z;
         }
 
         public Vector3D(Vector2D v, float z = 1)
         {
-            X = v.X;
-            Y = v.Y;
-            Z = z;
+            x = v.x;
+            y = v.y;
+            this.z = z;
         }
 
         public Vector3D(Vector4D v)
         {
-            X = v.X;
-            Y = v.Y;
-            Z = v.Z;
+            x = v.x;
+            y = v.y;
+            z = v.z;
         }
 
         public Vector3D(float[] data)
         {
-            X = data[0];
-            Y = data[1];
-            Z = data[2];
+            x = data[0];
+            y = data[1];
+            z = data[2];
         }
 
         #endregion
 
         #region Common Vectors
 
-        public static Vector3D Zero { get; } = new Vector3D(0, 0, 0);
-        public static Vector3D One { get; } = new Vector3D(1, 1, 1);
-        public static Vector3D Unit_X { get; } = new Vector3D(1, 0, 0);
-        public static Vector3D Unit_Y { get; } = new Vector3D(0, 1, 0);
-        public static Vector3D Unit_Z { get; } = new Vector3D(0, 0, 1);
-        public static Vector3D Unit_Negative_X { get; } = new Vector3D(-1, 0, 0);
-        public static Vector3D Unit_Negative_Y { get; } = new Vector3D(0, -1, 0);
-        public static Vector3D Unit_Negative_Z { get; } = new Vector3D(0, 0, -1);
+        public static Vector3D Zero = new Vector3D(0, 0, 0);
+        public static Vector3D One = new Vector3D(1, 1, 1);
+        public static Vector3D Unit_X = new Vector3D(1, 0, 0);
+        public static Vector3D Unit_Y = new Vector3D(0, 1, 0);
+        public static Vector3D Unit_Z = new Vector3D(0, 0, 1);
+        public static Vector3D Unit_Negative_X = new Vector3D(-1, 0, 0);
+        public static Vector3D Unit_Negative_Y = new Vector3D(0, -1, 0);
+        public static Vector3D Unit_Negative_Z = new Vector3D(0, 0, -1);
 
         #endregion
 
@@ -65,17 +65,17 @@ namespace _3D_Engine
         // SMALLEST ANGLE
         public float Angle(Vector3D v)
         {
-            if (this == Vector3D.Zero || v == Vector3D.Zero) throw new ArgumentException("Cannot calculate angle with one or more zeroed vectors."); //?
+            if (this == Vector3D.Zero || v == Vector3D.Zero) throw new ArgumentException("Cannot calculate angle with One or more zeroed vectors."); //?
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return (float)Math.Acos(quotient);
         }
 
-        public Vector3D Cross_Product(Vector3D v) => new Vector3D(this.Y * v.Z - this.Z * v.Y, this.Z * v.X - this.X * v.Z, this.X * v.Y - this.Y * v.X);
+        public Vector3D Cross_Product(Vector3D v) => new Vector3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
 
         public float Magnitude() => (float)Math.Sqrt(Squared_Magnitude());
 
-        public float Squared_Magnitude() => X * X + Y * Y + Z * Z;
+        public float Squared_Magnitude() => x * x + y * y + z * z;
 
         /// <summary>
         /// Normalises a <see cref="Vector3D"/>.
@@ -83,7 +83,7 @@ namespace _3D_Engine
         /// <returns>A normalised <see cref="Vector3D"/>.</returns>
         public Vector3D Normalise() => (this == Vector3D.Zero) ? throw new ArgumentException("Cannot normalise a zeroed vector.") : this / Magnitude();
 
-        public override string ToString() => $"({X}, {Y}, {Z})";
+        public override string ToString() => $"({x}, {y}, {z})";
 
         #endregion
 
@@ -98,7 +98,7 @@ namespace _3D_Engine
             // d = new length / old length
             d = (plane_point - line_start) * plane_normal / (denominator);
             // Round in direction of normal!?
-            // Y-AXES WRONG (upside down)?
+            // y-AXES WRONG (upside down)?
             return line * d + line_start;
         }
 
@@ -117,25 +117,25 @@ namespace _3D_Engine
 
         #region Vector Operations
 
-        public static Vector3D operator +(Vector3D v1, Vector3D v2) => new Vector3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+        public static Vector3D operator +(Vector3D v1, Vector3D v2) => new Vector3D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 
-        public static Vector3D operator -(Vector3D v1, Vector3D v2) => new Vector3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+        public static Vector3D operator -(Vector3D v1, Vector3D v2) => new Vector3D(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 
-        public static float operator *(Vector3D v1, Vector3D v2) => v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
+        public static float operator *(Vector3D v1, Vector3D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 
-        public static Vector3D operator *(Vector3D v, float scalar) => new Vector3D(v.X * scalar, v.Y * scalar, v.Z * scalar);
+        public static Vector3D operator *(Vector3D v, float scalar) => new Vector3D(v.x * scalar, v.y * scalar, v.z * scalar);
 
         public static Vector3D operator *(float scalar, Vector3D v) => v * scalar;
 
-        public static Vector3D operator /(Vector3D v, float scalar) => new Vector3D(v.X / scalar, v.Y / scalar, v.Z / scalar);
+        public static Vector3D operator /(Vector3D v, float scalar) => new Vector3D(v.x / scalar, v.y / scalar, v.z / scalar);
 
-        public static Vector3D operator -(Vector3D v) => new Vector3D(-v.X, -v.Y, -v.Z);
+        public static Vector3D operator -(Vector3D v) => new Vector3D(-v.x, -v.y, -v.z);
 
         #endregion
 
         #region Equality and Miscellaneous
 
-        public static bool operator ==(Vector3D v1, Vector3D v2) => v1.X == v2.X && v1.Y == v2.Y && v1.Z == v2.Z;
+        public static bool operator ==(Vector3D v1, Vector3D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
 
         public static bool operator !=(Vector3D v1, Vector3D v2) => !(v1 == v2);
 

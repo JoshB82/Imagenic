@@ -13,7 +13,7 @@
             {
                 start_position = value;
                 Vector3D line_vector = end_position - start_position;
-                Scaling = new Vector3D(line_vector.X, line_vector.Y, line_vector.Z);
+                Scaling = new Vector3D(line_vector.x, line_vector.y, line_vector.z);
             }
         }
         public Vector3D End_Position
@@ -23,7 +23,7 @@
             {
                 end_position = value;
                 Vector3D line_vector = end_position - start_position;
-                Scaling = new Vector3D(line_vector.X, line_vector.Y, line_vector.Z);
+                Scaling = new Vector3D(line_vector.x, line_vector.y, line_vector.z);
             }
         }
 

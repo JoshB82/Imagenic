@@ -37,7 +37,7 @@ namespace _3D_Engine
         public static Vector3D[] Generate_Vertices(string type) =>
             type switch
             {
-                "Plane" or "Square" => new Vector3D[4] // WHY Z=1?
+                "Plane" or "Square" => new Vector3D[4] // WHY z=1?
                 {
                     new Vector3D(0, 0, 1), // 0
                     new Vector3D(1, 0, 1), // 1

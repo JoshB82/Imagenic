@@ -256,7 +256,7 @@ namespace _3D_Engine
         private void Textured_Triangle(int x1, int y1, float z1, int x2, int y2, float z2, int x3, int y3, float z3, int tx1, int ty1, int tx2, int ty2, int tx3, int ty3, Bitmap texture)
         {
             Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(x1, y1, z1), new Vector3D(x2, y2, z2), new Vector3D(x3, y3, z3));
-            float z_increase_x = -normal.X / normal.Z, z_increase_y = -normal.Y / normal.Z;
+            float z_increase_x = -normal.x / normal.z, z_increase_y = -normal.y / normal.z;
             /*
             Vector3D point_1 = new Vector3D(x1, y1, z1);
             Vector3D point_2 = new Vector3D(x2, y2, z2);
@@ -442,7 +442,7 @@ namespace _3D_Engine
         private void Triangle(int x1, int y1, float z1, int x2, int y2, float z2, int x3, int y3, float z3, Color colour)
         {
             Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(x1, y1, z1), new Vector3D(x2, y2, z2), new Vector3D(x3, y3, z3));
-            float z_increase_x = -normal.X / normal.Z, z_increase_y = -normal.Y / normal.Z;
+            float z_increase_x = -normal.x / normal.z, z_increase_y = -normal.y / normal.z;
 
             Sort_By_Y(ref x1, ref y1, ref z1, ref x2, ref y2, ref z2, ref x3, ref y3, ref z3);
 

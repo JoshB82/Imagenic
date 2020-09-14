@@ -9,10 +9,10 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        public float X;
-        public float Y;
-        public float Z;
-        public float W;
+        public float x;
+        public float y;
+        public float z;
+        public float w;
 
         #endregion
 
@@ -20,40 +20,40 @@ namespace _3D_Engine
 
         public Vector4D(float x, float y, float z, float w = 1)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            W = w;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
         }
 
         public Vector4D(Vector3D v, float w = 1)
         {
-            X = v.X;
-            Y = v.Y;
-            Z = v.Z;
-            W = w;
+            x = v.x;
+            y = v.y;
+            z = v.z;
+            this.w = w;
         }
 
         public Vector4D(float[] data)
         {
-            X = data[0];
-            Y = data[1];
-            Z = data[2];
-            W = data[3];
+            x = data[0];
+            y = data[1];
+            z = data[2];
+            w = data[3];
         }
 
         #endregion
 
         #region Common Vectors
 
-        public static Vector4D Zero { get; } = new Vector4D(0, 0, 0);
-        public static Vector4D One { get; } = new Vector4D(1, 1, 1);
-        public static Vector4D Unit_X { get; } = new Vector4D(1, 0, 0);
-        public static Vector4D Unit_Y { get; } = new Vector4D(0, 1, 0);
-        public static Vector4D Unit_Z { get; } = new Vector4D(0, 0, 1);
-        public static Vector4D Unit_Negative_X { get; } = new Vector4D(-1, 0, 0);
-        public static Vector4D Unit_Negative_Y { get; } = new Vector4D(0, -1, 0);
-        public static Vector4D Unit_Negative_Z { get; } = new Vector4D(0, 0, -1);
+        public static Vector4D Zero = new Vector4D(0, 0, 0);
+        public static Vector4D One = new Vector4D(1, 1, 1);
+        public static Vector4D Unit_X = new Vector4D(1, 0, 0);
+        public static Vector4D Unit_Y = new Vector4D(0, 1, 0);
+        public static Vector4D Unit_Z = new Vector4D(0, 0, 1);
+        public static Vector4D Unit_Negative_X = new Vector4D(-1, 0, 0);
+        public static Vector4D Unit_Negative_Y = new Vector4D(0, -1, 0);
+        public static Vector4D Unit_Negative_Z = new Vector4D(0, 0, -1);
 
         #endregion
         
@@ -61,17 +61,17 @@ namespace _3D_Engine
 
         public float Angle(Vector4D v)
         {
-            if (this == Vector4D.Zero || v == Vector4D.Zero) throw new ArgumentException("Cannot calculate angle with one or more zeroed vectors."); //?
+            if (this == Vector4D.Zero || v == Vector4D.Zero) throw new ArgumentException("Cannot calculate angle with One or more zeroed vectors."); //?
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return (float)Math.Acos(quotient);
         }
 
-        public Vector4D Cross_Product(Vector4D v) => new Vector4D(this.Y * v.Z - this.Z * v.Y, this.Z * v.X - this.X * v.Z, this.X * v.Y - this.Y * v.X, this.W);
+        public Vector4D Cross_Product(Vector4D v) => new Vector4D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x, this.w);
 
         public float Magnitude() => (float)Math.Sqrt(Squared_Magnitude());
 
-        public float Squared_Magnitude() => X * X + Y * Y + Z * Z + W * W;
+        public float Squared_Magnitude() => x * x + y * y + z * z + w * w;
 
         /// <summary>
         /// Normalises a <see cref="Vector4D"/>.
@@ -79,33 +79,33 @@ namespace _3D_Engine
         /// <returns>A normalised <see cref="Vector4D"/>.</returns>
         public Vector4D Normalise() => (this == Vector4D.Zero) ? throw new ArgumentException("Cannot normalise a zeroed vector.") : this / Magnitude();
 
-        public override string ToString() => $"({X}, {Y}, {Z}, {W})";
+        public override string ToString() => $"({x}, {y}, {z}, {w})";
 
         #endregion
 
         #region Vector Operations
 
-        public static Vector4D operator +(Vector4D v1, Vector4D v2) => new Vector4D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z, v1.W);
+        public static Vector4D operator +(Vector4D v1, Vector4D v2) => new Vector4D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
 
-        public static Vector4D operator +(Vector4D v1, Vector3D v2) => new Vector4D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z, v1.W);
+        public static Vector4D operator +(Vector4D v1, Vector3D v2) => new Vector4D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
 
-        public static Vector4D operator -(Vector4D v1, Vector4D v2) => new Vector4D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z, v1.W);
+        public static Vector4D operator -(Vector4D v1, Vector4D v2) => new Vector4D(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w);
 
-        public static float operator *(Vector4D v1, Vector4D v2) => v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z + v1.W * v2.W;
+        public static float operator *(Vector4D v1, Vector4D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 
-        public static Vector4D operator *(Vector4D v, float scalar) => new Vector4D(v.X * scalar, v.Y * scalar, v.Z * scalar, v.W * scalar);
+        public static Vector4D operator *(Vector4D v, float scalar) => new Vector4D(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar);
 
         public static Vector4D operator *(float scalar, Vector4D v) => v * scalar;
 
-        public static Vector4D operator /(Vector4D v, float scalar) => new Vector4D(v.X / scalar, v.Y / scalar, v.Z / scalar, v.W / scalar);
+        public static Vector4D operator /(Vector4D v, float scalar) => new Vector4D(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar);
 
-        public static Vector4D operator -(Vector4D v) => new Vector4D(-v.X, -v.Y, -v.Z, -v.W);
+        public static Vector4D operator -(Vector4D v) => new Vector4D(-v.x, -v.y, -v.z, -v.w);
 
         #endregion
 
         #region Equality and Miscellaneous
 
-        public static bool operator ==(Vector4D v1, Vector4D v2) => v1.X == v2.X && v1.Y == v2.Y && v1.Z == v2.Z && v1.W == v2.W;
+        public static bool operator ==(Vector4D v1, Vector4D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z && v1.w == v2.w;
 
         public static bool operator !=(Vector4D v1, Vector4D v2) => !(v1 == v2);
 

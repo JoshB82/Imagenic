@@ -9,8 +9,8 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        public float X;
-        public float Y;
+        public float x;
+        public float y;
 
         #endregion
 
@@ -18,32 +18,32 @@ namespace _3D_Engine
 
         public Vector2D(float x, float y)
         {
-            X = x;
-            Y = y;
+            this.x = x;
+            this.y = y;
         }
 
         public Vector2D(Vector3D v)
         {
-            X = v.X;
-            Y = v.Y;
+            x = v.x;
+            y = v.y;
         }
 
         public Vector2D(float[] data)
         {
-            X = data[0];
-            Y = data[1];
+            x = data[0];
+            y = data[1];
         }
 
         #endregion
 
         #region Common Vectors
 
-        public static Vector2D Zero { get; } = new Vector2D(0, 0);
-        public static Vector2D One { get; } = new Vector2D(1, 1);
-        public static Vector2D Unit_X { get; } = new Vector2D(1, 0);
-        public static Vector2D Unit_Y { get; } = new Vector2D(0, 1);
-        public static Vector2D Unit_Negative_X { get; } = new Vector2D(-1, 0);
-        public static Vector2D Unit_Negative_Y { get; } = new Vector2D(0, -1);
+        public static Vector2D Zero  = new Vector2D(0, 0);
+        public static Vector2D One  = new Vector2D(1, 1);
+        public static Vector2D Unit_X  = new Vector2D(1, 0);
+        public static Vector2D Unit_Y  = new Vector2D(0, 1);
+        public static Vector2D Unit_Negative_X  = new Vector2D(-1, 0);
+        public static Vector2D Unit_Negative_Y  = new Vector2D(0, -1);
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace _3D_Engine
 
         public float Angle(Vector2D v)
         {
-            if (this == Vector2D.Zero || v == Vector2D.Zero) throw new ArgumentException("Cannot calculate angle with one or more zeroed vectors."); //?
+            if (this == Vector2D.Zero || v == Vector2D.Zero) throw new ArgumentException("Cannot calculate angle with One or more zeroed vectors."); //?
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return (float)Math.Acos(quotient);
@@ -59,7 +59,7 @@ namespace _3D_Engine
 
         public float Magnitude() => (float)Math.Sqrt(Squared_Magnitude());
 
-        public float Squared_Magnitude() => X * X + Y * Y;
+        public float Squared_Magnitude() => x * x + y * y;
 
         /// <summary>
         /// Normalises a <see cref="Vector2D"/>.
@@ -67,31 +67,31 @@ namespace _3D_Engine
         /// <returns>A normalised <see cref="Vector2D"/>.</returns>
         public Vector2D Normalise() => (this == Vector2D.Zero) ? throw new ArgumentException("Cannot normalise a zeroed vector.") : this / Magnitude();
 
-        public override string ToString() => $"({X}, {Y})";
+        public override string ToString() => $"({x}, {y})";
 
         #endregion
 
         #region Vector Operations
 
-        public static Vector2D operator +(Vector2D v1, Vector2D v2) => new Vector2D(v1.X + v2.X, v1.Y + v2.Y);
+        public static Vector2D operator +(Vector2D v1, Vector2D v2) => new Vector2D(v1.x + v2.x, v1.y + v2.y);
 
-        public static Vector2D operator -(Vector2D v1, Vector2D v2) => new Vector2D(v1.X - v2.X, v1.Y - v2.Y);
+        public static Vector2D operator -(Vector2D v1, Vector2D v2) => new Vector2D(v1.x - v2.x, v1.y - v2.y);
 
-        public static float operator *(Vector2D v1, Vector2D v2) => v1.X * v2.X + v1.Y * v2.Y;
+        public static float operator *(Vector2D v1, Vector2D v2) => v1.x * v2.x + v1.y * v2.y;
 
-        public static Vector2D operator *(Vector2D v, float scalar) => new Vector2D(v.X * scalar, v.Y * scalar);
+        public static Vector2D operator *(Vector2D v, float scalar) => new Vector2D(v.x * scalar, v.y * scalar);
 
         public static Vector2D operator *(float scalar, Vector2D v) => v * scalar;
 
-        public static Vector2D operator /(Vector2D v, float scalar) => new Vector2D(v.X / scalar, v.Y / scalar);
+        public static Vector2D operator /(Vector2D v, float scalar) => new Vector2D(v.x / scalar, v.y / scalar);
 
-        public static Vector2D operator -(Vector2D v) => new Vector2D(-v.X, -v.Y);
+        public static Vector2D operator -(Vector2D v) => new Vector2D(-v.x, -v.y);
 
         #endregion
         
         #region Equality and Miscellaneous
 
-        public static bool operator ==(Vector2D v1, Vector2D v2) => v1.X == v2.X && v1.Y == v2.Y;
+        public static bool operator ==(Vector2D v1, Vector2D v2) => v1.x == v2.x && v1.y == v2.y;
 
         public static bool operator !=(Vector2D v1, Vector2D v2) => !(v1 == v2);
 

@@ -61,7 +61,7 @@ namespace _3D_Engine
         {
             base.Calculate_Model_to_World();
 
-            Matrix4x4 scale = Transform.Scale(Scaling.X, Scaling.Y, Scaling.Z);
+            Matrix4x4 scale = Transform.Scale(Scaling.x, Scaling.y, Scaling.z);
             Model_to_World *= scale;
         }
 

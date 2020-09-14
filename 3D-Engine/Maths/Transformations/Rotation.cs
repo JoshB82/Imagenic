@@ -16,10 +16,10 @@ namespace _3D_Engine
             Matrix4x4 rotation = Matrix4x4.Identity;
             if (angle == 0) return rotation;
             float sin_angle = (float)Math.Sin(angle), cos_angle = (float)Math.Cos(angle);
-            rotation.M11 = cos_angle;
-            rotation.M12 = -sin_angle;
-            rotation.M21 = sin_angle;
-            rotation.M22 = cos_angle;
+            rotation.m11 = cos_angle;
+            rotation.m12 = -sin_angle;
+            rotation.m21 = sin_angle;
+            rotation.m22 = cos_angle;
             return rotation;
         }
 
@@ -33,10 +33,10 @@ namespace _3D_Engine
             Matrix4x4 rotation = Matrix4x4.Identity;
             if (angle == 0) return rotation;
             float sin_angle = (float)Math.Sin(angle), cos_angle = (float)Math.Cos(angle);
-            rotation.M00 = cos_angle;
-            rotation.M02 = sin_angle;
-            rotation.M20 = -sin_angle;
-            rotation.M22 = cos_angle;
+            rotation.m00 = cos_angle;
+            rotation.m02 = sin_angle;
+            rotation.m20 = -sin_angle;
+            rotation.m22 = cos_angle;
             return rotation;
         }
 
@@ -50,10 +50,10 @@ namespace _3D_Engine
             Matrix4x4 rotation = Matrix4x4.Identity;
             if (angle == 0) return rotation;
             float sin_angle = (float)Math.Sin(angle), cos_angle = (float)Math.Cos(angle);
-            rotation.M00 = cos_angle;
-            rotation.M01 = -sin_angle;
-            rotation.M10 = sin_angle;
-            rotation.M11 = cos_angle;
+            rotation.m00 = cos_angle;
+            rotation.m01 = -sin_angle;
+            rotation.m10 = sin_angle;
+            rotation.m11 = cos_angle;
             return rotation;
         }
 
@@ -69,17 +69,17 @@ namespace _3D_Engine
             float sin_angle = (float)Math.Sin(angle), cos_angle = (float)Math.Cos(angle);
             return new Matrix4x4
                 (
-                    cos_angle + axis.X * axis.X * (1 - cos_angle),
-                    axis.X * axis.Y * (1 - cos_angle) - axis.Z * sin_angle,
-                    axis.X * axis.Z * (1 - cos_angle) + axis.Y * sin_angle,
+                    cos_angle + axis.x * axis.x * (1 - cos_angle),
+                    axis.x * axis.y * (1 - cos_angle) - axis.z * sin_angle,
+                    axis.x * axis.z * (1 - cos_angle) + axis.y * sin_angle,
                     0,
-                    axis.Y * axis.X * (1 - cos_angle) + axis.Z * sin_angle,
-                    cos_angle + axis.Y * axis.Y * (1 - cos_angle),
-                    axis.Y * axis.Z * (1 - cos_angle) - axis.X * sin_angle,
+                    axis.y * axis.x * (1 - cos_angle) + axis.z * sin_angle,
+                    cos_angle + axis.y * axis.y * (1 - cos_angle),
+                    axis.y * axis.z * (1 - cos_angle) - axis.x * sin_angle,
                     0,
-                    axis.Z * axis.X * (1 - cos_angle) - axis.Y * sin_angle,
-                    axis.Z * axis.Y * (1 - cos_angle) + axis.X * sin_angle,
-                    cos_angle + axis.Z * axis.Z * (1 - cos_angle),
+                    axis.z * axis.x * (1 - cos_angle) - axis.y * sin_angle,
+                    axis.z * axis.y * (1 - cos_angle) + axis.x * sin_angle,
+                    cos_angle + axis.z * axis.z * (1 - cos_angle),
                     0,
                     0,
                     0,
@@ -167,17 +167,17 @@ namespace _3D_Engine
             // (ANTI CLOCKWISE WHEN LOOKING AT ORIGIN FROM ARROW TIP TO BEGINNING)
             new Matrix4x4
                 (
-                    1 - 2 * (q.Q3 * q.Q3 + q.Q4 * q.Q4),
-                    2 * (q.Q2 * q.Q3 - q.Q4 * q.Q1),
-                    2 * (q.Q2 * q.Q4 + q.Q3 * q.Q1),
+                    1 - 2 * (q.q3 * q.q3 + q.q4 * q.q4),
+                    2 * (q.q2 * q.q3 - q.q4 * q.q1),
+                    2 * (q.q2 * q.q4 + q.q3 * q.q1),
                     0,
-                    2 * (q.Q2 * q.Q3 + q.Q4 * q.Q1),
-                    1 - 2 * (q.Q2 * q.Q2 + q.Q4 * q.Q4),
-                    2 * (q.Q3 * q.Q4 - q.Q2 * q.Q1),
+                    2 * (q.q2 * q.q3 + q.q4 * q.q1),
+                    1 - 2 * (q.q2 * q.q2 + q.q4 * q.q4),
+                    2 * (q.q3 * q.q4 - q.q2 * q.q1),
                     0,
-                    2 * (q.Q2 * q.Q4 - q.Q3 * q.Q1),
-                    2 * (q.Q3 * q.Q4 + q.Q2 * q.Q1),
-                    1 - 2 * (q.Q2 * q.Q2 + q.Q3 * q.Q3),
+                    2 * (q.q2 * q.q4 - q.q3 * q.q1),
+                    2 * (q.q3 * q.q4 + q.q2 * q.q1),
+                    1 - 2 * (q.q2 * q.q2 + q.q3 * q.q3),
                     0,
                     0,
                     0,

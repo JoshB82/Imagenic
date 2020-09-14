@@ -47,9 +47,9 @@ namespace _3D_Engine
 
                 if (light is Spotlight)
                 {
-                    clipped_face.P1 /= clipped_face.P1.W;
-                    clipped_face.P2 /= clipped_face.P2.W;
-                    clipped_face.P3 /= clipped_face.P3.W;
+                    clipped_face.P1 /= clipped_face.P1.w;
+                    clipped_face.P2 /= clipped_face.P2.w;
+                    clipped_face.P3 /= clipped_face.P3.w;
                 }
             }
 
@@ -59,7 +59,7 @@ namespace _3D_Engine
             foreach (Face clipped_face in face_clip)
             {
                 // Don't draw anything if the face is flat
-                if ((clipped_face.P1.X == clipped_face.P2.X && clipped_face.P2.X == clipped_face.P3.X) || (clipped_face.P1.Y == clipped_face.P2.Y && clipped_face.P2.Y == clipped_face.P3.Y))
+                if ((clipped_face.P1.x == clipped_face.P2.x && clipped_face.P2.x == clipped_face.P3.x) || (clipped_face.P1.y == clipped_face.P2.y && clipped_face.P2.y == clipped_face.P3.y))
                 {
                     continue;
                 }
@@ -68,15 +68,15 @@ namespace _3D_Engine
                 clipped_face.Apply_Matrix(screen_to_window);
                 
                 // Round the vertices
-                int x1 = clipped_face.P1.X.Round_to_Int();
-                int y1 = clipped_face.P1.Y.Round_to_Int();
-                float z1 = clipped_face.P1.Z;
-                int x2 = clipped_face.P2.X.Round_to_Int();
-                int y2 = clipped_face.P2.Y.Round_to_Int();
-                float z2 = clipped_face.P2.Z;
-                int x3 = clipped_face.P3.X.Round_to_Int();
-                int y3 = clipped_face.P3.Y.Round_to_Int();
-                float z3 = clipped_face.P3.Z;
+                int x1 = clipped_face.P1.x.Round_to_Int();
+                int y1 = clipped_face.P1.y.Round_to_Int();
+                float z1 = clipped_face.P1.z;
+                int x2 = clipped_face.P2.x.Round_to_Int();
+                int y2 = clipped_face.P2.y.Round_to_Int();
+                float z2 = clipped_face.P2.z;
+                int x3 = clipped_face.P3.x.Round_to_Int();
+                int y3 = clipped_face.P3.y.Round_to_Int();
+                float z3 = clipped_face.P3.z;
 
                 // Sort the vertices by their y-co-ordinate
                 Sort_By_Y(

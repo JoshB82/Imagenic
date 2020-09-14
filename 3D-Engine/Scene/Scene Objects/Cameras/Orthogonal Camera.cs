@@ -20,11 +20,11 @@ namespace _3D_Engine
                 width = value;
 
                 // Update camera-view-to-camera-screen matrix
-                Camera_View_to_Camera_Screen.M00 = 2 / width;
+                Camera_View_to_Camera_Screen.m00 = 2 / width;
 
                 // Update left and right clipping planes
-                Camera_View_Clipping_Planes[0].Point = new Vector3D(-width / 2, 0, 0);
-                Camera_View_Clipping_Planes[3].Point = new Vector3D(width / 2, 0, 0);
+                Camera_View_Clipping_Planes[0].Point.x = -width / 2;
+                Camera_View_Clipping_Planes[3].Point.x = width / 2;
             }
         }
         public override float Height
@@ -35,11 +35,11 @@ namespace _3D_Engine
                 height = value;
 
                 // Update camera-view-to-camera-screen matrix
-                Camera_View_to_Camera_Screen.M11 = 2 / height;
+                Camera_View_to_Camera_Screen.m11 = 2 / height;
 
                 // Update top and bottom clipping planes
-                Camera_View_Clipping_Planes[1].Point = new Vector3D(0, -height / 2, 0);
-                Camera_View_Clipping_Planes[4].Point = new Vector3D(0, height / 2, 0);
+                Camera_View_Clipping_Planes[1].Point.y = -height / 2;
+                Camera_View_Clipping_Planes[4].Point.y = height / 2;
             }
         }
         public override float Z_Near
@@ -50,11 +50,11 @@ namespace _3D_Engine
                 z_near = value;
 
                 // Update camera-view-to-camera-screen matrix
-                Camera_View_to_Camera_Screen.M22 = 2 / (z_far - z_near);
-                Camera_View_to_Camera_Screen.M23 = -(z_far + z_near) / (z_far - z_near);
+                Camera_View_to_Camera_Screen.m22 = 2 / (z_far - z_near);
+                Camera_View_to_Camera_Screen.m23 = -(z_far + z_near) / (z_far - z_near);
 
                 // Update near clipping plane
-                Camera_View_Clipping_Planes[2].Point = new Vector3D(0, 0, z_near);
+                Camera_View_Clipping_Planes[2].Point.z = z_near;
             }
         }
         public override float Z_Far
@@ -65,11 +65,11 @@ namespace _3D_Engine
                 z_far = value;
 
                 // Update camera-view-to-camera-screen matrix
-                Camera_View_to_Camera_Screen.M22 = 2 / (z_far - z_near);
-                Camera_View_to_Camera_Screen.M23 = -(z_far + z_near) / (z_far - z_near);
+                Camera_View_to_Camera_Screen.m22 = 2 / (z_far - z_near);
+                Camera_View_to_Camera_Screen.m23 = -(z_far + z_near) / (z_far - z_near);
 
                 // Update far clipping plane
-                Camera_View_Clipping_Planes[5].Point = new Vector3D(0, 0, z_far);
+                Camera_View_Clipping_Planes[5].Point.z = z_far;
             }
         }
 

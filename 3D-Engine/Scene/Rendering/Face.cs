@@ -57,15 +57,15 @@ namespace _3D_Engine
 
                 if (Render_Camera is Perspective_Camera)
                 {
-                    clipped_face.P1 /= clipped_face.P1.W;
-                    clipped_face.P2 /= clipped_face.P2.W;
-                    clipped_face.P3 /= clipped_face.P3.W;
+                    clipped_face.P1 /= clipped_face.P1.w;
+                    clipped_face.P2 /= clipped_face.P2.w;
+                    clipped_face.P3 /= clipped_face.P3.w;
                     
                     if (face.Has_Texture)
                     {
-                        clipped_face.T1 /= clipped_face.P1.W;
-                        clipped_face.T2 /= clipped_face.P2.W;
-                        clipped_face.T3 /= clipped_face.P3.W;
+                        clipped_face.T1 /= clipped_face.P1.w;
+                        clipped_face.T2 /= clipped_face.P2.w;
+                        clipped_face.T3 /= clipped_face.P3.w;
                     }
                 }
             }
@@ -79,7 +79,7 @@ namespace _3D_Engine
             foreach (Face clipped_face in face_clip_queue)
             {
                 // Don't draw anything if the face is flat
-                if ((clipped_face.P1.X == clipped_face.P2.X && clipped_face.P2.X == clipped_face.P3.X) || (clipped_face.P1.Y == clipped_face.P2.Y && clipped_face.P2.Y == clipped_face.P3.Y))
+                if ((clipped_face.P1.x == clipped_face.P2.x && clipped_face.P2.x == clipped_face.P3.x) || (clipped_face.P1.y == clipped_face.P2.y && clipped_face.P2.y == clipped_face.P3.y))
                 {
                     continue;
                 }
@@ -88,15 +88,15 @@ namespace _3D_Engine
                 clipped_face.Apply_Matrix(screen_to_window);
 
                 // Round the vertices
-                int x1 = clipped_face.P1.X.Round_to_Int();
-                int y1 = clipped_face.P1.Y.Round_to_Int();
-                float z1 = clipped_face.P1.Z;
-                int x2 = clipped_face.P2.X.Round_to_Int();
-                int y2 = clipped_face.P2.Y.Round_to_Int();
-                float z2 = clipped_face.P2.Z;
-                int x3 = clipped_face.P3.X.Round_to_Int();
-                int y3 = clipped_face.P3.Y.Round_to_Int();
-                float z3 = clipped_face.P3.Z;                                
+                int x1 = clipped_face.P1.x.Round_to_Int();
+                int y1 = clipped_face.P1.y.Round_to_Int();
+                float z1 = clipped_face.P1.z;
+                int x2 = clipped_face.P2.x.Round_to_Int();
+                int y2 = clipped_face.P2.y.Round_to_Int();
+                float z2 = clipped_face.P2.z;
+                int x3 = clipped_face.P3.x.Round_to_Int();
+                int y3 = clipped_face.P3.y.Round_to_Int();
+                float z3 = clipped_face.P3.z;                                
                 
                 // Check if the face has a texture
                 if (face.Has_Texture)
@@ -106,12 +106,12 @@ namespace _3D_Engine
                     int height = face.Texture_Object.File.Height - 1;
 
                     // afterwards?
-                    float tx1 = face.T1.X * width;
-                    float ty1 = face.T1.Y * height;
-                    float tx2 = face.T2.X * width;
-                    float ty2 = face.T2.Y * height;
-                    float tx3 = face.T3.X * width;
-                    float ty3 = face.T3.Y * height;
+                    float tx1 = face.T1.x * width;
+                    float ty1 = face.T1.y * height;
+                    float tx2 = face.T2.x * width;
+                    float ty2 = face.T2.y * height;
+                    float tx3 = face.T3.x * width;
+                    float ty3 = face.T3.y * height;
 
                     // Sort the vertices by their y-co-ordinate
                     Textured_Sort_By_Y(
@@ -171,7 +171,7 @@ namespace _3D_Engine
             Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);
 
             // Move the point from camera-screen space to world space and apply lighting
-            camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.Z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
+            camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
 
             Apply_Lighting(camera_screen_to_world * camera_screen_space_point, point_colour, x, y);
         }
@@ -198,14 +198,14 @@ namespace _3D_Engine
 
                     if (light is Spotlight)
                     {
-                        light_screen_space_point /= light_screen_space_point.W;
+                        light_screen_space_point /= light_screen_space_point.w;
                     }
 
                     Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
 
-                    int light_point_x = light_window_space_point.X.Round_to_Int(); //?
-                    int light_point_y = light_window_space_point.Y.Round_to_Int();
-                    float light_point_z = light_window_space_point.Z;
+                    int light_point_x = light_window_space_point.x.Round_to_Int(); //?
+                    int light_point_y = light_window_space_point.y.Round_to_Int();
+                    float light_point_z = light_window_space_point.z;
 
                     if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width && light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                     {

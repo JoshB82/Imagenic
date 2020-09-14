@@ -10,7 +10,7 @@
         public static Matrix4x4 Scale_X(float scale_factor)
         {
             Matrix4x4 scaling = Matrix4x4.Identity;
-            scaling.M00 = scale_factor;
+            scaling.m00 = scale_factor;
             return scaling;
         }
 
@@ -22,7 +22,7 @@
         public static Matrix4x4 Scale_Y(float scale_factor)
         {
             Matrix4x4 scaling = Matrix4x4.Identity;
-            scaling.M11 = scale_factor;
+            scaling.m11 = scale_factor;
             return scaling;
         }
 
@@ -34,7 +34,7 @@
         public static Matrix4x4 Scale_Z(float scale_factor)
         {
             Matrix4x4 scaling = Matrix4x4.Identity;
-            scaling.M22 = scale_factor;
+            scaling.m22 = scale_factor;
             return scaling;
         }
 
@@ -48,9 +48,9 @@
         public static Matrix4x4 Scale(float scale_factor_x, float scale_factor_y, float scale_factor_z)
         {
             Matrix4x4 scaling = Matrix4x4.Identity;
-            scaling.M00 = scale_factor_x;
-            scaling.M11 = scale_factor_y;
-            scaling.M22 = scale_factor_z;
+            scaling.m00 = scale_factor_x;
+            scaling.m11 = scale_factor_y;
+            scaling.m22 = scale_factor_z;
             return scaling;
         }
 

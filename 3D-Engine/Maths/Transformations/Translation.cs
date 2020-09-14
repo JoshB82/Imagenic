@@ -10,7 +10,7 @@
         public static Matrix4x4 Translate_X(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
-            translation.M03 = distance;
+            translation.m03 = distance;
             return translation;
         }
 
@@ -22,7 +22,7 @@
         public static Matrix4x4 Translate_Y(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
-            translation.M13 = distance;
+            translation.m13 = distance;
             return translation;
         }
 
@@ -34,7 +34,7 @@
         public static Matrix4x4 Translate_Z(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
-            translation.M23 = distance;
+            translation.m23 = distance;
             return translation;
         }
 
@@ -48,9 +48,9 @@
         public static Matrix4x4 Translate(float distance_x, float distance_y, float distance_z)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
-            translation.M03 = distance_x;
-            translation.M13 = distance_y;
-            translation.M23 = distance_z;
+            translation.m03 = distance_x;
+            translation.m13 = distance_y;
+            translation.m23 = distance_z;
             return translation;
         }
 
@@ -62,9 +62,9 @@
         public static Matrix4x4 Translate(Vector3D distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
-            translation.M03 = distance.X;
-            translation.M13 = distance.Y;
-            translation.M23 = distance.Z;
+            translation.m03 = distance.x;
+            translation.m13 = distance.y;
+            translation.m23 = distance.z;
             return translation;
         }
     }

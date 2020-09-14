@@ -23,7 +23,7 @@ namespace _3D_Engine
                 Set_Shadow_Map();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.M00 = 2 * shadow_map_z_near / shadow_map_width;
+                Light_View_to_Light_Screen.m00 = 2 * shadow_map_z_near / shadow_map_width;
             }
         }
 
@@ -38,7 +38,7 @@ namespace _3D_Engine
                 Set_Shadow_Map();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.M11 = 2 * shadow_map_z_near / shadow_map_height;
+                Light_View_to_Light_Screen.m11 = 2 * shadow_map_z_near / shadow_map_height;
             }
         }
 
@@ -50,8 +50,8 @@ namespace _3D_Engine
                 shadow_map_z_near = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.M22 = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.M23 = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.m22 = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.m23 = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
             }
         }
 
@@ -63,8 +63,8 @@ namespace _3D_Engine
                 shadow_map_z_far = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.M22 = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.M23 = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.m22 = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.m23 = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
             }
         }
 
@@ -75,7 +75,7 @@ namespace _3D_Engine
         public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
         {
             Light_View_to_Light_Screen = Matrix4x4.Zero;
-            Light_View_to_Light_Screen.M32 = 1;
+            Light_View_to_Light_Screen.m32 = 1;
 
             Shadow_Map_Width = Default.Shadow_Map_Width;
             Shadow_Map_Height = Default.Shadow_Map_Height;

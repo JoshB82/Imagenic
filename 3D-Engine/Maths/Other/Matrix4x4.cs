@@ -8,10 +8,10 @@ namespace _3D_Engine
         #region Fields and Properties
         
         // Matrix contents
-        public float M00, M01, M02, M03;
-        public float M10, M11, M12, M13;
-        public float M20, M21, M22, M23;
-        public float M30, M31, M32, M33;
+        public float m00, m01, m02, m03;
+        public float m10, m11, m12, m13;
+        public float m20, m21, m22, m23;
+        public float m30, m31, m32, m33;
 
         #endregion
 
@@ -24,10 +24,10 @@ namespace _3D_Engine
             float m20, float m21, float m22, float m23, 
             float m30, float m31, float m32, float m33)
         {
-            (M00, M01, M02, M03) = (m00, m01, m02, m03);
-            (M10, M11, M12, M13) = (m10, m11, m12, m13);
-            (M20, M21, M22, M23) = (m20, m21, m22, m23);
-            (M30, M31, M32, M33) = (m30, m31, m32, m33);
+            (this.m00, this.m01, this.m02, this.m03) = (m00, m01, m02, m03);
+            (this.m10, this.m11, this.m12, this.m13) = (m10, m11, m12, m13);
+            (this.m20, this.m21, this.m22, this.m23) = (m20, m21, m22, m23);
+            (this.m30, this.m31, this.m32, this.m33) = (m30, m31, m32, m33);
         }
 
         public Matrix4x4(float[,] elements)
@@ -36,10 +36,10 @@ namespace _3D_Engine
                 || elements.GetLength(1) != 4)
                 throw new ArgumentException("\"elements\" must be of size 4x4.", nameof(elements));
 
-            (M00, M01, M02, M03) = (elements[0, 0], elements[0, 1], elements[0, 2], elements[0, 3]);
-            (M10, M11, M12, M13) = (elements[1, 0], elements[1, 1], elements[1, 2], elements[1, 3]);
-            (M20, M21, M22, M23) = (elements[2, 0], elements[2, 1], elements[2, 2], elements[2, 3]);
-            (M30, M31, M32, M33) = (elements[3, 0], elements[3, 1], elements[3, 2], elements[3, 3]);
+            (m00, m01, m02, m03) = (elements[0, 0], elements[0, 1], elements[0, 2], elements[0, 3]);
+            (m10, m11, m12, m13) = (elements[1, 0], elements[1, 1], elements[1, 2], elements[1, 3]);
+            (m20, m21, m22, m23) = (elements[2, 0], elements[2, 1], elements[2, 2], elements[2, 3]);
+            (m30, m31, m32, m33) = (elements[3, 0], elements[3, 1], elements[3, 2], elements[3, 3]);
         }
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float[][])']/*"/>
@@ -52,19 +52,18 @@ namespace _3D_Engine
                 elements[3].Length != 4)
                 throw new ArgumentException("\"elements\" must be of size 4x4.");
 
-            (M00, M01, M02, M03) = (elements[0][0], elements[0][1], elements[0][2], elements[0][3]);
-            (M10, M11, M12, M13) = (elements[1][0], elements[1][1], elements[1][2], elements[1][3]);
-            (M20, M21, M22, M23) = (elements[2][0], elements[2][1], elements[2][2], elements[2][3]);
-            (M30, M31, M32, M33) = (elements[3][0], elements[3][1], elements[3][2], elements[3][3]);
+            (m00, m01, m02, m03) = (elements[0][0], elements[0][1], elements[0][2], elements[0][3]);
+            (m10, m11, m12, m13) = (elements[1][0], elements[1][1], elements[1][2], elements[1][3]);
+            (m20, m21, m22, m23) = (elements[2][0], elements[2][1], elements[2][2], elements[2][3]);
+            (m30, m31, m32, m33) = (elements[3][0], elements[3][1], elements[3][2], elements[3][3]);
         }
 
         #endregion
 
         #region Common Matrices
 
-        public static Matrix4x4 Zero => new Matrix4x4();
-        public static Matrix4x4 Identity =>
-            new Matrix4x4 { M00 = 1, M11 = 1, M22 = 1, M33 = 1 };
+        public static Matrix4x4 Zero = new Matrix4x4();
+        public static Matrix4x4 Identity = new Matrix4x4 { m00 = 1, m11 = 1, m22 = 1, m33 = 1 };
 
         #endregion
 
@@ -73,66 +72,66 @@ namespace _3D_Engine
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Determinant']/*"/> // source!
         public float Determinant()
         {
-            float d1 = M20 * M31 - M21 * M30;
-            float d2 = M20 * M32 - M22 * M30;
-            float d3 = M20 * M33 - M23 * M30;
-            float d4 = M21 * M32 - M22 * M31;
-            float d5 = M21 * M33 - M23 * M31;
-            float d6 = M22 * M33 - M23 * M32;
+            float d1 = m20 * m31 - m21 * m30;
+            float d2 = m20 * m32 - m22 * m30;
+            float d3 = m20 * m33 - m23 * m30;
+            float d4 = m21 * m32 - m22 * m31;
+            float d5 = m21 * m33 - m23 * m31;
+            float d6 = m22 * m33 - m23 * m32;
 
             return
-              M00 * (M11 * d6 - M12 * d5 + M13 * d4)
-            - M01 * (M10 * d6 - M12 * d3 + M13 * d2)
-            + M02 * (M10 * d5 - M11 * d3 + M13 * d1)
-            - M03 * (M10 * d4 - M11 * d2 + M12 * d1);
+              m00 * (m11 * d6 - m12 * d5 + m13 * d4)
+            - m01 * (m10 * d6 - m12 * d3 + m13 * d2)
+            + m02 * (m10 * d5 - m11 * d3 + m13 * d1)
+            - m03 * (m10 * d4 - m11 * d2 + m12 * d1);
         }
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Inverse']/*"/>
         public Matrix4x4 Inverse()
         {
-            float d1 = M10 * M21 - M11 * M20;
-            float d2 = M10 * M22 - M12 * M20;
-            float d3 = M10 * M23 - M13 * M20;
-            float d4 = M10 * M31 - M11 * M30;
-            float d5 = M10 * M32 - M12 * M30;
-            float d6 = M10 * M33 - M13 * M30;
-            float d7 = M11 * M22 - M12 * M21;
-            float d8 = M11 * M23 - M13 * M21;
-            float d9 = M11 * M32 - M12 * M31;
-            float d10 = M11 * M33 - M13 * M31;
-            float d11 = M12 * M23 - M13 * M22;
-            float d12 = M12 * M33 - M13 * M32;
-            float d13 = M20 * M31 - M21 * M30;
-            float d14 = M20 * M32 - M22 * M30;
-            float d15 = M20 * M33 - M23 * M30;
-            float d16 = M21 * M32 - M22 * M31;
-            float d17 = M21 * M33 - M23 * M31;
-            float d18 = M22 * M33 - M23 * M32;
+            float d1 = m10 * m21 - m11 * m20;
+            float d2 = m10 * m22 - m12 * m20;
+            float d3 = m10 * m23 - m13 * m20;
+            float d4 = m10 * m31 - m11 * m30;
+            float d5 = m10 * m32 - m12 * m30;
+            float d6 = m10 * m33 - m13 * m30;
+            float d7 = m11 * m22 - m12 * m21;
+            float d8 = m11 * m23 - m13 * m21;
+            float d9 = m11 * m32 - m12 * m31;
+            float d10 = m11 * m33 - m13 * m31;
+            float d11 = m12 * m23 - m13 * m22;
+            float d12 = m12 * m33 - m13 * m32;
+            float d13 = m20 * m31 - m21 * m30;
+            float d14 = m20 * m32 - m22 * m30;
+            float d15 = m20 * m33 - m23 * m30;
+            float d16 = m21 * m32 - m22 * m31;
+            float d17 = m21 * m33 - m23 * m31;
+            float d18 = m22 * m33 - m23 * m32;
 
-            float det =   M00 * (M11 * d18 - M12 * d17 + M13 * d16)
-                         - M01 * (M10 * d18 - M12 * d15 + M13 * d14)
-                         + M02 * (M10 * d17 - M11 * d15 + M13 * d13)
-                         - M03 * (M10 * d16 - M11 * d14 + M12 * d13);
+            float det =   m00 * (m11 * d18 - m12 * d17 + m13 * d16)
+                         - m01 * (m10 * d18 - m12 * d15 + m13 * d14)
+                         + m02 * (m10 * d17 - m11 * d15 + m13 * d13)
+                         - m03 * (m10 * d16 - m11 * d14 + m12 * d13);
             if (det == 0) throw new InvalidOperationException("Matrix does not have an inverse.");
 
             return new Matrix4x4
             (
-                M11 * d18 - M12 * d17 + M13 * d16,
-                -(M01 * d18 - M02 * d17 + M03 * d16),
-                M01 * d12 - M02 * d10 + M03 * d9,
-                -(M01 * d11 - M02 * d8 + M03 * d7),
-                -(M10 * d18 - M12 * d15 + M13 * d14),
-                M00 * d18 - M02 * d15 + M03 * d14,
-                -(M00 * d12 - M02 * d6 + M03 * d5),
-                M00 * d11 - M02 * d3 + M03 * d2,
-                M10 * d17 - M11 * d15 + M13 * d13,
-                -(M00 * d17 - M01 * d15 + M03 * d13),
-                M00 * d10 - M01 * d6 + M03 * d4,
-                -(M00 * d8 - M01 * d3 + M03 * d1),
-                -(M10 * d16 - M11 * d14 + M12 * d13),
-                M00 * d16 - M01 * d14 + M02 * d13,
-                -(M00 * d9 - M01 * d5 + M02 * d4),
-                M00 * d7 - M01 * d2 + M02 * d1
+                m11 * d18 - m12 * d17 + m13 * d16,
+                -(m01 * d18 - m02 * d17 + m03 * d16),
+                m01 * d12 - m02 * d10 + m03 * d9,
+                -(m01 * d11 - m02 * d8 + m03 * d7),
+                -(m10 * d18 - m12 * d15 + m13 * d14),
+                m00 * d18 - m02 * d15 + m03 * d14,
+                -(m00 * d12 - m02 * d6 + m03 * d5),
+                m00 * d11 - m02 * d3 + m03 * d2,
+                m10 * d17 - m11 * d15 + m13 * d13,
+                -(m00 * d17 - m01 * d15 + m03 * d13),
+                m00 * d10 - m01 * d6 + m03 * d4,
+                -(m00 * d8 - m01 * d3 + m03 * d1),
+                -(m10 * d16 - m11 * d14 + m12 * d13),
+                m00 * d16 - m01 * d14 + m02 * d13,
+                -(m00 * d9 - m01 * d5 + m02 * d4),
+                m00 * d7 - m01 * d2 + m02 * d1
             ) / det;
         }
 
@@ -140,18 +139,18 @@ namespace _3D_Engine
         public Matrix4x4 Transpose() =>
             new Matrix4x4
             (
-                M00, M10, M20, M30,
-                M01, M11, M21, M31,
-                M02, M12, M22, M32,
-                M03, M13, M23, M33
+                m00, m10, m20, m30,
+                m01, m11, m21, m31,
+                m02, m12, m22, m32,
+                m03, m13, m23, m33
             );
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.ToString']/*"/>
         public override string ToString() =>
-            $"({M00}, {M01}, {M02}, {M03}, \n" +
-            $"{M10}, {M11}, {M12}, {M13}, \n" +
-            $"{M20}, {M21}, {M22}, {M23}, \n" +
-            $"{M30}, {M31}, {M32}, {M33})";
+            $"({m00}, {m01}, {m02}, {m03}, \n" +
+            $"{m10}, {m11}, {m12}, {m13}, \n" +
+            $"{m20}, {m21}, {m22}, {m23}, \n" +
+            $"{m30}, {m31}, {m32}, {m33})";
 
         #endregion
 
@@ -161,61 +160,61 @@ namespace _3D_Engine
         public static Matrix4x4 operator +(Matrix4x4 m1, Matrix4x4 m2) =>
             new Matrix4x4()
             {
-                M00 = m1.M00 + m2.M00, M01 = m1.M01 + m2.M01, M02 = m1.M02 + m2.M02, M03 = m1.M03 + m2.M03,
-                M10 = m1.M10 + m2.M10, M11 = m1.M11 + m2.M11, M12 = m1.M12 + m2.M12, M13 = m1.M13 + m2.M13,
-                M20 = m1.M20 + m2.M20, M21 = m1.M21 + m2.M21, M22 = m1.M22 + m2.M22, M23 = m1.M23 + m2.M23,
-                M30 = m1.M30 + m2.M30, M31 = m1.M31 + m2.M31, M32 = m1.M32 + m2.M32, M33 = m1.M33 + m2.M33
+                m00 = m1.m00 + m2.m00, m01 = m1.m01 + m2.m01, m02 = m1.m02 + m2.m02, m03 = m1.m03 + m2.m03,
+                m10 = m1.m10 + m2.m10, m11 = m1.m11 + m2.m11, m12 = m1.m12 + m2.m12, m13 = m1.m13 + m2.m13,
+                m20 = m1.m20 + m2.m20, m21 = m1.m21 + m2.m21, m22 = m1.m22 + m2.m22, m23 = m1.m23 + m2.m23,
+                m30 = m1.m30 + m2.m30, m31 = m1.m31 + m2.m31, m32 = m1.m32 + m2.m32, m33 = m1.m33 + m2.m33
             };
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator -(Matrix4x4 m1, Matrix4x4 m2) =>
             new Matrix4x4()
             {
-                M00 = m1.M00 - m2.M00, M01 = m1.M01 - m2.M01, M02 = m1.M02 - m2.M02, M03 = m1.M03 - m2.M03,
-                M10 = m1.M10 - m2.M10, M11 = m1.M11 - m2.M11, M12 = m1.M12 - m2.M12, M13 = m1.M13 - m2.M13,
-                M20 = m1.M20 - m2.M20, M21 = m1.M21 - m2.M21, M22 = m1.M22 - m2.M22, M23 = m1.M23 - m2.M23,
-                M30 = m1.M30 - m2.M30, M31 = m1.M31 - m2.M31, M32 = m1.M32 - m2.M32, M33 = m1.M33 - m2.M33
+                m00 = m1.m00 - m2.m00, m01 = m1.m01 - m2.m01, m02 = m1.m02 - m2.m02, m03 = m1.m03 - m2.m03,
+                m10 = m1.m10 - m2.m10, m11 = m1.m11 - m2.m11, m12 = m1.m12 - m2.m12, m13 = m1.m13 - m2.m13,
+                m20 = m1.m20 - m2.m20, m21 = m1.m21 - m2.m21, m22 = m1.m22 - m2.m22, m23 = m1.m23 - m2.m23,
+                m30 = m1.m30 - m2.m30, m31 = m1.m31 - m2.m31, m32 = m1.m32 - m2.m32, m33 = m1.m33 - m2.m33
             };
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator *(Matrix4x4 m1, Matrix4x4 m2) =>
             new Matrix4x4
             (
-                m1.M00 * m2.M00 + m1.M01 * m2.M10 + m1.M02 * m2.M20 + m1.M03 * m2.M30,
-                m1.M00 * m2.M01 + m1.M01 * m2.M11 + m1.M02 * m2.M21 + m1.M03 * m2.M31,
-                m1.M00 * m2.M02 + m1.M01 * m2.M12 + m1.M02 * m2.M22 + m1.M03 * m2.M32,
-                m1.M00 * m2.M03 + m1.M01 * m2.M13 + m1.M02 * m2.M23 + m1.M03 * m2.M33,
-                m1.M10 * m2.M00 + m1.M11 * m2.M10 + m1.M12 * m2.M20 + m1.M13 * m2.M30,
-                m1.M10 * m2.M01 + m1.M11 * m2.M11 + m1.M12 * m2.M21 + m1.M13 * m2.M31,
-                m1.M10 * m2.M02 + m1.M11 * m2.M12 + m1.M12 * m2.M22 + m1.M13 * m2.M32,
-                m1.M10 * m2.M03 + m1.M11 * m2.M13 + m1.M12 * m2.M23 + m1.M13 * m2.M33,
-                m1.M20 * m2.M00 + m1.M21 * m2.M10 + m1.M22 * m2.M20 + m1.M23 * m2.M30,
-                m1.M20 * m2.M01 + m1.M21 * m2.M11 + m1.M22 * m2.M21 + m1.M23 * m2.M31,
-                m1.M20 * m2.M02 + m1.M21 * m2.M12 + m1.M22 * m2.M22 + m1.M23 * m2.M32,
-                m1.M20 * m2.M03 + m1.M21 * m2.M13 + m1.M22 * m2.M23 + m1.M23 * m2.M33,
-                m1.M30 * m2.M00 + m1.M31 * m2.M10 + m1.M32 * m2.M20 + m1.M33 * m2.M30,
-                m1.M30 * m2.M01 + m1.M31 * m2.M11 + m1.M32 * m2.M21 + m1.M33 * m2.M31,
-                m1.M30 * m2.M02 + m1.M31 * m2.M12 + m1.M32 * m2.M22 + m1.M33 * m2.M32,
-                m1.M30 * m2.M03 + m1.M31 * m2.M13 + m1.M32 * m2.M23 + m1.M33 * m2.M33
+                m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20 + m1.m03 * m2.m30,
+                m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21 + m1.m03 * m2.m31,
+                m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22 + m1.m03 * m2.m32,
+                m1.m00 * m2.m03 + m1.m01 * m2.m13 + m1.m02 * m2.m23 + m1.m03 * m2.m33,
+                m1.m10 * m2.m00 + m1.m11 * m2.m10 + m1.m12 * m2.m20 + m1.m13 * m2.m30,
+                m1.m10 * m2.m01 + m1.m11 * m2.m11 + m1.m12 * m2.m21 + m1.m13 * m2.m31,
+                m1.m10 * m2.m02 + m1.m11 * m2.m12 + m1.m12 * m2.m22 + m1.m13 * m2.m32,
+                m1.m10 * m2.m03 + m1.m11 * m2.m13 + m1.m12 * m2.m23 + m1.m13 * m2.m33,
+                m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20 + m1.m23 * m2.m30,
+                m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21 + m1.m23 * m2.m31,
+                m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22 + m1.m23 * m2.m32,
+                m1.m20 * m2.m03 + m1.m21 * m2.m13 + m1.m22 * m2.m23 + m1.m23 * m2.m33,
+                m1.m30 * m2.m00 + m1.m31 * m2.m10 + m1.m32 * m2.m20 + m1.m33 * m2.m30,
+                m1.m30 * m2.m01 + m1.m31 * m2.m11 + m1.m32 * m2.m21 + m1.m33 * m2.m31,
+                m1.m30 * m2.m02 + m1.m31 * m2.m12 + m1.m32 * m2.m22 + m1.m33 * m2.m32,
+                m1.m30 * m2.m03 + m1.m31 * m2.m13 + m1.m32 * m2.m23 + m1.m33 * m2.m33
             );
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)']/*"/>
         public static Vector4D operator *(Matrix4x4 m, Vector4D v) => 
             new Vector4D(
-                m.M00 * v.X + m.M01 * v.Y + m.M02 * v.Z + m.M03 * v.W,
-                m.M10 * v.X + m.M11 * v.Y + m.M12 * v.Z + m.M13 * v.W,
-                m.M20 * v.X + m.M21 * v.Y + m.M22 * v.Z + m.M23 * v.W,
-                m.M30 * v.X + m.M31 * v.Y + m.M32 * v.Z + m.M33 * v.W
+                m.m00 * v.x + m.m01 * v.y + m.m02 * v.z + m.m03 * v.w,
+                m.m10 * v.x + m.m11 * v.y + m.m12 * v.z + m.m13 * v.w,
+                m.m20 * v.x + m.m21 * v.y + m.m22 * v.z + m.m23 * v.w,
+                m.m30 * v.x + m.m31 * v.y + m.m32 * v.z + m.m33 * v.w
             );
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Float)']/*"/>
         public static Matrix4x4 operator *(Matrix4x4 m, float scalar) =>
             new Matrix4x4()
             {
-                M00 = m.M00 * scalar, M01 = m.M01 * scalar, M02 = m.M02 * scalar, M03 = m.M03 * scalar,
-                M10 = m.M10 * scalar, M11 = m.M11 * scalar, M12 = m.M12 * scalar, M13 = m.M13 * scalar,
-                M20 = m.M20 * scalar, M21 = m.M21 * scalar, M22 = m.M22 * scalar, M23 = m.M23 * scalar,
-                M30 = m.M30 * scalar, M31 = m.M31 * scalar, M32 = m.M32 * scalar, M33 = m.M33 * scalar
+                m00 = m.m00 * scalar, m01 = m.m01 * scalar, m02 = m.m02 * scalar, m03 = m.m03 * scalar,
+                m10 = m.m10 * scalar, m11 = m.m11 * scalar, m12 = m.m12 * scalar, m13 = m.m13 * scalar,
+                m20 = m.m20 * scalar, m21 = m.m21 * scalar, m22 = m.m22 * scalar, m23 = m.m23 * scalar,
+                m30 = m.m30 * scalar, m31 = m.m31 * scalar, m32 = m.m32 * scalar, m33 = m.m33 * scalar
             };
 
         public static Matrix4x4 operator *(float scalar, Matrix4x4 m) => m * scalar;
@@ -224,10 +223,10 @@ namespace _3D_Engine
         public static Matrix4x4 operator /(Matrix4x4 m, float scalar) =>
             new Matrix4x4()
             {
-                M00 = m.M00 / scalar, M01 = m.M01 / scalar, M02 = m.M02 / scalar, M03 = m.M03 / scalar,
-                M10 = m.M10 / scalar, M11 = m.M11 / scalar, M12 = m.M12 / scalar, M13 = m.M13 / scalar,
-                M20 = m.M20 / scalar, M21 = m.M21 / scalar, M22 = m.M22 / scalar, M23 = m.M23 / scalar,
-                M30 = m.M30 / scalar, M31 = m.M31 / scalar, M32 = m.M32 / scalar, M33 = m.M33 / scalar
+                m00 = m.m00 / scalar, m01 = m.m01 / scalar, m02 = m.m02 / scalar, m03 = m.m03 / scalar,
+                m10 = m.m10 / scalar, m11 = m.m11 / scalar, m12 = m.m12 / scalar, m13 = m.m13 / scalar,
+                m20 = m.m20 / scalar, m21 = m.m21 / scalar, m22 = m.m22 / scalar, m23 = m.m23 / scalar,
+                m30 = m.m30 / scalar, m31 = m.m31 / scalar, m32 = m.m32 / scalar, m33 = m.m33 / scalar
             };
 
         #endregion
@@ -235,10 +234,10 @@ namespace _3D_Engine
         #region Equality and Miscellaneous
 
         public static bool operator ==(Matrix4x4 v1, Matrix4x4 v2) => 
-            v1.M00 == v2.M00 && v1.M01 == v2.M01 && v1.M02 == v2.M02 && v1.M03 == v2.M03 &&
-            v1.M10 == v2.M10 && v1.M11 == v2.M11 && v1.M12 == v2.M12 && v1.M13 == v2.M13 &&
-            v1.M20 == v2.M20 && v1.M21 == v2.M21 && v1.M22 == v2.M22 && v1.M23 == v2.M23 &&
-            v1.M30 == v2.M30 && v1.M31 == v2.M31 && v1.M32 == v2.M32 && v1.M33 == v2.M33;
+            v1.m00 == v2.m00 && v1.m01 == v2.m01 && v1.m02 == v2.m02 && v1.m03 == v2.m03 &&
+            v1.m10 == v2.m10 && v1.m11 == v2.m11 && v1.m12 == v2.m12 && v1.m13 == v2.m13 &&
+            v1.m20 == v2.m20 && v1.m21 == v2.m21 && v1.m22 == v2.m22 && v1.m23 == v2.m23 &&
+            v1.m30 == v2.m30 && v1.m31 == v2.m31 && v1.m32 == v2.m32 && v1.m33 == v2.m33;
 
         public static bool operator !=(Matrix4x4 v1, Matrix4x4 v2) => !(v1 == v2);
 

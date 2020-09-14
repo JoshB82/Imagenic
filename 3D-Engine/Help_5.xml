@@ -84,24 +84,24 @@
             Handles creation of a <see cref="T:_3D_Engine.Quaternion" />.
             </summary>
         </member>
-        <member name="F:_3D_Engine.Quaternion.Q1">
+        <member name="F:_3D_Engine.Quaternion.q1">
             <summary>
-            First component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the X component of a <see cref="T:_3D_Engine.Vector4D" />.
+            First component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the x component of a <see cref="T:_3D_Engine.Vector4D" />.
             </summary>
         </member>
-        <member name="F:_3D_Engine.Quaternion.Q2">
+        <member name="F:_3D_Engine.Quaternion.q2">
             <summary>
-            Second component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the Y component of a <see cref="T:_3D_Engine.Vector4D" />.
+            Second component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the y component of a <see cref="T:_3D_Engine.Vector4D" />.
             </summary>
         </member>
-        <member name="F:_3D_Engine.Quaternion.Q3">
+        <member name="F:_3D_Engine.Quaternion.q3">
             <summary>
-            Third component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the Z component of a <see cref="T:_3D_Engine.Vector4D" />.
+            Third component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the z component of a <see cref="T:_3D_Engine.Vector4D" />.
             </summary>
         </member>
-        <member name="F:_3D_Engine.Quaternion.Q4">
+        <member name="F:_3D_Engine.Quaternion.q4">
             <summary>
-            Fourth component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the W component of a <see cref="T:_3D_Engine.Vector4D" />.
+            Fourth component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the w component of a <see cref="T:_3D_Engine.Vector4D" />.
             </summary>
         </member>
         <member name="M:_3D_Engine.Quaternion.#ctor(System.Single,System.Single,System.Single,System.Single)">
