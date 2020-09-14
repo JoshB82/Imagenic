@@ -37,7 +37,7 @@ namespace _3D_Engine.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("BlueViolet")]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightBlue")]
         public global::System.Drawing.Color Face_Colour {
             get {
                 return ((global::System.Drawing.Color)(this["Face_Colour"]));
@@ -73,10 +73,10 @@ namespace _3D_Engine.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public double Shadow_Map_Z_Near {
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public float Shadow_Map_Z_Near {
             get {
-                return ((double)(this["Shadow_Map_Z_Near"]));
+                return ((float)(this["Shadow_Map_Z_Near"]));
             }
             set {
                 this["Shadow_Map_Z_Near"] = value;
@@ -86,12 +86,60 @@ namespace _3D_Engine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public double Shadow_Map_Z_Far {
+        public float Shadow_Map_Z_Far {
             get {
-                return ((double)(this["Shadow_Map_Z_Far"]));
+                return ((float)(this["Shadow_Map_Z_Far"]));
             }
             set {
                 this["Shadow_Map_Z_Far"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("810")]
+        public float Camera_Width {
+            get {
+                return ((float)(this["Camera_Width"]));
+            }
+            set {
+                this["Camera_Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("640")]
+        public float Camera_Height {
+            get {
+                return ((float)(this["Camera_Height"]));
+            }
+            set {
+                this["Camera_Height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public float Camera_Z_Near {
+            get {
+                return ((float)(this["Camera_Z_Near"]));
+            }
+            set {
+                this["Camera_Z_Near"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("750")]
+        public float Camera_Z_Far {
+            get {
+                return ((float)(this["Camera_Z_Far"]));
+            }
+            set {
+                this["Camera_Z_Far"] = value;
             }
         }
     }

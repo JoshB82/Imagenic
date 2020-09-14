@@ -6,6 +6,8 @@
 	<UseWindowsForms>true</UseWindowsForms>
 	<RepositoryUrl>https://github.com/JoshB82/3D-Engine</RepositoryUrl>
 	<Authors>Josh Bryant</Authors>
+	<Nullable>annotations</Nullable>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,16 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Scene\Scene Objects\Meshes\Default\Perspective Camera.obj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Scene\Scene Objects\Meshes\Default\Perspective Camera.obj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Diagrams\" />
-    <Folder Include="Scene\Scene Objects\Lights\Export\" />
   </ItemGroup>
 
   <ItemGroup>

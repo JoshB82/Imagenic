@@ -10,19 +10,13 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // Positions
-        internal Vertex Model_P1 { get; set; }
-        internal Vertex Model_P2 { get; set; }
-        internal Vertex Model_P3 { get; set; }
+        internal Vertex Model_P1;
+        internal Vertex Model_P2;
+        internal Vertex Model_P3;
 
-        /*
-        public Vector3D World_P1 { get; internal set; }
-        public Vector3D World_P2 { get; internal set; }
-        public Vector3D World_P3 { get; internal set; }
-        */
-
-        internal Vector4D P1 { get; set; }
-        internal Vector4D P2 { get; set; }
-        internal Vector4D P3 { get; set; }
+        internal Vector4D P1;
+        internal Vector4D P2;
+        internal Vector4D P3;
         
         public Vector3D T1 { get; internal set; }
         public Vector3D T2 { get; internal set; }

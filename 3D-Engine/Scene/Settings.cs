@@ -4,10 +4,10 @@ namespace _3D_Engine
 {
     public enum Resolution
     {
-        Int, // Less memory (??)
+        Int, // Less memory, more speed
         Float,
-        Double,
-        Decimal // More memory (??)
+        Double // More memory, less speed
+        //Decimal?
     }
 
     /// <summary>
@@ -16,8 +16,8 @@ namespace _3D_Engine
     public enum Viewport
     {
         Single,
-        Double_Left_Right,
-        Double_Top_Bottom
+        Float_Left_Right,
+        Float_Top_Bottom
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace _3D_Engine
     {
         #region Engine Settings
 
-        public static Resolution Z_Buffer_Resolution = Resolution.Double;
+        public static Resolution Z_Buffer_Resolution = Resolution.Float;
 
         public static Viewport Viewport_Style = Viewport.Single;
 

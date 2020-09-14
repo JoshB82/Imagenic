@@ -11,38 +11,28 @@ namespace _3D_Engine
         #region Fields and Properties
 
         private static readonly object locker = new object();
-
-        private static readonly Clipping_Plane[] camera_screen_clipping_planes =
-        {
-            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_X), // Left
-            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_Y), // Bottom
-            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_Z), // Near
-            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_X), // Right
-            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Y), // Top
-            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Z) // Far
-        };
-        
+        private Bitmap new_frame;
         private Rectangle screen_rectangle;
 
         private const byte distant_value = 2;
 
         // Buffers
-        private double[][] z_buffer;
+        private float[][] z_buffer;
         private Color[][] colour_buffer;
 
         public Camera Render_Camera { get; set; }
 
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
         public PictureBox Canvas_Box { get; set; }
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
         public Color Background_Colour { get; set; } = Color.White;
 
         // Scene contents
-        /// <include file="Help_3.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
         public readonly List<Camera> Cameras = new List<Camera>();
-        /// <include file="Help_3.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
         public readonly List<Light> Lights = new List<Light>();
-        /// <include file="Help_3.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
         public readonly List<Mesh> Meshes = new List<Mesh>();
 
         #endregion
@@ -53,7 +43,7 @@ namespace _3D_Engine
 
         private int width, height;
 
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Width']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Width']/*"/>
         public int Width
         {
             get => width;
@@ -66,7 +56,7 @@ namespace _3D_Engine
                 }
             }
         }
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Height']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Height']/*"/>
         public int Height
         {
             get => height;
@@ -83,18 +73,18 @@ namespace _3D_Engine
         private void Set_Dimensions()
         {
             // Set buffers
-            z_buffer = new double[width][];
+            z_buffer = new float[width][];
             colour_buffer = new Color[width][];
             for (int i = 0; i < width; i++)
             {
-                z_buffer[i] = new double[height];
+                z_buffer[i] = new float[height];
                 colour_buffer[i] = new Color[height];
             }
 
             // Set screen-to-window matrix
-            screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
+            screen_to_window = Transform.Scale(0.5f * (width - 1), 0.5f * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
             screen_to_window_inverse = screen_to_window.Inverse();
-            screen_rectangle = new Rectangle(0, 0, width, height);
+            screen_rectangle = new Rectangle(0, 0, width, height); //?-1?
         }
 
         #endregion
@@ -173,7 +163,7 @@ namespace _3D_Engine
         /// </summary>
         public void Render()
         {
-            if (Render_Camera == null)
+            if (Render_Camera is null)
             {
                 Trace.WriteLine("Error drawing frame: No render camera has been set yet!");
                 return;
@@ -182,7 +172,8 @@ namespace _3D_Engine
             lock (locker)
             {
                 // Create temporary canvas for this frame
-                Bitmap new_frame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                if (new_frame is not null) new_frame.Dispose();
+                new_frame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
                 
                 // Reset scene buffers
                 for (int i = 0; i < width; i++)
@@ -223,7 +214,7 @@ namespace _3D_Engine
                 // Calculate depth information for each mesh
                 foreach (Light light in Lights)
                 {
-                    if (light.Draw_Light_Icon)
+                    if (light.Draw_Icon)
                     {
                         foreach (Face face in light.Icon.Faces)
                         {
@@ -289,7 +280,7 @@ namespace _3D_Engine
                     {
                         for (int y = 0; y < height; y++)
                         {
-                            // check all doubles and ints
+                            // check all floats and ints
                             if (z_buffer[x][y] != distant_value)//?
                             {
                                 SMC_Camera_Perspective(colour_buffer[x][y], screen_to_window_inverse, camera_screen_to_world, x, y, z_buffer[x][y]);
@@ -301,7 +292,7 @@ namespace _3D_Engine
                 // Draw edges
                 foreach (Light light in Lights)
                 {
-                    if (light.Draw_Light_Icon)
+                    if (light.Draw_Icon)
                     {
                         foreach (Edge edge in light.Icon.Edges)
                         {
@@ -382,7 +373,7 @@ namespace _3D_Engine
             }
             foreach (Light light in Lights)
             {
-                if (light.Draw_Light_Icon)
+                if (light.Draw_Icon)
                 {
                     light.Icon.Calculate_Model_to_World();
                 }

@@ -14,8 +14,8 @@ namespace _3D_Engine
         /// <param name="new_world_direction_up">The up direction.</param>
         public virtual void Set_Direction_1(Vector3D new_world_direction_forward, Vector3D new_world_direction_up)
         {
-            if (new_world_direction_forward == Vector3D.Zero || new_world_direction_up == Vector3D.Zero) throw new Exception("New direction vector(s) cannot be set to zero vector.");
-            // if (new_world_direction_forward * new_world_direction_up != 0) throw new Exception("Direction vectors are not orthogonal.");
+            if (new_world_direction_forward == Vector3D.Zero || new_world_direction_up == Vector3D.Zero) throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+            // if (new_world_direction_forward * new_world_direction_up != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
             new_world_direction_forward = new_world_direction_forward.Normalise();
             new_world_direction_up = new_world_direction_up.Normalise();
@@ -34,8 +34,8 @@ namespace _3D_Engine
         /// <param name="new_world_direction_right">The right direction.</param>
         public virtual void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
         {
-            if (new_world_direction_up == Vector3D.Zero || new_world_direction_right == Vector3D.Zero) throw new Exception("New direction vector(s) cannot be set to zero vector.");
-            // if (new_world_direction_up * new_world_direction_right != 0) throw new Exception("Direction vectors are not orthogonal.");
+            if (new_world_direction_up == Vector3D.Zero || new_world_direction_right == Vector3D.Zero) throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+            // if (new_world_direction_up * new_world_direction_right != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
             new_world_direction_up = new_world_direction_up.Normalise();
             new_world_direction_right = new_world_direction_right.Normalise();
@@ -54,8 +54,8 @@ namespace _3D_Engine
         /// <param name="new_world_direction_forward">The forward direction.</param>
         public virtual void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
         {
-            if (new_world_direction_right == Vector3D.Zero || new_world_direction_forward == Vector3D.Zero) throw new Exception("New direction vector(s) cannot be set to zero vector.");
-            // if (new_world_direction_right * new_world_direction_forward != 0) throw new Exception("Direction vectors are not orthogonal.");
+            if (new_world_direction_right == Vector3D.Zero || new_world_direction_forward == Vector3D.Zero) throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+            // if (new_world_direction_right * new_world_direction_forward != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
             new_world_direction_forward = new_world_direction_forward.Normalise();
             new_world_direction_right = new_world_direction_right.Normalise();
@@ -74,7 +74,7 @@ namespace _3D_Engine
             World_Direction_Up = direction_up;
             World_Direction_Right = direction_right;
 
-            if (Has_Direction_Arrows && Direction_Arrows != null)
+            if (Has_Direction_Arrows && Direction_Arrows is not null)
             {
                 ((Arrow)Direction_Arrows.Scene_Objects[0]).Unit_Vector = direction_forward;
                 ((Arrow)Direction_Arrows.Scene_Objects[1]).Unit_Vector = direction_up;
@@ -126,17 +126,17 @@ namespace _3D_Engine
         /// Translates the <see cref="Scene_Object"/> in the x-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void Translate_X(double distance) => World_Origin += new Vector3D(distance, 0, 0);
+        public virtual void Translate_X(float distance) => World_Origin += new Vector3D(distance, 0, 0);
         /// <summary>
         /// Translates the <see cref="Scene_Object"/> in the y-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void Translate_Y(double distance) => World_Origin += new Vector3D(0, distance, 0);
+        public virtual void Translate_Y(float distance) => World_Origin += new Vector3D(0, distance, 0);
         /// <summary>
         /// Translates the <see cref="Scene_Object"/> in the z-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void Translate_Z(double distance) => World_Origin += new Vector3D(0, 0, distance);
+        public virtual void Translate_Z(float distance) => World_Origin += new Vector3D(0, 0, distance);
         /// <summary>
         /// Translates the <see cref="Scene_Object"/> by the given vector.
         /// </summary>

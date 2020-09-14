@@ -5,11 +5,12 @@
         /// <summary>
         /// A point on the clipping plane.
         /// </summary>
-        internal Vector3D Point { get; set; }
+        internal Vector3D Point;
+
         /// <summary>
         /// Normal vector pointing towards the volume to keep. (on the boundary?, clipping in non-linear space?)
         /// </summary>
-        internal Vector3D Normal { get; set; }
+        internal Vector3D Normal;
 
         internal Clipping_Plane(Vector3D point, Vector3D normal)
         {

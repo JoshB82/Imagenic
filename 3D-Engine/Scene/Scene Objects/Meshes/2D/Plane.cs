@@ -7,12 +7,12 @@
     {
         #region Fields and Properties
 
-        private double length, width;
+        private float length, width;
 
         /// <summary>
         /// The length of the <see cref="Plane"/>.
         /// </summary>
-        public double Length
+        public float Length
         {
             get => length;
             set
@@ -24,7 +24,7 @@
         /// <summary>
         /// The width of the <see cref="Plane"/>.
         /// </summary>
-        public double Width
+        public float Width
         {
             get => width;
             set
@@ -46,7 +46,7 @@
         /// <param name="normal">The upward orientation of the <see cref="Plane"/>. This is also a normal to the surface of the <see cref="Plane"/>.</param>
         /// <param name="length">The length of the <see cref="Plane"/>.</param>
         /// <param name="width">The width of the <see cref="Plane"/>.</param>
-        public Plane(Vector3D origin, Vector3D direction_forward, Vector3D normal, double length, double width) : base(origin, direction_forward, normal)
+        public Plane(Vector3D origin, Vector3D direction_forward, Vector3D normal, float length, float width) : base(origin, direction_forward, normal)
         {
             Set_Structure(length, width);
             Faces = new Face[2]
@@ -65,7 +65,7 @@
         /// <param name="length">The length of the <see cref="Plane"/>.</param>
         /// <param name="width">The width of the <see cref="Plane"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Plane"/>.</param>
-        public Plane(Vector3D origin, Vector3D direction_forward, Vector3D normal, double length, double width, Texture texture) : base(origin, direction_forward, normal)
+        public Plane(Vector3D origin, Vector3D direction_forward, Vector3D normal, float length, float width, Texture texture) : base(origin, direction_forward, normal)
         {
             Set_Structure(length, width);
             Textures = new Texture[1] { texture };
@@ -76,7 +76,7 @@
             };
         }
 
-        private void Set_Structure(double length, double width)
+        private void Set_Structure(float length, float width)
         {
             Dimension = 2;
 

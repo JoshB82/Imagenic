@@ -9,8 +9,8 @@ namespace _3D_Engine
         
         private int shadow_map_width = Default.Shadow_Map_Width;
         private int shadow_map_height = Default.Shadow_Map_Height;
-        private double shadow_map_z_near = Default.Shadow_Map_Z_Near;
-        private double shadow_map_z_far = Default.Shadow_Map_Z_Far;
+        private float shadow_map_z_near = Default.Shadow_Map_Z_Near;
+        private float shadow_map_z_far = Default.Shadow_Map_Z_Far;
 
         public override int Shadow_Map_Width
         {
@@ -23,13 +23,11 @@ namespace _3D_Engine
                 Set_Shadow_Map();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.Data[0][0] = (double)2 / shadow_map_width;
+                Light_View_to_Light_Screen.M00 = (float)2 / shadow_map_width;
 
                 // Update left and right clipping planes
-                Light_View_Clipping_Planes[0].Point = new Vector3D((double)-shadow_map_width / 2,
-                    (double)shadow_map_height / 2, shadow_map_z_near);
-                Light_View_Clipping_Planes[3].Point = new Vector3D((double)shadow_map_width / 2,
-                    (double)-shadow_map_height / 2, shadow_map_z_far);
+                Light_View_Clipping_Planes[0].Point = new Vector3D((float)-shadow_map_width / 2, 0, 0);
+                Light_View_Clipping_Planes[3].Point = new Vector3D((float)shadow_map_width / 2, 0, 0);
             }
         }
         public override int Shadow_Map_Height
@@ -43,16 +41,14 @@ namespace _3D_Engine
                 Set_Shadow_Map();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.Data[1][1] = (double)2 / shadow_map_height;
+                Light_View_to_Light_Screen.M11 = (float)2 / shadow_map_height;
 
                 // Update top and bottom clipping planes
-                Light_View_Clipping_Planes[1].Point = new Vector3D((double)shadow_map_width / 2,
-                    (double)-shadow_map_height / 2, shadow_map_z_far);
-                Light_View_Clipping_Planes[4].Point = new Vector3D((double)-shadow_map_width / 2,
-                    (double)shadow_map_height / 2, shadow_map_z_near);
+                Light_View_Clipping_Planes[1].Point = new Vector3D(0, (float)-shadow_map_height / 2, 0);
+                Light_View_Clipping_Planes[4].Point = new Vector3D(0, (float)shadow_map_height / 2, 0);
             }
         }
-        public override double Shadow_Map_Z_Near
+        public override float Shadow_Map_Z_Near
         {
             get => shadow_map_z_near;
             set
@@ -60,15 +56,14 @@ namespace _3D_Engine
                 shadow_map_z_near = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.Data[2][2] = 2 / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.Data[2][3] = -(shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.M22 = 2 / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.M23 = -(shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
 
                 // Update near clipping plane
-                Light_View_Clipping_Planes[2].Point = new Vector3D((double) -shadow_map_width / 2,
-                    (double) shadow_map_height / 2, shadow_map_z_near);
+                Light_View_Clipping_Planes[2].Point = new Vector3D(0, 0, shadow_map_z_near);
             }
         }
-        public override double Shadow_Map_Z_Far
+        public override float Shadow_Map_Z_Far
         {
             get => shadow_map_z_far;
             set
@@ -76,12 +71,11 @@ namespace _3D_Engine
                 shadow_map_z_far = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.Data[2][2] = 2 / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.Data[2][3] = -(shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.M22 = 2 / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.M23 = -(shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
 
                 // Update far clipping plane
-                Light_View_Clipping_Planes[5].Point = new Vector3D((double) shadow_map_width / 2,
-                    (double) -shadow_map_height / 2, shadow_map_z_far);
+                Light_View_Clipping_Planes[5].Point = new Vector3D(0, 0, shadow_map_z_far);
             }
         }
 
@@ -89,9 +83,9 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Distant_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double strength) : base(origin, direction_forward, direction_up)
+        public Distant_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
         {
-            Light_View_to_Light_Screen = Matrix4x4.Identity_Matrix();
+            Light_View_to_Light_Screen = Matrix4x4.Identity;
 
             Light_View_Clipping_Planes = new[]
             {
@@ -115,7 +109,7 @@ namespace _3D_Engine
             Icon.Scale(5);
         }
 
-        public Distant_Light(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, double strength) : this(origin, pointed_at.World_Origin - origin, direction_up, strength) { }
+        public Distant_Light(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float strength) : this(origin, pointed_at.World_Origin - origin, direction_up, strength) { }
 
         #endregion
     }

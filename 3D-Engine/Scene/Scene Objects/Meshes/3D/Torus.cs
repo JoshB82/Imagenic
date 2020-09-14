@@ -7,14 +7,14 @@
     {
         #region Fields and Properties
 
-        public double Inner_Radius { get; set; }
-        public double Outer_Radius { get; set; }
+        public float Inner_Radius { get; set; }
+        public float Outer_Radius { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Torus(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double radius, double inner_radius, double outer_radius) : base(origin, direction_forward, direction_up)
+        public Torus(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float radius, float inner_radius, float outer_radius) : base(origin, direction_forward, direction_up)
         {
             Dimension = 3;
 

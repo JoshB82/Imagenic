@@ -9,13 +9,13 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        private double inner_radius, outer_radius;
+        private float inner_radius, outer_radius;
         private int resolution;
 
         /// <summary>
         /// The radius of the inner <see cref="Circle"/>.
         /// </summary>
-        public double Inner_Radius
+        public float Inner_Radius
         {
             get => inner_radius;
             set
@@ -24,14 +24,14 @@ namespace _3D_Engine
                 if (resolution == 0) return;
 
                 // Vertices are defined in anti-clockwise order.
-                double angle = 2 * Math.PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Math.Cos(angle * i) * inner_radius, 0, Math.Sin(angle * i) * inner_radius));
+                float angle = 2 * (float)Math.PI / resolution;
+                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D((float)Math.Cos(angle * i) * inner_radius, 0, (float)Math.Sin(angle * i) * inner_radius));
             }
         }
         /// <summary>
         /// The radius of the outer <see cref="Circle"/>.
         /// </summary>
-        public double Outer_Radius
+        public float Outer_Radius
         {
             get => outer_radius;
             set
@@ -39,8 +39,8 @@ namespace _3D_Engine
                 outer_radius = value;
                 if (resolution == 0) return;
 
-                double angle = 2 * Math.PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D(Math.Cos(angle * i) * outer_radius, 0, Math.Sin(angle * i) * outer_radius));
+                float angle = 2 * (float)Math.PI / resolution;
+                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D((float)Math.Cos(angle * i) * outer_radius, 0, (float)Math.Sin(angle * i) * outer_radius));
             }
         }
         /// <summary>
@@ -56,10 +56,10 @@ namespace _3D_Engine
                 Vertices = new Vertex[2 * resolution + 1];
                 Vertices[0] = new Vertex(Vector4D.Zero);
 
-                double angle = 2 * Math.PI / resolution;
+                float angle = 2 * (float)Math.PI / resolution;
                 for (int i = 0; i < resolution; i++)
                 {
-                    double sin = Math.Sin(angle * i), cos = Math.Cos(angle * i);
+                    float sin = (float)Math.Sin(angle * i), cos = (float)Math.Cos(angle * i);
                     Vertices[i + 1] = new Vertex(new Vector4D(cos * inner_radius, 0, sin * inner_radius));
                     Vertices[i + resolution + 1] = new Vertex(new Vector4D(cos * outer_radius, 0, sin * outer_radius));
                 }
@@ -97,7 +97,7 @@ namespace _3D_Engine
         /// <param name="inner_radius">The radius of the inner <see cref="Circle"/>.</param>
         /// <param name="outer_radius">The radius of the outer <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Ring"/>.</param>
-        public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double inner_radius, double outer_radius, int resolution) : base(origin, direction_forward, direction_up)
+        public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float inner_radius, float outer_radius, int resolution) : base(origin, direction_forward, direction_up)
         {
             Dimension = 2;
 

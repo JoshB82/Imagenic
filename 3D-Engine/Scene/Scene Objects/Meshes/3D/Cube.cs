@@ -7,12 +7,12 @@
     {
         #region Fields and Properties
 
-        private double side_length;
+        private float side_length;
 
         /// <summary>
         /// The length of each side of the <see cref="Cube"/>.
         /// </summary>
-        public double Side_Length
+        public float Side_Length
         {
             get => side_length;
             set
@@ -33,7 +33,7 @@
         /// <param name="direction_forward">The direction the <see cref="Cube"/> faces.</param>
         /// <param name="direction_up">The upward orientation of the <see cref="Cube"/>.</param>
         /// <param name="side_length">The length of each side of the <see cref="Cube"/>.</param>
-        public Cube(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double side_length) : base(origin, direction_forward, direction_up)
+        public Cube(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float side_length) : base(origin, direction_forward, direction_up)
         {
             Set_Structure(side_length);
             Faces = new Face[12]
@@ -61,7 +61,7 @@
         /// <param name="direction_up">The upward orientation of the <see cref="Cube"/>.</param>
         /// <param name="side_length">The length of each side of the <see cref="Cube"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cube"/>.</param>
-        public Cube(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double side_length, Texture texture) : base(origin, direction_forward, direction_up)
+        public Cube(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float side_length, Texture texture) : base(origin, direction_forward, direction_up)
         {
             Set_Structure(side_length);
             Textures = new Texture[1] { texture };
@@ -95,7 +95,7 @@
         /// <param name="left">The <see cref="Texture"/> for the left face of the <see cref="Cube"/>.</param>
         /// <param name="top">The <see cref="Texture"/> for the top face of the <see cref="Cube"/>.</param>
         /// <param name="bottom">The <see cref="Texture"/> for the bottom face of the <see cref="Cube"/>.</param>
-        public Cube(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double side_length, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom) : base(origin, direction_forward, direction_up)
+        public Cube(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float side_length, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom) : base(origin, direction_forward, direction_up)
         {
             Set_Structure(side_length);
             Textures = new Texture[6]
@@ -124,7 +124,7 @@
             };
         }
 
-        private void Set_Structure(double side_length)
+        private void Set_Structure(float side_length)
         {
             Dimension = 3;
             Side_Length = side_length;

@@ -7,8 +7,8 @@ namespace _3D_Engine
         private static bool Clip_Edge(Vector3D plane_point, Vector3D plane_normal, Edge e)
         {
             Vector3D point_1 = new Vector3D(e.P1), point_2 = new Vector3D(e.P2);
-            double point_1_distance = Vector3D.Point_Distance_From_Plane(point_1, plane_point, plane_normal);
-            double point_2_distance = Vector3D.Point_Distance_From_Plane(point_2, plane_point, plane_normal);
+            float point_1_distance = Vector3D.Point_Distance_From_Plane(point_1, plane_point, plane_normal);
+            float point_2_distance = Vector3D.Point_Distance_From_Plane(point_2, plane_point, plane_normal);
 
             if (point_1_distance >= 0 && point_2_distance >= 0)
             {
@@ -83,7 +83,7 @@ namespace _3D_Engine
             }
 
             Vector3D intersection_1, intersection_2;
-            double d1, d2;
+            float d1, d2;
 
             switch (inside_point_count)
             {

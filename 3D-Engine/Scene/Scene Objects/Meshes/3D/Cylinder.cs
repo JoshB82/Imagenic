@@ -10,13 +10,13 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        private double height, radius;
+        private float height, radius;
         private int resolution;
 
         /// <summary>
         /// The height of the <see cref="Cylinder"/>.
         /// </summary>
-        public double Height
+        public float Height
         {
             get => height;
             set
@@ -28,7 +28,7 @@ namespace _3D_Engine
         /// <summary>
         /// The radius of the top and bottom <see cref="Circle"/> that make up the <see cref="Cylinder"/>.
         /// </summary>
-        public double Radius
+        public float Radius
         {
             get => radius;
             set
@@ -51,11 +51,11 @@ namespace _3D_Engine
                 Vertices[0] = new Vertex(Vector4D.Zero);
                 Vertices[1] = new Vertex(new Vector4D(0, 1, 0));
 
-                double angle = 2 * Math.PI / resolution;
+                float angle = 2 * (float)Math.PI / resolution;
                 for (int i = 0; i < resolution; i++)
                 {
-                    Vertices[i + 2] = new Vertex(new Vector4D(Math.Cos(angle * i), 0, Math.Sin(angle * i)));
-                    Vertices[i + resolution + 2] = new Vertex(new Vector4D(Math.Cos(angle * i), 1, Math.Sin(angle * i)));
+                    Vertices[i + 2] = new Vertex(new Vector4D((float)Math.Cos(angle * i), 0, (float)Math.Sin(angle * i)));
+                    Vertices[i + resolution + 2] = new Vertex(new Vector4D((float)Math.Cos(angle * i), 1, (float)Math.Sin(angle * i)));
                 }
 
                 Edges = new Edge[2 * resolution];
@@ -97,7 +97,7 @@ namespace _3D_Engine
         /// <param name="height">The height of the <see cref="Cylinder"/>.</param>
         /// <param name="radius">The radius of the top and bottom <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
-        public Cylinder(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double height, double radius, int resolution) : base(origin, direction_forward, direction_up)
+        public Cylinder(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float height, float radius, int resolution) : base(origin, direction_forward, direction_up)
         {
             Dimension = 3;
 

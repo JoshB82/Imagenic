@@ -8,7 +8,7 @@
         {
             base.Set_Direction_1(new_world_direction_forward, new_world_direction_up);
 
-            if (Scene_Objects == null || Scene_Objects.Count == 0) return;
+            if (Scene_Objects is null || Scene_Objects.Count == 0) return;
 
             // Calculate rotation matrices
             Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(World_Direction_Forward, new_world_direction_forward);
@@ -66,17 +66,17 @@
 
         #region Translations
 
-        public override void Translate_X(double distance)
+        public override void Translate_X(float distance)
         {
             base.Translate_X(distance);
             foreach (Scene_Object scene_object in Scene_Objects) scene_object.Translate_X(distance);
         }
-        public override void Translate_Y(double distance)
+        public override void Translate_Y(float distance)
         {
             base.Translate_Y(distance);
             foreach (Scene_Object scene_object in Scene_Objects) scene_object.Translate_Y(distance);
         }
-        public override void Translate_Z(double distance)
+        public override void Translate_Z(float distance)
         {
             base.Translate_Z(distance);
             foreach (Scene_Object scene_object in Scene_Objects) scene_object.Translate_Z(distance);

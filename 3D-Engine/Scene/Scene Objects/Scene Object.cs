@@ -12,12 +12,12 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // ID
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.ID']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.ID']/*"/>
         public int ID { get; private set; }
         private static int next_id = -1;
 
         // Matrices
-        internal Matrix4x4 Model_to_World { get; set; }
+        internal Matrix4x4 Model_to_World;
 
         internal virtual void Calculate_Model_to_World()
         {
@@ -33,8 +33,8 @@ namespace _3D_Engine
         }
 
         // Origins
-        internal Vector4D Origin { get; set; } = Vector4D.Zero;
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
+        internal Vector4D Origin = Vector4D.Zero;
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
         public virtual Vector3D World_Origin { get; set; }
 
         // Directions
@@ -42,21 +42,21 @@ namespace _3D_Engine
         internal Vector3D Model_Direction_Up => Vector3D.Unit_Y;
         internal Vector3D Model_Direction_Right => Vector3D.Unit_X;
 
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
         public Vector3D World_Direction_Forward { get; private set; }
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Up']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Up']/*"/>
         public Vector3D World_Direction_Up { get; private set; }
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Right']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Right']/*"/>
         public Vector3D World_Direction_Right { get; private set; }
 
         // Direction Arrows
         internal Group Direction_Arrows { get; }
-        internal bool Has_Direction_Arrows { get; set; }
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
+        internal bool Has_Direction_Arrows;
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
         public bool Display_Direction_Arrows { get; set; } = false;
 
         // Appearance
-        /// <include file="Help_3.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Visible']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Visible']/*"/>
         public bool Visible { get; set; } = true;
 
         #endregion
@@ -86,5 +86,12 @@ namespace _3D_Engine
         }
 
         #endregion
+    }
+
+    public enum View_Outline
+    {
+        Near,
+        Far,
+        Entire
     }
 }

@@ -5,7 +5,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Textured_Check_Against_Z_Buffer(int x, int y, double z, int tx, int ty, Bitmap texture)
+        private void Textured_Check_Against_Z_Buffer(int x, int y, float z, int tx, int ty, Bitmap texture)
         {
             try
             {

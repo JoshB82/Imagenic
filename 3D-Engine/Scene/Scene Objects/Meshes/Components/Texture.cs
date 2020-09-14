@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace _3D_Engine
@@ -33,24 +34,18 @@ namespace _3D_Engine
 
         #endregion
 
-        public static Vector3D[] Generate_Vertices(string type)
-        {
-            switch (type)
+        public static Vector3D[] Generate_Vertices(string type) =>
+            type switch
             {
-                case "Plane":
-                case "Square":
-                    return new Vector3D[4] // WHY Z=1?
-                    {
+                "Plane" or "Square" => new Vector3D[4] // WHY Z=1?
+                {
                     new Vector3D(0, 0, 1), // 0
                     new Vector3D(1, 0, 1), // 1
                     new Vector3D(1, 1, 1), // 2
                     new Vector3D(0, 1, 1) // 3
-                    };
-                default:
-                    Trace.WriteLine("Could not generate texture vertices; unknown type: " + type);
-                    return null;
-            }
-        }
+                },
+                _ => throw new ArgumentException($"Could not generate texture vertices; unknown type: {type}", type), //discard?
+            };
     }
 
     public enum Outside_Texture_Behaviour : byte

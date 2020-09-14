@@ -9,7 +9,7 @@
 
         #region Constructors
 
-        public Point_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double strength) : base(origin, direction_forward, direction_up)
+        public Point_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
         {
             
         }
@@ -20,7 +20,7 @@
 
         internal override void Calculate_Light_View_Clipping_Planes(Camera camera)
         {
-            double semi_width = camera.Width / 2, semi_height = camera.Height / 2, z_ratio = camera.Z_Far / camera.Z_Near;
+            float semi_width = camera.Width / 2, semi_height = camera.Height / 2, z_ratio = camera.Z_Far / camera.Z_Near;
 
             Vector3D near_bottom_left_point = new Vector3D(-semi_width, -semi_height, camera.Z_Near);
             Vector3D near_bottom_right_point = new Vector3D(semi_width, -semi_height, camera.Z_Near);

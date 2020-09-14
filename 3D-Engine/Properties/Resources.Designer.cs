@@ -61,9 +61,33 @@ namespace _3D_Engine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to # Blender v2.83.4 OBJ File: &apos;Arrow.blend&apos;
-        ///# www.blender.org
-        ///v -0.018473 -0.468012 0.960401
+        ///   Looks up a localized string similar to v 0.083821 2.253639 0.116500
+        ///v -0.083821 2.253639 0.116500
+        ///v 0.083821 2.028270 0.138697
+        ///v -0.083821 2.028270 0.138697
+        ///v 0.083821 1.811561 0.204435
+        ///v -0.083821 1.811561 0.204435
+        ///v 0.083821 1.611841 0.311188
+        ///v -0.083821 1.611842 0.311188
+        ///v 0.083821 1.436786 0.454853
+        ///v -0.083821 1.436786 0.454853
+        ///v -0.083821 2.253640 -0.226717
+        ///v 0.083821 2.253640 -0.226717
+        ///v -0.083821 1.293122 -0.740123
+        ///v 0.083821 1.293123 -0.740123
+        ///v -0.083821 1.436787 -0.565068
+        ///v 0.083821 1.436787 -0.565068
+        ///v -0.083821 1.611843 -0.421403
+        ///v 0 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Camera {
+            get {
+                return ResourceManager.GetString("Camera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to v -0.018473 -0.468012 0.960401
         ///v -0.043954 -1.113542 1.016396
         ///v -0.109423 -0.455415 0.960401
         ///v -0.260341 -1.083564 1.016396
@@ -77,7 +101,9 @@ namespace _3D_Engine.Properties {
         ///v -0.950281 -0.582099 1.016396
         ///v -0.439456 -0.162033 0.960401
         ///v -1.045585 -0.385520 1.016396
-        ///v -0.462623 -0.073 [rest of string was truncated]&quot;;.
+        ///v -0.462623 -0.073186 0.960401
+        ///v -1.100713 -0.174123 1.016396
+        ///v -0.468012 0.01 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Distant_Light {
             get {

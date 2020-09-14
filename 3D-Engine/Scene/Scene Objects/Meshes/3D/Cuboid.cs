@@ -7,12 +7,12 @@
     {
         #region Fields and Properties
 
-        private double length, width, height;
+        private float length, width, height;
 
         /// <summary>
         /// The length of the <see cref="Cuboid"/>.
         /// </summary>
-        public double Length
+        public float Length
         {
             get => length;
             set
@@ -24,7 +24,7 @@
         /// <summary>
         /// The width of the <see cref="Cuboid"/>.
         /// </summary>
-        public double Width
+        public float Width
         {
             get => width;
             set
@@ -36,7 +36,7 @@
         /// <summary>
         /// The height of the <see cref="Cuboid"/>.
         /// </summary>
-        public double Height
+        public float Height
         {
             get => height;
             set
@@ -59,7 +59,7 @@
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double length, double width, double height) : base(origin, direction_forward, direction_up)
+        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float length, float width, float height) : base(origin, direction_forward, direction_up)
         {
             Set_Structure(length, width, height);
             Faces = new Face[12]
@@ -89,7 +89,7 @@
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double length, double width, double height, Texture texture) : base(origin, direction_forward, direction_up)
+        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float length, float width, float height, Texture texture) : base(origin, direction_forward, direction_up)
         {
             Set_Structure(length, width, height);
             Textures = new Texture[1] { texture };
@@ -125,7 +125,7 @@
         /// <param name="left">The <see cref="Texture"/> for the left face of the <see cref="Cuboid"/>.</param>
         /// <param name="top">The <see cref="Texture"/> for the top face of the <see cref="Cuboid"/>.</param>
         /// <param name="bottom">The <see cref="Texture"/> for the bottom face of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double length, double width, double height, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom) : base(origin, direction_forward, direction_up)
+        public Cuboid(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float length, float width, float height, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom) : base(origin, direction_forward, direction_up)
         {
             Set_Structure(length, width, height);
             Textures = new Texture[6]
@@ -154,7 +154,7 @@
             };
         }
 
-        private void Set_Structure(double length, double width, double height)
+        private void Set_Structure(float length, float width, float height)
         {
             Dimension = 3;
 

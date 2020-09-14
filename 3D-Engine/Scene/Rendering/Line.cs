@@ -6,8 +6,8 @@ namespace _3D_Engine
     public sealed partial class Scene
     {
         private void Line(Color colour,
-            int x1, int y1, double z1,
-            int x2, int y2, double z2)
+            int x1, int y1, float z1,
+            int x2, int y2, float z2)
         {
             if (x1 == x2)
             {
@@ -21,7 +21,7 @@ namespace _3D_Engine
                 }
                 else
                 {
-                    double z_increase_x = (z1 - z2) / (x1 - x2), z_increase_y = (z1 - z2) / (y1 - y2);
+                    float z_increase_x = (z1 - z2) / (x1 - x2), z_increase_y = (z1 - z2) / (y1 - y2);
 
                     int delta_x = x2 - x1;
                     int delta_y = y2 - y1;
@@ -33,7 +33,7 @@ namespace _3D_Engine
                     delta_y = Math.Abs(delta_y);
 
                     int x = x1, y = y1, R = 0, D = Math.Max(delta_x, delta_y);
-                    double z_value = z1;
+                    float z_value = z1;
 
                     if (delta_x > delta_y)
                     {
@@ -71,9 +71,9 @@ namespace _3D_Engine
             }
         }
 
-        private void Horizontal_Line(int x1, int y1, double z1, int x2, int y2, double z2, Color colour)
+        private void Horizontal_Line(int x1, int y1, float z1, int x2, int y2, float z2, Color colour)
         {
-            double z_increase_x = (z1 - z2) / (x1 - x2);
+            float z_increase_x = (z1 - z2) / (x1 - x2);
             if (x2 < x1)
             {
                 Swap(ref x1, ref x2);
@@ -87,9 +87,9 @@ namespace _3D_Engine
             }
         }
 
-        private void Vertical_Line(int x1, int y1, double z1, int x2, int y2, double z2, Color colour)
+        private void Vertical_Line(int x1, int y1, float z1, int x2, int y2, float z2, Color colour)
         {
-            double z_increase_y = (z1 - z2) / (y1 - y2);
+            float z_increase_y = (z1 - z2) / (y1 - y2);
             if (y2 < y1)
             {
                 Swap(ref y1, ref y2);

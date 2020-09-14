@@ -39,8 +39,8 @@ namespace _3D_Engine
             }
         }
 
-        private double body_length, tip_length, length;
-        public double Body_Length {
+        private float body_length, tip_length, length;
+        public float Body_Length {
             get => body_length;
             set
             {
@@ -49,7 +49,7 @@ namespace _3D_Engine
                 length = body_length + tip_length;
             }
         }
-        public double Tip_Length
+        public float Tip_Length
         {
             get => tip_length;
             set
@@ -59,7 +59,7 @@ namespace _3D_Engine
                 length = body_length + tip_length;
             }
         }
-        public double Length
+        public float Length
         {
             get => length;
             set
@@ -70,8 +70,8 @@ namespace _3D_Engine
             }
         }
 
-        public double Body_Radius { get; set; }
-        public double Tip_Radius { get; set; }
+        public float Body_Radius { get; set; }
+        public float Tip_Radius { get; set; }
 
         public int Resolution { get; set; }
 
@@ -79,7 +79,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Arrow(Vector3D start_position, Vector3D end_position, Vector3D direction_up, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : base(start_position, end_position - start_position, direction_up, has_direction_arrows)
+        public Arrow(Vector3D start_position, Vector3D end_position, Vector3D direction_up, float body_radius, float tip_length, float tip_radius, int resolution, bool has_direction_arrows = true) : base(start_position, end_position - start_position, direction_up, has_direction_arrows)
         {
             Dimension = 3;
 
@@ -97,10 +97,10 @@ namespace _3D_Engine
             Vertices[1] = new Vertex(new Vector4D(Vector3D.Unit_Z * body_length));
             Vertices[2] = new Vertex(new Vector4D(Vector3D.Unit_Z * (body_length + tip_length)));
 
-            double angle = 2 * Math.PI / resolution;
+            float angle = 2 * (float)Math.PI / resolution;
             for (int i = 0; i < resolution; i++)
             {
-                double sin = Math.Sin(angle * i), cos = Math.Cos(angle * i);
+                float sin = (float)Math.Sin(angle * i), cos = (float)Math.Cos(angle * i);
                 Vertices[i + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, 0));
                 Vertices[i + resolution + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, body_length));
                 Vertices[i + 2 * resolution + 3] = new Vertex(new Vector4D(cos * tip_radius, sin * tip_radius, body_length));
@@ -145,9 +145,8 @@ namespace _3D_Engine
             Faces[6 * resolution - 1] = new Face(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3], Vertices[2]);
         }
 
-        public Arrow(Vector3D start_position, Vector3D unit_vector, Vector3D direction_up, double body_length, double body_radius, double tip_length, double tip_radius, int resolution, bool has_direction_arrows = true) : this(start_position, unit_vector * (body_length + tip_length) + start_position, direction_up, body_radius, tip_length, tip_radius, resolution, has_direction_arrows) { }
+        public Arrow(Vector3D start_position, Vector3D unit_vector, Vector3D direction_up, float body_length, float body_radius, float tip_length, float tip_radius, int resolution, bool has_direction_arrows = true) : this(start_position, unit_vector * (body_length + tip_length) + start_position, direction_up, body_radius, tip_length, tip_radius, resolution, has_direction_arrows) { }
 
         #endregion
     }
 }
- 

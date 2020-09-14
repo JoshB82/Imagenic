@@ -12,37 +12,50 @@ namespace _3D_Engine
         // Appearance
         public Color Colour { get; set; } = Color.White;
         public Mesh Icon { get; protected set; }
-        public double Strength { get; set; }
+        public float Strength { get; set; }
 
-        public bool Draw_Light_Icon { get; set; } = false;
-        public bool Draw_Entire_View { get; set; } = false;
-        public bool Draw_Near_View { get; set; } = false;
+        /// <summary>
+        /// Determines if the <see cref="Light"/> is drawn in the <see cref="Scene"/>.
+        /// </summary>
+        public bool Draw_Icon { get; set; } = false;
+
+        public View_Outline View_Style = View_Outline.Entire;
+
+        /// <summary>
+        /// Determines if the outline of the <see cref="Light">Light's</see> projection is drawn.
+        /// </summary>
+        
+        /// <summary>
+        /// Determines if the outline of the <see cref="Light">Light's</see> projection is drawn, up to the near plane.
+        /// </summary>
+        
 
         // Matrices
         internal Matrix4x4 World_to_Light_View { get; private set; }
-        internal Matrix4x4 Light_View_to_Light_Screen { get; set; }
+
+        internal Matrix4x4 Light_View_to_Light_Screen;
         internal Matrix4x4 Light_Screen_to_Light_Window { get; private set; }
 
         internal void Calculate_World_To_Light_View() => World_to_Light_View = Model_to_World.Inverse();
 
         // Clipping planes
-        internal Clipping_Plane[] Light_View_Clipping_Planes { get; set; }
+        internal Clipping_Plane[] Light_View_Clipping_Planes;
 
-        // Shadow map
-        internal double[][] Shadow_Map { get; set; }
+        // Shadow map volume
+        internal float[][] Shadow_Map;
         public abstract int Shadow_Map_Width { get; set; }
         public abstract int Shadow_Map_Height { get; set; }
-        public abstract double Shadow_Map_Z_Near { get; set; }
-        public abstract double Shadow_Map_Z_Far { get; set; }
+        public abstract float Shadow_Map_Z_Near { get; set; }
+        public abstract float Shadow_Map_Z_Far { get; set; }
 
         protected void Set_Shadow_Map()
         {
             // Set shadow map
-            Shadow_Map = new double[Shadow_Map_Width][];
-            for (int i = 0; i < Shadow_Map_Width; i++) Shadow_Map[i] = new double[Shadow_Map_Height];
+            Shadow_Map = new float[Shadow_Map_Width][];
+            for (int i = 0; i < Shadow_Map_Width; i++) Shadow_Map[i] = new float[Shadow_Map_Height];
             
             // Set light-screen-to-light-window matrix
-            Light_Screen_to_Light_Window = Transform.Scale(0.5 * (Shadow_Map_Width - 1), 0.5 * (Shadow_Map_Height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
+            Light_Screen_to_Light_Window = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
         }
 
         // Export

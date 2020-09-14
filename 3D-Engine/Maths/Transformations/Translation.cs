@@ -7,10 +7,10 @@
         /// </summary>
         /// <param name="distance">Distance to move by.</param>
         /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
-        public static Matrix4x4 Translate_X(double distance)
+        public static Matrix4x4 Translate_X(float distance)
         {
-            Matrix4x4 translation = Matrix4x4.Identity_Matrix();
-            translation.Data[0][3] = distance;
+            Matrix4x4 translation = Matrix4x4.Identity;
+            translation.M03 = distance;
             return translation;
         }
 
@@ -19,10 +19,10 @@
         /// </summary>
         /// <param name="distance">Distance to move by.</param>
         /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
-        public static Matrix4x4 Translate_Y(double distance)
+        public static Matrix4x4 Translate_Y(float distance)
         {
-            Matrix4x4 translation = Matrix4x4.Identity_Matrix();
-            translation.Data[1][3] = distance;
+            Matrix4x4 translation = Matrix4x4.Identity;
+            translation.M13 = distance;
             return translation;
         }
 
@@ -31,10 +31,10 @@
         /// </summary>
         /// <param name="distance">Distance to move by.</param>
         /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
-        public static Matrix4x4 Translate_Z(double distance)
+        public static Matrix4x4 Translate_Z(float distance)
         {
-            Matrix4x4 translation = Matrix4x4.Identity_Matrix();
-            translation.Data[2][3] = distance;
+            Matrix4x4 translation = Matrix4x4.Identity;
+            translation.M23 = distance;
             return translation;
         }
 
@@ -45,12 +45,12 @@
         /// <param name="distance_y">Distance to move by in y-direction.</param>
         /// <param name="distance_z">Distance to move by in z-direction.</param>
         /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
-        public static Matrix4x4 Translate(double distance_x, double distance_y, double distance_z)
+        public static Matrix4x4 Translate(float distance_x, float distance_y, float distance_z)
         {
-            Matrix4x4 translation = Matrix4x4.Identity_Matrix();
-            translation.Data[0][3] = distance_x;
-            translation.Data[1][3] = distance_y;
-            translation.Data[2][3] = distance_z;
+            Matrix4x4 translation = Matrix4x4.Identity;
+            translation.M03 = distance_x;
+            translation.M13 = distance_y;
+            translation.M23 = distance_z;
             return translation;
         }
 
@@ -61,10 +61,10 @@
         /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Translate(Vector3D distance)
         {
-            Matrix4x4 translation = Matrix4x4.Identity_Matrix();
-            translation.Data[0][3] = distance.X;
-            translation.Data[1][3] = distance.Y;
-            translation.Data[2][3] = distance.Z;
+            Matrix4x4 translation = Matrix4x4.Identity;
+            translation.M03 = distance.X;
+            translation.M13 = distance.Y;
+            translation.M23 = distance.Z;
             return translation;
         }
     }

@@ -9,8 +9,8 @@ namespace _3D_Engine
 
         private int shadow_map_width = Default.Shadow_Map_Width;
         private int shadow_map_height = Default.Shadow_Map_Height;
-        private double shadow_map_z_near = Default.Shadow_Map_Z_Near;
-        private double shadow_map_z_far = Default.Shadow_Map_Z_Far;
+        private float shadow_map_z_near = Default.Shadow_Map_Z_Near;
+        private float shadow_map_z_far = Default.Shadow_Map_Z_Far;
 
         public override int Shadow_Map_Width
         {
@@ -23,7 +23,7 @@ namespace _3D_Engine
                 Set_Shadow_Map();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.Data[0][0] = 2 * shadow_map_z_near / shadow_map_width;
+                Light_View_to_Light_Screen.M00 = 2 * shadow_map_z_near / shadow_map_width;
             }
         }
 
@@ -38,11 +38,11 @@ namespace _3D_Engine
                 Set_Shadow_Map();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.Data[1][1] = 2 * shadow_map_z_near / shadow_map_height;
+                Light_View_to_Light_Screen.M11 = 2 * shadow_map_z_near / shadow_map_height;
             }
         }
 
-        public override double Shadow_Map_Z_Near
+        public override float Shadow_Map_Z_Near
         {
             get => shadow_map_z_near;
             set
@@ -50,12 +50,12 @@ namespace _3D_Engine
                 shadow_map_z_near = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.Data[2][2] = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.Data[2][3] = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.M22 = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.M23 = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
             }
         }
 
-        public override double Shadow_Map_Z_Far
+        public override float Shadow_Map_Z_Far
         {
             get => shadow_map_z_far;
             set
@@ -63,8 +63,8 @@ namespace _3D_Engine
                 shadow_map_z_far = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.Data[2][2] = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.Data[2][3] = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.M22 = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                Light_View_to_Light_Screen.M23 = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
             }
         }
 
@@ -72,10 +72,10 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, double strength) : base(origin, direction_forward, direction_up)
+        public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
         {
-            Light_View_to_Light_Screen = Matrix4x4.Zeroed_Matrix();
-            Light_View_to_Light_Screen.Data[3][2] = 1;
+            Light_View_to_Light_Screen = Matrix4x4.Zero;
+            Light_View_to_Light_Screen.M32 = 1;
 
             Shadow_Map_Width = Default.Shadow_Map_Width;
             Shadow_Map_Height = Default.Shadow_Map_Height;
@@ -90,7 +90,7 @@ namespace _3D_Engine
         /*
         internal override void Calculate_Light_View_Clipping_Planes()
         {
-            double semi_width = (double)shadow_map_width / 2, semi_height = (double)shadow_map_height / 2, z_ratio = shadow_map_z_far / shadow_map_z_near;
+            float semi_width = (float)shadow_map_width / 2, semi_height = (float)shadow_map_height / 2, z_ratio = shadow_map_z_far / shadow_map_z_near;
 
             Vector3D near_top_left_point = new Vector3D(-semi_width, semi_height, shadow_map_z_near);
             Vector3D near_top_right_point = new Vector3D(semi_width, semi_height, shadow_map_z_near);

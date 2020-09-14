@@ -9,12 +9,12 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        private double side_length;
+        private float side_length;
 
         /// <summary>
         /// The length of each side of the <see cref="Square"/>.
         /// </summary>
-        public double Side_Length
+        public float Side_Length
         {
             get => side_length;
             set
@@ -35,7 +35,7 @@ namespace _3D_Engine
         /// <param name="direction_forward">The direction the <see cref="Square"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
         /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D direction_forward, Vector3D normal, double side_length) : base(origin, direction_forward, normal)
+        public Square(Vector3D origin, Vector3D direction_forward, Vector3D normal, float side_length) : base(origin, direction_forward, normal)
         {
             Set_Structure(side_length);
             Faces = new Face[2]
@@ -53,7 +53,7 @@ namespace _3D_Engine
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
         /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D direction_forward, Vector3D normal, double side_length, Texture texture) : base(origin, direction_forward, normal)
+        public Square(Vector3D origin, Vector3D direction_forward, Vector3D normal, float side_length, Texture texture) : base(origin, direction_forward, normal)
         {
             Set_Structure(side_length);
             Textures = new Texture[1] { texture };
@@ -64,7 +64,7 @@ namespace _3D_Engine
             };
         }
 
-        private void Set_Structure(double side_length)
+        private void Set_Structure(float side_length)
         {
             Dimension = 2;
 

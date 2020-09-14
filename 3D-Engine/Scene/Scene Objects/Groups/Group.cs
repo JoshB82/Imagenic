@@ -15,7 +15,7 @@ namespace _3D_Engine
             set
             {
                 base.World_Origin = value;
-                if (Scene_Objects != null) foreach (Scene_Object scene_object in Scene_Objects) scene_object.World_Origin += value - base.World_Origin;
+                if (Scene_Objects is not null) foreach (Scene_Object scene_object in Scene_Objects) scene_object.World_Origin += value - base.World_Origin;
             }
         }
 

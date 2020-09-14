@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace _3D_Engine
 {
-    /// <include file="Help_3.xml" path="doc/members/member[@name='T:_3D_Engine.Custom']/*"/>
+    /// <include file="Help_5.xml" path="doc/members/member[@name='T:_3D_Engine.Custom']/*"/>
     public sealed class Custom : Mesh
     {
         #region Constructors
 
-        /// <include file="Help_3.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, Vertex[] vertices, Edge[] edges, Face[] faces) : base(origin, direction_forward, direction_up)
         {
             Vertices = vertices;
@@ -20,7 +20,7 @@ namespace _3D_Engine
             Faces = faces;
         }
 
-        /// <include file="Help_3.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up,
             Vertex[] vertices,
             Edge[] edges,
@@ -52,7 +52,7 @@ namespace _3D_Engine
             }
 
             // Obtain data from file
-            string[] lines = null;
+            string[] lines;
             try
             {
                 lines = File.ReadAllLines(file_path);
@@ -79,7 +79,7 @@ namespace _3D_Engine
             {
                 string[] data = line.Split();
                 int p1, p2, p3;
-                double x, y, z, w;
+                float x, y, z, w;
 
                 switch (data[0])
                 {
@@ -88,10 +88,10 @@ namespace _3D_Engine
                         break;
                     case "v":
                         // Vertex
-                        x = double.Parse(data[1]);
-                        y = double.Parse(data[2]);
-                        z = double.Parse(data[3]);
-                        w = (data.Length == 5) ? Double.Parse(data[4]) : 1;
+                        x = float.Parse(data[1]);
+                        y = float.Parse(data[2]);
+                        z = float.Parse(data[3]);
+                        w = (data.Length == 5) ? float.Parse(data[4]) : 1;
                         vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
                         break;
                     case "l":
@@ -145,7 +145,7 @@ namespace _3D_Engine
                 {
                     string[] data = line.Split();
                     int p1, p2, p3;
-                    double x, y, z, u, v, w;
+                    float x, y, z, u, v, w;
 
                     switch (data[0])
                     {
@@ -154,17 +154,17 @@ namespace _3D_Engine
                             break;
                         case "v":
                             // Vertex
-                            x = double.Parse(data[1]);
-                            y = double.Parse(data[2]);
-                            z = double.Parse(data[3]);
-                            w = (data.Length == 5) ? Double.Parse(data[4]) : 1;
+                            x = float.Parse(data[1]);
+                            y = float.Parse(data[2]);
+                            z = float.Parse(data[3]);
+                            w = (data.Length == 5) ? float.Parse(data[4]) : 1;
                             vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
                             break;
                         case "vt":
                             // Texture vertex
-                            u = double.Parse(data[1]);
-                            v = (data.Length > 2) ? double.Parse(data[2]) : 0;
-                            w = (data.Length == 4) ? double.Parse(data[3]) : 0;
+                            u = float.Parse(data[1]);
+                            v = (data.Length > 2) ? float.Parse(data[2]) : 0;
+                            w = (data.Length == 4) ? float.Parse(data[3]) : 0;
                             texture_vertices.Add(new Vector3D(u, v, w));
                             break;
                         case "l":

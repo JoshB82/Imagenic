@@ -54,7 +54,7 @@ namespace _3D_Engine
             }
 
             // Clip the face in screen space
-            if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip, camera_screen_clipping_planes) == 0) return;
+            if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip, Camera.Camera_Screen_Clipping_Planes) == 0) return;
 
             foreach (Face clipped_face in face_clip)
             {
@@ -70,13 +70,13 @@ namespace _3D_Engine
                 // Round the vertices
                 int x1 = clipped_face.P1.X.Round_to_Int();
                 int y1 = clipped_face.P1.Y.Round_to_Int();
-                double z1 = clipped_face.P1.Z;
+                float z1 = clipped_face.P1.Z;
                 int x2 = clipped_face.P2.X.Round_to_Int();
                 int y2 = clipped_face.P2.Y.Round_to_Int();
-                double z2 = clipped_face.P2.Z;
+                float z2 = clipped_face.P2.Z;
                 int x3 = clipped_face.P3.X.Round_to_Int();
                 int y3 = clipped_face.P3.Y.Round_to_Int();
-                double z3 = clipped_face.P3.Z;
+                float z3 = clipped_face.P3.Z;
 
                 // Sort the vertices by their y-co-ordinate
                 Sort_By_Y(
@@ -92,7 +92,7 @@ namespace _3D_Engine
             }
         }
 
-        private void Mesh_Depth_From_Light(object @object, int x, int y, double z)
+        private void Mesh_Depth_From_Light(object @object, int x, int y, float z)
         {
             Light light = (Light)@object;  // Why the explicit cast?
 
@@ -105,7 +105,7 @@ namespace _3D_Engine
             }
             catch (IndexOutOfRangeException)
             {
-                throw new Exception("Attempted to check points outside the shadow map.");
+                throw new IndexOutOfRangeException("Attempted to check points outside the shadow map.");
             }
         }
     }

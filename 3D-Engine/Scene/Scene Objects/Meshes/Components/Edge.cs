@@ -10,24 +10,28 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // Positions
-        internal Vertex Model_P1 { get; set; }
-        internal Vertex Model_P2 { get; set; }
-        /// <summary>
-        /// The position of the first point of the <see cref="Edge"/> in world space.
-        /// </summary>
-        public Vector3D World_P1 { get; internal set; }
-        /// <summary>
-        /// The position of the second point of the <see cref="Edge"/> in world space.
-        /// </summary>
-        public Vector3D World_P2 { get; internal set; }
-        internal Vector4D P1 { get; set; }
-        internal Vector4D P2 { get; set; }
+        internal Vertex Model_P1;
+        internal Vertex Model_P2;
+
+        internal Vector4D P1;
+        internal Vector4D P2;
 
         // Appearance
         public Color Colour { get; set; } = Properties.Settings.Default.Edge_Colour;
         public bool Visible { get; set; } = true;
 
         #endregion
+
+        internal void Reset_Vertices()
+        {
+            P1 = Model_P1.Point;
+            P2 = Model_P2.Point;
+        }
+        internal void Apply_Matrix(Matrix4x4 matrix)
+        {
+            P1 = matrix * P1;
+            P2 = matrix * P2;
+        }
 
         #region Constructors
 
