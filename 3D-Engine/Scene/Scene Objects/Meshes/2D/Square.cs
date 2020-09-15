@@ -95,15 +95,12 @@ namespace _3D_Engine
         /// Casts a <see cref="Square"/> into a <see cref="Plane"/>.
         /// </summary>
         /// <param name="square"><see cref="Square"/> to cast.</param>
-        public static explicit operator Plane(Square square)
-        {
-            Plane plane_cast = new Plane(square.World_Origin, square.World_Direction_Forward, square.World_Direction_Up, square.side_length, square.side_length)
+        public static explicit operator Plane(Square square) =>
+            new Plane(square.World_Origin, square.World_Direction_Forward, square.World_Direction_Up, square.side_length, square.side_length)
             {
                 Textures = square.Textures,
                 Faces = square.Faces
             };
-            return plane_cast;
-        }
 
         #endregion
     }

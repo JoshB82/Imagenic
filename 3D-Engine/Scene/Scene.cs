@@ -14,7 +14,7 @@ namespace _3D_Engine
         private Bitmap new_frame;
         private Rectangle screen_rectangle;
 
-        private const byte distant_value = 2;
+        private const byte out_of_bounds_value = 2;
 
         // Buffers
         private float[][] z_buffer;
@@ -116,18 +116,20 @@ namespace _3D_Engine
         /// <param name="scene_object"><see cref="Scene_Object"/> to add.</param>
         public void Add(Scene_Object scene_object)
         {
-            switch(scene_object.GetType().BaseType.Name)
+            lock (locker)
             {
-                case "Camera":
-                    Cameras.Add((Camera)scene_object);
-                    break;
-                case "Light":
-                    Light light = (Light)scene_object;
-                    Lights.Add(light);
-                    break;
-                case "Mesh":
-                    Meshes.Add((Mesh)scene_object);
-                    break;
+                switch (scene_object)
+                {
+                    case Camera camera:
+                        Cameras.Add(camera);
+                        break;
+                    case Light light:
+                        Lights.Add(light);
+                        break;
+                    case Mesh mesh:
+                        Meshes.Add(mesh);
+                        break;
+                }
             }
         }
 
@@ -180,7 +182,7 @@ namespace _3D_Engine
                 {
                     for (int j = 0; j < height; j++)
                     {
-                        z_buffer[i][j] = distant_value;
+                        z_buffer[i][j] = out_of_bounds_value;
                         colour_buffer[i][j] = Background_Colour;
                     }
                 }
@@ -190,7 +192,7 @@ namespace _3D_Engine
                     {
                         for (int j = 0; j < light.Shadow_Map_Height; j++)
                         {
-                            light.Shadow_Map[i][j] = distant_value;
+                            light.Shadow_Map[i][j] = out_of_bounds_value;
                         }
                     }
                 }
@@ -265,7 +267,7 @@ namespace _3D_Engine
                     {
                         for (int y = 0; y < height; y++)
                         {
-                            if (z_buffer[x][y] != distant_value)//?
+                            if (z_buffer[x][y] != out_of_bounds_value)//?
                             {
                                 SMC_Camera_Orthogonal(colour_buffer[x][y], window_to_world, x, y, z_buffer[x][y]);
                             }
@@ -281,7 +283,7 @@ namespace _3D_Engine
                         for (int y = 0; y < height; y++)
                         {
                             // check all floats and ints
-                            if (z_buffer[x][y] != distant_value)//?
+                            if (z_buffer[x][y] != out_of_bounds_value)
                             {
                                 SMC_Camera_Perspective(colour_buffer[x][y], screen_to_window_inverse, camera_screen_to_world, x, y, z_buffer[x][y]);
                             }
@@ -373,21 +375,12 @@ namespace _3D_Engine
             }
             foreach (Light light in Lights)
             {
-                if (light.Draw_Icon)
-                {
-                    light.Icon.Calculate_Model_to_World();
-                }
-                if (light.Visible)
-                {
-                    light.Calculate_Model_to_World();
-                }
+                if (light.Draw_Icon) light.Icon.Calculate_Model_to_World();
+                if (light.Visible) light.Calculate_Model_to_World();
             }
             foreach (Mesh mesh in Meshes)
             {
-                if (mesh.Visible)
-                {
-                    mesh.Calculate_Model_to_World();
-                }
+                if (mesh.Visible) mesh.Calculate_Model_to_World();
             }
 
             // World to view

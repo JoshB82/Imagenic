@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace _3D_Engine
 {
-    public sealed class Texture
+    public sealed class Texture : IDisposable
     {
         #region Fields and Properties
 
@@ -34,6 +33,10 @@ namespace _3D_Engine
 
         #endregion
 
+        #region Methods
+
+        public void Dispose() => throw new NotImplementedException();
+
         public static Vector3D[] Generate_Vertices(string type) =>
             type switch
             {
@@ -46,6 +49,9 @@ namespace _3D_Engine
                 },
                 _ => throw new ArgumentException($"Could not generate texture vertices; unknown type: {type}", type), //discard?
             };
+
+        #endregion
+
     }
 
     public enum Outside_Texture_Behaviour : byte

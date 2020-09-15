@@ -86,15 +86,15 @@ namespace _3D_Engine
             if (!Settings.Trace_Output) return;
 
             Verbosity Trace_Output_Verbosity = Verbosity.None;
-            switch (GetType().BaseType.Name) // ??????????????????????????
+            switch (this) // ??????????????????????????
             {
-                case "Camera":
+                case Camera:
                     Trace_Output_Verbosity = Settings.Camera_Trace_Output_Verbosity;
                     break;
-                case "Light":
+                case Light:
                     Trace_Output_Verbosity = Settings.Light_Trace_Output_Verbosity;
                     break;
-                case "Mesh":
+                case Mesh:
                     Trace_Output_Verbosity = Settings.Mesh_Trace_Output_Verbosity;
                     break;
             }

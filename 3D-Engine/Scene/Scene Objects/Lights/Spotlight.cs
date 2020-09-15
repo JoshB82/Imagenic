@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using static _3D_Engine.Properties.Settings;
+﻿using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine
 {

@@ -166,15 +166,12 @@
         /// Casts a <see cref="Cube"/> into a <see cref="Cuboid"/>.
         /// </summary>
         /// <param name="cube"><see cref="Cube"/> to cast.</param>
-        public static explicit operator Cuboid(Cube cube)
-        {
-            Cuboid cuboid_cast = new Cuboid(cube.World_Origin, cube.World_Direction_Forward, cube.World_Direction_Up, cube.side_length, cube.side_length, cube.side_length)
+        public static explicit operator Cuboid(Cube cube) =>
+            new Cuboid(cube.World_Origin, cube.World_Direction_Forward, cube.World_Direction_Up, cube.side_length, cube.side_length, cube.side_length)
             {
                 Textures = cube.Textures,
                 Faces = cube.Faces
             };
-            return cuboid_cast;
-        }
 
         #endregion
     }

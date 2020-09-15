@@ -103,7 +103,7 @@ namespace _3D_Engine
             }
         }
 
-        private void Mesh_Depth_From_Light(object @object, int x, int y, float z)
+        private static void Mesh_Depth_From_Light(object @object, int x, int y, float z)
         {
             Light light = @object as Light;
 
@@ -116,7 +116,7 @@ namespace _3D_Engine
             }
             catch (IndexOutOfRangeException e)
             {
-                throw new IndexOutOfRangeException("Attempted to check points outside the shadow map.", e);
+                throw new IndexOutOfRangeException($"Attempted to check points outside the shadow map at ({x}, {y}, {z})", e);
             }
         }
     }

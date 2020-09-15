@@ -35,7 +35,6 @@ namespace _3D_Engine
             {
                 // One point is on the inside, the other on the outside, so clip the line
                 Vector3D intersection = Vector3D.Line_Intersect_Plane(point_1, point_2, plane_point, plane_normal, out _);
-                e.P1 = e.P1;
                 e.P2 = new Vector4D(intersection);
                 return true;
             }
