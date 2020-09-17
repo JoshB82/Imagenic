@@ -5,7 +5,7 @@ namespace _3D_Engine
     /// <summary>
     /// Handles constructors and operations involving two-dimensional vectors.
     /// </summary>
-    public struct Vector2D
+    public struct Vector2D : IEquatable<Vector2D>
     {
         #region Fields and Properties
 
@@ -38,12 +38,12 @@ namespace _3D_Engine
 
         #region Common Vectors
 
-        public static Vector2D Zero  = new Vector2D(0, 0);
-        public static Vector2D One  = new Vector2D(1, 1);
-        public static Vector2D Unit_X  = new Vector2D(1, 0);
-        public static Vector2D Unit_Y  = new Vector2D(0, 1);
-        public static Vector2D Unit_Negative_X  = new Vector2D(-1, 0);
-        public static Vector2D Unit_Negative_Y  = new Vector2D(0, -1);
+        public static readonly Vector2D Zero  = new Vector2D(0, 0);
+        public static readonly Vector2D One  = new Vector2D(1, 1);
+        public static readonly Vector2D Unit_X  = new Vector2D(1, 0);
+        public static readonly Vector2D Unit_Y  = new Vector2D(0, 1);
+        public static readonly Vector2D Unit_Negative_X  = new Vector2D(-1, 0);
+        public static readonly Vector2D Unit_Negative_Y  = new Vector2D(0, -1);
 
         #endregion
 
@@ -94,6 +94,8 @@ namespace _3D_Engine
         public static bool operator ==(Vector2D v1, Vector2D v2) => v1.x == v2.x && v1.y == v2.y;
 
         public static bool operator !=(Vector2D v1, Vector2D v2) => !(v1 == v2);
+
+        public bool Equals(Vector2D v) => this == v;
 
         public override bool Equals(object obj) => this == (Vector2D)obj;
 

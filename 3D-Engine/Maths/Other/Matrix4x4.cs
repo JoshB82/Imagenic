@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <include file="Help_5.xml" path="doc/members/member[@name='T:_3D_Engine.Matrix4x4']/*"/>
-    public struct Matrix4x4
+    public struct Matrix4x4 : IEquatable<Matrix4x4>
     {
         #region Fields and Properties
         
@@ -32,8 +32,8 @@ namespace _3D_Engine
 
         public Matrix4x4(float[,] elements)
         {
-            if (elements.GetLength(0) != 4
-                || elements.GetLength(1) != 4)
+            if (elements.GetLength(0) != 4 ||
+                elements.GetLength(1) != 4)
                 throw new ArgumentException("\"elements\" must be of size 4x4.", nameof(elements));
 
             (m00, m01, m02, m03) = (elements[0, 0], elements[0, 1], elements[0, 2], elements[0, 3]);
@@ -108,30 +108,30 @@ namespace _3D_Engine
             float d17 = m21 * m33 - m23 * m31;
             float d18 = m22 * m33 - m23 * m32;
 
-            float det =   m00 * (m11 * d18 - m12 * d17 + m13 * d16)
-                         - m01 * (m10 * d18 - m12 * d15 + m13 * d14)
-                         + m02 * (m10 * d17 - m11 * d15 + m13 * d13)
-                         - m03 * (m10 * d16 - m11 * d14 + m12 * d13);
+            float det =   m00 * (m11 * d18 - m12 * d17 + m13 * d16) 
+                        - m01 * (m10 * d18 - m12 * d15 + m13 * d14)
+                        + m02 * (m10 * d17 - m11 * d15 + m13 * d13)
+                        - m03 * (m10 * d16 - m11 * d14 + m12 * d13);
             if (det == 0) throw new InvalidOperationException("Matrix does not have an inverse.");
 
             return new Matrix4x4
             (
-                m11 * d18 - m12 * d17 + m13 * d16,
+                  m11 * d18 - m12 * d17 + m13 * d16,
                 -(m01 * d18 - m02 * d17 + m03 * d16),
-                m01 * d12 - m02 * d10 + m03 * d9,
+                  m01 * d12 - m02 * d10 + m03 * d9,
                 -(m01 * d11 - m02 * d8 + m03 * d7),
                 -(m10 * d18 - m12 * d15 + m13 * d14),
-                m00 * d18 - m02 * d15 + m03 * d14,
+                  m00 * d18 - m02 * d15 + m03 * d14,
                 -(m00 * d12 - m02 * d6 + m03 * d5),
-                m00 * d11 - m02 * d3 + m03 * d2,
-                m10 * d17 - m11 * d15 + m13 * d13,
+                  m00 * d11 - m02 * d3 + m03 * d2,
+                  m10 * d17 - m11 * d15 + m13 * d13,
                 -(m00 * d17 - m01 * d15 + m03 * d13),
-                m00 * d10 - m01 * d6 + m03 * d4,
+                  m00 * d10 - m01 * d6 + m03 * d4,
                 -(m00 * d8 - m01 * d3 + m03 * d1),
                 -(m10 * d16 - m11 * d14 + m12 * d13),
-                m00 * d16 - m01 * d14 + m02 * d13,
+                  m00 * d16 - m01 * d14 + m02 * d13,
                 -(m00 * d9 - m01 * d5 + m02 * d4),
-                m00 * d7 - m01 * d2 + m02 * d1
+                  m00 * d7 - m01 * d2 + m02 * d1
             ) / det;
         }
 
@@ -240,6 +240,8 @@ namespace _3D_Engine
             v1.m30 == v2.m30 && v1.m31 == v2.m31 && v1.m32 == v2.m32 && v1.m33 == v2.m33;
 
         public static bool operator !=(Matrix4x4 v1, Matrix4x4 v2) => !(v1 == v2);
+
+        public bool Equals(Matrix4x4 m) => this == m;
 
         public override bool Equals(object obj) => this == (Matrix4x4)obj;
 

@@ -5,7 +5,7 @@ namespace _3D_Engine
     /// <summary>
     /// Handles constructors and operations involving four-dimensional vectors for use in 3D graphics.
     /// </summary>
-    public struct Vector4D
+    public struct Vector4D : IEquatable<Vector4D>
     {
         #region Fields and Properties
 
@@ -46,14 +46,14 @@ namespace _3D_Engine
 
         #region Common Vectors
 
-        public static Vector4D Zero = new Vector4D(0, 0, 0);
-        public static Vector4D One = new Vector4D(1, 1, 1);
-        public static Vector4D Unit_X = new Vector4D(1, 0, 0);
-        public static Vector4D Unit_Y = new Vector4D(0, 1, 0);
-        public static Vector4D Unit_Z = new Vector4D(0, 0, 1);
-        public static Vector4D Unit_Negative_X = new Vector4D(-1, 0, 0);
-        public static Vector4D Unit_Negative_Y = new Vector4D(0, -1, 0);
-        public static Vector4D Unit_Negative_Z = new Vector4D(0, 0, -1);
+        public static readonly Vector4D Zero = new Vector4D(0, 0, 0);
+        public static readonly Vector4D One = new Vector4D(1, 1, 1);
+        public static readonly Vector4D Unit_X = new Vector4D(1, 0, 0);
+        public static readonly Vector4D Unit_Y = new Vector4D(0, 1, 0);
+        public static readonly Vector4D Unit_Z = new Vector4D(0, 0, 1);
+        public static readonly Vector4D Unit_Negative_X = new Vector4D(-1, 0, 0);
+        public static readonly Vector4D Unit_Negative_Y = new Vector4D(0, -1, 0);
+        public static readonly Vector4D Unit_Negative_Z = new Vector4D(0, 0, -1);
 
         #endregion
         
@@ -108,6 +108,8 @@ namespace _3D_Engine
         public static bool operator ==(Vector4D v1, Vector4D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z && v1.w == v2.w;
 
         public static bool operator !=(Vector4D v1, Vector4D v2) => !(v1 == v2);
+
+        public bool Equals(Vector4D v) => this == v;
 
         public override bool Equals(object obj) => this == (Vector4D)obj;
 

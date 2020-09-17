@@ -5,7 +5,7 @@ namespace _3D_Engine
     /// <summary>
     /// Handles constructors and operations involving three-dimensional vectors.
     /// </summary>
-    public struct Vector3D
+    public struct Vector3D : IEquatable<Vector3D>
     {
         #region Fields and Properties
 
@@ -49,14 +49,14 @@ namespace _3D_Engine
 
         #region Common Vectors
 
-        public static Vector3D Zero = new Vector3D(0, 0, 0);
-        public static Vector3D One = new Vector3D(1, 1, 1);
-        public static Vector3D Unit_X = new Vector3D(1, 0, 0);
-        public static Vector3D Unit_Y = new Vector3D(0, 1, 0);
-        public static Vector3D Unit_Z = new Vector3D(0, 0, 1);
-        public static Vector3D Unit_Negative_X = new Vector3D(-1, 0, 0);
-        public static Vector3D Unit_Negative_Y = new Vector3D(0, -1, 0);
-        public static Vector3D Unit_Negative_Z = new Vector3D(0, 0, -1);
+        public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
+        public static readonly Vector3D One = new Vector3D(1, 1, 1);
+        public static readonly Vector3D Unit_X = new Vector3D(1, 0, 0);
+        public static readonly Vector3D Unit_Y = new Vector3D(0, 1, 0);
+        public static readonly Vector3D Unit_Z = new Vector3D(0, 0, 1);
+        public static readonly Vector3D Unit_Negative_X = new Vector3D(-1, 0, 0);
+        public static readonly Vector3D Unit_Negative_Y = new Vector3D(0, -1, 0);
+        public static readonly Vector3D Unit_Negative_Z = new Vector3D(0, 0, -1);
 
         #endregion
 
@@ -98,7 +98,6 @@ namespace _3D_Engine
             // d = new length / old length
             d = (plane_point - line_start) * plane_normal / (denominator);
             // Round in direction of normal!?
-            // y-AXES WRONG (upside down)?
             return line * d + line_start;
         }
 
@@ -138,6 +137,8 @@ namespace _3D_Engine
         public static bool operator ==(Vector3D v1, Vector3D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
 
         public static bool operator !=(Vector3D v1, Vector3D v2) => !(v1 == v2);
+
+        public bool Equals(Vector3D v) => this == v;
 
         public override bool Equals(object obj) => this == (Vector3D)obj;
 

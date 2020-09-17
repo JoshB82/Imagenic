@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <include file="Help_5.xml" path="doc/members/member[@name='T:_3D_Engine.Quaternion']/*"/>
-    public struct Quaternion
+    public struct Quaternion : IEquatable<Quaternion>
     {
         #region Fields and Parameters
 
@@ -110,6 +110,8 @@ namespace _3D_Engine
         public static bool operator ==(Quaternion v1, Quaternion v2) => v1.q1 == v2.q1 && v1.q2 == v2.q2 && v1.q3 == v2.q3 && v1.q4 == v2.q4;
 
         public static bool operator !=(Quaternion v1, Quaternion v2) => !(v1 == v2);
+
+        public bool Equals(Quaternion q) => this == q;
 
         public override bool Equals(object obj) => this == (Quaternion)obj;
 
