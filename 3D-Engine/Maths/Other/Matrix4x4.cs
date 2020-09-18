@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Handles creation of a 4x4 matrix and provides methods to extract common information and for operator overloading.
+ */
+
+using System;
 
 namespace _3D_Engine
 {

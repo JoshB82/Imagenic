@@ -56,7 +56,11 @@ namespace _3D_Engine
         internal Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up)
         {
             string[] icon_obj_data = Properties.Resources.Camera.Split("\n");
-            Icon = new Custom(origin, direction_forward, direction_up, icon_obj_data) { Face_Colour = Color.DarkCyan };
+            Icon = new Custom(origin, direction_forward, direction_up, icon_obj_data)
+            {
+                Dimension = 3,
+                Face_Colour = Color.DarkCyan
+            };
             Icon.Scale(5);
         }
 

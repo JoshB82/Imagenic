@@ -17,12 +17,9 @@
             edge.Apply_Matrix(world_to_camera_view);
 
             // Clip the edge in camera-view space
-            if (Settings.View_Space_Clip)
+            foreach (Clipping_Plane view_clipping_plane in Render_Camera.Camera_View_Clipping_Planes)
             {
-                foreach (Clipping_Plane view_clipping_plane in Render_Camera.Camera_View_Clipping_Planes)
-                {
-                    if (!Clip_Edge(view_clipping_plane.Point, view_clipping_plane.Normal, edge)) return;
-                }
+                if (!Clip_Edge(view_clipping_plane.Point, view_clipping_plane.Normal, edge)) return;
             }
 
             // Move the edge from camera-view space to camera-screen space, including a correction for perspective

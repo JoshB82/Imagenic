@@ -3,7 +3,7 @@
  *     (c) Josh Bryant
  * https://joshdbryant.com
  *
- * License available in GitHub repository:
+ * Full license is available in the GitHub repository:
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
@@ -50,7 +50,7 @@ namespace _3D_Engine
         }
 
         //source!
-        private static int Queue_Clip_Face(Queue<Face> face_clip_queue, Clipping_Plane[] clipping_planes)
+        private static bool Clip_Faces_In_Queue(Queue<Face> face_clip_queue, Clipping_Plane[] clipping_planes)
         {
             foreach (Clipping_Plane clipping_plane in clipping_planes)
             {
@@ -62,11 +62,11 @@ namespace _3D_Engine
                 }
             }
 
-            return face_clip_queue.Count;
+            return face_clip_queue.Count > 0;
         }
 
         // check clockwise/anticlockwise stuff
-        // source as well
+        // source
         private static void Clip_Face(Face face_to_clip, Queue<Face> face_clip_queue, Vector3D plane_point, Vector3D plane_normal)
         {
             Vector3D point_1 = new Vector3D(face_to_clip.P1), point_2 = new Vector3D(face_to_clip.P2), point_3 = new Vector3D(face_to_clip.P3);

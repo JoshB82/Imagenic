@@ -43,37 +43,7 @@ namespace _3D_Engine
         public static Viewport Viewport_Style = Viewport.Single;
 
         // Clipping
-        private static bool view_space_clip = true, screen_space_clip = true; // view always true.>?
-        public static bool View_Space_Clip
-        {
-            get => view_space_clip;
-            set
-            {
-                if (value == false && screen_space_clip == false)
-                {
-                    view_space_clip = true;
-                }
-                else
-                {
-                    view_space_clip = value;
-                }
-            }
-        }
-        public static bool Screen_Space_Clip
-        {
-            get => screen_space_clip;
-            set
-            {
-                if (value == false && view_space_clip == false)
-                {
-                    screen_space_clip = true;
-                }
-                else
-                {
-                    screen_space_clip = value;
-                }
-            }
-        }
+        public static bool Screen_Space_Clip { get; set; }
 
         // Trace
         /// <summary>

@@ -51,7 +51,7 @@ namespace _3D_Engine
         /// <summary>
         /// Represents the number of dimensions the <see cref="Mesh"/> occupies.
         /// </summary>
-        public int Dimension { get; protected set; }
+        public int Dimension { get; internal set; }
         public bool Casts_Shadows { get; set; }
         /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool Draw_Outline { get; set; } = false;

@@ -42,7 +42,7 @@ namespace _3D_Engine
             Queue<Face> face_clip_queue = new Queue<Face>();
             face_clip_queue.Enqueue(face);
 
-            if (Queue_Clip_Face(face_clip_queue, Render_Camera.Camera_View_Clipping_Planes) == 0) return;
+            if (!Clip_Faces_In_Queue(face_clip_queue, Render_Camera.Camera_View_Clipping_Planes)) return;
 
             // Move the new triangles from camera-view space to camera-screen space, including a correction for perspective
             foreach (Face clipped_face in face_clip_queue)
@@ -65,7 +65,7 @@ namespace _3D_Engine
             }
 
             // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && Queue_Clip_Face(face_clip_queue, Camera.Camera_Screen_Clipping_Planes) == 0)
+            if (Settings.Screen_Space_Clip && !Clip_Faces_In_Queue(face_clip_queue, Camera.Camera_Screen_Clipping_Planes))
             {
                 return;
             }// anything outside cube?
