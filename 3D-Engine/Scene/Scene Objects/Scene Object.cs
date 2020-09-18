@@ -19,7 +19,7 @@ namespace _3D_Engine
         // Matrices
         internal Matrix4x4 Model_to_World;
 
-        internal virtual void Calculate_Model_to_World()
+        internal virtual void Calculate_Matrices()
         {
             Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_forward_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
@@ -33,14 +33,16 @@ namespace _3D_Engine
         }
 
         // Origins
-        internal Vector4D Origin = Vector4D.Zero;
+        internal static readonly Vector4D Model_Origin = Vector4D.Zero;
         /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
         public virtual Vector3D World_Origin { get; set; }
 
+        internal Vector3D Calculate_World_Origin() => new Vector3D(Model_to_World * Model_Origin);
+
         // Directions
-        internal Vector3D Model_Direction_Forward => Vector3D.Unit_Z;
-        internal Vector3D Model_Direction_Up => Vector3D.Unit_Y;
-        internal Vector3D Model_Direction_Right => Vector3D.Unit_X;
+        internal static readonly Vector3D Model_Direction_Forward = Vector3D.Unit_Z;
+        internal static readonly Vector3D Model_Direction_Up = Vector3D.Unit_Y;
+        internal static readonly Vector3D Model_Direction_Right = Vector3D.Unit_X;
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
         public Vector3D World_Direction_Forward { get; private set; }

@@ -3,9 +3,9 @@
     public sealed partial class Scene
     {
         private void Draw_Camera(Camera camera, 
-            Matrix4x4 model_to_world,
-            Matrix4x4 world_to_view,
-            Matrix4x4 view_to_screen)
+            in Matrix4x4 model_to_world,
+            in Matrix4x4 world_to_view,
+            in Matrix4x4 view_to_screen)
         {
             float semi_width = camera.Width / 2, semi_height = camera.Height / 2;
 

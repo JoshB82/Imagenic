@@ -24,19 +24,20 @@ namespace _3D_Engine
         /// <summary>
         /// Determines if the outline of the <see cref="Light">Light's</see> projection is drawn.
         /// </summary>
-        
+
         /// <summary>
         /// Determines if the outline of the <see cref="Light">Light's</see> projection is drawn, up to the near plane.
         /// </summary>
-        
+
 
         // Matrices
-        internal Matrix4x4 World_to_Light_View { get; private set; }
+        internal Matrix4x4 World_to_Light_View, Light_View_to_Light_Screen, Light_Screen_to_Light_Window;
 
-        internal Matrix4x4 Light_View_to_Light_Screen;
-        internal Matrix4x4 Light_Screen_to_Light_Window { get; private set; }
-
-        internal void Calculate_World_To_Light_View() => World_to_Light_View = Model_to_World.Inverse();
+        internal override void Calculate_Matrices()
+        {
+            base.Calculate_Matrices();
+            World_to_Light_View = Model_to_World.Inverse();
+        }
 
         // Clipping planes
         internal Clipping_Plane[] Light_View_Clipping_Planes;
@@ -48,6 +49,7 @@ namespace _3D_Engine
         public abstract float Shadow_Map_Z_Near { get; set; }
         public abstract float Shadow_Map_Z_Far { get; set; }
 
+        private static readonly Matrix4x4 window_translate = Transform.Translate(new Vector3D(1, 1, 0));
         protected void Set_Shadow_Map()
         {
             // Set shadow map
@@ -55,21 +57,26 @@ namespace _3D_Engine
             for (int i = 0; i < Shadow_Map_Width; i++) Shadow_Map[i] = new float[Shadow_Map_Height];
             
             // Set light-screen-to-light-window matrix
-            Light_Screen_to_Light_Window = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
+            Light_Screen_to_Light_Window = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * window_translate;
         }
 
+        /// <include file="Help_5.xml" path="doc/members/member[@name='']/*"/>
+
+        #endregion
+
+        #region Constructors
+
+        internal Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up) { }
+
+        #endregion
+
+        #region Methods
+
         // Export
-        /// <summary>
-        /// Exports the shadow map to the current working directory of the application, in an "Export" folder.
-        /// </summary>
-        /// <remarks>The folder is created if it does not exist.</remarks>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map']/*"/>
         public void Export_Shadow_Map() => Export_Shadow_Map($"{Directory.GetCurrentDirectory()}\\Export\\{GetType().Name}_{ID}_Export_Map.bmp");
 
-        /// <summary>
-        /// Exports the shadow map to the specified file path.
-        /// </summary>
-        /// <remarks>The specified folder is created if it does not exist.</remarks>
-        /// <param name="file_path">Destination of the exported image.</param>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map(System.String)']/*"/>
         public void Export_Shadow_Map(string file_path)
         {
             Trace.WriteLine($"Generating shadow map for {GetType().Name}...");
@@ -95,12 +102,6 @@ namespace _3D_Engine
 
             Trace.WriteLine($"Successfully saved shadow map for {GetType().Name}");
         }
-
-        #endregion
-
-        #region Constructors
-
-        internal Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up) { }
 
         #endregion
     }

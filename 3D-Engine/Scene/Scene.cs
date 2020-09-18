@@ -40,6 +40,7 @@ namespace _3D_Engine
         #region Dimensions
 
         private Matrix4x4 screen_to_window, screen_to_window_inverse;
+        private static readonly Matrix4x4 window_translate = Transform.Translate(new Vector3D(1, 1, 0));
 
         private int width, height;
 
@@ -82,7 +83,7 @@ namespace _3D_Engine
             }
 
             // Set screen-to-window matrix
-            screen_to_window = Transform.Scale(0.5f * (width - 1), 0.5f * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
+            screen_to_window = Transform.Scale(0.5f * (width - 1), 0.5f * (height - 1), 1) * window_translate;
             screen_to_window_inverse = screen_to_window.Inverse();
             screen_rectangle = new Rectangle(0, 0, width, height); //?-1?
         }
@@ -198,7 +199,7 @@ namespace _3D_Engine
                 }
 
                 // Calculate model to world and world to view matrices for all scene objects
-                Generate_MWV_Matrices();
+                Generate_Matrices();
 
                 // Calculate render camera properties
                 Matrix4x4 world_to_view = Render_Camera.World_to_Camera_View;
@@ -220,7 +221,7 @@ namespace _3D_Engine
                     {
                         foreach (Face face in light.Icon.Faces)
                         {
-                            Generate_Z_Buffer(face, 3, light.Icon.Model_to_World, world_to_view, view_to_screen);
+                            Generate_Z_Buffer(face, 3, in light.Icon.Model_to_World, in world_to_view, in view_to_screen);
                         }
                     }
                 }
@@ -366,35 +367,24 @@ namespace _3D_Engine
         }
 
         // Generate matrices
-        public void Generate_MWV_Matrices()
+        public void Generate_Matrices()
         {
-            // Model to world
             foreach (Camera camera in Cameras)
             {
-                camera.Calculate_Model_to_World();//?vvvv
+                camera.Calculate_Matrices();
             }
             foreach (Light light in Lights)
             {
-                if (light.Draw_Icon) light.Icon.Calculate_Model_to_World();
-                if (light.Visible) light.Calculate_Model_to_World();
+                if (light.Draw_Icon) light.Icon.Calculate_Matrices();
+                if (light.Visible) light.Calculate_Matrices();
             }
             foreach (Mesh mesh in Meshes)
             {
-                if (mesh.Visible) mesh.Calculate_Model_to_World();
+                if (mesh.Visible) mesh.Calculate_Matrices();
             }
 
-            // World to view
-            Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin); //?
-            Render_Camera.Calculate_World_To_Camera_View();
-            foreach (Light light in Lights)
-            {
-                light.World_Origin = new Vector3D(light.Model_to_World * light.Origin); // ?
-                light.Calculate_World_To_Light_View();
-            }
-            foreach (Mesh mesh in Meshes)
-            {
-                mesh.Origin = screen_to_window * Render_Camera.Camera_View_to_Camera_Screen * Render_Camera.World_to_Camera_View * mesh.Model_to_World * mesh.Origin;
-            }
+            Render_Camera.Calculate_World_Origin();
+            foreach (Light light in Lights) light.Calculate_World_Origin();
         }
     }
 }

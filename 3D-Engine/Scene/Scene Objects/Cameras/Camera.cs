@@ -19,17 +19,19 @@ namespace _3D_Engine
         /// <summary>
         /// Determines if the outline of the <see cref="Camera">Camera's</see> view is drawn.
         /// </summary>
-        
+
         /// <summary>
         /// Determines if the outline of the <see cref="Camera">Camera's</see> view is drawn, up to the near plane.
         /// </summary>
 
         // Matrices
-        internal Matrix4x4 World_to_Camera_View { get; private set; }
+        internal Matrix4x4 World_to_Camera_View, Camera_View_to_Camera_Screen;
 
-        internal Matrix4x4 Camera_View_to_Camera_Screen;
-
-        internal void Calculate_World_To_Camera_View() => World_to_Camera_View = Model_to_World.Inverse();
+        internal override void Calculate_Matrices()
+        {
+            base.Calculate_Matrices();
+            World_to_Camera_View = Model_to_World.Inverse();
+        }
 
         // Clipping planes
         internal Clipping_Plane[] Camera_View_Clipping_Planes;

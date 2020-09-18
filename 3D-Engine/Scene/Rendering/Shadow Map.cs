@@ -23,8 +23,8 @@ namespace _3D_Engine
             }
         }
             
-        private void Calculate_Depth(Face face, int dimension, Light light, 
-            Matrix4x4 model_to_world)
+        private void Calculate_Depth(Face face, int dimension, Light light,
+            in Matrix4x4 model_to_world)
         {
             // Reset the vertices to model space values
             face.Reset_Vertices();

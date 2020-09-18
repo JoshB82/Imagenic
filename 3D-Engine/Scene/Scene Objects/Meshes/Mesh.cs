@@ -48,18 +48,19 @@ namespace _3D_Engine
         }
 
         // Miscellaneous
-        /// <summary>
-        /// Represents the number of dimensions the <see cref="Mesh"/> occupies.
-        /// </summary>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Dimension']/*"/>
         public int Dimension { get; internal set; }
+        /// <summary>
+        /// Determines if the <see cref="Mesh"/> casts shadows on other <see cref="Mesh">Meshes</see>.
+        /// </summary>
         public bool Casts_Shadows { get; set; }
         /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool Draw_Outline { get; set; } = false;
 
         // Matrices and Vectors
-        internal override void Calculate_Model_to_World()
+        internal override void Calculate_Matrices()
         {
-            base.Calculate_Model_to_World();
+            base.Calculate_Matrices();
 
             Matrix4x4 scale = Transform.Scale(Scaling.x, Scaling.y, Scaling.z);
             Model_to_World *= scale;

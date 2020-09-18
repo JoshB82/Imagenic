@@ -3,9 +3,9 @@
     public sealed partial class Scene
     {
         private void Draw_Edge(Edge edge,
-            Matrix4x4 model_to_world,
-            Matrix4x4 world_to_camera_view,
-            Matrix4x4 camera_view_to_camera_screen)
+            in Matrix4x4 model_to_world,
+            in Matrix4x4 world_to_camera_view,
+            in Matrix4x4 camera_view_to_camera_screen)
         {
             // Reset face vertices
             edge.Reset_Vertices();

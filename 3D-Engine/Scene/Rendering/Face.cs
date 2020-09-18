@@ -7,9 +7,9 @@ namespace _3D_Engine
     public sealed partial class Scene
     {
         private void Generate_Z_Buffer(Face face, int dimension,
-            Matrix4x4 model_to_world,
-            Matrix4x4 world_to_camera_view,
-            Matrix4x4 camera_view_to_camera_screen)
+            in Matrix4x4 model_to_world,
+            in Matrix4x4 world_to_camera_view,
+            in Matrix4x4 camera_view_to_camera_screen)
         {
             // Reset the vertices to model space values
             face.Reset_Vertices();
@@ -30,9 +30,9 @@ namespace _3D_Engine
             if (face.Draw_Outline)//
             {
                 Vertex vp1 = new Vertex(face.P1), vp2 = new Vertex(face.P2), vp3 = new Vertex(face.P3);
-                Draw_Edge(new Edge(vp1, vp2), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
-                Draw_Edge(new Edge(vp1, vp3), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
-                Draw_Edge(new Edge(vp2, vp3), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
+                Draw_Edge(new Edge(vp1, vp2), in model_to_world, in world_to_camera_view, in camera_view_to_camera_screen);
+                Draw_Edge(new Edge(vp1, vp3), in model_to_world, in world_to_camera_view, in camera_view_to_camera_screen);
+                Draw_Edge(new Edge(vp2, vp3), in model_to_world, in world_to_camera_view, in camera_view_to_camera_screen);
             }
 
             // Move the face from world space to camera-view space
