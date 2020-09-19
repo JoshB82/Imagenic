@@ -103,5 +103,10 @@ namespace _3D_Engine
 
         #endregion
 
+        #region Casting
+
+        public static implicit operator Vector3D(Vector2D v) => new Vector3D(v);
+
+        #endregion
     }
 }

@@ -49,7 +49,7 @@ namespace _3D_Engine
 
                 Vertices = new Vertex[2 * resolution + 2];
                 Vertices[0] = new Vertex(Vector4D.Zero);
-                Vertices[1] = new Vertex(new Vector4D(0, 1, 0));
+                Vertices[1] = new Vertex(Vector4D.Unit_Y);
 
                 float angle = 2 * (float)Math.PI / resolution;
                 for (int i = 0; i < resolution; i++)

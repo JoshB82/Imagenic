@@ -116,5 +116,11 @@ namespace _3D_Engine
         public override int GetHashCode() => throw new NotImplementedException();
 
         #endregion
+
+        #region Casting
+
+        public static implicit operator Vector3D(Vector4D v) => new Vector3D(v);
+
+        #endregion
     }
 }

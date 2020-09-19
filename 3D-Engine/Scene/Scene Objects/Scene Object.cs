@@ -22,7 +22,7 @@ namespace _3D_Engine
         internal virtual void Calculate_Matrices()
         {
             Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(new Vector3D(direction_forward_rotation * new Vector4D(Model_Direction_Up)), World_Direction_Up);
+            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(direction_forward_rotation * Model_Direction_Up, World_Direction_Up);
             Matrix4x4 translation = Transform.Translate(World_Origin);
 
             // String the transformations together in the following order:
@@ -37,7 +37,7 @@ namespace _3D_Engine
         /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
         public virtual Vector3D World_Origin { get; set; }
 
-        internal Vector3D Calculate_World_Origin() => new Vector3D(Model_to_World * Model_Origin);
+        internal void Calculate_World_Origin() => World_Origin = Model_to_World * Model_Origin;
 
         // Directions
         internal static readonly Vector3D Model_Direction_Forward = Vector3D.Unit_Z;
@@ -74,12 +74,12 @@ namespace _3D_Engine
 
             if (Has_Direction_Arrows = has_direction_arrows)
             {
-                int resolution = 30, body_radius = 10, tip_radius = 20, body_length = 10, tip_length = 5;
+                const int resolution = 30, body_radius = 10, tip_radius = 20, body_length = 10, tip_length = 5;
                 List<Scene_Object> direction_arrows = new List<Scene_Object>
                 {
-                    new Arrow(origin, World_Direction_Forward, World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Blue },
-                    new Arrow(origin, World_Direction_Up, -World_Direction_Forward, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Green },
-                    new Arrow(origin, World_Direction_Right, -World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Red }
+                    new Arrow(origin, World_Direction_Forward, World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Blue }, // Z-axis
+                    new Arrow(origin, World_Direction_Up, -World_Direction_Forward, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Green }, // Y-axis
+                    new Arrow(origin, World_Direction_Right, -World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Red } // X-axis
                 };
                 Direction_Arrows = new Group(origin, direction_forward, direction_up, direction_arrows, false);
             }

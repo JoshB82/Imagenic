@@ -145,5 +145,13 @@ namespace _3D_Engine
         public override int GetHashCode() => throw new NotImplementedException();
 
         #endregion
+
+        #region Casting
+
+        public static implicit operator Vector2D(Vector3D v) => new Vector2D(v);
+
+        public static implicit operator Vector4D(Vector3D v) => new Vector4D(v);
+
+        #endregion
     }
 }

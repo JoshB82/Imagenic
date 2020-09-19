@@ -21,7 +21,7 @@ namespace _3D_Engine
             if (dimension == 3)
             {
                 Vector3D camera_to_face = new Vector3D(face.P1) - Render_Camera.World_Origin;
-                Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(face.P1), new Vector3D(face.P2), new Vector3D(face.P3));
+                Vector3D normal = Vector3D.Normal_From_Plane(face.P1, face.P2, face.P3);
 
                 if (camera_to_face * normal >= 0) return;
             }
