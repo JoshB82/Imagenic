@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace _3D_Engine
@@ -7,8 +6,8 @@ namespace _3D_Engine
     public sealed partial class Scene
     {
         private void Line(Color colour,
-            int x1, int y1, double z1,
-            int x2, int y2, double z2)
+            int x1, int y1, float z1,
+            int x2, int y2, float z2)
         {
             if (x1 == x2)
             {
@@ -22,7 +21,7 @@ namespace _3D_Engine
                 }
                 else
                 {
-                    double z_increase_x = (z1 - z2) / (x1 - x2), z_increase_y = (z1 - z2) / (y1 - y2);
+                    float z_increase_x = (z1 - z2) / (x1 - x2), z_increase_y = (z1 - z2) / (y1 - y2);
 
                     int delta_x = x2 - x1;
                     int delta_y = y2 - y1;
@@ -34,13 +33,13 @@ namespace _3D_Engine
                     delta_y = Math.Abs(delta_y);
 
                     int x = x1, y = y1, R = 0, D = Math.Max(delta_x, delta_y);
-                    double z_value = z1;
+                    float z_value = z1;
 
                     if (delta_x > delta_y)
                     {
                         for (int i = 0; i <= D; i++)
                         {
-                            Check_Against_Z_Buffer(x, y, z_value, colour);
+                            Z_Buffer_Check(colour, x, y, z_value);
                             x += increment_x;
                             z_value += z_increase_x * increment_x;
                             R += 2 * delta_y;
@@ -56,7 +55,7 @@ namespace _3D_Engine
                     {
                         for (int i = 0; i <= D; i++)
                         {
-                            Check_Against_Z_Buffer(x, y, z_value, colour);
+                            Z_Buffer_Check(colour, x, y, z_value);
                             y += increment_y;
                             z_value += z_increase_y * increment_y;
                             R += 2 * delta_x;
@@ -72,9 +71,9 @@ namespace _3D_Engine
             }
         }
 
-        private void Horizontal_Line(int x1, int y1, double z1, int x2, int y2, double z2, Color colour)
+        private void Horizontal_Line(int x1, int y1, float z1, int x2, int y2, float z2, Color colour)
         {
-            double z_increase_x = (z1 - z2) / (x1 - x2);
+            float z_increase_x = (z1 - z2) / (x1 - x2);
             if (x2 < x1)
             {
                 Swap(ref x1, ref x2);
@@ -83,14 +82,14 @@ namespace _3D_Engine
 
             for (int x = x1; x <= x2; x++)
             {
-                Check_Against_Z_Buffer(x, y1, z1, colour);
+                Z_Buffer_Check(colour, x, y1, z1);
                 z1 += z_increase_x;
             }
         }
 
-        private void Vertical_Line(int x1, int y1, double z1, int x2, int y2, double z2, Color colour)
+        private void Vertical_Line(int x1, int y1, float z1, int x2, int y2, float z2, Color colour)
         {
-            double z_increase_y = (z1 - z2) / (y1 - y2);
+            float z_increase_y = (z1 - z2) / (y1 - y2);
             if (y2 < y1)
             {
                 Swap(ref y1, ref y2);
@@ -99,7 +98,7 @@ namespace _3D_Engine
 
             for (int y = y1; y <= y2; y++)
             {
-                Check_Against_Z_Buffer(x1, y, z1, colour);
+                Z_Buffer_Check(colour, x1, y, z1);
                 z1 += z_increase_y;
             }
         }

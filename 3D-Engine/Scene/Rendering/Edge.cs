@@ -3,63 +3,53 @@
     public sealed partial class Scene
     {
         private void Draw_Edge(Edge edge,
-            Matrix4x4 model_to_world,
-            Matrix4x4 world_to_view,
-            Matrix4x4 view_to_screen)
+            in Matrix4x4 model_to_world,
+            in Matrix4x4 world_to_camera_view,
+            in Matrix4x4 camera_view_to_camera_screen)
         {
             // Reset face vertices
-            edge.P1 = edge.Model_P1.Point;
-            edge.P2 = edge.Model_P2.Point;
+            edge.Reset_Vertices();
 
             // Move the edge from model space to world space
-            edge.P1 = model_to_world * edge.P1;
-            edge.P2 = model_to_world * edge.P2;
-            edge.World_P1 = new Vector3D(edge.P1);
-            edge.World_P2 = new Vector3D(edge.P2);
+            edge.Apply_Matrix(model_to_world);
 
-            // Move the edge from world space to view space
-            edge.P1 = world_to_view * edge.P1;
-            edge.P2 = world_to_view * edge.P2;
+            // Move the edge from world space to camera-view space
+            edge.Apply_Matrix(world_to_camera_view);
 
-            // Clip the edge in view space
-            if (Settings.View_Space_Clip)
+            // Clip the edge in camera-view space
+            foreach (Clipping_Plane view_clipping_plane in Render_Camera.Camera_View_Clipping_Planes)
             {
-                foreach (Clipping_Plane view_clipping_plane in Render_Camera.View_Clipping_Planes)
-                {
-                    if (!Clip_Edge(view_clipping_plane.Point, view_clipping_plane.Normal, edge)) return;
-                }
+                if (!Clip_Edge(view_clipping_plane.Point, view_clipping_plane.Normal, edge)) return;
             }
 
-            // Move the edge from view space to screen space, including a correction for perspective
-            edge.P1 = view_to_screen * edge.P1;
-            edge.P2 = view_to_screen * edge.P2;
+            // Move the edge from camera-view space to camera-screen space, including a correction for perspective
+            edge.Apply_Matrix(camera_view_to_camera_screen);
 
-            if (render_camera_type == "Perspective_Camera")
+            if (Render_Camera is Perspective_Camera)
             {
-                edge.P1 /= edge.P1.W;
-                edge.P2 /= edge.P2.W; 
+                edge.P1 /= edge.P1.w;
+                edge.P2 /= edge.P2.w; 
             }
 
-            // Clip the edge in screen space
+            // Clip the edge in camera-screen space
             if (Settings.Screen_Space_Clip)
             {
-                foreach (Clipping_Plane screen_clipping_plane in screen_clipping_planes)
+                foreach (Clipping_Plane screen_clipping_plane in Camera.Camera_Screen_Clipping_Planes)
                 {
                     if (!Clip_Edge(screen_clipping_plane.Point, screen_clipping_plane.Normal, edge)) return;
                 }
             }
 
-            // Mode the edge from screen space to window space
-            edge.P1 = screen_to_window * edge.P1;
-            edge.P2 = screen_to_window * edge.P2;
+            // Mode the edge from camera-screen space to window space
+            edge.Apply_Matrix(screen_to_window);
 
             // Round the vertices
-            int result_point_1_x = Round_To_Int(edge.P1.X);
-            int result_point_1_y = Round_To_Int(edge.P1.Y);
-            double result_point_1_z = edge.P1.Z;
-            int result_point_2_x = Round_To_Int(edge.P2.X);
-            int result_point_2_y = Round_To_Int(edge.P2.Y);
-            double result_point_2_z = edge.P2.Z;
+            int result_point_1_x = edge.P1.x.Round_to_Int();
+            int result_point_1_y = edge.P1.y.Round_to_Int();
+            float result_point_1_z = edge.P1.z;
+            int result_point_2_x = edge.P2.x.Round_to_Int();
+            int result_point_2_y = edge.P2.y.Round_to_Int();
+            float result_point_2_z = edge.P2.z;
 
             // Finally draw the line
             Line(edge.Colour,

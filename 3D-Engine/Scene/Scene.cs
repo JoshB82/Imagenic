@@ -11,61 +11,40 @@ namespace _3D_Engine
         #region Fields and Properties
 
         private static readonly object locker = new object();
-        private Clipping_Plane[] screen_clipping_planes;
-        private Rectangle entire_canvas_rectangle;
+        private Bitmap new_frame;
+        private Rectangle screen_rectangle;
+
+        private const byte out_of_bounds_value = 2;
 
         // Buffers
-        private double[][] z_buffer;
+        private float[][] z_buffer;
         private Color[][] colour_buffer;
 
-        // Camera used for rendering
-        private Camera render_camera;
-        public Camera Render_Camera
-        {
-            get => render_camera;
-            set
-            {
-                render_camera = value;
-                render_camera_type = render_camera.GetType().Name;
-            }
-        }
-        private string render_camera_type;
+        public Camera Render_Camera { get; set; }
 
-        /// <summary>
-        /// <see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.
-        /// </summary>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
         public PictureBox Canvas_Box { get; set; }
-        public Bitmap Canvas { get; private set; }
-        /// <summary>
-        /// The background <see cref="Color"/> of the <see cref="Scene"/>.
-        /// </summary>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
         public Color Background_Colour { get; set; } = Color.White;
 
-        /// <summary>
-        /// List of all <see cref="Camera"/>s in the current <see cref="Scene"/>.
-        /// </summary>
+        // Scene contents
+        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
         public readonly List<Camera> Cameras = new List<Camera>();
-        /// <summary>
-        /// List of all <see cref="Light"/>s in the current <see cref="Scene"/>.
-        /// </summary>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
         public readonly List<Light> Lights = new List<Light>();
-        /// <summary>
-        /// List of all <see cref="Mesh"/>es in the current <see cref="Scene"/>.
-        /// </summary>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
         public readonly List<Mesh> Meshes = new List<Mesh>();
-        
-        public bool Change_scene { get; set; } = true;
 
         #endregion
 
         #region Dimensions
 
-        private Matrix4x4 screen_to_window;
+        private Matrix4x4 screen_to_window, screen_to_window_inverse;
+        private static readonly Matrix4x4 window_translate = Transform.Translate(new Vector3D(1, 1, 0));
 
         private int width, height;
-        /// <summary>
-        /// The width of the <see cref="Scene"/>.
-        /// </summary>
+
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Width']/*"/>
         public int Width
         {
             get => width;
@@ -74,15 +53,11 @@ namespace _3D_Engine
                 lock (locker)
                 {
                     width = value;
-                    screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
-                    entire_canvas_rectangle = new Rectangle(0, 0, width, height);
-                    Set_Buffer();
+                    Set_Dimensions();
                 }
             }
         }
-        /// <summary>
-        /// The height of the <see cref="Scene"/>.
-        /// </summary>
+        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Height']/*"/>
         public int Height
         {
             get => height;
@@ -91,22 +66,31 @@ namespace _3D_Engine
                 lock (locker)
                 {
                     height = value;
-                    screen_to_window = Transform.Scale(0.5 * (width - 1), 0.5 * (height - 1), 1) * Transform.Translate(new Vector3D(1, 1, 0));
-                    entire_canvas_rectangle = new Rectangle(0, 0, width, height);
-                    Set_Buffer();
+                    Set_Dimensions();
                 }
             }
         }
 
-        private void Set_Buffer()
+        private void Set_Dimensions()
         {
-            z_buffer = new double[width][];
+            // Set buffers
+            z_buffer = new float[width][];
             colour_buffer = new Color[width][];
-            for (int i = 0; i < width; i++) z_buffer[i] = new double[height];
-            for (int i = 0; i < width; i++) colour_buffer[i] = new Color[height];
+            for (int i = 0; i < width; i++)
+            {
+                z_buffer[i] = new float[height];
+                colour_buffer[i] = new Color[height];
+            }
+
+            // Set screen-to-window matrix
+            screen_to_window = Transform.Scale(0.5f * (width - 1), 0.5f * (height - 1), 1) * window_translate;
+            screen_to_window_inverse = screen_to_window.Inverse();
+            screen_rectangle = new Rectangle(0, 0, width, height); //?-1?
         }
 
         #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Creates a new <see cref="Scene"/>.
@@ -120,171 +104,253 @@ namespace _3D_Engine
             Width = width;
             Height = height;
 
-            Canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-
-            Vector3D near_bottom_left_point = new Vector3D(-1, -1, -1), far_top_right_point = new Vector3D(1, 1, 1);
-            screen_clipping_planes = new Clipping_Plane[]
-            {
-                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_X), // Left
-                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Y), // Bottom
-                new Clipping_Plane(near_bottom_left_point, Vector3D.Unit_Z), // Near
-                new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_X), // Right
-                new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_Y), // Top
-                new Clipping_Plane(far_top_right_point, Vector3D.Unit_Negative_Z) // Far
-            };
-
-            Debug.WriteLine("Scene created");
+            Trace.WriteLine("Scene created");
         }
 
+        #endregion
+
         #region Add to scene methods
-        
+
         /// <summary>
         /// Adds a <see cref="Scene_Object"/> to the <see cref="Scene"/>.
         /// </summary>
         /// <param name="scene_object"><see cref="Scene_Object"/> to add.</param>
         public void Add(Scene_Object scene_object)
         {
-            switch(scene_object.GetType().BaseType.Name)
+            lock (locker)
             {
-                case "Camera":
-                    Cameras.Add((Camera)scene_object);
-                    break;
-                case "Light":
-                    Lights.Add((Light)scene_object);
-                    break;
-                case "Mesh":
-                    Meshes.Add((Mesh)scene_object);
-                    break;
+                switch (scene_object)
+                {
+                    case Camera camera:
+                        Cameras.Add(camera);
+                        break;
+                    case Light light:
+                        Lights.Add(light);
+                        break;
+                    case Mesh mesh:
+                        Meshes.Add(mesh);
+                        break;
+                }
             }
         }
 
-        // Probably not working (review add method code)
         public void Add(Scene_Object[] scene_objects)
         {
-            switch (scene_objects.GetType().Name)
-            {
-                case "Orthogonal_Camera[]":
-                case "Perspective_Camera[]":
-                    foreach (Camera camera in scene_objects) Cameras.Add(camera);
-                    break;
-                case "Light[]":
-                    foreach (Light light in scene_objects) Lights.Add(light);
-                    break;
-                case "Mesh[]":
-                    foreach (Mesh mesh in scene_objects) Meshes.Add(mesh);
-                    break;
-            }
+            foreach (Scene_Object scene_object in scene_objects) Add(scene_object);
         }
 
         #endregion
+
+        #region Remove from scene methods
 
         public void Remove(int ID)
         {
             lock (locker) Meshes.RemoveAll(x => x.ID == ID);
         }
 
+        public void Remove(int start_ID, int finish_ID)
+        {
+            lock (locker)
+            {
+                for (int ID = start_ID; ID <= finish_ID; ID++)
+                {
+                    Meshes.RemoveAll(x => x.ID == ID);
+                }
+            }
+        }
+
+        #endregion
+
         /// <summary>
-        /// Renders the <see cref="Scene"/>. A Render Camera must be set before this method is called.
+        /// Renders the <see cref="Scene"/>. The Render Camera must be set before this method is called.
         /// </summary>
         public void Render()
         {
-            if (Render_Camera == null)
+            if (Render_Camera is null)
             {
-                Debug.WriteLine("Failed to draw frame: No camera has been set yet!");
+                Trace.WriteLine("Error drawing frame: No render camera has been set yet!");
                 return;
             }
-            
-            // Only render if a change in scene has taken place
-            // if (!Change_scene) return;
 
             lock (locker)
             {
                 // Create temporary canvas for this frame
-                Bitmap temp_canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-
-                // Reset buffers
-                for (int i = 0; i < width; i++) for (int j = 0; j < height; j++)
+                if (new_frame is not null) new_frame.Dispose();
+                new_frame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                
+                // Reset scene buffers
+                for (int i = 0; i < width; i++)
                 {
-                    z_buffer[i][j] = 2;
-                    colour_buffer[i][j] = Background_Colour;
+                    for (int j = 0; j < height; j++)
+                    {
+                        z_buffer[i][j] = out_of_bounds_value;
+                        colour_buffer[i][j] = Background_Colour;
+                    }
+                }
+                foreach (Light light in Lights)
+                {
+                    for (int i = 0; i < light.Shadow_Map_Width; i++)
+                    {
+                        for (int j = 0; j < light.Shadow_Map_Height; j++)
+                        {
+                            light.Shadow_Map[i][j] = out_of_bounds_value;
+                        }
+                    }
                 }
 
-                // Calculate render camera properties
-                Render_Camera.Calculate_Model_to_World_Matrix();
-                Render_Camera.World_Origin = new Vector3D(Render_Camera.Model_to_World * Render_Camera.Origin);
-                Render_Camera.Calculate_World_to_View_Matrix();
-                Matrix4x4 world_to_view = Render_Camera.World_to_View;
-                Matrix4x4 view_to_screen = Render_Camera.View_to_Screen;
+                // Calculate model to world and world to view matrices for all scene objects
+                Generate_Matrices();
 
-                // Draw meshes
+                // Calculate render camera properties
+                Matrix4x4 world_to_view = Render_Camera.World_to_Camera_View;
+                Matrix4x4 view_to_screen = Render_Camera.Camera_View_to_Camera_Screen;
+
+                // Calculate depth information for each light
+                foreach (Light light in Lights)
+                {
+                    if (light.Visible)
+                    {
+                        Generate_Shadow_Map(light);
+                    }
+                }
+
+                // Calculate depth information for each mesh
+                foreach (Light light in Lights)
+                {
+                    if (light.Draw_Icon)
+                    {
+                        foreach (Face face in light.Icon.Faces)
+                        {
+                            Generate_Z_Buffer(face, 3, in light.Icon.Model_to_World, in world_to_view, in view_to_screen);
+                        }
+                    }
+                }
                 foreach (Mesh mesh in Meshes)
                 {
-                    if (mesh.Visible)
+                    if (mesh.Visible && mesh.Draw_Faces)
                     {
-                        // Draw directions
+                        foreach (Face face in mesh.Faces)
+                        {
+                            if (face.Visible)
+                            {
+                                Generate_Z_Buffer(face, mesh.Dimension, mesh.Model_to_World, world_to_view, view_to_screen);
+                            }
+                        }
+
                         if (mesh.Has_Direction_Arrows && mesh.Display_Direction_Arrows)
                         {
                             Arrow direction_forward = (Arrow)mesh.Direction_Arrows.Scene_Objects[0];
                             Arrow direction_up = (Arrow)mesh.Direction_Arrows.Scene_Objects[1];
                             Arrow direction_right = (Arrow)mesh.Direction_Arrows.Scene_Objects[2];
 
-                            foreach (Face face in direction_forward.Faces) Draw_Face(face, "Arrow", direction_forward.Model_to_World, world_to_view, view_to_screen);
-                            foreach (Face face in direction_up.Faces) Draw_Face(face, "Arrow", direction_up.Model_to_World, world_to_view, view_to_screen);
-                            foreach (Face face in direction_right.Faces) Draw_Face(face, "Arrow", direction_right.Model_to_World, world_to_view, view_to_screen);
-
-                            foreach (Edge edge in direction_forward.Edges) Draw_Edge(edge, direction_forward.Model_to_World, world_to_view, view_to_screen);
-                            foreach (Edge edge in direction_up.Edges) Draw_Edge(edge, direction_up.Model_to_World, world_to_view, view_to_screen);
-                            foreach (Edge edge in direction_right.Edges) Draw_Edge(edge, direction_right.Model_to_World, world_to_view, view_to_screen);
-                        }
-
-                        mesh.Calculate_Model_to_World_Matrix();
-                        Matrix4x4 model_to_world = mesh.Model_to_World;
-
-                        mesh.Origin = screen_to_window * view_to_screen * world_to_view * model_to_world * mesh.Origin;
-
-                        // Draw faces
-                        if (mesh.Draw_Faces)
-                        {
-                            string mesh_type = mesh.GetType().Name;
-
-                            foreach (Face face in mesh.Faces)
+                            foreach (Face face in direction_forward.Faces)
                             {
-                                if (face.Visible) Draw_Face(face, mesh_type, model_to_world, world_to_view, view_to_screen);
+                                Generate_Z_Buffer(face, 3, direction_forward.Model_to_World, world_to_view, view_to_screen);
+                            }
+                            foreach (Face face in direction_up.Faces)
+                            {
+                                Generate_Z_Buffer(face, 3, direction_up.Model_to_World, world_to_view, view_to_screen);
+                            }
+                            foreach (Face face in direction_right.Faces)
+                            {
+                                Generate_Z_Buffer(face, 3, direction_right.Model_to_World, world_to_view, view_to_screen);
+                            }
+                        }
+                    }
+                }
+                
+                // Apply lighting
+                if (Render_Camera is Orthogonal_Camera)
+                {
+                    Matrix4x4 window_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Camera_Screen.Inverse() * screen_to_window_inverse;
+
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            if (z_buffer[x][y] != out_of_bounds_value)//?
+                            {
+                                SMC_Camera_Orthogonal(colour_buffer[x][y], window_to_world, x, y, z_buffer[x][y]);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Matrix4x4 camera_screen_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Camera_Screen.Inverse();
+
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            // check all floats and ints
+                            if (z_buffer[x][y] != out_of_bounds_value)
+                            {
+                                SMC_Camera_Perspective(colour_buffer[x][y], screen_to_window_inverse, camera_screen_to_world, x, y, z_buffer[x][y]);
+                            }
+                        }
+                    }
+                }
+                
+                // Draw edges
+                foreach (Light light in Lights)
+                {
+                    if (light.Draw_Icon)
+                    {
+                        foreach (Edge edge in light.Icon.Edges)
+                        {
+                            Draw_Edge(edge, light.Icon.Model_to_World, world_to_view, view_to_screen);
+                        }
+                    }
+                }
+                foreach (Mesh mesh in Meshes)
+                {
+                    if (mesh.Draw_Edges)
+                    {
+                        foreach (Edge edge in mesh.Edges)
+                        {
+                            if (edge.Visible)
+                            {
+                                Draw_Edge(edge, mesh.Model_to_World, world_to_view, view_to_screen);
                             }
                         }
 
-                        // Draw edges
-                        if (mesh.Draw_Edges)
+                        if (mesh.Has_Direction_Arrows && mesh.Display_Direction_Arrows)
                         {
-                            foreach (Edge edge in mesh.Edges)
+                            Arrow direction_forward = (Arrow)mesh.Direction_Arrows.Scene_Objects[0];
+                            Arrow direction_up = (Arrow)mesh.Direction_Arrows.Scene_Objects[1];
+                            Arrow direction_right = (Arrow)mesh.Direction_Arrows.Scene_Objects[2];
+
+                            foreach (Edge edge in direction_forward.Edges)
                             {
-                                if (edge.Visible) Draw_Edge(edge, model_to_world, world_to_view, view_to_screen);
+                                Draw_Edge(edge, direction_forward.Model_to_World, world_to_view, view_to_screen);
+                            }
+                            foreach (Edge edge in direction_up.Edges)
+                            {
+                                Draw_Edge(edge, direction_up.Model_to_World, world_to_view, view_to_screen);
+                            }
+                            foreach (Edge edge in direction_right.Edges)
+                            {
+                                Draw_Edge(edge, direction_right.Model_to_World, world_to_view, view_to_screen);
                             }
                         }
                     }
                 }
 
                 // Draw camera views
-                foreach (Camera camera_to_draw in Cameras)
+                foreach (Camera camera in Cameras)
                 {
-                    // Calculate camera matrix
-                    camera_to_draw.Calculate_Model_to_World_Matrix();
-                    Matrix4x4 model_to_world = camera_to_draw.Model_to_World;
-                        
-                    Draw_Camera(camera_to_draw, model_to_world, world_to_view, view_to_screen);
+                    Draw_Camera(camera, camera.Model_to_World, world_to_view, view_to_screen);
                 }
-
-                Draw_Colour_Buffer(temp_canvas, colour_buffer);
-
-                Canvas = temp_canvas;
-                Canvas_Box.Invalidate();
-                Change_scene = false;
+                
+                // Draw all points
+                Draw_Colour_Buffer(new_frame, colour_buffer);
+                Canvas_Box.Image = new_frame;
             }
         }
-
         private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] colour_buffer) // source of this method?!
         {
-            BitmapData data = canvas.LockBits(entire_canvas_rectangle, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            BitmapData data = canvas.LockBits(screen_rectangle, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
 
             for (int y = 0; y < height; y++)
             {
@@ -298,6 +364,27 @@ namespace _3D_Engine
             }
 
             canvas.UnlockBits(data);
+        }
+
+        // Generate matrices
+        public void Generate_Matrices()
+        {
+            foreach (Camera camera in Cameras)
+            {
+                camera.Calculate_Matrices();
+            }
+            foreach (Light light in Lights)
+            {
+                if (light.Draw_Icon) light.Icon.Calculate_Matrices();
+                if (light.Visible) light.Calculate_Matrices();
+            }
+            foreach (Mesh mesh in Meshes)
+            {
+                if (mesh.Visible) mesh.Calculate_Matrices();
+            }
+
+            Render_Camera.Calculate_World_Origin();
+            foreach (Light light in Lights) light.Calculate_World_Origin();
         }
     }
 }

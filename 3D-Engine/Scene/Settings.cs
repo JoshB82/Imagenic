@@ -1,23 +1,28 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 
 namespace _3D_Engine
 {
     public enum Resolution
     {
-        Int, // Less memory (??)
+        Int, // Less memory, more speed
         Float,
-        Double,
-        Decimal // More memory (??)
+        Double // More memory, less speed
+        //Decimal?
     }
 
+    /// <summary>
+    /// Options for the style of the viewport.
+    /// </summary>
     public enum Viewport
     {
         Single,
-        Double_Left_Right,
-        Double_Top_Bottom
+        Float_Left_Right,
+        Float_Top_Bottom
     }
 
+    /// <summary>
+    /// Options for how verbose output should be.
+    /// </summary>
     public enum Verbosity
     {
         None,
@@ -33,55 +38,21 @@ namespace _3D_Engine
     {
         #region Engine Settings
 
-        public static Resolution Z_Buffer_Resolution = Resolution.Double;
+        public static Resolution Z_Buffer_Resolution = Resolution.Float;
 
         public static Viewport Viewport_Style = Viewport.Single;
 
         // Clipping
-        private static bool view_space_clip = true, screen_space_clip = true;
-        public static bool View_Space_Clip
-        {
-            get => view_space_clip;
-            set
-            {
-                if (value == false && screen_space_clip == false)
-                {
-                    view_space_clip = true;
-                }
-                else
-                {
-                    view_space_clip = value;
-                }
-            }
-        }
-        public static bool Screen_Space_Clip
-        {
-            get => screen_space_clip;
-            set
-            {
-                if (value == false && view_space_clip == false)
-                {
-                    screen_space_clip = true;
-                }
-                else
-                {
-                    screen_space_clip = value;
-                }
-            }
-        }
+        public static bool Screen_Space_Clip { get; set; }
 
-        // Debug
+        // Trace
         /// <summary>
-        /// Determines if any <see cref="Debug"/> text is outputted.
+        /// Determines if any <see cref="Trace"/> text is outputted.
         /// </summary>
-        public static bool Debug_Output = false;
-        public static Verbosity Camera_Debug_Output_Verbosity = Verbosity.None;
-        public static Verbosity Light_Debug_Output_Verbosity = Verbosity.None;
-        public static Verbosity Mesh_Debug_Output_Verbosity = Verbosity.None;
-
-        // Colours
-        public static Color Default_Edge_Colour = Color.Black;
-        public static Color Default_Face_Colour = Color.BlueViolet;
+        public static bool Trace_Output = false;
+        public static Verbosity Camera_Trace_Output_Verbosity = Verbosity.None;
+        public static Verbosity Light_Trace_Output_Verbosity = Verbosity.None;
+        public static Verbosity Mesh_Trace_Output_Verbosity = Verbosity.None;
 
         #endregion
     }

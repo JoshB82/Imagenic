@@ -2,12 +2,12 @@
 {
     public sealed partial class Scene
     {
-        private void Draw_Camera(Camera camera,
-            Matrix4x4 model_to_world,
-            Matrix4x4 world_to_view,
-            Matrix4x4 view_to_screen)
+        private void Draw_Camera(Camera camera, 
+            in Matrix4x4 model_to_world,
+            in Matrix4x4 world_to_view,
+            in Matrix4x4 view_to_screen)
         {
-            double semi_width = camera.Width / 2, semi_height = camera.Height / 2;
+            float semi_width = camera.Width / 2, semi_height = camera.Height / 2;
 
             Vertex zero_point = new Vertex(Vector4D.Zero);
             Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, -camera.Z_Near));
@@ -15,7 +15,7 @@
             Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, -camera.Z_Near));
             Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, -camera.Z_Near));
 
-            if (camera.Draw_Near_View || camera.Draw_Entire_View)
+            if (camera.View_Style == View_Outline.Near || camera.View_Style == View_Outline.Entire)
             {
                 Edge near_top_left_edge = new Edge(zero_point, near_top_left_point);
                 Edge near_top_right_edge = new Edge(zero_point, near_top_right_point);
@@ -35,10 +35,10 @@
                 Draw_Edge(near_left_edge, model_to_world, world_to_view, view_to_screen);
                 Draw_Edge(near_right_edge, model_to_world, world_to_view, view_to_screen);
             }
-            if (camera.Draw_Entire_View)
+            if (camera.View_Style == View_Outline.Far || camera.View_Style == View_Outline.Entire)
             {
-                double ratio = camera.Z_Far / camera.Z_Near;
-                double semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
+                float ratio = camera.Z_Far / camera.Z_Near;
+                float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
 
                 Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, -camera.Z_Far));
                 Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, -camera.Z_Far));
