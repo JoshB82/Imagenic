@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -20,7 +20,7 @@ namespace _3D_Engine
 
             Radius = radius;
 
-            float angle_lat = (float)2 * (float)Math.PI / res_lat, angle_long = (float)Math.PI / (2 * res_long); // divide by 2?
+            float angle_lat = 2 * PI / res_lat, angle_long = PI / (2 * res_long); // divide by 2?
 
             float x, y, z;
 
@@ -30,9 +30,9 @@ namespace _3D_Engine
             {
                 for (int j = 0; j < res_long; j++)
                 {
-                    x = radius * (float)Math.Cos(angle_long * j) * (float)Math.Sin(angle_lat * i);
-                    y = radius * (float)Math.Sin(angle_long * j);
-                    z = radius * (float)Math.Cos(angle_long * j) * (float)Math.Cos(angle_lat * i);
+                    x = radius * Cos(angle_long * j) * Sin(angle_lat * i);
+                    y = radius * Sin(angle_long * j);
+                    z = radius * Cos(angle_long * j) * Cos(angle_lat * i);
                     Vertices[i * res_lat + j] = new Vertex(new Vector4D(x, y, z));
                 }
             }
@@ -40,7 +40,6 @@ namespace _3D_Engine
             Draw_Edges = false;
 
             //Faces = new Face[];
-
 
         }
 

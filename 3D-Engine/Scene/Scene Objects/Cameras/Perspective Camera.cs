@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -52,7 +52,7 @@ namespace _3D_Engine
                 Camera_View_to_Camera_Screen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
 
                 // Update near clipping plane
-                Camera_View_Clipping_Planes[5].Point.z = z_near;
+                Camera_View_Clipping_Planes[2].Point.z = z_near;
             }
         }
         public override float Z_Far
@@ -99,9 +99,9 @@ namespace _3D_Engine
 
         public Perspective_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far, string ignore) : this(origin, direction_forward, direction_up, (float)Math.Tan(fov_x / 2) * z_near * 2, (float)Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far, string ignore) : this(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
-        public Perspective_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, (float)Math.Tan(fov_x / 2) * z_near * 2, (float)Math.Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Perspective_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
 
         #endregion
     }

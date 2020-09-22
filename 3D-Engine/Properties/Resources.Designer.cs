@@ -22,7 +22,7 @@ namespace _3D_Engine.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace _3D_Engine.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("_3D_Engine.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace _3D_Engine.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -80,7 +80,7 @@ namespace _3D_Engine.Properties {
         ///v -0.083821 1.611843 -0.421403
         ///v 0 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Camera {
+        public static string Camera {
             get {
                 return ResourceManager.GetString("Camera", resourceCulture);
             }
@@ -105,9 +105,34 @@ namespace _3D_Engine.Properties {
         ///v -1.100713 -0.174123 1.016396
         ///v -0.468012 0.01 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Distant_Light {
+        public static string Distant_Light {
             get {
                 return ResourceManager.GetString("Distant_Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to v -3.000000 1.800000 0.000000
+        ///v -2.991600 1.800000 -0.081000
+        ///v -2.991600 1.800000 0.081000
+        ///v -2.989450 1.666162 0.000000
+        ///v -2.985000 1.921950 0.000000
+        ///v -2.985000 1.921950 0.000000
+        ///v -2.981175 1.667844 -0.081000
+        ///v -2.981175 1.667844 0.081000
+        ///v -2.976687 1.920243 -0.081000
+        ///v -2.976687 1.920243 0.081000
+        ///v -2.968800 1.800000 -0.144000
+        ///v -2.968800 1.800000 0.144000
+        ///v -2.958713 1.672406 -0.144000
+        ///v -2.958713 1.672406 0.144000
+        ///v -2.957600 1.534800 0.000000
+        ///v -2.957600 1.534800 0.000000
+        ///v -2.954122 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Teapot {
+            get {
+                return ResourceManager.GetString("Teapot", resourceCulture);
             }
         }
     }

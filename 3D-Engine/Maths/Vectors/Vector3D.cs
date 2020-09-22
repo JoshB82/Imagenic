@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -68,12 +70,12 @@ namespace _3D_Engine
             if (this == Vector3D.Zero || v == Vector3D.Zero) throw new ArgumentException("Cannot calculate angle with One or more zeroed vectors."); //?
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
-            return (float)Math.Acos(quotient);
+            return Acos(quotient);
         }
 
         public Vector3D Cross_Product(Vector3D v) => new Vector3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
 
-        public float Magnitude() => (float)Math.Sqrt(Squared_Magnitude());
+        public float Magnitude() => Sqrt(Squared_Magnitude());
 
         public float Squared_Magnitude() => x * x + y * y + z * z;
 
@@ -93,7 +95,7 @@ namespace _3D_Engine
         {
             Vector3D line = line_finish - line_start;
             float denominator = line * plane_normal;
-            if (denominator == 0) throw new ArgumentException("Line does not intersect plane.");
+            //if (denominator == 0) throw new ArgumentException("Line does not intersect plane or exists entirely on plane.");
 
             // d = new length / old length
             d = (plane_point - line_start) * plane_normal / (denominator);
@@ -139,6 +141,8 @@ namespace _3D_Engine
         public static bool operator !=(Vector3D v1, Vector3D v2) => !(v1 == v2);
 
         public bool Equals(Vector3D v) => this == v;
+
+        public bool Approx_Equals(Vector3D v, float epsilon = 2 * Single.Epsilon) => Abs(this.x - v.x) <= epsilon && Abs(this.y - v.y) <= epsilon && Abs(this.z - v.z) <= epsilon;
 
         public override bool Equals(object obj) => this == (Vector3D)obj;
 

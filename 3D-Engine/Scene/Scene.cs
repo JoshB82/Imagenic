@@ -175,7 +175,7 @@ namespace _3D_Engine
             lock (locker)
             {
                 // Create temporary canvas for this frame
-                if (new_frame is not null) new_frame.Dispose();
+                //if (new_frame is not null) new_frame.Dispose();
                 new_frame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
                 
                 // Reset scene buffers
@@ -221,7 +221,7 @@ namespace _3D_Engine
                     {
                         foreach (Face face in light.Icon.Faces)
                         {
-                            Generate_Z_Buffer(face, 3, in light.Icon.Model_to_World, in world_to_view, in view_to_screen);
+                            Generate_Z_Buffer(face, 3, light.Icon.Model_to_World, world_to_view, view_to_screen);
                         }
                     }
                 }
@@ -239,9 +239,9 @@ namespace _3D_Engine
 
                         if (mesh.Has_Direction_Arrows && mesh.Display_Direction_Arrows)
                         {
-                            Arrow direction_forward = (Arrow)mesh.Direction_Arrows.Scene_Objects[0];
-                            Arrow direction_up = (Arrow)mesh.Direction_Arrows.Scene_Objects[1];
-                            Arrow direction_right = (Arrow)mesh.Direction_Arrows.Scene_Objects[2];
+                            Arrow direction_forward = mesh.Direction_Arrows.Scene_Objects[0] as Arrow;
+                            Arrow direction_up = mesh.Direction_Arrows.Scene_Objects[1] as Arrow;
+                            Arrow direction_right = mesh.Direction_Arrows.Scene_Objects[2] as Arrow;
 
                             foreach (Face face in direction_forward.Faces)
                             {
@@ -268,7 +268,7 @@ namespace _3D_Engine
                     {
                         for (int y = 0; y < height; y++)
                         {
-                            if (z_buffer[x][y] != out_of_bounds_value)//?
+                            if (z_buffer[x][y] != out_of_bounds_value)
                             {
                                 SMC_Camera_Orthogonal(colour_buffer[x][y], window_to_world, x, y, z_buffer[x][y]);
                             }

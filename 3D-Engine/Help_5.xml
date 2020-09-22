@@ -984,12 +984,12 @@
         </member>
         <member name="P:_3D_Engine.Mesh.Edges">
             <summary>
-            The <see cref="T:_3D_Engine.Edge" />s in the <see cref="T:_3D_Engine.Mesh" />.
+            The <see cref="T:_3D_Engine.Edge">Edges</see> in the <see cref="T:_3D_Engine.Mesh" />.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Faces">
             <summary>
-            The <see cref="T:_3D_Engine.Face" />s in the <see cref="T:_3D_Engine.Mesh" />.
+            The <see cref="T:_3D_Engine.Face">Faces</see> in the <see cref="T:_3D_Engine.Mesh" />.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Textures">

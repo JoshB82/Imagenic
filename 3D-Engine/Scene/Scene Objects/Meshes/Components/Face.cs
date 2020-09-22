@@ -22,7 +22,7 @@ namespace _3D_Engine
         public Vector3D T2 { get; internal set; }
         public Vector3D T3 { get; internal set; }
 
-        public bool Has_Texture { get; private set; } = false;
+        public bool Has_Texture { get; internal set; } = false;
 
         // Appearance
         public Color Colour { get; set; } = Properties.Settings.Default.Face_Colour;

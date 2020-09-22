@@ -45,7 +45,6 @@ namespace _3D_Engine
         public Edge(Vertex model_p1, Vertex model_p2)
         {
             Model_P1 = model_p1; Model_P2 = model_p2;
-            Visible = true;
         }
 
         #endregion
