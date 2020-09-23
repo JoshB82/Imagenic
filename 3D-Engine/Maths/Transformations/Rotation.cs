@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -15,7 +16,7 @@ namespace _3D_Engine
         {
             Matrix4x4 rotation = Matrix4x4.Identity;
             if (angle == 0) return rotation;
-            float sin_angle = (float)Math.Sin(angle), cos_angle = (float)Math.Cos(angle);
+            float sin_angle = Sin(angle), cos_angle = Cos(angle);
             rotation.m11 = cos_angle;
             rotation.m12 = -sin_angle;
             rotation.m21 = sin_angle;
@@ -32,7 +33,7 @@ namespace _3D_Engine
         {
             Matrix4x4 rotation = Matrix4x4.Identity;
             if (angle == 0) return rotation;
-            float sin_angle = (float)Math.Sin(angle), cos_angle = (float)Math.Cos(angle);
+            float sin_angle = Sin(angle), cos_angle = Cos(angle);
             rotation.m00 = cos_angle;
             rotation.m02 = sin_angle;
             rotation.m20 = -sin_angle;
@@ -49,7 +50,7 @@ namespace _3D_Engine
         {
             Matrix4x4 rotation = Matrix4x4.Identity;
             if (angle == 0) return rotation;
-            float sin_angle = (float)Math.Sin(angle), cos_angle = (float)Math.Cos(angle);
+            float sin_angle = Sin(angle), cos_angle = Cos(angle);
             rotation.m00 = cos_angle;
             rotation.m01 = -sin_angle;
             rotation.m10 = sin_angle;
@@ -66,7 +67,7 @@ namespace _3D_Engine
         public static Matrix4x4 Rotate(Vector3D axis, float angle)
         {
             if (angle == 0) return Matrix4x4.Identity;
-            float sin_angle = (float)Math.Sin(angle), cos_angle = (float)Math.Cos(angle);
+            float sin_angle = Sin(angle), cos_angle = Cos(angle);
             return new Matrix4x4
                 (
                     cos_angle + axis.x * axis.x * (1 - cos_angle),
@@ -97,7 +98,7 @@ namespace _3D_Engine
         /// <returns>A rotation matrix.</returns>
         public static Matrix4x4 Rotate_Between_Vectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
-            if (v1 == v2) return Matrix4x4.Identity;
+            if (v1.Approx_Equals(v2, 1E-6f)) return Matrix4x4.Identity;
             axis ??= Vector3D.Unit_Y;
             Vector3D rotation_axis = (v1 == -v2) ? (Vector3D)axis : v1.Cross_Product(v2).Normalise();
             float angle = v1.Angle(v2);
@@ -135,7 +136,7 @@ namespace _3D_Engine
         /// <param name="axis">Axis that will be rotated around.</param>
         /// <param name="angle">Angle to rotate.</param>
         /// <returns>A rotation quaternion.</returns>
-        public static Quaternion Quaternion_Rotate(Vector3D axis, float angle) => (angle == 0) ? Quaternion.Identity : new Quaternion((float)Math.Cos(angle / 2), axis.Normalise() * (float)Math.Sin(angle / 2)).Normalise();
+        public static Quaternion Quaternion_Rotate(Vector3D axis, float angle) => angle.Approx_Equals(0, 1E-6f) ? Quaternion.Identity : new Quaternion(Cos(angle / 2), axis.Normalise() * Sin(angle / 2)).Normalise();
 
         /// <summary>
         /// Creates a quaternion that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
@@ -146,7 +147,7 @@ namespace _3D_Engine
         /// <returns>A rotation quaternion.</returns>
         public static Quaternion Quaternion_Rotate_Between_Vectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
-            if (v1 == v2) return Quaternion.Identity;
+            if (v1.Approx_Equals(v2, 1E-6f)) return Quaternion.Identity;
             axis ??= Vector3D.Unit_Y;
             Vector3D rotation_axis = (v1 == -v2) ? (Vector3D)axis : v1.Cross_Product(v2).Normalise();
             float angle = v1.Angle(v2);

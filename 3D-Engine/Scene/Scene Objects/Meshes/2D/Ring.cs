@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -24,8 +24,8 @@ namespace _3D_Engine
                 if (resolution == 0) return;
 
                 // Vertices are defined in anti-clockwise order.
-                float angle = 2 * (float)Math.PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D((float)Math.Cos(angle * i) * inner_radius, 0, (float)Math.Sin(angle * i) * inner_radius));
+                float angle = 2 * PI / resolution;
+                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i) * inner_radius, 0, Sin(angle * i) * inner_radius));
             }
         }
         /// <summary>
@@ -39,8 +39,8 @@ namespace _3D_Engine
                 outer_radius = value;
                 if (resolution == 0) return;
 
-                float angle = 2 * (float)Math.PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D((float)Math.Cos(angle * i) * outer_radius, 0, (float)Math.Sin(angle * i) * outer_radius));
+                float angle = 2 * PI / resolution;
+                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D(Cos(angle * i) * outer_radius, 0, Sin(angle * i) * outer_radius));
             }
         }
         /// <summary>
@@ -56,10 +56,10 @@ namespace _3D_Engine
                 Vertices = new Vertex[2 * resolution + 1];
                 Vertices[0] = new Vertex(Vector4D.Zero);
 
-                float angle = 2 * (float)Math.PI / resolution;
+                float angle = 2 * PI / resolution;
                 for (int i = 0; i < resolution; i++)
                 {
-                    float sin = (float)Math.Sin(angle * i), cos = (float)Math.Cos(angle * i);
+                    float sin = Sin(angle * i), cos = Cos(angle * i);
                     Vertices[i + 1] = new Vertex(new Vector4D(cos * inner_radius, 0, sin * inner_radius));
                     Vertices[i + resolution + 1] = new Vertex(new Vector4D(cos * outer_radius, 0, sin * outer_radius));
                 }

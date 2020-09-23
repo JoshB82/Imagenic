@@ -1,4 +1,16 @@
-﻿using System.Drawing;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Handles creation of a camera.
+ */
+
+using System.Drawing;
 
 namespace _3D_Engine
 {
@@ -25,12 +37,13 @@ namespace _3D_Engine
         /// </summary>
 
         // Matrices
-        internal Matrix4x4 World_to_Camera_View, Camera_View_to_Camera_Screen;
+        internal Matrix4x4 World_to_Camera_View, Camera_View_to_Camera_Screen, Camera_Screen_to_World;
 
         internal override void Calculate_Matrices()
         {
             base.Calculate_Matrices();
             World_to_Camera_View = Model_to_World.Inverse();
+            Camera_Screen_to_World = Model_to_World * Camera_View_to_Camera_Screen.Inverse();
         }
 
         // Clipping planes

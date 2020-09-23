@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -38,15 +38,15 @@ namespace _3D_Engine
                 Vertices = new Vertex[resolution + 1]; // ?
                 Vertices[0] = new Vertex(Vector4D.Zero); // ?
 
-                float angle = 2 * (float)Math.PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D((float)Math.Cos(angle * i), 0, (float)Math.Sin(angle * i)));
+                float angle = 2 * PI / resolution;
+                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i)));
 
                 if (Textures is not null)
                 {
                     Textures[0].Vertices = new Vector3D[resolution + 1];
                     Textures[0].Vertices[0] = new Vector3D(0.5f, 0.5f, 1);
 
-                    for (int i = 0; i < resolution; i++) Textures[0].Vertices[i + 1] = new Vector3D((float)Math.Cos(angle * i) * 0.5f, (float)Math.Sin(angle * i) * 0.5f, 1);
+                    for (int i = 0; i < resolution; i++) Textures[0].Vertices[i + 1] = new Vector3D(Cos(angle * i) * 0.5f, Sin(angle * i) * 0.5f, 1);
                 }
 
                 Edges = new Edge[resolution];

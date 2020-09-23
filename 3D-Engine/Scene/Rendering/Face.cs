@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Provides methods for generating data required to draw faces.
+ */
+
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -30,9 +41,9 @@ namespace _3D_Engine
             if (face.Draw_Outline)//
             {
                 Vertex vp1 = new Vertex(face.P1), vp2 = new Vertex(face.P2), vp3 = new Vertex(face.P3);
-                Draw_Edge(new Edge(vp1, vp2), in model_to_world, in world_to_camera_view, in camera_view_to_camera_screen);
-                Draw_Edge(new Edge(vp1, vp3), in model_to_world, in world_to_camera_view, in camera_view_to_camera_screen);
-                Draw_Edge(new Edge(vp2, vp3), in model_to_world, in world_to_camera_view, in camera_view_to_camera_screen);
+                Draw_Edge(new Edge(vp1, vp2), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
+                Draw_Edge(new Edge(vp1, vp3), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
+                Draw_Edge(new Edge(vp2, vp3), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
             }
 
             // Move the face from world space to camera-view space
@@ -135,31 +146,8 @@ namespace _3D_Engine
                 }
             }
         }
-        
-        // Check if point is visible from the camera
-        private void Z_Buffer_Check(object colour, int x, int y, float z)
-        {
-            try
-            {
-                if (z < z_buffer[x][y])
-                {
-                    z_buffer[x][y] = z;
-                    colour_buffer[x][y] = (Color)colour;
-                }
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                throw new IndexOutOfRangeException($"Attempted to render outside the canvas at ({x}, {y}, {z})", e);
-            }
-        }
 
-        // Shadow Map Checks (SMC)
-        private void SMC_Camera_Orthogonal(Color point_colour, Matrix4x4 window_to_world, int x, int y, float z)
-        {
-            // Move the point from window space to world space and apply lighting
-            Apply_Lighting(window_to_world * new Vector4D(x, y, z), point_colour, x, y);
-        }
-
+        // Shadow Map Check (SMC)
         private void SMC_Camera_Perspective(Color point_colour, Matrix4x4 window_to_camera_screen, Matrix4x4 camera_screen_to_world, int x, int y, float z)
         {
             // Move the point from window space to camera-screen space
@@ -199,6 +187,7 @@ namespace _3D_Engine
 
                     Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
 
+                    // Round the points
                     int light_point_x = light_window_space_point.x.Round_to_Int(); //?
                     int light_point_y = light_window_space_point.y.Round_to_Int();
                     float light_point_z = light_window_space_point.z;
@@ -206,7 +195,7 @@ namespace _3D_Engine
                     if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width &&
                         light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                     {
-                        if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y]) // ??????
+                        if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y])
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
                             point_colour = point_colour.Mix(new_light_colour);

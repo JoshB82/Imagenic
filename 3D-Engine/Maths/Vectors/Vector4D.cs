@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -64,12 +65,12 @@ namespace _3D_Engine
             if (this == Vector4D.Zero || v == Vector4D.Zero) throw new ArgumentException("Cannot calculate angle with One or more zeroed vectors."); //?
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
-            return (float)Math.Acos(quotient);
+            return Acos(quotient);
         }
 
         public Vector4D Cross_Product(Vector4D v) => new Vector4D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x, this.w);
 
-        public float Magnitude() => (float)Math.Sqrt(Squared_Magnitude());
+        public float Magnitude() => Sqrt(Squared_Magnitude());
 
         public float Squared_Magnitude() => x * x + y * y + z * z + w * w;
 
@@ -110,6 +111,8 @@ namespace _3D_Engine
         public static bool operator !=(Vector4D v1, Vector4D v2) => !(v1 == v2);
 
         public bool Equals(Vector4D v) => this == v;
+
+        public bool Approx_Equals(Vector4D v, float epsilon = 2 * Single.Epsilon) => Abs(this.x - v.x) <= epsilon && Abs(this.y - v.y) <= epsilon && Abs(this.z - v.z) <= epsilon && Abs(this.w - v.w) <= epsilon;
 
         public override bool Equals(object obj) => this == (Vector4D)obj;
 

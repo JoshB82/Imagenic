@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -51,11 +50,11 @@ namespace _3D_Engine
                 Vertices[0] = new Vertex(Vector4D.Zero);
                 Vertices[1] = new Vertex(Vector4D.Unit_Y);
 
-                float angle = 2 * (float)Math.PI / resolution;
+                float angle = 2 * PI / resolution;
                 for (int i = 0; i < resolution; i++)
                 {
-                    Vertices[i + 2] = new Vertex(new Vector4D((float)Math.Cos(angle * i), 0, (float)Math.Sin(angle * i)));
-                    Vertices[i + resolution + 2] = new Vertex(new Vector4D((float)Math.Cos(angle * i), 1, (float)Math.Sin(angle * i)));
+                    Vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i)));
+                    Vertices[i + resolution + 2] = new Vertex(new Vector4D(Cos(angle * i), 1, Sin(angle * i)));
                 }
 
                 Edges = new Edge[2 * resolution];

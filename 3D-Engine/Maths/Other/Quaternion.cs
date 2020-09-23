@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -71,7 +72,7 @@ namespace _3D_Engine
         #region Quaternion Operations (Common)
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Magnitude']/*"/>
-        public float Magnitude() => (float)Math.Sqrt(Squared_Magnitude());
+        public float Magnitude() => Sqrt(Squared_Magnitude());
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Squared_Magnitude']/*"/>
         public float Squared_Magnitude() => q1 * q1 + q2 * q2 + q3 * q3 + q4 * q4;
@@ -112,6 +113,8 @@ namespace _3D_Engine
         public static bool operator !=(Quaternion v1, Quaternion v2) => !(v1 == v2);
 
         public bool Equals(Quaternion q) => this == q;
+
+        public bool Approx_Equals(Quaternion q, float epsilon = 2 * Single.Epsilon) => Abs(this.q1 - q.q1) <= epsilon && Abs(this.q2 - q.q2) <= epsilon && Abs(this.q3 - q.q3) <= epsilon && Abs(this.q4 - q.q4) <= epsilon;
 
         public override bool Equals(object obj) => this == (Quaternion)obj;
 

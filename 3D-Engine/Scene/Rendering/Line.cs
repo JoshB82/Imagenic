@@ -5,6 +5,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
+        // sources for everything in file
         private void Line(Color colour,
             int x1, int y1, float z1,
             int x2, int y2, float z2)

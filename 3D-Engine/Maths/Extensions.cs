@@ -1,13 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Runtime.Intrinsics;
 
 namespace _3D_Engine
 {
     public static class Extensions
     {
-        // Float extensions
-        internal static byte Round_to_Byte(this float num) => (byte)((num >= 0) ? (num + 0.5) : (num - 0.5));
-        internal static int Round_to_Int(this float num) => (int)((num >= 0) ? (num + 0.5) : (num - 0.5));
-
         // Color extensions
         public static Color Brighten(this Color colour, float fraction)
         {
@@ -39,5 +37,17 @@ namespace _3D_Engine
 
             return Color.FromArgb(new_a, new_r, new_g, new_b);
         }
+
+        // Equality extensions
+        //source
+        internal static bool Approx_Equals(this float v1, float v2, float epsilon = 2 * Single.Epsilon) => Math.Abs(v1 - v2) <= epsilon;
+        internal static bool Approx_Less_Than_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => v1 <= v2 + epsilon;
+        internal static bool Approx_More_Than_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => v1 >= v2 - epsilon;
+        internal static bool Approx_Less_Than(this float v1, float v2, float epsilon = Single.Epsilon) => v1 < v2 + epsilon;
+        internal static bool Approx_More_Than(this float v1, float v2, float epsilon = Single.Epsilon) => v1 > v2 - epsilon;
+
+        // Float extensions
+        internal static byte Round_to_Byte(this float num) => (byte)(num >= 0 ? num + 0.5f : num - 0.5f);
+        internal static int Round_to_Int(this float num) => (int)(num >= 0 ? num + 0.5f : num - 0.5f);
     }
 }

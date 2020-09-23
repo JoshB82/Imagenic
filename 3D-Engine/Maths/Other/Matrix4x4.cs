@@ -11,6 +11,7 @@
  */
 
 using System;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -254,6 +255,24 @@ namespace _3D_Engine
         public static bool operator !=(Matrix4x4 v1, Matrix4x4 v2) => !(v1 == v2);
 
         public bool Equals(Matrix4x4 m) => this == m;
+
+        public bool Approx_Equals(Matrix4x4 m, float epsilon = 2 * Single.Epsilon) =>
+            Abs(this.m00 - m.m00) <= epsilon &&
+            Abs(this.m01 - m.m01) <= epsilon &&
+            Abs(this.m02 - m.m02) <= epsilon &&
+            Abs(this.m03 - m.m03) <= epsilon &&
+            Abs(this.m10 - m.m10) <= epsilon &&
+            Abs(this.m11 - m.m11) <= epsilon &&
+            Abs(this.m12 - m.m12) <= epsilon &&
+            Abs(this.m13 - m.m13) <= epsilon &&
+            Abs(this.m20 - m.m20) <= epsilon &&
+            Abs(this.m21 - m.m21) <= epsilon &&
+            Abs(this.m22 - m.m22) <= epsilon &&
+            Abs(this.m23 - m.m23) <= epsilon &&
+            Abs(this.m30 - m.m30) <= epsilon &&
+            Abs(this.m31 - m.m31) <= epsilon &&
+            Abs(this.m32 - m.m32) <= epsilon &&
+            Abs(this.m33 - m.m33) <= epsilon;
 
         public override bool Equals(object obj) => this == (Matrix4x4)obj;
 

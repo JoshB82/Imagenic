@@ -5,8 +5,7 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        // Number and variable manipulation
-
+        // Variable manipulation
         private static void Swap<T>(ref T x1, ref T x2)
         {
             T temp = x1;
@@ -74,7 +73,7 @@ namespace _3D_Engine
         }
 
         // Interpolation (source!)
-        private void Interpolate_Triangle(object @object, Action<object, int, int, float> action,
+        private static void Interpolate_Triangle(object @object, Action<object, int, int, float> action,
             int x1, int y1, float z1,
             int x2, int y2, float z2,
             int x3, int y3, float z3)
@@ -116,11 +115,11 @@ namespace _3D_Engine
                         Swap(ref sz, ref ez);
                     }
 
-                    float t = 0, t_step = (float)1 / (ex - sx);
+                    float t = 0, t_step = 1f / (ex - sx);
                     for (int x = sx; x <= ex; x++)
                     {
                         float z = sz + t * (ez - sz);
-                        action(@object, x, y, z);//?
+                        action(@object, x, y, z);
 
                         t += t_step;
                     }
@@ -143,11 +142,11 @@ namespace _3D_Engine
                         Swap(ref sz, ref ez);
                     }
 
-                    float t = 0, t_step = (float)1 / (ex - sx);
+                    float t = 0, t_step = 1f / (ex - sx);
                     for (int x = sx; x <= ex; x++)
                     {
                         float z = sz + t * (ez - sz);
-                        action(@object, x, y, z);//?
+                        action(@object, x, y, z);
 
                         t += t_step;
                     }
@@ -212,6 +211,7 @@ namespace _3D_Engine
                     {
                         float tx = stx + t * (etx - stx);
                         float ty = sty + t * (ety - sty);
+
                         t += t_step;
                         Textured_Check_Against_Z_Buffer(x, y, 1, tx.Round_to_Int(), ty.Round_to_Int(), texture); // ?
                     }
@@ -484,40 +484,6 @@ namespace _3D_Engine
             }
         }
 
-        private void Flat_Bottom_Triangle(int x1, int y1, int x2, int y2, int x3, int y3, float z_value, float z_increase_x, float z_increase_y, Color colour)
-        {
-            // y1 must equal y2
-            int[] start_x_values, final_x_values;
-
-            if (x1 < x2)
-            {
-                start_x_values = Line_2(x1, y1, x3, y3);
-                final_x_values = Line_2(x2, y2, x3, y3);
-            }
-            else
-            {
-                start_x_values = Line_2(x2, y2, x3, y3);
-                final_x_values = Line_2(x1, y1, x3, y3);
-            }
-
-            int start_x_value, final_x_value, prev_x = 0;
-            for (int y = y1; y <= y3; y++)
-            {
-                start_x_value = start_x_values[y - y1];
-                final_x_value = final_x_values[y - y1];
-
-                if (y != y1) z_value += (start_x_value - prev_x) * z_increase_x;
-
-                for (int x = start_x_value; x <= final_x_value; x++)
-                {
-                    Check_Against_Z_Buffer(x, y, z_value, colour);
-                    z_value += z_increase_x;
-                }
-                z_value -= z_increase_x * (final_x_value - start_x_value + 1);
-                prev_x = start_x_value;
-                z_value += z_increase_y;
-            }
-        }
 
         */
 

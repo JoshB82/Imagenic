@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -54,10 +55,10 @@ namespace _3D_Engine
             if (this == Vector2D.Zero || v == Vector2D.Zero) throw new ArgumentException("Cannot calculate angle with One or more zeroed vectors."); //?
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
-            return (float)Math.Acos(quotient);
+            return Acos(quotient);
         }
 
-        public float Magnitude() => (float)Math.Sqrt(Squared_Magnitude());
+        public float Magnitude() => Sqrt(Squared_Magnitude());
 
         public float Squared_Magnitude() => x * x + y * y;
 
@@ -88,7 +89,7 @@ namespace _3D_Engine
         public static Vector2D operator -(Vector2D v) => new Vector2D(-v.x, -v.y);
 
         #endregion
-        
+
         #region Equality and Miscellaneous
 
         public static bool operator ==(Vector2D v1, Vector2D v2) => v1.x == v2.x && v1.y == v2.y;
@@ -96,6 +97,8 @@ namespace _3D_Engine
         public static bool operator !=(Vector2D v1, Vector2D v2) => !(v1 == v2);
 
         public bool Equals(Vector2D v) => this == v;
+
+        public bool Approx_Equals(Vector2D v, float epsilon = 2 * Single.Epsilon) => Abs(this.x - v.x) <= epsilon && Abs(this.y - v.y) <= epsilon;
 
         public override bool Equals(object obj) => this == (Vector2D)obj;
 
