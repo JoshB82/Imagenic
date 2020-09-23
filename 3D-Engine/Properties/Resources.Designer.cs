@@ -128,7 +128,7 @@ namespace _3D_Engine.Properties {
         ///v -2.958713 1.672406 0.144000
         ///v -2.957600 1.534800 0.000000
         ///v -2.957600 1.534800 0.000000
-        ///v -2.954122 [rest of string was truncated]&quot;;.
+        ///v -2.954122 1.915609 -0.144 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Teapot {
             get {

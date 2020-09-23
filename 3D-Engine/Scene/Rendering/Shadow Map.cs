@@ -107,16 +107,12 @@ namespace _3D_Engine
         {
             Light light = @object as Light;
 
-            try
+            if (x < light.Shadow_Map_Width && y < light.Shadow_Map_Height)
             {
                 if (z < light.Shadow_Map[x][y])
                 {
                     light.Shadow_Map[x][y] = z;
                 }
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                throw new IndexOutOfRangeException($"Attempted to check points outside the shadow map at ({x}, {y}, {z})", e);
             }
         }
     }

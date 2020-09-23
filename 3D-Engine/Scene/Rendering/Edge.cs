@@ -1,4 +1,16 @@
-﻿namespace _3D_Engine
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Provides methods for generating data required to draw edges.
+ */
+
+namespace _3D_Engine
 {
     public sealed partial class Scene
     {

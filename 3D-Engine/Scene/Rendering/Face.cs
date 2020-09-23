@@ -147,13 +147,7 @@ namespace _3D_Engine
             }
         }
 
-        // Shadow Map Checks (SMC)
-        private void SMC_Camera_Orthogonal(Color point_colour, Matrix4x4 window_to_world, int x, int y, float z)
-        {
-            // Move the point from window space to world space and apply lighting
-            Apply_Lighting(window_to_world * new Vector4D(x, y, z), point_colour, x, y);
-        }
-
+        // Shadow Map Check (SMC)
         private void SMC_Camera_Perspective(Color point_colour, Matrix4x4 window_to_camera_screen, Matrix4x4 camera_screen_to_world, int x, int y, float z)
         {
             // Move the point from window space to camera-screen space
