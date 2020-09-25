@@ -11,6 +11,7 @@
  */
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace _3D_Engine
@@ -148,7 +149,7 @@ namespace _3D_Engine
         }
 
         // Shadow Map Check (SMC)
-        private void SMC_Camera_Perspective(Color point_colour, Matrix4x4 window_to_camera_screen, Matrix4x4 camera_screen_to_world, int x, int y, float z)
+        private void SMC_Camera_Perspective(ref Color point_colour, in Matrix4x4 window_to_camera_screen, in Matrix4x4 camera_screen_to_world, int x, int y, float z, Bitmap bitmap)
         {
             // Move the point from window space to camera-screen space
             Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);
@@ -157,11 +158,11 @@ namespace _3D_Engine
             camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
 
             // Apply lighting
-            Apply_Lighting(camera_screen_to_world * camera_screen_space_point, point_colour, x, y);
+            Apply_Lighting(camera_screen_to_world * camera_screen_space_point, ref point_colour, x, y,bitmap);
         }
 
         // Lighting
-        private void Apply_Lighting(Vector4D world_space_point, Color point_colour, int x, int y)
+        private void Apply_Lighting(in Vector4D world_space_point, ref Color point_colour, int x, int y, Bitmap bitmap)
         {
             bool light_applied = false;
 
@@ -192,6 +193,13 @@ namespace _3D_Engine
                     int light_point_y = light_window_space_point.y.Round_to_Int();
                     float light_point_z = light_window_space_point.z;
 
+                    //Trace.WriteLine("The following light point has been calculated: "+new Vector3D(light_point_x,light_point_y,light_point_z));
+
+                    int value = (255 * ((light_point_z + 1) / 2)).Round_to_Int();
+                    Color greyscale_colour = Color.FromArgb(255, value, value, value);
+                    bitmap.SetPixel(light_point_x, light_point_y, greyscale_colour);
+
+
                     if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width &&
                         light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                     {
@@ -200,6 +208,8 @@ namespace _3D_Engine
                             // Point is not in shadow and light does contribute to the point's overall colour
                             point_colour = point_colour.Mix(new_light_colour);
                             light_applied = true;
+
+                            // Trace.WriteLine("Lighting was added at "+new Vector3D(light_point_x,light_point_y,light_point_z)+" and the shadow map point z was: "+light.Shadow_Map[light_point_x][light_point_y]);
                         }
                     }
                 }

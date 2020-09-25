@@ -15,7 +15,7 @@
             Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, -camera.Z_Near));
             Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, -camera.Z_Near));
 
-            if (camera.View_Style == View_Outline.Near || camera.View_Style == View_Outline.Entire)
+            if ((camera.Volume_Style & Volume_Outline.Near) == Volume_Outline.Near)
             {
                 Edge near_top_left_edge = new Edge(zero_point, near_top_left_point);
                 Edge near_top_right_edge = new Edge(zero_point, near_top_right_point);
@@ -35,7 +35,7 @@
                 Draw_Edge(near_left_edge, model_to_world, world_to_view, view_to_screen);
                 Draw_Edge(near_right_edge, model_to_world, world_to_view, view_to_screen);
             }
-            if (camera.View_Style == View_Outline.Far || camera.View_Style == View_Outline.Entire)
+            if ((camera.Volume_Style & Volume_Outline.Far) == Volume_Outline.Far)
             {
                 float ratio = camera.Z_Far / camera.Z_Near;
                 float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;

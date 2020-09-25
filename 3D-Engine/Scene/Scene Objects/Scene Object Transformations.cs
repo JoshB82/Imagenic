@@ -7,14 +7,13 @@ namespace _3D_Engine
     {
         #region Rotations
 
-        /// <summary>
-        /// Sets the forward, up and right directions given the forward and up directions.
-        /// </summary>
-        /// <param name="new_world_direction_forward">The forward direction.</param>
-        /// <param name="new_world_direction_up">The up direction.</param>
+        /// <include file="Help_6.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public virtual void Set_Direction_1(Vector3D new_world_direction_forward, Vector3D new_world_direction_up)
         {
-            if (new_world_direction_forward == Vector3D.Zero || new_world_direction_up == Vector3D.Zero) throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+            if (new_world_direction_forward.Approx_Equals(Vector3D.Zero, 1E-6f) ||
+                new_world_direction_up.Approx_Equals(Vector3D.Zero, 1E-6f))
+                throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+
             // if (new_world_direction_forward * new_world_direction_up != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
             new_world_direction_forward = new_world_direction_forward.Normalise();
@@ -27,14 +26,14 @@ namespace _3D_Engine
             );
             Output_Direction();
         }
-        /// <summary>
-        /// Sets the forward, up and right directions given the up and right directions.
-        /// </summary>
-        /// <param name="new_world_direction_up">The up direction.</param>
-        /// <param name="new_world_direction_right">The right direction.</param>
+        
+        /// <include file="Help_6.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_2(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public virtual void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
         {
-            if (new_world_direction_up == Vector3D.Zero || new_world_direction_right == Vector3D.Zero) throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+            if (new_world_direction_up.Approx_Equals(Vector3D.Zero, 1E-6f) ||
+                new_world_direction_right.Approx_Equals(Vector3D.Zero, 1E-6f))
+                throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+
             // if (new_world_direction_up * new_world_direction_right != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
             new_world_direction_up = new_world_direction_up.Normalise();
@@ -47,14 +46,14 @@ namespace _3D_Engine
             );
             Output_Direction();
         }
-        /// <summary>
-        /// Sets the forward, up and right directions given the right and forward directions.
-        /// </summary>
-        /// <param name="new_world_direction_right">The right direction.</param>
-        /// <param name="new_world_direction_forward">The forward direction.</param>
+        
+        /// <include file="Help_6.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_3(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public virtual void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
         {
-            if (new_world_direction_right == Vector3D.Zero || new_world_direction_forward == Vector3D.Zero) throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+            if (new_world_direction_right.Approx_Equals(Vector3D.Zero, 1E-6f) ||
+                new_world_direction_forward.Approx_Equals(Vector3D.Zero, 1E-6f))
+                throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
+
             // if (new_world_direction_right * new_world_direction_forward != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
             new_world_direction_forward = new_world_direction_forward.Normalise();

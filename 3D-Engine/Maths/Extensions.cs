@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.Intrinsics;
 
 namespace _3D_Engine
 {
@@ -16,10 +15,10 @@ namespace _3D_Engine
             byte new_g = Round_to_Byte(colour.G * fraction);
             byte new_b = Round_to_Byte(colour.B * fraction);
 
-            new_a = (new_a > 255) ? (byte)255 : new_a;
-            new_r = (new_r > 255) ? (byte)255 : new_r;
-            new_g = (new_g > 255) ? (byte)255 : new_g;
-            new_b = (new_b > 255) ? (byte)255 : new_b;
+            new_a = new_a > 255 ? (byte)255 : new_a;
+            new_r = new_r > 255 ? (byte)255 : new_r;
+            new_g = new_g > 255 ? (byte)255 : new_g;
+            new_b = new_b > 255 ? (byte)255 : new_b;
 
             return Color.FromArgb(new_a, new_r, new_g, new_b);
         }
@@ -38,15 +37,16 @@ namespace _3D_Engine
             return Color.FromArgb(new_a, new_r, new_g, new_b);
         }
 
-        // Equality extensions
-        //source
-        internal static bool Approx_Equals(this float v1, float v2, float epsilon = 2 * Single.Epsilon) => Math.Abs(v1 - v2) <= epsilon;
-        internal static bool Approx_Less_Than_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => v1 <= v2 + epsilon;
-        internal static bool Approx_More_Than_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => v1 >= v2 - epsilon;
-        internal static bool Approx_Less_Than(this float v1, float v2, float epsilon = Single.Epsilon) => v1 < v2 + epsilon;
-        internal static bool Approx_More_Than(this float v1, float v2, float epsilon = Single.Epsilon) => v1 > v2 - epsilon;
-
         // Float extensions
+        // Equality
+        //source
+        public static bool Approx_Equals(this float v1, float v2, float epsilon = 2 * Single.Epsilon) => Math.Abs(v1 - v2) <= epsilon;
+        public static bool Approx_Less_Than_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => v1 <= v2 + epsilon;
+        public static bool Approx_More_Than_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => v1 >= v2 - epsilon;
+        public static bool Approx_Less_Than(this float v1, float v2, float epsilon = Single.Epsilon) => v1 < v2 + epsilon;
+        public static bool Approx_More_Than(this float v1, float v2, float epsilon = Single.Epsilon) => v1 > v2 - epsilon;
+
+        // Rounding
         internal static byte Round_to_Byte(this float num) => (byte)(num >= 0 ? num + 0.5f : num - 0.5f);
         internal static int Round_to_Int(this float num) => (int)(num >= 0 ? num + 0.5f : num - 0.5f);
     }

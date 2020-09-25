@@ -78,7 +78,10 @@ namespace _3D_Engine
         /// Normalises a <see cref="Vector4D"/>.
         /// </summary>
         /// <returns>A normalised <see cref="Vector4D"/>.</returns>
-        public Vector4D Normalise() => (this == Vector4D.Zero) ? throw new ArgumentException("Cannot normalise a zeroed vector.") : this / Magnitude();
+        public Vector4D Normalise() =>
+            this.Approx_Equals(Vector4D.Zero, 1E-6f)
+                ? throw new ArgumentException("Cannot normalise a zeroed vector.")
+                : this / Magnitude();
 
         public override string ToString() => $"({x}, {y}, {z}, {w})";
 
@@ -112,7 +115,7 @@ namespace _3D_Engine
 
         public bool Equals(Vector4D v) => this == v;
 
-        public bool Approx_Equals(Vector4D v, float epsilon = 2 * Single.Epsilon) => Abs(this.x - v.x) <= epsilon && Abs(this.y - v.y) <= epsilon && Abs(this.z - v.z) <= epsilon && Abs(this.w - v.w) <= epsilon;
+        public bool Approx_Equals(Vector4D v, float epsilon = 2 * Single.Epsilon) => this.x.Approx_Equals(v.x, epsilon) && this.y.Approx_Equals(v.y, epsilon) && this.z.Approx_Equals(v.z, epsilon) && this.w.Approx_Equals(v.w, epsilon);
 
         public override bool Equals(object obj) => this == (Vector4D)obj;
 

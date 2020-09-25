@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace _3D_Engine
 {
@@ -104,6 +105,8 @@ namespace _3D_Engine
             Width = width;
             Height = height;
 
+            Reset_Light_Buffers();
+
             Trace.WriteLine("Scene created");
         }
 
@@ -187,16 +190,8 @@ namespace _3D_Engine
                         colour_buffer[i][j] = Background_Colour;
                     }
                 }
-                foreach (Light light in Lights)
-                {
-                    for (int i = 0; i < light.Shadow_Map_Width; i++)
-                    {
-                        for (int j = 0; j < light.Shadow_Map_Height; j++)
-                        {
-                            light.Shadow_Map[i][j] = out_of_bounds_value;
-                        }
-                    }
-                }
+
+                Reset_Light_Buffers();
 
                 // Calculate necessary matrices for all scene objects
                 Generate_Matrices();
@@ -204,10 +199,7 @@ namespace _3D_Engine
                 // Calculate depth information for each light
                 foreach (Light light in Lights)
                 {
-                    if (light.Visible)
-                    {
-                        Generate_Shadow_Map(light);
-                    }
+                    if (light.Visible) Generate_Shadow_Map(light);
                 }
 
                 // Calculate depth information for each mesh
@@ -267,13 +259,20 @@ namespace _3D_Engine
                             if (z_buffer[x][y] != out_of_bounds_value)
                             {
                                 // Move the point from window space to world space and apply lighting
-                                Apply_Lighting(window_to_world * new Vector4D(x, y, z_buffer[x][y]), colour_buffer[x][y], x, y);
+                                Apply_Lighting(window_to_world * new Vector4D(x, y, z_buffer[x][y]), ref colour_buffer[x][y], x, y,null);
                             }
                         }
                     }
                 }
                 else
                 {
+                    Trace.WriteLine("start");
+                    string file_path = "C:\\Users\\jbrya\\Desktop\\image.bmp";
+                    string file_directory = System.IO.Path.GetDirectoryName(file_path);
+                    if (!System.IO.Directory.Exists(file_directory)) System.IO.Directory.CreateDirectory(file_directory);
+
+                    Bitmap shadow_map_bitmap = new Bitmap(Lights[0].Shadow_Map_Width, Lights[0].Shadow_Map_Height);
+
                     for (int x = 0; x < width; x++)
                     {
                         for (int y = 0; y < height; y++)
@@ -281,10 +280,14 @@ namespace _3D_Engine
                             // check all floats and ints
                             if (z_buffer[x][y] != out_of_bounds_value)
                             {
-                                SMC_Camera_Perspective(colour_buffer[x][y], screen_to_window_inverse, Render_Camera.Camera_Screen_to_World, x, y, z_buffer[x][y]);
+                                SMC_Camera_Perspective(ref colour_buffer[x][y], screen_to_window_inverse, Render_Camera.Camera_Screen_to_World, x, y, z_buffer[x][y], shadow_map_bitmap);
                             }
                         }
                     }
+
+                    shadow_map_bitmap.Save(file_path, System.Drawing.Imaging.ImageFormat.Bmp);
+                    
+                    Trace.WriteLine("finish");
                 }
                 
                 // Draw edges
@@ -335,7 +338,7 @@ namespace _3D_Engine
                 // Draw camera views
                 foreach (Camera camera in Cameras)
                 {
-                    Draw_Camera(camera, camera.Model_to_World, Render_Camera.World_to_Camera_View, Render_Camera.Camera_View_to_Camera_Screen);
+                    if (camera.Volume_Style > 0) Draw_Camera(camera, camera.Model_to_World, Render_Camera.World_to_Camera_View, Render_Camera.Camera_View_to_Camera_Screen);
                 }
                 
                 // Draw all points
@@ -361,13 +364,25 @@ namespace _3D_Engine
             canvas.UnlockBits(data);
         }
 
+        // Reset light buffers
+        private void Reset_Light_Buffers()
+        {
+            foreach (Light light in Lights)
+            {
+                for (int i = 0; i < light.Shadow_Map_Width; i++)
+                {
+                    for (int j = 0; j < light.Shadow_Map_Height; j++)
+                    {
+                        light.Shadow_Map[i][j] = out_of_bounds_value;
+                    }
+                }
+            }
+        }
+
         // Generate matrices
         public void Generate_Matrices()
         {
-            foreach (Camera camera in Cameras)
-            {
-                camera.Calculate_Matrices();
-            }
+            foreach (Camera camera in Cameras) camera.Calculate_Matrices();
             foreach (Light light in Lights)
             {
                 if (light.Draw_Icon) light.Icon.Calculate_Matrices();

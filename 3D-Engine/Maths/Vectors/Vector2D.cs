@@ -66,7 +66,10 @@ namespace _3D_Engine
         /// Normalises a <see cref="Vector2D"/>.
         /// </summary>
         /// <returns>A normalised <see cref="Vector2D"/>.</returns>
-        public Vector2D Normalise() => (this == Vector2D.Zero) ? throw new ArgumentException("Cannot normalise a zeroed vector.") : this / Magnitude();
+        public Vector2D Normalise() =>
+            this.Approx_Equals(Vector2D.Zero, 1E-6f)
+            ? throw new ArgumentException("Cannot normalise a zeroed vector.")
+            : this / Magnitude();
 
         public override string ToString() => $"({x}, {y})";
 
@@ -98,7 +101,7 @@ namespace _3D_Engine
 
         public bool Equals(Vector2D v) => this == v;
 
-        public bool Approx_Equals(Vector2D v, float epsilon = 2 * Single.Epsilon) => Abs(this.x - v.x) <= epsilon && Abs(this.y - v.y) <= epsilon;
+        public bool Approx_Equals(Vector2D v, float epsilon = 2 * Single.Epsilon) => this.x.Approx_Equals(v.x, epsilon) && this.y.Approx_Equals(v.y, epsilon);
 
         public override bool Equals(object obj) => this == (Vector2D)obj;
 

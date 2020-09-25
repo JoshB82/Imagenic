@@ -26,7 +26,7 @@ namespace _3D_Engine
         /// </summary>
         public bool Draw_Icon { get; set; } = false;
 
-        public View_Outline View_Style = View_Outline.Entire;
+        public Volume_Outline Volume_Style = Volume_Outline.None;
 
         /// <summary>
         /// Determines if the outline of the <see cref="Camera">Camera's</see> view is drawn.

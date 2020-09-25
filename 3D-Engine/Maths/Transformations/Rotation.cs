@@ -1,5 +1,4 @@
-﻿using System;
-using static System.MathF;
+﻿using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -8,10 +7,10 @@ namespace _3D_Engine
         #region Matrix rotations
 
         /// <summary>
-        /// Creates a matrix for rotation about the x-axis.
+        /// Creates a <see cref="T:_3D_Engine.Matrix4x4" /> for rotation about the x-axis.
         /// </summary>
         /// <param name="angle">Angle to rotate.</param>
-        /// <returns>A rotation matrix.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         public static Matrix4x4 Rotate_X(float angle)
         {
             Matrix4x4 rotation = Matrix4x4.Identity;
@@ -25,10 +24,10 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a matrix for rotation about the y-axis.
+        /// Creates a <see cref="T:_3D_Engine.Matrix4x4" /> for rotation about the y-axis.
         /// </summary>
         /// <param name="angle">Angle to rotate.</param>
-        /// <returns>A rotation matrix.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         public static Matrix4x4 Rotate_Y(float angle)
         {
             Matrix4x4 rotation = Matrix4x4.Identity;
@@ -42,10 +41,10 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a matrix for rotation about the z-axis.
+        /// Creates a <see cref="T:_3D_Engine.Matrix4x4" /> for rotation about the z-axis.
         /// </summary>
         /// <param name="angle">Angle to rotate.</param>
-        /// <returns>A rotation matrix.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         public static Matrix4x4 Rotate_Z(float angle)
         {
             Matrix4x4 rotation = Matrix4x4.Identity;
@@ -59,11 +58,11 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a matrix for rotation about any axis.
+        /// Creates a <see cref="T:_3D_Engine.Matrix4x4" /> for rotation about any axis.
         /// </summary>
         /// <param name="axis">Axis that will be rotated around.</param>
         /// <param name="angle">Angle to rotate.</param>
-        /// <returns>A rotation matrix.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         public static Matrix4x4 Rotate(Vector3D axis, float angle)
         {
             if (angle == 0) return Matrix4x4.Identity;
@@ -90,12 +89,12 @@ namespace _3D_Engine
         }
 
         /// <summary>
-        /// Creates a rotation matrix that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
+        /// Creates a rotation <see cref="T:_3D_Engine.Matrix4x4" /> that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
         /// </summary>
         /// <param name="v1">The first vector.</param>
         /// <param name="v2">The second vector.</param>
         /// <param name="axis">Axis that will be rotated around if vectors are antiparallel.</param>
-        /// <returns>A rotation matrix.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         public static Matrix4x4 Rotate_Between_Vectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
             if (v1.Approx_Equals(v2, 1E-6f)) return Matrix4x4.Identity;
@@ -110,41 +109,41 @@ namespace _3D_Engine
         #region Quaternion rotations
 
         /// <summary>
-        /// Creates a quaternion for rotation about the x-axis.
+        /// Creates a <see cref="T:_3D_Engine.Quaternion" /> for rotation about the x-axis.
         /// </summary>
         /// <param name="angle">Angle to rotate.</param>
-        /// <returns>A rotation quaternion.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
         public static Quaternion Quaternion_Rotate_X(float angle) => Quaternion_Rotate(Vector3D.Unit_X, angle);
 
         /// <summary>
-        /// Creates a quaternion for rotation about the y-axis.
+        /// Creates a <see cref="T:_3D_Engine.Quaternion" /> for rotation about the y-axis.
         /// </summary>
         /// <param name="angle">Angle to rotate.</param>
-        /// <returns>A rotation quaternion.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
         public static Quaternion Quaternion_Rotate_Y(float angle) => Quaternion_Rotate(Vector3D.Unit_Y, angle);
 
         /// <summary>
-        /// Creates a quaternion for rotation about the z-axis.
+        /// Creates a <see cref="T:_3D_Engine.Quaternion" /> for rotation about the z-axis.
         /// </summary>
         /// <param name="angle">Angle to rotate.</param>
-        /// <returns>A rotation quaternion.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
         public static Quaternion Quaternion_Rotate_Z(float angle) => Quaternion_Rotate(Vector3D.Unit_Z, angle);
 
         /// <summary>
-        /// Create a quaternion that represents a rotation around any axis.
+        /// Creates a <see cref="T:_3D_Engine.Quaternion" /> that represents a rotation around any axis.
         /// </summary>
         /// <param name="axis">Axis that will be rotated around.</param>
         /// <param name="angle">Angle to rotate.</param>
-        /// <returns>A rotation quaternion.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
         public static Quaternion Quaternion_Rotate(Vector3D axis, float angle) => angle.Approx_Equals(0, 1E-6f) ? Quaternion.Identity : new Quaternion(Cos(angle / 2), axis.Normalise() * Sin(angle / 2)).Normalise();
 
         /// <summary>
-        /// Creates a quaternion that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
+        /// Creates a <see cref="T:_3D_Engine.Quaternion" /> that rotates one vector onto another. A rotation axis must be supplied if vectors are antiparallel.
         /// </summary>
         /// <param name="v1">The first vector.</param>
         /// <param name="v2">The second vector.</param>
         /// <param name="axis"></param>
-        /// <returns>A rotation quaternion.</returns>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
         public static Quaternion Quaternion_Rotate_Between_Vectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
             if (v1.Approx_Equals(v2, 1E-6f)) return Quaternion.Identity;
@@ -159,10 +158,10 @@ namespace _3D_Engine
         #region Quaternion to matrix conversion
 
         /// <summary>
-        /// Creates the corresponding rotation matrix for the specified quaternion.
+        /// Creates the corresponding rotation <see cref="T:_3D_Engine.Matrix4x4" /> for the specified <see cref="T:_3D_Engine.Quaternion" />.
         /// </summary>
-        /// <param name="q">The quaternion to convert.</param>
-        /// <returns>A rotation matrix.</returns>
+        /// <param name="q">The <see cref="T:_3D_Engine.Quaternion" /> to convert.</param>
+        /// <returns>A rotation <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         public static Matrix4x4 Quaternion_to_Matrix(Quaternion q) =>
             // RIGHT HANDED ROTATION
             // (ANTI CLOCKWISE WHEN LOOKING AT ORIGIN FROM ARROW TIP TO BEGINNING)

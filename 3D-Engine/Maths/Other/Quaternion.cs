@@ -78,7 +78,10 @@ namespace _3D_Engine
         public float Squared_Magnitude() => q1 * q1 + q2 * q2 + q3 * q3 + q4 * q4;
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Normalise']/*"/>
-        public Quaternion Normalise() => (this == Quaternion.Zero) ? throw new ArgumentException("Cannot normalise a zeroed quaternion.") : this / Magnitude();
+        public Quaternion Normalise() =>
+            this.Approx_Equals(Quaternion.Zero, 1E-6f)
+                ? throw new ArgumentException("Cannot normalise a zeroed quaternion.")
+                : this / Magnitude();
 
         /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.ToString']/*"/>
         public override string ToString() => $"({q1}, {q2}, {q3}, {q4})";
@@ -114,7 +117,7 @@ namespace _3D_Engine
 
         public bool Equals(Quaternion q) => this == q;
 
-        public bool Approx_Equals(Quaternion q, float epsilon = 2 * Single.Epsilon) => Abs(this.q1 - q.q1) <= epsilon && Abs(this.q2 - q.q2) <= epsilon && Abs(this.q3 - q.q3) <= epsilon && Abs(this.q4 - q.q4) <= epsilon;
+        public bool Approx_Equals(Quaternion q, float epsilon = 2 * Single.Epsilon) => this.q1.Approx_Equals(q.q1, epsilon) && this.q2.Approx_Equals(q.q2, epsilon) && this.q3.Approx_Equals(q.q3, epsilon) && this.q4.Approx_Equals(q.q4, epsilon);
 
         public override bool Equals(object obj) => this == (Quaternion)obj;
 

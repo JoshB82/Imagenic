@@ -31,16 +31,7 @@ namespace _3D_Engine
         /// </summary>
         public bool Draw_Icon { get; set; } = false;
 
-        public View_Outline View_Style = View_Outline.Entire;
-
-        /// <summary>
-        /// Determines if the outline of the <see cref="Light">Light's</see> projection is drawn.
-        /// </summary>
-
-        /// <summary>
-        /// Determines if the outline of the <see cref="Light">Light's</see> projection is drawn, up to the near plane.
-        /// </summary>
-
+        public Volume_Outline Volume_Style = Volume_Outline.None;
 
         // Matrices
         internal Matrix4x4 World_to_Light_View, Light_View_to_Light_Screen, Light_Screen_to_Light_Window;
@@ -72,7 +63,7 @@ namespace _3D_Engine
             Light_Screen_to_Light_Window = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * window_translate;
         }
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='']/*"/>
+        /// <include file="Help_6.xml" path="doc/members/member[@name='']/*"/>
 
         #endregion
 
