@@ -3,6 +3,9 @@ using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine
 {
+    /// <summary>
+    /// Handles creation of a <see cref="Distant_Light"/>.
+    /// </summary>
     public sealed class Distant_Light : Light
     {
         #region Fields and Properties

@@ -2,7 +2,10 @@
 
 namespace _3D_Engine
 {
-    public class Stereo_Camera : Camera
+    /// <summary>
+    /// Handles creation of a <see cref="Stereo_Camera"/>.
+    /// </summary>
+    public sealed class Stereo_Camera : Camera
     {
         #region Fields and Properties
 

@@ -14,6 +14,9 @@ using System.Drawing;
 
 namespace _3D_Engine
 {
+    /// <summary>
+    /// Handles creation of a <see cref="Camera"/>.
+    /// </summary>
     public abstract partial class Camera : Scene_Object
     {
         #region Fields and Properties

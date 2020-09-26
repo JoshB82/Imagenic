@@ -283,9 +283,9 @@
             <summary>
             Creates a matrix for scaling in all directions.
             </summary>
-            <param name="scale_factor_x">Factor to scale by in x-direction.</param>
-            <param name="scale_factor_y">Factor to scale by in y-direction.</param>
-            <param name="scale_factor_z">Factor to scale by in z-direction.</param>
+            <param name="scale_factor_x">Factor to scale by in the x-direction.</param>
+            <param name="scale_factor_y">Factor to scale by in the y-direction.</param>
+            <param name="scale_factor_z">Factor to scale by in the z-direction.</param>
             <returns>Scaling matrix.</returns>
         </member>
         <member name="M:_3D_Engine.Transform.Scale(System.Single)">
@@ -456,12 +456,12 @@
         </member>
         <member name="M:_3D_Engine.Scene.Create_Origin">
             <summary>
-            Creates a <see cref="T:_3D_Engine.World_Point"/> at (0, 0, 0) and adds it to the <see cref="T:_3D_Engine.Scene"/>.
+            Creates a <see cref="T:_3D_Engine.World_Point" /> at (0, 0, 0) and adds it to the <see cref="T:_3D_Engine.Scene" />.
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene.Create_Axes">
             <summary>
-            Creates axes (<see cref="T:_3D_Engine.Arrow">Arrows</see>) starting from (0, 0, 0) and adds them to the <see cref="T:_3D_Engine.Scene"/>.
+            Creates axes (<see cref="T:_3D_Engine.Arrow">Arrows</see>) starting from (0, 0, 0) and adds them to the <see cref="T:_3D_Engine.Scene" />.
             </summary>
         </member>
         <member name="P:_3D_Engine.Scene.Canvas_Box">
@@ -518,6 +518,11 @@
             Renders the <see cref="T:_3D_Engine.Scene"/>. The Render Camera must be set before this method is called.
             </summary>
         </member>
+        <member name="T:_3D_Engine.Camera">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Camera"/>.
+            </summary>
+        </member>
         <member name="P:_3D_Engine.Camera.Draw_Icon">
             <summary>
             Determines if the <see cref="T:_3D_Engine.Camera"/> is drawn in the <see cref="T:_3D_Engine.Scene"/>.
@@ -563,33 +568,14 @@
             </summary>
             <param name="group"><see cref="T:_3D_Engine.Group"/> to cast.</param>
         </member>
+        <member name="T:_3D_Engine.Light">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Light"/>.
+            </summary>
+        </member>
         <member name="P:_3D_Engine.Light.Draw_Icon">
             <summary>
             Determines if the <see cref="T:_3D_Engine.Light"/> is drawn in the <see cref="T:_3D_Engine.Scene"/>.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Light.World_to_Light_View">
-            <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Light">Light's</see> projection is drawn.
-            </summary>
-            <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Light">Light's</see> projection is drawn, up to the near plane.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Light.Light_View_to_Light_Screen">
-            <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Light">Light's</see> projection is drawn.
-            </summary>
-            <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Light">Light's</see> projection is drawn, up to the near plane.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Light.Light_Screen_to_Light_Window">
-            <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Light">Light's</see> projection is drawn.
-            </summary>
-            <summary>
-            Determines if the outline of the <see cref="T:_3D_Engine.Light">Light's</see> projection is drawn, up to the near plane.
             </summary>
         </member>
         <member name="M:_3D_Engine.Light.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
@@ -1012,6 +998,43 @@
             <param name="m1">The first <see cref="T:_3D_Engine.Mesh"/> to be joined.</param>
             <param name="m2">The second <see cref="T:_3D_Engine.Mesh"/> to be joined.</param>
         </member>
+        <member name="T:_3D_Engine.Mesh">
+            <summary>
+            Handles creation of a <see cref="T:_3D_Engine.Mesh"/>.
+            </summary>
+        </member>
+        <member name="M:_3D_Engine.Mesh.Scale_X(System.Single)">
+            <summary>
+            Scales a <see cref="T:_3D_Engine.Mesh"/> in the x-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+        </member>
+        <member name="M:_3D_Engine.Mesh.Scale_Y(System.Single)">
+            <summary>
+            Scales a <see cref="T:_3D_Engine.Mesh"/> in the y-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+        </member>
+        <member name="M:_3D_Engine.Mesh.Scale_Z(System.Single)">
+            <summary>
+            Scales a <see cref="T:_3D_Engine.Mesh"/> in the z-direction.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+        </member>
+        <member name="M:_3D_Engine.Mesh.Scale(System.Single,System.Single,System.Single)">
+            <summary>
+            Scales a <see cref="T:_3D_Engine.Mesh"/> in all directions.
+            </summary>
+            <param name="scale_factor_x">Factor to scale by in the x-direction.</param>
+            <param name="scale_factor_y">Factor to scale by in the y-direction.</param>
+            <param name="scale_factor_z">Factor to scale by in the z-direction.</param>
+        </member>
+        <member name="M:_3D_Engine.Mesh.Scale(System.Single)">
+            <summary>
+            Scales a <see cref="T:_3D_Engine.Mesh"/> in all directions by the same scale factor.
+            </summary>
+            <param name="scale_factor">Factor to scale by.</param>
+        </member>
         <member name="P:_3D_Engine.Mesh.Vertices">
             <summary>
             The <see cref="T:_3D_Engine.Vertex">Vertices</see> in the <see cref="T:_3D_Engine.Mesh" />.
@@ -1025,11 +1048,6 @@
         <member name="P:_3D_Engine.Mesh.Faces">
             <summary>
             The <see cref="T:_3D_Engine.Face">Faces</see> in the <see cref="T:_3D_Engine.Mesh" />.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.Textures">
-            <summary>
-            The <see cref="T:_3D_Engine.Texture">Textures</see> that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh" />.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Draw_Edges">
@@ -1052,6 +1070,16 @@
             The <see cref="T:System.Drawing.Color" /> of each <see cref="T:_3D_Engine.Face" /> in the <see cref="T:_3D_Engine.Mesh" />.
             </summary>
         </member>
+        <member name="P:_3D_Engine.Mesh.Textures">
+            <summary>
+            The <see cref="T:_3D_Engine.Texture">Textures</see> that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh" />.
+            </summary>
+        </member>
+        <member name="P:_3D_Engine.Mesh.Has_Texture">
+            <summary>
+            Indicates whether or not the <see cref="T:_3D_Engine.Mesh"/> has a <see cref="T:_3D_Engine.Texture"/>.
+            </summary>
+        </member>
         <member name="P:_3D_Engine.Mesh.Dimension">
             <summary>
             Indicates the number of dimensions the <see cref="T:_3D_Engine.Mesh" /> occupies.
@@ -1069,29 +1097,23 @@
         </member>
         <member name="T:_3D_Engine.Scene_Object">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Scene_Object"/>.
+            Handles creation of a <see cref="T:_3D_Engine.Scene_Object" />.
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
             Sets the forward, up and right directions given the forward and up directions.
-            </summary>
-            <param name="new_world_direction_forward">The forward direction.</param>
-            <param name="new_world_direction_up">The up direction.</param>
+            </summary><param name="new_world_direction_forward">The forward direction.</param><param name="new_world_direction_up">The up direction.</param>
         </member>
         <member name="M:_3D_Engine.Scene_Object.Set_Direction_2(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
             Sets the forward, up and right directions given the up and right directions.
-            </summary>
-            <param name="new_world_direction_up">The up direction.</param>
-            <param name="new_world_direction_right">The right direction.</param>
+            </summary><param name="new_world_direction_up">The up direction.</param><param name="new_world_direction_right">The right direction.</param>
         </member>
         <member name="M:_3D_Engine.Scene_Object.Set_Direction_3(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
             Sets the forward, up and right directions given the right and forward directions.
-            </summary>
-            <param name="new_world_direction_right">The right direction.</param>
-            <param name="new_world_direction_forward">The forward direction.</param>
+            </summary><param name="new_world_direction_right">The right direction.</param><param name="new_world_direction_forward">The forward direction.</param>
         </member>
         <member name="M:_3D_Engine.Scene_Object.Translate_X(System.Single)">
             <summary>
@@ -1150,6 +1172,26 @@
         <member name="P:_3D_Engine.Scene_Object.Visible">
             <summary>
             Determines whether the <see cref="T:_3D_Engine.Scene_Object" /> is visible or not.
+            </summary>
+        </member>
+        <member name="T:_3D_Engine.Volume_Outline">
+            <summary>
+            Encapsulates options regarding how view volume outlines are drawn.
+            </summary>
+        </member>
+        <member name="F:_3D_Engine.Volume_Outline.None">
+            <summary>
+            Indicates that no view volume outline should be drawn.
+            </summary>
+        </member>
+        <member name="F:_3D_Engine.Volume_Outline.Near">
+            <summary>
+            Indicates that a view volume outline should be drawn from the origin to the near plane.
+            </summary>
+        </member>
+        <member name="F:_3D_Engine.Volume_Outline.Far">
+            <summary>
+            Indicates that a view volume outline should be drawn from the origin to the far plane.
             </summary>
         </member>
         <member name="T:_3D_Engine.Viewport">

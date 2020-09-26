@@ -17,13 +17,13 @@ using System.Drawing;
 
 namespace _3D_Engine
 {
-    /// <include file="Help_6.xml" path="doc/members/member[@name='T:_3D_Engine.Scene_Object']/*"/>
+    /// <include file="Help_7.xml" path="doc/members/member[@name='T:_3D_Engine.Scene_Object']/*"/>
     public abstract partial class Scene_Object
     {
         #region Fields and Properties
 
         // ID
-        /// <include file="Help_6.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.ID']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.ID']/*"/>
         public int ID { get; private set; }
         private static int next_id = -1;
 
@@ -46,7 +46,7 @@ namespace _3D_Engine
         // Origins
         internal static readonly Vector4D Model_Origin = Vector4D.Zero;
 
-        /// <include file="Help_6.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
         public virtual Vector3D World_Origin { get; set; }
 
         internal void Calculate_World_Origin() => World_Origin = Model_to_World * Model_Origin;
@@ -56,22 +56,22 @@ namespace _3D_Engine
         internal static readonly Vector3D Model_Direction_Up = Vector3D.Unit_Y;
         internal static readonly Vector3D Model_Direction_Right = Vector3D.Unit_X;
 
-        /// <include file="Help_6.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
         public Vector3D World_Direction_Forward { get; private set; }
-        /// <include file="Help_6.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Up']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Up']/*"/>
         public Vector3D World_Direction_Up { get; private set; }
-        /// <include file="Help_6.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Right']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Right']/*"/>
         public Vector3D World_Direction_Right { get; private set; }
 
         // Direction Arrows
         internal Group Direction_Arrows { get; }
         internal bool Has_Direction_Arrows;
 
-        /// <include file="Help_6.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
         public bool Display_Direction_Arrows { get; set; } = false;
 
         // Appearance
-        /// <include file="Help_6.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Visible']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Visible']/*"/>
         public bool Visible { get; set; } = true;
 
         #endregion
@@ -104,23 +104,15 @@ namespace _3D_Engine
         #endregion
     }
 
-    /// <summary>
-    /// Encapsulates options regarding how view volume outlines are drawn.
-    /// </summary>
+    /// <include file="Help_7.xml" path="doc/members/member[@name='T:_3D_Engine.Volume_Outline']/*"/>
     [Flags]
     public enum Volume_Outline : byte
     {
-        /// <summary>
-        /// Indicates that no view volume outline should be drawn.
-        /// </summary>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.None']/*"/>
         None = 0,
-        /// <summary>
-        /// Indicates that a view volume outline should be drawn from the origin to the near plane.
-        /// </summary>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.Near']/*"/>
         Near = 1,
-        /// <summary>
-        /// Indicates that a view volume outline should be drawn from the origin to the far plane.
-        /// </summary>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.Far']/*"/>
         Far = 2
     }
 }

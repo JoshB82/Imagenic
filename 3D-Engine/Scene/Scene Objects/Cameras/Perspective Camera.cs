@@ -2,7 +2,10 @@
 
 namespace _3D_Engine
 {
-    public class Perspective_Camera : Camera
+    /// <summary>
+    /// Handles creation of a <see cref="Perspective_Camera"/>.
+    /// </summary>
+    public sealed class Perspective_Camera : Camera
     {
         #region Fields and Properties
 

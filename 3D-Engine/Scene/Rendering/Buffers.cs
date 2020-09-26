@@ -22,13 +22,11 @@ namespace _3D_Engine
             }
         }
 
-
-
-        private void Textured_Check_Against_Z_Buffer(int x, int y, float z, int tx, int ty, Bitmap texture)
+        private void Textured_Check_Against_Z_Buffer(Bitmap texture, int x, int y, float z, int tx, int ty)
         {
             try
             {
-                if (z < z_buffer[x][y])
+                if (z.Approx_Less_Than(z_buffer[x][y], 1E-4f))
                 {
                     z_buffer[x][y] = z;
                     colour_buffer[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);
@@ -36,7 +34,7 @@ namespace _3D_Engine
             }
             catch (IndexOutOfRangeException e)
             {
-                throw new IndexOutOfRangeException("Attempted to draw outside the canvas.", e);
+                throw new IndexOutOfRangeException($"Attempted to render outside the canvas at ({x}, {y}, {z})", e);
             }
         }
     }

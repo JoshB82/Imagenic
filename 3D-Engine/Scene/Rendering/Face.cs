@@ -11,7 +11,6 @@
  */
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace _3D_Engine
@@ -115,21 +114,25 @@ namespace _3D_Engine
                     // afterwards?
                     float tx1 = face.T1.x * texture_width;
                     float ty1 = face.T1.y * texture_height;
+                    float tz1 = face.T1.z;
                     float tx2 = face.T2.x * texture_width;
                     float ty2 = face.T2.y * texture_height;
+                    float tz2 = face.T2.z;
                     float tx3 = face.T3.x * texture_width;
                     float ty3 = face.T3.y * texture_height;
+                    float tz3 = face.T3.z;
 
                     // Sort the vertices by their y-co-ordinate
                     Textured_Sort_By_Y(
-                        ref x1, ref y1, ref z1, ref tx1, ref ty1,
-                        ref x2, ref y2, ref z2, ref tx2, ref ty2,
-                        ref x3, ref y3, ref z3, ref tx3, ref ty3);
+                        ref x1, ref y1, ref tx1, ref ty1, ref tz1,
+                        ref x2, ref y2, ref tx2, ref ty2, ref tz2,
+                        ref x3, ref y3, ref tx3, ref ty3, ref tz3);
 
+                    // Generate z-buffer
                     Textured_Triangle(face.Texture_Object.File,
-                        x1, y1, z1, tx1, ty1,
-                        x2, y2, z2, tx2, ty2,
-                        x3, y3, z3, tx3, ty3);
+                        x1, y1, tx1, ty1, tz1,
+                        x2, y2, tx2, ty2, tz2,
+                        x3, y3, tx3, ty3, tz3);
                 }
                 else
                 {
@@ -149,7 +152,10 @@ namespace _3D_Engine
         }
 
         // Shadow Map Check (SMC)
-        private void SMC_Camera_Perspective(ref Color point_colour, in Matrix4x4 window_to_camera_screen, in Matrix4x4 camera_screen_to_world, int x, int y, float z, Bitmap bitmap)
+        private void SMC_Camera_Perspective(ref Color point_colour,
+            in Matrix4x4 window_to_camera_screen,
+            in Matrix4x4 camera_screen_to_world,
+            int x, int y, float z, Bitmap bitmap)
         {
             // Move the point from window space to camera-screen space
             Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);

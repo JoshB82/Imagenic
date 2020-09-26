@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing.Imaging;
-using System.IO;
 
 namespace _3D_Engine
 {
+    /// <summary>
+    /// Handles creation of a <see cref="Scene"/>.
+    /// </summary>
     public sealed partial class Scene
     {
         #region Fields and Properties
@@ -23,17 +25,17 @@ namespace _3D_Engine
 
         public Camera Render_Camera { get; set; }
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
         public PictureBox Canvas_Box { get; set; }
-        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
         public Color Background_Colour { get; set; } = Color.White;
 
         // Scene contents
-        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
         public readonly List<Camera> Cameras = new List<Camera>();
-        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
         public readonly List<Light> Lights = new List<Light>();
-        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
         public readonly List<Mesh> Meshes = new List<Mesh>();
 
         #endregion
@@ -45,7 +47,7 @@ namespace _3D_Engine
 
         private int width, height;
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Width']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Width']/*"/>
         public int Width
         {
             get => width;
@@ -58,7 +60,7 @@ namespace _3D_Engine
                 }
             }
         }
-        /// <include file="Help_5.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Height']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Height']/*"/>
         public int Height
         {
             get => height;
@@ -259,7 +261,7 @@ namespace _3D_Engine
                             if (z_buffer[x][y] != out_of_bounds_value)
                             {
                                 // Move the point from window space to world space and apply lighting
-                                Apply_Lighting(window_to_world * new Vector4D(x, y, z_buffer[x][y]), ref colour_buffer[x][y], x, y,null);
+                                Apply_Lighting(window_to_world * new Vector4D(x, y, z_buffer[x][y]), ref colour_buffer[x][y], x, y, null);
                             }
                         }
                     }

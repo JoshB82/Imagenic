@@ -58,6 +58,10 @@ namespace _3D_Engine
             return Acos(quotient);
         }
 
+        /// <summary>
+        /// Finds the magnitude of a <see cref="Vector2D"/>.
+        /// </summary>
+        /// <returns><see cref="Vector2D"/> magnitude.</returns>
         public float Magnitude() => Sqrt(Squared_Magnitude());
 
         public float Squared_Magnitude() => x * x + y * y;
@@ -75,7 +79,7 @@ namespace _3D_Engine
 
         #endregion
 
-        #region Vector Operations
+        #region Vector Operations (Operator Overloading)
 
         public static Vector2D operator +(Vector2D v1, Vector2D v2) => new Vector2D(v1.x + v2.x, v1.y + v2.y);
 

@@ -15,7 +15,7 @@ using static System.MathF;
 
 namespace _3D_Engine
 {
-    /// <include file="Help_5.xml" path="doc/members/member[@name='T:_3D_Engine.Matrix4x4']/*"/>
+    /// <include file="Help_7.xml" path="doc/members/member[@name='T:_3D_Engine.Matrix4x4']/*"/>
     public struct Matrix4x4 : IEquatable<Matrix4x4>
     {
         #region Fields and Properties
@@ -30,7 +30,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float)']/*"/>
         public Matrix4x4(
             float m00, float m01, float m02, float m03, 
             float m10, float m11, float m12, float m13, 
@@ -55,7 +55,7 @@ namespace _3D_Engine
             (m30, m31, m32, m33) = (elements[3, 0], elements[3, 1], elements[3, 2], elements[3, 3]);
         }
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float[][])']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float[][])']/*"/>
         public Matrix4x4(float[][] elements)
         {
             if (elements.Length != 4 ||
@@ -82,7 +82,7 @@ namespace _3D_Engine
 
         #region Matrix Operations (Common)
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Determinant']/*"/> // source!
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Determinant']/*"/> // source!
         public float Determinant()
         {
             float d1 = m20 * m31 - m21 * m30;
@@ -99,7 +99,7 @@ namespace _3D_Engine
             - m03 * (m10 * d4 - m11 * d2 + m12 * d1);
         }
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Inverse']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Inverse']/*"/>
         public Matrix4x4 Inverse()
         {
             float d1 = m10 * m21 - m11 * m20;
@@ -148,7 +148,7 @@ namespace _3D_Engine
             ) / det;
         }
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Transpose']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Transpose']/*"/>
         public Matrix4x4 Transpose() =>
             new Matrix4x4
             (
@@ -158,7 +158,7 @@ namespace _3D_Engine
                 m03, m13, m23, m33
             );
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.ToString']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.ToString']/*"/>
         public override string ToString() =>
             $"({m00}, {m01}, {m02}, {m03}, \n" +
             $"{m10}, {m11}, {m12}, {m13}, \n" +
@@ -169,7 +169,7 @@ namespace _3D_Engine
 
         #region Matrix Operations (Operator Overloading)
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Addition(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Addition(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator +(Matrix4x4 m1, Matrix4x4 m2) =>
             new Matrix4x4()
             {
@@ -179,7 +179,7 @@ namespace _3D_Engine
                 m30 = m1.m30 + m2.m30, m31 = m1.m31 + m2.m31, m32 = m1.m32 + m2.m32, m33 = m1.m33 + m2.m33
             };
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator -(Matrix4x4 m1, Matrix4x4 m2) =>
             new Matrix4x4()
             {
@@ -189,7 +189,7 @@ namespace _3D_Engine
                 m30 = m1.m30 - m2.m30, m31 = m1.m31 - m2.m31, m32 = m1.m32 - m2.m32, m33 = m1.m33 - m2.m33
             };
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator *(Matrix4x4 m1, Matrix4x4 m2) =>
             new Matrix4x4
             (
@@ -211,7 +211,7 @@ namespace _3D_Engine
                 m1.m30 * m2.m03 + m1.m31 * m2.m13 + m1.m32 * m2.m23 + m1.m33 * m2.m33
             );
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)']/*"/>
         public static Vector4D operator *(Matrix4x4 m, Vector4D v) => 
             new Vector4D(
                 m.m00 * v.x + m.m01 * v.y + m.m02 * v.z + m.m03 * v.w,
@@ -220,7 +220,7 @@ namespace _3D_Engine
                 m.m30 * v.x + m.m31 * v.y + m.m32 * v.z + m.m33 * v.w
             );
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Float)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Float)']/*"/>
         public static Matrix4x4 operator *(Matrix4x4 m, float scalar) =>
             new Matrix4x4()
             {
@@ -232,7 +232,7 @@ namespace _3D_Engine
 
         public static Matrix4x4 operator *(float scalar, Matrix4x4 m) => m * scalar;
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Float)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Float)']/*"/>
         public static Matrix4x4 operator /(Matrix4x4 m, float scalar) =>
             new Matrix4x4()
             {

@@ -3,28 +3,28 @@ using static System.MathF;
 
 namespace _3D_Engine
 {
-    /// <include file="Help_5.xml" path="doc/members/member[@name='T:_3D_Engine.Quaternion']/*"/>
+    /// <include file="Help_7.xml" path="doc/members/member[@name='T:_3D_Engine.Quaternion']/*"/>
     public struct Quaternion : IEquatable<Quaternion>
     {
         #region Fields and Parameters
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Quaternion.q1']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Quaternion.q1']/*"/>
         public float q1;
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Quaternion.q2']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Quaternion.q2']/*"/>
         public float q2;
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Quaternion.q3']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Quaternion.q3']/*"/>
         public float q3;
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='F:_3D_Engine.Quaternion.q4']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Quaternion.q4']/*"/>
         public float q4;
 
         #endregion
 
         #region Constructors
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,System.Float,System.Float,System.Float)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,System.Float,System.Float,System.Float)']/*"/>
         public Quaternion(float q1, float q2, float q3, float q4)
         {
             this.q1 = q1;
@@ -33,7 +33,7 @@ namespace _3D_Engine
             this.q4 = q4;
         }
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float[])']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float[])']/*"/>
         public Quaternion(float[] elements)
         {
             q1 = elements[0];
@@ -42,7 +42,7 @@ namespace _3D_Engine
             q4 = elements[3];
         }
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(_3D_Engine.Vector4D)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(_3D_Engine.Vector4D)']/*"/>
         public Quaternion(Vector4D v)
         {
             q1 = v.x;
@@ -51,7 +51,7 @@ namespace _3D_Engine
             q4 = v.w;
         }
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,_3D_Engine.Vector3D)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,_3D_Engine.Vector3D)']/*"/>
         public Quaternion(float scalar, Vector3D v)
         {
             q1 = scalar;
@@ -71,40 +71,40 @@ namespace _3D_Engine
 
         #region Quaternion Operations (Common)
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Magnitude']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Magnitude']/*"/>
         public float Magnitude() => Sqrt(Squared_Magnitude());
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Squared_Magnitude']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Squared_Magnitude']/*"/>
         public float Squared_Magnitude() => q1 * q1 + q2 * q2 + q3 * q3 + q4 * q4;
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Normalise']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Normalise']/*"/>
         public Quaternion Normalise() =>
             this.Approx_Equals(Quaternion.Zero, 1E-6f)
                 ? throw new ArgumentException("Cannot normalise a zeroed quaternion.")
                 : this / Magnitude();
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.ToString']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.ToString']/*"/>
         public override string ToString() => $"({q1}, {q2}, {q3}, {q4})";
 
         #endregion
 
         #region Quaternion Operations (Operator Overloading)
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Addition(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Addition(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
         public static Quaternion operator +(Quaternion q1, Quaternion q2) => new Quaternion(q1.q1 + q2.q1, q1.q2 + q2.q2, q1.q3 + q2.q3, q1.q4 + q2.q4);
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Subtraction(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Subtraction(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
         public static Quaternion operator -(Quaternion q1, Quaternion q2) => new Quaternion(q1.q1 - q2.q1, q1.q2 - q2.q2, q1.q3 - q2.q3, q1.q4 - q2.q4);
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
         public static Quaternion operator *(Quaternion q1, Quaternion q2) => new Quaternion(q1.q1 * q2.q1 - q1.q2 * q2.q2 - q1.q3 * q2.q3 - q1.q4 * q2.q4, q1.q1 * q2.q2 - q1.q2 * q2.q1 - q1.q3 * q2.q4 - q1.q4 * q2.q3, q1.q1 * q2.q3 - q1.q2 * q2.q4 - q1.q3 * q2.q1 - q1.q4 * q2.q2, q1.q1 * q2.q4 - q1.q2 * q2.q3 - q1.q3 * q2.q2 - q1.q4 * q2.q1);
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Float)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Float)']/*"/>
         public static Quaternion operator *(Quaternion q, float scalar) => new Quaternion(q.q1 * scalar, q.q2 * scalar, q.q3 * scalar, q.q4 * scalar);
 
         public static Quaternion operator *(float scalar, Quaternion q) => q * scalar;
 
-        /// <include file="Help_5.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Float)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Float)']/*"/>
         public static Quaternion operator /(Quaternion q, float scalar) => new Quaternion(q.q1 / scalar, q.q2 / scalar, q.q3 / scalar, q.q4 / scalar);
 
         #endregion

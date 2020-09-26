@@ -75,6 +75,10 @@ namespace _3D_Engine
 
         public Vector3D Cross_Product(Vector3D v) => new Vector3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
 
+        /// <summary>
+        /// Finds the magnitude of a <see cref="Vector3D"/>.
+        /// </summary>
+        /// <returns><see cref="Vector3D"/> magnitude.</returns>
         public float Magnitude() => Sqrt(Squared_Magnitude());
 
         public float Squared_Magnitude() => x * x + y * y + z * z;
@@ -119,7 +123,7 @@ namespace _3D_Engine
 
         #endregion
 
-        #region Vector Operations
+        #region Vector Operations (Operator Overloading)
 
         public static Vector3D operator +(Vector3D v1, Vector3D v2) => new Vector3D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 

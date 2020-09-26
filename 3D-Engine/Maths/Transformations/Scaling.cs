@@ -41,9 +41,9 @@
         /// <summary>
         /// Creates a matrix for scaling in all directions.
         /// </summary>
-        /// <param name="scale_factor_x">Factor to scale by in x-direction.</param>
-        /// <param name="scale_factor_y">Factor to scale by in y-direction.</param>
-        /// <param name="scale_factor_z">Factor to scale by in z-direction.</param>
+        /// <param name="scale_factor_x">Factor to scale by in the x-direction.</param>
+        /// <param name="scale_factor_y">Factor to scale by in the y-direction.</param>
+        /// <param name="scale_factor_z">Factor to scale by in the z-direction.</param>
         /// <returns>Scaling matrix.</returns>
         public static Matrix4x4 Scale(float scale_factor_x, float scale_factor_y, float scale_factor_z)
         {

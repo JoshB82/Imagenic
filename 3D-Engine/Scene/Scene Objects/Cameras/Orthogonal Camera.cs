@@ -3,7 +3,10 @@ using static System.MathF;
 
 namespace _3D_Engine
 {
-    public class Orthogonal_Camera : Camera
+    /// <summary>
+    /// Handles creation of a <see cref="Orthogonal_Camera"/>.
+    /// </summary>
+    public sealed class Orthogonal_Camera : Camera
     {
         #region Fields and Properties
 
