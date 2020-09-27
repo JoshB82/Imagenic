@@ -26,7 +26,7 @@ namespace _3D_Engine
                 Set_Shadow_Map();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m00 = (float)2 / shadow_map_width;
+                Light_View_to_Light_Screen.m00 = 2f / shadow_map_width;
 
                 // Update left and right clipping planes
                 Light_View_Clipping_Planes[0].Point.x = (float) -shadow_map_width / 2;
@@ -44,7 +44,7 @@ namespace _3D_Engine
                 Set_Shadow_Map();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m11 = (float)2 / shadow_map_height;
+                Light_View_to_Light_Screen.m11 = 2f / shadow_map_height;
 
                 // Update top and bottom clipping planes
                 Light_View_Clipping_Planes[1].Point.y = (float) -shadow_map_height / 2;

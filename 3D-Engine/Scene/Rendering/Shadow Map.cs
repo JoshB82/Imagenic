@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        // other clipping?
         public void Generate_Shadow_Map(Light light)
         {
             foreach (Mesh mesh in Meshes)
@@ -36,7 +34,7 @@ namespace _3D_Engine
             if (dimension == 3)
             {
                 Vector3D light_to_face = new Vector3D(face.P1) - light.World_Origin;
-                Vector3D normal = Vector3D.Normal_From_Plane(new Vector3D(face.P1), new Vector3D(face.P2), new Vector3D(face.P3));
+                Vector3D normal = Vector3D.Normal_From_Plane(face.P1, face.P2, face.P3);
 
                 if (light_to_face * normal >= 0) return;
             }
@@ -75,8 +73,8 @@ namespace _3D_Engine
                     continue;
                 }
 
-                // Move the new triangles from light-screen space to window space
-                clipped_face.Apply_Matrix(screen_to_window);
+                // Move the new triangles from light-screen space to light-window space
+                clipped_face.Apply_Matrix(light.Light_Screen_to_Light_Window);
                 
                 // Round the vertices
                 int x1 = clipped_face.P1.x.Round_to_Int();
@@ -109,7 +107,7 @@ namespace _3D_Engine
 
             if (x < light.Shadow_Map_Width && y < light.Shadow_Map_Height)
             {
-                if (z < light.Shadow_Map[x][y])
+                if (z.Approx_Less_Than(light.Shadow_Map[x][y], 1E-4f))
                 {
                     light.Shadow_Map[x][y] = z;
                 }

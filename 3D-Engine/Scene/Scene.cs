@@ -268,11 +268,11 @@ namespace _3D_Engine
                 }
                 else
                 {
-                    Trace.WriteLine("start");
-                    string file_path = "C:\\Users\\jbrya\\Desktop\\image.bmp";
-                    string file_directory = System.IO.Path.GetDirectoryName(file_path);
-                    if (!System.IO.Directory.Exists(file_directory)) System.IO.Directory.CreateDirectory(file_directory);
-
+                    //Trace.WriteLine("start");
+                    //string file_path = "C:\\Users\\jbrya\\Desktop\\image2.bmp";
+                    //string file_directory = System.IO.Path.GetDirectoryName(file_path);
+                    //if (!System.IO.Directory.Exists(file_directory)) System.IO.Directory.CreateDirectory(file_directory);
+                    
                     Bitmap shadow_map_bitmap = new Bitmap(Lights[0].Shadow_Map_Width, Lights[0].Shadow_Map_Height);
 
                     for (int x = 0; x < width; x++)
@@ -282,14 +282,18 @@ namespace _3D_Engine
                             // check all floats and ints
                             if (z_buffer[x][y] != out_of_bounds_value)
                             {
-                                SMC_Camera_Perspective(ref colour_buffer[x][y], screen_to_window_inverse, Render_Camera.Camera_Screen_to_World, x, y, z_buffer[x][y], shadow_map_bitmap);
+                                SMC_Camera_Perspective(ref colour_buffer[x][y],
+                                    screen_to_window_inverse,
+                                    Render_Camera.Camera_Screen_to_World,
+                                    x, y, z_buffer[x][y], shadow_map_bitmap);
                             }
                         }
                     }
 
-                    shadow_map_bitmap.Save(file_path, System.Drawing.Imaging.ImageFormat.Bmp);
-                    
-                    Trace.WriteLine("finish");
+                    //shadow_map_bitmap.Save(file_path, System.Drawing.Imaging.ImageFormat.Bmp);
+                    //shadow_map_bitmap.Dispose();
+
+                    //Trace.WriteLine("finish");
                 }
                 
                 // Draw edges
@@ -337,12 +341,21 @@ namespace _3D_Engine
                     }
                 }
 
-                // Draw camera views
+                // Draw camera volumes
                 foreach (Camera camera in Cameras)
                 {
-                    if (camera.Volume_Style > 0) Draw_Camera(camera, camera.Model_to_World, Render_Camera.World_to_Camera_View, Render_Camera.Camera_View_to_Camera_Screen);
+                    if (camera.Volume_Style > 0)
+                    {
+                        Draw_Camera(camera, camera.Model_to_World, Render_Camera.World_to_Camera_View, Render_Camera.Camera_View_to_Camera_Screen);
+                    }
                 }
                 
+                // Draw light volumes
+                foreach (Light light in Lights)
+                {
+                    if (light.Volume_Style > 0) {}
+                }
+
                 // Draw all points
                 Draw_Colour_Buffer(new_frame, colour_buffer);
                 Canvas_Box.Image = new_frame;

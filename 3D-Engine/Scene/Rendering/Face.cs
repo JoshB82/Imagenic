@@ -154,7 +154,7 @@ namespace _3D_Engine
         // Shadow Map Check (SMC)
         private void SMC_Camera_Perspective(ref Color point_colour,
             in Matrix4x4 window_to_camera_screen,
-            in Matrix4x4 camera_screen_to_world,
+            in Matrix4x4 camera_screen_to_world, 
             int x, int y, float z, Bitmap bitmap)
         {
             // Move the point from window space to camera-screen space
@@ -201,11 +201,6 @@ namespace _3D_Engine
 
                     //Trace.WriteLine("The following light point has been calculated: "+new Vector3D(light_point_x,light_point_y,light_point_z));
 
-                    int value = (255 * ((light_point_z + 1) / 2)).Round_to_Int();
-                    Color greyscale_colour = Color.FromArgb(255, value, value, value);
-                    bitmap.SetPixel(light_point_x, light_point_y, greyscale_colour);
-
-
                     if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width &&
                         light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                     {
@@ -214,6 +209,15 @@ namespace _3D_Engine
                             // Point is not in shadow and light does contribute to the point's overall colour
                             point_colour = point_colour.Mix(new_light_colour);
                             light_applied = true;
+
+                            /*
+                            if (light_point_z < -1) light_point_z = -1;
+                            if (light_point_z > 1) light_point_z = 1;
+
+                            int value = (255 * ((light_point_z + 1) / 2)).Round_to_Int();
+                            Color greyscale_colour = Color.FromArgb(255, value, value, value);
+                            bitmap.SetPixel(light_point_x, light_point_y, greyscale_colour);
+                            */
 
                             // Trace.WriteLine("Lighting was added at "+new Vector3D(light_point_x,light_point_y,light_point_z)+" and the shadow map point z was: "+light.Shadow_Map[light_point_x][light_point_y]);
                         }
