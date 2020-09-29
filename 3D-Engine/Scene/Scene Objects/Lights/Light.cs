@@ -10,6 +10,7 @@
  * Handles creation of a light.
  */
 
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -34,7 +35,71 @@ namespace _3D_Engine
         /// </summary>
         public bool Draw_Icon { get; set; } = false;
 
-        public Volume_Outline Volume_Style = Volume_Outline.None;
+        // View Volume
+        private Volume_Outline volume_style = Volume_Outline.None;
+
+        public Volume_Outline Volume_Style
+        {
+            get => volume_style;
+            set
+            {
+                volume_style = value;
+
+                List<Edge> volume_edges = new List<Edge>();
+
+                float semi_width = Shadow_Map_Width / 2f, semi_height = Shadow_Map_Height / 2f;
+
+                Vertex zero_point = new Vertex(Vector4D.Zero);
+                Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, Shadow_Map_Z_Near));
+                Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, Shadow_Map_Z_Near));
+                Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Shadow_Map_Z_Near));
+                Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, Shadow_Map_Z_Near));
+
+                if ((volume_style & Volume_Outline.Near) == Volume_Outline.Near)
+                {
+                    volume_edges.AddRange(new[]
+                    {
+                        new Edge(zero_point, near_top_left_point), // Near top left
+                        new Edge(zero_point, near_top_right_point), // Near top right
+                        new Edge(zero_point, near_bottom_left_point), // Near bottom left
+                        new Edge(zero_point, near_bottom_right_point), // Near bottom right
+                        new Edge(near_top_left_point, near_top_right_point), // Near top
+                        new Edge(near_bottom_left_point, near_bottom_right_point), // Near bottom
+                        new Edge(near_top_left_point, near_bottom_left_point), // Near left
+                        new Edge(near_top_right_point, near_bottom_right_point) // Near right
+                    });
+                }
+
+                if ((volume_style & Volume_Outline.Far) == Volume_Outline.Far)
+                {
+                    float ratio = (this is Distant_Light) ? 1 : Shadow_Map_Z_Far / Shadow_Map_Z_Near;
+                    float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
+
+                    Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Shadow_Map_Z_Far));
+                    Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, Shadow_Map_Z_Far));
+                    Vertex far_bottom_left_point =
+                        new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Shadow_Map_Z_Far));
+                    Vertex far_bottom_right_point =
+                        new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Shadow_Map_Z_Far));
+
+                    volume_edges.AddRange(new[]
+                    {
+                        new Edge(near_top_left_point, far_top_left_point), // Far top left
+                        new Edge(near_top_right_point, far_top_right_point), // Far top right
+                        new Edge(near_bottom_left_point, far_bottom_left_point), // Far bottom left
+                        new Edge(near_bottom_right_point, far_bottom_right_point), // Far bottom right
+                        new Edge(far_top_left_point, far_top_right_point), // Far top
+                        new Edge(far_bottom_left_point, far_bottom_right_point), // Far bottom
+                        new Edge(far_top_left_point, far_bottom_left_point), // Far left
+                        new Edge(far_top_right_point, far_bottom_right_point) // Far right
+                    });
+                }
+
+                Volume_Edges = volume_edges.ToArray();
+            }
+        }
+
+        internal Edge[] Volume_Edges = new Edge[0];
 
         // Matrices
         internal Matrix4x4 World_to_Light_View, Light_View_to_Light_Screen, Light_Screen_to_Light_Window;

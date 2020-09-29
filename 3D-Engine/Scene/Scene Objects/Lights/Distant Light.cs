@@ -29,8 +29,8 @@ namespace _3D_Engine
                 Light_View_to_Light_Screen.m00 = 2f / shadow_map_width;
 
                 // Update left and right clipping planes
-                Light_View_Clipping_Planes[0].Point.x = (float) -shadow_map_width / 2;
-                Light_View_Clipping_Planes[3].Point.x = (float) shadow_map_width / 2;
+                Light_View_Clipping_Planes[0].Point.x = -shadow_map_width / 2f;
+                Light_View_Clipping_Planes[3].Point.x = shadow_map_width / 2f;
             }
         }
         public override int Shadow_Map_Height
@@ -47,8 +47,8 @@ namespace _3D_Engine
                 Light_View_to_Light_Screen.m11 = 2f / shadow_map_height;
 
                 // Update top and bottom clipping planes
-                Light_View_Clipping_Planes[1].Point.y = (float) -shadow_map_height / 2;
-                Light_View_Clipping_Planes[4].Point.y = (float) shadow_map_height / 2;
+                Light_View_Clipping_Planes[1].Point.y = -shadow_map_height / 2f;
+                Light_View_Clipping_Planes[4].Point.y = shadow_map_height / 2f;
             }
         }
         public override float Shadow_Map_Z_Near

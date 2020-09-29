@@ -190,12 +190,15 @@ namespace _3D_Engine
 
                     // Move the point from light-view space to light-screen space
                     Vector4D light_screen_space_point = light.Light_View_to_Light_Screen * light_view_space_point;
-                    if (light is Point_Light or Spotlight) light_screen_space_point /= light_screen_space_point.w;
+                    if (light is Point_Light or Spotlight)
+                    {
+                        light_screen_space_point /= light_screen_space_point.w;
+                    }
 
                     Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * light_screen_space_point;
 
                     // Round the points
-                    int light_point_x = light_window_space_point.x.Round_to_Int(); //?
+                    int light_point_x = light_window_space_point.x.Round_to_Int();
                     int light_point_y = light_window_space_point.y.Round_to_Int();
                     float light_point_z = light_window_space_point.z;
 
@@ -204,21 +207,19 @@ namespace _3D_Engine
                     if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width &&
                         light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                     {
-                        if (light_point_z <= light.Shadow_Map[light_point_x][light_point_y])
+                        if (light_point_z.Approx_Less_Than_Equals(light.Shadow_Map[light_point_x][light_point_y], 1E-4F))
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
                             point_colour = point_colour.Mix(new_light_colour);
                             light_applied = true;
 
-                            /*
-                            if (light_point_z < -1) light_point_z = -1;
-                            if (light_point_z > 1) light_point_z = 1;
+                            //if (light_point_z < -1) light_point_z = -1;
+                            //if (light_point_z > 1) light_point_z = 1;
 
-                            int value = (255 * ((light_point_z + 1) / 2)).Round_to_Int();
-                            Color greyscale_colour = Color.FromArgb(255, value, value, value);
-                            bitmap.SetPixel(light_point_x, light_point_y, greyscale_colour);
-                            */
-
+                            //int value = (255 * ((light_point_z + 1) / 2)).Round_to_Int();
+                            //Color greyscale_colour = Color.FromArgb(255, value, value, value);
+                            //bitmap.SetPixel(light_point_x, light_point_y, greyscale_colour);
+                            
                             // Trace.WriteLine("Lighting was added at "+new Vector3D(light_point_x,light_point_y,light_point_z)+" and the shadow map point z was: "+light.Shadow_Map[light_point_x][light_point_y]);
                         }
                     }

@@ -11,7 +11,6 @@
  */
 
 using System;
-using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -19,18 +18,78 @@ namespace _3D_Engine
     public struct Matrix4x4 : IEquatable<Matrix4x4>
     {
         #region Fields and Properties
-        
+
         // Matrix contents
-        public float m00, m01, m02, m03;
-        public float m10, m11, m12, m13;
-        public float m20, m21, m22, m23;
-        public float m30, m31, m32, m33;
+        /// <summary>
+        /// From the top left, the value in the first row and first column.
+        /// </summary>
+        public float m00;
+        /// <summary>
+        /// From the top left, the value in the first row and second column.
+        /// </summary>
+        public float m01;
+        /// <summary>
+        /// From the top left, the value in the first row and third column.
+        /// </summary>
+        public float m02;
+        /// <summary>
+        /// From the top left, the value in the first row and fourth column.
+        /// </summary>
+        public float m03;
+        /// <summary>
+        /// From the top left, the value in the second row and first column.
+        /// </summary>
+        public float m10;
+        /// <summary>
+        /// From the top left, the value in the second row and second column.
+        /// </summary>
+        public float m11;
+        /// <summary>
+        /// From the top left, the value in the second row and third column.
+        /// </summary>
+        public float m12;
+        /// <summary>
+        /// From the top left, the value in the second row and fourth column.
+        /// </summary>
+        public float m13;
+        /// <summary>
+        /// From the top left, the value in the third row and first column.
+        /// </summary>
+        public float m20;
+        /// <summary>
+        /// From the top left, the value in the third row and second column.
+        /// </summary>
+        public float m21;
+        /// <summary>
+        /// From the top left, the value in the third row and third column.
+        /// </summary>
+        public float m22;
+        /// <summary>
+        /// From the top left, the value in the third row and fourth column.
+        /// </summary>
+        public float m23;
+        /// <summary>
+        /// From the top left, the value in the fourth row and first column.
+        /// </summary>
+        public float m30;
+        /// <summary>
+        /// From the top left, the value in the fourth row and second column.
+        /// </summary>
+        public float m31;
+        /// <summary>
+        /// From the top left, the value in the fourth row and third column.
+        /// </summary>
+        public float m32;
+        /// <summary>
+        /// From the top left, the value in the fourth row and fourth column.
+        /// </summary>
+        public float m33;
 
         #endregion
 
         #region Constructors
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float)']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)']/*"/>
         public Matrix4x4(
             float m00, float m01, float m02, float m03, 
             float m10, float m11, float m12, float m13, 
@@ -43,11 +102,15 @@ namespace _3D_Engine
             (this.m30, this.m31, this.m32, this.m33) = (m30, m31, m32, m33);
         }
 
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> from a two-dimensional array of elements.
+        /// </summary>
+        /// <param name="elements">Array containing elements to be entered into the <see cref="Matrix4x4"/>.</param>
         public Matrix4x4(float[,] elements)
         {
-            if (elements.GetLength(0) != 4 ||
-                elements.GetLength(1) != 4)
-                throw new ArgumentException("\"elements\" must be of size 4x4.", nameof(elements));
+            if (elements.GetLength(0) < 4 ||
+                elements.GetLength(1) < 4)
+                throw new ArgumentException("Parameter \"elements\" must at least be of size 4x4.", nameof(elements));
 
             (m00, m01, m02, m03) = (elements[0, 0], elements[0, 1], elements[0, 2], elements[0, 3]);
             (m10, m11, m12, m13) = (elements[1, 0], elements[1, 1], elements[1, 2], elements[1, 3]);
@@ -55,15 +118,15 @@ namespace _3D_Engine
             (m30, m31, m32, m33) = (elements[3, 0], elements[3, 1], elements[3, 2], elements[3, 3]);
         }
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float[][])']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Single[][])']/*"/>
         public Matrix4x4(float[][] elements)
         {
-            if (elements.Length != 4 ||
-                elements[0].Length != 4 ||
-                elements[1].Length != 4 ||
-                elements[2].Length != 4 ||
-                elements[3].Length != 4)
-                throw new ArgumentException("\"elements\" must be of size 4x4.");
+            if (elements.Length < 4 ||
+                elements[0].Length < 4 ||
+                elements[1].Length < 4 ||
+                elements[2].Length < 4 ||
+                elements[3].Length < 4)
+                throw new ArgumentException("Parameter \"elements\" must at least be of size 4x4.", nameof(elements));
 
             (m00, m01, m02, m03) = (elements[0][0], elements[0][1], elements[0][2], elements[0][3]);
             (m10, m11, m12, m13) = (elements[1][0], elements[1][1], elements[1][2], elements[1][3]);
@@ -75,8 +138,8 @@ namespace _3D_Engine
 
         #region Common Matrices
 
-        public static Matrix4x4 Zero = new Matrix4x4();
-        public static Matrix4x4 Identity = new Matrix4x4 { m00 = 1, m11 = 1, m22 = 1, m33 = 1 };
+        public static readonly Matrix4x4 Zero = new Matrix4x4();
+        public static readonly Matrix4x4 Identity = new Matrix4x4 { m00 = 1, m11 = 1, m22 = 1, m33 = 1 };
 
         #endregion
 

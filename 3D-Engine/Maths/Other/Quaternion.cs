@@ -33,9 +33,10 @@ namespace _3D_Engine
             this.q4 = q4;
         }
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float[])']/*"/>
+        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Single[])']/*"/>
         public Quaternion(float[] elements)
         {
+            if (elements.Length < 4) throw new ArgumentException("Parameter \"elements\" must at least be of size 4.", nameof(elements));
             q1 = elements[0];
             q2 = elements[1];
             q3 = elements[2];
@@ -64,8 +65,8 @@ namespace _3D_Engine
 
         #region Common Quaternions
 
-        public static Quaternion Zero = new Quaternion(0, 0, 0, 0);
-        public static Quaternion Identity = new Quaternion(1, 0, 0, 0);
+        public static readonly Quaternion Zero = new Quaternion(0, 0, 0, 0);
+        public static readonly Quaternion Identity = new Quaternion(1, 0, 0, 0);
 
         #endregion
 

@@ -1,4 +1,16 @@
-﻿using System.Drawing;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Handles creation of a scene and contains rendering methods.
+ */
+
+using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -13,24 +25,29 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        private static readonly object locker = new object();
-        private Bitmap new_frame;
         private Rectangle screen_rectangle;
-
-        private const byte out_of_bounds_value = 2;
 
         // Buffers
         private float[][] z_buffer;
         private Color[][] colour_buffer;
+        private const byte out_of_bounds_value = 2;
 
-        public Camera Render_Camera { get; set; }
-
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
-        public PictureBox Canvas_Box { get; set; }
+        // Components
         /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
         public Color Background_Colour { get; set; } = Color.White;
+        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
+        public PictureBox Canvas_Box { get; set; }
+        /// <summary>
+        /// The <see cref="Camera"/> containing the view that will be rendered on the screen.
+        /// </summary>
+        public Camera Render_Camera { get; set; }
 
-        // Scene contents
+        private Bitmap new_frame;
+        
+        // Miscellaneous
+        private static readonly object locker = new object();
+
+        // Contents
         /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
         public readonly List<Camera> Cameras = new List<Camera>();
         /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
@@ -38,10 +55,7 @@ namespace _3D_Engine
         /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
         public readonly List<Mesh> Meshes = new List<Mesh>();
 
-        #endregion
-
-        #region Dimensions
-
+        // Dimensions
         private Matrix4x4 screen_to_window, screen_to_window_inverse;
         private static readonly Matrix4x4 window_translate = Transform.Translate(new Vector3D(1, 1, 0));
 
@@ -268,10 +282,10 @@ namespace _3D_Engine
                 }
                 else
                 {
-                    //Trace.WriteLine("start");
-                    //string file_path = "C:\\Users\\jbrya\\Desktop\\image2.bmp";
-                    //string file_directory = System.IO.Path.GetDirectoryName(file_path);
-                    //if (!System.IO.Directory.Exists(file_directory)) System.IO.Directory.CreateDirectory(file_directory);
+                    /*Trace.WriteLine("start");
+                    string file_path = "C:\\Users\\jbrya\\Desktop\\image3.bmp";
+                    string file_directory = System.IO.Path.GetDirectoryName(file_path);
+                    if (!System.IO.Directory.Exists(file_directory)) System.IO.Directory.CreateDirectory(file_directory);*/
                     
                     Bitmap shadow_map_bitmap = new Bitmap(Lights[0].Shadow_Map_Width, Lights[0].Shadow_Map_Height);
 
@@ -293,7 +307,7 @@ namespace _3D_Engine
                     //shadow_map_bitmap.Save(file_path, System.Drawing.Imaging.ImageFormat.Bmp);
                     //shadow_map_bitmap.Dispose();
 
-                    //Trace.WriteLine("finish");
+                    Trace.WriteLine("finish");
                 }
                 
                 // Draw edges
@@ -344,16 +358,19 @@ namespace _3D_Engine
                 // Draw camera volumes
                 foreach (Camera camera in Cameras)
                 {
-                    if (camera.Volume_Style > 0)
+                    foreach (Edge edge in camera.Volume_Edges)
                     {
-                        Draw_Camera(camera, camera.Model_to_World, Render_Camera.World_to_Camera_View, Render_Camera.Camera_View_to_Camera_Screen);
+                        Draw_Edge(edge, camera.Model_to_World, Render_Camera.World_to_Camera_View, Render_Camera.Camera_View_to_Camera_Screen);
                     }
                 }
                 
                 // Draw light volumes
                 foreach (Light light in Lights)
                 {
-                    if (light.Volume_Style > 0) {}
+                    foreach (Edge edge in light.Volume_Edges)
+                    {
+                        Draw_Edge(edge, light.Model_to_World, Render_Camera.World_to_Camera_View, Render_Camera.Camera_View_to_Camera_Screen);
+                    }
                 }
 
                 // Draw all points

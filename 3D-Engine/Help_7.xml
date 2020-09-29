@@ -20,10 +20,33 @@
             </summary>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float,System.Float)']/*" />
+          <summary>
+            Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from 16 values.
+          </summary>
+          <param name="m00">From the top left, the value in the first row and first column.</param>
+          <param name="m01">From the top left, the value in the first row and second column.</param>
+          <param name="m02">From the top left, the value in the first row and third column.</param>
+          <param name="m03">From the top left, the value in the first row and fourth column.</param>
+          <param name="m10">From the top left, the value in the second row and first column.</param>
+          <param name="m11">From the top left, the value in the second row and second column.</param>
+          <param name="m12">From the top left, the value in the second row and third column.</param>
+          <param name="m13">From the top left, the value in the second row and fourth column.</param>
+          <param name="m20">From the top left, the value in the third row and first column.</param>
+          <param name="m21">From the top left, the value in the third row and second column.</param>
+          <param name="m22">From the top left, the value in the third row and third column.</param>
+          <param name="m23">From the top left, the value in the third row and fourth column.</param>
+          <param name="m30">From the top left, the value in the fourth row and first column.</param>
+          <param name="m31">From the top left, the value in the fourth row and second column.</param>
+          <param name="m32">From the top left, the value in the fourth row and third column.</param>
+          <param name="m33">From the top left, the value in the fourth row and fourth column.</param>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single[][])">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Float[][])']/*" />
+        <summary>
+          Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from a jagged array of elements.
+        </summary>
+        <param name="elements">
+          Array containing elements to be entered into the <see cref="T:_3D_Engine.Matrix4x4" />.
+        </param>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.Determinant">
             <summary>
@@ -33,7 +56,7 @@
         <member name="M:_3D_Engine.Matrix4x4.Inverse">
             <summary>
             Finds the inverse of a <see cref="T:_3D_Engine.Matrix4x4" />.
-            </summary><returns>Inverse <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
+            </summary><returns>Inverse of a <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.Transpose">
             <summary>
