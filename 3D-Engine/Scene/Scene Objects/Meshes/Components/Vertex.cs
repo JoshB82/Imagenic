@@ -7,14 +7,23 @@
     {
         #region Fields and Constructors
 
-        public Vector4D Point { get; set; }
         public Vector3D Normal { get; set; }
+        public Vector4D Point { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Vertex(Vector4D point) => Point = point;
+        public Vertex(Vector4D point)
+        {
+            Point = point;
+        }
+
+        public Vertex(Vector4D point, Vector3D normal)
+        {
+            Point = point;
+            Normal = normal;
+        }
 
         #endregion
     }

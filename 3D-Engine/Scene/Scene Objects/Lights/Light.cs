@@ -131,7 +131,7 @@ namespace _3D_Engine
             Light_Screen_to_Light_Window = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * window_translate;
         }
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='']/*"/>
 
         #endregion
 

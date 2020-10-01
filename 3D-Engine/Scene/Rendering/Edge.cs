@@ -10,61 +10,67 @@
  * Provides methods for generating data required to draw edges.
  */
 
+using System.Drawing;
+
 namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Draw_Edge(Edge edge,
-            in Matrix4x4 model_to_world,
-            in Matrix4x4 world_to_camera_view,
-            in Matrix4x4 camera_view_to_camera_screen)
+        private void Draw_Edge(
+            Edge edge,
+            ref Matrix4x4 model_to_camera_view,
+            ref Matrix4x4 camera_view_to_camera_screen)
+            => Draw_Edge(
+                edge.P1.Point,
+                edge.P2.Point,
+                edge.Colour,
+                ref model_to_camera_view,
+                ref camera_view_to_camera_screen);
+
+        private void Draw_Edge(
+            Vector4D point_1,
+            Vector4D point_2,
+            Color colour,
+            ref Matrix4x4 model_to_camera_view,
+            ref Matrix4x4 camera_view_to_camera_screen)
         {
-            // Reset face vertices
-            edge.Reset_Vertices();
-
-            // Move the edge from model space to world space
-            edge.Apply_Matrix(model_to_world);
-
-            // Move the edge from world space to camera-view space
-            edge.Apply_Matrix(world_to_camera_view);
+            // Move the edge from model space to camera-view space
+            point_1 = model_to_camera_view * point_1;
+            point_2 = model_to_camera_view * point_2;
 
             // Clip the edge in camera-view space
-            foreach (Clipping_Plane view_clipping_plane in Render_Camera.Camera_View_Clipping_Planes)
-            {
-                if (!Clip_Edge(view_clipping_plane.Point, view_clipping_plane.Normal, edge)) return;
-            }
+            if (!Clip_Edges(Render_Camera.Camera_View_Clipping_Planes, ref point_1, ref point_2)) return;
 
             // Move the edge from camera-view space to camera-screen space, including a correction for perspective
-            edge.Apply_Matrix(camera_view_to_camera_screen);
+            point_1 = camera_view_to_camera_screen * point_1;
+            point_2 = camera_view_to_camera_screen * point_2;
 
             if (Render_Camera is Perspective_Camera)
             {
-                edge.P1 /= edge.P1.w;
-                edge.P2 /= edge.P2.w; 
+                point_1 /= point_1.w;
+                point_2 /= point_2.w; 
             }
 
             // Clip the edge in camera-screen space
             if (Settings.Screen_Space_Clip)
             {
-                foreach (Clipping_Plane screen_clipping_plane in Camera.Camera_Screen_Clipping_Planes)
-                {
-                    if (!Clip_Edge(screen_clipping_plane.Point, screen_clipping_plane.Normal, edge)) return;
-                }
+                if (!Clip_Edges(Camera.Camera_Screen_Clipping_Planes, ref point_1, ref point_2)) return;
             }
 
             // Mode the edge from camera-screen space to window space
-            edge.Apply_Matrix(screen_to_window);
+            point_1 = screen_to_window * point_1;
+            point_2 = screen_to_window * point_2;
 
             // Round the vertices
-            int result_point_1_x = edge.P1.x.Round_to_Int();
-            int result_point_1_y = edge.P1.y.Round_to_Int();
-            float result_point_1_z = edge.P1.z;
-            int result_point_2_x = edge.P2.x.Round_to_Int();
-            int result_point_2_y = edge.P2.y.Round_to_Int();
-            float result_point_2_z = edge.P2.z;
+            int result_point_1_x = point_1.x.Round_to_Int();
+            int result_point_1_y = point_1.y.Round_to_Int();
+            float result_point_1_z = point_1.z;
+            int result_point_2_x = point_2.x.Round_to_Int();
+            int result_point_2_y = point_2.y.Round_to_Int();
+            float result_point_2_z = point_2.z;
 
             // Finally draw the line
-            Line(edge.Colour,
+            Line(colour,
                 result_point_1_x, result_point_1_y, result_point_1_z,
                 result_point_2_x, result_point_2_y, result_point_2_z);
         }

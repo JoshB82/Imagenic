@@ -17,92 +17,80 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Generate_Z_Buffer(Face face, int dimension,
-            in Matrix4x4 model_to_world,
-            in Matrix4x4 world_to_camera_view,
-            in Matrix4x4 camera_view_to_camera_screen)
+        private void Generate_Z_Buffer(
+            Face face,
+            int mesh_dimension,
+            ref Matrix4x4 model_to_camera_view,
+            ref Matrix4x4 camera_view_to_camera_screen)
         {
             // Reset the vertices to model space values
             face.Reset_Vertices();
 
-            // Move face from model space to world space
-            face.Apply_Matrix(model_to_world);
-
-            // Discard the face if it is not visible from the camera's point of view
-            if (dimension == 3)
+            // Draw outline if needed ??
+            if (face.Draw_Outline)
             {
-                Vector3D camera_to_face = new Vector3D(face.P1) - Render_Camera.World_Origin;
-                Vector3D normal = Vector3D.Normal_From_Plane(face.P1, face.P2, face.P3);
-
-                if (camera_to_face * normal >= 0) return;
+                Draw_Edge(face.p1, face.p2, Color.Black, ref model_to_camera_view, ref camera_view_to_camera_screen);
+                Draw_Edge(face.p1, face.p3, Color.Black, ref model_to_camera_view, ref camera_view_to_camera_screen);
+                Draw_Edge(face.p2, face.p3, Color.Black, ref model_to_camera_view, ref camera_view_to_camera_screen);
             }
 
-            // Draw outline if needed
-            if (face.Draw_Outline)//
-            {
-                Vertex vp1 = new Vertex(face.P1), vp2 = new Vertex(face.P2), vp3 = new Vertex(face.P3);
-                Draw_Edge(new Edge(vp1, vp2), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
-                Draw_Edge(new Edge(vp1, vp3), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
-                Draw_Edge(new Edge(vp2, vp3), model_to_world, world_to_camera_view, camera_view_to_camera_screen);
-            }
+            // Move the face from model space to camera-view space
+            face.Apply_Matrix(model_to_camera_view);
 
-            // Move the face from world space to camera-view space
-            face.Apply_Matrix(world_to_camera_view);
+            if (mesh_dimension == 3)
+            {
+                // Discard the face if it is not visible from the camera's point of view
+                if (new Vector3D(face.p1) * Vector3D.Normal_From_Plane(face.p1, face.p2, face.p3) >= 0) return;
+            }
 
             // Clip the face in camera-view space
             Queue<Face> face_clip_queue = new Queue<Face>();
             face_clip_queue.Enqueue(face);
-
             if (!Clip_Faces_In_Queue(face_clip_queue, Render_Camera.Camera_View_Clipping_Planes)) return;
 
             // Move the new triangles from camera-view space to camera-screen space, including a correction for perspective
-            foreach (Face clipped_face in face_clip_queue)
+            foreach (var clipped_face in face_clip_queue)
             {
                 clipped_face.Apply_Matrix(camera_view_to_camera_screen);
 
                 if (Render_Camera is Perspective_Camera)
                 {
-                    clipped_face.P1 /= clipped_face.P1.w;
-                    clipped_face.P2 /= clipped_face.P2.w;
-                    clipped_face.P3 /= clipped_face.P3.w;
+                    clipped_face.p1 /= clipped_face.p1.w;
+                    clipped_face.p2 /= clipped_face.p2.w;
+                    clipped_face.p3 /= clipped_face.p3.w;
                     
                     if (face.Has_Texture)
                     {
-                        clipped_face.T1 /= clipped_face.P1.w;
-                        clipped_face.T2 /= clipped_face.P2.w;
-                        clipped_face.T3 /= clipped_face.P3.w;
+                        clipped_face.t1 /= clipped_face.p1.w;
+                        clipped_face.t2 /= clipped_face.p2.w;
+                        clipped_face.t3 /= clipped_face.p3.w;
                     }
                 }
             }
 
             // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && !Clip_Faces_In_Queue(face_clip_queue, Camera.Camera_Screen_Clipping_Planes))
-            {
-                return;
-            }// anything outside cube?
+            if (Settings.Screen_Space_Clip && !Clip_Faces_In_Queue(face_clip_queue, Camera.Camera_Screen_Clipping_Planes)) return; // anything outside cube?
 
             foreach (Face clipped_face in face_clip_queue)
             {
-                // Don't draw anything if the face is flat
-                if ((clipped_face.P1.x == clipped_face.P2.x && clipped_face.P2.x == clipped_face.P3.x) ||
-                    (clipped_face.P1.y == clipped_face.P2.y && clipped_face.P2.y == clipped_face.P3.y))
-                {
-                    continue;
-                }
+                // Skip the face if it is flat
+                if ((clipped_face.p1.x == clipped_face.p2.x && clipped_face.p2.x == clipped_face.p3.x) ||
+                    (clipped_face.p1.y == clipped_face.p2.y && clipped_face.p2.y == clipped_face.p3.y))
+                { continue; }
 
                 // Mode the new triangles from camera-screen space to camera-window space
                 clipped_face.Apply_Matrix(screen_to_window);
 
                 // Round the vertices
-                int x1 = clipped_face.P1.x.Round_to_Int();
-                int y1 = clipped_face.P1.y.Round_to_Int();
-                float z1 = clipped_face.P1.z;
-                int x2 = clipped_face.P2.x.Round_to_Int();
-                int y2 = clipped_face.P2.y.Round_to_Int();
-                float z2 = clipped_face.P2.z;
-                int x3 = clipped_face.P3.x.Round_to_Int();
-                int y3 = clipped_face.P3.y.Round_to_Int();
-                float z3 = clipped_face.P3.z;                                
+                int x1 = clipped_face.p1.x.Round_to_Int();
+                int y1 = clipped_face.p1.y.Round_to_Int();
+                float z1 = clipped_face.p1.z;
+                int x2 = clipped_face.p2.x.Round_to_Int();
+                int y2 = clipped_face.p2.y.Round_to_Int();
+                float z2 = clipped_face.p2.z;
+                int x3 = clipped_face.p3.x.Round_to_Int();
+                int y3 = clipped_face.p3.y.Round_to_Int();
+                float z3 = clipped_face.p3.z;                                
                 
                 // Check if the face has a texture
                 if (face.Has_Texture)
@@ -123,39 +111,51 @@ namespace _3D_Engine
                     float tz3 = face.T3.z;
 
                     // Sort the vertices by their y-co-ordinate
-                    Textured_Sort_By_Y(
+                    Textured_Sort_By_Y
+                    (
                         ref x1, ref y1, ref tx1, ref ty1, ref tz1,
                         ref x2, ref y2, ref tx2, ref ty2, ref tz2,
-                        ref x3, ref y3, ref tx3, ref ty3, ref tz3);
+                        ref x3, ref y3, ref tx3, ref ty3, ref tz3
+                    );
 
                     // Generate z-buffer
-                    Textured_Triangle(face.Texture_Object.File,
+                    Textured_Triangle
+                    (
+                        face.Texture_Object.File,
                         x1, y1, tx1, ty1, tz1,
                         x2, y2, tx2, ty2, tz2,
-                        x3, y3, tx3, ty3, tz3);
+                        x3, y3, tx3, ty3, tz3
+                    );
                 }
                 else
                 {
                     // Sort the vertices by their y-co-ordinate
-                    Sort_By_Y(
+                    Sort_By_Y
+                    (
                         ref x1, ref y1, ref z1,
                         ref x2, ref y2, ref z2,
-                        ref x3, ref y3, ref z3);
+                        ref x3, ref y3, ref z3
+                    );
 
                     // Generate z-buffer
-                    Interpolate_Triangle(face.Colour, Z_Buffer_Check,
+                    Interpolate_Triangle
+                    (
+                        face.Colour, Z_Buffer_Check,
                         x1, y1, z1,
                         x2, y2, z2,
-                        x3, y3, z3);
+                        x3, y3, z3
+                    );
                 }
             }
         }
 
         // Shadow Map Check (SMC)
-        private void SMC_Camera_Perspective(ref Color point_colour,
-            in Matrix4x4 window_to_camera_screen,
-            in Matrix4x4 camera_screen_to_world, 
-            int x, int y, float z, Bitmap bitmap)
+        private void SMC_Camera_Perspective(
+            int x, int y, float z,
+            ref Color point_colour,
+            ref Matrix4x4 window_to_camera_screen,
+            ref Matrix4x4 camera_screen_to_world, 
+            Bitmap bitmap)
         {
             // Move the point from window space to camera-screen space
             Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);
@@ -168,7 +168,7 @@ namespace _3D_Engine
         }
 
         // Lighting
-        private void Apply_Lighting(in Vector4D world_space_point, ref Color point_colour, int x, int y, Bitmap bitmap)
+        private void Apply_Lighting(Vector4D world_space_point, ref Color point_colour, int x, int y, Bitmap bitmap)
         {
             bool light_applied = false;
 

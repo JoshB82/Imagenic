@@ -17,30 +17,37 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private static bool Clip_Edge(Vector3D plane_point, Vector3D plane_normal, Edge e)
+        private static bool Clip_Edges(Clipping_Plane[] clipping_planes, ref Vector4D point_1, ref Vector4D point_2)
         {
-            float point_1_distance = Point_Distance_From_Plane(e.P1, plane_point, plane_normal);
-            float point_2_distance = Point_Distance_From_Plane(e.P2, plane_point, plane_normal);
+            foreach (Clipping_Plane clipping_plane in clipping_planes)
+            {
+                if (!Clip_Edge(clipping_plane.Point, clipping_plane.Normal, ref point_1, ref point_2)) return false;
+            }
+            return true;
+        }
+
+        private static bool Clip_Edge(Vector3D plane_point, Vector3D plane_normal, ref Vector4D point_1, ref Vector4D point_2)
+        {
+            float point_1_distance = Point_Distance_From_Plane(point_1, plane_point, plane_normal);
+            float point_2_distance = Point_Distance_From_Plane(point_2, plane_point, plane_normal);
 
             if (point_1_distance >= 0)
             {
                 if (point_2_distance < 0)
                 {
                     // One point is on the inside, the other on the outside, so clip the line
-                    Vector3D intersection = Line_Intersect_Plane(e.P1, e.P2, plane_point, plane_normal, out _);
-                    e.P2 = intersection;
+                    point_2 = Line_Intersect_Plane(point_1, point_2, plane_point, plane_normal, out _);
                 }
                 // If above condition fails, both points are on the inside, so return line unchanged
-
                 return true;
             }
             
             if (point_2_distance >= 0)
             {
                 // One point is on the outside, the other on the inside, so clip the line
-                Vector3D intersection = Line_Intersect_Plane(e.P2, e.P1, plane_point, plane_normal, out _);
-                e.P1 = e.P2;
-                e.P2 = intersection;
+                Vector3D intersection = Line_Intersect_Plane(point_2, point_1, plane_point, plane_normal, out _);
+                point_1 = point_2;
+                point_2 = intersection;
                 return true;
             }
 
@@ -54,11 +61,7 @@ namespace _3D_Engine
             foreach (Clipping_Plane clipping_plane in clipping_planes)
             {
                 int no_triangles = face_clip_queue.Count;
-
-                while (no_triangles-- > 0)
-                {
-                    Clip_Face(face_clip_queue.Dequeue(), face_clip_queue, clipping_plane.Point, clipping_plane.Normal);
-                }
+                while (no_triangles-- > 0) Clip_Face(face_clip_queue.Dequeue(), face_clip_queue, clipping_plane.Point, clipping_plane.Normal);
             }
 
             return face_clip_queue.Count > 0;
@@ -72,36 +75,36 @@ namespace _3D_Engine
             Vector3D[] inside_texture_points = new Vector3D[3], outside_texture_points = new Vector3D[3];
             int inside_point_count = 0, outside_point_count = 0;
 
-            if (Point_Distance_From_Plane(face_to_clip.P1, plane_point, plane_normal) >= 0)
+            if (Point_Distance_From_Plane(face_to_clip.p1, plane_point, plane_normal) >= 0)
             {
-                inside_points[inside_point_count] = face_to_clip.P1;
-                inside_texture_points[inside_point_count++] = face_to_clip.T1;
+                inside_points[inside_point_count] = face_to_clip.p1;
+                inside_texture_points[inside_point_count++] = face_to_clip.t1;
             }
             else
             {
-                outside_points[outside_point_count] = face_to_clip.P1;
-                outside_texture_points[outside_point_count++] = face_to_clip.T1;
+                outside_points[outside_point_count] = face_to_clip.p1;
+                outside_texture_points[outside_point_count++] = face_to_clip.t1;
             }
 
-            if (Point_Distance_From_Plane(face_to_clip.P2, plane_point, plane_normal) >= 0)
+            if (Point_Distance_From_Plane(face_to_clip.p2, plane_point, plane_normal) >= 0)
             {
-                inside_points[inside_point_count] = face_to_clip.P2;
-                inside_texture_points[inside_point_count++] = face_to_clip.T2;
+                inside_points[inside_point_count] = face_to_clip.p2;
+                inside_texture_points[inside_point_count++] = face_to_clip.t2;
             }
             else
             {
-                outside_points[outside_point_count] = face_to_clip.P2;
-                outside_texture_points[outside_point_count++] = face_to_clip.T2;
+                outside_points[outside_point_count] = face_to_clip.p2;
+                outside_texture_points[outside_point_count++] = face_to_clip.t2;
             }
 
-            if (Point_Distance_From_Plane(face_to_clip.P3, plane_point, plane_normal) >= 0)
+            if (Point_Distance_From_Plane(face_to_clip.p3, plane_point, plane_normal) >= 0)
             {
-                inside_points[inside_point_count] = face_to_clip.P3;
-                inside_texture_points[inside_point_count++] = face_to_clip.T3;
+                inside_points[inside_point_count] = face_to_clip.p3;
+                inside_texture_points[inside_point_count++] = face_to_clip.t3;
             }
             else
             {
-                outside_points[outside_point_count] = face_to_clip.P3;
+                outside_points[outside_point_count] = face_to_clip.p3;
                 outside_texture_points[outside_point_count] = face_to_clip.T3;
             }
 
