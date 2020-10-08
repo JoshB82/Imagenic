@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Square"/> mesh.
+    /// Encapsulates creation of a <see cref="Square"/> mesh.
     /// </summary>
     public sealed class Square : Mesh
     {
@@ -72,10 +72,10 @@ namespace _3D_Engine
 
             Vertices = new Vertex[4]
             {
-                new Vertex(new Vector4D(0, 0, 0)), // 0
-                new Vertex(new Vector4D(1, 0, 0)), // 1
-                new Vertex(new Vector4D(1, 0, 1)), // 2
-                new Vertex(new Vector4D(0, 0, 1)) // 3
+                new Vertex(new Vector4D(0, 0, 0, 1)), // 0
+                new Vertex(new Vector4D(1, 0, 0, 1)), // 1
+                new Vertex(new Vector4D(1, 0, 1, 1)), // 2
+                new Vertex(new Vector4D(0, 0, 1, 1)) // 3
             };
 
             Edges = new Edge[4]

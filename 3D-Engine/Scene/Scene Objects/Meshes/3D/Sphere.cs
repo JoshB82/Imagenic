@@ -33,7 +33,7 @@ namespace _3D_Engine
                     x = radius * Cos(angle_long * j) * Sin(angle_lat * i);
                     y = radius * Sin(angle_long * j);
                     z = radius * Cos(angle_long * j) * Cos(angle_lat * i);
-                    Vertices[i * res_lat + j] = new Vertex(new Vector4D(x, y, z));
+                    Vertices[i * res_lat + j] = new Vertex(new Vector4D(x, y, z, 1));
                 }
             }
 

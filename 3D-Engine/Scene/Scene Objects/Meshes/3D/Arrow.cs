@@ -101,9 +101,9 @@ namespace _3D_Engine
             for (int i = 0; i < resolution; i++)
             {
                 float sin = Sin(angle * i), cos = Cos(angle * i);
-                Vertices[i + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, 0));
-                Vertices[i + resolution + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, body_length));
-                Vertices[i + 2 * resolution + 3] = new Vertex(new Vector4D(cos * tip_radius, sin * tip_radius, body_length));
+                Vertices[i + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, 0, 1));
+                Vertices[i + resolution + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, body_length, 1));
+                Vertices[i + 2 * resolution + 3] = new Vertex(new Vector4D(cos * tip_radius, sin * tip_radius, body_length, 1));
             }
 
             Edges = new Edge[5 * resolution];

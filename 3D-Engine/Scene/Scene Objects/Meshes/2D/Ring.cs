@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Ring"/> mesh.
+    /// Encapsulates creation of a <see cref="Ring"/> mesh.
     /// </summary>
     public sealed class Ring : Mesh
     {
@@ -25,7 +25,7 @@ namespace _3D_Engine
 
                 // Vertices are defined in anti-clockwise order.
                 float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i) * inner_radius, 0, Sin(angle * i) * inner_radius));
+                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i) * inner_radius, 0, Sin(angle * i) * inner_radius, 1));
             }
         }
         /// <summary>
@@ -40,7 +40,7 @@ namespace _3D_Engine
                 if (resolution == 0) return;
 
                 float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D(Cos(angle * i) * outer_radius, 0, Sin(angle * i) * outer_radius));
+                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D(Cos(angle * i) * outer_radius, 0, Sin(angle * i) * outer_radius, 1));
             }
         }
         /// <summary>
@@ -60,8 +60,8 @@ namespace _3D_Engine
                 for (int i = 0; i < resolution; i++)
                 {
                     float sin = Sin(angle * i), cos = Cos(angle * i);
-                    Vertices[i + 1] = new Vertex(new Vector4D(cos * inner_radius, 0, sin * inner_radius));
-                    Vertices[i + resolution + 1] = new Vertex(new Vector4D(cos * outer_radius, 0, sin * outer_radius));
+                    Vertices[i + 1] = new Vertex(new Vector4D(cos * inner_radius, 0, sin * inner_radius, 1));
+                    Vertices[i + resolution + 1] = new Vertex(new Vector4D(cos * outer_radius, 0, sin * outer_radius, 1));
                 }
 
                 Edges = new Edge[2 * resolution];

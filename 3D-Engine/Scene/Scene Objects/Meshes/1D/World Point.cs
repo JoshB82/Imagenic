@@ -7,13 +7,13 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Handles creation of a world point mesh.
+ * Encapsulates creation of a world point mesh.
  */
 
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="World_Point"/> mesh.
+    /// Encapsulates creation of a <see cref="World_Point"/> mesh.
     /// </summary>
     public sealed class World_Point : Mesh
     {
@@ -27,7 +27,7 @@ namespace _3D_Engine
         {
             Dimension = 1;
 
-            Vertices = new Vertex[1] { new Vertex(new Vector4D(0, 0, 0)) };
+            Vertices = new Vertex[1] { new Vertex(new Vector4D(0, 0, 0, 1)) };
 
             Draw_Edges = false;
             

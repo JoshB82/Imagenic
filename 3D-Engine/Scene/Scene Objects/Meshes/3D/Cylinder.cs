@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Cylinder"/> mesh.
+    /// Encapsulates creation of a <see cref="Cylinder"/> mesh.
     /// </summary>
     public sealed class Cylinder : Mesh
     {
@@ -53,8 +53,8 @@ namespace _3D_Engine
                 float angle = 2 * PI / resolution;
                 for (int i = 0; i < resolution; i++)
                 {
-                    Vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i)));
-                    Vertices[i + resolution + 2] = new Vertex(new Vector4D(Cos(angle * i), 1, Sin(angle * i)));
+                    Vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
+                    Vertices[i + resolution + 2] = new Vertex(new Vector4D(Cos(angle * i), 1, Sin(angle * i), 1));
                 }
 
                 Edges = new Edge[2 * resolution];

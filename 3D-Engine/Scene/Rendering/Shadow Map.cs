@@ -42,7 +42,7 @@ namespace _3D_Engine
             if (dimension == 3)
             {
                 // Discard the face if it is not visible from the light's point of view
-                if (new Vector3D(face.p1) * Vector3D.Normal_From_Plane(face.p1, face.p2, face.p3) >= 0) return;
+                if ((Vector3D)face.p1 * Vector3D.Normal_From_Plane((Vector3D)face.p1, (Vector3D)face.p2, (Vector3D)face.p3) >= 0) return;
             }
 
             // Clip the face in light-view space

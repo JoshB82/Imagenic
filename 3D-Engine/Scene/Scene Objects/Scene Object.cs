@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Handles creation of a scene object.
+ * Encapsulates creation of a scene object.
  */
 
 using System;
@@ -17,13 +17,13 @@ using System.Drawing;
 
 namespace _3D_Engine
 {
-    /// <include file="Help_7.xml" path="doc/members/member[@name='T:_3D_Engine.Scene_Object']/*"/>
+    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Scene_Object']/*"/>
     public abstract partial class Scene_Object
     {
         #region Fields and Properties
 
         // ID
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.ID']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.ID']/*"/>
         public int ID { get; private set; }
         private static int next_id = -1;
 
@@ -33,7 +33,7 @@ namespace _3D_Engine
         internal virtual void Calculate_Matrices()
         {
             Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(direction_forward_rotation * Model_Direction_Up, World_Direction_Up);
+            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors((Vector3D)(direction_forward_rotation * Model_Direction_Up), World_Direction_Up);
             Matrix4x4 translation = Transform.Translate(World_Origin);
 
             // String the transformations together in the following order:
@@ -44,35 +44,35 @@ namespace _3D_Engine
         }
 
         // Origins
-        internal static readonly Vector4D Model_Origin = Vector4D.Zero;
+        internal static readonly Vector4D Model_Origin = Vector4D.Unit_W;
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
         public virtual Vector3D World_Origin { get; set; }
 
-        internal void Calculate_World_Origin() => World_Origin = Model_to_World * Model_Origin;
+        internal void Calculate_World_Origin() => World_Origin = (Vector3D)(Model_to_World * Model_Origin);
 
         // Directions
         internal static readonly Vector3D Model_Direction_Forward = Vector3D.Unit_Z;
         internal static readonly Vector3D Model_Direction_Up = Vector3D.Unit_Y;
         internal static readonly Vector3D Model_Direction_Right = Vector3D.Unit_X;
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
         public Vector3D World_Direction_Forward { get; private set; }
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Up']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Up']/*"/>
         public Vector3D World_Direction_Up { get; private set; }
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Right']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Right']/*"/>
         public Vector3D World_Direction_Right { get; private set; }
+
+        // Appearance
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Visible']/*"/>
+        public bool Visible { get; set; } = true;
 
         // Direction Arrows
         internal Group Direction_Arrows { get; }
         internal bool Has_Direction_Arrows;
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
         public bool Display_Direction_Arrows { get; set; } = false;
-
-        // Appearance
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Visible']/*"/>
-        public bool Visible { get; set; } = true;
 
         #endregion
 
@@ -104,15 +104,15 @@ namespace _3D_Engine
         #endregion
     }
 
-    /// <include file="Help_7.xml" path="doc/members/member[@name='T:_3D_Engine.Volume_Outline']/*"/>
+    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Volume_Outline']/*"/>
     [Flags]
     public enum Volume_Outline : byte
     {
-        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.None']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.None']/*"/>
         None = 0,
-        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.Near']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.Near']/*"/>
         Near = 1,
-        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.Far']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.Far']/*"/>
         Far = 2
     }
 }

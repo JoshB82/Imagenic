@@ -43,8 +43,8 @@
 
             Vertices = new Vertex[2]
             {
-                new Vertex(new Vector4D(0, 0, 0)), // 0
-                new Vertex(new Vector4D(1, 1, 1)) // 1
+                new Vertex(new Vector4D(0, 0, 0, 1)), // 0
+                new Vertex(new Vector4D(1, 1, 1, 1)) // 1
             };
 
             Edges = new Edge[1] { new Edge(Vertices[0], Vertices[1]) };

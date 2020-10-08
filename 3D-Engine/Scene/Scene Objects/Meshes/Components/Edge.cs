@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Handles creation of an edge.
+ * Encapsulates creation of an edge.
  */
 
 using System.Drawing;
@@ -15,7 +15,7 @@ using System.Drawing;
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of an <see cref="Edge"/>.
+    /// Encapsulates creation of an <see cref="Edge"/>.
     /// </summary>
     public sealed class Edge
     {

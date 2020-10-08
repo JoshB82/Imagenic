@@ -1,7 +1,7 @@
 ﻿namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of an <see cref="Vertex"/>.
+    /// Encapsulates creation of an <see cref="Vertex"/>.
     /// </summary>
     public sealed class Vertex
     {

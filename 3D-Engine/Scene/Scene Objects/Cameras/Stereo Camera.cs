@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Stereo_Camera"/>.
+    /// Encapsulates creation of a <see cref="Stereo_Camera"/>.
     /// </summary>
     public sealed class Stereo_Camera : Camera
     {

@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Handles creation of a 4x4 square matrix and provides methods to extract common information and for operator overloading. Where possible, a Matrix4x4 should be passed by reference to reduce unnecessary copying.
+ * Encapsulates creation of a 4x4 square matrix and provides methods to extract common information and for operator overloading. Each instance of a Matrix4x4 has a size of 64 bytes, so, where possible, a Matrix4x4 should be passed by reference to reduce unnecessary copying.
  */
 
 using System;
@@ -19,8 +19,14 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        // Common Matrices
+        // Common matrices
+        /// <summary>
+        /// A <see cref="Matrix4x4"/> with all values set to zero.
+        /// </summary>
         public static readonly Matrix4x4 Zero = new Matrix4x4();
+        /// <summary>
+        /// A <see cref="Matrix4x4"/> equal to the 4x4 identity matrix.
+        /// </summary>
         public static readonly Matrix4x4 Identity = new Matrix4x4 { m00 = 1, m11 = 1, m22 = 1, m33 = 1 };
 
         // Matrix contents
@@ -184,7 +190,7 @@ namespace _3D_Engine
                 m03, m13, m23, m33
             );
 
-        // Equality and Miscellaneous
+        // Equality and miscellaneous
         public static bool operator ==(Matrix4x4 v1, Matrix4x4 v2) =>
             v1.m00 == v2.m00 && v1.m01 == v2.m01 && v1.m02 == v2.m02 && v1.m03 == v2.m03 &&
             v1.m10 == v2.m10 && v1.m11 == v2.m11 && v1.m12 == v2.m12 && v1.m13 == v2.m13 &&
@@ -195,7 +201,7 @@ namespace _3D_Engine
 
         public readonly bool Equals(Matrix4x4 m) => this == m;
 
-        public readonly bool Approx_Equals(Matrix4x4 m, float epsilon = 2 * Single.Epsilon) =>
+        public readonly bool Approx_Equals(Matrix4x4 m, float epsilon = Single.Epsilon) =>
             this.m00.Approx_Equals(m.m00, epsilon) &&
             this.m01.Approx_Equals(m.m01, epsilon) &&
             this.m02.Approx_Equals(m.m02, epsilon) &&

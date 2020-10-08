@@ -28,15 +28,15 @@ namespace _3D_Engine
 
         private static bool Clip_Edge(Vector3D plane_point, Vector3D plane_normal, ref Vector4D point_1, ref Vector4D point_2)
         {
-            float point_1_distance = Point_Distance_From_Plane(point_1, plane_point, plane_normal);
-            float point_2_distance = Point_Distance_From_Plane(point_2, plane_point, plane_normal);
+            float point_1_distance = Point_Distance_From_Plane((Vector3D)point_1, plane_point, plane_normal);
+            float point_2_distance = Point_Distance_From_Plane((Vector3D)point_2, plane_point, plane_normal);
 
             if (point_1_distance >= 0)
             {
                 if (point_2_distance < 0)
                 {
                     // One point is on the inside, the other on the outside, so clip the line
-                    point_2 = Line_Intersect_Plane(point_1, point_2, plane_point, plane_normal, out _);
+                    point_2 = Line_Intersect_Plane((Vector3D)point_1, (Vector3D)point_2, plane_point, plane_normal, out _);
                 }
                 // If above condition fails, both points are on the inside, so return line unchanged
                 return true;
@@ -45,7 +45,7 @@ namespace _3D_Engine
             if (point_2_distance >= 0)
             {
                 // One point is on the outside, the other on the inside, so clip the line
-                Vector3D intersection = Line_Intersect_Plane(point_2, point_1, plane_point, plane_normal, out _);
+                Vector3D intersection = Line_Intersect_Plane((Vector3D)point_2, (Vector3D)point_1, plane_point, plane_normal, out _);
                 point_1 = point_2;
                 point_2 = intersection;
                 return true;
@@ -60,8 +60,8 @@ namespace _3D_Engine
         {
             foreach (Clipping_Plane clipping_plane in clipping_planes)
             {
-                int no_triangles = face_clip_queue.Count;
-                while (no_triangles-- > 0) Clip_Face(face_clip_queue.Dequeue(), face_clip_queue, clipping_plane.Point, clipping_plane.Normal);
+                int no_faces = face_clip_queue.Count;
+                while (no_faces-- > 0) Clip_Face(face_clip_queue.Dequeue(), face_clip_queue, clipping_plane.Point, clipping_plane.Normal);
             }
 
             return face_clip_queue.Count > 0;
@@ -75,7 +75,7 @@ namespace _3D_Engine
             Vector3D[] inside_texture_points = new Vector3D[3], outside_texture_points = new Vector3D[3];
             int inside_point_count = 0, outside_point_count = 0;
 
-            if (Point_Distance_From_Plane(face_to_clip.p1, plane_point, plane_normal) >= 0)
+            if (Point_Distance_From_Plane((Vector3D)face_to_clip.p1, plane_point, plane_normal) >= 0)
             {
                 inside_points[inside_point_count] = face_to_clip.p1;
                 inside_texture_points[inside_point_count++] = face_to_clip.t1;
@@ -86,7 +86,7 @@ namespace _3D_Engine
                 outside_texture_points[outside_point_count++] = face_to_clip.t1;
             }
 
-            if (Point_Distance_From_Plane(face_to_clip.p2, plane_point, plane_normal) >= 0)
+            if (Point_Distance_From_Plane((Vector3D)face_to_clip.p2, plane_point, plane_normal) >= 0)
             {
                 inside_points[inside_point_count] = face_to_clip.p2;
                 inside_texture_points[inside_point_count++] = face_to_clip.t2;
@@ -97,7 +97,7 @@ namespace _3D_Engine
                 outside_texture_points[outside_point_count++] = face_to_clip.t2;
             }
 
-            if (Point_Distance_From_Plane(face_to_clip.p3, plane_point, plane_normal) >= 0)
+            if (Point_Distance_From_Plane((Vector3D)face_to_clip.p3, plane_point, plane_normal) >= 0)
             {
                 inside_points[inside_point_count] = face_to_clip.p3;
                 inside_texture_points[inside_point_count++] = face_to_clip.t3;
@@ -111,12 +111,12 @@ namespace _3D_Engine
             switch (inside_point_count)
             {
                 case 0:
-                    // All points are on the outside, so no valid triangles to enqueue
+                    // All points are on the outside, so no valid faces to enqueue
                     break;
                 case 1:
-                    // One point is on the inside, so only a smaller triangle is needed
-                    Vector4D intersection_1 = Line_Intersect_Plane(inside_points[0], outside_points[0], plane_point, plane_normal, out float d1);
-                    Vector4D intersection_2 = Line_Intersect_Plane(inside_points[0], outside_points[1], plane_point, plane_normal, out float d2);
+                    // One point is on the inside, so only a smaller face is needed
+                    Vector4D intersection_1 = Line_Intersect_Plane((Vector3D)inside_points[0], (Vector3D)outside_points[0], plane_point, plane_normal, out float d1);
+                    Vector4D intersection_2 = Line_Intersect_Plane((Vector3D)inside_points[0], (Vector3D)outside_points[1], plane_point, plane_normal, out float d2);
 
                     Face face_1;
                     if (face_to_clip.Has_Texture)
@@ -134,9 +134,9 @@ namespace _3D_Engine
                     face_clip_queue.Enqueue(face_1);
                     break;
                 case 2:
-                    // Two points are on the inside, so a quadrilateral is formed and split into two triangles
-                    intersection_1 = Line_Intersect_Plane(inside_points[0], outside_points[0], plane_point, plane_normal, out d1);
-                    intersection_2 = Line_Intersect_Plane(inside_points[1], outside_points[0], plane_point, plane_normal, out d2);
+                    // Two points are on the inside, so a quadrilateral is formed and split into two faces
+                    intersection_1 = Line_Intersect_Plane((Vector3D)inside_points[0], (Vector3D)outside_points[0], plane_point, plane_normal, out d1);
+                    intersection_2 = Line_Intersect_Plane((Vector3D)inside_points[1], (Vector3D)outside_points[0], plane_point, plane_normal, out d2);
 
                     Face face_2;
                     if (face_to_clip.Has_Texture)
@@ -157,7 +157,7 @@ namespace _3D_Engine
                     face_clip_queue.Enqueue(face_2);
                     break;
                 case 3:
-                    // All points are on the inside, so enqueue the triangle unchanged
+                    // All points are on the inside, so enqueue the face unchanged
                     face_clip_queue.Enqueue(face_to_clip);
                     break;
             }

@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Handles creation of a mesh.
+ * Encapsulates creation of a mesh.
  */
 
 using System.Drawing;

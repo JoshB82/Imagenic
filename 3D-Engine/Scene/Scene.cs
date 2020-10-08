@@ -7,20 +7,19 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Handles creation of a scene and contains rendering methods.
+ * Encapsulates creation of a scene and contains rendering methods.
  */
 
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Scene"/>.
+    /// Encapsulates creation of a <see cref="Scene"/>.
     /// </summary>
     public sealed partial class Scene
     {
@@ -314,7 +313,7 @@ namespace _3D_Engine
                             if (z_buffer[x][y] != out_of_bounds_value)
                             {
                                 // Move the point from window space to world space and apply lighting
-                                Apply_Lighting(window_to_world * new Vector4D(x, y, z_buffer[x][y]), ref colour_buffer[x][y], x, y, null);
+                                Apply_Lighting(window_to_world * new Vector4D(x, y, z_buffer[x][y], 1), ref colour_buffer[x][y], x, y, null);
                             }
                         }
                     }

@@ -16,7 +16,7 @@
         </member>
         <member name="T:_3D_Engine.Matrix4x4">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Matrix4x4" /> (square matrix with four rows and four columns).
+            Encapsulates creation of a <see cref="T:_3D_Engine.Matrix4x4" /> (square matrix with four rows and four columns).
             </summary>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
@@ -81,7 +81,7 @@
         </member>
         <member name="T:_3D_Engine.Quaternion">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Quaternion" />.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Quaternion" />.
             </summary>
         </member>
         <member name="F:_3D_Engine.Quaternion.q1">
@@ -352,7 +352,7 @@
         </member>
         <member name="T:_3D_Engine.Vector2D">
             <summary>
-            Handles constructors and operations involving two-dimensional vectors.
+            Encapsulates constructors and operations involving two-dimensional vectors.
             </summary>
         </member>
         <member name="M:_3D_Engine.Vector2D.Normalise">
@@ -363,7 +363,7 @@
         </member>
         <member name="T:_3D_Engine.Vector3D">
             <summary>
-            Handles constructors and operations involving three-dimensional vectors.
+            Encapsulates constructors and operations involving three-dimensional vectors.
             </summary>
         </member>
         <member name="M:_3D_Engine.Vector3D.Normalise">
@@ -383,7 +383,7 @@
         </member>
         <member name="T:_3D_Engine.Vector4D">
             <summary>
-            Handles constructors and operations involving four-dimensional vectors for use in 3D graphics.
+            Encapsulates constructors and operations involving four-dimensional vectors for use in 3D graphics.
             </summary>
         </member>
         <member name="M:_3D_Engine.Vector4D.Normalise">
@@ -572,7 +572,7 @@
         </member>
         <member name="T:_3D_Engine.World_Point">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.World_Point"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.World_Point"/> mesh.
             </summary>
         </member>
         <member name="M:_3D_Engine.World_Point.#ctor(_3D_Engine.Vector3D)">
@@ -583,7 +583,7 @@
         </member>
         <member name="T:_3D_Engine.Circle">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Circle"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Circle"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Circle.Radius">
@@ -619,7 +619,7 @@
         </member>
         <member name="T:_3D_Engine.Plane">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Plane"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Plane"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Plane.Length">
@@ -655,7 +655,7 @@
         </member>
         <member name="T:_3D_Engine.Ring">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Ring"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Ring"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Ring.Inner_Radius">
@@ -686,7 +686,7 @@
         </member>
         <member name="T:_3D_Engine.Square">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Square"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Square"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Square.Side_Length">
@@ -721,7 +721,7 @@
         </member>
         <member name="T:_3D_Engine.Cone">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Cone"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Cone"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Cone.Height">
@@ -752,7 +752,7 @@
         </member>
         <member name="T:_3D_Engine.Cube">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Cube"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Cube"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Cube.Side_Length">
@@ -802,7 +802,7 @@
         </member>
         <member name="T:_3D_Engine.Cuboid">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Cuboid"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Cuboid"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Cuboid.Length">
@@ -862,7 +862,7 @@
         </member>
         <member name="T:_3D_Engine.Cylinder">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Cylinder"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Cylinder"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Cylinder.Height">
@@ -893,12 +893,12 @@
         </member>
         <member name="T:_3D_Engine.Torus">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Torus"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Torus"/> mesh.
             </summary>
         </member>
         <member name="T:_3D_Engine.Edge">
             <summary>
-            Handles creation of an <see cref="T:_3D_Engine.Edge"/>.
+            Encapsulates creation of an <see cref="T:_3D_Engine.Edge"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Edge.#ctor(_3D_Engine.Vertex,_3D_Engine.Vertex)">
@@ -910,7 +910,7 @@
         </member>
         <member name="T:_3D_Engine.Face">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Face"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Face"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Texture.File">
@@ -930,12 +930,12 @@
         </member>
         <member name="T:_3D_Engine.Vertex">
             <summary>
-            Handles creation of an <see cref="T:_3D_Engine.Vertex"/>.
+            Encapsulates creation of an <see cref="T:_3D_Engine.Vertex"/>.
             </summary>
         </member>
         <member name="T:_3D_Engine.Custom">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Custom" /> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Custom" /> mesh.
             </summary>
         </member>
         <member name="M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])">
@@ -1029,7 +1029,7 @@
         </member>
         <member name="T:_3D_Engine.Scene_Object">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Scene_Object"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Scene_Object"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">

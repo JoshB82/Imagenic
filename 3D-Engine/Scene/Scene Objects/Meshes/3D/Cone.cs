@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Cone"/> mesh.
+    /// Encapsulates creation of a <see cref="Cone"/> mesh.
     /// </summary>
     public sealed class Cone : Mesh
     {
@@ -53,7 +53,7 @@ namespace _3D_Engine
                 Vertices[1] = new Vertex(Vector4D.Unit_Y);
 
                 float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i)));
+                for (int i = 0; i < resolution; i++) Vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
 
                 // Edges
                 Edges = new Edge[resolution];

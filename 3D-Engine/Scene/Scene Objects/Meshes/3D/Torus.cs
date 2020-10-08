@@ -1,7 +1,7 @@
 ﻿namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Torus"/> mesh.
+    /// Encapsulates creation of a <see cref="Torus"/> mesh.
     /// </summary>
     public sealed class Torus : Mesh
     {

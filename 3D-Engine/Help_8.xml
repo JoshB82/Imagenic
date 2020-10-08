@@ -16,7 +16,7 @@
         </member>
         <member name="T:_3D_Engine.Matrix4x4">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Matrix4x4" /> (square matrix with four rows and four columns).
+            Encapsulates creation of a <see cref="T:_3D_Engine.Matrix4x4" /> (square matrix with four rows and four columns).
             </summary>
         </member>
         <member name="F:_3D_Engine.Matrix4x4.m00">
@@ -102,19 +102,19 @@
         <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>
             Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from 16 values.
-          </summary><param name="m00">From the top left, the value in the first row and first column.</param><param name="m01">From the top left, the value in the first row and second column.</param><param name="m02">From the top left, the value in the first row and third column.</param><param name="m03">From the top left, the value in the first row and fourth column.</param><param name="m10">From the top left, the value in the second row and first column.</param><param name="m11">From the top left, the value in the second row and second column.</param><param name="m12">From the top left, the value in the second row and third column.</param><param name="m13">From the top left, the value in the second row and fourth column.</param><param name="m20">From the top left, the value in the third row and first column.</param><param name="m21">From the top left, the value in the third row and second column.</param><param name="m22">From the top left, the value in the third row and third column.</param><param name="m23">From the top left, the value in the third row and fourth column.</param><param name="m30">From the top left, the value in the fourth row and first column.</param><param name="m31">From the top left, the value in the fourth row and second column.</param><param name="m32">From the top left, the value in the fourth row and third column.</param><param name="m33">From the top left, the value in the fourth row and fourth column.</param>
+          </summary><param name="m00">From the top left, the value to be put at the first row and first column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m01">From the top left, the value to be put at the first row and second column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m02">From the top left, the value to be put at the first row and third column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m03">From the top left, the value to be put at the first row and fourth column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m10">From the top left, the value to be put at the second row and first column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m11">From the top left, the value to be put at the second row and second column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m12">From the top left, the value to be put at the second row and third column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m13">From the top left, the value to be put at the second row and fourth column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m20">From the top left, the value to be put at the third row and first column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m21">From the top left, the value to be put at the third row and second column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m22">From the top left, the value to be put at the third row and third column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m23">From the top left, the value to be put at the third row and fourth column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m30">From the top left, the value to be put at the fourth row and first column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m31">From the top left, the value to be put at the fourth row and second column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m32">From the top left, the value to be put at the fourth row and third column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param><param name="m33">From the top left, the value to be put at the fourth row and fourth column of the <see cref="T:_3D_Engine.Matrix4x4" />.</param>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single[0:,0:])">
             <summary>
-            Creates a <see cref="T:_3D_Engine.Matrix4x4"/> from a two-dimensional array of elements.
+            Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from a two-dimensional array of elements.
             </summary>
-            <param name="elements">Array containing elements to be entered into the <see cref="T:_3D_Engine.Matrix4x4"/>.</param>
+            <param name="elements">The array containing elements to be entered into the <see cref="T:_3D_Engine.Matrix4x4"/>.</param>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single[][])">
             <summary>
           Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from a jagged array of elements.
         </summary><param name="elements">
-          Array containing elements to be entered into the <see cref="T:_3D_Engine.Matrix4x4" />.
+          The array containing elements to be entered into the <see cref="T:_3D_Engine.Matrix4x4" />.
         </param>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.Determinant">
@@ -183,43 +183,57 @@
         </member>
         <member name="T:_3D_Engine.Quaternion">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Quaternion" />.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Quaternion" />.
             </summary>
         </member>
         <member name="F:_3D_Engine.Quaternion.q1">
             <summary>
-            First component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the x component of a <see cref="T:_3D_Engine.Vector4D" />.
+            First component of the <see cref="T:_3D_Engine.Quaternion" />, equivalent to the x component of a <see cref="T:_3D_Engine.Vector4D" />.
             </summary>
         </member>
         <member name="F:_3D_Engine.Quaternion.q2">
             <summary>
-            Second component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the y component of a <see cref="T:_3D_Engine.Vector4D" />.
+            Second component of the <see cref="T:_3D_Engine.Quaternion" />, equivalent to the y component of a <see cref="T:_3D_Engine.Vector4D" />.
             </summary>
         </member>
         <member name="F:_3D_Engine.Quaternion.q3">
             <summary>
-            Third component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the z component of a <see cref="T:_3D_Engine.Vector4D" />.
+            Third component of the <see cref="T:_3D_Engine.Quaternion" />, equivalent to the z component of a <see cref="T:_3D_Engine.Vector4D" />.
             </summary>
         </member>
         <member name="F:_3D_Engine.Quaternion.q4">
             <summary>
-            Fourth component of the <see cref="T:_3D_Engine.Quaternion" />; equivalent to the w component of a <see cref="T:_3D_Engine.Vector4D" />.
+            Fourth component of the <see cref="T:_3D_Engine.Quaternion" />, equivalent to the w component of a <see cref="T:_3D_Engine.Vector4D" />.
             </summary>
         </member>
         <member name="M:_3D_Engine.Quaternion.#ctor(System.Single,System.Single,System.Single,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,System.Float,System.Float,System.Float)']/*" />
+          <summary>
+            Creates a <see cref="T:_3D_Engine.Quaternion" /> from four values.
+          </summary>
+          <param name="q1">The value to be put at the q1 component of the <see cref="T:_3D_Engine.Quaternion" />.</param>
+          <param name="q2">The value to be put at the q2 component of the <see cref="T:_3D_Engine.Quaternion" />.</param>
+          <param name="q3">The value to be put at the q3 component of the <see cref="T:_3D_Engine.Quaternion" />.</param>
+          <param name="q4">The value to be put at the q4 component of the <see cref="T:_3D_Engine.Quaternion" />.</param>
         </member>
         <member name="M:_3D_Engine.Quaternion.#ctor(System.Single[])">
-            <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float[])']/*" />
+          <summary>
+            Creates a <see cref="T:_3D_Engine.Quaternion" /> from an array of elements.
+          </summary>
+          <param name="elements">
+            The array containing elements to be put in the <see cref="T:_3D_Engine.Quaternion" />.
+          </param>
         </member>
-        <member name="M:_3D_Engine.Quaternion.#ctor(_3D_Engine.Vector4D)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Quaternion" /> from the values in a <see cref="T:_3D_Engine.Vector4D" />.
-            </summary><param name="v">The <see cref="T:_3D_Engine.Vector4D" /> containing the values to be put in the <see cref="T:_3D_Engine.Quaternion" />.</param>
-        </member>
-        <member name="M:_3D_Engine.Quaternion.#ctor(System.Single,_3D_Engine.Vector3D)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,_3D_Engine.Vector3D)']/*" />
-        </member>
+      <member name="M:_3D_Engine.Quaternion.#ctor(System.Single,_3D_Engine.Vector3D)">
+        <summary>
+          Creates a <see cref="T:_3D_Engine.Quaternion" /> from a value and the further values in a <see cref="Vector3D"/>.
+          </summary>
+        <param name="scalar">
+          The value to be put in the <see cref="T:_3D_Engine.Quaternion" /> at the q1 component.
+        </param>
+        <param name="v">
+          The <see cref="Vector3D"/> containing values to be put in the <see cref="T:_3D_Engine.Quaternion" /> at the q2, q3 and q4 components.
+          </param>
+      </member>
         <member name="M:_3D_Engine.Quaternion.Magnitude">
             <summary>
             Finds the magnitude of a <see cref="T:_3D_Engine.Quaternion" />.
@@ -256,10 +270,28 @@
             </summary><param name="q1">The first <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><param name="q2">The second <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><returns>The product of two <see cref="T:_3D_Engine.Quaternion">quaternions</see>.</returns>
         </member>
         <member name="M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Float)']/*" />
+          <summary>
+            Finds the product of a scalar and a <see cref="T:_3D_Engine.Quaternion" />.
+          </summary>
+          <param name="q">
+            The <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.
+          </param>
+          <param name="scalar">The scalar to be multiplied.</param>
+          <returns>
+            The product of a scalar and a <see cref="T:_3D_Engine.Quaternion" />.
+          </returns>
         </member>
         <member name="M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Float)']/*" />
+          <summary>
+            Divides each element of a <see cref="T:_3D_Engine.Quaternion" /> by a scalar.
+          </summary>
+          <param name="q">
+            The <see cref="T:_3D_Engine.Quaternion" /> used in the division.
+          </param>
+          <param name="scalar">The scalar used in the division.</param>
+          <returns>
+            A <see cref="T:_3D_Engine.Quaternion" /> with each element divided by a scalar.
+          </returns>
         </member>
         <member name="M:_3D_Engine.Transform.Calculate_Direction_Forward(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
@@ -361,14 +393,7 @@
             <param name="axis"></param>
             <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_to_Matrix(_3D_Engine.Quaternion)">
-            <summary>
-            Creates the corresponding rotation <see cref="T:_3D_Engine.Matrix4x4" /> for the specified <see cref="T:_3D_Engine.Quaternion" />.
-            </summary>
-            <param name="q">The <see cref="T:_3D_Engine.Quaternion" /> to convert.</param>
-            <returns>A rotation <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Scale_X(System.Single)">
+      <member name="M:_3D_Engine.Transform.Scale_X(System.Single)">
             <summary>
             Creates a matrix for scaling in the x-direction.
             </summary>
@@ -439,12 +464,12 @@
             <summary>
             Creates a <see cref="T:_3D_Engine.Matrix4x4"/> for translation in all directions.
             </summary>
-            <param name="distance">Vector to translate by.</param>
+            <param name="displacement">Vector to translate by.</param>
             <returns>A translation <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
         </member>
         <member name="T:_3D_Engine.Vector2D">
             <summary>
-            Handles constructors and operations involving two-dimensional vectors.
+              Encapsulates creation of a <see cref="T:_3D_Engine.Vector2D"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Vector2D.Magnitude">
@@ -461,7 +486,7 @@
         </member>
         <member name="T:_3D_Engine.Vector3D">
             <summary>
-            Handles constructors and operations involving three-dimensional vectors.
+              Encapsulates creation of a <see cref="T:_3D_Engine.Vector3D"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Vector3D.Magnitude">
@@ -487,7 +512,7 @@
         </member>
         <member name="T:_3D_Engine.Vector4D">
             <summary>
-            Handles constructors and operations involving four-dimensional vectors for use in 3D graphics.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Vector4D"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Vector4D.Magnitude">
@@ -584,7 +609,7 @@
         </member>
         <member name="T:_3D_Engine.Scene">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Scene"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene.Create_Origin">
@@ -658,7 +683,7 @@
         </member>
         <member name="T:_3D_Engine.Camera">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Camera"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Camera"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Camera.Draw_Icon">
@@ -678,22 +703,22 @@
         </member>
         <member name="T:_3D_Engine.Orthogonal_Camera">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Orthogonal_Camera"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Orthogonal_Camera"/>.
             </summary>
         </member>
         <member name="T:_3D_Engine.Perspective_Camera">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Perspective_Camera"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Perspective_Camera"/>.
             </summary>
         </member>
         <member name="T:_3D_Engine.Stereo_Camera">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Stereo_Camera"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Stereo_Camera"/>.
             </summary>
         </member>
         <member name="T:_3D_Engine.Group">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Group"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Group"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Group.op_Explicit(_3D_Engine.Group)~_3D_Engine.Custom">
@@ -704,12 +729,12 @@
         </member>
         <member name="T:_3D_Engine.Distant_Light">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Distant_Light"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Distant_Light"/>.
             </summary>
         </member>
         <member name="T:_3D_Engine.Light">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Light"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Light"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Light.Draw_Icon">
@@ -732,7 +757,7 @@
         </member>
         <member name="T:_3D_Engine.World_Point">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.World_Point"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.World_Point"/> mesh.
             </summary>
         </member>
         <member name="M:_3D_Engine.World_Point.#ctor(_3D_Engine.Vector3D)">
@@ -743,7 +768,7 @@
         </member>
         <member name="T:_3D_Engine.Circle">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Circle"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Circle"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Circle.Radius">
@@ -779,7 +804,7 @@
         </member>
         <member name="T:_3D_Engine.Plane">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Plane"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Plane"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Plane.Length">
@@ -815,7 +840,7 @@
         </member>
         <member name="T:_3D_Engine.Ring">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Ring"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Ring"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Ring.Inner_Radius">
@@ -846,7 +871,7 @@
         </member>
         <member name="T:_3D_Engine.Square">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Square"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Square"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Square.Side_Length">
@@ -881,7 +906,7 @@
         </member>
         <member name="T:_3D_Engine.Cone">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Cone"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Cone"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Cone.Height">
@@ -912,7 +937,7 @@
         </member>
         <member name="T:_3D_Engine.Cube">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Cube"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Cube"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Cube.Side_Length">
@@ -962,7 +987,7 @@
         </member>
         <member name="T:_3D_Engine.Cuboid">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Cuboid"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Cuboid"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Cuboid.Length">
@@ -1022,7 +1047,7 @@
         </member>
         <member name="T:_3D_Engine.Cylinder">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Cylinder"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Cylinder"/> mesh.
             </summary>
         </member>
         <member name="P:_3D_Engine.Cylinder.Height">
@@ -1053,12 +1078,12 @@
         </member>
         <member name="T:_3D_Engine.Torus">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Torus"/> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Torus"/> mesh.
             </summary>
         </member>
         <member name="T:_3D_Engine.Edge">
             <summary>
-            Handles creation of an <see cref="T:_3D_Engine.Edge"/>.
+            Encapsulates creation of an <see cref="T:_3D_Engine.Edge"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Edge.#ctor(_3D_Engine.Vertex,_3D_Engine.Vertex)">
@@ -1070,7 +1095,7 @@
         </member>
         <member name="T:_3D_Engine.Face">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Face"/>.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Face"/>.
             </summary>
         </member>
         <member name="P:_3D_Engine.Texture.File">
@@ -1090,12 +1115,12 @@
         </member>
         <member name="T:_3D_Engine.Vertex">
             <summary>
-            Handles creation of an <see cref="T:_3D_Engine.Vertex"/>.
+            Encapsulates creation of an <see cref="T:_3D_Engine.Vertex"/>.
             </summary>
         </member>
         <member name="T:_3D_Engine.Custom">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Custom" /> mesh.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Custom" /> mesh.
             </summary>
         </member>
         <member name="M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])">
@@ -1139,7 +1164,7 @@
         </member>
         <member name="T:_3D_Engine.Mesh">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Mesh" />.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Mesh" />.
             </summary>
         </member>
         <member name="M:_3D_Engine.Mesh.Scale_X(System.Single)">
@@ -1236,7 +1261,7 @@
         </member>
         <member name="T:_3D_Engine.Scene_Object">
             <summary>
-            Handles creation of a <see cref="T:_3D_Engine.Scene_Object" />.
+            Encapsulates creation of a <see cref="T:_3D_Engine.Scene_Object" />.
             </summary>
         </member>
         <member name="M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">

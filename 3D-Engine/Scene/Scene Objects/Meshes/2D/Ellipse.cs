@@ -46,7 +46,7 @@ namespace _3D_Engine
             Vertices[0] = new Vertex(Vector4D.Zero);
 
             float angle = 2 * PI / resolution;
-            for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i)));
+            for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
         }
 
         #endregion

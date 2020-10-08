@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Handles creation of a camera.
+ * Encapsulates creation of a camera.
  */
 
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Drawing;
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Camera"/>.
+    /// Encapsulates creation of a <see cref="Camera"/>.
     /// </summary>
     public abstract partial class Camera : Scene_Object
     {
@@ -40,19 +40,19 @@ namespace _3D_Engine
             {
                 volume_style = value;
 
-                List<Edge> volume_edges = new List<Edge>();
+                Volume_Edges.Clear();
 
                 float semi_width = Width / 2, semi_height = Height / 2;
 
                 Vertex zero_point = new Vertex(Vector4D.Zero);
-                Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, Z_Near));
-                Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, Z_Near));
-                Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Z_Near));
-                Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, Z_Near));
+                Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, Z_Near, 1));
+                Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, Z_Near, 1));
+                Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Z_Near, 1));
+                Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, Z_Near, 1));
 
                 if ((volume_style & Volume_Outline.Near) == Volume_Outline.Near)
                 {
-                    volume_edges.AddRange(new[]
+                    Volume_Edges.AddRange(new[]
                     {
                         new Edge(zero_point, near_top_left_point), // Near top left
                         new Edge(zero_point, near_top_right_point), // Near top right
@@ -70,14 +70,14 @@ namespace _3D_Engine
                     float ratio = (this is Orthogonal_Camera) ? 1 : Z_Far / Z_Near;
                     float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
 
-                    Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Z_Far));
-                    Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, Z_Far));
+                    Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Z_Far, 1));
+                    Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, Z_Far, 1));
                     Vertex far_bottom_left_point =
-                        new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Z_Far));
+                        new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Z_Far, 1));
                     Vertex far_bottom_right_point =
-                        new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Z_Far));
+                        new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Z_Far, 1));
 
-                    volume_edges.AddRange(new[]
+                    Volume_Edges.AddRange(new[]
                     {
                         new Edge(near_top_left_point, far_top_left_point), // Far top left
                         new Edge(near_top_right_point, far_top_right_point), // Far top right
@@ -89,12 +89,10 @@ namespace _3D_Engine
                         new Edge(far_top_right_point, far_bottom_right_point) // Far right
                     });
                 }
-
-                Volume_Edges = volume_edges.ToArray();
             }
         }
 
-        internal Edge[] Volume_Edges = new Edge[0];
+        internal List<Edge> Volume_Edges = new List<Edge>();
 
         // Matrices
         internal Matrix4x4 World_to_Camera_View, Camera_View_to_Camera_Screen, Camera_Screen_to_World;

@@ -1,7 +1,7 @@
 ﻿namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Cuboid"/> mesh.
+    /// Encapsulates creation of a <see cref="Cuboid"/> mesh.
     /// </summary>
     public sealed class Cuboid : Mesh
     {
@@ -164,14 +164,14 @@
 
             Vertices = new Vertex[8]
             {
-                new Vertex(new Vector4D(0, 0, 0)), // 0
-                new Vertex(new Vector4D(1, 0, 0)), // 1
-                new Vertex(new Vector4D(1, 1, 0)), // 2
-                new Vertex(new Vector4D(0, 1, 0)), // 3
-                new Vertex(new Vector4D(0, 0, 1)), // 4
-                new Vertex(new Vector4D(1, 0, 1)), // 5
-                new Vertex(new Vector4D(1, 1, 1)), // 6
-                new Vertex(new Vector4D(0, 1, 1)) // 7
+                new Vertex(new Vector4D(0, 0, 0, 1)), // 0
+                new Vertex(new Vector4D(1, 0, 0, 1)), // 1
+                new Vertex(new Vector4D(1, 1, 0, 1)), // 2
+                new Vertex(new Vector4D(0, 1, 0, 1)), // 3
+                new Vertex(new Vector4D(0, 0, 1, 1)), // 4
+                new Vertex(new Vector4D(1, 0, 1, 1)), // 5
+                new Vertex(new Vector4D(1, 1, 1, 1)), // 6
+                new Vertex(new Vector4D(0, 1, 1, 1)) // 7
             }; // need to be oriented to front side
 
             Edges = new Edge[12]

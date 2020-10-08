@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Perspective_Camera"/>.
+    /// Encapsulates creation of a <see cref="Perspective_Camera"/>.
     /// </summary>
     public sealed class Perspective_Camera : Camera
     {

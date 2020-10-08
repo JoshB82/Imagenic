@@ -4,7 +4,7 @@ using System.Linq;
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Group"/>.
+    /// Encapsulates creation of a <see cref="Group"/>.
     /// </summary>
     public partial class Group : Scene_Object
     {

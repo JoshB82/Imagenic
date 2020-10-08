@@ -40,7 +40,7 @@ namespace _3D_Engine
             if (mesh_dimension == 3)
             {
                 // Discard the face if it is not visible from the camera's point of view
-                if (new Vector3D(face.p1) * Vector3D.Normal_From_Plane(face.p1, face.p2, face.p3) >= 0) return;
+                if ((Vector3D)face.p1 * Vector3D.Normal_From_Plane((Vector3D)face.p1, (Vector3D)face.p2, (Vector3D)face.p3) >= 0) return;
             }
 
             // Clip the face in camera-view space
@@ -158,7 +158,7 @@ namespace _3D_Engine
             Bitmap bitmap)
         {
             // Move the point from window space to camera-screen space
-            Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z);
+            Vector4D camera_screen_space_point = window_to_camera_screen * new Vector4D(x, y, z, 1);
 
             // Move the point from camera-screen space to world space
             camera_screen_space_point *= 2 * Render_Camera.Z_Near * Render_Camera.Z_Far / (Render_Camera.Z_Near + Render_Camera.Z_Far - camera_screen_space_point.z * (Render_Camera.Z_Far - Render_Camera.Z_Near));
@@ -183,7 +183,7 @@ namespace _3D_Engine
                     if (light is Point_Light or Spotlight)
                     {
                         // Darken the light's colour based on how far away the point is from the light
-                        Vector3D light_to_point = new Vector3D(light_view_space_point);
+                        Vector3D light_to_point = (Vector3D)light_view_space_point;
                         float distant_intensity = light.Strength / light_to_point.Squared_Magnitude();
                         new_light_colour = light.Colour.Darken_Percentage(distant_intensity);
                     }

@@ -3,7 +3,7 @@
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Face"/>.
+    /// Encapsulates creation of a <see cref="Face"/>.
     /// </summary>
     public sealed class Face
     {

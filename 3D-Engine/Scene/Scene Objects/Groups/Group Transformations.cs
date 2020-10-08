@@ -12,15 +12,17 @@
 
             // Calculate rotation matrices
             Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(World_Direction_Forward, new_world_direction_forward);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(direction_forward_rotation * World_Direction_Up, new_world_direction_up);
+            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors((Vector3D) (direction_forward_rotation * new Vector4D(World_Direction_Up, 1)), new_world_direction_up);
             Matrix4x4 resultant = direction_up_rotation * direction_forward_rotation;
 
             // Apply rotation matrices to children of group
             foreach (Scene_Object scene_object in Scene_Objects)
             {
-                Vector3D forward = direction_forward_rotation * scene_object.World_Direction_Forward;
-                Vector3D up = resultant * scene_object.World_Direction_Up;
-                scene_object.Set_Direction_1(forward, up);
+                scene_object.Set_Direction_1
+                (
+                    (Vector3D)(direction_forward_rotation * scene_object.World_Direction_Forward),
+                    (Vector3D)(resultant * new Vector4D(scene_object.World_Direction_Up, 1))
+                );
             }
         }
         public override void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
@@ -31,15 +33,17 @@
 
             // Calculate rotation matrices
             Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(World_Direction_Up, new_world_direction_up);
-            Matrix4x4 direction_right_rotation = Transform.Rotate_Between_Vectors(direction_up_rotation * World_Direction_Right, new_world_direction_right);
+            Matrix4x4 direction_right_rotation = Transform.Rotate_Between_Vectors((Vector3D) (direction_up_rotation * new Vector4D(World_Direction_Right, 1)), new_world_direction_right);
             Matrix4x4 resultant = direction_right_rotation * direction_up_rotation;
 
             // Apply rotation matrices to children of group
             foreach (Scene_Object scene_object in Scene_Objects)
             {
-                Vector3D up = direction_up_rotation * scene_object.World_Direction_Up;
-                Vector3D right = resultant * scene_object.World_Direction_Right;
-                scene_object.Set_Direction_2(up, right);
+                scene_object.Set_Direction_2
+                (
+                    (Vector3D)(direction_up_rotation * scene_object.World_Direction_Up),
+                    (Vector3D)(resultant * new Vector4D(scene_object.World_Direction_Right, 1))
+                );
             }
         }
         public override void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
@@ -50,15 +54,18 @@
 
             // Calculate rotation matrices
             Matrix4x4 direction_right_rotation = Transform.Rotate_Between_Vectors(World_Direction_Right, new_world_direction_right);
-            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(direction_right_rotation * World_Direction_Forward, new_world_direction_forward);
+            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors((Vector3D) (direction_right_rotation * new Vector4D(World_Direction_Forward, 1)),
+                new_world_direction_forward);
             Matrix4x4 resultant = direction_forward_rotation * direction_right_rotation;
 
             // Apply rotation matrices to children of group
             foreach (Scene_Object scene_object in Scene_Objects)
             {
-                Vector3D right = direction_right_rotation * scene_object.World_Direction_Right;
-                Vector3D forward = resultant * scene_object.World_Direction_Forward;
-                scene_object.Set_Direction_3(right, forward);
+                scene_object.Set_Direction_3
+                (
+                    (Vector3D)(direction_right_rotation * scene_object.World_Direction_Right),
+                    (Vector3D)(resultant * new Vector4D(scene_object.World_Direction_Forward,1))
+                );
             }
         }
 

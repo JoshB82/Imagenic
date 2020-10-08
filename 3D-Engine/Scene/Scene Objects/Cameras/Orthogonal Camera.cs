@@ -4,7 +4,7 @@ using static System.MathF;
 namespace _3D_Engine
 {
     /// <summary>
-    /// Handles creation of a <see cref="Orthogonal_Camera"/>.
+    /// Encapsulates creation of a <see cref="Orthogonal_Camera"/>.
     /// </summary>
     public sealed class Orthogonal_Camera : Camera
     {
