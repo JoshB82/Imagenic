@@ -33,9 +33,9 @@ namespace _3D_Engine
         private const byte out_of_bounds_value = 2;
 
         // Components
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
         public Color Background_Colour { get; set; } = Color.White;
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
         public PictureBox Canvas_Box { get; set; }
         /// <summary>
         /// The <see cref="Camera"/> containing the view that will be rendered on the screen.
@@ -48,11 +48,11 @@ namespace _3D_Engine
         private static readonly object locker = new object();
 
         // Contents
-        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
         public readonly List<Camera> Cameras = new List<Camera>();
-        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
         public readonly List<Light> Lights = new List<Light>();
-        /// <include file="Help_7.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
         public readonly List<Mesh> Meshes = new List<Mesh>();
 
         // Dimensions
@@ -61,7 +61,7 @@ namespace _3D_Engine
 
         private int width, height;
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Width']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Width']/*"/>
         public int Width
         {
             get => width;
@@ -74,7 +74,7 @@ namespace _3D_Engine
                 }
             }
         }
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Height']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Height']/*"/>
         public int Height
         {
             get => height;
@@ -128,7 +128,9 @@ namespace _3D_Engine
 
         #endregion
 
-        #region Add to scene methods
+        #region Methods
+
+        // Add to scene
 
         /// <summary>
         /// Adds a <see cref="Scene_Object"/> to the <see cref="Scene"/>.
@@ -153,14 +155,16 @@ namespace _3D_Engine
             }
         }
 
+        /// <summary>
+        /// Adds multiple <see cref="Scene_Object">Scene_Objects</see> to the <see cref="Scene"/>.
+        /// </summary>
+        /// <param name="scene_objects">Array containing <see cref="Scene_Object">Scene_Objects</see> to add.</param>
         public void Add(Scene_Object[] scene_objects)
         {
             foreach (Scene_Object scene_object in scene_objects) Add(scene_object);
         }
 
-        #endregion
-
-        #region Remove from scene methods
+        // Remove from scene
 
         public void Remove(int ID)
         {
@@ -372,7 +376,7 @@ namespace _3D_Engine
                 }
                 foreach (Mesh mesh in Meshes)
                 {
-                    if (mesh.Draw_Edges)
+                    if (mesh.Visible && mesh.Draw_Edges)
                     {
                         Matrix4x4 model_to_camera_view = Render_Camera.World_to_Camera_View * mesh.Model_to_World;
 

@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using static _3D_Engine.Properties.Settings;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -9,11 +10,9 @@ namespace _3D_Engine
     public sealed class Distant_Light : Light
     {
         #region Fields and Properties
-        
-        private int shadow_map_width = Default.Shadow_Map_Width;
-        private int shadow_map_height = Default.Shadow_Map_Height;
-        private float shadow_map_z_near = Default.Shadow_Map_Z_Near;
-        private float shadow_map_z_far = Default.Shadow_Map_Z_Far;
+
+        private int shadow_map_width, shadow_map_height;
+        private float shadow_map_z_near, shadow_map_z_far;
 
         public override int Shadow_Map_Width
         {
@@ -86,26 +85,30 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Distant_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
+        public Distant_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.Light_Strength, Default.Shadow_Map_Width, Default.Shadow_Map_Height, Default.Shadow_Map_Z_Near, Default.Shadow_Map_Z_Far) { }
+
+        public Distant_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : this(origin, direction_forward, direction_up, strength, Default.Shadow_Map_Width, Default.Shadow_Map_Height, Default.Shadow_Map_Z_Near, Default.Shadow_Map_Z_Far) { }
+
+        public Distant_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength, int shadow_map_width, int shadow_map_height, float shadow_map_z_near, float shadow_map_z_far) : base(origin, direction_forward, direction_up)
         {
             Light_View_to_Light_Screen = Matrix4x4.Identity;
 
             Light_View_Clipping_Planes = new[]
             {
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_X), // Left
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Y), // Bottom
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Z), // Near
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Negative_X), // Right
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Negative_Y), // Top
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Negative_Z) // Far
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_X), // Left
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Y), // Bottom
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Z), // Near
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_X), // Right
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Y), // Top
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Z) // Far
             };
 
-            Shadow_Map_Width = Default.Shadow_Map_Width;
-            Shadow_Map_Height = Default.Shadow_Map_Height;
-            Shadow_Map_Z_Near = Default.Shadow_Map_Z_Near;
-            Shadow_Map_Z_Far = Default.Shadow_Map_Z_Far;
-
             Strength = strength;
+
+            Shadow_Map_Width = shadow_map_width;
+            Shadow_Map_Height = shadow_map_height;
+            Shadow_Map_Z_Near = shadow_map_z_near;
+            Shadow_Map_Z_Far = shadow_map_z_far;
 
             string[] icon_obj_data = Properties.Resources.Distant_Light.Split("\n");
             Icon = new Custom(origin, direction_forward, direction_up, icon_obj_data)
@@ -116,7 +119,15 @@ namespace _3D_Engine
             Icon.Scale(5);
         }
 
+        public Distant_Light Distant_Light_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new Distant_Light(origin, direction_forward, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).Round_to_Int(), (Tan(fov_y / 2) * z_near * 2).Round_to_Int(), z_near, z_far);
+
+        public Distant_Light(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up) : this(origin, pointed_at.World_Origin - origin, direction_up) { }
+
         public Distant_Light(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float strength) : this(origin, pointed_at.World_Origin - origin, direction_up, strength) { }
+
+        public Distant_Light(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float strength, int shadow_map_width, int shadow_map_height, float shadow_map_z_near, float shadow_map_z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, strength, shadow_map_width, shadow_map_height, shadow_map_z_near, shadow_map_z_far) { }
+
+        public Distant_Light Distant_Light_Angle(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new Distant_Light(origin, pointed_at, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).Round_to_Int(), (Tan(fov_y / 2) * z_near * 2).Round_to_Int(), z_near, z_far);
 
         #endregion
     }

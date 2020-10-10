@@ -27,9 +27,9 @@ namespace _3D_Engine
 
         // Appearance
         public Color Colour { get; set; } = Color.White;
-        public Mesh Icon { get; protected set; }
         public float Strength { get; set; }
 
+        public Mesh Icon { get; protected set; }
         /// <summary>
         /// Determines if the <see cref="Light"/> is drawn in the <see cref="Scene"/>.
         /// </summary>
@@ -129,8 +129,6 @@ namespace _3D_Engine
             Light_Screen_to_Light_Window = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * window_translate;
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='']/*"/>
-
         #endregion
 
         #region Constructors
@@ -142,10 +140,10 @@ namespace _3D_Engine
         #region Methods
 
         // Export
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map']/*"/>
         public void Export_Shadow_Map() => Export_Shadow_Map($"{Directory.GetCurrentDirectory()}\\Export\\{GetType().Name}_{ID}_Export_Map.bmp");
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map(System.String)']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map(System.String)']/*"/>
         public void Export_Shadow_Map(string file_path)
         {
             Trace.WriteLine($"Generating shadow map for {GetType().Name}...");

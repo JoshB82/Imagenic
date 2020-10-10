@@ -1,4 +1,17 @@
-﻿using static System.MathF;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Encapsulates creation of an perspective camera.
+ */
+
+using static _3D_Engine.Properties.Settings;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -78,6 +91,8 @@ namespace _3D_Engine
 
         #region Constructors
 
+        public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
+
         public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
         {
             Camera_View_to_Camera_Screen = Matrix4x4.Zero;
@@ -85,12 +100,12 @@ namespace _3D_Engine
 
             Camera_View_Clipping_Planes = new[]
             {
-                new Clipping_Plane(Vector3D.Zero, new Vector3D()), // Left
-                new Clipping_Plane(Vector3D.Zero, new Vector3D()), // Bottom
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Z), // Near
-                new Clipping_Plane(Vector3D.Zero, new Vector3D()), // Right
-                new Clipping_Plane(Vector3D.Zero, new Vector3D()), // Top
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Negative_Z) // Far
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Left
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Bottom
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Z), // Near
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Right
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Top
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Z) // Far
             };
 
             Z_Near = z_near;
@@ -100,11 +115,13 @@ namespace _3D_Engine
             Height = height;
         }
 
+        public Perspective_Camera Perspective_Camera_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new Perspective_Camera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+
+        public Perspective_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up) : this(origin, pointed_at.World_Origin - origin, direction_up) { }
+
         public Perspective_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far, string ignore) : this(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
-
-        public Perspective_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Perspective_Camera Perspective_Camera_Angle(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new Perspective_Camera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
 
         #endregion
     }

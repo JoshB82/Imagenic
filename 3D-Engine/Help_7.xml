@@ -89,10 +89,10 @@
             </summary><param name="m">The <see cref="T:_3D_Engine.Matrix4x4" /> to be multiplied.</param><param name="v">The <see cref="T:_3D_Engine.Vector4D" /> to be multiplied.</param><returns>The result of post-multiplying a <see cref="T:_3D_Engine.Matrix4x4" /> by a <see cref="T:_3D_Engine.Vector4D" />.</returns>
         </member>
         <member name="M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Float)']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Float)']/*" />
         </member>
         <member name="M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Float)']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Float)']/*" />
         </member>
         <member name="T:_3D_Engine.Quaternion">
             <summary>
@@ -120,10 +120,10 @@
             </summary>
         </member>
         <member name="M:_3D_Engine.Quaternion.#ctor(System.Single,System.Single,System.Single,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,System.Float,System.Float,System.Float)']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,System.Float,System.Float,System.Float)']/*" />
         </member>
         <member name="M:_3D_Engine.Quaternion.#ctor(System.Single[])">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float[])']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float[])']/*" />
         </member>
         <member name="M:_3D_Engine.Quaternion.#ctor(_3D_Engine.Vector4D)">
             <summary>
@@ -131,7 +131,7 @@
             </summary><param name="v">The <see cref="T:_3D_Engine.Vector4D" /> containing the values to be put in the <see cref="T:_3D_Engine.Quaternion" />.</param>
         </member>
         <member name="M:_3D_Engine.Quaternion.#ctor(System.Single,_3D_Engine.Vector3D)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,_3D_Engine.Vector3D)']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Float,_3D_Engine.Vector3D)']/*" />
         </member>
         <member name="M:_3D_Engine.Quaternion.Magnitude">
             <summary>
@@ -169,10 +169,10 @@
             </summary><param name="q1">The first <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><param name="q2">The second <see cref="T:_3D_Engine.Quaternion" /> to be multiplied.</param><returns>The product of two <see cref="T:_3D_Engine.Quaternion">quaternions</see>.</returns>
         </member>
         <member name="M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Float)']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Float)']/*" />
         </member>
         <member name="M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Single)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Float)']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Float)']/*" />
         </member>
         <member name="M:_3D_Engine.Transform.Calculate_Direction_Forward(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
@@ -602,7 +602,7 @@
             </summary>
         </member>
         <member name="M:_3D_Engine.Light.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='']/*" />
         </member>
         <member name="M:_3D_Engine.Light.Export_Shadow_Map">
             <summary>

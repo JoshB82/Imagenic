@@ -1,27 +1,29 @@
-﻿namespace _3D_Engine
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Provides static methods for calculating direction vectors for scene objects.
+ */
+
+namespace _3D_Engine
 {
+    /// <summary>
+    /// Encapsulates static methods for calculating notable vectors, matrices and quaternions.
+    /// </summary>
     public static partial class Transform
     {
-        /// <summary>
-        /// Calculates the forward direction given the up direction and the right direction.
-        /// </summary>
-        /// <param name="direction_up">The up direction.</param>
-        /// <param name="direction_right">The right direction.</param>
-        /// <returns>The forward direction.</returns>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Calculate_Direction_Forward(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public static Vector3D Calculate_Direction_Forward(Vector3D direction_up, Vector3D direction_right) => direction_right.Cross_Product(direction_up);
-        /// <summary>
-        /// Calculates the up direction given the right direction and the forward direction.
-        /// </summary>
-        /// <param name="direction_right">The right direction.</param>
-        /// <param name="direction_forward">The forward direction.</param>
-        /// <returns>The up direction.</returns>
+
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Calculate_Direction_Up(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public static Vector3D Calculate_Direction_Up(Vector3D direction_right, Vector3D direction_forward) => direction_forward.Cross_Product(direction_right);
-        /// <summary>
-        /// Calculates the right direction given the forward direction and the up direction.
-        /// </summary>
-        /// <param name="direction_forward">The forward direction.</param>
-        /// <param name="direction_up">The up direction.</param>
-        /// <returns>The right direction.</returns>
+        
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Calculate_Direction_Right(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public static Vector3D Calculate_Direction_Right(Vector3D direction_forward, Vector3D direction_up) => direction_up.Cross_Product(direction_forward);
     }
 }

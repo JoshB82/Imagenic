@@ -190,7 +190,7 @@ namespace _3D_Engine
 
         public readonly bool Equals(Vector4D v) => this == v;
 
-        public readonly bool Approx_Equals(Vector4D v, float epsilon = Single.Epsilon) =>
+        public readonly bool Approx_Equals(Vector4D v, float epsilon = float.Epsilon) =>
             this.x.Approx_Equals(v.x, epsilon) &&
             this.y.Approx_Equals(v.y, epsilon) &&
             this.z.Approx_Equals(v.z, epsilon) &&

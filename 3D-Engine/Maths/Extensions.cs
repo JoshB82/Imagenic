@@ -40,11 +40,11 @@ namespace _3D_Engine
         // Float extensions
         // Equality
         //source
-        public static bool Approx_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => Math.Abs(v1 - v2) <= epsilon;
-        public static bool Approx_Less_Than_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => v1 <= v2 + epsilon;
-        public static bool Approx_More_Than_Equals(this float v1, float v2, float epsilon = Single.Epsilon) => v1 >= v2 - epsilon;
-        public static bool Approx_Less_Than(this float v1, float v2, float epsilon = Single.Epsilon) => v1 < v2 + epsilon;
-        public static bool Approx_More_Than(this float v1, float v2, float epsilon = Single.Epsilon) => v1 > v2 - epsilon;
+        public static bool Approx_Equals(this float v1, float v2, float epsilon = float.Epsilon) => Math.Abs(v1 - v2) <= epsilon;
+        public static bool Approx_Less_Than_Equals(this float v1, float v2, float epsilon = float.Epsilon) => v1 <= v2 + epsilon;
+        public static bool Approx_More_Than_Equals(this float v1, float v2, float epsilon = float.Epsilon) => v1 >= v2 - epsilon;
+        public static bool Approx_Less_Than(this float v1, float v2, float epsilon = float.Epsilon) => v1 < v2 + epsilon;
+        public static bool Approx_More_Than(this float v1, float v2, float epsilon = float.Epsilon) => v1 > v2 - epsilon;
 
         // Rounding
         internal static byte Round_to_Byte(this float num) => (byte)(num >= 0 ? num + 0.5f : num - 0.5f);

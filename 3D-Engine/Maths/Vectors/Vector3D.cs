@@ -112,7 +112,7 @@ namespace _3D_Engine
         /// <summary>
         /// Finds the smallest angle between two <see cref="Vector3D">Vector3Ds</see>.
         /// </summary>
-        /// <param name="v">The <see cref="Vector3D"/> creating an angle from the other <see cref="Vector3D"/>.</param>
+        /// <param name="v">A <see cref="Vector3D"/> creating an angle from the current <see cref="Vector3D"/> instance.</param>
         /// <returns>The angle between two <see cref="Vector3D">Vector3Ds</see>.</returns>
         public readonly float Angle(Vector3D v)
         {
@@ -122,6 +122,11 @@ namespace _3D_Engine
             return Acos(quotient);
         }
 
+        /// <summary>
+        /// Finds the cross product of two <see cref="Vector3D">Vector3Ds</see>.
+        /// </summary>
+        /// <param name="v">A <see cref="Vector3D"/> used in calculating the cross product with the current <see cref="Vector3D"/> instance.</param>
+        /// <returns>The cross product of two <see cref="Vector3D">Vector3Ds</see>.</returns>
         public readonly Vector3D Cross_Product(Vector3D v) => new Vector3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
 
         /// <summary>
@@ -152,7 +157,7 @@ namespace _3D_Engine
 
         public readonly bool Equals(Vector3D v) => this == v;
 
-        public readonly bool Approx_Equals(Vector3D v, float epsilon = Single.Epsilon) => this.x.Approx_Equals(v.x, epsilon) && this.y.Approx_Equals(v.y, epsilon) && this.z.Approx_Equals(v.z, epsilon);
+        public readonly bool Approx_Equals(Vector3D v, float epsilon = float.Epsilon) => this.x.Approx_Equals(v.x, epsilon) && this.y.Approx_Equals(v.y, epsilon) && this.z.Approx_Equals(v.z, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Vector3D)obj;
 

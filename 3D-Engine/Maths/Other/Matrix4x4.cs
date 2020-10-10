@@ -201,7 +201,7 @@ namespace _3D_Engine
 
         public readonly bool Equals(Matrix4x4 m) => this == m;
 
-        public readonly bool Approx_Equals(Matrix4x4 m, float epsilon = Single.Epsilon) =>
+        public readonly bool Approx_Equals(Matrix4x4 m, float epsilon = float.Epsilon) =>
             this.m00.Approx_Equals(m.m00, epsilon) &&
             this.m01.Approx_Equals(m.m01, epsilon) &&
             this.m02.Approx_Equals(m.m02, epsilon) &&

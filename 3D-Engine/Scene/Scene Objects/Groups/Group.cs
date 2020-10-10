@@ -41,7 +41,7 @@ namespace _3D_Engine
         #region Casting
 
         /// <summary>
-        /// Casts the <see cref="Group"/> into a <see cref="Custom"/>.
+        /// Casts a <see cref="Group"/> into a <see cref="Custom"/>.
         /// </summary>
         /// <param name="group"><see cref="Group"/> to cast.</param>
         public static explicit operator Custom(Group group)

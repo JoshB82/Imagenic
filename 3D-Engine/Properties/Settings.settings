@@ -32,5 +32,8 @@
     <Setting Name="Camera_Z_Far" Type="System.Single" Scope="User">
       <Value Profile="(Default)">750</Value>
     </Setting>
+    <Setting Name="Light_Strength" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

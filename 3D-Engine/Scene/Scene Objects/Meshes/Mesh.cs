@@ -14,29 +14,29 @@ using System.Drawing;
 
 namespace _3D_Engine
 {
-    /// <include file="Help_7.xml" path="doc/members/member[@name='T:_3D_Engine.Mesh']/*"/>
+    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Mesh']/*"/>
     public abstract partial class Mesh : Scene_Object
     {
         #region Fields and Properties
 
         // Structure
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Vertices']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Vertices']/*"/>
         public Vertex[] Vertices { get; protected set; }
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edges']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edges']/*"/>
         public Edge[] Edges { get; protected set; }
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Faces']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Faces']/*"/>
         public Face[] Faces { get; internal set; }
 
         // Appearance
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Edges']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Edges']/*"/>
         public bool Draw_Edges { get; set; } = true;
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Faces']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Faces']/*"/>
         public bool Draw_Faces { get; set; } = true;
 
         // Colours
         private Color edge_colour, face_colour;
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edge_Colour']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edge_Colour']/*"/>
         public Color Edge_Colour
         {
             get => edge_colour;
@@ -46,7 +46,7 @@ namespace _3D_Engine
                 foreach (Edge edge in Edges) edge.Colour = edge_colour;
             }
         }
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Face_Colour']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Face_Colour']/*"/>
         public Color Face_Colour
         {
             get => face_colour;
@@ -58,17 +58,17 @@ namespace _3D_Engine
         }
 
         // Textures
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Textures']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Textures']/*"/>
         public Texture[] Textures { get; internal set; }
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Has_Texture']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Has_Texture']/*"/>
         public bool Has_Texture { get; protected set; } = false;
 
         // Miscellaneous
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Dimension']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Dimension']/*"/>
         public int Dimension { get; internal set; }
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Casts_Shadows']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Casts_Shadows']/*"/>
         public bool Casts_Shadows { get; set; } = true;
-        /// <include file="Help_7.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool Draw_Outline { get; set; } = false;
 
         // Matrices and Vectors

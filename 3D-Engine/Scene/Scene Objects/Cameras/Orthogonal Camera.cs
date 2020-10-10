@@ -1,4 +1,16 @@
-﻿using static _3D_Engine.Properties.Settings;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Encapsulates creation of an orthogonal camera.
+ */
+
+using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
 namespace _3D_Engine
@@ -10,10 +22,7 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        private float width = Default.Camera_Width;
-        private float height = Default.Camera_Height;
-        private float z_near = Default.Camera_Z_Near;
-        private float z_far = Default.Camera_Z_Far;
+        private float width, height, z_near, z_far;
 
         public override float Width
         {
@@ -80,18 +89,20 @@ namespace _3D_Engine
 
         #region Constructors
 
+        public Orthogonal_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
+
         public Orthogonal_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
         {
             Camera_View_to_Camera_Screen = Matrix4x4.Identity;
 
             Camera_View_Clipping_Planes = new[]
             {
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_X), // Left
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Y), // Bottom
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Z), // Near
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Negative_X), // Right
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Negative_Y), // Top
-                new Clipping_Plane(new Vector3D(), Vector3D.Unit_Negative_Z) // Far
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_X), // Left
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Y), // Bottom
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Z), // Near
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_X), // Right
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Y), // Top
+                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Z) // Far
             };
 
             Width = width;
@@ -100,13 +111,14 @@ namespace _3D_Engine
             Z_Far = z_far;
         }
 
+        public Orthogonal_Camera Orthogonal_Camera_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new Orthogonal_Camera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+
+        public Orthogonal_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up) : this(origin, pointed_at.World_Origin - origin, direction_up, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
+
         public Orthogonal_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public Orthogonal_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far, string ignore) : this(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
-
-        public Orthogonal_Camera(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far, string ignore) : this(origin, pointed_at.World_Origin, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far) { }
+        public Orthogonal_Camera Orthogonal_Camera_Angle(Vector3D origin, Scene_Object pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new Orthogonal_Camera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
 
         #endregion
-
     }
 }

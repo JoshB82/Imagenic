@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace _3D_Engine
 {
-    /// <include file="Help_7.xml" path="doc/members/member[@name='T:_3D_Engine.Custom']/*"/>
+    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Custom']/*"/>
     public sealed class Custom : Mesh
     {
         #region Constructors
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, Vertex[] vertices, Edge[] edges, Face[] faces) : base(origin, direction_forward, direction_up)
         {
             Vertices = vertices;
@@ -20,7 +20,7 @@ namespace _3D_Engine
             Faces = faces;
         }
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up,
             Vertex[] vertices,
             Edge[] edges,

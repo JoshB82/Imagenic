@@ -6,12 +6,12 @@
     <members>
         <member name="T:_3D_Engine.Constants">
             <summary>
-            Collection of frequently used <see cref="T:_3D_Engine.Constants" />.
+            Encapsulates frequently used <see cref="T:_3D_Engine.Constants" />.
             </summary>
         </member>
         <member name="F:_3D_Engine.Constants.Grav_Acc">
             <summary>
-            Gravitational acceleration near the surface of the Earth.
+            Gravitational acceleration near the surface of the Earth as a <see cref="T:System.Single"/>.
             </summary>
         </member>
         <member name="T:_3D_Engine.Matrix4x4">
@@ -743,7 +743,7 @@
             </summary>
         </member>
         <member name="M:_3D_Engine.Light.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
-            <!-- No matching elements were found for the following include tag --><include file="Help_7.xml" path="doc/members/member[@name='']/*" />
+            <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='']/*" />
         </member>
         <member name="M:_3D_Engine.Light.Export_Shadow_Map">
             <summary>
@@ -778,7 +778,7 @@
         </member>
         <member name="P:_3D_Engine.Circle.Resolution">
             <summary>
-            The number of <see cref="T:_3D_Engine.Vertex">Vertices</see> that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.
+            The number of <see cref="T:_3D_Engine.Vertex">vertices</see> that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Int32)">
@@ -921,7 +921,7 @@
         </member>
         <member name="P:_3D_Engine.Cone.Resolution">
             <summary>
-            The number of <see cref="T:_3D_Engine.Vertex">Vertices</see> that are on the perimeter of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.
+            The number of <see cref="T:_3D_Engine.Vertex">vertices</see> that are on the perimeter of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.
             </summary>
         </member>
         <member name="M:_3D_Engine.Cone.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Single,System.Int32)">
@@ -933,7 +933,7 @@
             <param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Cone"/>.</param>
             <param name="height">The height of the <see cref="T:_3D_Engine.Cone"/>.</param>
             <param name="radius">The radius of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.</param>
-            <param name="resolution">The number of <see cref="T:_3D_Engine.Vertex">Vertices</see> that are on the perimeter of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.</param>
+            <param name="resolution">The number of <see cref="T:_3D_Engine.Vertex">vertices</see> that are on the perimeter of the base <see cref="T:_3D_Engine.Circle"/> of the <see cref="T:_3D_Engine.Cone"/>.</param>
         </member>
         <member name="T:_3D_Engine.Cube">
             <summary>
@@ -1201,7 +1201,7 @@
         </member>
         <member name="P:_3D_Engine.Mesh.Vertices">
             <summary>
-            The <see cref="T:_3D_Engine.Vertex">Vertices</see> in the <see cref="T:_3D_Engine.Mesh" />.
+            The <see cref="T:_3D_Engine.Vertex">vertices</see> in the <see cref="T:_3D_Engine.Mesh" />.
             </summary>
         </member>
         <member name="P:_3D_Engine.Mesh.Edges">

@@ -7,7 +7,7 @@ namespace _3D_Engine
     {
         #region Rotations
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public virtual void Set_Direction_1(Vector3D new_world_direction_forward, Vector3D new_world_direction_up)
         {
             if (new_world_direction_forward.Approx_Equals(Vector3D.Zero, 1E-6f) ||
@@ -27,7 +27,7 @@ namespace _3D_Engine
             Output_Direction();
         }
         
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_2(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_2(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public virtual void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
         {
             if (new_world_direction_up.Approx_Equals(Vector3D.Zero, 1E-6f) ||
@@ -47,7 +47,7 @@ namespace _3D_Engine
             Output_Direction();
         }
         
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_3(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_3(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
         public virtual void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
         {
             if (new_world_direction_right.Approx_Equals(Vector3D.Zero, 1E-6f) ||

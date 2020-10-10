@@ -1,12 +1,24 @@
-﻿namespace _3D_Engine
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Provides static methods for calculating matrices representing scaling.
+ */
+
+namespace _3D_Engine
 {
     public static partial class Transform
     {
         /// <summary>
-        /// Creates a matrix for scaling in the x-direction.
+        /// Creates a <see cref="Matrix4x4"/> for scaling in the x-direction.
         /// </summary>
         /// <param name="scale_factor">Factor to scale by.</param>
-        /// <returns>Scaling matrix.</returns>
+        /// <returns>A scaling <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Scale_X(float scale_factor)
         {
             Matrix4x4 scaling = Matrix4x4.Identity;
@@ -15,10 +27,10 @@
         }
 
         /// <summary>
-        /// Creates a matrix for scaling in the y-direction.
+        /// Creates a <see cref="Matrix4x4"/> for scaling in the y-direction.
         /// </summary>
         /// <param name="scale_factor">Factor to scale by.</param>
-        /// <returns>Scaling matrix.</returns>
+        /// <returns>A scaling <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Scale_Y(float scale_factor)
         {
             Matrix4x4 scaling = Matrix4x4.Identity;
@@ -27,10 +39,10 @@
         }
 
         /// <summary>
-        /// Creates a matrix for scaling in the z-direction.
+        /// Creates a <see cref="Matrix4x4"/> for scaling in the z-direction.
         /// </summary>
         /// <param name="scale_factor">Factor to scale by.</param>
-        /// <returns>Scaling matrix.</returns>
+        /// <returns>A scaling <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Scale_Z(float scale_factor)
         {
             Matrix4x4 scaling = Matrix4x4.Identity;
@@ -39,12 +51,12 @@
         }
 
         /// <summary>
-        /// Creates a matrix for scaling in all directions.
+        /// Creates a <see cref="Matrix4x4"/> for scaling in all directions.
         /// </summary>
         /// <param name="scale_factor_x">Factor to scale by in the x-direction.</param>
         /// <param name="scale_factor_y">Factor to scale by in the y-direction.</param>
         /// <param name="scale_factor_z">Factor to scale by in the z-direction.</param>
-        /// <returns>Scaling matrix.</returns>
+        /// <returns>A scaling <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Scale(float scale_factor_x, float scale_factor_y, float scale_factor_z)
         {
             Matrix4x4 scaling = Matrix4x4.Identity;
@@ -55,10 +67,17 @@
         }
 
         /// <summary>
-        /// Creates a matrix for scaling in all directions by the same scale factor.
+        /// Creates a <see cref="Matrix4x4"/> for scaling in all directions by the same scale factor.
         /// </summary>
         /// <param name="scale_factor">Factor to scale by.</param>
-        /// <returns>Scaling matrix.</returns>
+        /// <returns>A scaling <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Scale(float scale_factor) => Scale(scale_factor, scale_factor, scale_factor);
+
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> for scaling in the x, y and z directions by the respective scale factors in the <see cref="Vector3D"/>.
+        /// </summary>
+        /// <param name="scale_factor"><see cref="Vector3D"/> containing factors to scale by.</param>
+        /// <returns>A scaling <see cref="Matrix4x4"/>.</returns>
+        public static Matrix4x4 Scale(Vector3D scale_factor) => Scale(scale_factor.x, scale_factor.y, scale_factor.z);
     }
 }

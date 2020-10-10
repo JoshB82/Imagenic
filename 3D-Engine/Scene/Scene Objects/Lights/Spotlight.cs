@@ -6,10 +6,8 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        private int shadow_map_width = Default.Shadow_Map_Width;
-        private int shadow_map_height = Default.Shadow_Map_Height;
-        private float shadow_map_z_near = Default.Shadow_Map_Z_Near;
-        private float shadow_map_z_far = Default.Shadow_Map_Z_Far;
+        private int shadow_map_width, shadow_map_height;
+        private float shadow_map_z_near, shadow_map_z_far;
 
         public override int Shadow_Map_Width
         {

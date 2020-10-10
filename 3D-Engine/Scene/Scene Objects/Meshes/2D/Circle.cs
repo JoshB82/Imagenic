@@ -1,10 +1,20 @@
-﻿using static System.MathF;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Encapsulates creation of a circle mesh.
+ */
+
+using static System.MathF;
 
 namespace _3D_Engine
 {
-    /// <summary>
-    /// Encapsulates creation of a <see cref="Circle"/> mesh.
-    /// </summary>
+    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Circle']/*"/>
     public sealed class Circle : Mesh
     {
         #region Fields and Properties
@@ -12,9 +22,7 @@ namespace _3D_Engine
         private float radius;
         private int resolution;
 
-        /// <summary>
-        /// The radius of the <see cref="Circle"/>.
-        /// </summary>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Circle.Radius']/*"/>
         public float Radius
         {
             get => radius;
@@ -24,9 +32,8 @@ namespace _3D_Engine
                 Scaling = new Vector3D(radius, 1, radius);
             }
         }
-        /// <summary>
-        /// The number of <see cref="Vertex">Vertices</see> that are on the perimeter of the <see cref="Circle"/>.
-        /// </summary>
+        
+        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Circle.Resolution']/*"/>
         public int Resolution
         {
             get => resolution;
@@ -63,14 +70,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        /// <summary>
-        /// Creates a <see cref="Circle"/> mesh.
-        /// </summary>
-        /// <param name="origin">The position of the <see cref="Circle"/>.</param>
-        /// <param name="direction_forward">The direction the <see cref="Circle"/> faces.</param>
-        /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
-        /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
-        /// <param name="resolution">The number of vertices that are on the perimeter of the <see cref="Circle"/>.</param>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Int32)']/*"/>
         public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, float radius, int resolution) : base(origin, direction_forward, normal)
         {
             Dimension = 2;
@@ -79,15 +79,7 @@ namespace _3D_Engine
             Resolution = resolution;
         }
 
-        /// <summary>
-        /// Creates a textured <see cref="Circle"/> mesh, specifying a single <see cref="Texture"/> for all sides.
-        /// </summary>
-        /// <param name="origin">The position of the <see cref="Circle"/>.</param>
-        /// <param name="direction_forward">The direction the <see cref="Circle"/> faces.</param>
-        /// <param name="normal">The upward orientation of the <see cref="Circle"/>. This is also a normal to the surface of the <see cref="Circle"/>.</param>
-        /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
-        /// <param name="resolution">The number of vertices that are on the perimeter of the <see cref="Circle"/>.</param>
-        /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Circle"/>.</param>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Int32,_3D_Engine.Texture)']/*"/>
         public Circle(Vector3D origin, Vector3D direction_forward, Vector3D normal, float radius, int resolution, Texture texture) : base(origin, direction_forward, normal)
         {
             Dimension = 2;

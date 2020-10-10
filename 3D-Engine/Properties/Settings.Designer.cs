@@ -142,5 +142,17 @@ namespace _3D_Engine.Properties {
                 this["Camera_Z_Far"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public float Light_Strength {
+            get {
+                return ((float)(this["Light_Strength"]));
+            }
+            set {
+                this["Light_Strength"] = value;
+            }
+        }
     }
 }

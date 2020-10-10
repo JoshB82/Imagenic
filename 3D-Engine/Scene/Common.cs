@@ -16,10 +16,10 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Scene.Create_Origin']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Scene.Create_Origin']/*"/>
         public void Create_Origin() => Add(new World_Point(Vector3D.Zero));
 
-        /// <include file="Help_7.xml" path="doc/members/member[@name='M:_3D_Engine.Scene.Create_Axes']/*"/>
+        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Scene.Create_Axes']/*"/>
         public void Create_Axes()
         {
             const int resolution = 50, body_radius = 10, tip_radius = 15, tip_length = 50, length = 150;

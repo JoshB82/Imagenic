@@ -96,7 +96,7 @@ namespace _3D_Engine
 
         public readonly bool Equals(Quaternion q) => this == q;
 
-        public readonly bool Approx_Equals(Quaternion q, float epsilon = Single.Epsilon) =>
+        public readonly bool Approx_Equals(Quaternion q, float epsilon = float.Epsilon) =>
             this.q1.Approx_Equals(q.q1, epsilon) &&
             this.q2.Approx_Equals(q.q2, epsilon) &&
             this.q3.Approx_Equals(q.q3, epsilon) &&

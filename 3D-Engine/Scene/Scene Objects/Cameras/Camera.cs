@@ -23,7 +23,7 @@ namespace _3D_Engine
         #region Fields and Properties
 
         // Appearance
-        public Mesh Icon { get; protected set; }
+        public readonly Mesh Icon;
 
         /// <summary>
         /// Determines if the <see cref="Camera"/> is drawn in the <see cref="Scene"/>.
@@ -33,6 +33,9 @@ namespace _3D_Engine
         // View Volume
         private Volume_Outline volume_style = Volume_Outline.None;
 
+        /// <summary>
+        /// Determines how the <see cref="Camera">camera's</see> view volume outline is drawn.
+        /// </summary>
         public Volume_Outline Volume_Style
         {
             get => volume_style;
@@ -106,7 +109,7 @@ namespace _3D_Engine
 
         // Clipping planes
         internal Clipping_Plane[] Camera_View_Clipping_Planes;
-        internal static Clipping_Plane[] Camera_Screen_Clipping_Planes { get; } = new[]
+        internal static readonly Clipping_Plane[] Camera_Screen_Clipping_Planes = new[]
         {
             new Clipping_Plane(-Vector3D.One, Vector3D.Unit_X), // Left
             new Clipping_Plane(-Vector3D.One, Vector3D.Unit_Y), // Bottom
@@ -117,9 +120,21 @@ namespace _3D_Engine
         };
 
         // View volume
+        /// <summary>
+        /// The width of the <see cref="Camera">camera's</see> view/near plane.
+        /// </summary>
         public abstract float Width { get; set; }
+        /// <summary>
+        /// The height of the <see cref="Camera">camera's</see> view/near plane.
+        /// </summary>
         public abstract float Height { get; set; }
+        /// <summary>
+        /// The depth of the <see cref="Camera">camera's</see> view to the near plane.
+        /// </summary>
         public abstract float Z_Near { get; set; }
+        /// <summary>
+        /// The depth of the <see cref="Camera">camera's</see> view to the far plane.
+        /// </summary>
         public abstract float Z_Far { get; set; }
 
         #endregion
