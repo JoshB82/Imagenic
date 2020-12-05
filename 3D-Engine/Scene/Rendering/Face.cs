@@ -182,7 +182,7 @@ namespace _3D_Engine
                     Color new_light_colour = light.Colour;
                     if (light is Point_Light or Spotlight)
                     {
-                        // Darken the light's colour based on how far away the point is from the light
+                        // Darken the Light's colour based on how far away the point is from the light
                         Vector3D light_to_point = (Vector3D)light_view_space_point;
                         float distant_intensity = light.Strength / light_to_point.Squared_Magnitude();
                         new_light_colour = light.Colour.Darken_Percentage(distant_intensity);
@@ -213,12 +213,12 @@ namespace _3D_Engine
                             point_colour = point_colour.Mix(new_light_colour);
                             light_applied = true;
 
-                            //if (light_point_z < -1) light_point_z = -1;
-                            //if (light_point_z > 1) light_point_z = 1;
+                            /*if (light_point_z < -1) light_point_z = -1;
+                            if (light_point_z > 1) light_point_z = 1;
 
-                            //int value = (255 * ((light_point_z + 1) / 2)).Round_to_Int();
-                            //Color greyscale_colour = Color.FromArgb(255, value, value, value);
-                            //bitmap.SetPixel(light_point_x, light_point_y, greyscale_colour);
+                            int value = (255 * ((light_point_z + 1) / 2)).Round_to_Int();
+                            Color greyscale_colour = Color.FromArgb(255, value, value, value);
+                            bitmap.SetPixel(light_point_x, light_point_y, greyscale_colour);*/
                             
                             // Trace.WriteLine("Lighting was added at "+new Vector3D(light_point_x,light_point_y,light_point_z)+" and the shadow map point z was: "+light.Shadow_Map[light_point_x][light_point_y]);
                         }

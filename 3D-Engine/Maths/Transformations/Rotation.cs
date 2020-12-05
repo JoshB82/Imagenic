@@ -88,7 +88,7 @@ namespace _3D_Engine
         {
             if (v1.Approx_Equals(v2, 1E-6f)) return Matrix4x4.Identity;
             axis ??= Vector3D.Unit_Y;
-            Vector3D rotation_axis = (v1 == -v2) ? (Vector3D)axis : v1.Cross_Product(v2).Normalise();
+            Vector3D rotation_axis = v1.Approx_Equals(-v2, 1E-6F) ? (Vector3D)axis : v1.Cross_Product(v2).Normalise();
             float angle = v1.Angle(v2);
             return Rotate(rotation_axis, angle);
         }
@@ -114,7 +114,7 @@ namespace _3D_Engine
         {
             if (v1.Approx_Equals(v2, 1E-6f)) return Quaternion.Identity;
             axis ??= Vector3D.Unit_Y;
-            Vector3D rotation_axis = (v1 == -v2) ? (Vector3D)axis : v1.Cross_Product(v2).Normalise();
+            Vector3D rotation_axis = v1.Approx_Equals(-v2, 1E-6F) ? (Vector3D)axis : v1.Cross_Product(v2).Normalise();
             float angle = v1.Angle(v2);
             return Quaternion_Rotate(rotation_axis, angle);
         }

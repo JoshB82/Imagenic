@@ -8,7 +8,7 @@ namespace _3D_Engine
         #region Fields and Properties
 
         /// <summary>
-        /// The <see cref="Bitmap"/> containing the texture data.
+        /// The <see cref="Bitmap"/> containing the <see cref="Texture"/> data.
         /// </summary>
         public Bitmap File { get; set; }
         /// <summary>
