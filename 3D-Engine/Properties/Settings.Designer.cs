@@ -97,7 +97,7 @@ namespace _3D_Engine.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("810")]
+        [global::System.Configuration.DefaultSettingValueAttribute("81")]
         public float Camera_Width {
             get {
                 return ((float)(this["Camera_Width"]));
@@ -109,7 +109,7 @@ namespace _3D_Engine.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("640")]
+        [global::System.Configuration.DefaultSettingValueAttribute("64")]
         public float Camera_Height {
             get {
                 return ((float)(this["Camera_Height"]));

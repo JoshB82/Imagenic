@@ -21,10 +21,10 @@
       <Value Profile="(Default)">1000</Value>
     </Setting>
     <Setting Name="Camera_Width" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">810</Value>
+      <Value Profile="(Default)">81</Value>
     </Setting>
     <Setting Name="Camera_Height" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">640</Value>
+      <Value Profile="(Default)">64</Value>
     </Setting>
     <Setting Name="Camera_Z_Near" Type="System.Single" Scope="User">
       <Value Profile="(Default)">10</Value>

@@ -34,7 +34,7 @@ namespace _3D_Engine
         private Volume_Outline volume_style = Volume_Outline.None;
 
         /// <summary>
-        /// Determines how the <see cref="Camera">camera's</see> view volume outline is drawn.
+        /// Determines how the <see cref="Camera">Camera's</see> view volume outline is drawn.
         /// </summary>
         public Volume_Outline Volume_Style
         {
@@ -47,7 +47,7 @@ namespace _3D_Engine
 
                 float semi_width = Width / 2, semi_height = Height / 2;
 
-                Vertex zero_point = new Vertex(Vector4D.Zero);
+                Vertex zero_point = new Vertex(new Vector4D(0, 0, 0, 1));
                 Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, Z_Near, 1));
                 Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, Z_Near, 1));
                 Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Z_Near, 1));
@@ -75,10 +75,8 @@ namespace _3D_Engine
 
                     Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Z_Far, 1));
                     Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, Z_Far, 1));
-                    Vertex far_bottom_left_point =
-                        new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Z_Far, 1));
-                    Vertex far_bottom_right_point =
-                        new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Z_Far, 1));
+                    Vertex far_bottom_left_point = new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Z_Far, 1));
+                    Vertex far_bottom_right_point = new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Z_Far, 1));
 
                     Volume_Edges.AddRange(new[]
                     {
@@ -121,19 +119,19 @@ namespace _3D_Engine
 
         // View volume
         /// <summary>
-        /// The width of the <see cref="Camera">camera's</see> view/near plane.
+        /// The width of the <see cref="Camera">Camera's</see> view/near plane.
         /// </summary>
         public abstract float Width { get; set; }
         /// <summary>
-        /// The height of the <see cref="Camera">camera's</see> view/near plane.
+        /// The height of the <see cref="Camera">Camera's</see> view/near plane.
         /// </summary>
         public abstract float Height { get; set; }
         /// <summary>
-        /// The depth of the <see cref="Camera">camera's</see> view to the near plane.
+        /// The depth of the <see cref="Camera">Camera's</see> view to the near plane.
         /// </summary>
         public abstract float Z_Near { get; set; }
         /// <summary>
-        /// The depth of the <see cref="Camera">camera's</see> view to the far plane.
+        /// The depth of the <see cref="Camera">Camera's</see> view to the far plane.
         /// </summary>
         public abstract float Z_Far { get; set; }
 
@@ -141,7 +139,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up)
+        internal Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
         {
             string[] icon_obj_data = Properties.Resources.Camera.Split("\n");
             Icon = new Custom(origin, direction_forward, direction_up, icon_obj_data)

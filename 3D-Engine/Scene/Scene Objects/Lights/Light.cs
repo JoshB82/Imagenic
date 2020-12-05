@@ -49,7 +49,7 @@ namespace _3D_Engine
 
                 float semi_width = Shadow_Map_Width / 2f, semi_height = Shadow_Map_Height / 2f;
 
-                Vertex zero_point = new Vertex(Vector4D.Zero);
+                Vertex zero_point = new Vertex(new Vector4D(0, 0, 0, 1));
                 Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, Shadow_Map_Z_Near, 1));
                 Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, Shadow_Map_Z_Near, 1));
                 Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Shadow_Map_Z_Near, 1));
@@ -77,10 +77,8 @@ namespace _3D_Engine
 
                     Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Shadow_Map_Z_Far, 1));
                     Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, Shadow_Map_Z_Far, 1));
-                    Vertex far_bottom_left_point =
-                        new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Shadow_Map_Z_Far, 1));
-                    Vertex far_bottom_right_point =
-                        new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Shadow_Map_Z_Far, 1));
+                    Vertex far_bottom_left_point = new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Shadow_Map_Z_Far, 1));
+                    Vertex far_bottom_right_point = new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Shadow_Map_Z_Far, 1));
 
                     Volume_Edges.AddRange(new[]
                     {
@@ -133,7 +131,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up) { }
+        internal Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows) { }
 
         #endregion
 
