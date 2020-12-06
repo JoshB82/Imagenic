@@ -10,6 +10,7 @@
  * Provides methods for generating data required to draw edges.
  */
 
+using _3D_Engine.Rendering;
 using System.Drawing;
 
 namespace _3D_Engine
@@ -39,7 +40,7 @@ namespace _3D_Engine
             point_2 = model_to_camera_view * point_2;
 
             // Clip the edge in camera-view space
-            if (!Clip_Edges(Render_Camera.Camera_View_Clipping_Planes, ref point_1, ref point_2)) return;
+            if (!Clip.Clip_Edges(Render_Camera.Camera_View_Clipping_Planes, ref point_1, ref point_2)) return;
 
             // Move the edge from camera-view space to camera-screen space, including a correction for perspective
             point_1 = camera_view_to_camera_screen * point_1;
@@ -54,7 +55,7 @@ namespace _3D_Engine
             // Clip the edge in camera-screen space
             if (Settings.Screen_Space_Clip)
             {
-                if (!Clip_Edges(Camera.Camera_Screen_Clipping_Planes, ref point_1, ref point_2)) return;
+                if (!Clip.Clip_Edges(Camera.Camera_Screen_Clipping_Planes, ref point_1, ref point_2)) return;
             }
 
             // Mode the edge from camera-screen space to window space

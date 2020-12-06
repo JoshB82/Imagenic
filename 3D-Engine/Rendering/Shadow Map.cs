@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using _3D_Engine.Rendering;
+
+using System.Collections.Generic;
 
 namespace _3D_Engine
 {
@@ -48,7 +50,7 @@ namespace _3D_Engine
             // Clip the face in light-view space
             Queue<Face> face_clip = new Queue<Face>();
             face_clip.Enqueue(face);
-            if (!Clip_Faces_In_Queue(face_clip, light.Light_View_Clipping_Planes)) return;
+            if (!Clip.Clip_Faces_In_Queue(face_clip, light.Light_View_Clipping_Planes)) return;
 
             // Move the new triangles from light-view space to screen space, including a correction for perspective
             foreach (Face clipped_face in face_clip)
@@ -64,7 +66,7 @@ namespace _3D_Engine
             }
 
             // Clip the face in screen space
-            if (Settings.Screen_Space_Clip && !Clip_Faces_In_Queue(face_clip, Camera.Camera_Screen_Clipping_Planes)) return;
+            if (Settings.Screen_Space_Clip && !Clip.Clip_Faces_In_Queue(face_clip, Camera.Camera_Screen_Clipping_Planes)) return;
 
             foreach (Face clipped_face in face_clip)
             {
@@ -112,9 +114,9 @@ namespace _3D_Engine
 
             if (x < light.Shadow_Map_Width && y < light.Shadow_Map_Height)
             {
-                if (z.Approx_Less_Than(light.Shadow_Map[x][y], 1E-4f))
+                if (z.Approx_Less_Than(light.Shadow_Map.Values[x][y], 1E-4f))
                 {
-                    light.Shadow_Map[x][y] = z;
+                    light.Shadow_Map.Values[x][y] = z;
                 }
             }
         }

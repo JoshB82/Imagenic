@@ -10,6 +10,8 @@
  * Encapsulates creation of a light.
  */
 
+using _3D_Engine.Rendering;
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -110,7 +112,7 @@ namespace _3D_Engine
         internal Clipping_Plane[] Light_View_Clipping_Planes;
 
         // Shadow map volume
-        internal float[][] Shadow_Map;
+        internal Buffer2D<float> Shadow_Map;
         public abstract int Shadow_Map_Width { get; set; }
         public abstract int Shadow_Map_Height { get; set; }
         public abstract float Shadow_Map_Z_Near { get; set; }
@@ -120,8 +122,7 @@ namespace _3D_Engine
         protected void Set_Shadow_Map()
         {
             // Set shadow map
-            Shadow_Map = new float[Shadow_Map_Width][];
-            for (int i = 0; i < Shadow_Map_Width; i++) Shadow_Map[i] = new float[Shadow_Map_Height];
+            Shadow_Map = new(Shadow_Map_Width, Shadow_Map_Height);
             
             // Set light-screen-to-light-window matrix
             Light_Screen_to_Light_Window = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * window_translate;
@@ -155,7 +156,7 @@ namespace _3D_Engine
                 {
                     for (int y = 0; y < Shadow_Map_Height; y++)
                     {
-                        int value = (255 * ((Shadow_Map[x][y] + 1) / 2)).Round_to_Int();
+                        int value = (255 * ((Shadow_Map.Values[x][y] + 1) / 2)).Round_to_Int();
 
                         Color greyscale_colour = Color.FromArgb(255, value, value, value);
                         shadow_map_bitmap.SetPixel(x, y, greyscale_colour);

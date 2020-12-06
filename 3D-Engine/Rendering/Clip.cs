@@ -13,11 +13,11 @@
 using System.Collections.Generic;
 using static _3D_Engine.Vector3D;
 
-namespace _3D_Engine
+namespace _3D_Engine.Rendering
 {
-    public sealed partial class Scene
+    internal static class Clip
     {
-        private static bool Clip_Edges(Clipping_Plane[] clipping_planes, ref Vector4D point_1, ref Vector4D point_2)
+        internal static bool Clip_Edges(Clipping_Plane[] clipping_planes, ref Vector4D point_1, ref Vector4D point_2)
         {
             foreach (Clipping_Plane clipping_plane in clipping_planes)
             {
@@ -26,7 +26,7 @@ namespace _3D_Engine
             return true;
         }
 
-        private static bool Clip_Edge(Vector3D plane_point, Vector3D plane_normal, ref Vector4D point_1, ref Vector4D point_2)
+        internal static bool Clip_Edge(Vector3D plane_point, Vector3D plane_normal, ref Vector4D point_1, ref Vector4D point_2)
         {
             float point_1_distance = Point_Distance_From_Plane((Vector3D)point_1, plane_point, plane_normal);
             float point_2_distance = Point_Distance_From_Plane((Vector3D)point_2, plane_point, plane_normal);
@@ -56,7 +56,7 @@ namespace _3D_Engine
         }
 
         //source!
-        private static bool Clip_Faces_In_Queue(Queue<Face> face_clip_queue, Clipping_Plane[] clipping_planes)
+        internal static bool Clip_Faces_In_Queue(Queue<Face> face_clip_queue, Clipping_Plane[] clipping_planes)
         {
             foreach (Clipping_Plane clipping_plane in clipping_planes)
             {
@@ -69,7 +69,7 @@ namespace _3D_Engine
 
         // check clockwise/anticlockwise stuff
         // source
-        private static void Clip_Face(Face face_to_clip, Queue<Face> face_clip_queue, Vector3D plane_point, Vector3D plane_normal)
+        internal static void Clip_Face(Face face_to_clip, Queue<Face> face_clip_queue, Vector3D plane_point, Vector3D plane_normal)
         {
             Vector4D[] inside_points = new Vector4D[3], outside_points = new Vector4D[3];
             Vector3D[] inside_texture_points = new Vector3D[3], outside_texture_points = new Vector3D[3];

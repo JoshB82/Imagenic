@@ -10,6 +10,8 @@
  * Provides methods for generating data required to draw faces.
  */
 
+using _3D_Engine.Rendering;
+
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -46,7 +48,7 @@ namespace _3D_Engine
             // Clip the face in camera-view space
             Queue<Face> face_clip_queue = new Queue<Face>();
             face_clip_queue.Enqueue(face);
-            if (!Clip_Faces_In_Queue(face_clip_queue, Render_Camera.Camera_View_Clipping_Planes)) return;
+            if (!Clip.Clip_Faces_In_Queue(face_clip_queue, Render_Camera.Camera_View_Clipping_Planes)) return;
 
             // Move the new triangles from camera-view space to camera-screen space, including a correction for perspective
             foreach (var clipped_face in face_clip_queue)
@@ -69,7 +71,7 @@ namespace _3D_Engine
             }
 
             // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && !Clip_Faces_In_Queue(face_clip_queue, Camera.Camera_Screen_Clipping_Planes)) return; // anything outside cube?
+            if (Settings.Screen_Space_Clip && !Clip.Clip_Faces_In_Queue(face_clip_queue, Camera.Camera_Screen_Clipping_Planes)) return; // anything outside cube?
 
             foreach (Face clipped_face in face_clip_queue)
             {
@@ -207,7 +209,7 @@ namespace _3D_Engine
                     if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width &&
                         light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
                     {
-                        if (light_point_z.Approx_Less_Than_Equals(light.Shadow_Map[light_point_x][light_point_y], 1E-4F))
+                        if (light_point_z.Approx_Less_Than_Equals(light.Shadow_Map.Values[light_point_x][light_point_y], 1E-4F))
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
                             point_colour = point_colour.Mix(new_light_colour);
@@ -227,7 +229,7 @@ namespace _3D_Engine
             }
 
             // Update the colour buffer (use black if there are no lights affecting the point)
-            colour_buffer[x][y] = light_applied ? point_colour : Color.Black;
+            colourBuffer.Values[x][y] = light_applied ? point_colour : Color.Black;
         }
     }
 }

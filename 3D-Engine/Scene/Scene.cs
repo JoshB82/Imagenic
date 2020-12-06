@@ -10,10 +10,12 @@
  * Encapsulates creation of a scene and contains rendering methods.
  */
 
-using System.Drawing;
+using _3D_Engine.Rendering;
+
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace _3D_Engine
@@ -27,9 +29,6 @@ namespace _3D_Engine
 
         private Rectangle screen_rectangle;
 
-        // Buffers
-        private float[][] z_buffer;
-        private Color[][] colour_buffer;
         private const byte out_of_bounds_value = 2;
 
         // Components
@@ -45,7 +44,7 @@ namespace _3D_Engine
         private Bitmap new_frame;
         
         // Miscellaneous
-        private static readonly object locker = new object();
+        private static readonly object locker = new();
 
         // Contents
         public readonly List<Scene_Object> Scene_Objects = new();
@@ -87,16 +86,14 @@ namespace _3D_Engine
                 }
             }
         }
+
+        private Buffer2D<float> zBuffer;
+        private Buffer2D<Color> colourBuffer;
         private void Update_Dimensions()
         {
             // Update buffers
-            z_buffer = new float[width][];
-            colour_buffer = new Color[width][];
-            for (int i = 0; i < width; i++)
-            {
-                z_buffer[i] = new float[height];
-                colour_buffer[i] = new Color[height];
-            }
+            zBuffer = new(width, height);
+            colourBuffer = new(width, height);
 
             // Update screen-to-window matrices
             screen_to_window = Transform.Scale(0.5f * (width - 1), 0.5f * (height - 1), 1) * window_translate;
@@ -142,7 +139,7 @@ namespace _3D_Engine
         /// <summary>
         /// Adds multiple <see cref="Scene_Object">Scene_Objects</see> to the <see cref="Scene"/>.
         /// </summary>
-        /// <param name="scene_objects">Array containing <see cref="Scene_Object">Scene_Objects</see> to add.</param>
+        /// <param name="scene_objects"><see cref="IEnumerable"/> containing <see cref="Scene_Object">Scene_Objects</see> to add.</param>
         public void Add(IEnumerable<Scene_Object> scene_objects)
         {
             lock (locker)
@@ -187,16 +184,10 @@ namespace _3D_Engine
                 // Create temporary canvas for this frame
                 //if (new_frame is not null) new_frame.Dispose();
                 new_frame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-                
+
                 // Reset scene buffers
-                for (int i = 0; i < width; i++)
-                {
-                    for (int j = 0; j < height; j++)
-                    {
-                        z_buffer[i][j] = out_of_bounds_value;
-                        colour_buffer[i][j] = Background_Colour;
-                    }
-                }
+                zBuffer.SetAllToValue(out_of_bounds_value);
+                colourBuffer.SetAllToValue(Background_Colour);
 
                 Reset_Light_Buffers();
 
@@ -314,10 +305,10 @@ namespace _3D_Engine
                         {
                             for (int y = 0; y < height; y++)
                             {
-                                if (z_buffer[x][y] != out_of_bounds_value)
+                                if (zBuffer.Values[x][y] != out_of_bounds_value)
                                 {
                                     // Move the point from window space to world space and apply lighting
-                                    Apply_Lighting(window_to_world * new Vector4D(x, y, z_buffer[x][y], 1), ref colour_buffer[x][y], x, y, null);
+                                    Apply_Lighting(window_to_world * new Vector4D(x, y, zBuffer.Values[x][y], 1), ref colourBuffer.Values[x][y], x, y, null);
                                 }
                             }
                         }
@@ -335,12 +326,12 @@ namespace _3D_Engine
                             for (int y = 0; y < height; y++)
                             {
                                 // check all floats and ints
-                                if (z_buffer[x][y] != out_of_bounds_value)
+                                if (zBuffer.Values[x][y] != out_of_bounds_value)
                                 {
                                     SMC_Camera_Perspective
                                     (
-                                        x, y, z_buffer[x][y],
-                                        ref colour_buffer[x][y],
+                                        x, y, zBuffer.Values[x][y],
+                                        ref colourBuffer.Values[x][y],
                                         ref screen_to_window_inverse,
                                         ref Render_Camera.Camera_Screen_to_World,
                                         shadow_map_bitmap
@@ -481,7 +472,7 @@ namespace _3D_Engine
                 }
 
                 // Draw all points
-                Draw_Colour_Buffer(new_frame, colour_buffer);
+                Draw_Colour_Buffer(new_frame, colourBuffer.Values);
                 Canvas_Box.Image = new_frame;
             }
         }
@@ -508,13 +499,7 @@ namespace _3D_Engine
         {
             foreach (Light light in Lights)
             {
-                for (int i = 0; i < light.Shadow_Map_Width; i++)
-                {
-                    for (int j = 0; j < light.Shadow_Map_Height; j++)
-                    {
-                        light.Shadow_Map[i][j] = out_of_bounds_value;
-                    }
-                }
+                light.Shadow_Map.SetAllToValue(out_of_bounds_value);
             }
         }
 
