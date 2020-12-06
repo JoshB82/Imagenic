@@ -612,12 +612,12 @@
             Encapsulates creation of a <see cref="T:_3D_Engine.Scene"/>.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Scene.Create_Origin">
+        <member name="M:_3D_Engine.Scene.CreateOrigin">
             <summary>
             Creates a <see cref="T:_3D_Engine.World_Point" /> at (0, 0, 0) and adds it to the <see cref="T:_3D_Engine.Scene" />.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Scene.Create_Axes">
+        <member name="M:_3D_Engine.Scene.CreateAxes">
             <summary>
             Creates axes (<see cref="T:_3D_Engine.Arrow">Arrows</see>) starting from (0, 0, 0) and adds them to the <see cref="T:_3D_Engine.Scene" />.
             </summary>
