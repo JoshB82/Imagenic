@@ -10,10 +10,10 @@ namespace _3D_Engine
         {
             try
             {
-                if (z.Approx_Less_Than(z_buffer[x][y], 1E-4f))
+                if (z.Approx_Less_Than(zBuffer.Values[x][y], 1E-4f))
                 {
-                    z_buffer[x][y] = z;
-                    colour_buffer[x][y] = (Color)colour;
+                    zBuffer.Values[x][y] = z;
+                    colourBuffer.Values[x][y] = (Color)colour;
                 }
             }
             catch (IndexOutOfRangeException e)
@@ -26,10 +26,10 @@ namespace _3D_Engine
         {
             try
             {
-                if (z.Approx_Less_Than(z_buffer[x][y], 1E-4f))
+                if (z.Approx_Less_Than(zBuffer.Values[x][y], 1E-4f))
                 {
-                    z_buffer[x][y] = z;
-                    colour_buffer[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);
+                    zBuffer.Values[x][y] = z;
+                    colourBuffer.Values[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);
                 }
             }
             catch (IndexOutOfRangeException e)

@@ -10,10 +10,12 @@
  * Encapsulates creation of a scene and contains rendering methods.
  */
 
-using System.Drawing;
+using _3D_Engine.Rendering;
+
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace _3D_Engine
@@ -27,28 +29,27 @@ namespace _3D_Engine
 
         private Rectangle screen_rectangle;
 
-        // Buffers
-        private float[][] z_buffer;
-        private Color[][] colour_buffer;
-        private const byte out_of_bounds_value = 2;
+        private const byte outOfBoundsValue = 2;
 
         // Components
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Background_Colour']/*"/>
         public Color Background_Colour { get; set; } = Color.White;
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
         public PictureBox Canvas_Box { get; set; }
-        /// <summary>
-        /// The <see cref="Camera"/> containing the view that will be rendered on the screen.
-        /// </summary>
-        public Camera Render_Camera { get; set; }
 
-        private Bitmap new_frame;
-        
-        // Miscellaneous
-        private static readonly object locker = new object();
+        /// <summary>
+        /// The <see cref="Camera"/> containing the view that will be rendered on the screen if no other camera is specifiedddddddddddddddddd.
+        /// </summary>
+        public Camera DefaultCamera { get; set; }
+
+        private Bitmap canvas;
+
+        // Buffers
+        private Buffer2D<Color> colourBuffer;
+        private Buffer2D<float> zBuffer;
 
         // Contents
-        public readonly List<Scene_Object> Scene_Objects = new();
+        public readonly List<Scene_Object> SceneObjects = new();
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
         public readonly List<Camera> Cameras = new();
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
@@ -57,7 +58,7 @@ namespace _3D_Engine
         public readonly List<Mesh> Meshes = new();
 
         // Dimensions
-        private Matrix4x4 screen_to_window, screen_to_window_inverse;
+        private Matrix4x4 screenToWindow, screenToWindowInverse;
         private static readonly Matrix4x4 window_translate = Transform.Translate(new Vector3D(1, 1, 0));
         private int width, height;
 
@@ -70,6 +71,9 @@ namespace _3D_Engine
                 lock (locker)
                 {
                     width = value;
+                    colourBuffer.FirstDimensionSize = width;
+                    zBuffer.FirstDimensionSize = width;
+                    
                     Update_Dimensions();
                 }
             }
@@ -83,26 +87,24 @@ namespace _3D_Engine
                 lock (locker)
                 {
                     height = value;
+                    colourBuffer.SecondDimensionSize = height;
+                    zBuffer.SecondDimensionSize = height;
+
                     Update_Dimensions();
                 }
             }
         }
+
         private void Update_Dimensions()
         {
-            // Update buffers
-            z_buffer = new float[width][];
-            colour_buffer = new Color[width][];
-            for (int i = 0; i < width; i++)
-            {
-                z_buffer[i] = new float[height];
-                colour_buffer[i] = new Color[height];
-            }
-
             // Update screen-to-window matrices
-            screen_to_window = Transform.Scale(0.5f * (width - 1), 0.5f * (height - 1), 1) * window_translate;
-            screen_to_window_inverse = screen_to_window.Inverse();
+            screenToWindow = Transform.Scale(0.5f * (width - 1), 0.5f * (height - 1), 1) * window_translate;
+            screenToWindowInverse = screenToWindow.Inverse();
             screen_rectangle = new Rectangle(0, 0, width, height); //?-1?
         }
+
+        // Miscellaneous
+        private static readonly object locker = new();
 
         #endregion
 
@@ -120,7 +122,8 @@ namespace _3D_Engine
             Width = width;
             Height = height;
 
-            Reset_Light_Buffers();
+            colourBuffer = new(width, height);
+            zBuffer = new(width, height);
 
             Trace.WriteLine("Scene created");
         }
@@ -136,20 +139,20 @@ namespace _3D_Engine
         /// <param name="scene_object"><see cref="Scene_Object"/> to add.</param>
         public void Add(Scene_Object scene_object)
         {
-            lock (locker) Scene_Objects.Add(scene_object);
+            lock (locker) SceneObjects.Add(scene_object);
         }
 
         /// <summary>
         /// Adds multiple <see cref="Scene_Object">Scene_Objects</see> to the <see cref="Scene"/>.
         /// </summary>
-        /// <param name="scene_objects">Array containing <see cref="Scene_Object">Scene_Objects</see> to add.</param>
+        /// <param name="scene_objects"><see cref="IEnumerable"/> containing <see cref="Scene_Object">Scene_Objects</see> to add.</param>
         public void Add(IEnumerable<Scene_Object> scene_objects)
         {
             lock (locker)
             {
                 foreach (Scene_Object scene_object in scene_objects)
                 {
-                    Scene_Objects.Add(scene_object);
+                    SceneObjects.Add(scene_object);
                 }
             }
         }
@@ -157,7 +160,7 @@ namespace _3D_Engine
         // Remove from scene
         public void Remove(int ID)
         {
-            lock (locker) Scene_Objects.RemoveAll(x => x.ID == ID);
+            lock (locker) SceneObjects.RemoveAll(x => x.ID == ID);
         }
 
         public void Remove(int start_ID, int finish_ID)
@@ -166,19 +169,24 @@ namespace _3D_Engine
             {
                 for (int ID = start_ID; ID <= finish_ID; ID++)
                 {
-                    Scene_Objects.RemoveAll(x => x.ID == ID);
+                    SceneObjects.RemoveAll(x => x.ID == ID);
                 }
             }
         }
 
+        // vv!!
         /// <summary>
         /// Renders the <see cref="Scene"/>. The Render Camera must be set before this method is called.
         /// </summary>
-        public void Render()
+        /// 
+
+
+        public void Render() => Render(DefaultCamera);
+        public void Render(Camera renderCamera)
         {
-            if (Render_Camera is null)
+            if (renderCamera is null)
             {
-                Trace.WriteLine("Error drawing frame: No render camera has been set yet!");
+                Trace.WriteLine("Error: Cannot render camera set to null.");
                 return;
             }
 
@@ -186,19 +194,12 @@ namespace _3D_Engine
             {
                 // Create temporary canvas for this frame
                 //if (new_frame is not null) new_frame.Dispose();
-                new_frame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-                
-                // Reset scene buffers
-                for (int i = 0; i < width; i++)
-                {
-                    for (int j = 0; j < height; j++)
-                    {
-                        z_buffer[i][j] = out_of_bounds_value;
-                        colour_buffer[i][j] = Background_Colour;
-                    }
-                }
+                canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
 
-                Reset_Light_Buffers();
+                // Reset scene buffers
+                zBuffer.SetAllToValue(outOfBoundsValue);
+                colourBuffer.SetAllToValue(Background_Colour);
+                foreach (Light light in Lights) light.Shadow_Map.SetAllToValue(outOfBoundsValue);
 
                 // Calculate necessary matrices for all scene objects
                 Generate_Matrices();
@@ -210,12 +211,12 @@ namespace _3D_Engine
                 }
 
                 // Calculate depth information for each mesh
-                foreach (Scene_Object scene_object in Scene_Objects)
+                foreach (Scene_Object sceneObject in SceneObjects)
                 {
-                    switch (scene_object)
+                    switch (sceneObject)
                     {
                         case Camera camera when camera.Draw_Icon:
-                            Matrix4x4 model_to_camera_view = Render_Camera.World_to_Camera_View * camera.Icon.Model_to_World;
+                            Matrix4x4 modelToCameraView = renderCamera.World_to_Camera_View * camera.Icon.Model_to_World;
 
                             foreach (Face face in camera.Icon.Faces)
                             {
@@ -223,13 +224,13 @@ namespace _3D_Engine
                                 (
                                     face,
                                     3,
-                                    ref model_to_camera_view,
-                                    ref Render_Camera.Camera_View_to_Camera_Screen
+                                    ref modelToCameraView,
+                                    ref renderCamera.Camera_View_to_Camera_Screen
                                 );
                             }
                             break;
                         case Light light when light.Draw_Icon:
-                            model_to_camera_view = Render_Camera.World_to_Camera_View * light.Icon.Model_to_World;
+                            modelToCameraView = renderCamera.World_to_Camera_View * light.Icon.Model_to_World;
 
                             foreach (Face face in light.Icon.Faces)
                             {
@@ -237,13 +238,13 @@ namespace _3D_Engine
                                 (
                                     face,
                                     3,
-                                    ref model_to_camera_view,
-                                    ref Render_Camera.Camera_View_to_Camera_Screen
+                                    ref modelToCameraView,
+                                    ref renderCamera.Camera_View_to_Camera_Screen
                                 );
                             }
                             break;
                         case Mesh mesh when mesh.Visible && mesh.Draw_Faces:
-                            model_to_camera_view = Render_Camera.World_to_Camera_View * mesh.Model_to_World;
+                            modelToCameraView = renderCamera.World_to_Camera_View * mesh.Model_to_World;
 
                             foreach (Face face in mesh.Faces)
                             {
@@ -253,71 +254,71 @@ namespace _3D_Engine
                                     (
                                         face,
                                         mesh.Dimension,
-                                        ref model_to_camera_view,
-                                        ref Render_Camera.Camera_View_to_Camera_Screen
+                                        ref modelToCameraView,
+                                        ref renderCamera.Camera_View_to_Camera_Screen
                                     );
                                 }
                             }
                             break;
                     }
                 
-                    if (scene_object.Has_Direction_Arrows && scene_object.Display_Direction_Arrows)
+                    if (sceneObject.Has_Direction_Arrows && sceneObject.Display_Direction_Arrows)
                     {
-                        Arrow direction_forward = scene_object.Direction_Arrows.Scene_Objects[0] as Arrow;
-                        Arrow direction_up = scene_object.Direction_Arrows.Scene_Objects[1] as Arrow;
-                        Arrow direction_right = scene_object.Direction_Arrows.Scene_Objects[2] as Arrow;
+                        Arrow directionForward = sceneObject.Direction_Arrows.Scene_Objects[0] as Arrow;
+                        Arrow directionUp = sceneObject.Direction_Arrows.Scene_Objects[1] as Arrow;
+                        Arrow directionRight = sceneObject.Direction_Arrows.Scene_Objects[2] as Arrow;
 
-                        Matrix4x4 direction_forward_model_to_camera_view = Render_Camera.World_to_Camera_View * direction_forward.Model_to_World;
-                        Matrix4x4 direction_up_model_to_camera_view = Render_Camera.World_to_Camera_View * direction_up.Model_to_World;
-                        Matrix4x4 direction_right_model_to_camera_view = Render_Camera.World_to_Camera_View * direction_right.Model_to_World;
+                        Matrix4x4 direction_forward_model_to_camera_view = renderCamera.World_to_Camera_View * directionForward.Model_to_World;
+                        Matrix4x4 direction_up_model_to_camera_view = renderCamera.World_to_Camera_View * directionUp.Model_to_World;
+                        Matrix4x4 direction_right_model_to_camera_view = renderCamera.World_to_Camera_View * directionRight.Model_to_World;
 
-                        foreach (Face face in direction_forward.Faces)
+                        foreach (Face face in directionForward.Faces)
                         {
                             Generate_Z_Buffer
                             (
                                 face,
                                 3,
                                 ref direction_forward_model_to_camera_view,
-                                ref Render_Camera.Camera_View_to_Camera_Screen
+                                ref renderCamera.Camera_View_to_Camera_Screen
                             );
                         }
-                        foreach (Face face in direction_up.Faces)
+                        foreach (Face face in directionUp.Faces)
                         {
                             Generate_Z_Buffer
                             (
                                 face,
                                 3,
                                 ref direction_up_model_to_camera_view,
-                                ref Render_Camera.Camera_View_to_Camera_Screen
+                                ref renderCamera.Camera_View_to_Camera_Screen
                             );
                         }
-                        foreach (Face face in direction_right.Faces)
+                        foreach (Face face in directionRight.Faces)
                         {
                             Generate_Z_Buffer
                             (
                                 face,
                                 3,
                                 ref direction_right_model_to_camera_view,
-                                ref Render_Camera.Camera_View_to_Camera_Screen
+                                ref renderCamera.Camera_View_to_Camera_Screen
                             );
                         }
                     }
                 }
                 
                 // Apply lighting
-                switch (Render_Camera)
+                switch (renderCamera)
                 {
                     case Orthogonal_Camera orthogonal_camera:
-                        Matrix4x4 window_to_world = Render_Camera.Model_to_World * Render_Camera.Camera_View_to_Camera_Screen.Inverse() * screen_to_window_inverse;
+                        Matrix4x4 window_to_world = renderCamera.Model_to_World * renderCamera.Camera_View_to_Camera_Screen.Inverse() * screenToWindowInverse;
 
                         for (int x = 0; x < width; x++)
                         {
                             for (int y = 0; y < height; y++)
                             {
-                                if (z_buffer[x][y] != out_of_bounds_value)
+                                if (zBuffer.Values[x][y] != outOfBoundsValue)
                                 {
                                     // Move the point from window space to world space and apply lighting
-                                    Apply_Lighting(window_to_world * new Vector4D(x, y, z_buffer[x][y], 1), ref colour_buffer[x][y], x, y, null);
+                                    Apply_Lighting(window_to_world * new Vector4D(x, y, zBuffer.Values[x][y], 1), ref colourBuffer.Values[x][y], x, y, null);
                                 }
                             }
                         }
@@ -335,14 +336,14 @@ namespace _3D_Engine
                             for (int y = 0; y < height; y++)
                             {
                                 // check all floats and ints
-                                if (z_buffer[x][y] != out_of_bounds_value)
+                                if (zBuffer.Values[x][y] != outOfBoundsValue)
                                 {
                                     SMC_Camera_Perspective
                                     (
-                                        x, y, z_buffer[x][y],
-                                        ref colour_buffer[x][y],
-                                        ref screen_to_window_inverse,
-                                        ref Render_Camera.Camera_Screen_to_World,
+                                        x, y, zBuffer.Values[x][y],
+                                        ref colourBuffer.Values[x][y],
+                                        ref screenToWindowInverse,
+                                        ref renderCamera.Camera_Screen_to_World,
                                         shadow_map_bitmap
                                     );
                                 }
@@ -357,12 +358,12 @@ namespace _3D_Engine
                 }
                 
                 // Draw edges
-                foreach (Scene_Object scene_object in Scene_Objects)
+                foreach (Scene_Object scene_object in SceneObjects)
                 {
                     switch (scene_object)
                     {
                         case Camera camera when camera.Draw_Icon:
-                            Matrix4x4 model_to_camera_view = Render_Camera.World_to_Camera_View * camera.Icon.Model_to_World;
+                            Matrix4x4 model_to_camera_view = renderCamera.World_to_Camera_View * camera.Icon.Model_to_World;
 
                             foreach (Edge edge in camera.Icon.Edges)
                             {
@@ -370,12 +371,12 @@ namespace _3D_Engine
                                 (
                                     edge,
                                     ref model_to_camera_view,
-                                    ref Render_Camera.Camera_View_to_Camera_Screen
+                                    ref renderCamera.Camera_View_to_Camera_Screen
                                 );
                             }
                             break;
                         case Light light when light.Draw_Icon:
-                            model_to_camera_view = Render_Camera.World_to_Camera_View * light.Icon.Model_to_World;
+                            model_to_camera_view = renderCamera.World_to_Camera_View * light.Icon.Model_to_World;
 
                             foreach (Edge edge in light.Icon.Edges)
                             {
@@ -383,13 +384,13 @@ namespace _3D_Engine
                                 (
                                     edge,
                                     ref model_to_camera_view,
-                                    ref Render_Camera.Camera_View_to_Camera_Screen
+                                    ref renderCamera.Camera_View_to_Camera_Screen
                                 );
                             }
                             break;
                         case Mesh mesh when mesh.Visible && mesh.Draw_Edges:
 
-                            model_to_camera_view = Render_Camera.World_to_Camera_View * mesh.Model_to_World;
+                            model_to_camera_view = renderCamera.World_to_Camera_View * mesh.Model_to_World;
 
                             foreach (Edge edge in mesh.Edges)
                             {
@@ -399,7 +400,7 @@ namespace _3D_Engine
                                     (
                                         edge,
                                         ref model_to_camera_view,
-                                        ref Render_Camera.Camera_View_to_Camera_Screen
+                                        ref renderCamera.Camera_View_to_Camera_Screen
                                     );
                                 }
                             }
@@ -412,9 +413,9 @@ namespace _3D_Engine
                         Arrow direction_up = scene_object.Direction_Arrows.Scene_Objects[1] as Arrow;
                         Arrow direction_right = scene_object.Direction_Arrows.Scene_Objects[2] as Arrow;
 
-                        Matrix4x4 direction_forward_model_to_camera_view = Render_Camera.World_to_Camera_View * direction_forward.Model_to_World;
-                        Matrix4x4 direction_up_model_to_camera_view = Render_Camera.World_to_Camera_View * direction_up.Model_to_World;
-                        Matrix4x4 direction_right_model_to_camera_view = Render_Camera.World_to_Camera_View * direction_right.Model_to_World;
+                        Matrix4x4 direction_forward_model_to_camera_view = renderCamera.World_to_Camera_View * direction_forward.Model_to_World;
+                        Matrix4x4 direction_up_model_to_camera_view = renderCamera.World_to_Camera_View * direction_up.Model_to_World;
+                        Matrix4x4 direction_right_model_to_camera_view = renderCamera.World_to_Camera_View * direction_right.Model_to_World;
 
                         foreach (Edge edge in direction_forward.Edges)
                         {
@@ -422,7 +423,7 @@ namespace _3D_Engine
                             (
                                 edge,
                                 ref direction_forward_model_to_camera_view,
-                                ref Render_Camera.Camera_View_to_Camera_Screen
+                                ref renderCamera.Camera_View_to_Camera_Screen
                             );
                         }
                         foreach (Edge edge in direction_up.Edges)
@@ -431,7 +432,7 @@ namespace _3D_Engine
                             (
                                 edge,
                                 ref direction_up_model_to_camera_view,
-                                ref Render_Camera.Camera_View_to_Camera_Screen
+                                ref renderCamera.Camera_View_to_Camera_Screen
                             );
                         }
                         foreach (Edge edge in direction_right.Edges)
@@ -440,19 +441,19 @@ namespace _3D_Engine
                             (
                                 edge,
                                 ref direction_right_model_to_camera_view,
-                                ref Render_Camera.Camera_View_to_Camera_Screen
+                                ref renderCamera.Camera_View_to_Camera_Screen
                             );
                         }
                     }
                 }
 
                 // Draw view volumes
-                foreach (Scene_Object scene_object in Scene_Objects)
+                foreach (Scene_Object scene_object in SceneObjects)
                 {
                     switch (scene_object)
                     {
                         case Camera camera when camera.Volume_Style != Volume_Outline.None:
-                            Matrix4x4 model_to_camera_view = Render_Camera.World_to_Camera_View * camera.Model_to_World;
+                            Matrix4x4 model_to_camera_view = renderCamera.World_to_Camera_View * camera.Model_to_World;
 
                             foreach (Edge edge in camera.Volume_Edges)
                             {
@@ -460,12 +461,12 @@ namespace _3D_Engine
                                 (
                                     edge,
                                     ref model_to_camera_view,
-                                    ref Render_Camera.Camera_View_to_Camera_Screen
+                                    ref renderCamera.Camera_View_to_Camera_Screen
                                 );
                             }
                             break;
                         case Light light when light.Volume_Style != Volume_Outline.None:
-                            model_to_camera_view = Render_Camera.World_to_Camera_View * light.Model_to_World;
+                            model_to_camera_view = renderCamera.World_to_Camera_View * light.Model_to_World;
 
                             foreach (Edge edge in light.Volume_Edges)
                             {
@@ -473,7 +474,7 @@ namespace _3D_Engine
                                 (
                                     edge,
                                     ref model_to_camera_view,
-                                    ref Render_Camera.Camera_View_to_Camera_Screen
+                                    ref renderCamera.Camera_View_to_Camera_Screen
                                 );
                             }
                             break;
@@ -481,8 +482,8 @@ namespace _3D_Engine
                 }
 
                 // Draw all points
-                Draw_Colour_Buffer(new_frame, colour_buffer);
-                Canvas_Box.Image = new_frame;
+                Draw_Colour_Buffer(canvas, colourBuffer.Values);
+                Canvas_Box.Image = canvas;
             }
         }
         private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] new_colour_buffer) // source of this method?!
@@ -503,27 +504,12 @@ namespace _3D_Engine
             canvas.UnlockBits(data);
         }
 
-        // Reset light buffers
-        private void Reset_Light_Buffers()
-        {
-            foreach (Light light in Lights)
-            {
-                for (int i = 0; i < light.Shadow_Map_Width; i++)
-                {
-                    for (int j = 0; j < light.Shadow_Map_Height; j++)
-                    {
-                        light.Shadow_Map[i][j] = out_of_bounds_value;
-                    }
-                }
-            }
-        }
-
         // Generate matrices
         public void Generate_Matrices()
         {
-            foreach (Scene_Object scene_object in Scene_Objects)
+            foreach (Scene_Object sceneObject in SceneObjects)
             {
-                switch (scene_object)
+                switch (sceneObject)
                 {
                     case Camera camera when camera.Visible:
                         if (camera.Draw_Icon) camera.Icon.Calculate_Matrices();

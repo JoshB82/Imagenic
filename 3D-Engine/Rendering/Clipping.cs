@@ -13,30 +13,30 @@
 using System.Collections.Generic;
 using static _3D_Engine.Vector3D;
 
-namespace _3D_Engine
+namespace _3D_Engine.Rendering
 {
-    public sealed partial class Scene
+    internal static class Clipping
     {
-        private static bool Clip_Edges(Clipping_Plane[] clipping_planes, ref Vector4D point_1, ref Vector4D point_2)
+        internal static bool ClipEdges(Clipping_Plane[] clippingPlanes, ref Vector4D point1, ref Vector4D point2)
         {
-            foreach (Clipping_Plane clipping_plane in clipping_planes)
+            foreach (Clipping_Plane clippingPlane in clippingPlanes)
             {
-                if (!Clip_Edge(clipping_plane.Point, clipping_plane.Normal, ref point_1, ref point_2)) return false;
+                if (!ClipEdge(clippingPlane.Point, clippingPlane.Normal, ref point1, ref point2)) return false;
             }
             return true;
         }
 
-        private static bool Clip_Edge(Vector3D plane_point, Vector3D plane_normal, ref Vector4D point_1, ref Vector4D point_2)
+        internal static bool ClipEdge(Vector3D planePoint, Vector3D planeNormal, ref Vector4D point1, ref Vector4D point2)
         {
-            float point_1_distance = Point_Distance_From_Plane((Vector3D)point_1, plane_point, plane_normal);
-            float point_2_distance = Point_Distance_From_Plane((Vector3D)point_2, plane_point, plane_normal);
+            float point_1_distance = Point_Distance_From_Plane((Vector3D)point1, planePoint, planeNormal);
+            float point_2_distance = Point_Distance_From_Plane((Vector3D)point2, planePoint, planeNormal);
 
             if (point_1_distance >= 0)
             {
                 if (point_2_distance < 0)
                 {
                     // One point is on the inside, the other on the outside, so clip the line
-                    point_2 = Line_Intersect_Plane((Vector3D)point_1, (Vector3D)point_2, plane_point, plane_normal, out _);
+                    point2 = Line_Intersect_Plane((Vector3D)point1, (Vector3D)point2, planePoint, planeNormal, out _);
                 }
                 // If above condition fails, both points are on the inside, so return line unchanged
                 return true;
@@ -45,9 +45,9 @@ namespace _3D_Engine
             if (point_2_distance >= 0)
             {
                 // One point is on the outside, the other on the inside, so clip the line
-                Vector3D intersection = Line_Intersect_Plane((Vector3D)point_2, (Vector3D)point_1, plane_point, plane_normal, out _);
-                point_1 = point_2;
-                point_2 = intersection;
+                Vector3D intersection = Line_Intersect_Plane((Vector3D)point2, (Vector3D)point1, planePoint, planeNormal, out _);
+                point1 = point2;
+                point2 = intersection;
                 return true;
             }
 
@@ -56,20 +56,20 @@ namespace _3D_Engine
         }
 
         //source!
-        private static bool Clip_Faces_In_Queue(Queue<Face> face_clip_queue, Clipping_Plane[] clipping_planes)
+        internal static bool ClipFaces(Queue<Face> faceQueue, Clipping_Plane[] clippingPlanes)
         {
-            foreach (Clipping_Plane clipping_plane in clipping_planes)
+            foreach (Clipping_Plane clippingPlane in clippingPlanes)
             {
-                int no_faces = face_clip_queue.Count;
-                while (no_faces-- > 0) Clip_Face(face_clip_queue.Dequeue(), face_clip_queue, clipping_plane.Point, clipping_plane.Normal);
+                int noFaces = faceQueue.Count;
+                while (noFaces-- > 0) ClipFace(faceQueue.Dequeue(), faceQueue, clippingPlane.Point, clippingPlane.Normal);
             }
 
-            return face_clip_queue.Count > 0;
+            return faceQueue.Count > 0;
         }
 
         // check clockwise/anticlockwise stuff
-        // source
-        private static void Clip_Face(Face face_to_clip, Queue<Face> face_clip_queue, Vector3D plane_point, Vector3D plane_normal)
+        // source (for everything in file)
+        internal static void ClipFace(Face face_to_clip, Queue<Face> facesQueue, Vector3D plane_point, Vector3D plane_normal)
         {
             Vector4D[] inside_points = new Vector4D[3], outside_points = new Vector4D[3];
             Vector3D[] inside_texture_points = new Vector3D[3], outside_texture_points = new Vector3D[3];
@@ -131,7 +131,7 @@ namespace _3D_Engine
                         face_1 = new Face(inside_points[0], intersection_1, intersection_2) { Colour = face_to_clip.Colour };
                     }
 
-                    face_clip_queue.Enqueue(face_1);
+                    facesQueue.Enqueue(face_1);
                     break;
                 case 2:
                     // Two points are on the inside, so a quadrilateral is formed and split into two faces
@@ -153,12 +153,12 @@ namespace _3D_Engine
                         face_2 = new Face(inside_points[1], intersection_1, intersection_2) { Colour = face_to_clip.Colour };
                     }
 
-                    face_clip_queue.Enqueue(face_1);
-                    face_clip_queue.Enqueue(face_2);
+                    facesQueue.Enqueue(face_1);
+                    facesQueue.Enqueue(face_2);
                     break;
                 case 3:
                     // All points are on the inside, so enqueue the face unchanged
-                    face_clip_queue.Enqueue(face_to_clip);
+                    facesQueue.Enqueue(face_to_clip);
                     break;
             }
         }
