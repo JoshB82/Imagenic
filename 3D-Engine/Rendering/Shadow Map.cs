@@ -50,7 +50,7 @@ namespace _3D_Engine
             // Clip the face in light-view space
             Queue<Face> face_clip = new Queue<Face>();
             face_clip.Enqueue(face);
-            if (!Clip.Clip_Faces_In_Queue(face_clip, light.Light_View_Clipping_Planes)) return;
+            if (!Clipping.ClipFaces(face_clip, light.Light_View_Clipping_Planes)) return;
 
             // Move the new triangles from light-view space to screen space, including a correction for perspective
             foreach (Face clipped_face in face_clip)
@@ -66,7 +66,7 @@ namespace _3D_Engine
             }
 
             // Clip the face in screen space
-            if (Settings.Screen_Space_Clip && !Clip.Clip_Faces_In_Queue(face_clip, Camera.Camera_Screen_Clipping_Planes)) return;
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(face_clip, Camera.Camera_Screen_Clipping_Planes)) return;
 
             foreach (Face clipped_face in face_clip)
             {

@@ -48,7 +48,7 @@ namespace _3D_Engine
             // Clip the face in camera-view space
             Queue<Face> face_clip_queue = new Queue<Face>();
             face_clip_queue.Enqueue(face);
-            if (!Clip.Clip_Faces_In_Queue(face_clip_queue, Render_Camera.Camera_View_Clipping_Planes)) return;
+            if (!Clipping.ClipFaces(face_clip_queue, Render_Camera.Camera_View_Clipping_Planes)) return;
 
             // Move the new triangles from camera-view space to camera-screen space, including a correction for perspective
             foreach (var clipped_face in face_clip_queue)
@@ -71,7 +71,7 @@ namespace _3D_Engine
             }
 
             // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && !Clip.Clip_Faces_In_Queue(face_clip_queue, Camera.Camera_Screen_Clipping_Planes)) return; // anything outside cube?
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(face_clip_queue, Camera.Camera_Screen_Clipping_Planes)) return; // anything outside cube?
 
             foreach (Face clipped_face in face_clip_queue)
             {
@@ -81,7 +81,7 @@ namespace _3D_Engine
                 { continue; }
 
                 // Mode the new triangles from camera-screen space to camera-window space
-                clipped_face.Apply_Matrix(screen_to_window);
+                clipped_face.Apply_Matrix(screenToWindow);
 
                 // Round the vertices
                 int x1 = clipped_face.p1.x.Round_to_Int();

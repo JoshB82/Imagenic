@@ -2,18 +2,32 @@
 {
     public class Buffer2D<T>
     {
-        public int FirstDimensionSize { get; set; }
-        public int SecondDimensionSize { get; set; }
+        #region Fields and Properties
 
-        public T[][] Values { get; set; }
+        private int firstDimensionSize, secondDimensionSize;
 
-        #region Constructors
-
-        public Buffer2D(int firstDimensionSize, int secondDimensionSize)
+        public int FirstDimensionSize
         {
-            FirstDimensionSize = firstDimensionSize;
-            SecondDimensionSize = secondDimensionSize;
+            get => firstDimensionSize;
+            set
+            {
+                firstDimensionSize = value;
+                SetSizes(firstDimensionSize, secondDimensionSize);
+            }
+        }
 
+        public int SecondDimensionSize
+        {
+            get => secondDimensionSize;
+            set
+            {
+                secondDimensionSize = value;
+                SetSizes(firstDimensionSize, secondDimensionSize);
+            }
+        }
+
+        private void SetSizes(int firstDimensionSize, int secondDimensionSize)
+        {
             Values = new T[firstDimensionSize][];
             for (int i = 0; i < firstDimensionSize; i++)
             {
@@ -21,9 +35,22 @@
             }
         }
 
+        public T[][] Values { get; set; }
+
         #endregion
 
-        public void SetAllToDefault() => SetAllToValue(default);
+        #region Constructors
+
+        public Buffer2D(int firstDimensionSize, int secondDimensionSize)
+        {
+            this.firstDimensionSize = firstDimensionSize;
+            this.secondDimensionSize = secondDimensionSize;
+            SetSizes(firstDimensionSize, secondDimensionSize);
+        }
+
+        #endregion
+
+        #region Methods
 
         public void SetAllToValue(T value)
         {
@@ -35,5 +62,9 @@
                 }
             }
         }
+
+        public void SetAllToDefault() => SetAllToValue(default);
+
+        #endregion
     }
 }
