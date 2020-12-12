@@ -13,7 +13,7 @@
 
     class Change<T>
     {
-        public Scene_Object SceneObject { get; set; }
+        public SceneObject SceneObject { get; set; }
         public string Property { get; set; }
 
         public T Start { get; set; }
@@ -21,7 +21,7 @@
 
         public float Duration { get; set; }
 
-        public Change(Scene_Object scene_object, string property, T start_value, T finish_value, float duration)
+        public Change(SceneObject scene_object, string property, T start_value, T finish_value, float duration)
         {
             SceneObject = scene_object;
             Property = property;

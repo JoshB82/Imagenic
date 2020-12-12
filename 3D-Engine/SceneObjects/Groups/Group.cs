@@ -6,11 +6,11 @@ namespace _3D_Engine
     /// <summary>
     /// Encapsulates creation of a <see cref="Group"/>.
     /// </summary>
-    public partial class Group : Scene_Object
+    public partial class Group : SceneObject
     {
         #region Fields and Properties
 
-        public List<Scene_Object> Scene_Objects { get; set; }
+        public List<SceneObject> Scene_Objects { get; set; }
 
         public override Vector3D World_Origin
         {
@@ -18,7 +18,7 @@ namespace _3D_Engine
             set
             {
                 base.World_Origin = value;
-                if (Scene_Objects is not null) foreach (Scene_Object scene_object in Scene_Objects) scene_object.World_Origin += value - base.World_Origin;
+                if (Scene_Objects is not null) foreach (SceneObject scene_object in Scene_Objects) scene_object.World_Origin += value - base.World_Origin;
             }
         }
 
@@ -28,10 +28,10 @@ namespace _3D_Engine
 
         public Group(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
         {
-            Scene_Objects = new List<Scene_Object>();
+            Scene_Objects = new List<SceneObject>();
         }
 
-        public Group(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, List<Scene_Object> scene_objects, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
+        public Group(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, List<SceneObject> scene_objects, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
         {
             Scene_Objects = scene_objects;
         }

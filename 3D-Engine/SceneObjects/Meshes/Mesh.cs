@@ -15,7 +15,7 @@ using System.Drawing;
 namespace _3D_Engine
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Mesh']/*"/>
-    public abstract partial class Mesh : Scene_Object
+    public abstract partial class Mesh : SceneObject
     {
         #region Fields and Properties
 

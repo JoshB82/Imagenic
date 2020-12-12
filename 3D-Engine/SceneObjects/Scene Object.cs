@@ -17,30 +17,30 @@ using System.Drawing;
 
 namespace _3D_Engine
 {
-    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Scene_Object']/*"/>
-    public abstract partial class Scene_Object
+    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.SceneObject']/*"/>
+    public abstract partial class SceneObject
     {
         #region Fields and Properties
 
         // ID
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.ID']/*"/>
         public int ID { get; private set; }
-        private static int next_id = -1;
+        private static int nextId = -1;
 
         // Matrices
         internal Matrix4x4 Model_to_World;
 
         internal virtual void Calculate_Matrices()
         {
-            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors((Vector3D)(direction_forward_rotation * Model_Direction_Up), World_Direction_Up);
+            Matrix4x4 directionForwardRotation = Transform.Rotate_Between_Vectors(Model_Direction_Forward, World_Direction_Forward);
+            Matrix4x4 directionUpRotation = Transform.Rotate_Between_Vectors((Vector3D)(directionForwardRotation * Model_Direction_Up), World_Direction_Up);
             Matrix4x4 translation = Transform.Translate(World_Origin);
 
             // String the transformations together in the following order:
             // 1) Rotation around direction forward vector
             // 2) Rotation around direction up vector
             // 3) Translation to final position in world space
-            Model_to_World = translation * direction_up_rotation * direction_forward_rotation;
+            Model_to_World = translation * directionUpRotation * directionForwardRotation;
         }
 
         // Origins
@@ -68,7 +68,7 @@ namespace _3D_Engine
         public bool Visible { get; set; } = true;
 
         // Direction Arrows
-        internal Group Direction_Arrows { get; }
+        internal Group DirectionArrows { get; }
         internal bool Has_Direction_Arrows;
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
@@ -78,9 +78,9 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Scene_Object(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true)
+        internal SceneObject(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true)
         {
-            ID = ++next_id;
+            ID = ++nextId;
 
             World_Origin = origin;
             Set_Direction_1(direction_forward, direction_up);
@@ -89,13 +89,13 @@ namespace _3D_Engine
             {
                 const int resolution = 30, body_radius = 10, tip_radius = 20, body_length = 10, tip_length = 5;
 
-                List<Scene_Object> direction_arrows = new List<Scene_Object>
+                List<SceneObject> direction_arrows = new List<SceneObject>
                 {
                     new Arrow(origin, World_Direction_Forward, World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Blue }, // Z-axis
                     new Arrow(origin, World_Direction_Up, -World_Direction_Forward, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Green }, // Y-axis
                     new Arrow(origin, World_Direction_Right, -World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Red } // X-axis
                 };
-                Direction_Arrows = new Group(origin, direction_forward, direction_up, direction_arrows, false);
+                DirectionArrows = new Group(origin, direction_forward, direction_up, direction_arrows, false);
             }
 
             Trace.WriteLine($"{GetType().Name} created at {origin}");

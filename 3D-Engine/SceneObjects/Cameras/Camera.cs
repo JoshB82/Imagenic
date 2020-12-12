@@ -13,12 +13,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Cameras
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Camera"/>.
     /// </summary>
-    public abstract partial class Camera : Scene_Object
+    public abstract partial class Camera : SceneObject
     {
         #region Fields and Properties
 

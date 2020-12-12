@@ -1,6 +1,6 @@
 ﻿namespace _3D_Engine
 {
-    public partial class Group : Scene_Object
+    public partial class Group : SceneObject
     {
         #region Rotations
 
@@ -16,7 +16,7 @@
             Matrix4x4 resultant = direction_up_rotation * direction_forward_rotation;
 
             // Apply rotation matrices to children of group
-            foreach (Scene_Object scene_object in Scene_Objects)
+            foreach (SceneObject scene_object in Scene_Objects)
             {
                 scene_object.Set_Direction_1
                 (
@@ -37,7 +37,7 @@
             Matrix4x4 resultant = direction_right_rotation * direction_up_rotation;
 
             // Apply rotation matrices to children of group
-            foreach (Scene_Object scene_object in Scene_Objects)
+            foreach (SceneObject scene_object in Scene_Objects)
             {
                 scene_object.Set_Direction_2
                 (
@@ -59,7 +59,7 @@
             Matrix4x4 resultant = direction_forward_rotation * direction_right_rotation;
 
             // Apply rotation matrices to children of group
-            foreach (Scene_Object scene_object in Scene_Objects)
+            foreach (SceneObject scene_object in Scene_Objects)
             {
                 scene_object.Set_Direction_3
                 (
@@ -76,22 +76,22 @@
         public override void Translate_X(float distance)
         {
             base.Translate_X(distance);
-            foreach (Scene_Object scene_object in Scene_Objects) scene_object.Translate_X(distance);
+            foreach (SceneObject scene_object in Scene_Objects) scene_object.Translate_X(distance);
         }
         public override void Translate_Y(float distance)
         {
             base.Translate_Y(distance);
-            foreach (Scene_Object scene_object in Scene_Objects) scene_object.Translate_Y(distance);
+            foreach (SceneObject scene_object in Scene_Objects) scene_object.Translate_Y(distance);
         }
         public override void Translate_Z(float distance)
         {
             base.Translate_Z(distance);
-            foreach (Scene_Object scene_object in Scene_Objects) scene_object.Translate_Z(distance);
+            foreach (SceneObject scene_object in Scene_Objects) scene_object.Translate_Z(distance);
         }
         public override void Translate(Vector3D displacement)
         {
             base.Translate(displacement);
-            foreach (Scene_Object scene_object in Scene_Objects) scene_object.Translate(displacement);
+            foreach (SceneObject scene_object in Scene_Objects) scene_object.Translate(displacement);
         }
 
         #endregion

@@ -49,7 +49,7 @@ namespace _3D_Engine
         private Buffer2D<float> zBuffer;
 
         // Contents
-        public readonly List<Scene_Object> SceneObjects = new();
+        public readonly List<SceneObject> SceneObjects = new();
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Cameras']/*"/>
         public readonly List<Camera> Cameras = new();
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Lights']/*"/>
@@ -134,23 +134,23 @@ namespace _3D_Engine
 
         // Add to scene
         /// <summary>
-        /// Adds a <see cref="Scene_Object"/> to the <see cref="Scene"/>.
+        /// Adds a <see cref="SceneObject"/> to the <see cref="Scene"/>.
         /// </summary>
-        /// <param name="scene_object"><see cref="Scene_Object"/> to add.</param>
-        public void Add(Scene_Object scene_object)
+        /// <param name="scene_object"><see cref="SceneObject"/> to add.</param>
+        public void Add(SceneObject scene_object)
         {
             lock (locker) SceneObjects.Add(scene_object);
         }
 
         /// <summary>
-        /// Adds multiple <see cref="Scene_Object">Scene_Objects</see> to the <see cref="Scene"/>.
+        /// Adds multiple <see cref="SceneObject">Scene_Objects</see> to the <see cref="Scene"/>.
         /// </summary>
-        /// <param name="scene_objects"><see cref="IEnumerable"/> containing <see cref="Scene_Object">Scene_Objects</see> to add.</param>
-        public void Add(IEnumerable<Scene_Object> scene_objects)
+        /// <param name="scene_objects"><see cref="IEnumerable"/> containing <see cref="SceneObject">Scene_Objects</see> to add.</param>
+        public void Add(IEnumerable<SceneObject> scene_objects)
         {
             lock (locker)
             {
-                foreach (Scene_Object scene_object in scene_objects)
+                foreach (SceneObject scene_object in scene_objects)
                 {
                     SceneObjects.Add(scene_object);
                 }
@@ -211,7 +211,7 @@ namespace _3D_Engine
                 }
 
                 // Calculate depth information for each mesh
-                foreach (Scene_Object sceneObject in SceneObjects)
+                foreach (SceneObject sceneObject in SceneObjects)
                 {
                     switch (sceneObject)
                     {
@@ -264,9 +264,9 @@ namespace _3D_Engine
                 
                     if (sceneObject.Has_Direction_Arrows && sceneObject.Display_Direction_Arrows)
                     {
-                        Arrow directionForward = sceneObject.Direction_Arrows.Scene_Objects[0] as Arrow;
-                        Arrow directionUp = sceneObject.Direction_Arrows.Scene_Objects[1] as Arrow;
-                        Arrow directionRight = sceneObject.Direction_Arrows.Scene_Objects[2] as Arrow;
+                        Arrow directionForward = sceneObject.DirectionArrows.Scene_Objects[0] as Arrow;
+                        Arrow directionUp = sceneObject.DirectionArrows.Scene_Objects[1] as Arrow;
+                        Arrow directionRight = sceneObject.DirectionArrows.Scene_Objects[2] as Arrow;
 
                         Matrix4x4 direction_forward_model_to_camera_view = renderCamera.World_to_Camera_View * directionForward.Model_to_World;
                         Matrix4x4 direction_up_model_to_camera_view = renderCamera.World_to_Camera_View * directionUp.Model_to_World;
@@ -358,7 +358,7 @@ namespace _3D_Engine
                 }
                 
                 // Draw edges
-                foreach (Scene_Object scene_object in SceneObjects)
+                foreach (SceneObject scene_object in SceneObjects)
                 {
                     switch (scene_object)
                     {
@@ -409,9 +409,9 @@ namespace _3D_Engine
 
                     if (scene_object.Has_Direction_Arrows && scene_object.Display_Direction_Arrows)
                     {
-                        Arrow direction_forward = scene_object.Direction_Arrows.Scene_Objects[0] as Arrow;
-                        Arrow direction_up = scene_object.Direction_Arrows.Scene_Objects[1] as Arrow;
-                        Arrow direction_right = scene_object.Direction_Arrows.Scene_Objects[2] as Arrow;
+                        Arrow direction_forward = scene_object.DirectionArrows.Scene_Objects[0] as Arrow;
+                        Arrow direction_up = scene_object.DirectionArrows.Scene_Objects[1] as Arrow;
+                        Arrow direction_right = scene_object.DirectionArrows.Scene_Objects[2] as Arrow;
 
                         Matrix4x4 direction_forward_model_to_camera_view = renderCamera.World_to_Camera_View * direction_forward.Model_to_World;
                         Matrix4x4 direction_up_model_to_camera_view = renderCamera.World_to_Camera_View * direction_up.Model_to_World;
@@ -448,7 +448,7 @@ namespace _3D_Engine
                 }
 
                 // Draw view volumes
-                foreach (Scene_Object scene_object in SceneObjects)
+                foreach (SceneObject scene_object in SceneObjects)
                 {
                     switch (scene_object)
                     {
@@ -507,7 +507,7 @@ namespace _3D_Engine
         // Generate matrices
         public void Generate_Matrices()
         {
-            foreach (Scene_Object sceneObject in SceneObjects)
+            foreach (SceneObject sceneObject in SceneObjects)
             {
                 switch (sceneObject)
                 {

@@ -1,6 +1,6 @@
 ﻿namespace _3D_Engine
 {
-    public abstract partial class Camera : Scene_Object
+    public abstract partial class Camera : SceneObject
     {
         #region Common
 

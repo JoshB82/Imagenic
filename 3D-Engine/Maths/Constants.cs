@@ -10,6 +10,8 @@
  * Encapsulates frequently used constants.
  */
 
+using _3D_Engine.Maths.Vectors;
+
 namespace _3D_Engine
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Constants']/*"/>

@@ -23,7 +23,7 @@ namespace _3D_Engine
     /// <summary>
     /// Encapsulates creation of a <see cref="Light"/>.
     /// </summary>
-    public abstract partial class Light : Scene_Object
+    public abstract partial class Light : SceneObject
     {
         #region Fields and Properties
 

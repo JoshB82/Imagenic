@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace _3D_Engine
 {
-    public abstract partial class Scene_Object
+    public abstract partial class SceneObject
     {
         #region Rotations
 
@@ -73,11 +73,11 @@ namespace _3D_Engine
             World_Direction_Up = direction_up;
             World_Direction_Right = direction_right;
 
-            if (Has_Direction_Arrows && Direction_Arrows is not null)
+            if (Has_Direction_Arrows && DirectionArrows is not null)
             {
-                ((Arrow)Direction_Arrows.Scene_Objects[0]).Unit_Vector = direction_forward;
-                ((Arrow)Direction_Arrows.Scene_Objects[1]).Unit_Vector = direction_up;
-                ((Arrow)Direction_Arrows.Scene_Objects[2]).Unit_Vector = direction_right;
+                ((Arrow)DirectionArrows.Scene_Objects[0]).Unit_Vector = direction_forward;
+                ((Arrow)DirectionArrows.Scene_Objects[1]).Unit_Vector = direction_up;
+                ((Arrow)DirectionArrows.Scene_Objects[2]).Unit_Vector = direction_right;
             }
         }
         private void Output_Direction()
@@ -122,22 +122,22 @@ namespace _3D_Engine
         #region Translations
 
         /// <summary>
-        /// Translates the <see cref="Scene_Object"/> in the x-direction.
+        /// Translates the <see cref="SceneObject"/> in the x-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
         public virtual void Translate_X(float distance) => World_Origin += new Vector3D(distance, 0, 0);
         /// <summary>
-        /// Translates the <see cref="Scene_Object"/> in the y-direction.
+        /// Translates the <see cref="SceneObject"/> in the y-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
         public virtual void Translate_Y(float distance) => World_Origin += new Vector3D(0, distance, 0);
         /// <summary>
-        /// Translates the <see cref="Scene_Object"/> in the z-direction.
+        /// Translates the <see cref="SceneObject"/> in the z-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
         public virtual void Translate_Z(float distance) => World_Origin += new Vector3D(0, 0, distance);
         /// <summary>
-        /// Translates the <see cref="Scene_Object"/> by the given vector.
+        /// Translates the <see cref="SceneObject"/> by the given vector.
         /// </summary>
         /// <param name="displacement">Vector to translate by.</param>
         public virtual void Translate(Vector3D displacement) => World_Origin += displacement;
