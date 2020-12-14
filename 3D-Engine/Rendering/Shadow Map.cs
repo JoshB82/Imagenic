@@ -12,7 +12,7 @@ namespace _3D_Engine
             {
                 if (mesh.Visible && mesh.Draw_Faces)
                 {
-                    Matrix4x4 model_to_light_view = light.World_to_Light_View * mesh.Model_to_World;
+                    Matrix4x4 model_to_light_view = light.World_to_Light_View * mesh.ModelToWorld;
 
                     foreach (Face face in mesh.Faces)
                     {

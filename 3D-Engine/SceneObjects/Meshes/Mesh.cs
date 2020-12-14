@@ -10,9 +10,10 @@
  * Encapsulates creation of a mesh.
  */
 
+using _3D_Engine.Maths.Vectors;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Meshes
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Mesh']/*"/>
     public abstract partial class Mesh : SceneObject
@@ -72,11 +73,11 @@ namespace _3D_Engine
         public bool Draw_Outline { get; set; } = false;
 
         // Matrices and Vectors
-        internal override void Calculate_Matrices()
+        internal override void CalculateMatrices()
         {
-            base.Calculate_Matrices();
+            base.CalculateMatrices();
 
-            Model_to_World *= Transform.Scale(Scaling.x, Scaling.y, Scaling.z);
+            ModelToWorld *= Transform.Scale(Scaling.x, Scaling.y, Scaling.z);
         }
 
         internal Vector3D Scaling = Vector3D.One;
@@ -85,7 +86,7 @@ namespace _3D_Engine
 
         #region Constructors
 
-        internal Mesh(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows) { }
+        internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows) { }
 
         #endregion
     }

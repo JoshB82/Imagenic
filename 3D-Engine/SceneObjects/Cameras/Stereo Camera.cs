@@ -1,6 +1,8 @@
-﻿using static _3D_Engine.Properties.Settings;
+﻿using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine
+using static _3D_Engine.Properties.Settings;
+
+namespace _3D_Engine.SceneObjects.Cameras
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Stereo_Camera"/>.

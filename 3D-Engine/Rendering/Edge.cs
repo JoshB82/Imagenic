@@ -10,7 +10,9 @@
  * Provides methods for generating data required to draw edges.
  */
 
-using _3D_Engine;
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Cameras;
 using System.Drawing;
 
 namespace _3D_Engine.Rendering
@@ -46,7 +48,7 @@ namespace _3D_Engine.Rendering
             point_1 = camera_view_to_camera_screen * point_1;
             point_2 = camera_view_to_camera_screen * point_2;
 
-            if (Render_Camera is Perspective_Camera)
+            if (Render_Camera is PerspectiveCamera)
             {
                 point_1 /= point_1.w;
                 point_2 /= point_2.w; 

@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine.SceneObjects.Cameras
 {
     internal sealed class Clipping_Plane
     {

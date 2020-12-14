@@ -7,18 +7,21 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of an perspective camera.
+ * Encapsulates creation of a perspective camera.
  */
+
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
 
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Cameras
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Perspective_Camera"/>.
+    /// Encapsulates creation of a <see cref="PerspectiveCamera"/>.
     /// </summary>
-    public sealed class Perspective_Camera : Camera
+    public sealed class PerspectiveCamera : Camera
     {
         #region Fields and Properties
 
@@ -91,9 +94,9 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
+        public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
 
-        public Perspective_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
+        public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
         {
             Camera_View_to_Camera_Screen = Matrix4x4.Zero;
             Camera_View_to_Camera_Screen.m32 = 1;
@@ -115,13 +118,13 @@ namespace _3D_Engine
             Height = height;
         }
 
-        public Perspective_Camera Perspective_Camera_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new Perspective_Camera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+        public PerspectiveCamera Perspective_Camera_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
 
-        public Perspective_Camera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.World_Origin - origin, direction_up) { }
+        public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.World_Origin - origin, direction_up) { }
 
-        public Perspective_Camera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
+        public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public Perspective_Camera Perspective_Camera_Angle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new Perspective_Camera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+        public PerspectiveCamera Perspective_Camera_Angle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
 
         #endregion
     }

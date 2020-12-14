@@ -73,7 +73,7 @@ namespace _3D_Engine
             World_Direction_Up = direction_up;
             World_Direction_Right = direction_right;
 
-            if (Has_Direction_Arrows && DirectionArrows is not null)
+            if (HasDirectionArrows && DirectionArrows is not null)
             {
                 ((Arrow)DirectionArrows.Scene_Objects[0]).Unit_Vector = direction_forward;
                 ((Arrow)DirectionArrows.Scene_Objects[1]).Unit_Vector = direction_up;

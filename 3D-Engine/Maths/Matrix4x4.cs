@@ -10,9 +10,10 @@
  * Encapsulates creation of a 4x4 square matrix and provides methods to extract common information and for operator overloading. Each instance of a Matrix4x4 has a size of 64 bytes, so, where possible, a Matrix4x4 should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine.Maths.Vectors;
 using System;
 
-namespace _3D_Engine
+namespace _3D_Engine.Maths
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Matrix4x4']/*"/>
     public struct Matrix4x4 : IEquatable<Matrix4x4>

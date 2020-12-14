@@ -13,7 +13,7 @@
 using System;
 using static System.MathF;
 
-namespace _3D_Engine
+namespace _3D_Engine.Maths
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Quaternion']/*"/>
     public struct Quaternion : IEquatable<Quaternion>

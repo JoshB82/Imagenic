@@ -10,15 +10,18 @@
  * Encapsulates creation of an orthogonal camera.
  */
 
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
+
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Cameras
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Orthogonal_Camera"/>.
+    /// Encapsulates creation of a <see cref="OrthogonalCamera"/>.
     /// </summary>
-    public sealed class Orthogonal_Camera : Camera
+    public sealed class OrthogonalCamera : Camera
     {
         #region Fields and Properties
 
@@ -89,9 +92,9 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public Orthogonal_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
+        public OrthogonalCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
 
-        public Orthogonal_Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
+        public OrthogonalCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float width, float height, float zNear, float zFar) : base(origin, directionForward, directionUp)
         {
             Camera_View_to_Camera_Screen = Matrix4x4.Identity;
 
@@ -107,17 +110,17 @@ namespace _3D_Engine
 
             Width = width;
             Height = height;
-            Z_Near = z_near;
-            Z_Far = z_far;
+            Z_Near = zNear;
+            Z_Far = zFar;
         }
 
-        public Orthogonal_Camera Orthogonal_Camera_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new Orthogonal_Camera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+        public OrthogonalCamera OrthogonalCameraAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar) => new OrthogonalCamera(origin, directionForward, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar);
 
-        public Orthogonal_Camera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.World_Origin - origin, direction_up, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
+        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp) : this(origin, pointedAt.World_Origin - origin, directionUp, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
 
-        public Orthogonal_Camera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
+        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float width, float height, float zNear, float zFar) : this(origin, pointedAt.World_Origin - origin, directionUp, width, height, zNear, zFar) { }
 
-        public Orthogonal_Camera Orthogonal_Camera_Angle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new Orthogonal_Camera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+        public OrthogonalCamera OrthogonalCameraAngle(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar) => new OrthogonalCamera(origin, pointedAt, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar);
 
         #endregion
     }

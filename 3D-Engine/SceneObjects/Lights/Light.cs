@@ -102,10 +102,10 @@ namespace _3D_Engine
         // Matrices
         internal Matrix4x4 World_to_Light_View, Light_View_to_Light_Screen, Light_Screen_to_Light_Window;
 
-        internal override void Calculate_Matrices()
+        internal override void CalculateMatrices()
         {
-            base.Calculate_Matrices();
-            World_to_Light_View = Model_to_World.Inverse();
+            base.CalculateMatrices();
+            World_to_Light_View = ModelToWorld.Inverse();
         }
 
         // Clipping planes
@@ -140,7 +140,7 @@ namespace _3D_Engine
 
         // Export
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map']/*"/>
-        public void Export_Shadow_Map() => Export_Shadow_Map($"{Directory.GetCurrentDirectory()}\\Export\\{GetType().Name}_{ID}_Export_Map.bmp");
+        public void Export_Shadow_Map() => Export_Shadow_Map($"{Directory.GetCurrentDirectory()}\\Export\\{GetType().Name}_{Id}_Export_Map.bmp");
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map(System.String)']/*"/>
         public void Export_Shadow_Map(string file_path)

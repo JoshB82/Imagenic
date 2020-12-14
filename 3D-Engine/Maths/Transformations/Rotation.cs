@@ -10,6 +10,8 @@
  * Provides static methods for calculating matrices and quaternions representing rotations.
  */
 
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
 namespace _3D_Engine

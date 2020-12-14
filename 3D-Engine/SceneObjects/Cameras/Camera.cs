@@ -10,6 +10,7 @@
  * Encapsulates creation of a camera.
  */
 
+using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -70,7 +71,7 @@ namespace _3D_Engine.SceneObjects.Cameras
 
                 if ((volume_style & Volume_Outline.Far) == Volume_Outline.Far)
                 {
-                    float ratio = (this is Orthogonal_Camera) ? 1 : Z_Far / Z_Near;
+                    float ratio = (this is OrthogonalCamera) ? 1 : Z_Far / Z_Near;
                     float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
 
                     Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Z_Far, 1));
@@ -98,11 +99,11 @@ namespace _3D_Engine.SceneObjects.Cameras
         // Matrices
         internal Matrix4x4 World_to_Camera_View, Camera_View_to_Camera_Screen, Camera_Screen_to_World;
 
-        internal override void Calculate_Matrices()
+        internal override void CalculateMatrices()
         {
-            base.Calculate_Matrices();
-            World_to_Camera_View = Model_to_World.Inverse();
-            Camera_Screen_to_World = Model_to_World * Camera_View_to_Camera_Screen.Inverse();
+            base.CalculateMatrices();
+            World_to_Camera_View = ModelToWorld.Inverse();
+            Camera_Screen_to_World = ModelToWorld * Camera_View_to_Camera_Screen.Inverse();
         }
 
         // Clipping planes
