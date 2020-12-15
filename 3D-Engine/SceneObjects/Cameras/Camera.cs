@@ -10,6 +10,7 @@
  * Encapsulates creation of a camera.
  */
 
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 using System.Drawing;
@@ -110,12 +111,12 @@ namespace _3D_Engine.SceneObjects.Cameras
         internal Clipping_Plane[] Camera_View_Clipping_Planes;
         internal static readonly Clipping_Plane[] Camera_Screen_Clipping_Planes = new[]
         {
-            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_X), // Left
-            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_Y), // Bottom
-            new Clipping_Plane(-Vector3D.One, Vector3D.Unit_Z), // Near
-            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_X), // Right
-            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Y), // Top
-            new Clipping_Plane(Vector3D.One, Vector3D.Unit_Negative_Z) // Far
+            new Clipping_Plane(-Vector3D.One, Vector3D.UnitX), // Left
+            new Clipping_Plane(-Vector3D.One, Vector3D.UnitY), // Bottom
+            new Clipping_Plane(-Vector3D.One, Vector3D.UnitZ), // Near
+            new Clipping_Plane(Vector3D.One, Vector3D.UnitNegativeX), // Right
+            new Clipping_Plane(Vector3D.One, Vector3D.UnitNegativeY), // Top
+            new Clipping_Plane(Vector3D.One, Vector3D.UnitNegativeZ) // Far
         };
 
         // View volume

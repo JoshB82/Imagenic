@@ -25,13 +25,13 @@ namespace _3D_Engine.SceneObjects.Groups
 
         public List<SceneObject> Scene_Objects { get; set; }
 
-        public override Vector3D World_Origin
+        public override Vector3D WorldOrigin
         {
-            get => base.World_Origin;
+            get => base.WorldOrigin;
             set
             {
-                base.World_Origin = value;
-                if (Scene_Objects is not null) foreach (SceneObject scene_object in Scene_Objects) scene_object.World_Origin += value - base.World_Origin;
+                base.WorldOrigin = value;
+                if (Scene_Objects is not null) foreach (SceneObject scene_object in Scene_Objects) scene_object.WorldOrigin += value - base.WorldOrigin;
             }
         }
 
@@ -72,7 +72,7 @@ namespace _3D_Engine.SceneObjects.Groups
                 textures = textures.Concat(mesh.Textures).ToArray();
             }
 
-            Custom custom_cast = new Custom(group.World_Origin, group.World_Direction_Forward, group.World_Direction_Up, vertices, edges, faces, textures);
+            Custom custom_cast = new Custom(group.WorldOrigin, group.WorldDirectionForward, group.WorldDirectionUp, vertices, edges, faces, textures);
 
             return custom_cast;
         }

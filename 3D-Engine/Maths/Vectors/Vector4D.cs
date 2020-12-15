@@ -32,35 +32,35 @@ namespace _3D_Engine.Maths.Vectors
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (1, 0, 0, 0).
         /// </summary>
-        public static readonly Vector4D Unit_X = new Vector4D(1, 0, 0, 0);
+        public static readonly Vector4D UnitX = new Vector4D(1, 0, 0, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 1, 0, 0).
         /// </summary>
-        public static readonly Vector4D Unit_Y = new Vector4D(0, 1, 0, 0);
+        public static readonly Vector4D UnitY = new Vector4D(0, 1, 0, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, 1, 0).
         /// </summary>
-        public static readonly Vector4D Unit_Z = new Vector4D(0, 0, 1, 0);
+        public static readonly Vector4D UnitZ = new Vector4D(0, 0, 1, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, 0, 1).
         /// </summary>
-        public static readonly Vector4D Unit_W = new Vector4D(0, 0, 0, 1);
+        public static readonly Vector4D UnitW = new Vector4D(0, 0, 0, 1);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (-1, 0, 0, 0).
         /// </summary>
-        public static readonly Vector4D Unit_Negative_X = new Vector4D(-1, 0, 0, 0);
+        public static readonly Vector4D UnitNegativeX = new Vector4D(-1, 0, 0, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, -1, 0, 0).
         /// </summary>
-        public static readonly Vector4D Unit_Negative_Y = new Vector4D(0, -1, 0, 0);
+        public static readonly Vector4D UnitNegativeY = new Vector4D(0, -1, 0, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, -1, 0).
         /// </summary>
-        public static readonly Vector4D Unit_Negative_Z = new Vector4D(0, 0, -1, 0);
+        public static readonly Vector4D UnitNegativeZ = new Vector4D(0, 0, -1, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, 0, -1).
         /// </summary>
-        public static readonly Vector4D Unit_Negative_W = new Vector4D(0, 0, 0, -1);
+        public static readonly Vector4D UnitNegativeW = new Vector4D(0, 0, 0, -1);
 
         // Vector contents
         /// <summary>

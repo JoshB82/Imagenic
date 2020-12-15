@@ -10,7 +10,7 @@
  * Provides static methods for calculating matrices representing scaling.
  */
 
-namespace _3D_Engine
+namespace _3D_Engine.Transformations
 {
     public static partial class Transform
     {

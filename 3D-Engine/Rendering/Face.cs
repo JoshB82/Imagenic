@@ -10,8 +10,9 @@
  * Provides methods for generating data required to draw faces.
  */
 
+using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
-
+using _3D_Engine.SceneObjects.Cameras;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -19,9 +20,9 @@ namespace _3D_Engine
 {
     public sealed partial class Scene
     {
-        private void Generate_Z_Buffer(
+        private void AddFaceToZBuffer(
             Face face,
-            int mesh_dimension,
+            int meshDimension,
             ref Matrix4x4 model_to_camera_view,
             ref Matrix4x4 camera_view_to_camera_screen)
         {
@@ -39,7 +40,7 @@ namespace _3D_Engine
             // Move the face from model space to camera-view space
             face.Apply_Matrix(model_to_camera_view);
 
-            if (mesh_dimension == 3)
+            if (meshDimension == 3)
             {
                 // Discard the face if it is not visible from the camera's point of view
                 if ((Vector3D)face.p1 * Vector3D.Normal_From_Plane((Vector3D)face.p1, (Vector3D)face.p2, (Vector3D)face.p3) >= 0) return;
@@ -55,7 +56,7 @@ namespace _3D_Engine
             {
                 clipped_face.Apply_Matrix(camera_view_to_camera_screen);
 
-                if (Render_Camera is Perspective_Camera)
+                if (Render_Camera is PerspectiveCamera)
                 {
                     clipped_face.p1 /= clipped_face.p1.w;
                     clipped_face.p2 /= clipped_face.p2.w;

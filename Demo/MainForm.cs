@@ -15,7 +15,7 @@ namespace Demo
             scene.CreateOrigin();
 
             float cameraWidth = pictureBox.Width / 10, cameraHeight = pictureBox.Height / 10;
-            Perspective_Camera renderCamera = new Perspective_Camera(new Vector3D(0, 0, -100), scene.SceneObjects[0], Vector3D.Unit_Y, cameraWidth, cameraHeight, 10, 750);
+            Perspective_Camera renderCamera = new Perspective_Camera(new Vector3D(0, 0, -100), scene.SceneObjects[0], Vector3D.UnitY, cameraWidth, cameraHeight, 10, 750);
             
 
             

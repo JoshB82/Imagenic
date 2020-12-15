@@ -100,12 +100,12 @@ namespace _3D_Engine.SceneObjects.Cameras
 
             Camera_View_Clipping_Planes = new[]
             {
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_X), // Left
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Y), // Bottom
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Z), // Near
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_X), // Right
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Y), // Top
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Z) // Far
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitX), // Left
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitY), // Bottom
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitZ), // Near
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeX), // Right
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeY), // Top
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
             };
 
             Width = width;
@@ -116,9 +116,9 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         public OrthogonalCamera OrthogonalCameraAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar) => new OrthogonalCamera(origin, directionForward, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar);
 
-        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp) : this(origin, pointedAt.World_Origin - origin, directionUp, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
+        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
 
-        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float width, float height, float zNear, float zFar) : this(origin, pointedAt.World_Origin - origin, directionUp, width, height, zNear, zFar) { }
+        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float width, float height, float zNear, float zFar) : this(origin, pointedAt.WorldOrigin - origin, directionUp, width, height, zNear, zFar) { }
 
         public OrthogonalCamera OrthogonalCameraAngle(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar) => new OrthogonalCamera(origin, pointedAt, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar);
 

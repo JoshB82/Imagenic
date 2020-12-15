@@ -291,7 +291,7 @@ namespace _3D_Engine
 
                         foreach (Face face in directionForward.Faces)
                         {
-                            Generate_Z_Buffer
+                            AddFaceToZBuffer
                             (
                                 face,
                                 3,
@@ -301,7 +301,7 @@ namespace _3D_Engine
                         }
                         foreach (Face face in directionUp.Faces)
                         {
-                            Generate_Z_Buffer
+                            AddFaceToZBuffer
                             (
                                 face,
                                 3,
@@ -311,7 +311,7 @@ namespace _3D_Engine
                         }
                         foreach (Face face in directionRight.Faces)
                         {
-                            Generate_Z_Buffer
+                            AddFaceToZBuffer
                             (
                                 face,
                                 3,
@@ -426,9 +426,9 @@ namespace _3D_Engine
 
                     if (scene_object.HasDirectionArrows && scene_object.Display_Direction_Arrows)
                     {
-                        Arrow direction_forward = scene_object.DirectionArrows.Scene_Objects[0] as Arrow;
-                        Arrow direction_up = scene_object.DirectionArrows.Scene_Objects[1] as Arrow;
-                        Arrow direction_right = scene_object.DirectionArrows.Scene_Objects[2] as Arrow;
+                        Arrow direction_forward = scene_object.DirectionArrows.SceneObjects[0] as Arrow;
+                        Arrow direction_up = scene_object.DirectionArrows.SceneObjects[1] as Arrow;
+                        Arrow direction_right = scene_object.DirectionArrows.SceneObjects[2] as Arrow;
 
                         Matrix4x4 direction_forward_model_to_camera_view = renderCamera.World_to_Camera_View * direction_forward.ModelToWorld;
                         Matrix4x4 direction_up_model_to_camera_view = renderCamera.World_to_Camera_View * direction_up.ModelToWorld;
@@ -498,7 +498,7 @@ namespace _3D_Engine
                     }
                 }
 
-                // Draw all points
+                // Draw colour buffer on canvas
                 Draw_Colour_Buffer(canvas, colourBuffer.Values);
                 Canvas_Box.Image = canvas;
             }

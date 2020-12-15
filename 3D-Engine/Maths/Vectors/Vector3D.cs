@@ -32,27 +32,27 @@ namespace _3D_Engine.Maths.Vectors
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (1, 0, 0).
         /// </summary>
-        public static readonly Vector3D Unit_X = new Vector3D(1, 0, 0);
+        public static readonly Vector3D UnitX = new Vector3D(1, 0, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, 1, 0).
         /// </summary>
-        public static readonly Vector3D Unit_Y = new Vector3D(0, 1, 0);
+        public static readonly Vector3D UnitY = new Vector3D(0, 1, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, 0, 1).
         /// </summary>
-        public static readonly Vector3D Unit_Z = new Vector3D(0, 0, 1);
+        public static readonly Vector3D UnitZ = new Vector3D(0, 0, 1);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (-1, 0, 0).
         /// </summary>
-        public static readonly Vector3D Unit_Negative_X = new Vector3D(-1, 0, 0);
+        public static readonly Vector3D UnitNegativeX = new Vector3D(-1, 0, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, -1, 0).
         /// </summary>
-        public static readonly Vector3D Unit_Negative_Y = new Vector3D(0, -1, 0);
+        public static readonly Vector3D UnitNegativeY = new Vector3D(0, -1, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, 0, -1).
         /// </summary>
-        public static readonly Vector3D Unit_Negative_Z = new Vector3D(0, 0, -1);
+        public static readonly Vector3D UnitNegativeZ = new Vector3D(0, 0, -1);
 
         // Vector contents
         public float x;

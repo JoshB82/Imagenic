@@ -105,10 +105,10 @@ namespace _3D_Engine.SceneObjects.Cameras
             {
                 new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Left
                 new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Bottom
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Z), // Near
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitZ), // Near
                 new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Right
                 new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Top
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Z) // Far
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
             };
 
             Z_Near = z_near;
@@ -120,9 +120,9 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         public PerspectiveCamera Perspective_Camera_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
 
-        public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.World_Origin - origin, direction_up) { }
+        public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.WorldOrigin - origin, direction_up) { }
 
-        public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.World_Origin - origin, direction_up, width, height, z_near, z_far) { }
+        public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.WorldOrigin - origin, direction_up, width, height, z_near, z_far) { }
 
         public PerspectiveCamera Perspective_Camera_Angle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
 

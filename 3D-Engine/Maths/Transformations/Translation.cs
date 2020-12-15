@@ -10,7 +10,10 @@
  * Provides static methods for calculating matrices representing translations.
  */
 
-namespace _3D_Engine
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine.Transformations
 {
     public static partial class Transform
     {

@@ -32,19 +32,19 @@ namespace _3D_Engine.Maths.Vectors
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (1, 0).
         /// </summary>
-        public static readonly Vector2D Unit_X = new Vector2D(1, 0);
+        public static readonly Vector2D UnitX = new Vector2D(1, 0);
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (0, 1).
         /// </summary>
-        public static readonly Vector2D Unit_Y = new Vector2D(0, 1);
+        public static readonly Vector2D UnitY = new Vector2D(0, 1);
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (-1, 0).
         /// </summary>
-        public static readonly Vector2D Unit_Negative_X = new Vector2D(-1, 0);
+        public static readonly Vector2D UnitNegativeX = new Vector2D(-1, 0);
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (0, -1).
         /// </summary>
-        public static readonly Vector2D Unit_Negative_Y = new Vector2D(0, -1);
+        public static readonly Vector2D UnitNegativeY = new Vector2D(0, -1);
 
         // Vector contents
         public float x;

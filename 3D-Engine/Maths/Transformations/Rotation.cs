@@ -14,7 +14,7 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
-namespace _3D_Engine
+namespace _3D_Engine.Transformations
 {
     public static partial class Transform
     {
@@ -89,7 +89,7 @@ namespace _3D_Engine
         public static Matrix4x4 Rotate_Between_Vectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
             if (v1.Approx_Equals(v2, 1E-6f)) return Matrix4x4.Identity;
-            axis ??= Vector3D.Unit_Y;
+            axis ??= Vector3D.UnitY;
             Vector3D rotation_axis = v1.Approx_Equals(-v2, 1E-6F) ? (Vector3D)axis : v1.Cross_Product(v2).Normalise();
             float angle = v1.Angle(v2);
             return Rotate(rotation_axis, angle);
@@ -100,13 +100,13 @@ namespace _3D_Engine
         #region Quaternion rotations
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate_X(System.Single)']/*"/>
-        public static Quaternion Quaternion_Rotate_X(float angle) => Quaternion_Rotate(Vector3D.Unit_X, angle);
+        public static Quaternion Quaternion_Rotate_X(float angle) => Quaternion_Rotate(Vector3D.UnitX, angle);
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate_Y(System.Single)']/*"/>
-        public static Quaternion Quaternion_Rotate_Y(float angle) => Quaternion_Rotate(Vector3D.Unit_Y, angle);
+        public static Quaternion Quaternion_Rotate_Y(float angle) => Quaternion_Rotate(Vector3D.UnitY, angle);
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate_Z(System.Single)']/*"/>
-        public static Quaternion Quaternion_Rotate_Z(float angle) => Quaternion_Rotate(Vector3D.Unit_Z, angle);
+        public static Quaternion Quaternion_Rotate_Z(float angle) => Quaternion_Rotate(Vector3D.UnitZ, angle);
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate(_3D_Engine.Vector3D,System.Single)']/*"/>
         public static Quaternion Quaternion_Rotate(Vector3D axis, float angle) => angle.Approx_Equals(0, 1E-6f) ? Quaternion.Identity : new Quaternion(Cos(angle / 2), axis.Normalise() * Sin(angle / 2)).Normalise();
@@ -115,7 +115,7 @@ namespace _3D_Engine
         public static Quaternion Quaternion_Rotate_Between_Vectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
             if (v1.Approx_Equals(v2, 1E-6f)) return Quaternion.Identity;
-            axis ??= Vector3D.Unit_Y;
+            axis ??= Vector3D.UnitY;
             Vector3D rotation_axis = v1.Approx_Equals(-v2, 1E-6F) ? (Vector3D)axis : v1.Cross_Product(v2).Normalise();
             float angle = v1.Angle(v2);
             return Quaternion_Rotate(rotation_axis, angle);

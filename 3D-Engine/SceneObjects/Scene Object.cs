@@ -17,12 +17,47 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects
 {
-    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.SceneObject']/*"/>
+    /// <summary>
+    /// Encapsulates creation of a <see cref="SceneObject"/>.
+    /// </summary>
     public abstract partial class SceneObject
     {
         #region Fields and Properties
+
+        // Appearance
+        /// <summary>
+        /// Determines whether the <see cref="Scene_Object"/> is visible or not.
+        /// </summary>
+        public bool Visible { get; set; } = true;
+
+        // Direction Arrows
+        internal Group DirectionArrows { get; }
+        internal bool HasDirectionArrows;
+
+        /// <summary>
+        /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
+        /// </summary>
+        public bool DisplayDirectionArrows { get; set; } = false;
+
+        // Directions
+        internal static readonly Vector3D ModelDirectionForward = Vector3D.UnitZ;
+        internal static readonly Vector3D ModelDirectionUp = Vector3D.UnitY;
+        internal static readonly Vector3D ModelDirectionRight = Vector3D.UnitX;
+
+        /// <summary>
+        /// The forward direction of the <see cref="SceneObject"/> in world space.
+        /// </summary>
+        public Vector3D WorldDirectionForward { get; private set; }
+        /// <summary>
+        /// The up direction of the <see cref="SceneObject"/> in world space.
+        /// </summary>
+        public Vector3D WorldDirectionUp { get; private set; }
+        /// <summary>
+        /// The right direction of the <see cref="SceneObject"/> in world space.
+        /// </summary>
+        public Vector3D WorldDirectionRight { get; private set; }
 
         // ID
         /// <summary>
@@ -36,9 +71,9 @@ namespace _3D_Engine
 
         internal virtual void CalculateMatrices()
         {
-            Matrix4x4 directionForwardRotation = Transform.Rotate_Between_Vectors(ModelDirectionForward, World_Direction_Forward);
-            Matrix4x4 directionUpRotation = Transform.Rotate_Between_Vectors((Vector3D)(directionForwardRotation * ModelDirectionUp), World_Direction_Up);
-            Matrix4x4 translation = Transform.Translate(World_Origin);
+            Matrix4x4 directionForwardRotation = Transform.Rotate_Between_Vectors(ModelDirectionForward, WorldDirectionForward);
+            Matrix4x4 directionUpRotation = Transform.Rotate_Between_Vectors((Vector3D)(directionForwardRotation * ModelDirectionUp), WorldDirectionUp);
+            Matrix4x4 translation = Transform.Translate(WorldOrigin);
 
             // String the transformations together in the following order:
             // 1) Rotation around direction forward vector
@@ -48,35 +83,13 @@ namespace _3D_Engine
         }
 
         // Origins
-        internal static readonly Vector4D ModelOrigin = Vector4D.Unit_W;
+        internal static readonly Vector4D ModelOrigin = Vector4D.UnitW;
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Origin']/*"/>
-        public virtual Vector3D World_Origin { get; set; }
-
-        internal void CalculateWorldOrigin() => World_Origin = (Vector3D)(ModelToWorld * ModelOrigin);
-
-        // Directions
-        internal static readonly Vector3D ModelDirectionForward = Vector3D.Unit_Z;
-        internal static readonly Vector3D ModelDirectionUp = Vector3D.Unit_Y;
-        internal static readonly Vector3D ModelDirectionRight = Vector3D.Unit_X;
-
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Forward']/*"/>
-        public Vector3D World_Direction_Forward { get; private set; }
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Up']/*"/>
-        public Vector3D World_Direction_Up { get; private set; }
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.World_Direction_Right']/*"/>
-        public Vector3D World_Direction_Right { get; private set; }
-
-        // Appearance
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Visible']/*"/>
-        public bool Visible { get; set; } = true;
-
-        // Direction Arrows
-        internal Group DirectionArrows { get; }
-        internal bool HasDirectionArrows;
-
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene_Object.Display_Direction_Arrows']/*"/>
-        public bool Display_Direction_Arrows { get; set; } = false;
+        /// <summary>
+        /// The position of the <see cref="SceneObject"/> in world space.
+        /// </summary>
+        public virtual Vector3D WorldOrigin { get; set; }
+        internal void CalculateWorldOrigin() => WorldOrigin = (Vector3D)(ModelToWorld * ModelOrigin);
 
         #endregion
 
@@ -86,7 +99,7 @@ namespace _3D_Engine
         {
             Id = ++nextId;
 
-            World_Origin = origin;
+            WorldOrigin = origin;
             Set_Direction_1(directionForward, directionUp);
 
             if (HasDirectionArrows = hasDirectionArrows)
@@ -95,9 +108,9 @@ namespace _3D_Engine
 
                 List<SceneObject> direction_arrows = new List<SceneObject>
                 {
-                    new Arrow(origin, World_Direction_Forward, World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Blue }, // Z-axis
-                    new Arrow(origin, World_Direction_Up, -World_Direction_Forward, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Green }, // Y-axis
-                    new Arrow(origin, World_Direction_Right, -World_Direction_Up, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Red } // X-axis
+                    new Arrow(origin, WorldDirectionForward, WorldDirectionUp, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Blue }, // Z-axis
+                    new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Green }, // Y-axis
+                    new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Red } // X-axis
                 };
                 DirectionArrows = new Group(origin, directionForward, directionUp, direction_arrows, false);
             }

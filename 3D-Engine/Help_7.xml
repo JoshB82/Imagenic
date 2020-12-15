@@ -1167,35 +1167,9 @@
             The identification number.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Scene_Object.World_Origin">
-            <summary>
-            The position of the <see cref="T:_3D_Engine.Scene_Object" /> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.World_Direction_Forward">
-            <summary>
-            The forward direction of the <see cref="T:_3D_Engine.Scene_Object" /> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.World_Direction_Up">
-            <summary>
-            The up direction of the <see cref="T:_3D_Engine.Scene_Object" /> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.World_Direction_Right">
-            <summary>
-            The right direction of the <see cref="T:_3D_Engine.Scene_Object" /> in world space.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Scene_Object.Display_Direction_Arrows">
-            <summary>
-            Determines whether the <see cref="T:_3D_Engine.Scene_Object" /> direction arrows are shown or not.
-            </summary>
-        </member>
+        
         <member name="P:_3D_Engine.Scene_Object.Visible">
-            <summary>
-            Determines whether the <see cref="T:_3D_Engine.Scene_Object" /> is visible or not.
-            </summary>
+            
         </member>
         <member name="T:_3D_Engine.Volume_Outline">
             <summary>
