@@ -1,83 +1,97 @@
-﻿using System;
+﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.Transformations;
+using System;
 using System.Diagnostics;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects
 {
     public abstract partial class SceneObject
     {
         #region Rotations
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
-        public virtual void Set_Direction_1(Vector3D new_world_direction_forward, Vector3D new_world_direction_up)
+        /// <summary>
+        /// Sets the forward, up and right directions given the forward and up directions.
+        /// </summary>
+        /// <param name="newWorldDirectionForward">The forward direction.</param>
+        /// <param name="newWorldDirectionUp">The up direction.</param>
+        public virtual void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {
-            if (new_world_direction_forward.Approx_Equals(Vector3D.Zero, 1E-6f) ||
-                new_world_direction_up.Approx_Equals(Vector3D.Zero, 1E-6f))
+            if (newWorldDirectionForward.Approx_Equals(Vector3D.Zero, 1E-6f) ||
+                newWorldDirectionUp.Approx_Equals(Vector3D.Zero, 1E-6f))
                 throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
 
             // if (new_world_direction_forward * new_world_direction_up != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
-            new_world_direction_forward = new_world_direction_forward.Normalise();
-            new_world_direction_up = new_world_direction_up.Normalise();
+            newWorldDirectionForward = newWorldDirectionForward.Normalise();
+            newWorldDirectionUp = newWorldDirectionUp.Normalise();
 
-            Adjust_Vectors(
-                new_world_direction_forward,
-                new_world_direction_up,
-                Transform.Calculate_Direction_Right(new_world_direction_forward, new_world_direction_up)
+            AdjustVectors(
+                newWorldDirectionForward,
+                newWorldDirectionUp,
+                Transform.CalculateDirectionRight(newWorldDirectionForward, newWorldDirectionUp)
             );
             Output_Direction();
         }
         
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_2(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
-        public virtual void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
+        /// <summary>
+        /// Sets the forward, up and right directions given the up and right directions.
+        /// </summary>
+        /// <param name="newWorldDirectionUp">The up direction.</param>
+        /// <param name="newWorldDirectionRight">The right direction.</param>
+        public virtual void SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
         {
-            if (new_world_direction_up.Approx_Equals(Vector3D.Zero, 1E-6f) ||
-                new_world_direction_right.Approx_Equals(Vector3D.Zero, 1E-6f))
+            if (newWorldDirectionUp.Approx_Equals(Vector3D.Zero, 1E-6f) ||
+                newWorldDirectionRight.Approx_Equals(Vector3D.Zero, 1E-6f))
                 throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
 
             // if (new_world_direction_up * new_world_direction_right != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
-            new_world_direction_up = new_world_direction_up.Normalise();
-            new_world_direction_right = new_world_direction_right.Normalise();
+            newWorldDirectionUp = newWorldDirectionUp.Normalise();
+            newWorldDirectionRight = newWorldDirectionRight.Normalise();
 
-            Adjust_Vectors(
-                Transform.Calculate_Direction_Forward(new_world_direction_up, new_world_direction_right),
-                new_world_direction_up,
-                new_world_direction_right
+            AdjustVectors(
+                Transform.CalculateDirectionForward(newWorldDirectionUp, newWorldDirectionRight),
+                newWorldDirectionUp,
+                newWorldDirectionRight
             );
             Output_Direction();
         }
-        
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Scene_Object.Set_Direction_3(_3D_Engine.Vector3D,_3D_Engine.Vector3D)']/*"/>
-        public virtual void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
+        /// <summary>
+        /// Sets the forward, up and right directions given the right and forward directions.
+        /// </summary>
+        /// <param name="newWorldDirectionRight">The right direction.</param>
+        /// <param name="newWorldDirectionForward">The forward direction.</param>
+        public virtual void SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
         {
-            if (new_world_direction_right.Approx_Equals(Vector3D.Zero, 1E-6f) ||
-                new_world_direction_forward.Approx_Equals(Vector3D.Zero, 1E-6f))
+            if (newWorldDirectionRight.Approx_Equals(Vector3D.Zero, 1E-6f) ||
+                newWorldDirectionForward.Approx_Equals(Vector3D.Zero, 1E-6f))
                 throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
 
             // if (new_world_direction_right * new_world_direction_forward != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
-            new_world_direction_forward = new_world_direction_forward.Normalise();
-            new_world_direction_right = new_world_direction_right.Normalise();
+            newWorldDirectionForward = newWorldDirectionForward.Normalise();
+            newWorldDirectionRight = newWorldDirectionRight.Normalise();
 
-            Adjust_Vectors(
-                new_world_direction_forward,
-                Transform.Calculate_Direction_Up(new_world_direction_right, new_world_direction_forward),
-                new_world_direction_right
+            AdjustVectors(
+                newWorldDirectionForward,
+                Transform.CalculateDirectionUp(newWorldDirectionRight, newWorldDirectionForward),
+                newWorldDirectionRight
             );
             Output_Direction();
         }
 
-        private void Adjust_Vectors(Vector3D direction_forward, Vector3D direction_up, Vector3D direction_right)
+        private void AdjustVectors(Vector3D direction_forward, Vector3D direction_up, Vector3D direction_right)
         {
-            World_Direction_Forward = direction_forward;
-            World_Direction_Up = direction_up;
-            World_Direction_Right = direction_right;
+            WorldDirectionForward = direction_forward;
+            WorldDirectionUp = direction_up;
+            WorldDirectionRight = direction_right;
 
             if (HasDirectionArrows && DirectionArrows is not null)
             {
-                ((Arrow)DirectionArrows.Scene_Objects[0]).Unit_Vector = direction_forward;
-                ((Arrow)DirectionArrows.Scene_Objects[1]).Unit_Vector = direction_up;
-                ((Arrow)DirectionArrows.Scene_Objects[2]).Unit_Vector = direction_right;
+                ((Arrow)DirectionArrows.SceneObjects[0]).Unit_Vector = direction_forward;
+                ((Arrow)DirectionArrows.SceneObjects[1]).Unit_Vector = direction_up;
+                ((Arrow)DirectionArrows.SceneObjects[2]).Unit_Vector = direction_right;
             }
         }
         private void Output_Direction()
@@ -108,9 +122,9 @@ namespace _3D_Engine
                 case Verbosity.All:
                     Trace.WriteLine("<=========\n" +
                         scene_object_type + " direction changed to:\n" +
-                        $"Forward: {World_Direction_Forward}\n" +
-                        $"Up: {World_Direction_Up}\n" +
-                        $"Right: {World_Direction_Right}\n" +
+                        $"Forward: {WorldDirectionForward}\n" +
+                        $"Up: {WorldDirectionUp}\n" +
+                        $"Right: {WorldDirectionRight}\n" +
                         "=========>"
                     );
                     break;
@@ -125,17 +139,17 @@ namespace _3D_Engine
         /// Translates the <see cref="SceneObject"/> in the x-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void Translate_X(float distance) => World_Origin += new Vector3D(distance, 0, 0);
+        public virtual void TranslateX(float distance) => World_Origin += new Vector3D(distance, 0, 0);
         /// <summary>
         /// Translates the <see cref="SceneObject"/> in the y-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void Translate_Y(float distance) => World_Origin += new Vector3D(0, distance, 0);
+        public virtual void TranslateY(float distance) => World_Origin += new Vector3D(0, distance, 0);
         /// <summary>
         /// Translates the <see cref="SceneObject"/> in the z-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void Translate_Z(float distance) => World_Origin += new Vector3D(0, 0, distance);
+        public virtual void TranslateZ(float distance) => World_Origin += new Vector3D(0, 0, distance);
         /// <summary>
         /// Translates the <see cref="SceneObject"/> by the given vector.
         /// </summary>

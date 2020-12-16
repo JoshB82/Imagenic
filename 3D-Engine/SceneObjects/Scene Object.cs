@@ -100,19 +100,19 @@ namespace _3D_Engine.SceneObjects
             Id = ++nextId;
 
             WorldOrigin = origin;
-            Set_Direction_1(directionForward, directionUp);
+            SetDirection1(directionForward, directionUp);
 
             if (HasDirectionArrows = hasDirectionArrows)
             {
-                const int resolution = 30, body_radius = 10, tip_radius = 20, body_length = 10, tip_length = 5;
+                const int resolution = 30, bodyRadius = 10, tipRadius = 20, bodyLength = 10, tipLength = 5;
 
-                List<SceneObject> direction_arrows = new List<SceneObject>
+                List<SceneObject> directionArrows = new List<SceneObject>
                 {
-                    new Arrow(origin, WorldDirectionForward, WorldDirectionUp, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Blue }, // Z-axis
-                    new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Green }, // Y-axis
-                    new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, body_length, body_radius, tip_length, tip_radius, resolution, false) { Face_Colour = Color.Red } // X-axis
+                    new Arrow(origin, WorldDirectionForward, WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { Face_Colour = Color.Blue }, // Z-axis
+                    new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { Face_Colour = Color.Green }, // Y-axis
+                    new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { Face_Colour = Color.Red } // X-axis
                 };
-                DirectionArrows = new Group(origin, directionForward, directionUp, direction_arrows, false);
+                DirectionArrows = new Group(origin, directionForward, directionUp, directionArrows, false);
             }
 
             Trace.WriteLine($"{GetType().Name} created at {origin}");
@@ -121,15 +121,23 @@ namespace _3D_Engine.SceneObjects
         #endregion
     }
 
-    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Volume_Outline']/*"/>
+    /// <summary>
+    /// Encapsulates options regarding how view volume outlines are drawn.
+    /// </summary>
     [Flags]
-    public enum Volume_Outline : byte
+    public enum VolumeOutline : byte
     {
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.None']/*"/>
+        /// <summary>
+        /// Indicates that no view volume outline should be drawn.
+        /// </summary>
         None = 0,
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.Near']/*"/>
+        /// <summary>
+        /// Indicates that a view volume outline should be drawn from the origin to the near plane.
+        /// </summary>
         Near = 1,
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Volume_Outline.Far']/*"/>
+        /// <summary>
+        /// Indicates that a view volume outline should be drawn from the origin to the far plane.
+        /// </summary>
         Far = 2
     }
 }

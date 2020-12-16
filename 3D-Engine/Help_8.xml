@@ -1334,26 +1334,10 @@
             Determines whether the <see cref="T:_3D_Engine.SceneObject" /> is visible or not.
             </summary>
         </member>
-        <member name="T:_3D_Engine.Volume_Outline">
-            <summary>
-            Encapsulates options regarding how view volume outlines are drawn.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Volume_Outline.None">
-            <summary>
-            Indicates that no view volume outline should be drawn.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Volume_Outline.Near">
-            <summary>
-            Indicates that a view volume outline should be drawn from the origin to the near plane.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Volume_Outline.Far">
-            <summary>
-            Indicates that a view volume outline should be drawn from the origin to the far plane.
-            </summary>
-        </member>
+        
+        
+        
+        
         <member name="T:_3D_Engine.Viewport">
             <summary>
             Options for the style of the viewport.

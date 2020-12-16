@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using _3D_Engine.SceneObjects;
 
 namespace _3D_Engine
 {
@@ -183,14 +184,7 @@ namespace _3D_Engine
                 }
             }
         }
-
-        // vv!!
-        /// <summary>
-        /// Renders the <see cref="Scene"/>. The Render Camera must be set before this method is called.
-        /// </summary>
-        /// 
-
-
+        
         /// <summary>
         /// Renders the <see cref="Scene"/> with the <see cref="DefaultCamera">DefaultCamera</see>.
         /// </summary>
@@ -469,7 +463,7 @@ namespace _3D_Engine
                 {
                     switch (scene_object)
                     {
-                        case Camera camera when camera.Volume_Style != Volume_Outline.None:
+                        case Camera camera when camera.Volume_Style != VolumeOutline.None:
                             Matrix4x4 model_to_camera_view = renderCamera.World_to_Camera_View * camera.Model_to_World;
 
                             foreach (Edge edge in camera.Volume_Edges)
@@ -482,7 +476,7 @@ namespace _3D_Engine
                                 );
                             }
                             break;
-                        case Light light when light.Volume_Style != Volume_Outline.None:
+                        case Light light when light.Volume_Style != VolumeOutline.None:
                             model_to_camera_view = renderCamera.World_to_Camera_View * light.ModelToWorld;
 
                             foreach (Edge edge in light.Volume_Edges)
