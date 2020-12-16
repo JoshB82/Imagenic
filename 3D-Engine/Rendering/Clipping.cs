@@ -10,8 +10,10 @@
  * Provides static methods for clipping edges and faces against specified planes.
  */
 
+using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Cameras;
 using System.Collections.Generic;
-using static _3D_Engine.Vector3D;
+using static _3D_Engine.Maths.Vectors.Vector3D;
 
 namespace _3D_Engine.Rendering
 {

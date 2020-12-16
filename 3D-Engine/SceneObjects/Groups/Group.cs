@@ -23,7 +23,7 @@ namespace _3D_Engine.SceneObjects.Groups
     {
         #region Fields and Properties
 
-        public List<SceneObject> Scene_Objects { get; set; }
+        public List<SceneObject> SceneObjects { get; set; }
 
         public override Vector3D WorldOrigin
         {
@@ -31,7 +31,7 @@ namespace _3D_Engine.SceneObjects.Groups
             set
             {
                 base.WorldOrigin = value;
-                if (Scene_Objects is not null) foreach (SceneObject scene_object in Scene_Objects) scene_object.WorldOrigin += value - base.WorldOrigin;
+                if (SceneObjects is not null) foreach (SceneObject scene_object in SceneObjects) scene_object.WorldOrigin += value - base.WorldOrigin;
             }
         }
 
@@ -41,12 +41,12 @@ namespace _3D_Engine.SceneObjects.Groups
 
         public Group(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
         {
-            Scene_Objects = new List<SceneObject>();
+            SceneObjects = new();
         }
 
         public Group(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, List<SceneObject> scene_objects, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
         {
-            Scene_Objects = scene_objects;
+            SceneObjects = scene_objects;
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace _3D_Engine.SceneObjects.Groups
             Face[] faces = new Face[0];
             Texture[] textures = new Texture[0];
 
-            foreach (Mesh mesh in group.Scene_Objects)
+            foreach (Mesh mesh in group.SceneObjects)
             {
                 vertices = vertices.Concat(mesh.Vertices).ToArray();
                 edges = edges.Concat(mesh.Edges).ToArray();

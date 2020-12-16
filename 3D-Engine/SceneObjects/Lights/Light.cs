@@ -10,8 +10,11 @@
  * Encapsulates creation of a light.
  */
 
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
-
+using _3D_Engine.SceneObjects;
+using _3D_Engine.Transformations;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -35,12 +38,12 @@ namespace _3D_Engine
         /// <summary>
         /// Determines if the <see cref="Light"/> is drawn in the <see cref="Scene"/>.
         /// </summary>
-        public bool Draw_Icon { get; set; } = false;
+        public bool DrawIcon { get; set; } = false;
 
         // View Volume
-        private Volume_Outline volume_style = Volume_Outline.None;
+        private VolumeOutline volume_style = VolumeOutline.None;
 
-        public Volume_Outline Volume_Style
+        public VolumeOutline Volume_Style
         {
             get => volume_style;
             set
@@ -57,7 +60,7 @@ namespace _3D_Engine
                 Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Shadow_Map_Z_Near, 1));
                 Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, Shadow_Map_Z_Near, 1));
 
-                if ((volume_style & Volume_Outline.Near) == Volume_Outline.Near)
+                if ((volume_style & VolumeOutline.Near) == VolumeOutline.Near)
                 {
                     Volume_Edges.AddRange(new[]
                     {
@@ -72,7 +75,7 @@ namespace _3D_Engine
                     });
                 }
 
-                if ((volume_style & Volume_Outline.Far) == Volume_Outline.Far)
+                if ((volume_style & VolumeOutline.Far) == VolumeOutline.Far)
                 {
                     float ratio = (this is Distant_Light) ? 1 : Shadow_Map_Z_Far / Shadow_Map_Z_Near;
                     float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;

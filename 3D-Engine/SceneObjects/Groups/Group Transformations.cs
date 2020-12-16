@@ -1,70 +1,74 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Transformations;
+
+namespace _3D_Engine.SceneObjects.Groups
 {
     public partial class Group : SceneObject
     {
         #region Rotations
 
-        public override void Set_Direction_1(Vector3D new_world_direction_forward, Vector3D new_world_direction_up)
+        public override void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {
-            base.Set_Direction_1(new_world_direction_forward, new_world_direction_up);
+            base.SetDirection1(newWorldDirectionForward, newWorldDirectionUp);
 
-            if (Scene_Objects is null || Scene_Objects.Count == 0) return;
+            if (SceneObjects is null || SceneObjects.Count == 0) return;
 
             // Calculate rotation matrices
-            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors(World_Direction_Forward, new_world_direction_forward);
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors((Vector3D) (direction_forward_rotation * new Vector4D(World_Direction_Up, 1)), new_world_direction_up);
-            Matrix4x4 resultant = direction_up_rotation * direction_forward_rotation;
+            Matrix4x4 directionForwardRotation = Transform.Rotate_Between_Vectors(WorldDirectionForward, newWorldDirectionForward);
+            Matrix4x4 directionUpRotation = Transform.Rotate_Between_Vectors((Vector3D) (directionForwardRotation * new Vector4D(WorldDirectionUp, 1)), newWorldDirectionUp);
+            Matrix4x4 resultant = directionUpRotation * directionForwardRotation;
 
             // Apply rotation matrices to children of group
-            foreach (SceneObject scene_object in Scene_Objects)
+            foreach (SceneObject sceneObject in SceneObjects)
             {
-                scene_object.Set_Direction_1
+                sceneObject.SetDirection1
                 (
-                    (Vector3D)(direction_forward_rotation * scene_object.World_Direction_Forward),
-                    (Vector3D)(resultant * new Vector4D(scene_object.World_Direction_Up, 1))
+                    (Vector3D)(directionForwardRotation * sceneObject.WorldDirectionForward),
+                    (Vector3D)(resultant * new Vector4D(sceneObject.WorldDirectionUp, 1))
                 );
             }
         }
-        public override void Set_Direction_2(Vector3D new_world_direction_up, Vector3D new_world_direction_right)
+        public override void SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
         {
-            base.Set_Direction_2(new_world_direction_up, new_world_direction_right);
+            base.SetDirection2(newWorldDirectionUp, newWorldDirectionRight);
 
-            if (Scene_Objects.Count == 0) return;
+            if (SceneObjects.Count == 0) return;
 
             // Calculate rotation matrices
-            Matrix4x4 direction_up_rotation = Transform.Rotate_Between_Vectors(World_Direction_Up, new_world_direction_up);
-            Matrix4x4 direction_right_rotation = Transform.Rotate_Between_Vectors((Vector3D) (direction_up_rotation * new Vector4D(World_Direction_Right, 1)), new_world_direction_right);
-            Matrix4x4 resultant = direction_right_rotation * direction_up_rotation;
+            Matrix4x4 directionUpRotation = Transform.Rotate_Between_Vectors(WorldDirectionUp, newWorldDirectionUp);
+            Matrix4x4 directionRightRotation = Transform.Rotate_Between_Vectors((Vector3D) (directionUpRotation * new Vector4D(WorldDirectionRight, 1)), newWorldDirectionRight);
+            Matrix4x4 resultant = directionRightRotation * directionUpRotation;
 
             // Apply rotation matrices to children of group
-            foreach (SceneObject scene_object in Scene_Objects)
+            foreach (SceneObject sceneObject in SceneObjects)
             {
-                scene_object.Set_Direction_2
+                sceneObject.SetDirection2
                 (
-                    (Vector3D)(direction_up_rotation * scene_object.World_Direction_Up),
-                    (Vector3D)(resultant * new Vector4D(scene_object.World_Direction_Right, 1))
+                    (Vector3D)(directionUpRotation * sceneObject.WorldDirectionUp),
+                    (Vector3D)(resultant * new Vector4D(sceneObject.WorldDirectionRight, 1))
                 );
             }
         }
-        public override void Set_Direction_3(Vector3D new_world_direction_right, Vector3D new_world_direction_forward)
+        public override void SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
         {
-            base.Set_Direction_3(new_world_direction_right, new_world_direction_forward);
+            base.SetDirection3(newWorldDirectionRight, newWorldDirectionForward);
 
-            if (Scene_Objects.Count == 0) return;
+            if (SceneObjects.Count == 0) return;
 
             // Calculate rotation matrices
-            Matrix4x4 direction_right_rotation = Transform.Rotate_Between_Vectors(World_Direction_Right, new_world_direction_right);
-            Matrix4x4 direction_forward_rotation = Transform.Rotate_Between_Vectors((Vector3D) (direction_right_rotation * new Vector4D(World_Direction_Forward, 1)),
-                new_world_direction_forward);
-            Matrix4x4 resultant = direction_forward_rotation * direction_right_rotation;
+            Matrix4x4 directionRightRotation = Transform.Rotate_Between_Vectors(WorldDirectionRight, newWorldDirectionRight);
+            Matrix4x4 directionForwardRotation = Transform.Rotate_Between_Vectors((Vector3D) (directionRightRotation * new Vector4D(WorldDirectionForward, 1)),
+                newWorldDirectionForward);
+            Matrix4x4 resultant = directionForwardRotation * directionRightRotation;
 
             // Apply rotation matrices to children of group
-            foreach (SceneObject scene_object in Scene_Objects)
+            foreach (SceneObject sceneObject in SceneObjects)
             {
-                scene_object.Set_Direction_3
+                sceneObject.SetDirection3
                 (
-                    (Vector3D)(direction_right_rotation * scene_object.World_Direction_Right),
-                    (Vector3D)(resultant * new Vector4D(scene_object.World_Direction_Forward,1))
+                    (Vector3D)(directionRightRotation * sceneObject.WorldDirectionRight),
+                    (Vector3D)(resultant * new Vector4D(sceneObject.WorldDirectionForward, 1))
                 );
             }
         }
@@ -73,25 +77,25 @@
 
         #region Translations
 
-        public override void Translate_X(float distance)
+        public override void TranslateX(float distance)
         {
-            base.Translate_X(distance);
-            foreach (SceneObject scene_object in Scene_Objects) scene_object.Translate_X(distance);
+            base.TranslateX(distance);
+            foreach (SceneObject sceneObject in SceneObjects) sceneObject.TranslateX(distance);
         }
-        public override void Translate_Y(float distance)
+        public override void TranslateY(float distance)
         {
-            base.Translate_Y(distance);
-            foreach (SceneObject scene_object in Scene_Objects) scene_object.Translate_Y(distance);
+            base.TranslateY(distance);
+            foreach (SceneObject sceneObject in SceneObjects) sceneObject.TranslateY(distance);
         }
-        public override void Translate_Z(float distance)
+        public override void TranslateZ(float distance)
         {
-            base.Translate_Z(distance);
-            foreach (SceneObject scene_object in Scene_Objects) scene_object.Translate_Z(distance);
+            base.TranslateZ(distance);
+            foreach (SceneObject sceneObject in SceneObjects) sceneObject.TranslateZ(distance);
         }
         public override void Translate(Vector3D displacement)
         {
             base.Translate(displacement);
-            foreach (SceneObject scene_object in Scene_Objects) scene_object.Translate(displacement);
+            foreach (SceneObject sceneObject in SceneObjects) sceneObject.Translate(displacement);
         }
 
         #endregion

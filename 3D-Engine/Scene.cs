@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using _3D_Engine.SceneObjects;
+using _3D_Engine.Transformations;
 
 namespace _3D_Engine
 {
@@ -240,7 +241,7 @@ namespace _3D_Engine
                                 );
                             }
                             break;
-                        case Light light when light.Draw_Icon:
+                        case Light light when light.DrawIcon:
                             modelToCameraView = renderCamera.World_to_Camera_View * light.Icon.ModelToWorld;
 
                             foreach (Face face in light.Icon.Faces)
@@ -386,7 +387,7 @@ namespace _3D_Engine
                                 );
                             }
                             break;
-                        case Light light when light.Draw_Icon:
+                        case Light light when light.DrawIcon:
                             model_to_camera_view = renderCamera.World_to_Camera_View * light.Icon.ModelToWorld;
 
                             foreach (Edge edge in light.Icon.Edges)
@@ -527,7 +528,7 @@ namespace _3D_Engine
                         camera.CalculateMatrices();
                         break;
                     case Light light when light.Visible:
-                        if (light.Draw_Icon) light.Icon.CalculateMatrices();
+                        if (light.DrawIcon) light.Icon.CalculateMatrices();
                         light.CalculateMatrices();
                         light.CalculateWorldOrigin();
                         break;

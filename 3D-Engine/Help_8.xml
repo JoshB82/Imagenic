@@ -4,16 +4,8 @@
         <name>3D-Engine</name>
     </assembly>
     <members>
-        <member name="T:_3D_Engine.Constants">
-            <summary>
-            Encapsulates frequently used <see cref="T:_3D_Engine.Constants" />.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Constants.Grav_Acc">
-            <summary>
-            Gravitational acceleration near the surface of the Earth as a <see cref="T:System.Single"/>.
-            </summary>
-        </member>
+        
+        
         <member name="T:_3D_Engine.Matrix4x4">
             <summary>
             Encapsulates creation of a <see cref="T:_3D_Engine.Matrix4x4" /> (square matrix with four rows and four columns).
