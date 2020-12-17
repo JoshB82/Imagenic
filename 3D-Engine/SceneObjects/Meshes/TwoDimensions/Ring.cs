@@ -2,7 +2,7 @@
 
 using static System.MathF;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Ring"/> mesh.

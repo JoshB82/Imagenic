@@ -109,7 +109,7 @@ namespace _3D_Engine.SceneObjects
             {
                 const int resolution = 30, bodyRadius = 10, tipRadius = 20, bodyLength = 10, tipLength = 5;
 
-                List<SceneObject> directionArrows = new List<SceneObject>
+                List<SceneObject> directionArrows = new()
                 {
                     new Arrow(origin, WorldDirectionForward, WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { FaceColour = Color.Blue }, // Z-axis
                     new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { FaceColour = Color.Green }, // Y-axis

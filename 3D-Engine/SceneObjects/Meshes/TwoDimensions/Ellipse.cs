@@ -1,7 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
     public class Ellipse : Mesh
     {
