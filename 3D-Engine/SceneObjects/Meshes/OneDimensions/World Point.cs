@@ -10,20 +10,22 @@
  * Encapsulates creation of a world point mesh.
  */
 
-namespace _3D_Engine
+using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine.SceneObjects.Meshes.OneDimensions
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="World_Point"/> mesh.
+    /// Encapsulates creation of a <see cref="WorldPoint"/> mesh.
     /// </summary>
-    public sealed class World_Point : Mesh
+    public sealed class WorldPoint : Mesh
     {
         #region Constructors
-
+        
         /// <summary>
-        /// Creates a <see cref="World_Point"/> mesh.
+        /// Creates a <see cref="WorldPoint"/> mesh.
         /// </summary>
-        /// <param name="origin">The position of the <see cref="World_Point"/>.</param>
-        public World_Point(Vector3D origin) : base(origin, Vector3D.Unit_Z, Vector3D.Unit_Y)
+        /// <param name="origin">The position of the <see cref="WorldPoint"/>.</param>
+        public WorldPoint(Vector3D origin) : base(origin, Vector3D.UnitZ, Vector3D.UnitY)
         {
             Dimension = 1;
 

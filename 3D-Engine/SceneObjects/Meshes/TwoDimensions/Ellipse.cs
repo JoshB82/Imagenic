@@ -1,4 +1,5 @@
-﻿using static System.MathF;
+﻿using _3D_Engine.Maths.Vectors;
+using static System.MathF;
 
 namespace _3D_Engine
 {
@@ -33,7 +34,7 @@ namespace _3D_Engine
         #endregion
 
         #region Constructors
-
+        
         public Ellipse(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float major_axis, float minor_axis, int resolution) : base(origin, direction_forward, direction_up)
         {
             Dimension = 2;

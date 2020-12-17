@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Cuboid"/> mesh.

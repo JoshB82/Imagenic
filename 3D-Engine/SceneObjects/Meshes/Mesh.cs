@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Transformations;
 using System.Drawing;
 
 namespace _3D_Engine.SceneObjects.Meshes
@@ -35,26 +36,30 @@ namespace _3D_Engine.SceneObjects.Meshes
         public bool Draw_Faces { get; set; } = true;
 
         // Colours
-        private Color edge_colour, face_colour;
+        private Color edgeColour, faceColour;
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edge_Colour']/*"/>
-        public Color Edge_Colour
+        /// <summary>
+        /// The <see cref="Color"/> of each <see cref="Edge"/> in the <see cref="Mesh"/>.
+        /// </summary>
+        public Color EdgeColour
         {
-            get => edge_colour;
+            get => edgeColour;
             set
             {
-                edge_colour = value;
-                foreach (Edge edge in Edges) edge.Colour = edge_colour;
+                edgeColour = value;
+                foreach (Edge edge in Edges) edge.Colour = edgeColour;
             }
         }
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Face_Colour']/*"/>
-        public Color Face_Colour
+        /// <summary>
+        /// The <see cref="Color"/> of each <see cref="Face"/> in the <see cref="Mesh"/>.
+        /// </summary>
+        public Color FaceColour
         {
-            get => face_colour;
+            get => faceColour;
             set
             {
-                face_colour = value;
-                foreach (Face face in Faces) face.Colour = face_colour;
+                faceColour = value;
+                foreach (Face face in Faces) face.Colour = faceColour;
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine
 {
     public sealed class Text2D : Mesh
     {
@@ -18,7 +20,7 @@
 
 
         }
-
+        
         #endregion
     }
 }

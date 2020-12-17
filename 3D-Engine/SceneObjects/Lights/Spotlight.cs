@@ -1,4 +1,7 @@
-﻿using static _3D_Engine.Properties.Settings;
+﻿using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
+
+using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine
 {
@@ -68,7 +71,7 @@ namespace _3D_Engine
         #endregion
 
         #region Constructors
-
+        
         public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
         {
             Light_View_to_Light_Screen = Matrix4x4.Zero;

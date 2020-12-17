@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine
 {
     public sealed class Text3D : Mesh
     {
@@ -12,7 +14,7 @@
         #endregion
 
         #region Constructors
-
+        
         public Text3D(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string[] fonts, float size, char style, float depth) : base(origin, direction_forward, direction_up)
         {
             Dimension = 3;

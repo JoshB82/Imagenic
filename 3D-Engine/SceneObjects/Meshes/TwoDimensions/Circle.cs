@@ -10,6 +10,7 @@
  * Encapsulates creation of a circle mesh.
  */
 
+using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
 namespace _3D_Engine
@@ -67,7 +68,7 @@ namespace _3D_Engine
         }
 
         #endregion
-
+        
         #region Constructors
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Int32)']/*"/>

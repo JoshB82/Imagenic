@@ -1216,16 +1216,8 @@
             Determines if the <see cref="T:_3D_Engine.Mesh">Mesh's</see> <see cref="T:_3D_Engine.Face">Faces</see> are drawn.
             </summary>
         </member>
-        <member name="P:_3D_Engine.Mesh.Edge_Colour">
-            <summary>
-            The <see cref="T:System.Drawing.Color" /> of each <see cref="T:_3D_Engine.Edge" /> in the <see cref="T:_3D_Engine.Mesh" />.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.Face_Colour">
-            <summary>
-            The <see cref="T:System.Drawing.Color" /> of each <see cref="T:_3D_Engine.Face" /> in the <see cref="T:_3D_Engine.Mesh" />.
-            </summary>
-        </member>
+        
+        
         <member name="P:_3D_Engine.Mesh.Textures">
             <summary>
             The <see cref="T:_3D_Engine.Texture">Textures</see> that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh" />.

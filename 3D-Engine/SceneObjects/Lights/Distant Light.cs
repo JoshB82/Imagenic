@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Cameras;
+using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
@@ -95,12 +98,12 @@ namespace _3D_Engine
 
             Light_View_Clipping_Planes = new[]
             {
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_X), // Left
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Y), // Bottom
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Z), // Near
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_X), // Right
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Y), // Top
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Unit_Negative_Z) // Far
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitX), // Left
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitY), // Bottom
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitZ), // Near
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeX), // Right
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeY), // Top
+                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
             };
 
             Strength = strength;

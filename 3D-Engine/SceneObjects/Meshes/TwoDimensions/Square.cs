@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine
 {
@@ -44,7 +44,7 @@ namespace _3D_Engine
                 new Face(Vertices[0], Vertices[2], Vertices[3]) // 1
             };
         }
-
+        
         /// <summary>
         /// Creates a textured <see cref="Square"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>

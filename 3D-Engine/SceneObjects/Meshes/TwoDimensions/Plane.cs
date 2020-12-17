@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Plane"/> mesh.
@@ -75,7 +77,7 @@
                 new Face(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1
             };
         }
-
+        
         private void Set_Structure(float length, float width)
         {
             Dimension = 2;

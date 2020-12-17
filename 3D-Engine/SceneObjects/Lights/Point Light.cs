@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine
 {
     public sealed class Point_Light : Light
     {
@@ -7,7 +9,7 @@
         #endregion
 
         #region Constructors
-
+        
         public Point_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
         {
             
