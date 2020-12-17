@@ -12,6 +12,8 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Groups;
+using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Transformations;
 using System;
 using System.Collections.Generic;
@@ -109,9 +111,9 @@ namespace _3D_Engine.SceneObjects
 
                 List<SceneObject> directionArrows = new List<SceneObject>
                 {
-                    new Arrow(origin, WorldDirectionForward, WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { Face_Colour = Color.Blue }, // Z-axis
-                    new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { Face_Colour = Color.Green }, // Y-axis
-                    new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { Face_Colour = Color.Red } // X-axis
+                    new Arrow(origin, WorldDirectionForward, WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { FaceColour = Color.Blue }, // Z-axis
+                    new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { FaceColour = Color.Green }, // Y-axis
+                    new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { FaceColour = Color.Red } // X-axis
                 };
                 DirectionArrows = new Group(origin, directionForward, directionUp, directionArrows, false);
             }

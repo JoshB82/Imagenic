@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Torus"/> mesh.
@@ -13,7 +15,7 @@
         #endregion
 
         #region Constructors
-
+        
         public Torus(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float radius, float inner_radius, float outer_radius) : base(origin, direction_forward, direction_up)
         {
             Dimension = 3;

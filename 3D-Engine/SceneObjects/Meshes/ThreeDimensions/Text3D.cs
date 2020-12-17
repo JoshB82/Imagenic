@@ -1,6 +1,6 @@
 ﻿using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
 {
     public sealed class Text3D : Mesh
     {

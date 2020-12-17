@@ -1,7 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Cone"/> mesh.
@@ -51,7 +51,7 @@ namespace _3D_Engine
                 // They are defined in anti-clockwise order, looking from above and then downwards.
                 Vertices = new Vertex[resolution + 2];
                 Vertices[0] = new Vertex(Vector4D.Zero);
-                Vertices[1] = new Vertex(Vector4D.Unit_Y);
+                Vertices[1] = new Vertex(Vector4D.UnitY);
 
                 float angle = 2 * PI / resolution;
                 for (int i = 0; i < resolution; i++) Vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));

@@ -1,5 +1,6 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Transformations;
 using System;
 using System.Diagnostics;
@@ -139,22 +140,22 @@ namespace _3D_Engine.SceneObjects
         /// Translates the <see cref="SceneObject"/> in the x-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void TranslateX(float distance) => World_Origin += new Vector3D(distance, 0, 0);
+        public virtual void TranslateX(float distance) => WorldOrigin += new Vector3D(distance, 0, 0);
         /// <summary>
         /// Translates the <see cref="SceneObject"/> in the y-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void TranslateY(float distance) => World_Origin += new Vector3D(0, distance, 0);
+        public virtual void TranslateY(float distance) => WorldOrigin += new Vector3D(0, distance, 0);
         /// <summary>
         /// Translates the <see cref="SceneObject"/> in the z-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
-        public virtual void TranslateZ(float distance) => World_Origin += new Vector3D(0, 0, distance);
+        public virtual void TranslateZ(float distance) => WorldOrigin += new Vector3D(0, 0, distance);
         /// <summary>
         /// Translates the <see cref="SceneObject"/> by the given vector.
         /// </summary>
         /// <param name="displacement">Vector to translate by.</param>
-        public virtual void Translate(Vector3D displacement) => World_Origin += displacement;
+        public virtual void Translate(Vector3D displacement) => WorldOrigin += displacement;
 
         #endregion
     }

@@ -20,12 +20,14 @@ namespace _3D_Engine.SceneObjects.Meshes.OneDimensions
     public sealed class WorldPoint : Mesh
     {
         #region Constructors
-        
+
         /// <summary>
         /// Creates a <see cref="WorldPoint"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="WorldPoint"/>.</param>
-        public WorldPoint(Vector3D origin) : base(origin, Vector3D.UnitZ, Vector3D.UnitY)
+        public WorldPoint(Vector3D origin) : this(origin, Vector3D.UnitZ, Vector3D.UnitY) { }
+
+        public WorldPoint(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp)
         {
             Dimension = 1;
 

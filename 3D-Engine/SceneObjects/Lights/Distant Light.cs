@@ -1,5 +1,6 @@
 ﻿using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects;
 using _3D_Engine.SceneObjects.Cameras;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;

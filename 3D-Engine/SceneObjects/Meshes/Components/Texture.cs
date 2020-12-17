@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _3D_Engine.Maths.Vectors;
+using System;
 using System.Drawing;
 
 namespace _3D_Engine
@@ -24,7 +25,7 @@ namespace _3D_Engine
         #endregion
 
         #region Constructors
-
+        
         public Texture(Bitmap file, Vector3D[] vertices)
         {
             File = file;

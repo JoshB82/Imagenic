@@ -1,4 +1,5 @@
-﻿using _3D_Engine.Rendering;
+﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Rendering;
 
 using System.Collections.Generic;
 
