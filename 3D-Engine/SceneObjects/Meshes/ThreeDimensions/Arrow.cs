@@ -1,5 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
-
+using _3D_Engine.SceneObjects.Meshes.Components;
 using static System.MathF;
 
 namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
@@ -16,7 +16,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
             set
             {
                 start_position = value;
-                World_Origin = start_position;
+                WorldOrigin = start_position;
             }
         }
         public Vector3D End_Position

@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
 {
@@ -159,7 +160,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
                 new Edge(Vertices[3], Vertices[7]), // 11
             };
         }
-
+        
         #endregion
 
         #region Casting

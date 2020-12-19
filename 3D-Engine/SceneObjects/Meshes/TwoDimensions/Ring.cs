@@ -1,5 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
-
+using _3D_Engine.SceneObjects.Meshes.Components;
 using static System.MathF;
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions

@@ -1,5 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
-
+using _3D_Engine.SceneObjects.Meshes.Components;
 using static System.MathF;
 
 namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
@@ -27,7 +27,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
             float x, y, z;
 
             Vertices = new Vertex[res_lat * res_long];
-
+            
             for (int i = 0; i < res_lat; i++)
             {
                 for (int j = 0; j < res_long; j++)

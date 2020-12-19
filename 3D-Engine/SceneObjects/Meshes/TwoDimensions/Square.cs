@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
@@ -96,7 +97,7 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
         /// </summary>
         /// <param name="square"><see cref="Square"/> to cast.</param>
         public static explicit operator Plane(Square square) =>
-            new Plane(square.World_Origin, square.World_Direction_Forward, square.World_Direction_Up, square.side_length, square.side_length)
+            new Plane(square.WorldOrigin, square.WorldDirectionForward, square.WorldDirectionUp, square.side_length, square.side_length)
             {
                 Textures = square.Textures,
                 Faces = square.Faces

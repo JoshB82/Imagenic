@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {

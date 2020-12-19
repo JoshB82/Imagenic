@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.SceneObjects.Meshes.OneDimension
 {
@@ -30,7 +31,7 @@ namespace _3D_Engine.SceneObjects.Meshes.OneDimension
         public WorldPoint(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp)
         {
             Dimension = 1;
-
+            
             Vertices = new Vertex[1] { new Vertex(new Vector4D(0, 0, 0, 1)) };
 
             Draw_Edges = false;
