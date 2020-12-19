@@ -35,7 +35,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 width = value;
 
                 // Update camera-view-to-camera-screen matrix
-                Camera_View_to_Camera_Screen.m00 = 2 * z_near / width;
+                CameraViewToCameraScreen.m00 = 2 * z_near / width;
                 
                 // Update left and right clipping planes
                 float semi_width = width / 2, semi_height = height / 2;
@@ -51,7 +51,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 height = value;
 
                 // Update camera-view-to-camera-screen matrix
-                Camera_View_to_Camera_Screen.m11 = 2 * z_near / height;
+                CameraViewToCameraScreen.m11 = 2 * z_near / height;
 
                 // Update top and bottom clipping planes
                 float semi_width = width / 2, semi_height = height / 2;
@@ -59,7 +59,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 Camera_View_Clipping_Planes[1].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(semi_width, -semi_height, z_near), new Vector3D(-semi_width, -semi_height, z_near));
             }
         }
-        public override float Z_Near
+        public override float ZNear
         {
             get => z_near;
             set
@@ -67,14 +67,14 @@ namespace _3D_Engine.SceneObjects.Cameras
                 z_near = value;
 
                 // Update camera-view-to-camera-screen matrix
-                Camera_View_to_Camera_Screen.m22 = (z_far + z_near) / (z_far - z_near);
-                Camera_View_to_Camera_Screen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
+                CameraViewToCameraScreen.m22 = (z_far + z_near) / (z_far - z_near);
+                CameraViewToCameraScreen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
 
                 // Update near clipping plane
                 Camera_View_Clipping_Planes[2].Point.z = z_near;
             }
         }
-        public override float Z_Far
+        public override float ZFar
         {
             get => z_far;
             set
@@ -82,8 +82,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                 z_far = value;
 
                 // Update camera-view-to-camera-screen matrix
-                Camera_View_to_Camera_Screen.m22 = (z_far + z_near) / (z_far - z_near);
-                Camera_View_to_Camera_Screen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
+                CameraViewToCameraScreen.m22 = (z_far + z_near) / (z_far - z_near);
+                CameraViewToCameraScreen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
                 
                 // Update far clipping plane
                 Camera_View_Clipping_Planes[5].Point.z = z_far;
@@ -98,8 +98,8 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
         {
-            Camera_View_to_Camera_Screen = Matrix4x4.Zero;
-            Camera_View_to_Camera_Screen.m32 = 1;
+            CameraViewToCameraScreen = Matrix4x4.Zero;
+            CameraViewToCameraScreen.m32 = 1;
 
             Camera_View_Clipping_Planes = new[]
             {
@@ -111,8 +111,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                 new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
             };
 
-            Z_Near = z_near;
-            Z_Far = z_far;
+            ZNear = z_near;
+            ZFar = z_far;
             this.height = height;
             Width = width;
             Height = height;

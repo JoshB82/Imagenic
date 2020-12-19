@@ -18,8 +18,8 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         public override float Width { get; set; }
         public override float Height { get; set; }
-        public override float Z_Near { get; set; }
-        public override float Z_Far { get; set; }
+        public override float ZNear { get; set; }
+        public override float ZFar { get; set; }
 
         #endregion
 

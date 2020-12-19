@@ -1,4 +1,6 @@
-﻿namespace _3D_Engine
+﻿using _3D_Engine.Maths.Vectors;
+
+namespace _3D_Engine.SceneObjects.Meshes
 {
     public abstract partial class Mesh : SceneObject
     {
@@ -7,30 +9,30 @@
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the x-direction.
         /// </summary>
-        /// <param name="scale_factor">Factor to scale by.</param>
-        public void Scale_X(float scale_factor) => Scaling = new Vector3D(Scaling.x * scale_factor, 0, 0);
+        /// <param name="scaleFactor">Factor to scale by.</param>
+        public void ScaleX(float scaleFactor) => Scaling = new Vector3D(Scaling.x * scaleFactor, 0, 0);
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the y-direction.
         /// </summary>
-        /// <param name="scale_factor">Factor to scale by.</param>
-        public void Scale_Y(float scale_factor) => Scaling = new Vector3D(0, Scaling.y * scale_factor, 0);
+        /// <param name="scaleFactor">Factor to scale by.</param>
+        public void ScaleY(float scaleFactor) => Scaling = new Vector3D(0, Scaling.y * scaleFactor, 0);
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the z-direction.
         /// </summary>
-        /// <param name="scale_factor">Factor to scale by.</param>
-        public void Scale_Z(float scale_factor) => Scaling = new Vector3D(0, 0, Scaling.z * scale_factor);
+        /// <param name="scaleFactor">Factor to scale by.</param>
+        public void ScaleZ(float scaleFactor) => Scaling = new Vector3D(0, 0, Scaling.z * scaleFactor);
         /// <summary>
         /// Scales a <see cref="Mesh"/> in all directions.
         /// </summary>
-        /// <param name="scale_factor_x">Factor to scale by in the x-direction.</param>
-        /// <param name="scale_factor_y">Factor to scale by in the y-direction.</param>
-        /// <param name="scale_factor_z">Factor to scale by in the z-direction.</param>
-        public void Scale(float scale_factor_x, float scale_factor_y, float scale_factor_z) => Scaling = new Vector3D(Scaling.x * scale_factor_x, Scaling.y * scale_factor_y, Scaling.z * scale_factor_z);
+        /// <param name="scaleFactorX">Factor to scale by in the x-direction.</param>
+        /// <param name="scaleFactorY">Factor to scale by in the y-direction.</param>
+        /// <param name="scaleFactorZ">Factor to scale by in the z-direction.</param>
+        public void Scale(float scaleFactorX, float scaleFactorY, float scaleFactorZ) => Scaling = new Vector3D(Scaling.x * scaleFactorX, Scaling.y * scaleFactorY, Scaling.z * scaleFactorZ);
         /// <summary>
         /// Scales a <see cref="Mesh"/> in all directions by the same scale factor.
         /// </summary>
-        /// <param name="scale_factor">Factor to scale by.</param>
-        public void Scale(float scale_factor) => Scaling = new Vector3D(Scaling.x * scale_factor, Scaling.y * scale_factor, Scaling.z * scale_factor);
+        /// <param name="scaleFactor">Factor to scale by.</param>
+        public void Scale(float scaleFactor) => Scaling = new Vector3D(Scaling.x * scaleFactor, Scaling.y * scaleFactor, Scaling.z * scaleFactor);
 
         #endregion
     }

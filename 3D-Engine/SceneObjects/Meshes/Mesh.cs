@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.Transformations;
 using System.Drawing;
 

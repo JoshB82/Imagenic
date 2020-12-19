@@ -12,7 +12,7 @@
 
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Meshes.Components
 {
     /// <summary>
     /// Encapsulates creation of an <see cref="Edge"/>.

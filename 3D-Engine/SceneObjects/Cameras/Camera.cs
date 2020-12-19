@@ -30,34 +30,34 @@ namespace _3D_Engine.SceneObjects.Cameras
         /// <summary>
         /// Determines if the <see cref="Camera"/> is drawn in the <see cref="Scene"/>.
         /// </summary>
-        public bool Draw_Icon { get; set; } = false;
+        public bool DrawIcon { get; set; } = false;
 
         // View Volume
-        private VolumeOutline volume_style = VolumeOutline.None;
+        private VolumeOutline volumeStyle = VolumeOutline.None;
 
         /// <summary>
         /// Determines how the <see cref="Camera">Camera's</see> view volume outline is drawn.
         /// </summary>
-        public VolumeOutline Volume_Style
+        public VolumeOutline VolumeStyle
         {
-            get => volume_style;
+            get => volumeStyle;
             set
             {
-                volume_style = value;
+                volumeStyle = value;
 
-                Volume_Edges.Clear();
+                VolumeEdges.Clear();
 
-                float semi_width = Width / 2, semi_height = Height / 2;
+                float semiWidth = Width / 2, semiHeight = Height / 2;
 
                 Vertex zero_point = new Vertex(new Vector4D(0, 0, 0, 1));
-                Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, Z_Near, 1));
-                Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, Z_Near, 1));
-                Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Z_Near, 1));
-                Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, Z_Near, 1));
+                Vertex near_top_left_point = new Vertex(new Vector4D(-semiWidth, semiHeight, ZNear, 1));
+                Vertex near_top_right_point = new Vertex(new Vector4D(semiWidth, semiHeight, ZNear, 1));
+                Vertex near_bottom_left_point = new Vertex(new Vector4D(-semiWidth, -semiHeight, ZNear, 1));
+                Vertex near_bottom_right_point = new Vertex(new Vector4D(semiWidth, -semiHeight, ZNear, 1));
 
-                if ((volume_style & VolumeOutline.Near) == VolumeOutline.Near)
+                if ((volumeStyle & VolumeOutline.Near) == VolumeOutline.Near)
                 {
-                    Volume_Edges.AddRange(new[]
+                    VolumeEdges.AddRange(new[]
                     {
                         new Edge(zero_point, near_top_left_point), // Near top left
                         new Edge(zero_point, near_top_right_point), // Near top right
@@ -70,17 +70,17 @@ namespace _3D_Engine.SceneObjects.Cameras
                     });
                 }
 
-                if ((volume_style & VolumeOutline.Far) == VolumeOutline.Far)
+                if ((volumeStyle & VolumeOutline.Far) == VolumeOutline.Far)
                 {
-                    float ratio = (this is OrthogonalCamera) ? 1 : Z_Far / Z_Near;
-                    float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
+                    float ratio = (this is OrthogonalCamera) ? 1 : ZFar / ZNear;
+                    float semi_width_ratio = semiWidth * ratio, semi_height_ratio = semiHeight * ratio;
 
-                    Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Z_Far, 1));
-                    Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, Z_Far, 1));
-                    Vertex far_bottom_left_point = new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Z_Far, 1));
-                    Vertex far_bottom_right_point = new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Z_Far, 1));
+                    Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, ZFar, 1));
+                    Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, ZFar, 1));
+                    Vertex far_bottom_left_point = new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, ZFar, 1));
+                    Vertex far_bottom_right_point = new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, ZFar, 1));
 
-                    Volume_Edges.AddRange(new[]
+                    VolumeEdges.AddRange(new[]
                     {
                         new Edge(near_top_left_point, far_top_left_point), // Far top left
                         new Edge(near_top_right_point, far_top_right_point), // Far top right
@@ -95,16 +95,16 @@ namespace _3D_Engine.SceneObjects.Cameras
             }
         }
 
-        internal List<Edge> Volume_Edges = new List<Edge>();
+        internal List<Edge> VolumeEdges = new List<Edge>();
 
         // Matrices
-        internal Matrix4x4 World_to_Camera_View, Camera_View_to_Camera_Screen, Camera_Screen_to_World;
+        internal Matrix4x4 WorldToCameraView, CameraViewToCameraScreen, CameraScreenToWorld;
 
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
-            World_to_Camera_View = ModelToWorld.Inverse();
-            Camera_Screen_to_World = ModelToWorld * Camera_View_to_Camera_Screen.Inverse();
+            WorldToCameraView = ModelToWorld.Inverse();
+            CameraScreenToWorld = ModelToWorld * CameraViewToCameraScreen.Inverse();
         }
 
         // Clipping planes
@@ -131,23 +131,23 @@ namespace _3D_Engine.SceneObjects.Cameras
         /// <summary>
         /// The depth of the <see cref="Camera">Camera's</see> view to the near plane.
         /// </summary>
-        public abstract float Z_Near { get; set; }
+        public abstract float ZNear { get; set; }
         /// <summary>
         /// The depth of the <see cref="Camera">Camera's</see> view to the far plane.
         /// </summary>
-        public abstract float Z_Far { get; set; }
+        public abstract float ZFar { get; set; }
 
         #endregion
 
         #region Constructors
 
-        internal Camera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
+        internal Camera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows)
         {
-            string[] icon_obj_data = Properties.Resources.Camera.Split("\n");
-            Icon = new Custom(origin, direction_forward, direction_up, icon_obj_data)
+            string[] iconObjData = Properties.Resources.Camera.Split("\n");
+            Icon = new Custom(origin, directionForward, directionUp, iconObjData)
             {
                 Dimension = 3,
-                Face_Colour = Color.DarkCyan
+                FaceColour = Color.DarkCyan
             };
             Icon.Scale(5);
         }

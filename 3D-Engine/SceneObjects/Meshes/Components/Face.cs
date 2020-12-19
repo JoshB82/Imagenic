@@ -2,7 +2,7 @@
 using _3D_Engine.Maths.Vectors;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Meshes.Components
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Face"/>.

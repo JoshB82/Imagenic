@@ -12,7 +12,7 @@
 
 using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.SceneObjects.Meshes.OneDimensions
+namespace _3D_Engine.SceneObjects.Meshes.OneDimension
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="WorldPoint"/> mesh.

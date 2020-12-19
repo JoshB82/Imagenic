@@ -77,7 +77,7 @@ namespace _3D_Engine
 
                 if ((volume_style & VolumeOutline.Far) == VolumeOutline.Far)
                 {
-                    float ratio = (this is Distant_Light) ? 1 : Shadow_Map_Z_Far / Shadow_Map_Z_Near;
+                    float ratio = (this is DistantLight) ? 1 : Shadow_Map_Z_Far / Shadow_Map_Z_Near;
                     float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
 
                     Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Shadow_Map_Z_Far, 1));

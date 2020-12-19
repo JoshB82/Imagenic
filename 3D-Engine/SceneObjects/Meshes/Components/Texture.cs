@@ -2,7 +2,7 @@
 using System;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Meshes.Components
 {
     public sealed class Texture : IDisposable
     {
