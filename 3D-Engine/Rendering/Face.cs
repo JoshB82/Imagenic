@@ -74,7 +74,7 @@ namespace _3D_Engine
             }
 
             // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(face_clip_queue, Camera.Camera_Screen_Clipping_Planes)) return; // anything outside cube?
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(face_clip_queue, Camera.CameraScreenClippingPlanes)) return; // anything outside cube?
 
             foreach (Face clipped_face in face_clip_queue)
             {

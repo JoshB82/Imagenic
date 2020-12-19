@@ -39,8 +39,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                 
                 // Update left and right clipping planes
                 float semi_width = width / 2, semi_height = height / 2;
-                Camera_View_Clipping_Planes[0].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(-semi_width, -semi_height, z_near), new Vector3D(-semi_width, semi_height, z_near));
-                Camera_View_Clipping_Planes[3].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(semi_width, semi_height, z_near), new Vector3D(semi_width, -semi_height, z_near));
+                CameraViewClippingPlanes[0].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(-semi_width, -semi_height, z_near), new Vector3D(-semi_width, semi_height, z_near));
+                CameraViewClippingPlanes[3].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(semi_width, semi_height, z_near), new Vector3D(semi_width, -semi_height, z_near));
             }
         }
         public override float Height
@@ -55,8 +55,8 @@ namespace _3D_Engine.SceneObjects.Cameras
 
                 // Update top and bottom clipping planes
                 float semi_width = width / 2, semi_height = height / 2;
-                Camera_View_Clipping_Planes[4].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(-semi_width, semi_height, z_near), new Vector3D(semi_width, semi_height, z_near));
-                Camera_View_Clipping_Planes[1].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(semi_width, -semi_height, z_near), new Vector3D(-semi_width, -semi_height, z_near));
+                CameraViewClippingPlanes[4].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(-semi_width, semi_height, z_near), new Vector3D(semi_width, semi_height, z_near));
+                CameraViewClippingPlanes[1].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(semi_width, -semi_height, z_near), new Vector3D(-semi_width, -semi_height, z_near));
             }
         }
         public override float ZNear
@@ -71,7 +71,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 CameraViewToCameraScreen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
 
                 // Update near clipping plane
-                Camera_View_Clipping_Planes[2].Point.z = z_near;
+                CameraViewClippingPlanes[2].Point.z = z_near;
             }
         }
         public override float ZFar
@@ -86,7 +86,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 CameraViewToCameraScreen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
                 
                 // Update far clipping plane
-                Camera_View_Clipping_Planes[5].Point.z = z_far;
+                CameraViewClippingPlanes[5].Point.z = z_far;
             }
         }
 
@@ -94,14 +94,14 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         #region Constructors
 
-        public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.Camera_Width, Default.Camera_Height, Default.Camera_Z_Near, Default.Camera_Z_Far) { }
+        public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar) { }
 
         public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
         {
             CameraViewToCameraScreen = Matrix4x4.Zero;
             CameraViewToCameraScreen.m32 = 1;
 
-            Camera_View_Clipping_Planes = new[]
+            CameraViewClippingPlanes = new[]
             {
                 new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Left
                 new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Bottom

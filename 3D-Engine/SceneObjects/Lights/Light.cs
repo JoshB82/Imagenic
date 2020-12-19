@@ -103,7 +103,7 @@ namespace _3D_Engine
             }
         }
 
-        internal List<Edge> Volume_Edges = new List<Edge>();
+        internal List<Edge> Volume_Edges = new();
 
         // Matrices
         internal Matrix4x4 World_to_Light_View, Light_View_to_Light_Screen, Light_Screen_to_Light_Window;
@@ -111,11 +111,12 @@ namespace _3D_Engine
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
+
             World_to_Light_View = ModelToWorld.Inverse();
         }
 
         // Clipping planes
-        internal ClippingPlane[] Light_View_Clipping_Planes;
+        internal ClippingPlane[] Light_View_Clipping_Planes;bb
 
         // Shadow map volume
         internal Buffer2D<float> Shadow_Map;

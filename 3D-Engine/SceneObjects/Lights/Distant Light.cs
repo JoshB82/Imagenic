@@ -90,9 +90,9 @@ namespace _3D_Engine
 
         #region Constructors
 
-        public DistantLight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.Light_Strength, Default.Shadow_Map_Width, Default.Shadow_Map_Height, Default.Shadow_Map_Z_Near, Default.Shadow_Map_Z_Far) { }
+        public DistantLight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.LightStrength, Default.ShadowMapWidth, Default.ShadowMapHeight, Default.ShadowMapZNear, Default.ShadowMapZFar) { }
 
-        public DistantLight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : this(origin, direction_forward, direction_up, strength, Default.Shadow_Map_Width, Default.Shadow_Map_Height, Default.Shadow_Map_Z_Near, Default.Shadow_Map_Z_Far) { }
+        public DistantLight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : this(origin, direction_forward, direction_up, strength, Default.ShadowMapWidth, Default.ShadowMapHeight, Default.ShadowMapZNear, Default.ShadowMapZFar) { }
 
         public DistantLight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength, int shadow_map_width, int shadow_map_height, float shadow_map_z_near, float shadow_map_z_far) : base(origin, direction_forward, direction_up)
         {

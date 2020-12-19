@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
+using static _3D_Engine.Properties.Settings;
+
 namespace _3D_Engine.SceneObjects
 {
     /// <summary>
@@ -107,13 +109,11 @@ namespace _3D_Engine.SceneObjects
 
             if (HasDirectionArrows = hasDirectionArrows)
             {
-                const int resolution = 30, bodyRadius = 10, tipRadius = 20, bodyLength = 10, tipLength = 5;
-
                 List<SceneObject> directionArrows = new()
                 {
-                    new Arrow(origin, WorldDirectionForward, WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { FaceColour = Color.Blue }, // Z-axis
-                    new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { FaceColour = Color.Green }, // Y-axis
-                    new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, bodyLength, bodyRadius, tipLength, tipRadius, resolution, false) { FaceColour = Color.Red } // X-axis
+                    new Arrow(origin, WorldDirectionForward, WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Blue }, // Z-axis
+                    new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Green }, // Y-axis
+                    new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Red } // X-axis
                 };
                 DirectionArrows = new Group(origin, directionForward, directionUp, directionArrows, false);
             }

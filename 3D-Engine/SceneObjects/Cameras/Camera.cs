@@ -51,53 +51,53 @@ namespace _3D_Engine.SceneObjects.Cameras
 
                 float semiWidth = Width / 2, semiHeight = Height / 2;
 
-                Vertex zero_point = new Vertex(new Vector4D(0, 0, 0, 1));
-                Vertex near_top_left_point = new Vertex(new Vector4D(-semiWidth, semiHeight, ZNear, 1));
-                Vertex near_top_right_point = new Vertex(new Vector4D(semiWidth, semiHeight, ZNear, 1));
-                Vertex near_bottom_left_point = new Vertex(new Vector4D(-semiWidth, -semiHeight, ZNear, 1));
-                Vertex near_bottom_right_point = new Vertex(new Vector4D(semiWidth, -semiHeight, ZNear, 1));
+                Vertex zeroPoint = new Vertex(new Vector4D(0, 0, 0, 1));
+                Vertex nearTopLeftPoint = new Vertex(new Vector4D(-semiWidth, semiHeight, ZNear, 1));
+                Vertex nearTopRightPoint = new Vertex(new Vector4D(semiWidth, semiHeight, ZNear, 1));
+                Vertex nearBottomLeftPoint = new Vertex(new Vector4D(-semiWidth, -semiHeight, ZNear, 1));
+                Vertex nearBottomRightPoint = new Vertex(new Vector4D(semiWidth, -semiHeight, ZNear, 1));
 
                 if ((volumeStyle & VolumeOutline.Near) == VolumeOutline.Near)
                 {
                     VolumeEdges.AddRange(new[]
                     {
-                        new Edge(zero_point, near_top_left_point), // Near top left
-                        new Edge(zero_point, near_top_right_point), // Near top right
-                        new Edge(zero_point, near_bottom_left_point), // Near bottom left
-                        new Edge(zero_point, near_bottom_right_point), // Near bottom right
-                        new Edge(near_top_left_point, near_top_right_point), // Near top
-                        new Edge(near_bottom_left_point, near_bottom_right_point), // Near bottom
-                        new Edge(near_top_left_point, near_bottom_left_point), // Near left
-                        new Edge(near_top_right_point, near_bottom_right_point) // Near right
+                        new Edge(zeroPoint, nearTopLeftPoint), // Near top left
+                        new Edge(zeroPoint, nearTopRightPoint), // Near top right
+                        new Edge(zeroPoint, nearBottomLeftPoint), // Near bottom left
+                        new Edge(zeroPoint, nearBottomRightPoint), // Near bottom right
+                        new Edge(nearTopLeftPoint, nearTopRightPoint), // Near top
+                        new Edge(nearBottomLeftPoint, nearBottomRightPoint), // Near bottom
+                        new Edge(nearTopLeftPoint, nearBottomLeftPoint), // Near left
+                        new Edge(nearTopRightPoint, nearBottomRightPoint) // Near right
                     });
                 }
 
                 if ((volumeStyle & VolumeOutline.Far) == VolumeOutline.Far)
                 {
                     float ratio = (this is OrthogonalCamera) ? 1 : ZFar / ZNear;
-                    float semi_width_ratio = semiWidth * ratio, semi_height_ratio = semiHeight * ratio;
+                    float semiWidthRatio = semiWidth * ratio, semiHeightRatio = semiHeight * ratio;
 
-                    Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, ZFar, 1));
-                    Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, ZFar, 1));
-                    Vertex far_bottom_left_point = new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, ZFar, 1));
-                    Vertex far_bottom_right_point = new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, ZFar, 1));
+                    Vertex farTopLeftPoint = new Vertex(new Vector4D(-semiWidthRatio, semiHeightRatio, ZFar, 1));
+                    Vertex farTopRightPoint = new Vertex(new Vector4D(semiWidthRatio, semiHeightRatio, ZFar, 1));
+                    Vertex farBottomLeftPoint = new Vertex(new Vector4D(-semiWidthRatio, -semiHeightRatio, ZFar, 1));
+                    Vertex farBottomRightPoint = new Vertex(new Vector4D(semiWidthRatio, -semiHeightRatio, ZFar, 1));
 
                     VolumeEdges.AddRange(new[]
                     {
-                        new Edge(near_top_left_point, far_top_left_point), // Far top left
-                        new Edge(near_top_right_point, far_top_right_point), // Far top right
-                        new Edge(near_bottom_left_point, far_bottom_left_point), // Far bottom left
-                        new Edge(near_bottom_right_point, far_bottom_right_point), // Far bottom right
-                        new Edge(far_top_left_point, far_top_right_point), // Far top
-                        new Edge(far_bottom_left_point, far_bottom_right_point), // Far bottom
-                        new Edge(far_top_left_point, far_bottom_left_point), // Far left
-                        new Edge(far_top_right_point, far_bottom_right_point) // Far right
+                        new Edge(nearTopLeftPoint, farTopLeftPoint), // Far top left
+                        new Edge(nearTopRightPoint, farTopRightPoint), // Far top right
+                        new Edge(nearBottomLeftPoint, farBottomLeftPoint), // Far bottom left
+                        new Edge(nearBottomRightPoint, farBottomRightPoint), // Far bottom right
+                        new Edge(farTopLeftPoint, farTopRightPoint), // Far top
+                        new Edge(farBottomLeftPoint, farBottomRightPoint), // Far bottom
+                        new Edge(farTopLeftPoint, farBottomLeftPoint), // Far left
+                        new Edge(farTopRightPoint, farBottomRightPoint) // Far right
                     });
                 }
             }
         }
 
-        internal List<Edge> VolumeEdges = new List<Edge>();
+        internal List<Edge> VolumeEdges = new();
 
         // Matrices
         internal Matrix4x4 WorldToCameraView, CameraViewToCameraScreen, CameraScreenToWorld;
@@ -105,20 +105,21 @@ namespace _3D_Engine.SceneObjects.Cameras
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
+
             WorldToCameraView = ModelToWorld.Inverse();
             CameraScreenToWorld = ModelToWorld * CameraViewToCameraScreen.Inverse();
         }
 
         // Clipping planes
-        internal ClippingPlane[] Camera_View_Clipping_Planes;
-        internal static readonly ClippingPlane[] Camera_Screen_Clipping_Planes = new[]
+        internal ClippingPlane[] CameraViewClippingPlanes;
+        internal static readonly ClippingPlane[] CameraScreenClippingPlanes = new ClippingPlane[]
         {
-            new ClippingPlane(-Vector3D.One, Vector3D.UnitX), // Left
-            new ClippingPlane(-Vector3D.One, Vector3D.UnitY), // Bottom
-            new ClippingPlane(-Vector3D.One, Vector3D.UnitZ), // Near
-            new ClippingPlane(Vector3D.One, Vector3D.UnitNegativeX), // Right
-            new ClippingPlane(Vector3D.One, Vector3D.UnitNegativeY), // Top
-            new ClippingPlane(Vector3D.One, Vector3D.UnitNegativeZ) // Far
+            new(-Vector3D.One, Vector3D.UnitX), // Left
+            new(-Vector3D.One, Vector3D.UnitY), // Bottom
+            new(-Vector3D.One, Vector3D.UnitZ), // Near
+            new(Vector3D.One, Vector3D.UnitNegativeX), // Right
+            new(Vector3D.One, Vector3D.UnitNegativeY), // Top
+            new(Vector3D.One, Vector3D.UnitNegativeZ) // Far
         };
 
         // View volume

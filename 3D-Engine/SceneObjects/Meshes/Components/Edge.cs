@@ -25,7 +25,7 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
         internal Vertex P1, P2;
 
         // Appearance
-        public Color Colour { get; set; } = Properties.Settings.Default.Edge_Colour;
+        public Color Colour { get; set; } = Properties.Settings.Default.EdgeColour;
         public bool Visible { get; set; } = true;
 
         #endregion

@@ -70,7 +70,7 @@ namespace _3D_Engine
             }
 
             // Clip the face in screen space
-            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(face_clip, Camera.Camera_Screen_Clipping_Planes)) return;
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(face_clip, Camera.CameraScreenClippingPlanes)) return;
 
             foreach (Face clipped_face in face_clip)
             {

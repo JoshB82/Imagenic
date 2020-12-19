@@ -58,7 +58,7 @@ namespace _3D_Engine.Rendering
             // Clip the edge in camera-screen space
             if (Settings.Screen_Space_Clip)
             {
-                if (!Clipping.ClipEdges(Camera.Camera_Screen_Clipping_Planes, ref point_1, ref point_2)) return;
+                if (!Clipping.ClipEdges(Camera.CameraScreenClippingPlanes, ref point_1, ref point_2)) return;
             }
 
             // Mode the edge from camera-screen space to window space

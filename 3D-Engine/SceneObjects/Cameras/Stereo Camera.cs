@@ -11,10 +11,10 @@ namespace _3D_Engine.SceneObjects.Cameras
     {
         #region Fields and Properties
 
-        private float width = Default.Camera_Width;
-        private float height = Default.Camera_Height;
-        private float z_near = Default.Camera_Z_Near;
-        private float z_far = Default.Camera_Z_Far;
+        private float width = Default.CameraWidth;
+        private float height = Default.CameraHeight;
+        private float z_near = Default.CameraZNear;
+        private float z_far = Default.CameraZFar;
 
         public override float Width { get; set; }
         public override float Height { get; set; }

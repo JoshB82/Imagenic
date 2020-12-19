@@ -26,7 +26,7 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
         public bool Has_Texture { get; internal set; } = false;
 
         // Appearance
-        public Color Colour { get; set; } = Properties.Settings.Default.Face_Colour;
+        public Color Colour { get; set; } = Properties.Settings.Default.FaceColour;
         public Texture Texture_Object { get; set; }
         public bool Draw_Outline { get; set; } = false;
         public bool Visible { get; set; } = true;

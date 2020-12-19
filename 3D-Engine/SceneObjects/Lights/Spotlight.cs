@@ -77,10 +77,10 @@ namespace _3D_Engine
             Light_View_to_Light_Screen = Matrix4x4.Zero;
             Light_View_to_Light_Screen.m32 = 1;
 
-            Shadow_Map_Width = Default.Shadow_Map_Width;
-            Shadow_Map_Height = Default.Shadow_Map_Height;
-            Shadow_Map_Z_Near = Default.Shadow_Map_Z_Near;
-            Shadow_Map_Z_Far = Default.Shadow_Map_Z_Far;
+            Shadow_Map_Width = Default.ShadowMapWidth;
+            Shadow_Map_Height = Default.ShadowMapHeight;
+            Shadow_Map_Z_Near = Default.ShadowMapZNear;
+            Shadow_Map_Z_Far = Default.ShadowMapZFar;
 
             Strength = strength;
         }

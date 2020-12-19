@@ -2,38 +2,53 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="_3D_Engine.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Edge_Colour" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="EdgeColour" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="Face_Colour" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="FaceColour" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">LightBlue</Value>
     </Setting>
-    <Setting Name="Shadow_Map_Width" Type="System.Int32" Scope="User">
+    <Setting Name="ShadowMapWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="Shadow_Map_Height" Type="System.Int32" Scope="User">
+    <Setting Name="ShadowMapHeight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="Shadow_Map_Z_Near" Type="System.Single" Scope="User">
+    <Setting Name="ShadowMapZNear" Type="System.Single" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="Shadow_Map_Z_Far" Type="System.Single" Scope="User">
+    <Setting Name="ShadowMapZFar" Type="System.Single" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="Camera_Width" Type="System.Single" Scope="User">
+    <Setting Name="CameraWidth" Type="System.Single" Scope="User">
       <Value Profile="(Default)">81</Value>
     </Setting>
-    <Setting Name="Camera_Height" Type="System.Single" Scope="User">
+    <Setting Name="CameraHeight" Type="System.Single" Scope="User">
       <Value Profile="(Default)">64</Value>
     </Setting>
-    <Setting Name="Camera_Z_Near" Type="System.Single" Scope="User">
+    <Setting Name="CameraZNear" Type="System.Single" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="Camera_Z_Far" Type="System.Single" Scope="User">
+    <Setting Name="CameraZFar" Type="System.Single" Scope="User">
       <Value Profile="(Default)">750</Value>
     </Setting>
-    <Setting Name="Light_Strength" Type="System.Single" Scope="User">
+    <Setting Name="LightStrength" Type="System.Single" Scope="User">
       <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="DirectionArrowResolution" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="DirrectionArrowBodyRadius" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="DirectionArrowTipRadius" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="DirectionArrowBodyLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="DirectionArrowTipLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>
