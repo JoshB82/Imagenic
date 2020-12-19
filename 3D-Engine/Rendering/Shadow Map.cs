@@ -1,6 +1,9 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
-
+using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Meshes;
+using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 
 namespace _3D_Engine

@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes.Components;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

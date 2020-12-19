@@ -11,6 +11,8 @@
  */
 
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes;
+using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 using System.Linq;
 

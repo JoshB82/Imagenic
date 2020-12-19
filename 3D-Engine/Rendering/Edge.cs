@@ -13,6 +13,7 @@
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Drawing;
 
 namespace _3D_Engine.Rendering

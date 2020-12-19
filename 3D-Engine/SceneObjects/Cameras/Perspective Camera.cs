@@ -103,12 +103,12 @@ namespace _3D_Engine.SceneObjects.Cameras
 
             Camera_View_Clipping_Planes = new[]
             {
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Left
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Bottom
-                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitZ), // Near
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Right
-                new Clipping_Plane(Vector3D.Zero, Vector3D.Zero), // Top
-                new Clipping_Plane(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
+                new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Left
+                new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Bottom
+                new ClippingPlane(Vector3D.Zero, Vector3D.UnitZ), // Near
+                new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Right
+                new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Top
+                new ClippingPlane(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
             };
 
             ZNear = z_near;

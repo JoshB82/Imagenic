@@ -14,6 +14,9 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects;
+using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Meshes;
+using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.Transformations;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -112,7 +115,7 @@ namespace _3D_Engine
         }
 
         // Clipping planes
-        internal Clipping_Plane[] Light_View_Clipping_Planes;
+        internal ClippingPlane[] Light_View_Clipping_Planes;
 
         // Shadow map volume
         internal Buffer2D<float> Shadow_Map;

@@ -2,7 +2,7 @@
 
 namespace _3D_Engine.SceneObjects.Cameras
 {
-    internal sealed class Clipping_Plane
+    internal sealed class ClippingPlane
     {
         /// <summary>
         /// A point on the clipping plane.
@@ -14,7 +14,7 @@ namespace _3D_Engine.SceneObjects.Cameras
         /// </summary>
         internal Vector3D Normal;
 
-        internal Clipping_Plane(Vector3D point, Vector3D normal)
+        internal ClippingPlane(Vector3D point, Vector3D normal)
         {
             Point = point;
             Normal = normal;

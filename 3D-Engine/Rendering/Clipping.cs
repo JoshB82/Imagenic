@@ -12,6 +12,7 @@
 
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 using static _3D_Engine.Maths.Vectors.Vector3D;
 
@@ -19,9 +20,9 @@ namespace _3D_Engine.Rendering
 {
     internal static class Clipping
     {
-        internal static bool ClipEdges(Clipping_Plane[] clippingPlanes, ref Vector4D point1, ref Vector4D point2)
+        internal static bool ClipEdges(ClippingPlane[] clippingPlanes, ref Vector4D point1, ref Vector4D point2)
         {
-            foreach (Clipping_Plane clippingPlane in clippingPlanes)
+            foreach (ClippingPlane clippingPlane in clippingPlanes)
             {
                 if (!ClipEdge(clippingPlane.Point, clippingPlane.Normal, ref point1, ref point2)) return false;
             }
@@ -58,9 +59,9 @@ namespace _3D_Engine.Rendering
         }
 
         //source!
-        internal static bool ClipFaces(Queue<Face> faceQueue, Clipping_Plane[] clippingPlanes)
+        internal static bool ClipFaces(Queue<Face> faceQueue, ClippingPlane[] clippingPlanes)
         {
-            foreach (Clipping_Plane clippingPlane in clippingPlanes)
+            foreach (ClippingPlane clippingPlane in clippingPlanes)
             {
                 int noFaces = faceQueue.Count;
                 while (noFaces-- > 0) ClipFace(faceQueue.Dequeue(), faceQueue, clippingPlane.Point, clippingPlane.Normal);

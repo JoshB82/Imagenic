@@ -12,6 +12,8 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes;
+using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -108,15 +110,15 @@ namespace _3D_Engine.SceneObjects.Cameras
         }
 
         // Clipping planes
-        internal Clipping_Plane[] Camera_View_Clipping_Planes;
-        internal static readonly Clipping_Plane[] Camera_Screen_Clipping_Planes = new[]
+        internal ClippingPlane[] Camera_View_Clipping_Planes;
+        internal static readonly ClippingPlane[] Camera_Screen_Clipping_Planes = new[]
         {
-            new Clipping_Plane(-Vector3D.One, Vector3D.UnitX), // Left
-            new Clipping_Plane(-Vector3D.One, Vector3D.UnitY), // Bottom
-            new Clipping_Plane(-Vector3D.One, Vector3D.UnitZ), // Near
-            new Clipping_Plane(Vector3D.One, Vector3D.UnitNegativeX), // Right
-            new Clipping_Plane(Vector3D.One, Vector3D.UnitNegativeY), // Top
-            new Clipping_Plane(Vector3D.One, Vector3D.UnitNegativeZ) // Far
+            new ClippingPlane(-Vector3D.One, Vector3D.UnitX), // Left
+            new ClippingPlane(-Vector3D.One, Vector3D.UnitY), // Bottom
+            new ClippingPlane(-Vector3D.One, Vector3D.UnitZ), // Near
+            new ClippingPlane(Vector3D.One, Vector3D.UnitNegativeX), // Right
+            new ClippingPlane(Vector3D.One, Vector3D.UnitNegativeY), // Top
+            new ClippingPlane(Vector3D.One, Vector3D.UnitNegativeZ) // Far
         };
 
         // View volume
