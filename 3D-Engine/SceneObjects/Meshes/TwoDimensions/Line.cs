@@ -51,7 +51,7 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 
             Edges = new Edge[1] { new Edge(Vertices[0], Vertices[1]) };
 
-            Draw_Faces = false;
+            DrawFaces = false;
         }
 
         public Line(Vector3D start_position, Vector3D unit_vector, float length) : this(start_position, start_position + unit_vector * length)

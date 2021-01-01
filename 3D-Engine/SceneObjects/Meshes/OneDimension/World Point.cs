@@ -36,7 +36,7 @@ namespace _3D_Engine.SceneObjects.Meshes.OneDimension
 
             Draw_Edges = false;
             
-            Draw_Faces = false;
+            DrawFaces = false;
         }
 
         #endregion

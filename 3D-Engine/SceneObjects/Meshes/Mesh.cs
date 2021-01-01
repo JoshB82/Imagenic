@@ -34,7 +34,7 @@ namespace _3D_Engine.SceneObjects.Meshes
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Edges']/*"/>
         public bool Draw_Edges { get; set; } = true;
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Faces']/*"/>
-        public bool Draw_Faces { get; set; } = true;
+        public bool DrawFaces { get; set; } = true;
 
         // Colours
         private Color edgeColour, faceColour;

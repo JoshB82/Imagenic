@@ -17,18 +17,18 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
 
         internal Vector4D p1, p2, p3;
         internal Vector3D t1, t2, t3;
-        internal void Reset_Vertices()
+        internal void ResetVertices()
         {
             p1 = P1.Point; p2 = P2.Point; p3 = P3.Point;
             t1 = T1; t2 = T2; t3 = T3;
         }
 
-        public bool Has_Texture { get; internal set; } = false;
+        public bool HasTexture { get; internal set; } = false;
 
         // Appearance
         public Color Colour { get; set; } = Properties.Settings.Default.FaceColour;
         public Texture Texture_Object { get; set; }
-        public bool Draw_Outline { get; set; } = false;
+        public bool DrawOutline { get; set; } = false;
         public bool Visible { get; set; } = true;
 
         #endregion
@@ -56,7 +56,7 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
         {
             P1 = model_p1; P2 = model_p2; P3 = model_p3;
             T1 = t1; T2 = t2; T3 = t3;
-            Has_Texture = true; Texture_Object = texture_object;
+            HasTexture = true; Texture_Object = texture_object;
         }
 
         #endregion

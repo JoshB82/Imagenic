@@ -122,12 +122,12 @@ namespace _3D_Engine.Rendering
                     Vector4D intersection_2 = Line_Intersect_Plane((Vector3D)inside_points[0], (Vector3D)outside_points[1], plane_point, plane_normal, out float d2);
 
                     Face face_1;
-                    if (face_to_clip.Has_Texture)
+                    if (face_to_clip.HasTexture)
                     {
                         Vector3D t_intersection_1 = (outside_texture_points[0] - inside_texture_points[0]) * d1 + inside_texture_points[0];
                         Vector3D t_intersection_2 = (outside_texture_points[1] - inside_texture_points[0]) * d2 + inside_texture_points[0];
 
-                        face_1 = new Face(inside_points[0], intersection_1, intersection_2, inside_texture_points[0], t_intersection_1, t_intersection_2, face_to_clip.Texture_Object) { Has_Texture = true };
+                        face_1 = new Face(inside_points[0], intersection_1, intersection_2, inside_texture_points[0], t_intersection_1, t_intersection_2, face_to_clip.Texture_Object) { HasTexture = true };
                     }
                     else
                     {
@@ -142,13 +142,13 @@ namespace _3D_Engine.Rendering
                     intersection_2 = Line_Intersect_Plane((Vector3D)inside_points[1], (Vector3D)outside_points[0], plane_point, plane_normal, out d2);
 
                     Face face_2;
-                    if (face_to_clip.Has_Texture)
+                    if (face_to_clip.HasTexture)
                     {
                         Vector3D t_intersection_1 = (outside_texture_points[0] - inside_texture_points[0]) * d1 + inside_texture_points[0];
                         Vector3D t_intersection_2 = (outside_texture_points[0] - inside_texture_points[1]) * d2 + inside_texture_points[1];
 
-                        face_1 = new Face(inside_points[0], intersection_1, inside_points[1], inside_texture_points[0], t_intersection_1, inside_texture_points[1], face_to_clip.Texture_Object) { Has_Texture = true };
-                        face_2 = new Face(inside_points[1], intersection_1, intersection_2, inside_texture_points[1], t_intersection_1, t_intersection_2, face_to_clip.Texture_Object) { Has_Texture = true };
+                        face_1 = new Face(inside_points[0], intersection_1, inside_points[1], inside_texture_points[0], t_intersection_1, inside_texture_points[1], face_to_clip.Texture_Object) { HasTexture = true };
+                        face_2 = new Face(inside_points[1], intersection_1, intersection_2, inside_texture_points[1], t_intersection_1, t_intersection_2, face_to_clip.Texture_Object) { HasTexture = true };
                     }
                     else
                     {

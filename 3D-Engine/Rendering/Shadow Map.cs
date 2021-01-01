@@ -1,32 +1,32 @@
 ﻿using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
-using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Cameras
 {
-    public sealed partial class Scene
+    public abstract partial class Camera : SceneObject
     {
-        public void Generate_Shadow_Map(Light light)
+        public void GenerateShadowMap(Light light)
         {
-            foreach (Mesh mesh in Meshes)
+            foreach (Mesh mesh in ParentScene.Meshes)
             {
-                if (mesh.Visible && mesh.Draw_Faces)
+                if (mesh.Visible && mesh.DrawFaces)
                 {
-                    Matrix4x4 model_to_light_view = light.World_to_Light_View * mesh.ModelToWorld;
+                    Matrix4x4 modelToLightView = light.WorldToLightView * mesh.ModelToWorld;
 
                     foreach (Face face in mesh.Faces)
                     {
                         if (face.Visible)
                         {
-                            Calculate_Depth
+                            CalculateDepth
                             (
                                 face,
                                 mesh.Dimension,
-                                ref model_to_light_view,
+                                ref modelToLightView,
                                 light
                             );
                         }
@@ -35,12 +35,14 @@ namespace _3D_Engine
             }
         }
             
-        private void Calculate_Depth(Face face, int dimension,
+        private void CalculateDepth(
+            Face face,
+            int dimension,
             ref Matrix4x4 model_to_light_view,
             Light light)
         {
             // Reset the vertices to model space values
-            face.Reset_Vertices();
+            face.ResetVertices();
 
             // Move the face from model space to light view space
             face.Apply_Matrix(model_to_light_view);

@@ -13,7 +13,6 @@
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
-using _3D_Engine.SceneObjects;
 using _3D_Engine.SceneObjects.Cameras;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
@@ -24,7 +23,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Lights
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Light"/>.
@@ -44,14 +43,14 @@ namespace _3D_Engine
         public bool DrawIcon { get; set; } = false;
 
         // View Volume
-        private VolumeOutline volume_style = VolumeOutline.None;
+        private VolumeOutline volumeStyle = VolumeOutline.None;
 
         public VolumeOutline Volume_Style
         {
-            get => volume_style;
+            get => volumeStyle;
             set
             {
-                volume_style = value;
+                volumeStyle = value;
 
                 Volume_Edges.Clear();
 
@@ -63,7 +62,7 @@ namespace _3D_Engine
                 Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Shadow_Map_Z_Near, 1));
                 Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, Shadow_Map_Z_Near, 1));
 
-                if ((volume_style & VolumeOutline.Near) == VolumeOutline.Near)
+                if ((volumeStyle & VolumeOutline.Near) == VolumeOutline.Near)
                 {
                     Volume_Edges.AddRange(new[]
                     {
@@ -78,7 +77,7 @@ namespace _3D_Engine
                     });
                 }
 
-                if ((volume_style & VolumeOutline.Far) == VolumeOutline.Far)
+                if ((volumeStyle & VolumeOutline.Far) == VolumeOutline.Far)
                 {
                     float ratio = (this is DistantLight) ? 1 : Shadow_Map_Z_Far / Shadow_Map_Z_Near;
                     float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
@@ -106,17 +105,19 @@ namespace _3D_Engine
         internal List<Edge> Volume_Edges = new();
 
         // Matrices
-        internal Matrix4x4 World_to_Light_View, Light_View_to_Light_Screen, Light_Screen_to_Light_Window;
+        internal Matrix4x4 WorldToLightView { get; set; }
+        internal Matrix4x4 LightViewToLightScreen { get; set; }
+        internal Matrix4x4 LightScreenToLightWindow { get; set; }
 
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
 
-            World_to_Light_View = ModelToWorld.Inverse();
+            WorldToLightView = ModelToWorld.Inverse();
         }
 
         // Clipping planes
-        internal ClippingPlane[] Light_View_Clipping_Planes;bb
+        internal ClippingPlane[] LightViewClippingPlanes;
 
         // Shadow map volume
         internal Buffer2D<float> Shadow_Map;
@@ -125,14 +126,14 @@ namespace _3D_Engine
         public abstract float Shadow_Map_Z_Near { get; set; }
         public abstract float Shadow_Map_Z_Far { get; set; }
 
-        private static readonly Matrix4x4 window_translate = Transform.Translate(new Vector3D(1, 1, 0));
+        private static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0));
         protected void Set_Shadow_Map()
         {
             // Set shadow map
             Shadow_Map = new(Shadow_Map_Width, Shadow_Map_Height);
             
             // Set light-screen-to-light-window matrix
-            Light_Screen_to_Light_Window = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * window_translate;
+            LightScreenToLightWindow = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * windowTranslate;
         }
 
         #endregion
@@ -147,7 +148,7 @@ namespace _3D_Engine
 
         // Export
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map']/*"/>
-        public void Export_Shadow_Map() => Export_Shadow_Map($"{Directory.GetCurrentDirectory()}\\Export\\{GetType().Name}_{Id}_Export_Map.bmp");
+        public void ExportShadowMap() => Export_Shadow_Map($"{Directory.GetCurrentDirectory()}\\Export\\{GetType().Name}_{Id}_Export_Map.bmp");
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map(System.String)']/*"/>
         public void Export_Shadow_Map(string file_path)

@@ -7,7 +7,7 @@ using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Lights
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="DistantLight"/>.

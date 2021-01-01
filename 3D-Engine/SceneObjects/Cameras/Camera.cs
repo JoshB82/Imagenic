@@ -12,10 +12,16 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Rendering;
+using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Transformations;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace _3D_Engine.SceneObjects.Cameras
 {
@@ -100,7 +106,9 @@ namespace _3D_Engine.SceneObjects.Cameras
         internal List<Edge> VolumeEdges = new();
 
         // Matrices
-        internal Matrix4x4 WorldToCameraView, CameraViewToCameraScreen, CameraScreenToWorld;
+        internal Matrix4x4 WorldToCameraView { get; set; }
+        internal Matrix4x4 CameraViewToCameraScreen { get; set; }
+        internal Matrix4x4 CameraScreenToWorld { get; set; }
 
         internal override void CalculateMatrices()
         {
@@ -140,6 +148,62 @@ namespace _3D_Engine.SceneObjects.Cameras
         /// </summary>
         public abstract float ZFar { get; set; }
 
+        // Canvas
+        
+
+        private const byte outOfBoundsValue = 2;
+
+        // Matrices
+        private static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0));
+
+        // Render
+        public Color RenderBackgroundColour { get; set; }
+
+        // Buffers
+        private Buffer2D<Color> colourBuffer;
+        private Buffer2D<float> zBuffer;
+
+        // Matrices
+        private Matrix4x4 cameraScreenToWindow, cameraScreenToWindowInverse;
+
+        // Render
+        private int renderWidth, renderHeight;
+        public int RenderWidth
+        {
+            get => renderWidth;
+            set
+            {
+                renderWidth = value;
+                UpdateProperties();
+            }
+        }
+        public int RenderHeight
+        {
+            get => renderHeight;
+            set
+            {
+                renderHeight = value;
+                UpdateProperties();
+            }
+        }
+        private void UpdateProperties()
+        {
+            colourBuffer = new(renderWidth, renderHeight);
+            zBuffer = new(renderWidth, renderHeight);
+
+            cameraScreenToWindow = Transform.Scale(0.5f * (renderWidth - 1), 0.5f * (renderHeight - 1), 1) * windowTranslate;
+            cameraScreenToWindowInverse = cameraScreenToWindow.Inverse();
+        }
+        
+        public void MakeRenderSizeOfControl(Control control)
+        {
+            RenderWidth = control.Width;
+            RenderHeight = control.Height;
+        }
+
+        // Scene
+        internal Scene ParentScene { get; set; }
+
         #endregion
 
         #region Constructors
@@ -153,6 +217,234 @@ namespace _3D_Engine.SceneObjects.Cameras
                 FaceColour = Color.DarkCyan
             };
             Icon.Scale(5);
+        }
+
+        #endregion
+
+        #region Methods
+
+        public Bitmap Render(int width, int height, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        {
+            RenderWidth = width;
+            RenderHeight = height;
+
+            return Render(pixelFormat);
+        }
+
+        public Bitmap Render(PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        {    
+            // Reset scene buffers
+            zBuffer.SetAllToValue(outOfBoundsValue);
+            colourBuffer.SetAllToValue(RenderBackgroundColour);
+            foreach (Light light in ParentScene.Lights)
+            {
+                light.Shadow_Map.SetAllToValue(outOfBoundsValue);
+            }
+
+            // Calculate matrices and world origins
+            foreach (SceneObject sceneObject in ParentScene.SceneObjects)
+            {
+                switch (sceneObject)
+                {
+                    case Camera camera when camera.Visible:
+                        if (camera.DrawIcon)
+                        {
+                            camera.Icon.CalculateMatrices();
+                        }
+                        camera.CalculateMatrices();
+                        break;
+                    case Light light when light.Visible:
+                        if (light.DrawIcon)
+                        {
+                            light.Icon.CalculateMatrices();
+                        }
+                        light.CalculateMatrices();
+                        light.CalculateWorldOrigin();
+                        break;
+                    case Mesh mesh when mesh.Visible:
+                        mesh.CalculateMatrices();
+                        break;
+                }
+            }
+            this.CalculateWorldOrigin(); //?
+
+            // Generate a shadow map for each light (only if needed)
+            if (ParentScene.ShadowMapsNeedUpdating)
+            {
+                foreach (Light light in ParentScene.Lights)
+                {
+                    if (light.Visible)
+                    {
+                        GenerateShadowMap(light);
+
+                        #if DEBUG
+
+                        light.ExportShadowMap();
+                        
+                        #endif
+                    }
+                }
+            }
+
+            // Generate z buffer
+            foreach (SceneObject sceneObject in ParentScene.SceneObjects)
+            {
+                switch (sceneObject)
+                {
+                    case Camera camera when camera.DrawIcon:
+                        Matrix4x4 modelToCameraView = this.WorldToCameraView * camera.Icon.ModelToWorld;
+
+                        foreach (Face face in camera.Icon.Faces)
+                        {
+                            AddFaceToZBuffer
+                            (
+                                face,
+                                3,
+                                ref modelToCameraView,
+                                ref this.CameraViewToCameraScreen,
+                                ref cameraScreenToWindow
+                            );
+                        }
+                        break;
+                    case Light light when light.DrawIcon:
+                        modelToCameraView = this.WorldToCameraView * light.Icon.ModelToWorld;
+
+                        foreach (Face face in light.Icon.Faces)
+                        {
+                            AddFaceToZBuffer
+                            (
+                                face,
+                                3,
+                                ref modelToCameraView,
+                                ref this.CameraViewToCameraScreen,
+                                ref cameraScreenToWindow
+                            );
+                        }
+                        break;
+                    case Mesh mesh when mesh.Visible && mesh.DrawFaces:
+                        modelToCameraView = this.WorldToCameraView * mesh.ModelToWorld;
+
+                        foreach (Face face in mesh.Faces)
+                        {
+                            if (face.Visible)
+                            {
+                                AddFaceToZBuffer
+                                (
+                                    face,
+                                    mesh.Dimension,
+                                    ref modelToCameraView,
+                                    ref this.CameraViewToCameraScreen,
+                                    ref cameraScreenToWindow
+                                );
+                            }
+                        }
+                        break;
+                }
+
+                if (sceneObject.HasDirectionArrows && sceneObject.DisplayDirectionArrows)
+                {
+                    Arrow directionForward = sceneObject.DirectionArrows.SceneObjects[0] as Arrow;
+                    Arrow directionUp = sceneObject.DirectionArrows.SceneObjects[1] as Arrow;
+                    Arrow directionRight = sceneObject.DirectionArrows.SceneObjects[2] as Arrow;
+
+                    Matrix4x4 directionForwardModelToCameraView = this.WorldToCameraView * directionForward.ModelToWorld;
+                    Matrix4x4 directionUpModelToCameraView = this.WorldToCameraView * directionUp.ModelToWorld;
+                    Matrix4x4 directionRightModelToCameraView = this.WorldToCameraView * directionRight.ModelToWorld;
+
+                    foreach (Face face in directionForward.Faces)
+                    {
+                        AddFaceToZBuffer
+                        (
+                            face,
+                            3,
+                            ref directionForwardModelToCameraView,
+                            ref this.CameraViewToCameraScreen
+                        );
+                    }
+                    foreach (Face face in directionUp.Faces)
+                    {
+                        AddFaceToZBuffer
+                        (
+                            face,
+                            3,
+                            ref directionUpModelToCameraView,
+                            ref this.CameraViewToCameraScreen
+                        );
+                    }
+                    foreach (Face face in directionRight.Faces)
+                    {
+                        AddFaceToZBuffer
+                        (
+                            face,
+                            3,
+                            ref directionRightModelToCameraView,
+                            ref this.CameraViewToCameraScreen
+                        );
+                    }
+                }
+            }
+
+            // Apply lighting
+            switch (this)
+            {
+                case OrthogonalCamera orthogonalCamera:
+                    Matrix4x4 windowToWorld = this.ModelToWorld * this.CameraViewToCameraScreen.Inverse() * cameraScreenToWindowInverse;
+
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            if (zBuffer.Values[x][y] != outOfBoundsValue)
+                            {
+                                // Move the point from window space to world space and apply lighting
+                                ApplyLighting(windowToWorld * new Vector4D(x, y, zBuffer.Values[x][y], 1), ref colourBuffer.Values[x][y], x, y);
+                            }
+                        }
+                    }
+                    break;
+                case PerspectiveCamera perspectiveCamera:
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            // check all floats and ints
+                            if (zBuffer.Values[x][y] != outOfBoundsValue)
+                            {
+                                SMC_Camera_Perspective
+                                (
+                                    x, y, zBuffer.Values[x][y],
+                                    ref colourBuffer.Values[x][y],
+                                    ref cameraScreenToWindowInverse,
+                                    ref this.CameraScreenToWorld
+                                );
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            return CreateBitmap(RenderWidth, RenderHeight, colourBuffer);
+        }
+
+        // how works?
+        public static unsafe Bitmap CreateBitmap(int width, int height, Buffer2D<Color> colourBuffer)
+        {
+            Bitmap newFrame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            BitmapData data = newFrame.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb); //????????????
+
+            for (int y = 0; y < height; y++)
+            {
+                byte* row_start = (byte*)data.Scan0 + y * data.Stride;
+                for (int x = 0; x < width; x++)
+                {
+                    row_start[x * 3] = colourBuffer.Values[x][y * -1 + height - 1].B; // Blue
+                    row_start[x * 3 + 1] = colourBuffer.Values[x][y * -1 + height - 1].G; // Green
+                    row_start[x * 3 + 2] = colourBuffer.Values[x][y * -1 + height - 1].R; // Red
+                }
+            }
+
+            newFrame.UnlockBits(data);
+            return newFrame;
         }
 
         #endregion
