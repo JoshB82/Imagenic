@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Cameras
 {
-    public sealed partial class Scene
+    public abstract partial class Camera : SceneObject
     {
         // Swap
         private static void Swap<T>(ref T x1, ref T x2)
@@ -14,12 +14,12 @@ namespace _3D_Engine
         }
 
         // Sorting
-        private static void Sort_By_Y(
+        private static void SortByY(
             ref int x1, ref int y1, ref float z1,
             ref int x2, ref int y2, ref float z2,
             ref int x3, ref int y3, ref float z3)
         {
-            // y1 highest; y3 lowest
+            // y1 highest; y3 lowest (?)
             if (y1 < y2)
             {
                 Swap(ref x1, ref x2);
@@ -40,12 +40,12 @@ namespace _3D_Engine
             }
         }
 
-        private static void Textured_Sort_By_Y(
+        private static void TexturedSortByY(
             ref int x1, ref int y1, ref float tx1, ref float ty1, ref float tz1,
             ref int x2, ref int y2, ref float tx2, ref float ty2, ref float tz2,
             ref int x3, ref int y3, ref float tx3, ref float ty3, ref float tz3)
         {
-            // y1 lowest; y3 highest
+            // y1 lowest; y3 highest (?)
             if (y1 < y2)
             {
                 Swap(ref x1, ref x2);
@@ -73,7 +73,7 @@ namespace _3D_Engine
         }
 
         // Interpolation (source!)
-        private static void Interpolate_Triangle(object @object, Action<object, int, int, float> action,
+        private static void InterpolateTriangle(object @object, Action<object, int, int, float> action,
             int x1, int y1, float z1,
             int x2, int y2, float z2,
             int x3, int y3, float z3)
@@ -104,10 +104,10 @@ namespace _3D_Engine
             {
                 for (int y = y2; y <= y1; y++)
                 {
-                    int sx = ((y - y2) * x_step_1 + x2).Round_to_Int();
+                    int sx = ((y - y2) * x_step_1 + x2).RoundToInt();
                     float sz = (y - y2) * z_step_1 + z2;
 
-                    int ex = ((y - y3) * x_step_2 + x3).Round_to_Int();
+                    int ex = ((y - y3) * x_step_2 + x3).RoundToInt();
                     float ez = (y - y3) * z_step_2 + z3;
 
                     if (sx > ex)
@@ -132,10 +132,10 @@ namespace _3D_Engine
             {
                 for (int y = y3; y <= y2; y++)
                 {
-                    int sx = ((y - y3) * x_step_3 + x3).Round_to_Int();
+                    int sx = ((y - y3) * x_step_3 + x3).RoundToInt();
                     float sz = (y - y3) * z_step_3 + z3;
 
-                    int ex = ((y - y3) * x_step_2 + x3).Round_to_Int();
+                    int ex = ((y - y3) * x_step_2 + x3).RoundToInt();
                     float ez = (y - y3) * z_step_2 + z3;
 
                     if (sx > ex)
@@ -194,8 +194,8 @@ namespace _3D_Engine
             {
                 for (int y = y2; y <= y1; y++)
                 {
-                    int sx = ((y - y2) * x_step_1 + x2).Round_to_Int();
-                    int ex = ((y - y3) * x_step_2 + x3).Round_to_Int();
+                    int sx = ((y - y2) * x_step_1 + x2).RoundToInt();
+                    int ex = ((y - y3) * x_step_2 + x3).RoundToInt();
 
                     float stx = (y - y2) * tx_step_1 + tx2;
                     float sty = (y - y2) * ty_step_1 + ty2;
@@ -217,11 +217,11 @@ namespace _3D_Engine
                     float t = 0, t_step = 1f / (ex - sx);
                     for (int x = sx; x <= ex; x++)
                     {
-                        int tx = (stx + t * (etx - stx)).Round_to_Int();
-                        int ty = (sty + t * (ety - sty)).Round_to_Int();
+                        int tx = (stx + t * (etx - stx)).RoundToInt();
+                        int ty = (sty + t * (ety - sty)).RoundToInt();
                         float tz = stz + t * (etz - stz);
 
-                        Textured_Check_Against_Z_Buffer(texture, x, y, tz, tx, ty);
+                        TexturedCheckAgainstZBuffer(texture, x, y, tz, tx, ty);
 
                         t += t_step;
                     }
@@ -233,8 +233,8 @@ namespace _3D_Engine
             {
                 for (int y = y3; y <= y2; y++)
                 {
-                    int sx = ((y - y3) * x_step_3 + x3).Round_to_Int();
-                    int ex = ((y - y3) * x_step_2 + x3).Round_to_Int();
+                    int sx = ((y - y3) * x_step_3 + x3).RoundToInt();
+                    int ex = ((y - y3) * x_step_2 + x3).RoundToInt();
 
                     float stx = (y - y3) * tx_step_3 + tx3;
                     float sty = (y - y3) * ty_step_3 + ty3;
@@ -255,11 +255,11 @@ namespace _3D_Engine
                     float t = 0, t_step = 1f / (ex - sx);
                     for (int x = sx; x <= ex; x++)
                     {
-                        int tx = (stx + t * (etx - stx)).Round_to_Int();
-                        int ty = (sty + t * (ety - sty)).Round_to_Int();
+                        int tx = (stx + t * (etx - stx)).RoundToInt();
+                        int ty = (sty + t * (ety - sty)).RoundToInt();
                         float tz = stz + t * (etz - stz);
 
-                        Textured_Check_Against_Z_Buffer(texture, x, y, tz, tx, ty);
+                        TexturedCheckAgainstZBuffer(texture, x, y, tz, tx, ty);
 
                         t += t_step;
                     }

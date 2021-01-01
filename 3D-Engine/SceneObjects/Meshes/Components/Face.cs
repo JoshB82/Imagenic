@@ -63,7 +63,7 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
 
         #region Methods
 
-        internal void Apply_Matrix(Matrix4x4 matrix)
+        internal void ApplyMatrix(Matrix4x4 matrix)
         {
             p1 = matrix * p1;
             p2 = matrix * p2;

@@ -106,9 +106,9 @@ namespace _3D_Engine.SceneObjects.Cameras
         internal List<Edge> VolumeEdges = new();
 
         // Matrices
-        internal Matrix4x4 WorldToCameraView { get; set; }
-        internal Matrix4x4 CameraViewToCameraScreen { get; set; }
-        internal Matrix4x4 CameraScreenToWorld { get; set; }
+        internal Matrix4x4 WorldToCameraView;
+        internal Matrix4x4 CameraViewToCameraScreen;
+        internal Matrix4x4 CameraScreenToWorld;
 
         internal override void CalculateMatrices()
         {
@@ -238,7 +238,7 @@ namespace _3D_Engine.SceneObjects.Cameras
             colourBuffer.SetAllToValue(RenderBackgroundColour);
             foreach (Light light in ParentScene.Lights)
             {
-                light.Shadow_Map.SetAllToValue(outOfBoundsValue);
+                light.ShadowMap.SetAllToValue(outOfBoundsValue);
             }
 
             // Calculate matrices and world origins
@@ -358,7 +358,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                             face,
                             3,
                             ref directionForwardModelToCameraView,
-                            ref this.CameraViewToCameraScreen
+                            ref this.CameraViewToCameraScreen,
+                            ref cameraScreenToWindow
                         );
                     }
                     foreach (Face face in directionUp.Faces)
@@ -368,7 +369,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                             face,
                             3,
                             ref directionUpModelToCameraView,
-                            ref this.CameraViewToCameraScreen
+                            ref this.CameraViewToCameraScreen,
+                            ref cameraScreenToWindow
                         );
                     }
                     foreach (Face face in directionRight.Faces)
@@ -378,7 +380,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                             face,
                             3,
                             ref directionRightModelToCameraView,
-                            ref this.CameraViewToCameraScreen
+                            ref this.CameraViewToCameraScreen,
+                            ref cameraScreenToWindow
                         );
                     }
                 }

@@ -41,23 +41,24 @@ namespace _3D_Engine.SceneObjects.Cameras
             }
 
             // Move the face from model space to camera-view space
-            face.Apply_Matrix(modelToCameraView);
+            face.ApplyMatrix(modelToCameraView);
 
             if (meshDimension == 3)
             {
                 // Discard the face if it is not visible from the camera's point of view
-                if ((Vector3D)face.p1 * Vector3D.Normal_From_Plane((Vector3D)face.p1, (Vector3D)face.p2, (Vector3D)face.p3) >= 0) return;
+                if ((Vector3D)face.p1 * Vector3D.NormalFromPlane((Vector3D)face.p1, (Vector3D)face.p2, (Vector3D)face.p3) >= 0)
+                { return; }
             }
 
             // Clip the face in camera-view space
             Queue<Face> faceClipQueue = new();
             faceClipQueue.Enqueue(face);
-            if (!Clipping.ClipFaces(faceClipQueue, this.CameraViewClippingPlanes)) return;
+            if (!Clipping.ClipFaces(faceClipQueue, this.CameraViewClippingPlanes)) { return; }
 
             // Move the new triangles from camera-view space to camera-screen space, including a correction for perspective
             foreach (var clippedFace in faceClipQueue)
             {
-                clippedFace.Apply_Matrix(cameraViewToCameraScreen);
+                clippedFace.ApplyMatrix(cameraViewToCameraScreen);
 
                 if (this is PerspectiveCamera)
                 {
@@ -75,7 +76,7 @@ namespace _3D_Engine.SceneObjects.Cameras
             }
 
             // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClipQueue, Camera.CameraScreenClippingPlanes)) return; // anything outside cube?
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClipQueue, Camera.CameraScreenClippingPlanes)) { return; } // anything outside cube?
 
             foreach (Face clippedFace in faceClipQueue)
             {
@@ -88,14 +89,14 @@ namespace _3D_Engine.SceneObjects.Cameras
                 clippedFace.ApplyMatrix(cameraScreenToWindow);
 
                 // Round the vertices
-                int x1 = clippedFace.p1.x.Round_to_Int();
-                int y1 = clippedFace.p1.y.Round_to_Int();
+                int x1 = clippedFace.p1.x.RoundToInt();
+                int y1 = clippedFace.p1.y.RoundToInt();
                 float z1 = clippedFace.p1.z;
-                int x2 = clippedFace.p2.x.Round_to_Int();
-                int y2 = clippedFace.p2.y.Round_to_Int();
+                int x2 = clippedFace.p2.x.RoundToInt();
+                int y2 = clippedFace.p2.y.RoundToInt();
                 float z2 = clippedFace.p2.z;
-                int x3 = clippedFace.p3.x.Round_to_Int();
-                int y3 = clippedFace.p3.y.Round_to_Int();
+                int x3 = clippedFace.p3.x.RoundToInt();
+                int y3 = clippedFace.p3.y.RoundToInt();
                 float z3 = clippedFace.p3.z;                                
                 
                 // Check if the face has a texture
@@ -117,7 +118,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                     float tz3 = face.T3.z;
 
                     // Sort the vertices by their y-co-ordinate
-                    Textured_Sort_By_Y
+                    TexturedSortByY
                     (
                         ref x1, ref y1, ref tx1, ref ty1, ref tz1,
                         ref x2, ref y2, ref tx2, ref ty2, ref tz2,
@@ -136,7 +137,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 else
                 {
                     // Sort the vertices by their y-co-ordinate
-                    Sort_By_Y
+                    SortByY
                     (
                         ref x1, ref y1, ref z1,
                         ref x2, ref y2, ref z2,
@@ -144,9 +145,9 @@ namespace _3D_Engine.SceneObjects.Cameras
                     );
 
                     // Generate z-buffer
-                    Interpolate_Triangle
+                    InterpolateTriangle
                     (
-                        face.Colour, Z_Buffer_Check,
+                        face.Colour, ZBufferCheck,
                         x1, y1, z1,
                         x2, y2, z2,
                         x3, y3, z3
@@ -197,7 +198,7 @@ namespace _3D_Engine.SceneObjects.Cameras
 
                     // Move the point from light-view space to light-screen space
                     Vector4D lightScreenSpacePoint = light.LightViewToLightScreen * lightViewSpacePoint;
-                    if (light is Point_Light or Spotlight)
+                    if (light is PointLight or Spotlight)
                     {
                         lightScreenSpacePoint /= lightScreenSpacePoint.w;
                     }
@@ -205,16 +206,16 @@ namespace _3D_Engine.SceneObjects.Cameras
                     Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * lightScreenSpacePoint;
 
                     // Round the points
-                    int light_point_x = light_window_space_point.x.Round_to_Int();
-                    int light_point_y = light_window_space_point.y.Round_to_Int();
+                    int light_point_x = light_window_space_point.x.RoundToInt();
+                    int light_point_y = light_window_space_point.y.RoundToInt();
                     float light_point_z = light_window_space_point.z;
 
                     //Trace.WriteLine("The following light point has been calculated: "+new Vector3D(light_point_x,light_point_y,light_point_z));
 
-                    if (light_point_x >= 0 && light_point_x < light.Shadow_Map_Width &&
-                        light_point_y >= 0 && light_point_y < light.Shadow_Map_Height)
+                    if (light_point_x >= 0 && light_point_x < light.ShadowMapWidth &&
+                        light_point_y >= 0 && light_point_y < light.ShadowMapHeight)
                     {
-                        if (light_point_z.Approx_Less_Than_Equals(light.Shadow_Map.Values[light_point_x][light_point_y], 1E-4F))
+                        if (light_point_z.Approx_Less_Than_Equals(light.ShadowMap.Values[light_point_x][light_point_y], 1E-4F))
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
                             pointColour = pointColour.Mix(new_light_colour);

@@ -2,6 +2,7 @@
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects;
 using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Meshes;
 using System.Drawing;
 
 using static _3D_Engine.Properties.Settings;
@@ -19,7 +20,7 @@ namespace _3D_Engine.SceneObjects.Lights
         private int shadow_map_width, shadow_map_height;
         private float shadow_map_z_near, shadow_map_z_far;
 
-        public override int Shadow_Map_Width
+        public override int ShadowMapWidth
         {
             get => shadow_map_width;
             set
@@ -37,7 +38,7 @@ namespace _3D_Engine.SceneObjects.Lights
                 Light_View_Clipping_Planes[3].Point.x = shadow_map_width / 2f;
             }
         }
-        public override int Shadow_Map_Height
+        public override int ShadowMapHeight
         {
             get => shadow_map_height;
             set
@@ -110,8 +111,8 @@ namespace _3D_Engine.SceneObjects.Lights
 
             Strength = strength;
 
-            Shadow_Map_Width = shadow_map_width;
-            Shadow_Map_Height = shadow_map_height;
+            ShadowMapWidth = shadow_map_width;
+            ShadowMapHeight = shadow_map_height;
             Shadow_Map_Z_Near = shadow_map_z_near;
             Shadow_Map_Z_Far = shadow_map_z_far;
 
@@ -124,7 +125,7 @@ namespace _3D_Engine.SceneObjects.Lights
             Icon.Scale(5);
         }
 
-        public DistantLight Distant_Light_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new DistantLight(origin, direction_forward, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).Round_to_Int(), (Tan(fov_y / 2) * z_near * 2).Round_to_Int(), z_near, z_far);
+        public DistantLight Distant_Light_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new DistantLight(origin, direction_forward, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).RoundToInt(), (Tan(fov_y / 2) * z_near * 2).RoundToInt(), z_near, z_far);
 
         public DistantLight(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.WorldOrigin - origin, direction_up) { }
 
@@ -132,7 +133,7 @@ namespace _3D_Engine.SceneObjects.Lights
 
         public DistantLight(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float strength, int shadow_map_width, int shadow_map_height, float shadow_map_z_near, float shadow_map_z_far) : this(origin, pointed_at.WorldOrigin - origin, direction_up, strength, shadow_map_width, shadow_map_height, shadow_map_z_near, shadow_map_z_far) { }
 
-        public DistantLight Distant_Light_Angle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new DistantLight(origin, pointed_at, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).Round_to_Int(), (Tan(fov_y / 2) * z_near * 2).Round_to_Int(), z_near, z_far);
+        public DistantLight Distant_Light_Angle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new DistantLight(origin, pointed_at, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).RoundToInt(), (Tan(fov_y / 2) * z_near * 2).RoundToInt(), z_near, z_far);
 
         #endregion
     }

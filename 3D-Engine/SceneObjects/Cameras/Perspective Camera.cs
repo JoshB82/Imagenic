@@ -39,8 +39,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                 
                 // Update left and right clipping planes
                 float semi_width = width / 2, semi_height = height / 2;
-                CameraViewClippingPlanes[0].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(-semi_width, -semi_height, z_near), new Vector3D(-semi_width, semi_height, z_near));
-                CameraViewClippingPlanes[3].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(semi_width, semi_height, z_near), new Vector3D(semi_width, -semi_height, z_near));
+                CameraViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semi_width, -semi_height, z_near), new Vector3D(-semi_width, semi_height, z_near));
+                CameraViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semi_width, semi_height, z_near), new Vector3D(semi_width, -semi_height, z_near));
             }
         }
         public override float Height
@@ -55,8 +55,8 @@ namespace _3D_Engine.SceneObjects.Cameras
 
                 // Update top and bottom clipping planes
                 float semi_width = width / 2, semi_height = height / 2;
-                CameraViewClippingPlanes[4].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(-semi_width, semi_height, z_near), new Vector3D(semi_width, semi_height, z_near));
-                CameraViewClippingPlanes[1].Normal = Vector3D.Normal_From_Plane(Vector3D.Zero, new Vector3D(semi_width, -semi_height, z_near), new Vector3D(-semi_width, -semi_height, z_near));
+                CameraViewClippingPlanes[4].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semi_width, semi_height, z_near), new Vector3D(semi_width, semi_height, z_near));
+                CameraViewClippingPlanes[1].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semi_width, -semi_height, z_near), new Vector3D(-semi_width, -semi_height, z_near));
             }
         }
         public override float ZNear

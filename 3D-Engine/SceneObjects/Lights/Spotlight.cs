@@ -3,7 +3,7 @@ using _3D_Engine.Maths.Vectors;
 
 using static _3D_Engine.Properties.Settings;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Lights
 {
     public sealed class Spotlight : Light
     {
@@ -12,7 +12,7 @@ namespace _3D_Engine
         private int shadow_map_width, shadow_map_height;
         private float shadow_map_z_near, shadow_map_z_far;
 
-        public override int Shadow_Map_Width
+        public override int ShadowMapWidth
         {
             get => shadow_map_width;
             set
@@ -27,7 +27,7 @@ namespace _3D_Engine
             }
         }
 
-        public override int Shadow_Map_Height
+        public override int ShadowMapHeight
         {
             get => shadow_map_height;
             set
@@ -77,8 +77,8 @@ namespace _3D_Engine
             Light_View_to_Light_Screen = Matrix4x4.Zero;
             Light_View_to_Light_Screen.m32 = 1;
 
-            Shadow_Map_Width = Default.ShadowMapWidth;
-            Shadow_Map_Height = Default.ShadowMapHeight;
+            ShadowMapWidth = Default.ShadowMapWidth;
+            ShadowMapHeight = Default.ShadowMapHeight;
             Shadow_Map_Z_Near = Default.ShadowMapZNear;
             Shadow_Map_Z_Far = Default.ShadowMapZFar;
 

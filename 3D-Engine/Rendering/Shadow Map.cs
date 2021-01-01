@@ -34,69 +34,70 @@ namespace _3D_Engine.SceneObjects.Cameras
                 }
             }
         }
-            
+
         private void CalculateDepth(
             Face face,
-            int dimension,
-            ref Matrix4x4 model_to_light_view,
+            int meshDimension,
+            ref Matrix4x4 modelToLightView,
             Light light)
         {
             // Reset the vertices to model space values
             face.ResetVertices();
 
             // Move the face from model space to light view space
-            face.Apply_Matrix(model_to_light_view);
+            face.ApplyMatrix(modelToLightView);
 
-            if (dimension == 3)
+            if (meshDimension == 3)
             {
                 // Discard the face if it is not visible from the light's point of view
-                if ((Vector3D)face.p1 * Vector3D.Normal_From_Plane((Vector3D)face.p1, (Vector3D)face.p2, (Vector3D)face.p3) >= 0) return;
+                if ((Vector3D)face.p1 * Vector3D.NormalFromPlane((Vector3D)face.p1, (Vector3D)face.p2, (Vector3D)face.p3) >= 0)
+                { return; }
             }
 
             // Clip the face in light-view space
-            Queue<Face> face_clip = new Queue<Face>();
-            face_clip.Enqueue(face);
-            if (!Clipping.ClipFaces(face_clip, light.Light_View_Clipping_Planes)) return;
+            Queue<Face> faceClip = new();
+            faceClip.Enqueue(face);
+            if (!Clipping.ClipFaces(faceClip, light.LightViewClippingPlanes)) { return; }
 
             // Move the new triangles from light-view space to screen space, including a correction for perspective
-            foreach (Face clipped_face in face_clip)
+            foreach (Face clippedFace in faceClip)
             {
-                clipped_face.Apply_Matrix(light.Light_View_to_Light_Screen);
+                clippedFace.ApplyMatrix(light.LightViewToLightScreen);
 
-                if (light is Point_Light or Spotlight)
+                if (light is PointLight or Spotlight)
                 {
-                    clipped_face.p1 /= clipped_face.p1.w;
-                    clipped_face.p2 /= clipped_face.p2.w;
-                    clipped_face.p3 /= clipped_face.p3.w;
+                    clippedFace.p1 /= clippedFace.p1.w;
+                    clippedFace.p2 /= clippedFace.p2.w;
+                    clippedFace.p3 /= clippedFace.p3.w;
                 }
             }
 
             // Clip the face in screen space
-            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(face_clip, Camera.CameraScreenClippingPlanes)) return;
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClip, Camera.CameraScreenClippingPlanes)) { return; }
 
-            foreach (Face clipped_face in face_clip)
+            foreach (Face clippedFace in faceClip)
             {
                 // Don't draw anything if the face is flat
-                if ((clipped_face.p1.x == clipped_face.p2.x && clipped_face.p2.x == clipped_face.p3.x) ||
-                    (clipped_face.p1.y == clipped_face.p2.y && clipped_face.p2.y == clipped_face.p3.y))
+                if ((clippedFace.p1.x == clippedFace.p2.x && clippedFace.p2.x == clippedFace.p3.x) ||
+                    (clippedFace.p1.y == clippedFace.p2.y && clippedFace.p2.y == clippedFace.p3.y))
                 { continue; }
 
                 // Move the new triangles from light-screen space to light-window space
-                clipped_face.Apply_Matrix(light.Light_Screen_to_Light_Window);
+                clippedFace.ApplyMatrix(light.LightScreenToLightWindow);
                 
                 // Round the vertices
-                int x1 = clipped_face.p1.x.Round_to_Int();
-                int y1 = clipped_face.p1.y.Round_to_Int();
-                float z1 = clipped_face.p1.z;
-                int x2 = clipped_face.p2.x.Round_to_Int();
-                int y2 = clipped_face.p2.y.Round_to_Int();
-                float z2 = clipped_face.p2.z;
-                int x3 = clipped_face.p3.x.Round_to_Int();
-                int y3 = clipped_face.p3.y.Round_to_Int();
-                float z3 = clipped_face.p3.z;
+                int x1 = clippedFace.p1.x.RoundToInt();
+                int y1 = clippedFace.p1.y.RoundToInt();
+                float z1 = clippedFace.p1.z;
+                int x2 = clippedFace.p2.x.RoundToInt();
+                int y2 = clippedFace.p2.y.RoundToInt();
+                float z2 = clippedFace.p2.z;
+                int x3 = clippedFace.p3.x.RoundToInt();
+                int y3 = clippedFace.p3.y.RoundToInt();
+                float z3 = clippedFace.p3.z;
 
                 // Sort the vertices by their y-co-ordinate
-                Sort_By_Y
+                SortByY
                 (
                     ref x1, ref y1, ref z1,
                     ref x2, ref y2, ref z2,
@@ -104,9 +105,9 @@ namespace _3D_Engine.SceneObjects.Cameras
                 );
 
                 // Interpolate each point in the triangle
-                Interpolate_Triangle
+                InterpolateTriangle
                 (
-                    light, Mesh_Depth_From_Light,
+                    light, MeshDepthFromLight,
                     x1, y1, z1,
                     x2, y2, z2,
                     x3, y3, z3
@@ -114,15 +115,15 @@ namespace _3D_Engine.SceneObjects.Cameras
             }
         }
 
-        private static void Mesh_Depth_From_Light(object @object, int x, int y, float z)
+        private static void MeshDepthFromLight(object @object, int x, int y, float z)
         {
             Light light = @object as Light;
 
-            if (x < light.Shadow_Map_Width && y < light.Shadow_Map_Height)
+            if (x < light.ShadowMapWidth && y < light.ShadowMapHeight)
             {
-                if (z.Approx_Less_Than(light.Shadow_Map.Values[x][y], 1E-4f))
+                if (z.ApproxLessThan(light.ShadowMap.Values[x][y], 1E-4f))
                 {
-                    light.Shadow_Map.Values[x][y] = z;
+                    light.ShadowMap.Values[x][y] = z;
                 }
             }
         }

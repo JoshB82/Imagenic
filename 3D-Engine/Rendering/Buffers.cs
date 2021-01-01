@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Cameras
 {
-    public sealed partial class Scene
+    public abstract partial class Camera : SceneObject
     {
         // Check if point is visible from the camera
-        private void Z_Buffer_Check(object colour, int x, int y, float z)
+        private void ZBufferCheck(object colour, int x, int y, float z)
         {
             try
             {
-                if (z.Approx_Less_Than(zBuffer.Values[x][y], 1E-4f))
+                if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
                 {
                     zBuffer.Values[x][y] = z;
                     colourBuffer.Values[x][y] = (Color)colour;
@@ -22,11 +22,11 @@ namespace _3D_Engine
             }
         }
 
-        private void Textured_Check_Against_Z_Buffer(Bitmap texture, int x, int y, float z, int tx, int ty)
+        private void TexturedCheckAgainstZBuffer(Bitmap texture, int x, int y, float z, int tx, int ty)
         {
             try
             {
-                if (z.Approx_Less_Than(zBuffer.Values[x][y], 1E-4f))
+                if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
                 {
                     zBuffer.Values[x][y] = z;
                     colourBuffer.Values[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);

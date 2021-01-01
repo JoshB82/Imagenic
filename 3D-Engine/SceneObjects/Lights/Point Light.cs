@@ -2,7 +2,7 @@
 
 namespace _3D_Engine.SceneObjects.Lights
 {
-    public sealed class Point_Light : Light
+    public sealed class PointLight : Light
     {
         #region Fields and Properties
 
@@ -10,13 +10,13 @@ namespace _3D_Engine.SceneObjects.Lights
 
         #region Constructors
         
-        public Point_Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
+        public PointLight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
         {
             
         }
 
-        public override int Shadow_Map_Width { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public override int Shadow_Map_Height { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public override int ShadowMapWidth { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public override int ShadowMapHeight { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         public override float Shadow_Map_Z_Near { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         public override float Shadow_Map_Z_Far { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 

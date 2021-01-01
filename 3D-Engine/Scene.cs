@@ -65,74 +65,23 @@ namespace _3D_Engine
         public readonly List<Light> Lights = new();
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
         public readonly List<Mesh> Meshes = new();
-
-        // Dimensions
-        private Matrix4x4 screenToWindow, screenToWindowInverse;
         
-        private int width, height;
-
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Width']/*"/>
-        public int Width
-        {
-            get => width;
-            set
-            {
-                lock (locker)
-                {
-                    width = value;
-                    colourBuffer.FirstDimensionSize = width;
-                    zBuffer.FirstDimensionSize = width;
-                    
-                    Update_Dimensions();
-                }
-            }
-        }
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Height']/*"/>
-        public int Height
-        {
-            get => height;
-            set
-            {
-                lock (locker)
-                {
-                    height = value;
-                    colourBuffer.SecondDimensionSize = height;
-                    zBuffer.SecondDimensionSize = height;
-
-                    Update_Dimensions();
-                }
-            }
-        }
-
-        private void Update_Dimensions()
-        {
-            // Update screen-to-window matrices
-            
-            screenRectangle = new Rectangle(0, 0, width, height); //?-1?
-        }
-
         // Miscellaneous
-        private static readonly object locker = new();
-        
+        private static readonly object locker = new();        
 
         #endregion
 
         #region Constructors
 
+        //??vv
         /// <summary>
         /// Creates a new <see cref="Scene"/>.
         /// </summary>
         /// <param name="canvas_box">The <see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.</param>
         /// <param name="width">The width of the <see cref="Scene"/>.</param>
         /// <param name="height">The height of the <see cref="Scene"/>.</param>
-        public Scene(PictureBox canvas_box, int width, int height)
+        public Scene()
         {
-            Canvas_Box = canvas_box;
-            Width = width;
-            Height = height;
-
-            
-
             Trace.WriteLine("Scene created");
         }
 
@@ -140,7 +89,7 @@ namespace _3D_Engine
 
         #region Methods
 
-        // Add to scene
+        // Add to scene (vv??)
         /// <summary>
         /// Adds a <see cref="SceneObject"/> to the <see cref="Scene"/>.
         /// </summary>
@@ -150,13 +99,24 @@ namespace _3D_Engine
             lock (locker)
             {
                 SceneObjects.Add(sceneObject);
-                if (sceneObject is Camera)
+
+                switch (sceneObject)
                 {
-                    (sceneObject as Camera).ParentScene = this;
+                    case Camera camera:
+                        Cameras.Add(camera);
+                        (sceneObject as Camera).ParentScene = this;
+                        break;
+                    case Light light:
+                        Lights.Add(light);
+                        break;
+                    case Mesh mesh:
+                        Meshes.Add(mesh);
+                        break;
                 }
             }
         }
 
+        //vv??
         /// <summary>
         /// Adds multiple <see cref="SceneObject">Scene_Objects</see> to the <see cref="Scene"/>.
         /// </summary>
@@ -168,9 +128,19 @@ namespace _3D_Engine
                 foreach (SceneObject sceneObject in sceneObjects)
                 {
                     SceneObjects.Add(sceneObject);
-                    if (sceneObject is Camera)
+
+                    switch (sceneObject)
                     {
-                        (sceneObject as Camera).ParentScene = this;
+                        case Camera camera:
+                            Cameras.Add(camera);
+                            (sceneObject as Camera).ParentScene = this;
+                            break;
+                        case Light light:
+                            Lights.Add(light);
+                            break;
+                        case Mesh mesh:
+                            Meshes.Add(mesh);
+                            break;
                     }
                 }
             }
@@ -215,21 +185,10 @@ namespace _3D_Engine
 
             lock (locker)
             {
-                // Create temporary canvas for this frame
                 //if (new_frame is not null) new_frame.Dispose();
-                canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-
-                
                 
 
-                
-
-                
-
-                
-                
-                
-                
+                /*
                 // Draw edges
                 foreach (SceneObject sceneObject in SceneObjects)
                 {
@@ -353,6 +312,7 @@ namespace _3D_Engine
                             break;
                     }
                 }
+                */
 
                 // Draw colour buffer on canvas
                 Draw_Colour_Buffer(canvas, colourBuffer.Values);

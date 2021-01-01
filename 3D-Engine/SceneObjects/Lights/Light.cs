@@ -54,7 +54,7 @@ namespace _3D_Engine.SceneObjects.Lights
 
                 Volume_Edges.Clear();
 
-                float semi_width = Shadow_Map_Width / 2f, semi_height = Shadow_Map_Height / 2f;
+                float semi_width = ShadowMapWidth / 2f, semi_height = ShadowMapHeight / 2f;
 
                 Vertex zero_point = new Vertex(new Vector4D(0, 0, 0, 1));
                 Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, Shadow_Map_Z_Near, 1));
@@ -120,9 +120,9 @@ namespace _3D_Engine.SceneObjects.Lights
         internal ClippingPlane[] LightViewClippingPlanes;
 
         // Shadow map volume
-        internal Buffer2D<float> Shadow_Map;
-        public abstract int Shadow_Map_Width { get; set; }
-        public abstract int Shadow_Map_Height { get; set; }
+        internal Buffer2D<float> ShadowMap;
+        public abstract int ShadowMapWidth { get; set; }
+        public abstract int ShadowMapHeight { get; set; }
         public abstract float Shadow_Map_Z_Near { get; set; }
         public abstract float Shadow_Map_Z_Far { get; set; }
 
@@ -130,10 +130,10 @@ namespace _3D_Engine.SceneObjects.Lights
         protected void Set_Shadow_Map()
         {
             // Set shadow map
-            Shadow_Map = new(Shadow_Map_Width, Shadow_Map_Height);
+            ShadowMap = new(ShadowMapWidth, ShadowMapHeight);
             
             // Set light-screen-to-light-window matrix
-            LightScreenToLightWindow = Transform.Scale(0.5f * (Shadow_Map_Width - 1), 0.5f * (Shadow_Map_Height - 1), 1) * windowTranslate;
+            LightScreenToLightWindow = Transform.Scale(0.5f * (ShadowMapWidth - 1), 0.5f * (ShadowMapHeight - 1), 1) * windowTranslate;
         }
 
         #endregion
@@ -158,13 +158,13 @@ namespace _3D_Engine.SceneObjects.Lights
             string file_directory = Path.GetDirectoryName(file_path);
             if (!Directory.Exists(file_directory)) Directory.CreateDirectory(file_directory);
 
-            using (Bitmap shadow_map_bitmap = new Bitmap(Shadow_Map_Width, Shadow_Map_Height))
+            using (Bitmap shadow_map_bitmap = new Bitmap(ShadowMapWidth, ShadowMapHeight))
             {
-                for (int x = 0; x < Shadow_Map_Width; x++)
+                for (int x = 0; x < ShadowMapWidth; x++)
                 {
-                    for (int y = 0; y < Shadow_Map_Height; y++)
+                    for (int y = 0; y < ShadowMapHeight; y++)
                     {
-                        int value = (255 * ((Shadow_Map.Values[x][y] + 1) / 2)).Round_to_Int();
+                        int value = (255 * ((ShadowMap.Values[x][y] + 1) / 2)).RoundToInt();
 
                         Color greyscale_colour = Color.FromArgb(255, value, value, value);
                         shadow_map_bitmap.SetPixel(x, y, greyscale_colour);

@@ -66,11 +66,11 @@ namespace _3D_Engine.Rendering
             point_2 = screenToWindow * point_2;
 
             // Round the vertices
-            int result_point_1_x = point_1.x.Round_to_Int();
-            int result_point_1_y = point_1.y.Round_to_Int();
+            int result_point_1_x = point_1.x.RoundToInt();
+            int result_point_1_y = point_1.y.RoundToInt();
             float result_point_1_z = point_1.z;
-            int result_point_2_x = point_2.x.Round_to_Int();
-            int result_point_2_y = point_2.y.Round_to_Int();
+            int result_point_2_x = point_2.x.RoundToInt();
+            int result_point_2_y = point_2.y.RoundToInt();
             float result_point_2_z = point_2.z;
 
             // Finally draw the line

@@ -188,7 +188,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <param name="p2">Second point on the plane.</param>
         /// <param name="p3">Third point on the plane.</param>
         /// <returns>A normal vector.</returns>
-        public static Vector3D Normal_From_Plane(Vector3D p1, Vector3D p2, Vector3D p3) => (p3 - p1).Cross_Product(p2 - p1).Normalise();
+        public static Vector3D NormalFromPlane(Vector3D p1, Vector3D p2, Vector3D p3) => (p3 - p1).Cross_Product(p2 - p1).Normalise();
 
         public static float Point_Distance_From_Plane(Vector3D point, Vector3D plane_point, Vector3D plane_normal) => point * plane_normal - plane_point * plane_normal;
 
