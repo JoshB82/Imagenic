@@ -28,8 +28,6 @@ namespace _3D_Engine
     {
         #region Fields and Properties
 
-        private Rectangle screenRectangle;
-
         // Components
         /// <summary>
         /// The background <see cref="Color"/> of the <see cref="Scene"/>.

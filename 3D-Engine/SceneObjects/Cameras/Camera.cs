@@ -33,7 +33,7 @@ namespace _3D_Engine.SceneObjects.Cameras
         #region Fields and Properties
 
         // Appearance
-        public readonly Mesh Icon;
+        public Mesh Icon { get; set; }
 
         /// <summary>
         /// Determines if the <see cref="Camera"/> is drawn in the <see cref="Scene"/>.
@@ -106,9 +106,8 @@ namespace _3D_Engine.SceneObjects.Cameras
         internal List<Edge> VolumeEdges = new();
 
         // Matrices
-        internal Matrix4x4 WorldToCameraView;
-        internal Matrix4x4 CameraViewToCameraScreen;
-        internal Matrix4x4 CameraScreenToWorld;
+        private static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0));
+        internal Matrix4x4 WorldToCameraView, CameraViewToCameraScreen, CameraScreenToWorld;
 
         internal override void CalculateMatrices()
         {
@@ -148,13 +147,8 @@ namespace _3D_Engine.SceneObjects.Cameras
         /// </summary>
         public abstract float ZFar { get; set; }
 
-        // Canvas
-        
-
+        // Miscellaneous
         private const byte outOfBoundsValue = 2;
-
-        // Matrices
-        private static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0));
 
         // Render
         public Color RenderBackgroundColour { get; set; }
