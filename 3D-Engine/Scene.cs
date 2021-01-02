@@ -315,8 +315,8 @@ namespace _3D_Engine
                 */
 
                 // Draw colour buffer on canvas
-                Draw_Colour_Buffer(canvas, colourBuffer.Values);
-                Canvas_Box.Image = canvas;
+                //Draw_Colour_Buffer(canvas, colourBuffer.Values);
+                //Canvas_Box.Image = canvas;
             }
         }
         private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] new_colour_buffer) // source of this method?!

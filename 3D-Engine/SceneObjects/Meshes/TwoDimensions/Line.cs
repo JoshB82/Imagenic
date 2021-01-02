@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
@@ -36,7 +37,7 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 
         #region Constructors
 
-        public Line(Vector3D start_position, Vector3D end_position) : base(start_position, Vector3D.Unit_Z, Vector3D.Unit_Y)
+        public Line(Vector3D start_position, Vector3D end_position) : base(start_position, Vector3D.UnitZ, Vector3D.UnitY)
         {
             Dimension = 2;
 

@@ -1,5 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Lights;
+using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Transformations;
 using System;

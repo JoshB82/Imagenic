@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace _3D_Engine.SceneObjects.Cameras
 {
-    public sealed partial class Scene
+    public abstract partial class Camera : SceneObject
     {
         // sources for everything in file
         private void Line(Color colour,
@@ -40,7 +40,7 @@ namespace _3D_Engine
                     {
                         for (int i = 0; i <= D; i++)
                         {
-                            Z_Buffer_Check(colour, x, y, z_value);
+                            ZBufferCheck(colour, x, y, z_value);
                             x += increment_x;
                             z_value += z_increase_x * increment_x;
                             R += 2 * delta_y;
@@ -56,7 +56,7 @@ namespace _3D_Engine
                     {
                         for (int i = 0; i <= D; i++)
                         {
-                            Z_Buffer_Check(colour, x, y, z_value);
+                            ZBufferCheck(colour, x, y, z_value);
                             y += increment_y;
                             z_value += z_increase_y * increment_y;
                             R += 2 * delta_x;
@@ -83,7 +83,7 @@ namespace _3D_Engine
 
             for (int x = x1; x <= x2; x++)
             {
-                Z_Buffer_Check(colour, x, y1, z1);
+                ZBufferCheck(colour, x, y1, z1);
                 z1 += z_increase_x;
             }
         }
@@ -99,7 +99,7 @@ namespace _3D_Engine
 
             for (int y = y1; y <= y2; y++)
             {
-                Z_Buffer_Check(colour, x1, y, z1);
+                ZBufferCheck(colour, x1, y, z1);
                 z1 += z_increase_y;
             }
         }

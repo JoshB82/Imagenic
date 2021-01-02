@@ -187,13 +187,13 @@ namespace _3D_Engine.SceneObjects.Cameras
                     // Move the point from world space to light-view space
                     Vector4D lightViewSpacePoint = light.WorldToLightView * worldSpacePoint;
 
-                    Color new_light_colour = light.Colour;
+                    Color newLightColour = light.Colour;
                     if (light is PointLight or Spotlight)
                     {
                         // Darken the Light's colour based on how far away the point is from the light
                         Vector3D light_to_point = (Vector3D)lightViewSpacePoint;
                         float distant_intensity = light.Strength / light_to_point.Squared_Magnitude();
-                        new_light_colour = light.Colour.Darken_Percentage(distant_intensity);
+                        newLightColour = light.Colour.Darken_Percentage(distant_intensity);
                     }
 
                     // Move the point from light-view space to light-screen space
@@ -203,12 +203,12 @@ namespace _3D_Engine.SceneObjects.Cameras
                         lightScreenSpacePoint /= lightScreenSpacePoint.w;
                     }
 
-                    Vector4D light_window_space_point = light.Light_Screen_to_Light_Window * lightScreenSpacePoint;
+                    Vector4D lightWindowSpacePoint = light.LightScreenToLightWindow * lightScreenSpacePoint;
 
                     // Round the points
-                    int light_point_x = light_window_space_point.x.RoundToInt();
-                    int light_point_y = light_window_space_point.y.RoundToInt();
-                    float light_point_z = light_window_space_point.z;
+                    int light_point_x = lightWindowSpacePoint.x.RoundToInt();
+                    int light_point_y = lightWindowSpacePoint.y.RoundToInt();
+                    float light_point_z = lightWindowSpacePoint.z;
 
                     //Trace.WriteLine("The following light point has been calculated: "+new Vector3D(light_point_x,light_point_y,light_point_z));
 
@@ -218,7 +218,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                         if (light_point_z.Approx_Less_Than_Equals(light.ShadowMap.Values[light_point_x][light_point_y], 1E-4F))
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
-                            pointColour = pointColour.Mix(new_light_colour);
+                            pointColour = pointColour.Mix(newLightColour);
                             lightApplied = true;
 
                             /*if (light_point_z < -1) light_point_z = -1;

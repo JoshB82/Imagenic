@@ -1,5 +1,4 @@
-﻿using _3D_Engine;
-using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Cameras;
 using System.Windows.Forms;
 
@@ -11,7 +10,7 @@ namespace Demo
         {
             InitializeComponent();
 
-            Scene scene = new Scene(pictureBox, pictureBox.Width, pictureBox.Height);
+            Scene scene = new();
 
             scene.CreateOrigin();
 

@@ -57,10 +57,10 @@ namespace _3D_Engine.SceneObjects.Lights
                 float semi_width = ShadowMapWidth / 2f, semi_height = ShadowMapHeight / 2f;
 
                 Vertex zero_point = new Vertex(new Vector4D(0, 0, 0, 1));
-                Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, Shadow_Map_Z_Near, 1));
-                Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, Shadow_Map_Z_Near, 1));
-                Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, Shadow_Map_Z_Near, 1));
-                Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, Shadow_Map_Z_Near, 1));
+                Vertex near_top_left_point = new Vertex(new Vector4D(-semi_width, semi_height, ShadowMapZNear, 1));
+                Vertex near_top_right_point = new Vertex(new Vector4D(semi_width, semi_height, ShadowMapZNear, 1));
+                Vertex near_bottom_left_point = new Vertex(new Vector4D(-semi_width, -semi_height, ShadowMapZNear, 1));
+                Vertex near_bottom_right_point = new Vertex(new Vector4D(semi_width, -semi_height, ShadowMapZNear, 1));
 
                 if ((volumeStyle & VolumeOutline.Near) == VolumeOutline.Near)
                 {
@@ -79,7 +79,7 @@ namespace _3D_Engine.SceneObjects.Lights
 
                 if ((volumeStyle & VolumeOutline.Far) == VolumeOutline.Far)
                 {
-                    float ratio = (this is DistantLight) ? 1 : Shadow_Map_Z_Far / Shadow_Map_Z_Near;
+                    float ratio = (this is DistantLight) ? 1 : Shadow_Map_Z_Far / ShadowMapZNear;
                     float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
 
                     Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Shadow_Map_Z_Far, 1));
@@ -105,9 +105,9 @@ namespace _3D_Engine.SceneObjects.Lights
         internal List<Edge> Volume_Edges = new();
 
         // Matrices
-        internal Matrix4x4 WorldToLightView { get; set; }
-        internal Matrix4x4 LightViewToLightScreen { get; set; }
-        internal Matrix4x4 LightScreenToLightWindow { get; set; }
+        internal Matrix4x4 WorldToLightView;
+        internal Matrix4x4 LightViewToLightScreen;
+        internal Matrix4x4 LightScreenToLightWindow;
 
         internal override void CalculateMatrices()
         {
@@ -123,11 +123,11 @@ namespace _3D_Engine.SceneObjects.Lights
         internal Buffer2D<float> ShadowMap;
         public abstract int ShadowMapWidth { get; set; }
         public abstract int ShadowMapHeight { get; set; }
-        public abstract float Shadow_Map_Z_Near { get; set; }
+        public abstract float ShadowMapZNear { get; set; }
         public abstract float Shadow_Map_Z_Far { get; set; }
 
         private static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0));
-        protected void Set_Shadow_Map()
+        protected void SetShadowMap()
         {
             // Set shadow map
             ShadowMap = new(ShadowMapWidth, ShadowMapHeight);

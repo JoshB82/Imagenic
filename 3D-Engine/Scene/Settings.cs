@@ -11,7 +11,7 @@ namespace _3D_Engine
     }
 
     /// <summary>
-    /// Options for the style of the viewport.
+    /// Options for the style of the viewport.??????????????
     /// </summary>
     public enum Viewport
     {
@@ -21,7 +21,7 @@ namespace _3D_Engine
     }
 
     /// <summary>
-    /// Options for how verbose output should be.
+    /// Options for how verbose output should be.??????????????
     /// </summary>
     public enum Verbosity
     {

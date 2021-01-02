@@ -10,7 +10,7 @@ namespace _3D_Engine.SceneObjects.Lights
         #region Fields and Properties
 
         private int shadow_map_width, shadow_map_height;
-        private float shadow_map_z_near, shadow_map_z_far;
+        private float shadow_map_z_near, shadowMapZFar;
 
         public override int ShadowMapWidth
         {
@@ -20,10 +20,10 @@ namespace _3D_Engine.SceneObjects.Lights
                 shadow_map_width = value;
 
                 // Update shadow map
-                Set_Shadow_Map();
+                SetShadowMap();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m00 = 2 * shadow_map_z_near / shadow_map_width;
+                LightViewToLightScreen.m00 = 2 * shadow_map_z_near / shadow_map_width;
             }
         }
 
@@ -35,14 +35,14 @@ namespace _3D_Engine.SceneObjects.Lights
                 shadow_map_height = value;
                 
                 // Update shadow map
-                Set_Shadow_Map();
+                SetShadowMap();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m11 = 2 * shadow_map_z_near / shadow_map_height;
+                LightViewToLightScreen.m11 = 2 * shadow_map_z_near / shadow_map_height;
             }
         }
 
-        public override float Shadow_Map_Z_Near
+        public override float ShadowMapZNear
         {
             get => shadow_map_z_near;
             set
@@ -50,21 +50,21 @@ namespace _3D_Engine.SceneObjects.Lights
                 shadow_map_z_near = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m22 = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.m23 = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                LightViewToLightScreen.m22 = (shadowMapZFar + shadow_map_z_near) / (shadowMapZFar - shadow_map_z_near);
+                LightViewToLightScreen.m23 = -(2 * shadowMapZFar * shadow_map_z_near) / (shadowMapZFar - shadow_map_z_near);
             }
         }
 
         public override float Shadow_Map_Z_Far
         {
-            get => shadow_map_z_far;
+            get => shadowMapZFar;
             set
             {
-                shadow_map_z_far = value;
+                shadowMapZFar = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m22 = (shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.m23 = -(2 * shadow_map_z_far * shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                LightViewToLightScreen.m22 = (shadowMapZFar + shadow_map_z_near) / (shadowMapZFar - shadow_map_z_near);
+                LightViewToLightScreen.m23 = -(2 * shadowMapZFar * shadow_map_z_near) / (shadowMapZFar - shadow_map_z_near);
             }
         }
 
@@ -74,12 +74,12 @@ namespace _3D_Engine.SceneObjects.Lights
         
         public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
         {
-            Light_View_to_Light_Screen = Matrix4x4.Zero;
-            Light_View_to_Light_Screen.m32 = 1;
+            LightViewToLightScreen = Matrix4x4.Zero;
+            LightViewToLightScreen.m32 = 1;
 
             ShadowMapWidth = Default.ShadowMapWidth;
             ShadowMapHeight = Default.ShadowMapHeight;
-            Shadow_Map_Z_Near = Default.ShadowMapZNear;
+            ShadowMapZNear = Default.ShadowMapZNear;
             Shadow_Map_Z_Far = Default.ShadowMapZFar;
 
             Strength = strength;

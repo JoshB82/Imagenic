@@ -12,13 +12,13 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Drawing;
 
-namespace _3D_Engine.Rendering
+namespace _3D_Engine.SceneObjects.Cameras
 {
-    public sealed partial class Scene
+    public abstract partial class Camera : SceneObject
     {
         private void Draw_Edge(
             Edge edge,
@@ -35,21 +35,21 @@ namespace _3D_Engine.Rendering
             Vector4D point_1,
             Vector4D point_2,
             Color colour,
-            ref Matrix4x4 model_to_camera_view,
-            ref Matrix4x4 camera_view_to_camera_screen)
+            ref Matrix4x4 modelToCameraView,
+            ref Matrix4x4 cameraViewToCameraScreen)
         {
             // Move the edge from model space to camera-view space
-            point_1 = model_to_camera_view * point_1;
-            point_2 = model_to_camera_view * point_2;
+            point_1 = modelToCameraView * point_1;
+            point_2 = modelToCameraView * point_2;
 
             // Clip the edge in camera-view space
-            if (!Clipping.ClipEdges(Render_Camera.Camera_View_Clipping_Planes, ref point_1, ref point_2)) return;
+            if (!Clipping.ClipEdges(this.CameraViewClippingPlanes, ref point_1, ref point_2)) { return; }
 
             // Move the edge from camera-view space to camera-screen space, including a correction for perspective
-            point_1 = camera_view_to_camera_screen * point_1;
-            point_2 = camera_view_to_camera_screen * point_2;
+            point_1 = cameraViewToCameraScreen * point_1;
+            point_2 = cameraViewToCameraScreen * point_2;
 
-            if (Render_Camera is PerspectiveCamera)
+            if (this is PerspectiveCamera)
             {
                 point_1 /= point_1.w;
                 point_2 /= point_2.w; 
@@ -58,7 +58,7 @@ namespace _3D_Engine.Rendering
             // Clip the edge in camera-screen space
             if (Settings.Screen_Space_Clip)
             {
-                if (!Clipping.ClipEdges(Camera.CameraScreenClippingPlanes, ref point_1, ref point_2)) return;
+                if (!Clipping.ClipEdges(Camera.CameraScreenClippingPlanes, ref point_1, ref point_2)) { return; }
             }
 
             // Mode the edge from camera-screen space to window space

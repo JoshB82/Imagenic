@@ -17,73 +17,73 @@ namespace _3D_Engine.SceneObjects.Lights
     {
         #region Fields and Properties
 
-        private int shadow_map_width, shadow_map_height;
-        private float shadow_map_z_near, shadow_map_z_far;
+        private int shadowMapWidth, shadowMapHeight;
+        private float shadowMapZNear, shadowMapZFar;
 
         public override int ShadowMapWidth
         {
-            get => shadow_map_width;
+            get => shadowMapWidth;
             set
             {
-                shadow_map_width = value;
+                shadowMapWidth = value;
 
                 // Update shadow map
-                Set_Shadow_Map();
+                SetShadowMap();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m00 = 2f / shadow_map_width;
+                LightViewToLightScreen.m00 = 2f / shadowMapWidth;
 
                 // Update left and right clipping planes
-                Light_View_Clipping_Planes[0].Point.x = -shadow_map_width / 2f;
-                Light_View_Clipping_Planes[3].Point.x = shadow_map_width / 2f;
+                LightViewClippingPlanes[0].Point.x = -shadowMapWidth / 2f;
+                LightViewClippingPlanes[3].Point.x = shadowMapWidth / 2f;
             }
         }
         public override int ShadowMapHeight
         {
-            get => shadow_map_height;
+            get => shadowMapHeight;
             set
             {
-                shadow_map_height = value;
+                shadowMapHeight = value;
 
                 // Update shadow map
-                Set_Shadow_Map();
+                SetShadowMap();
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m11 = 2f / shadow_map_height;
+                LightViewToLightScreen.m11 = 2f / shadowMapHeight;
 
                 // Update top and bottom clipping planes
-                Light_View_Clipping_Planes[1].Point.y = -shadow_map_height / 2f;
-                Light_View_Clipping_Planes[4].Point.y = shadow_map_height / 2f;
+                LightViewClippingPlanes[1].Point.y = -shadowMapHeight / 2f;
+                LightViewClippingPlanes[4].Point.y = shadowMapHeight / 2f;
             }
         }
-        public override float Shadow_Map_Z_Near
+        public override float ShadowMapZNear
         {
-            get => shadow_map_z_near;
+            get => shadowMapZNear;
             set
             {
-                shadow_map_z_near = value;
+                shadowMapZNear = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m22 = 2 / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.m23 = -(shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                LightViewToLightScreen.m22 = 2 / (shadowMapZFar - shadowMapZNear);
+                LightViewToLightScreen.m23 = -(shadowMapZFar + shadowMapZNear) / (shadowMapZFar - shadowMapZNear);
 
                 // Update near clipping plane
-                Light_View_Clipping_Planes[2].Point.z = shadow_map_z_near;
+                LightViewClippingPlanes[2].Point.z = shadowMapZNear;
             }
         }
         public override float Shadow_Map_Z_Far
         {
-            get => shadow_map_z_far;
+            get => shadowMapZFar;
             set
             {
-                shadow_map_z_far = value;
+                shadowMapZFar = value;
 
                 // Update light-view-to-light-screen matrix
-                Light_View_to_Light_Screen.m22 = 2 / (shadow_map_z_far - shadow_map_z_near);
-                Light_View_to_Light_Screen.m23 = -(shadow_map_z_far + shadow_map_z_near) / (shadow_map_z_far - shadow_map_z_near);
+                LightViewToLightScreen.m22 = 2 / (shadowMapZFar - shadowMapZNear);
+                LightViewToLightScreen.m23 = -(shadowMapZFar + shadowMapZNear) / (shadowMapZFar - shadowMapZNear);
 
                 // Update far clipping plane
-                Light_View_Clipping_Planes[5].Point.z = shadow_map_z_far;
+                LightViewClippingPlanes[5].Point.z = shadowMapZFar;
             }
         }
 
@@ -97,9 +97,9 @@ namespace _3D_Engine.SceneObjects.Lights
 
         public DistantLight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength, int shadow_map_width, int shadow_map_height, float shadow_map_z_near, float shadow_map_z_far) : base(origin, direction_forward, direction_up)
         {
-            Light_View_to_Light_Screen = Matrix4x4.Identity;
+            LightViewToLightScreen = Matrix4x4.Identity;
 
-            Light_View_Clipping_Planes = new[]
+            LightViewClippingPlanes = new[]
             {
                 new ClippingPlane(Vector3D.Zero, Vector3D.UnitX), // Left
                 new ClippingPlane(Vector3D.Zero, Vector3D.UnitY), // Bottom
@@ -113,19 +113,19 @@ namespace _3D_Engine.SceneObjects.Lights
 
             ShadowMapWidth = shadow_map_width;
             ShadowMapHeight = shadow_map_height;
-            Shadow_Map_Z_Near = shadow_map_z_near;
+            ShadowMapZNear = shadow_map_z_near;
             Shadow_Map_Z_Far = shadow_map_z_far;
 
-            string[] icon_obj_data = Properties.Resources.Distant_Light.Split("\n");
-            Icon = new Custom(origin, direction_forward, direction_up, icon_obj_data)
+            string[] iconObjData = Properties.Resources.Distant_Light.Split("\n");
+            Icon = new Custom(origin, direction_forward, direction_up, iconObjData)
             {
                 Dimension = 3,
-                Face_Colour = Color.DarkCyan
+                FaceColour = Color.DarkCyan
             };
             Icon.Scale(5);
         }
 
-        public DistantLight Distant_Light_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new DistantLight(origin, direction_forward, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).RoundToInt(), (Tan(fov_y / 2) * z_near * 2).RoundToInt(), z_near, z_far);
+        public DistantLight DistantLightAngle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new DistantLight(origin, direction_forward, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).RoundToInt(), (Tan(fov_y / 2) * z_near * 2).RoundToInt(), z_near, z_far);
 
         public DistantLight(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.WorldOrigin - origin, direction_up) { }
 
@@ -133,7 +133,7 @@ namespace _3D_Engine.SceneObjects.Lights
 
         public DistantLight(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float strength, int shadow_map_width, int shadow_map_height, float shadow_map_z_near, float shadow_map_z_far) : this(origin, pointed_at.WorldOrigin - origin, direction_up, strength, shadow_map_width, shadow_map_height, shadow_map_z_near, shadow_map_z_far) { }
 
-        public DistantLight Distant_Light_Angle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new DistantLight(origin, pointed_at, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).RoundToInt(), (Tan(fov_y / 2) * z_near * 2).RoundToInt(), z_near, z_far);
+        public DistantLight DistantLightAngle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float strength, float fov_x, float fov_y, float z_near, float z_far) => new DistantLight(origin, pointed_at, direction_up, strength, (Tan(fov_x / 2) * z_near * 2).RoundToInt(), (Tan(fov_y / 2) * z_near * 2).RoundToInt(), z_near, z_far);
 
         #endregion
     }

@@ -8,7 +8,7 @@ namespace _3D_Engine.SceneObjects.Lights
         {
             base.SetDirection1(newWorldDirectionForward, newWorldDirectionUp);
 
-            CreateShadowMap
+            //CreateShadowMap
         }
     }
 }
