@@ -312,7 +312,7 @@ namespace _3D_Engine
                 //Canvas_Box.Image = canvas;
             }
         }
-        private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] new_colour_buffer) // source of this method?!
+        private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] new_colour_buffer) // source of this method?! (and other one)
         {
             
         }
