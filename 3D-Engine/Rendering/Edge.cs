@@ -22,61 +22,61 @@ namespace _3D_Engine.SceneObjects.Cameras
     {
         private void Draw_Edge(
             Edge edge,
-            ref Matrix4x4 model_to_camera_view,
-            ref Matrix4x4 camera_view_to_camera_screen)
+            ref Matrix4x4 modelToCameraView,
+            ref Matrix4x4 cameraViewToCameraScreen)
             => Draw_Edge(
                 edge.P1.Point,
                 edge.P2.Point,
                 edge.Colour,
-                ref model_to_camera_view,
-                ref camera_view_to_camera_screen);
+                ref modelToCameraView,
+                ref cameraViewToCameraScreen);
 
         private void Draw_Edge(
-            Vector4D point_1,
-            Vector4D point_2,
+            Vector4D point1,
+            Vector4D point2,
             Color colour,
             ref Matrix4x4 modelToCameraView,
             ref Matrix4x4 cameraViewToCameraScreen)
         {
             // Move the edge from model space to camera-view space
-            point_1 = modelToCameraView * point_1;
-            point_2 = modelToCameraView * point_2;
+            point1 = modelToCameraView * point1;
+            point2 = modelToCameraView * point2;
 
             // Clip the edge in camera-view space
-            if (!Clipping.ClipEdges(this.CameraViewClippingPlanes, ref point_1, ref point_2)) { return; }
+            if (!Clipping.ClipEdges(this.CameraViewClippingPlanes, ref point1, ref point2)) { return; }
 
             // Move the edge from camera-view space to camera-screen space, including a correction for perspective
-            point_1 = cameraViewToCameraScreen * point_1;
-            point_2 = cameraViewToCameraScreen * point_2;
+            point1 = cameraViewToCameraScreen * point1;
+            point2 = cameraViewToCameraScreen * point2;
 
             if (this is PerspectiveCamera)
             {
-                point_1 /= point_1.w;
-                point_2 /= point_2.w; 
+                point1 /= point1.w;
+                point2 /= point2.w; 
             }
 
             // Clip the edge in camera-screen space
             if (Settings.Screen_Space_Clip)
             {
-                if (!Clipping.ClipEdges(Camera.CameraScreenClippingPlanes, ref point_1, ref point_2)) { return; }
+                if (!Clipping.ClipEdges(Camera.CameraScreenClippingPlanes, ref point1, ref point2)) { return; }
             }
 
             // Mode the edge from camera-screen space to window space
-            point_1 = screenToWindow * point_1;
-            point_2 = screenToWindow * point_2;
+            point1 = cameraScreenToWindow * point1;
+            point2 = cameraScreenToWindow * point2;
 
             // Round the vertices
-            int result_point_1_x = point_1.x.RoundToInt();
-            int result_point_1_y = point_1.y.RoundToInt();
-            float result_point_1_z = point_1.z;
-            int result_point_2_x = point_2.x.RoundToInt();
-            int result_point_2_y = point_2.y.RoundToInt();
-            float result_point_2_z = point_2.z;
+            int resultPoint1X = point1.x.RoundToInt();
+            int resultPoint1Y = point1.y.RoundToInt();
+            float resultPoint1Z = point1.z;
+            int resultPoint2X = point2.x.RoundToInt();
+            int resultPoint2Y = point2.y.RoundToInt();
+            float resultPoint2Z = point2.z;
 
             // Finally draw the line
             Line(colour,
-                result_point_1_x, result_point_1_y, result_point_1_z,
-                result_point_2_x, result_point_2_y, result_point_2_z);
+                resultPoint1X, resultPoint1Y, resultPoint1Z,
+                resultPoint2X, resultPoint2Y, resultPoint2Z);
         }
     }
 }

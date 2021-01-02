@@ -393,9 +393,9 @@ namespace _3D_Engine.SceneObjects.Cameras
                 case OrthogonalCamera orthogonalCamera:
                     Matrix4x4 windowToWorld = this.ModelToWorld * this.CameraViewToCameraScreen.Inverse() * cameraScreenToWindowInverse;
 
-                    for (int x = 0; x < width; x++)
+                    for (int x = 0; x < renderWidth; x++)
                     {
-                        for (int y = 0; y < height; y++)
+                        for (int y = 0; y < renderHeight; y++)
                         {
                             if (zBuffer.Values[x][y] != outOfBoundsValue)
                             {
@@ -406,9 +406,9 @@ namespace _3D_Engine.SceneObjects.Cameras
                     }
                     break;
                 case PerspectiveCamera perspectiveCamera:
-                    for (int x = 0; x < width; x++)
+                    for (int x = 0; x < renderWidth; x++)
                     {
-                        for (int y = 0; y < height; y++)
+                        for (int y = 0; y < renderHeight; y++)
                         {
                             // check all floats and ints
                             if (zBuffer.Values[x][y] != outOfBoundsValue)

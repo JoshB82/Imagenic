@@ -10,21 +10,14 @@
  * Encapsulates creation of a scene and contains rendering methods.
  */
 
-using _3D_Engine.Maths;
-using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects;
 using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
-using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
-using _3D_Engine.Transformations;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using _3D_Engine.SceneObjects.Lights;
 
 namespace _3D_Engine
 {
@@ -54,6 +47,7 @@ namespace _3D_Engine
 
         // Canvas
         private Bitmap canvas;
+
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
         public PictureBox Canvas_Box { get; set; }
 
@@ -80,10 +74,7 @@ namespace _3D_Engine
         /// <param name="canvas_box">The <see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.</param>
         /// <param name="width">The width of the <see cref="Scene"/>.</param>
         /// <param name="height">The height of the <see cref="Scene"/>.</param>
-        public Scene()
-        {
-            Trace.WriteLine("Scene created");
-        }
+        public Scene() => Trace.WriteLine("Scene created");
 
         #endregion
 
@@ -167,6 +158,8 @@ namespace _3D_Engine
             }
         }
         
+        //^^??
+
         /// <summary>
         /// Renders the <see cref="Scene"/> with the <see cref="DefaultCamera">DefaultCamera</see>.
         /// </summary>
