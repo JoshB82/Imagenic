@@ -34,12 +34,7 @@ namespace _3D_Engine
         /// </summary>
         public Color BackgroundColour { get; set; } = Color.White;
 
-        /// <summary>
-        /// The <see cref="Camera"/> containing the view that will be rendered on the screen if no other camera is specifiedddddddddddddddddd.
-        /// </summary>
-        public Camera DefaultCamera { get; set; }
-
-        internal bool ShadowMapsNeedUpdating { get; set; }
+        internal bool ShadowMapsNeedUpdating { get; set; } = true;
         
         
 
@@ -161,7 +156,7 @@ namespace _3D_Engine
         /// <summary>
         /// Renders the <see cref="Scene"/> with the <see cref="DefaultCamera">DefaultCamera</see>.
         /// </summary>
-        public void Render() => Render(DefaultCamera);
+        //public void Render() => Render(DefaultCamera);
         /// <summary>
         /// Renders the <see cref="Scene"/> with the specified <see cref="Camera"/>.
         /// </summary>

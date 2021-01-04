@@ -151,7 +151,7 @@ namespace _3D_Engine.SceneObjects.Cameras
         private const byte outOfBoundsValue = 2;
 
         // Render
-        public Color RenderBackgroundColour { get; set; }
+        public Color RenderBackgroundColour { get; set; } = Color.White;
 
         // Buffers
         private Buffer2D<Color> colourBuffer;
@@ -260,7 +260,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                         break;
                 }
             }
-            this.CalculateWorldOrigin(); //?
+            this.CalculateWorldOrigin();
 
             // Generate a shadow map for each light (only if needed)
             if (ParentScene.ShadowMapsNeedUpdating)
@@ -278,6 +278,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                         #endif
                     }
                 }
+                ParentScene.ShadowMapsNeedUpdating = false;
             }
 
             // Generate z buffer
