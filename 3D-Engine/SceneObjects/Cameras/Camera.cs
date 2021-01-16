@@ -211,6 +211,8 @@ namespace _3D_Engine.SceneObjects.Cameras
             RenderHeight = control.Height;
         }
 
+        public Group Scene { get; set; }
+
         #endregion
 
         #region Constructors
@@ -230,26 +232,26 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         #region Methods
 
-        public Bitmap Render(Group scene, int width, int height, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        public Bitmap Render(int width, int height, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
         {
             RenderWidth = width;
             RenderHeight = height;
 
-            return Render(scene, pixelFormat);
+            return Render(pixelFormat);
         }
 
-        public Bitmap Render(Group scene, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        public Bitmap Render(PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
         {    
             // Reset scene buffers
             zBuffer.SetAllToValue(outOfBoundsValue);
             colourBuffer.SetAllToValue(RenderBackgroundColour);
-            foreach (Light light in scene.Lights)
+            foreach (Light light in Scene.Lights)
             {
                 light.ShadowMap.SetAllToValue(outOfBoundsValue);
             }
 
             // Calculate matrices and world origins
-            foreach (SceneObject sceneObject in ParentScene.SceneObjects)
+            foreach (SceneObject sceneObject in Scene.SceneObjects)
             {
                 switch (sceneObject)
                 {
@@ -276,9 +278,9 @@ namespace _3D_Engine.SceneObjects.Cameras
             this.CalculateWorldOrigin();
 
             // Generate a shadow map for each light (only if needed)
-            if (ParentScene.ShadowMapsNeedUpdating)
+            if (Scene.ShadowMapsNeedUpdating)
             {
-                foreach (Light light in ParentScene.Lights)
+                foreach (Light light in Scene.Lights)
                 {
                     if (light.Visible)
                     {
@@ -291,11 +293,11 @@ namespace _3D_Engine.SceneObjects.Cameras
                         #endif
                     }
                 }
-                ParentScene.ShadowMapsNeedUpdating = false;
+                Scene.ShadowMapsNeedUpdating = false;
             }
 
             // Generate z buffer
-            foreach (SceneObject sceneObject in ParentScene.SceneObjects)
+            foreach (SceneObject sceneObject in Scene.SceneObjects)
             {
                 switch (sceneObject)
                 {

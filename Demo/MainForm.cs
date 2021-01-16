@@ -40,7 +40,8 @@ namespace Demo
             camera.MakeRenderSizeOfControl(pictureBox);
 
             // Render the scene and display the output in the picture box
-            pictureBox.Image = camera.Render(scene);
+            camera.Scene = scene;
+            pictureBox.Image = camera.Render();
         }
     }
 }

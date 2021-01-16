@@ -4,7 +4,7 @@ using _3D_Engine.Transformations;
 
 namespace _3D_Engine.SceneObjects.Groups
 {
-    public partial class Group : SceneObject
+    public partial class Group
     {
         #region Rotations
 
@@ -77,6 +77,41 @@ namespace _3D_Engine.SceneObjects.Groups
 
         #region Translations
 
+        public void TranslateX(float distance)
+        {
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.WorldOrigin += new Vector3D(distance, 0, 0);
+            }
+        }
+
+        public void TranslateY(float distance)
+        {
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.WorldOrigin += new Vector3D(0, distance, 0);
+            }
+        }
+
+        public void TranslateZ(float distance)
+        {
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.WorldOrigin += new Vector3D(0, 0, distance);
+            }
+        }
+
+        public void Translate(Vector3D displacement)
+        {
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.WorldOrigin += displacement;
+            }
+        }
+
+
+
+        /*
         public override void TranslateX(float distance)
         {
             base.TranslateX(distance);
@@ -97,7 +132,7 @@ namespace _3D_Engine.SceneObjects.Groups
             base.Translate(displacement);
             foreach (SceneObject sceneObject in SceneObjects) sceneObject.Translate(displacement);
         }
-
+        */
         #endregion
     }
 }

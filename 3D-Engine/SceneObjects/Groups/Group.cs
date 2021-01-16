@@ -11,6 +11,8 @@
  */
 
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
@@ -28,7 +30,10 @@ namespace _3D_Engine.SceneObjects.Groups
         #region Fields and Properties
 
         public List<SceneObject> SceneObjects { get; set; }
-
+        public List<Camera> Cameras { get; set; }
+        public List<Light> Lights { get; set; }
+        public List<Mesh> Meshes { get; set; }
+        /*
         public override Vector3D WorldOrigin
         {
             get => base.WorldOrigin;
@@ -43,7 +48,7 @@ namespace _3D_Engine.SceneObjects.Groups
                     }
                 }
             }
-        }
+        }*/
 
         #endregion
 
@@ -56,19 +61,28 @@ namespace _3D_Engine.SceneObjects.Groups
 
         #region Methods
 
-        public void Add(SceneObject sceneObject) => SceneObjects.Add(sceneObject);
-        public void Add(Group group)
+        public void Add(SceneObject sceneObject)
         {
-            foreach(SceneObject sceneObject in group.SceneObjects)
+            SceneObjects.Add(sceneObject);
+            switch (sceneObject)
             {
-                SceneObjects.Add(sceneObject);
+                case Camera camera:
+                    Cameras.Add(camera);
+                    break;
+                case Light light:
+                    Lights.Add(light);
+                    break;
+                case Mesh mesh:
+                    Meshes.Add(mesh);
+                    break;
             }
         }
+        public void Add(Group group) => Add(group.SceneObjects);
         public void Add(IEnumerable<SceneObject> sceneObjects)
         {
             foreach(SceneObject sceneObject in sceneObjects)
             {
-                SceneObjects.Add(sceneObject);
+                Add(sceneObject);
             }
         }
 
