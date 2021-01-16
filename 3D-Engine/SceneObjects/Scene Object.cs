@@ -96,6 +96,8 @@ namespace _3D_Engine.SceneObjects
         public virtual Vector3D WorldOrigin { get; set; }
         internal void CalculateWorldOrigin() => WorldOrigin = (Vector3D)(ModelToWorld * ModelOrigin);
 
+        public List<Scene> ParentScenes { get; set; }
+
         #endregion
 
         #region Constructors

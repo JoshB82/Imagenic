@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
+using _3D_Engine.SceneObjects.Groups;
 
 namespace _3D_Engine
 {
@@ -35,11 +36,6 @@ namespace _3D_Engine
         public Color BackgroundColour { get; set; } = Color.White;
 
         internal bool ShadowMapsNeedUpdating { get; set; } = true;
-        
-        
-
-        // Canvas
-        private Bitmap canvas;
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Scene.Canvas_Box']/*"/>
         public PictureBox Canvas_Box { get; set; }
@@ -52,7 +48,8 @@ namespace _3D_Engine
         public readonly List<Light> Lights = new();
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Scene.Meshes']/*"/>
         public readonly List<Mesh> Meshes = new();
-        
+        public readonly List<Group> Groups = new();
+
         // Miscellaneous
         private static readonly object locker = new();        
 
@@ -153,22 +150,8 @@ namespace _3D_Engine
         
         //^^??
 
-        /// <summary>
-        /// Renders the <see cref="Scene"/> with the <see cref="DefaultCamera">DefaultCamera</see>.
-        /// </summary>
-        //public void Render() => Render(DefaultCamera);
-        /// <summary>
-        /// Renders the <see cref="Scene"/> with the specified <see cref="Camera"/>.
-        /// </summary>
-        /// <param name="renderCamera">The <see cref="Camera"/> to render the <see cref="Scene"/> from.</param>
         public void Render(Camera renderCamera)
         {
-            if (renderCamera is null)
-            {
-                Trace.WriteLine("Error: Cannot render camera set to null.");
-                return;
-            }
-
             lock (locker)
             {
                 //if (new_frame is not null) new_frame.Dispose();

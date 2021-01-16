@@ -18,10 +18,12 @@ using System.Linq;
 
 namespace _3D_Engine.SceneObjects.Groups
 {
+    //^^ encapsulates above? And everywhere else?
+
     /// <summary>
     /// Encapsulates creation of a <see cref="Group"/>.
     /// </summary>
-    public partial class Group : SceneObject
+    public partial class Group
     {
         #region Fields and Properties
 
@@ -33,7 +35,13 @@ namespace _3D_Engine.SceneObjects.Groups
             set
             {
                 base.WorldOrigin = value;
-                if (SceneObjects is not null) foreach (SceneObject scene_object in SceneObjects) scene_object.WorldOrigin += value - base.WorldOrigin;
+                if (SceneObjects is not null)
+                {
+                    foreach (SceneObject sceneObject in SceneObjects)
+                    {
+                        sceneObject.WorldOrigin += value - base.WorldOrigin;
+                    }
+                }
             }
         }
 
@@ -41,14 +49,27 @@ namespace _3D_Engine.SceneObjects.Groups
 
         #region Constructors
 
-        public Group(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
-        {
-            SceneObjects = new();
-        }
+        public Group() => SceneObjects = new();
+        public Group(List<SceneObject> sceneObjects) => SceneObjects = sceneObjects;
 
-        public Group(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, List<SceneObject> scene_objects, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows)
+        #endregion
+
+        #region Methods
+
+        public void Add(SceneObject sceneObject) => SceneObjects.Add(sceneObject);
+        public void Add(Group group)
         {
-            SceneObjects = scene_objects;
+            foreach(SceneObject sceneObject in group.SceneObjects)
+            {
+                SceneObjects.Add(sceneObject);
+            }
+        }
+        public void Add(IEnumerable<SceneObject> sceneObjects)
+        {
+            foreach(SceneObject sceneObject in sceneObjects)
+            {
+                SceneObjects.Add(sceneObject);
+            }
         }
 
         #endregion
@@ -74,9 +95,9 @@ namespace _3D_Engine.SceneObjects.Groups
                 textures = textures.Concat(mesh.Textures).ToArray();
             }
 
-            Custom custom_cast = new Custom(group.WorldOrigin, group.WorldDirectionForward, group.WorldDirectionUp, vertices, edges, faces, textures);
+            Custom customCast = new Custom(group.WorldOrigin, group.WorldDirectionForward, group.WorldDirectionUp, vertices, edges, faces, textures);
 
-            return custom_cast;
+            return customCast;
         }
 
         #endregion

@@ -42,6 +42,16 @@ namespace _3D_Engine.SceneObjects.Lights
         /// </summary>
         public bool DrawIcon { get; set; } = false;
 
+        public override Vector3D WorldOrigin
+        {
+            get => base.WorldOrigin; //??x2
+            set
+            {
+                worldOrigin = value;
+                ParentScene.
+            }
+        }
+
         // View Volume
         private VolumeOutline volumeStyle = VolumeOutline.None;
 

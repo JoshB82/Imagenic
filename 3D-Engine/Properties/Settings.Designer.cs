@@ -170,9 +170,9 @@ namespace _3D_Engine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int DirrectionArrowBodyRadius {
+        public float DirrectionArrowBodyRadius {
             get {
-                return ((int)(this["DirrectionArrowBodyRadius"]));
+                return ((float)(this["DirrectionArrowBodyRadius"]));
             }
             set {
                 this["DirrectionArrowBodyRadius"] = value;
@@ -182,9 +182,9 @@ namespace _3D_Engine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("20")]
-        public int DirectionArrowTipRadius {
+        public float DirectionArrowTipRadius {
             get {
-                return ((int)(this["DirectionArrowTipRadius"]));
+                return ((float)(this["DirectionArrowTipRadius"]));
             }
             set {
                 this["DirectionArrowTipRadius"] = value;
@@ -194,9 +194,9 @@ namespace _3D_Engine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int DirectionArrowBodyLength {
+        public float DirectionArrowBodyLength {
             get {
-                return ((int)(this["DirectionArrowBodyLength"]));
+                return ((float)(this["DirectionArrowBodyLength"]));
             }
             set {
                 this["DirectionArrowBodyLength"] = value;
@@ -206,12 +206,72 @@ namespace _3D_Engine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public int DirectionArrowTipLength {
+        public float DirectionArrowTipLength {
             get {
-                return ((int)(this["DirectionArrowTipLength"]));
+                return ((float)(this["DirectionArrowTipLength"]));
             }
             set {
                 this["DirectionArrowTipLength"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int AxisArrowResolution {
+            get {
+                return ((int)(this["AxisArrowResolution"]));
+            }
+            set {
+                this["AxisArrowResolution"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public float AxisArrowBodyRadius {
+            get {
+                return ((float)(this["AxisArrowBodyRadius"]));
+            }
+            set {
+                this["AxisArrowBodyRadius"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public float AxisArrowTipRadius {
+            get {
+                return ((float)(this["AxisArrowTipRadius"]));
+            }
+            set {
+                this["AxisArrowTipRadius"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public float AxisArrowTipLength {
+            get {
+                return ((float)(this["AxisArrowTipLength"]));
+            }
+            set {
+                this["AxisArrowTipLength"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("150")]
+        public float AxisArrowLength {
+            get {
+                return ((float)(this["AxisArrowLength"]));
+            }
+            set {
+                this["AxisArrowLength"] = value;
             }
         }
     }

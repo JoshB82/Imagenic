@@ -20,6 +20,12 @@ namespace _3D_Engine.SceneObjects.Meshes.OneDimension
     /// </summary>
     public sealed class WorldPoint : Mesh
     {
+        #region Fields and Properties
+
+        public static readonly WorldPoint ZeroOrigin = new(Vector3D.Zero);
+
+        #endregion
+
         #region Constructors
 
         /// <summary>

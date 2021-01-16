@@ -1,5 +1,10 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using System.Collections.Generic;
+using System.Drawing;
+
+using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
 namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
@@ -7,6 +12,12 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
     public sealed class Arrow : Mesh
     {
         #region Fields and Properties
+
+        public static readonly Arrow XAxis = new(Vector3D.Zero, new Vector3D(Default.AxisArrowLength, 0, 0), Vector3D.UnitY, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Red };
+        public static readonly Arrow YAxis = new(Vector3D.Zero, new Vector3D(0, Default.AxisArrowLength, 0), Vector3D.UnitNegativeZ, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Green };
+        public static readonly Arrow ZAxis = new(Vector3D.Zero, new Vector3D(0, 0, Default.AxisArrowLength), Vector3D.UnitY, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Blue };
+
+        public static readonly Group Axes = new(new List<SceneObject>() { XAxis, YAxis, ZAxis });
 
         private Vector3D start_position, end_position, unit_vector;
 

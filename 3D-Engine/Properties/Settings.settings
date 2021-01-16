@@ -38,17 +38,32 @@
     <Setting Name="DirectionArrowResolution" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
-    <Setting Name="DirrectionArrowBodyRadius" Type="System.Int32" Scope="User">
+    <Setting Name="DirrectionArrowBodyRadius" Type="System.Single" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="DirectionArrowTipRadius" Type="System.Int32" Scope="User">
+    <Setting Name="DirectionArrowTipRadius" Type="System.Single" Scope="User">
       <Value Profile="(Default)">20</Value>
     </Setting>
-    <Setting Name="DirectionArrowBodyLength" Type="System.Int32" Scope="User">
+    <Setting Name="DirectionArrowBodyLength" Type="System.Single" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="DirectionArrowTipLength" Type="System.Int32" Scope="User">
+    <Setting Name="DirectionArrowTipLength" Type="System.Single" Scope="User">
       <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="AxisArrowResolution" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="AxisArrowBodyRadius" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="AxisArrowTipRadius" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="AxisArrowTipLength" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="AxisArrowLength" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">150</Value>
     </Setting>
   </Settings>
 </SettingsFile>

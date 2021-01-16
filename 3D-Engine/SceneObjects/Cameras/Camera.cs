@@ -13,11 +13,13 @@
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
+using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Transformations;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -104,6 +106,20 @@ namespace _3D_Engine.SceneObjects.Cameras
         }
 
         internal List<Edge> VolumeEdges = new();
+
+        private PixelFormat renderPixelFormat; //?(and everywhere)
+        public PixelFormat RenderPixelFormat
+        {
+            get => renderPixelFormat;
+            set
+            {
+                if (value is PixelFormat.DontCare or PixelFormat.Extended or PixelFormat.Max or PixelFormat.Undefined)
+                {
+                    throw new Exception("Invalid PixelFormat for rendering"); //?
+                }
+                renderPixelFormat = value;
+            }
+        }
 
         // Matrices
         private static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0));
@@ -195,9 +211,6 @@ namespace _3D_Engine.SceneObjects.Cameras
             RenderHeight = control.Height;
         }
 
-        // Scene
-        internal Scene ParentScene { get; set; }
-
         #endregion
 
         #region Constructors
@@ -217,20 +230,20 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         #region Methods
 
-        public Bitmap Render(int width, int height, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        public Bitmap Render(Group scene, int width, int height, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
         {
             RenderWidth = width;
             RenderHeight = height;
 
-            return Render(pixelFormat);
+            return Render(scene, pixelFormat);
         }
 
-        public Bitmap Render(PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        public Bitmap Render(Group scene, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
         {    
             // Reset scene buffers
             zBuffer.SetAllToValue(outOfBoundsValue);
             colourBuffer.SetAllToValue(RenderBackgroundColour);
-            foreach (Light light in ParentScene.Lights)
+            foreach (Light light in scene.Lights)
             {
                 light.ShadowMap.SetAllToValue(outOfBoundsValue);
             }
@@ -425,24 +438,34 @@ namespace _3D_Engine.SceneObjects.Cameras
         }
 
         // how works?
-        public static unsafe Bitmap CreateBitmap(int width, int height, Buffer2D<Color> colourBuffer)
+        private static Bitmap CreateBitmap(int width, int height, Buffer2D<Color> colourBuffer, PixelFormat pixelFormat)
         {
-            Bitmap newFrame = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-            BitmapData data = newFrame.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb); //????????????
+            Bitmap newFrame = new Bitmap(width, height, pixelFormat);
+            BitmapData data = newFrame.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, pixelFormat); //????????????
 
-            for (int y = 0; y < height; y++)
+            switch (pixelFormat)
             {
-                byte* row_start = (byte*)data.Scan0 + y * data.Stride;
-                for (int x = 0; x < width; x++)
-                {
-                    row_start[x * 3] = colourBuffer.Values[x][y * -1 + height - 1].B; // Blue
-                    row_start[x * 3 + 1] = colourBuffer.Values[x][y * -1 + height - 1].G; // Green
-                    row_start[x * 3 + 2] = colourBuffer.Values[x][y * -1 + height - 1].R; // Red
-                }
+                case PixelFormat.Format24bppRgb:
+                    Format24bppRgb(width, height, data, colourBuffer);
+                    break;
             }
 
             newFrame.UnlockBits(data);
             return newFrame;
+        }
+
+        private static unsafe void Format24bppRgb(int width, int height, BitmapData data, Buffer2D<Color> colourBuffer)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                byte* rowStart = (byte*)data.Scan0 + y * data.Stride;
+                for (int x = 0; x < width; x++)
+                {
+                    rowStart[x * 3] = colourBuffer.Values[x][y * -1 + height - 1].B; // Blue
+                    rowStart[x * 3 + 1] = colourBuffer.Values[x][y * -1 + height - 1].G; // Green
+                    rowStart[x * 3 + 2] = colourBuffer.Values[x][y * -1 + height - 1].R; // Red
+                }
+            }
         }
 
         #endregion
