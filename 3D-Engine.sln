@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3D-Engine", "3D-Engine\3D-Engine.csproj", "{DCF14E26-3F6C-4448-A529-955DCE58645A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{04218791-4EF6-4A14-B268-55BE33C20658}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple Demo", "Demo\Simple Demo.csproj", "{04218791-4EF6-4A14-B268-55BE33C20658}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interactive Demo", "Interactive Demo\Interactive Demo.csproj", "{121724D6-E1CD-48E9-B756-55B8BE9BBCA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{04218791-4EF6-4A14-B268-55BE33C20658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04218791-4EF6-4A14-B268-55BE33C20658}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04218791-4EF6-4A14-B268-55BE33C20658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{121724D6-E1CD-48E9-B756-55B8BE9BBCA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{121724D6-E1CD-48E9-B756-55B8BE9BBCA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{121724D6-E1CD-48E9-B756-55B8BE9BBCA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{121724D6-E1CD-48E9-B756-55B8BE9BBCA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

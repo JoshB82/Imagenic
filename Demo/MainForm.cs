@@ -5,7 +5,7 @@ using _3D_Engine.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using System.Windows.Forms;
 
-namespace Demo
+namespace Simple_Demo
 {
     public partial class MainForm : Form
     {
