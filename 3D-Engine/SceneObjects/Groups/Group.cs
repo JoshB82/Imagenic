@@ -10,14 +10,11 @@
  * Encapsulates creation of a group.
  */
 
-using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Cameras;
 using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace _3D_Engine.SceneObjects.Groups
 {
@@ -30,10 +27,10 @@ namespace _3D_Engine.SceneObjects.Groups
     {
         #region Fields and Properties
 
-        public List<SceneObject> SceneObjects { get; set; }
-        public List<Camera> Cameras { get; set; }
-        public List<Light> Lights { get; set; }
-        public List<Mesh> Meshes { get; set; }
+        public List<SceneObject> SceneObjects { get; set; } = new();
+        public List<Camera> Cameras { get; set; } = new();
+        public List<Light> Lights { get; set; } = new();
+        public List<Mesh> Meshes { get; set; } = new();
         /*
         public override Vector3D WorldOrigin
         {
@@ -55,8 +52,9 @@ namespace _3D_Engine.SceneObjects.Groups
 
         #region Constructors
 
-        public Group() => SceneObjects = new();
-        public Group(List<SceneObject> sceneObjects) => SceneObjects = sceneObjects;
+        public Group() { }
+
+        public Group(IEnumerable<SceneObject> sceneObjects) => Add(sceneObjects);
 
         #endregion
 

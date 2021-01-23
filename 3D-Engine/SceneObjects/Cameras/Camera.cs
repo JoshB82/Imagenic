@@ -107,7 +107,7 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         internal List<Edge> VolumeEdges = new();
 
-        private PixelFormat renderPixelFormat; //?(and everywhere)
+        private PixelFormat renderPixelFormat = PixelFormat.Format24bppRgb; //?(and everywhere)
         public PixelFormat RenderPixelFormat
         {
             get => renderPixelFormat;
@@ -232,15 +232,15 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         #region Methods
 
-        public Bitmap Render(int width, int height, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        public Bitmap Render(int width, int height)
         {
             RenderWidth = width;
             RenderHeight = height;
 
-            return Render(pixelFormat);
+            return Render();
         }
 
-        public Bitmap Render(PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        public Bitmap Render()
         {    
             // Reset scene buffers
             zBuffer.SetAllToValue(outOfBoundsValue);

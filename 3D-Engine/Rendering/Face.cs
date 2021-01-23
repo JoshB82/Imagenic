@@ -119,7 +119,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                     float tz3 = face.T3.z;
 
                     // Sort the vertices by their y-co-ordinate
-                    TexturedSortByY
+                    NumericManipulation.TexturedSortByY
                     (
                         ref x1, ref y1, ref tx1, ref ty1, ref tz1,
                         ref x2, ref y2, ref tx2, ref ty2, ref tz2,
@@ -199,7 +199,7 @@ namespace _3D_Engine.SceneObjects.Cameras
         {
             bool lightApplied = false;
 
-            foreach (Light light in ParentScene.Lights)
+            foreach (Light light in Scene.Lights)
             {
                 if (light.Visible)
                 {

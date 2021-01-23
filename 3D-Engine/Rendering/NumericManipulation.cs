@@ -37,7 +37,7 @@
             }
         }
 
-        private static void TexturedSortByY(
+        internal static void TexturedSortByY(
             ref int x1, ref int y1, ref float tx1, ref float ty1, ref float tz1,
             ref int x2, ref int y2, ref float tx2, ref float ty2, ref float tz2,
             ref int x3, ref int y3, ref float tx3, ref float ty3, ref float tz3)
