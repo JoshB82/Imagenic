@@ -42,13 +42,14 @@ namespace _3D_Engine.SceneObjects.Lights
         /// </summary>
         public bool DrawIcon { get; set; } = false;
 
+        internal bool ShadowMapNeedsUpdating { get; set; }
+
         public override Vector3D WorldOrigin
         {
             get => base.WorldOrigin; //??x2
             set
             {
-                worldOrigin = value;
-                ParentScene.
+                base.WorldOrigin = value;
             }
         }
 
@@ -89,13 +90,13 @@ namespace _3D_Engine.SceneObjects.Lights
 
                 if ((volumeStyle & VolumeOutline.Far) == VolumeOutline.Far)
                 {
-                    float ratio = (this is DistantLight) ? 1 : Shadow_Map_Z_Far / ShadowMapZNear;
+                    float ratio = (this is DistantLight) ? 1 : ShadowMapZFar / ShadowMapZNear;
                     float semi_width_ratio = semi_width * ratio, semi_height_ratio = semi_height * ratio;
 
-                    Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, Shadow_Map_Z_Far, 1));
-                    Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, Shadow_Map_Z_Far, 1));
-                    Vertex far_bottom_left_point = new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, Shadow_Map_Z_Far, 1));
-                    Vertex far_bottom_right_point = new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, Shadow_Map_Z_Far, 1));
+                    Vertex far_top_left_point = new Vertex(new Vector4D(-semi_width_ratio, semi_height_ratio, ShadowMapZFar, 1));
+                    Vertex far_top_right_point = new Vertex(new Vector4D(semi_width_ratio, semi_height_ratio, ShadowMapZFar, 1));
+                    Vertex far_bottom_left_point = new Vertex(new Vector4D(-semi_width_ratio, -semi_height_ratio, ShadowMapZFar, 1));
+                    Vertex far_bottom_right_point = new Vertex(new Vector4D(semi_width_ratio, -semi_height_ratio, ShadowMapZFar, 1));
 
                     Volume_Edges.AddRange(new[]
                     {
@@ -130,12 +131,13 @@ namespace _3D_Engine.SceneObjects.Lights
         internal ClippingPlane[] LightViewClippingPlanes;
 
         // Shadow map volume
-        internal Buffer2D<float> ShadowMap;
+        internal Buffer2D<float> ShadowMap { get; set; }
         public abstract int ShadowMapWidth { get; set; }
         public abstract int ShadowMapHeight { get; set; }
         public abstract float ShadowMapZNear { get; set; }
-        public abstract float Shadow_Map_Z_Far { get; set; }
+        public abstract float ShadowMapZFar { get; set; }
 
+        // already elsewhere?
         private static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0));
         protected void SetShadowMap()
         {
@@ -150,7 +152,7 @@ namespace _3D_Engine.SceneObjects.Lights
 
         #region Constructors
 
-        internal Light(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, bool has_direction_arrows = true) : base(origin, direction_forward, direction_up, has_direction_arrows) { }
+        internal Light(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows) { }
 
         #endregion
 
@@ -158,14 +160,14 @@ namespace _3D_Engine.SceneObjects.Lights
 
         // Export
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map']/*"/>
-        public void ExportShadowMap() => Export_Shadow_Map($"{Directory.GetCurrentDirectory()}\\Export\\{GetType().Name}_{Id}_Export_Map.bmp");
+        public void ExportShadowMap() => ExportShadowMap($"{Directory.GetCurrentDirectory()}\\Export\\{GetType().Name}_{Id}_Export_Map.bmp");
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Light.Export_Shadow_Map(System.String)']/*"/>
-        public void Export_Shadow_Map(string file_path)
+        public void ExportShadowMap(string filePath)
         {
             Trace.WriteLine($"Generating shadow map for {GetType().Name}...");
 
-            string file_directory = Path.GetDirectoryName(file_path);
+            string file_directory = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(file_directory)) Directory.CreateDirectory(file_directory);
 
             using (Bitmap shadow_map_bitmap = new Bitmap(ShadowMapWidth, ShadowMapHeight))
@@ -181,7 +183,7 @@ namespace _3D_Engine.SceneObjects.Lights
                     }
                 }
 
-                shadow_map_bitmap.Save(file_path, ImageFormat.Bmp);
+                shadow_map_bitmap.Save(filePath, ImageFormat.Bmp);
             }
 
             Trace.WriteLine($"Successfully saved shadow map for {GetType().Name}");

@@ -5,22 +5,7 @@ namespace _3D_Engine.SceneObjects.Cameras
 {
     public abstract partial class Camera : SceneObject
     {
-        // Check if point is visible from the camera
-        private void ZBufferCheck(object colour, int x, int y, float z)
-        {
-            try
-            {
-                if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
-                {
-                    zBuffer.Values[x][y] = z;
-                    colourBuffer.Values[x][y] = (Color)colour;
-                }
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                throw new IndexOutOfRangeException($"Attempted to render outside the canvas at ({x}, {y}, {z})", e);
-            }
-        }
+        
 
         private void TexturedCheckAgainstZBuffer(Bitmap texture, int x, int y, float z, int tx, int ty)
         {

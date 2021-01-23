@@ -1,22 +1,37 @@
 ﻿using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
-using _3D_Engine.SceneObjects.Lights;
+using _3D_Engine.SceneObjects.Cameras;
+using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 
-namespace _3D_Engine.SceneObjects.Cameras
+namespace _3D_Engine.SceneObjects.Lights
 {
-    public abstract partial class Camera : SceneObject
+    public abstract partial class Light : SceneObject
     {
-        public void GenerateShadowMap(Light light)
+        public void GenerateShadowMap(Group group)
         {
-            foreach (Mesh mesh in ParentScene.Meshes)
+            foreach (Camera camera in group.Cameras)
+            {
+                if (camera.DrawIcon)
+                {
+                    //...
+                }
+            }
+            foreach (Light light in group.Lights)
+            {
+                if (light.DrawIcon)
+                {
+                    //...
+                }
+            }
+            foreach (Mesh mesh in group.Meshes)
             {
                 if (mesh.Visible && mesh.DrawFaces)
                 {
-                    Matrix4x4 modelToLightView = light.WorldToLightView * mesh.ModelToWorld;
+                    Matrix4x4 modelToLightView = WorldToLightView * mesh.ModelToWorld;
 
                     foreach (Face face in mesh.Faces)
                     {
@@ -26,8 +41,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                             (
                                 face,
                                 mesh.Dimension,
-                                ref modelToLightView,
-                                light
+                                ref modelToLightView
                             );
                         }
                     }
@@ -38,8 +52,7 @@ namespace _3D_Engine.SceneObjects.Cameras
         private void CalculateDepth(
             Face face,
             int meshDimension,
-            ref Matrix4x4 modelToLightView,
-            Light light)
+            ref Matrix4x4 modelToLightView)
         {
             // Reset the vertices to model space values
             face.ResetVertices();
@@ -57,14 +70,14 @@ namespace _3D_Engine.SceneObjects.Cameras
             // Clip the face in light-view space
             Queue<Face> faceClip = new();
             faceClip.Enqueue(face);
-            if (!Clipping.ClipFaces(faceClip, light.LightViewClippingPlanes)) { return; }
+            if (!Clipping.ClipFaces(faceClip, LightViewClippingPlanes)) { return; }
 
             // Move the new triangles from light-view space to screen space, including a correction for perspective
             foreach (Face clippedFace in faceClip)
             {
-                clippedFace.ApplyMatrix(light.LightViewToLightScreen);
+                clippedFace.ApplyMatrix(LightViewToLightScreen);
 
-                if (light is PointLight or Spotlight)
+                if (this is PointLight or Spotlight)
                 {
                     clippedFace.p1 /= clippedFace.p1.w;
                     clippedFace.p2 /= clippedFace.p2.w;
@@ -83,7 +96,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 { continue; }
 
                 // Move the new triangles from light-screen space to light-window space
-                clippedFace.ApplyMatrix(light.LightScreenToLightWindow);
+                clippedFace.ApplyMatrix(LightScreenToLightWindow);
                 
                 // Round the vertices
                 int x1 = clippedFace.p1.x.RoundToInt();
@@ -97,7 +110,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 float z3 = clippedFace.p3.z;
 
                 // Sort the vertices by their y-co-ordinate
-                SortByY
+                NumericManipulation.SortByY
                 (
                     ref x1, ref y1, ref z1,
                     ref x2, ref y2, ref z2,
@@ -105,9 +118,10 @@ namespace _3D_Engine.SceneObjects.Cameras
                 );
 
                 // Interpolate each point in the triangle
-                InterpolateTriangle
+                Interpolation.InterpolateTriangle
                 (
-                    light, MeshDepthFromLight,
+                    MeshDepthFromLight,
+                    null,
                     x1, y1, z1,
                     x2, y2, z2,
                     x3, y3, z3
@@ -115,15 +129,13 @@ namespace _3D_Engine.SceneObjects.Cameras
             }
         }
 
-        private static void MeshDepthFromLight(object @object, int x, int y, float z)
+        private void MeshDepthFromLight(object @object, int x, int y, float z)
         {
-            Light light = @object as Light;
-
-            if (x < light.ShadowMapWidth && y < light.ShadowMapHeight)
+            if (x < ShadowMapWidth && y < ShadowMapHeight)
             {
-                if (z.ApproxLessThan(light.ShadowMap.Values[x][y], 1E-4f))
+                if (z.ApproxLessThan(ShadowMap.Values[x][y], 1E-4f))
                 {
-                    light.ShadowMap.Values[x][y] = z;
+                    ShadowMap.Values[x][y] = z;
                 }
             }
         }

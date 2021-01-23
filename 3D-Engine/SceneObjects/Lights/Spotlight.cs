@@ -55,7 +55,7 @@ namespace _3D_Engine.SceneObjects.Lights
             }
         }
 
-        public override float Shadow_Map_Z_Far
+        public override float ShadowMapZFar
         {
             get => shadowMapZFar;
             set
@@ -80,7 +80,7 @@ namespace _3D_Engine.SceneObjects.Lights
             ShadowMapWidth = Default.ShadowMapWidth;
             ShadowMapHeight = Default.ShadowMapHeight;
             ShadowMapZNear = Default.ShadowMapZNear;
-            Shadow_Map_Z_Far = Default.ShadowMapZFar;
+            ShadowMapZFar = Default.ShadowMapZFar;
 
             Strength = strength;
         }

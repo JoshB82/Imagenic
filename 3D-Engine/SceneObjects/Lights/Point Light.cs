@@ -18,7 +18,7 @@ namespace _3D_Engine.SceneObjects.Lights
         public override int ShadowMapWidth { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         public override int ShadowMapHeight { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         public override float ShadowMapZNear { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public override float Shadow_Map_Z_Far { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public override float ShadowMapZFar { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         #endregion
     }

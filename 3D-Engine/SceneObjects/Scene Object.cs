@@ -117,7 +117,7 @@ namespace _3D_Engine.SceneObjects
                     new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Green }, // Y-axis
                     new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Red } // X-axis
                 };
-                DirectionArrows = new Group(origin, directionForward, directionUp, directionArrows, false);
+                DirectionArrows = new Group(directionArrows);
             }
 
             Trace.WriteLine($"{GetType().Name} created at {origin}");

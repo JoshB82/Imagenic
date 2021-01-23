@@ -85,7 +85,7 @@ namespace _3D_Engine
                 {
                     case Camera camera:
                         Cameras.Add(camera);
-                        (sceneObject as Camera).ParentScene = this;
+                        //(sceneObject as Camera).ParentScene = this;
                         break;
                     case Light light:
                         Lights.Add(light);
@@ -114,7 +114,7 @@ namespace _3D_Engine
                     {
                         case Camera camera:
                             Cameras.Add(camera);
-                            (sceneObject as Camera).ParentScene = this;
+                            //(sceneObject as Camera).ParentScene = this;
                             break;
                         case Light light:
                             Lights.Add(light);

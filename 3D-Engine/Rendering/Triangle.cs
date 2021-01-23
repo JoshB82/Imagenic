@@ -1,160 +1,14 @@
-﻿using System;
+﻿using _3D_Engine.Rendering;
 using System.Drawing;
 
 namespace _3D_Engine.SceneObjects.Cameras
 {
+    
     public abstract partial class Camera : SceneObject
     {
-        // Swap
-        private static void Swap<T>(ref T x1, ref T x2)
-        {
-            T temp = x1;
-            x1 = x2;
-            x2 = temp;
-        }
+        
 
-        // Sorting
-        private static void SortByY(
-            ref int x1, ref int y1, ref float z1,
-            ref int x2, ref int y2, ref float z2,
-            ref int x3, ref int y3, ref float z3)
-        {
-            // y1 highest; y3 lowest (?)
-            if (y1 < y2)
-            {
-                Swap(ref x1, ref x2);
-                Swap(ref y1, ref y2);
-                Swap(ref z1, ref z2);
-            }
-            if (y1 < y3)
-            {
-                Swap(ref x1, ref x3);
-                Swap(ref y1, ref y3);
-                Swap(ref z1, ref z3);
-            }
-            if (y2 < y3)
-            {
-                Swap(ref x2, ref x3);
-                Swap(ref y2, ref y3);
-                Swap(ref z2, ref z3);
-            }
-        }
-
-        private static void TexturedSortByY(
-            ref int x1, ref int y1, ref float tx1, ref float ty1, ref float tz1,
-            ref int x2, ref int y2, ref float tx2, ref float ty2, ref float tz2,
-            ref int x3, ref int y3, ref float tx3, ref float ty3, ref float tz3)
-        {
-            // y1 lowest; y3 highest (?)
-            if (y1 < y2)
-            {
-                Swap(ref x1, ref x2);
-                Swap(ref y1, ref y2);
-                Swap(ref tx1, ref tx2);
-                Swap(ref ty1, ref ty2);
-                Swap(ref tz1, ref tz2);
-            }
-            if (y1 < y3)
-            {
-                Swap(ref x1, ref x3);
-                Swap(ref y1, ref y3);
-                Swap(ref tx1, ref tx3);
-                Swap(ref ty1, ref ty3);
-                Swap(ref tz1, ref tz3);
-            }
-            if (y2 < y3)
-            {
-                Swap(ref x2, ref x3);
-                Swap(ref y2, ref y3);
-                Swap(ref tx2, ref tx3);
-                Swap(ref ty2, ref ty3);
-                Swap(ref tz2, ref tz3);
-            }
-        }
-
-        // Interpolation (source!)
-        private static void InterpolateTriangle(object @object, Action<object, int, int, float> action,
-            int x1, int y1, float z1,
-            int x2, int y2, float z2,
-            int x3, int y3, float z3)
-        {
-            // Create steps
-            float dy_step_1 = y1 - y2;
-            float dy_step_2 = y1 - y3;
-            float dy_step_3 = y2 - y3;
-
-            float x_step_1 = 0, z_step_1 = 0;
-            float x_step_3 = 0, z_step_3 = 0;
-
-            if (dy_step_1 != 0)
-            {
-                x_step_1 = (x1 - x2) / dy_step_1; // dx from point 1 to point 2
-                z_step_1 = (z1 - z2) / dy_step_1; // dz from point 1 to point 2
-            }
-            float x_step_2 = (x1 - x3) / dy_step_2; // dx from point 1 to point 3
-            float z_step_2 = (z1 - z3) / dy_step_2; // dz from point 1 to point 3
-            if (dy_step_3 != 0)
-            {
-                x_step_3 = (x2 - x3) / dy_step_3; // dx from point 2 to point 3
-                z_step_3 = (z2 - z3) / dy_step_3; // dz from point 2 to point 3
-            }
-
-            // Draw a flat-bottom triangle
-            if (dy_step_1 != 0)
-            {
-                for (int y = y2; y <= y1; y++)
-                {
-                    int sx = ((y - y2) * x_step_1 + x2).RoundToInt();
-                    float sz = (y - y2) * z_step_1 + z2;
-
-                    int ex = ((y - y3) * x_step_2 + x3).RoundToInt();
-                    float ez = (y - y3) * z_step_2 + z3;
-
-                    if (sx > ex)
-                    {
-                        Swap(ref sx, ref ex);
-                        Swap(ref sz, ref ez);
-                    }
-
-                    float t = 0, t_step = 1f / (ex - sx);
-                    for (int x = sx; x <= ex; x++)
-                    {
-                        float z = sz + t * (ez - sz);
-                        action(@object, x, y, z);
-
-                        t += t_step;
-                    }
-                }
-            }
-
-            // Draw a flat-top triangle
-            if (dy_step_3 != 0)
-            {
-                for (int y = y3; y <= y2; y++)
-                {
-                    int sx = ((y - y3) * x_step_3 + x3).RoundToInt();
-                    float sz = (y - y3) * z_step_3 + z3;
-
-                    int ex = ((y - y3) * x_step_2 + x3).RoundToInt();
-                    float ez = (y - y3) * z_step_2 + z3;
-
-                    if (sx > ex)
-                    {
-                        Swap(ref sx, ref ex);
-                        Swap(ref sz, ref ez);
-                    }
-
-                    float t = 0, t_step = 1f / (ex - sx);
-                    for (int x = sx; x <= ex; x++)
-                    {
-                        float z = sz + t * (ez - sz);
-                        action(@object, x, y, z);
-
-                        t += t_step;
-                    }
-                }
-            }
-        }
+        
 
         // floats or ints for everything? Should it take an average of texels (or pixels in method above)?
         private void Textured_Triangle(Bitmap texture,
@@ -208,10 +62,10 @@ namespace _3D_Engine.SceneObjects.Cameras
                     // ?
                     if (sx > ex)
                     {
-                        Swap(ref sx, ref ex);
-                        Swap(ref stx, ref etx);
-                        Swap(ref sty, ref ety);
-                        Swap(ref stz, ref etz);
+                        NumericManipulation.Swap(ref sx, ref ex);
+                        NumericManipulation.Swap(ref stx, ref etx);
+                        NumericManipulation.Swap(ref sty, ref ety);
+                        NumericManipulation.Swap(ref stz, ref etz);
                     }
 
                     float t = 0, t_step = 1f / (ex - sx);
@@ -246,10 +100,10 @@ namespace _3D_Engine.SceneObjects.Cameras
 
                     if (sx > ex)
                     {
-                        Swap(ref sx, ref ex);
-                        Swap(ref stx, ref etx);
-                        Swap(ref sty, ref ety);
-                        Swap(ref stz, ref etz);
+                        NumericManipulation.Swap(ref sx, ref ex);
+                        NumericManipulation.Swap(ref stx, ref etx);
+                        NumericManipulation.Swap(ref sty, ref ety);
+                        NumericManipulation.Swap(ref stz, ref etz);
                     }
 
                     float t = 0, t_step = 1f / (ex - sx);

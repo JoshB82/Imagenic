@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _3D_Engine.Rendering;
+using System;
 using System.Drawing;
 
 namespace _3D_Engine.SceneObjects.Cameras
@@ -77,8 +78,8 @@ namespace _3D_Engine.SceneObjects.Cameras
             float z_increase_x = (z1 - z2) / (x1 - x2);
             if (x2 < x1)
             {
-                Swap(ref x1, ref x2);
-                Swap(ref z1, ref z2);
+                NumericManipulation.Swap(ref x1, ref x2);
+                NumericManipulation.Swap(ref z1, ref z2);
             }
 
             for (int x = x1; x <= x2; x++)
@@ -93,8 +94,8 @@ namespace _3D_Engine.SceneObjects.Cameras
             float z_increase_y = (z1 - z2) / (y1 - y2);
             if (y2 < y1)
             {
-                Swap(ref y1, ref y2);
-                Swap(ref z1, ref z2);
+                NumericManipulation.Swap(ref y1, ref y2);
+                NumericManipulation.Swap(ref z1, ref z2);
             }
 
             for (int y = y1; y <= y2; y++)

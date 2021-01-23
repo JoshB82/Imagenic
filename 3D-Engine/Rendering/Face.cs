@@ -15,6 +15,7 @@ using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -35,9 +36,9 @@ namespace _3D_Engine.SceneObjects.Cameras
             // Draw outline if needed ??
             if (face.DrawOutline)
             {
-                Draw_Edge(face.p1, face.p2, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
-                Draw_Edge(face.p1, face.p3, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
-                Draw_Edge(face.p2, face.p3, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
+                DrawEdge(face.p1, face.p2, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
+                DrawEdge(face.p1, face.p3, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
+                DrawEdge(face.p2, face.p3, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
             }
 
             // Move the face from model space to camera-view space
@@ -137,7 +138,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                 else
                 {
                     // Sort the vertices by their y-co-ordinate
-                    SortByY
+                    NumericManipulation.SortByY
                     (
                         ref x1, ref y1, ref z1,
                         ref x2, ref y2, ref z2,
@@ -145,9 +146,10 @@ namespace _3D_Engine.SceneObjects.Cameras
                     );
 
                     // Generate z-buffer
-                    InterpolateTriangle
+                    Interpolation.InterpolateTriangle
                     (
-                        face.Colour, ZBufferCheck,
+                        ZBufferCheck,
+                        face.Colour,
                         x1, y1, z1,
                         x2, y2, z2,
                         x3, y3, z3
@@ -156,8 +158,25 @@ namespace _3D_Engine.SceneObjects.Cameras
             }
         }
 
+        // Check if point is visible from the camera
+        private void ZBufferCheck(object colour, int x, int y, float z)
+        {
+            try
+            {
+                if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
+                {
+                    zBuffer.Values[x][y] = z;
+                    colourBuffer.Values[x][y] = (Color)colour;
+                }
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new IndexOutOfRangeException($"Attempted to render outside the canvas at ({x}, {y}, {z})", e);
+            }
+        }
+
         // Shadow Map Check (SMC)
-        private void SMC_Camera_Perspective(
+        private void SMCCameraPerspective(
             int x, int y, float z,
             ref Color pointColour,
             ref Matrix4x4 windowToCameraScreen,

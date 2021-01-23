@@ -8,6 +8,7 @@ namespace _3D_Engine.SceneObjects.Groups
     {
         #region Rotations
 
+        /*
         public override void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {
             base.SetDirection1(newWorldDirectionForward, newWorldDirectionUp);
@@ -72,7 +73,7 @@ namespace _3D_Engine.SceneObjects.Groups
                 );
             }
         }
-
+        */
         #endregion
 
         #region Translations

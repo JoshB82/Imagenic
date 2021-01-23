@@ -24,14 +24,14 @@ namespace _3D_Engine.SceneObjects.Cameras
             Edge edge,
             ref Matrix4x4 modelToCameraView,
             ref Matrix4x4 cameraViewToCameraScreen)
-            => Draw_Edge(
+            => DrawEdge(
                 edge.P1.Point,
                 edge.P2.Point,
                 edge.Colour,
                 ref modelToCameraView,
                 ref cameraViewToCameraScreen);
 
-        private void Draw_Edge(
+        private void DrawEdge(
             Vector4D point1,
             Vector4D point2,
             Color colour,

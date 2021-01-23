@@ -278,13 +278,13 @@ namespace _3D_Engine.SceneObjects.Cameras
             this.CalculateWorldOrigin();
 
             // Generate a shadow map for each light (only if needed)
-            if (Scene.ShadowMapsNeedUpdating)
-            {
+            //if (Scene.ShadowMapsNeedUpdating)
+            //{
                 foreach (Light light in Scene.Lights)
                 {
                     if (light.Visible)
                     {
-                        GenerateShadowMap(light);
+                        light.GenerateShadowMap(Scene);
 
                         #if DEBUG
 
@@ -293,8 +293,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                         #endif
                     }
                 }
-                Scene.ShadowMapsNeedUpdating = false;
-            }
+                //Scene.ShadowMapsNeedUpdating = false;
+            //}
 
             // Generate z buffer
             foreach (SceneObject sceneObject in Scene.SceneObjects)
@@ -423,7 +423,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                             // check all floats and ints
                             if (zBuffer.Values[x][y] != outOfBoundsValue)
                             {
-                                SMC_Camera_Perspective
+                                SMCCameraPerspective
                                 (
                                     x, y, zBuffer.Values[x][y],
                                     ref colourBuffer.Values[x][y],
@@ -436,7 +436,7 @@ namespace _3D_Engine.SceneObjects.Cameras
                     break;
             }
 
-            return CreateBitmap(RenderWidth, RenderHeight, colourBuffer);
+            return CreateBitmap(RenderWidth, RenderHeight, colourBuffer, RenderPixelFormat);
         }
 
         // how works?

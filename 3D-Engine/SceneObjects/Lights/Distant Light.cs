@@ -71,7 +71,7 @@ namespace _3D_Engine.SceneObjects.Lights
                 LightViewClippingPlanes[2].Point.z = shadowMapZNear;
             }
         }
-        public override float Shadow_Map_Z_Far
+        public override float ShadowMapZFar
         {
             get => shadowMapZFar;
             set
@@ -114,7 +114,7 @@ namespace _3D_Engine.SceneObjects.Lights
             ShadowMapWidth = shadow_map_width;
             ShadowMapHeight = shadow_map_height;
             ShadowMapZNear = shadow_map_z_near;
-            Shadow_Map_Z_Far = shadow_map_z_far;
+            ShadowMapZFar = shadow_map_z_far;
 
             string[] iconObjData = Properties.Resources.Distant_Light.Split("\n");
             Icon = new Custom(origin, direction_forward, direction_up, iconObjData)

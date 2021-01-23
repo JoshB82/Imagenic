@@ -15,6 +15,7 @@ using _3D_Engine.SceneObjects.Cameras;
 using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -61,6 +62,7 @@ namespace _3D_Engine.SceneObjects.Groups
 
         #region Methods
 
+        // Add
         public void Add(SceneObject sceneObject)
         {
             SceneObjects.Add(sceneObject);
@@ -86,6 +88,9 @@ namespace _3D_Engine.SceneObjects.Groups
             }
         }
 
+        // Remove
+        public void Remove() { }
+
         #endregion
 
         #region Casting
@@ -96,20 +101,20 @@ namespace _3D_Engine.SceneObjects.Groups
         /// <param name="group"><see cref="Group"/> to cast.</param>
         public static explicit operator Custom(Group group)
         {
-            Vertex[] vertices = new Vertex[0];
-            Edge[] edges = new Edge[0];
-            Face[] faces = new Face[0];
-            Texture[] textures = new Texture[0];
+            List<Vertex> vertices = new();
+            List<Edge> edges = new();
+            List<Face> faces = new();
+            List<Texture> textures = new();
 
-            foreach (Mesh mesh in group.SceneObjects)
+            foreach (Mesh mesh in group.Meshes)
             {
-                vertices = vertices.Concat(mesh.Vertices).ToArray();
-                edges = edges.Concat(mesh.Edges).ToArray();
-                faces = faces.Concat(mesh.Faces).ToArray();
-                textures = textures.Concat(mesh.Textures).ToArray();
+                vertices.AddRange(mesh.Vertices);
+                edges.AddRange(mesh.Edges);
+                faces.AddRange(mesh.Faces);
+                textures.AddRange(mesh.Textures);
             }
 
-            Custom customCast = new Custom(group.WorldOrigin, group.WorldDirectionForward, group.WorldDirectionUp, vertices, edges, faces, textures);
+            Custom customCast = new Custom(group.Meshes[0].WorldOrigin, group.Meshes[0].WorldDirectionForward, group.Meshes[0].WorldDirectionUp, vertices.ToArray(), edges.ToArray(), faces.ToArray(), textures.ToArray());
 
             return customCast;
         }
