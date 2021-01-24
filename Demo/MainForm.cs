@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Cameras;
 using _3D_Engine.SceneObjects.Groups;
+using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using System.Windows.Forms;
@@ -27,8 +28,8 @@ namespace Simple_Demo
             scene.Add(cone);
 
             // Create a light
-            //DistantLight light = new(new(0, 100, 0), scene.Meshes[0], Vector3D.UnitZ);
-            //scene.Add(light);
+            DistantLight light = new(new Vector3D(0, 100, 0), scene.Meshes[0], Vector3D.UnitZ);
+            scene.Add(light);
 
             // Create a camera
             float cameraWidth = pictureBox.Width / 10f, cameraHeight = pictureBox.Height / 10f;
