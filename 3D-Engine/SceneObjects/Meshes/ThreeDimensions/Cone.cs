@@ -51,8 +51,8 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
                 // Vertices
                 // They are defined in anti-clockwise order, looking from above and then downwards.
                 Vertices = new Vertex[resolution + 2];
-                Vertices[0] = new Vertex(Vector4D.Zero);
-                Vertices[1] = new Vertex(Vector4D.UnitY);
+                Vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
+                Vertices[1] = new Vertex(new Vector4D(0, 1, 0, 1));
 
                 float angle = 2 * PI / resolution;
                 for (int i = 0; i < resolution; i++) Vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));

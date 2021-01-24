@@ -56,7 +56,7 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
                 resolution = value;
 
                 Vertices = new Vertex[2 * resolution + 1];
-                Vertices[0] = new Vertex(Vector4D.Zero);
+                Vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
 
                 float angle = 2 * PI / resolution;
                 for (int i = 0; i < resolution; i++)
