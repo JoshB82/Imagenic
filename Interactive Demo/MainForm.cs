@@ -22,5 +22,10 @@ namespace Interactive_Demo
 
 
         }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }
