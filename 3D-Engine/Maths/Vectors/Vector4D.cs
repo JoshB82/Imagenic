@@ -11,6 +11,7 @@
  */
 
 using System;
+
 using static System.MathF;
 
 namespace _3D_Engine.Maths.Vectors

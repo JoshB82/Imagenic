@@ -18,7 +18,7 @@ namespace _3D_Engine.Transformations
     public static partial class Transform
     {
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate_X(System.Single)']/*"/>
-        public static Matrix4x4 Translate_X(float distance)
+        public static Matrix4x4 TranslateX(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
             translation.m03 = distance;
@@ -26,7 +26,7 @@ namespace _3D_Engine.Transformations
         }
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate_Y(System.Single)']/*"/>
-        public static Matrix4x4 Translate_Y(float distance)
+        public static Matrix4x4 TranslateY(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
             translation.m13 = distance;
@@ -34,7 +34,7 @@ namespace _3D_Engine.Transformations
         }
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate_Z(System.Single)']/*"/>
-        public static Matrix4x4 Translate_Z(float distance)
+        public static Matrix4x4 TranslateZ(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
             translation.m23 = distance;
@@ -42,12 +42,12 @@ namespace _3D_Engine.Transformations
         }
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate(System.Single,System.Single,System.Single)']/*"/>
-        public static Matrix4x4 Translate(float distance_x, float distance_y, float distance_z)
+        public static Matrix4x4 Translate(float distanceX, float distanceY, float distanceZ)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
-            translation.m03 = distance_x;
-            translation.m13 = distance_y;
-            translation.m23 = distance_z;
+            translation.m03 = distanceX;
+            translation.m13 = distanceY;
+            translation.m23 = distanceZ;
             return translation;
         }
 
