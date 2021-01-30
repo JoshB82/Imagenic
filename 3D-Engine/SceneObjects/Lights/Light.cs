@@ -170,20 +170,27 @@ namespace _3D_Engine.SceneObjects.Lights
             string file_directory = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(file_directory)) Directory.CreateDirectory(file_directory);
 
-            using (Bitmap shadow_map_bitmap = new Bitmap(ShadowMapWidth, ShadowMapHeight))
+            using (Bitmap shadowMapBitmap = new Bitmap(ShadowMapWidth, ShadowMapHeight))
             {
                 for (int x = 0; x < ShadowMapWidth; x++)
                 {
                     for (int y = 0; y < ShadowMapHeight; y++)
                     {
-                        int value = (255 * ((ShadowMap.Values[x][y] + 1) / 2)).RoundToInt();
+                        if (ShadowMap.Values[x][y] == 2)
+                        {
+                            shadowMapBitmap.SetPixel(x, y, Color.DarkMagenta);
+                        }
+                        else
+                        {
+                            int value = (255 * ((ShadowMap.Values[x][y] + 1) / 2)).RoundToInt();
 
-                        Color greyscale_colour = Color.FromArgb(255, value, value, value);
-                        shadow_map_bitmap.SetPixel(x, y, greyscale_colour);
+                            Color greyscaleColour = Color.FromArgb(255, value, value, value);
+                            shadowMapBitmap.SetPixel(x, y, greyscaleColour);
+                        }
                     }
                 }
 
-                shadow_map_bitmap.Save(filePath, ImageFormat.Bmp);
+                shadowMapBitmap.Save(filePath, ImageFormat.Bmp);
             }
 
             Trace.WriteLine($"Successfully saved shadow map for {GetType().Name}");
