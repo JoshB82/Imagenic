@@ -35,7 +35,7 @@ namespace Interactive_Demo
 
             // Create a light
             DistantLight light = new(new Vector3D(0, 100, 0), scene.Meshes[0], Vector3D.UnitZ);
-            //scene.Add(light);
+            scene.Add(light);
 
             // Create a camera
             float cameraWidth = pictureBox.Width / 10f, cameraHeight = pictureBox.Height / 10f;
@@ -45,7 +45,6 @@ namespace Interactive_Demo
             // Adjust render settings
             camera.MakeRenderSizeOfControl(pictureBox);
 
-            // Render the scene and display the output in the picture box
             camera.Scene = scene;
 
             Thread thread = new Thread(Loop) { IsBackground = true };
