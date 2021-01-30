@@ -25,7 +25,7 @@ namespace _3D_Engine.Transformations
         /// <param name="directionUp">The up direction.</param>
         /// <param name="directionRight">The right direction.</param>
         /// <returns>The forward direction.</returns>
-        public static Vector3D CalculateDirectionForward(Vector3D directionUp, Vector3D directionRight) => directionRight.Cross_Product(directionUp);
+        public static Vector3D CalculateDirectionForward(Vector3D directionUp, Vector3D directionRight) => directionRight.CrossProduct(directionUp);
 
         /// <summary>
         /// Calculates the up direction given the right direction and the forward direction.
@@ -33,7 +33,7 @@ namespace _3D_Engine.Transformations
         /// <param name="directionRight">The right direction.</param>
         /// <param name="directionForward">The forward direction.</param>
         /// <returns>The up direction.</returns>
-        public static Vector3D CalculateDirectionUp(Vector3D directionRight, Vector3D directionForward) => directionForward.Cross_Product(directionRight);
+        public static Vector3D CalculateDirectionUp(Vector3D directionRight, Vector3D directionForward) => directionForward.CrossProduct(directionRight);
         
         /// <summary>
         /// Calculates the right direction given the forward direction and the up direction.
@@ -41,6 +41,6 @@ namespace _3D_Engine.Transformations
         /// <param name="directionForward">The forward direction.</param>
         /// <param name="directionUp">The up direction.</param>
         /// <returns>The right direction.</returns>
-        public static Vector3D CalculateDirectionRight(Vector3D directionForward, Vector3D directionUp) => directionUp.Cross_Product(directionForward);
+        public static Vector3D CalculateDirectionRight(Vector3D directionForward, Vector3D directionUp) => directionUp.CrossProduct(directionForward);
     }
 }

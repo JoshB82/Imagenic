@@ -20,8 +20,8 @@ namespace _3D_Engine.SceneObjects
         /// <param name="newWorldDirectionUp">The up direction.</param>
         public virtual void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {
-            if (newWorldDirectionForward.Approx_Equals(Vector3D.Zero, 1E-6f) ||
-                newWorldDirectionUp.Approx_Equals(Vector3D.Zero, 1E-6f))
+            if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, 1E-6f) ||
+                newWorldDirectionUp.ApproxEquals(Vector3D.Zero, 1E-6f))
                 throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
 
             // if (new_world_direction_forward * new_world_direction_up != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
@@ -44,8 +44,8 @@ namespace _3D_Engine.SceneObjects
         /// <param name="newWorldDirectionRight">The right direction.</param>
         public virtual void SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
         {
-            if (newWorldDirectionUp.Approx_Equals(Vector3D.Zero, 1E-6f) ||
-                newWorldDirectionRight.Approx_Equals(Vector3D.Zero, 1E-6f))
+            if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, 1E-6f) ||
+                newWorldDirectionRight.ApproxEquals(Vector3D.Zero, 1E-6f))
                 throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
 
             // if (new_world_direction_up * new_world_direction_right != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
@@ -67,8 +67,8 @@ namespace _3D_Engine.SceneObjects
         /// <param name="newWorldDirectionForward">The forward direction.</param>
         public virtual void SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
         {
-            if (newWorldDirectionRight.Approx_Equals(Vector3D.Zero, 1E-6f) ||
-                newWorldDirectionForward.Approx_Equals(Vector3D.Zero, 1E-6f))
+            if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, 1E-6f) ||
+                newWorldDirectionForward.ApproxEquals(Vector3D.Zero, 1E-6f))
                 throw new ArgumentException("New direction vector(s) cannot be set to zero vector.");
 
             // if (new_world_direction_right * new_world_direction_forward != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
