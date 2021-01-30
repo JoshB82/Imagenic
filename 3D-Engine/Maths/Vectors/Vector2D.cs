@@ -117,7 +117,7 @@ namespace _3D_Engine.Maths.Vectors
 
         public readonly bool Equals(Vector2D v) => this == v;
 
-        public readonly bool Approx_Equals(Vector2D v, float epsilon = float.Epsilon) => this.x.Approx_Equals(v.x, epsilon) && this.y.Approx_Equals(v.y, epsilon);
+        public readonly bool Approx_Equals(Vector2D v, float epsilon = float.Epsilon) => this.x.ApproxEquals(v.x, epsilon) && this.y.ApproxEquals(v.y, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Vector2D)obj;
 

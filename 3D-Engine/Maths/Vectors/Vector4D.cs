@@ -191,10 +191,10 @@ namespace _3D_Engine.Maths.Vectors
         public readonly bool Equals(Vector4D v) => this == v;
 
         public readonly bool Approx_Equals(Vector4D v, float epsilon = float.Epsilon) =>
-            this.x.Approx_Equals(v.x, epsilon) &&
-            this.y.Approx_Equals(v.y, epsilon) &&
-            this.z.Approx_Equals(v.z, epsilon) &&
-            this.w.Approx_Equals(v.w, epsilon);
+            this.x.ApproxEquals(v.x, epsilon) &&
+            this.y.ApproxEquals(v.y, epsilon) &&
+            this.z.ApproxEquals(v.z, epsilon) &&
+            this.w.ApproxEquals(v.w, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Vector4D)obj;
 

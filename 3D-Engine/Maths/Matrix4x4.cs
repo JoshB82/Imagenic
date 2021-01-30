@@ -203,22 +203,22 @@ namespace _3D_Engine.Maths
         public readonly bool Equals(Matrix4x4 m) => this == m;
 
         public readonly bool Approx_Equals(Matrix4x4 m, float epsilon = float.Epsilon) =>
-            this.m00.Approx_Equals(m.m00, epsilon) &&
-            this.m01.Approx_Equals(m.m01, epsilon) &&
-            this.m02.Approx_Equals(m.m02, epsilon) &&
-            this.m03.Approx_Equals(m.m03, epsilon) &&
-            this.m10.Approx_Equals(m.m10, epsilon) &&
-            this.m11.Approx_Equals(m.m11, epsilon) &&
-            this.m12.Approx_Equals(m.m12, epsilon) &&
-            this.m13.Approx_Equals(m.m13, epsilon) &&
-            this.m20.Approx_Equals(m.m20, epsilon) &&
-            this.m21.Approx_Equals(m.m21, epsilon) &&
-            this.m22.Approx_Equals(m.m22, epsilon) &&
-            this.m23.Approx_Equals(m.m23, epsilon) &&
-            this.m30.Approx_Equals(m.m30, epsilon) &&
-            this.m31.Approx_Equals(m.m31, epsilon) &&
-            this.m32.Approx_Equals(m.m32, epsilon) &&
-            this.m33.Approx_Equals(m.m33, epsilon);
+            this.m00.ApproxEquals(m.m00, epsilon) &&
+            this.m01.ApproxEquals(m.m01, epsilon) &&
+            this.m02.ApproxEquals(m.m02, epsilon) &&
+            this.m03.ApproxEquals(m.m03, epsilon) &&
+            this.m10.ApproxEquals(m.m10, epsilon) &&
+            this.m11.ApproxEquals(m.m11, epsilon) &&
+            this.m12.ApproxEquals(m.m12, epsilon) &&
+            this.m13.ApproxEquals(m.m13, epsilon) &&
+            this.m20.ApproxEquals(m.m20, epsilon) &&
+            this.m21.ApproxEquals(m.m21, epsilon) &&
+            this.m22.ApproxEquals(m.m22, epsilon) &&
+            this.m23.ApproxEquals(m.m23, epsilon) &&
+            this.m30.ApproxEquals(m.m30, epsilon) &&
+            this.m31.ApproxEquals(m.m31, epsilon) &&
+            this.m32.ApproxEquals(m.m32, epsilon) &&
+            this.m33.ApproxEquals(m.m33, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Matrix4x4)obj;
 

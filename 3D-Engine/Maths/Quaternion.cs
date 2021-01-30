@@ -98,10 +98,10 @@ namespace _3D_Engine.Maths
         public readonly bool Equals(Quaternion q) => this == q;
 
         public readonly bool Approx_Equals(Quaternion q, float epsilon = float.Epsilon) =>
-            this.q1.Approx_Equals(q.q1, epsilon) &&
-            this.q2.Approx_Equals(q.q2, epsilon) &&
-            this.q3.Approx_Equals(q.q3, epsilon) &&
-            this.q4.Approx_Equals(q.q4, epsilon);
+            this.q1.ApproxEquals(q.q1, epsilon) &&
+            this.q2.ApproxEquals(q.q2, epsilon) &&
+            this.q3.ApproxEquals(q.q3, epsilon) &&
+            this.q4.ApproxEquals(q.q4, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Quaternion)obj;
 

@@ -127,7 +127,7 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         /// <param name="v">A <see cref="Vector3D"/> used in calculating the cross product with the current <see cref="Vector3D"/> instance.</param>
         /// <returns>The cross product of two <see cref="Vector3D">Vector3Ds</see>.</returns>
-        public readonly Vector3D Cross_Product(Vector3D v) => new Vector3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
+        public readonly Vector3D CrossProduct(Vector3D v) => new Vector3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
 
         /// <summary>
         /// Finds the magnitude of a <see cref="Vector3D"/>.
@@ -146,7 +146,7 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         /// <returns>A normalised <see cref="Vector3D"/>.</returns>
         public readonly Vector3D Normalise() =>
-            this.Approx_Equals(Vector3D.Zero, 1E-6f)
+            this.ApproxEquals(Vector3D.Zero, 1E-6f)
                 ? throw new ArgumentException("Cannot normalise a zero vector.")
                 : this / Magnitude();
 
@@ -157,7 +157,7 @@ namespace _3D_Engine.Maths.Vectors
 
         public readonly bool Equals(Vector3D v) => this == v;
 
-        public readonly bool Approx_Equals(Vector3D v, float epsilon = float.Epsilon) => this.x.Approx_Equals(v.x, epsilon) && this.y.Approx_Equals(v.y, epsilon) && this.z.Approx_Equals(v.z, epsilon);
+        public readonly bool ApproxEquals(Vector3D v, float epsilon = float.Epsilon) => this.x.ApproxEquals(v.x, epsilon) && this.y.ApproxEquals(v.y, epsilon) && this.z.ApproxEquals(v.z, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Vector3D)obj;
 
@@ -188,7 +188,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <param name="p2">Second point on the plane.</param>
         /// <param name="p3">Third point on the plane.</param>
         /// <returns>A normal vector.</returns>
-        public static Vector3D NormalFromPlane(Vector3D p1, Vector3D p2, Vector3D p3) => (p3 - p1).Cross_Product(p2 - p1).Normalise();
+        public static Vector3D NormalFromPlane(Vector3D p1, Vector3D p2, Vector3D p3) => (p3 - p1).CrossProduct(p2 - p1).Normalise();
 
         public static float Point_Distance_From_Plane(Vector3D point, Vector3D plane_point, Vector3D plane_normal) => point * plane_normal - plane_point * plane_normal;
 

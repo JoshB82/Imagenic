@@ -76,8 +76,8 @@ namespace _3D_Engine.SceneObjects
 
         internal virtual void CalculateMatrices()
         {
-            Matrix4x4 directionForwardRotation = Transform.Rotate_Between_Vectors(ModelDirectionForward, WorldDirectionForward);
-            Matrix4x4 directionUpRotation = Transform.Rotate_Between_Vectors((Vector3D)(directionForwardRotation * ModelDirectionUp), WorldDirectionUp);
+            Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(ModelDirectionForward, WorldDirectionForward);
+            Matrix4x4 directionUpRotation = Transform.RotateBetweenVectors((Vector3D)(directionForwardRotation * ModelDirectionUp), WorldDirectionUp);
             Matrix4x4 translation = Transform.Translate(WorldOrigin);
 
             // String the transformations together in the following order:
