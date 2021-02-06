@@ -17,16 +17,44 @@ namespace _3D_Engine.SceneObjects.Lights
             {
                 if (camera.DrawIcon)
                 {
-                    //...
+                    Matrix4x4 modelToLightView = WorldToLightView * camera.Icon.ModelToWorld;
+
+                    foreach (Face face in camera.Icon.Faces)
+                    {
+                        if (face.Visible)
+                        {
+                            CalculateDepth
+                            (
+                                face,
+                                camera.Icon.Dimension,
+                                ref modelToLightView
+                            );
+                        }
+                    }
                 }
             }
+            
             foreach (Light light in group.Lights)
             {
                 if (light.DrawIcon)
                 {
-                    //...
+                    Matrix4x4 modelToLightView = WorldToLightView * light.Icon.ModelToWorld;
+
+                    foreach (Face face in light.Icon.Faces)
+                    {
+                        if (face.Visible)
+                        {
+                            CalculateDepth
+                            (
+                                face,
+                                light.Icon.Dimension,
+                                ref modelToLightView
+                            );
+                        }
+                    }
                 }
             }
+            
             foreach (Mesh mesh in group.Meshes)
             {
                 if (mesh.Visible && mesh.DrawFaces)
@@ -47,6 +75,11 @@ namespace _3D_Engine.SceneObjects.Lights
                     }
                 }
             }
+        }
+
+        private void DirectionArrowsShadowMap()
+        {
+
         }
 
         private void CalculateDepth(

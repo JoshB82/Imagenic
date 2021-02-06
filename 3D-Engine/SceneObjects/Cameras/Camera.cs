@@ -17,7 +17,6 @@ using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Transformations;
 using System;
 using System.Collections.Generic;
@@ -213,6 +212,8 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         public Group Scene { get; set; }
 
+        internal bool RenderNeedsUpdating { get; set; }
+
         #endregion
 
         #region Constructors
@@ -241,7 +242,8 @@ namespace _3D_Engine.SceneObjects.Cameras
         }
 
         public Bitmap Render()
-        {    
+        {
+            
             // Reset scene buffers
             zBuffer.SetAllToValue(outOfBoundsValue);
             colourBuffer.SetAllToValue(RenderBackgroundColour);
@@ -280,122 +282,24 @@ namespace _3D_Engine.SceneObjects.Cameras
             // Generate a shadow map for each light (only if needed)
             //if (Scene.ShadowMapsNeedUpdating)
             //{
-                foreach (Light light in Scene.Lights)
-                {
-                    if (light.Visible)
-                    {
-                        light.GenerateShadowMap(Scene);
-
-                        #if DEBUG
-
-                        light.ExportShadowMap();
-                        
-                        #endif
-                    }
-                }
-                //Scene.ShadowMapsNeedUpdating = false;
-            //}
-
-            // Generate z buffer
-            foreach (SceneObject sceneObject in Scene.SceneObjects)
+            foreach (Light light in Scene.Lights)
             {
-                switch (sceneObject)
+                if (light.Visible)
                 {
-                    case Camera camera when camera.DrawIcon:
-                        Matrix4x4 modelToCameraView = this.WorldToCameraView * camera.Icon.ModelToWorld;
+                    light.GenerateShadowMap(Scene);
 
-                        foreach (Face face in camera.Icon.Faces)
-                        {
-                            AddFaceToZBuffer
-                            (
-                                face,
-                                3,
-                                ref modelToCameraView,
-                                ref this.CameraViewToCameraScreen,
-                                ref cameraScreenToWindow
-                            );
-                        }
-                        break;
-                    case Light light when light.DrawIcon:
-                        modelToCameraView = this.WorldToCameraView * light.Icon.ModelToWorld;
+                    #if DEBUG
 
-                        foreach (Face face in light.Icon.Faces)
-                        {
-                            AddFaceToZBuffer
-                            (
-                                face,
-                                3,
-                                ref modelToCameraView,
-                                ref this.CameraViewToCameraScreen,
-                                ref cameraScreenToWindow
-                            );
-                        }
-                        break;
-                    case Mesh mesh when mesh.Visible && mesh.DrawFaces:
-                        modelToCameraView = this.WorldToCameraView * mesh.ModelToWorld;
-
-                        foreach (Face face in mesh.Faces)
-                        {
-                            if (face.Visible)
-                            {
-                                AddFaceToZBuffer
-                                (
-                                    face,
-                                    mesh.Dimension,
-                                    ref modelToCameraView,
-                                    ref this.CameraViewToCameraScreen,
-                                    ref cameraScreenToWindow
-                                );
-                            }
-                        }
-                        break;
-                }
-
-                if (sceneObject.HasDirectionArrows && sceneObject.DisplayDirectionArrows)
-                {
-                    Arrow directionForward = sceneObject.DirectionArrows.SceneObjects[0] as Arrow;
-                    Arrow directionUp = sceneObject.DirectionArrows.SceneObjects[1] as Arrow;
-                    Arrow directionRight = sceneObject.DirectionArrows.SceneObjects[2] as Arrow;
-
-                    Matrix4x4 directionForwardModelToCameraView = this.WorldToCameraView * directionForward.ModelToWorld;
-                    Matrix4x4 directionUpModelToCameraView = this.WorldToCameraView * directionUp.ModelToWorld;
-                    Matrix4x4 directionRightModelToCameraView = this.WorldToCameraView * directionRight.ModelToWorld;
-
-                    foreach (Face face in directionForward.Faces)
-                    {
-                        AddFaceToZBuffer
-                        (
-                            face,
-                            3,
-                            ref directionForwardModelToCameraView,
-                            ref this.CameraViewToCameraScreen,
-                            ref cameraScreenToWindow
-                        );
-                    }
-                    foreach (Face face in directionUp.Faces)
-                    {
-                        AddFaceToZBuffer
-                        (
-                            face,
-                            3,
-                            ref directionUpModelToCameraView,
-                            ref this.CameraViewToCameraScreen,
-                            ref cameraScreenToWindow
-                        );
-                    }
-                    foreach (Face face in directionRight.Faces)
-                    {
-                        AddFaceToZBuffer
-                        (
-                            face,
-                            3,
-                            ref directionRightModelToCameraView,
-                            ref this.CameraViewToCameraScreen,
-                            ref cameraScreenToWindow
-                        );
-                    }
+                    light.ExportShadowMap();
+                        
+                    #endif
                 }
             }
+                //Scene.ShadowMapsNeedUpdating = false;
+            //}
+            
+            // Generate z buffer
+            GenerateZBuffer(Scene);
 
             // Apply lighting
             switch (this)

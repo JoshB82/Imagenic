@@ -191,7 +191,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <returns>A normal vector.</returns>
         public static Vector3D NormalFromPlane(Vector3D p1, Vector3D p2, Vector3D p3) => (p3 - p1).CrossProduct(p2 - p1).Normalise();
 
-        public static float Point_Distance_From_Plane(Vector3D point, Vector3D plane_point, Vector3D plane_normal) => point * plane_normal - plane_point * plane_normal;
+        public static float PointDistanceFromPlane(Vector3D point, Vector3D plane_point, Vector3D plane_normal) => point * plane_normal - plane_point * plane_normal;
 
         #endregion
 
