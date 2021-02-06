@@ -131,7 +131,7 @@ namespace _3D_Engine.SceneObjects.Cameras
             WorldToCameraView = ModelToWorld.Inverse();
             CameraScreenToWorld = ModelToWorld * CameraViewToCameraScreen.Inverse();
         }
-
+        
         // Clipping planes
         internal ClippingPlane[] CameraViewClippingPlanes;
         internal static readonly ClippingPlane[] CameraScreenClippingPlanes = new ClippingPlane[]
@@ -212,7 +212,8 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         public Group Scene { get; set; }
 
-        internal bool RenderNeedsUpdating { get; set; }
+        internal bool RenderNeedsUpdating { get; set; } = true;
+        internal Bitmap LastRender { get; set; }
 
         #endregion
 
@@ -243,7 +244,8 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         public Bitmap Render()
         {
-            
+            if (!RenderNeedsUpdating) return LastRender;
+
             // Reset scene buffers
             zBuffer.SetAllToValue(outOfBoundsValue);
             colourBuffer.SetAllToValue(RenderBackgroundColour);
@@ -340,7 +342,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                     break;
             }
 
-            return CreateBitmap(RenderWidth, RenderHeight, colourBuffer, RenderPixelFormat);
+            RenderNeedsUpdating = false;
+            return LastRender = CreateBitmap(RenderWidth, RenderHeight, colourBuffer, RenderPixelFormat);
         }
 
         // how works?
