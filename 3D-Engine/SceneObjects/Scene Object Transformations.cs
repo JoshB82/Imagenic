@@ -84,15 +84,18 @@ namespace _3D_Engine.SceneObjects
             OutputDirection();
         }
 
-        private void AdjustVectors(Vector3D direction_forward, Vector3D direction_up, Vector3D direction_right)
+        private void AdjustVectors(Vector3D directionForward, Vector3D directionUp, Vector3D directionRight)
         {
-            WorldDirectionForward = direction_forward;
-            WorldDirectionUp = direction_up;
-            WorldDirectionRight = direction_right;
+            WorldDirectionForward = directionForward;
+            WorldDirectionUp = directionUp;
+            WorldDirectionRight = directionRight;
 
-            ((Arrow)DirectionArrows.SceneObjects[0]).Unit_Vector = direction_forward;
-            ((Arrow)DirectionArrows.SceneObjects[1]).Unit_Vector = direction_up;
-            ((Arrow)DirectionArrows.SceneObjects[2]).Unit_Vector = direction_right;
+            if (HasDirectionArrows)
+            {
+                ((Arrow)DirectionArrows.SceneObjects[0]).Unit_Vector = directionForward;
+                ((Arrow)DirectionArrows.SceneObjects[1]).Unit_Vector = directionUp;
+                ((Arrow)DirectionArrows.SceneObjects[2]).Unit_Vector = directionRight;
+            }
 
             if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true;
         }
