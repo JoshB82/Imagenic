@@ -11,27 +11,27 @@
  */
 
 using _3D_Engine.SceneObjects;
-using _3D_Engine.SceneObjects.Cameras;
-using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
 using _3D_Engine.SceneObjects.Groups;
+using _3D_Engine.SceneObjects.RenderingObjects.Lights;
+using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 
 namespace _3D_Engine
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Scene"/>.
+    /// Encapsulates creation of a <see cref="Scene2"/>.
     /// </summary>
-    public sealed partial class Scene
+    public sealed partial class Scene2
     {
         #region Fields and Properties
 
         // Components
         /// <summary>
-        /// The background <see cref="Color"/> of the <see cref="Scene"/>.
+        /// The background <see cref="Color"/> of the <see cref="Scene2"/>.
         /// </summary>
         public Color BackgroundColour { get; set; } = Color.White;
 
@@ -59,12 +59,12 @@ namespace _3D_Engine
 
         //??vv
         /// <summary>
-        /// Creates a new <see cref="Scene"/>.
+        /// Creates a new <see cref="Scene2"/>.
         /// </summary>
-        /// <param name="canvas_box">The <see cref="PictureBox"/> where the <see cref="Scene"/> will be rendered.</param>
-        /// <param name="width">The width of the <see cref="Scene"/>.</param>
-        /// <param name="height">The height of the <see cref="Scene"/>.</param>
-        public Scene() => Trace.WriteLine("Scene created");
+        /// <param name="canvas_box">The <see cref="PictureBox"/> where the <see cref="Scene2"/> will be rendered.</param>
+        /// <param name="width">The width of the <see cref="Scene2"/>.</param>
+        /// <param name="height">The height of the <see cref="Scene2"/>.</param>
+        public Scene2() => Trace.WriteLine("Scene created");
 
         #endregion
 
@@ -72,7 +72,7 @@ namespace _3D_Engine
 
         // Add to scene (vv??)
         /// <summary>
-        /// Adds a <see cref="SceneObject"/> to the <see cref="Scene"/>.
+        /// Adds a <see cref="SceneObject"/> to the <see cref="Scene2"/>.
         /// </summary>
         /// <param name="sceneObject"><see cref="SceneObject"/> to add.</param>
         public void Add(SceneObject sceneObject)
@@ -99,7 +99,7 @@ namespace _3D_Engine
 
         //vv??
         /// <summary>
-        /// Adds multiple <see cref="SceneObject">Scene_Objects</see> to the <see cref="Scene"/>.
+        /// Adds multiple <see cref="SceneObject">Scene_Objects</see> to the <see cref="Scene2"/>.
         /// </summary>
         /// <param name="sceneObjects"><see cref="IEnumerable"/> containing <see cref="SceneObject">SceneObjects</see> to add.</param>
         public void Add(IEnumerable<SceneObject> sceneObjects)
@@ -129,7 +129,7 @@ namespace _3D_Engine
 
         // Remove from scene
         /// <summary>
-        /// Removes a <see cref="SceneObject"/> from the <see cref="Scene"/> that matches the specified id.
+        /// Removes a <see cref="SceneObject"/> from the <see cref="Scene2"/> that matches the specified id.
         /// </summary>
         /// <param name="Id">Id of the <see cref="SceneObject"/> to be removed.</param>
         public void Remove(int Id)

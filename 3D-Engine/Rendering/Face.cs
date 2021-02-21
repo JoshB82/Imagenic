@@ -14,25 +14,30 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Groups;
-using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace _3D_Engine.SceneObjects.Cameras
+namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {
-    public abstract partial class Camera : SceneObject
+    public abstract partial class Camera : RenderingObject
     {
-        private void GenerateZBuffer(Group group)
+        protected const byte outOfBoundsValue = 2;
+
+        private void GenerateZBuffer(Group scene)
         {
-            foreach (Camera camera in group.Cameras)
+            zBuffer.SetAllToValue(outOfBoundsValue);
+            colourBuffer.SetAllToValue(RenderBackgroundColour);
+
+            foreach (Camera camera in scene.Cameras)
             {
                 if (camera.DrawIcon)
                 {
-                    Matrix4x4 modelToCameraView = this.WorldToCameraView * camera.Icon.ModelToWorld;
+                    Matrix4x4 modelToView = this.WorldToView * camera.Icon.ModelToWorld;
 
                     foreach (Face face in camera.Icon.Faces)
                     {
@@ -40,20 +45,19 @@ namespace _3D_Engine.SceneObjects.Cameras
                         (
                             face,
                             3,
-                            ref modelToCameraView,
-                            ref this.CameraViewToCameraScreen,
-                            ref cameraScreenToWindow
+                            ref modelToView,
+                            ref this.ViewToScreen,
+                            ref ScreenToWindow
                         );
                     }
                 }
-                DirectionArrowsZBuffer(camera);
             }
 
-            foreach (Light light in group.Lights)
+            foreach (Light light in scene.Lights)
             {
                 if (light.DrawIcon)
                 {
-                    Matrix4x4 modelToCameraView = this.WorldToCameraView * light.Icon.ModelToWorld;
+                    Matrix4x4 modelToView = this.WorldToView * light.Icon.ModelToWorld;
 
                     foreach (Face face in light.Icon.Faces)
                     {
@@ -61,20 +65,19 @@ namespace _3D_Engine.SceneObjects.Cameras
                         (
                             face,
                             3,
-                            ref modelToCameraView,
-                            ref this.CameraViewToCameraScreen,
-                            ref cameraScreenToWindow
+                            ref modelToView,
+                            ref this.ViewToScreen,
+                            ref ScreenToWindow
                         );
                     }
                 }
-                DirectionArrowsZBuffer(light);
             }
 
-            foreach (Mesh mesh in group.Meshes)
+            foreach (Mesh mesh in scene.Meshes)
             {
                 if (mesh.Visible && mesh.DrawFaces)
                 {
-                    Matrix4x4 modelToCameraView = this.WorldToCameraView * mesh.ModelToWorld;
+                    Matrix4x4 modelToView = this.WorldToView * mesh.ModelToWorld;
 
                     foreach (Face face in mesh.Faces)
                     {
@@ -84,61 +87,60 @@ namespace _3D_Engine.SceneObjects.Cameras
                             (
                                 face,
                                 mesh.Dimension,
-                                ref modelToCameraView,
-                                ref this.CameraViewToCameraScreen,
-                                ref cameraScreenToWindow
+                                ref modelToView,
+                                ref this.ViewToScreen,
+                                ref ScreenToWindow
                             );
                         }
                     }
                 }
-                DirectionArrowsZBuffer(mesh);
             }
-        }
 
-        private void DirectionArrowsZBuffer(SceneObject sceneObject)
-        {
-            if (sceneObject.HasDirectionArrows && sceneObject.DisplayDirectionArrows)
+            foreach (SceneObject sceneObject in scene.SceneObjects)
             {
-                Arrow directionForward = sceneObject.DirectionArrows.SceneObjects[0] as Arrow;
-                Arrow directionUp = sceneObject.DirectionArrows.SceneObjects[1] as Arrow;
-                Arrow directionRight = sceneObject.DirectionArrows.SceneObjects[2] as Arrow;
+                if (sceneObject.DisplayDirectionArrows)
+                {
+                    Arrow directionForward = sceneObject.DirectionArrows.SceneObjects[0] as Arrow;
+                    Arrow directionUp = sceneObject.DirectionArrows.SceneObjects[1] as Arrow;
+                    Arrow directionRight = sceneObject.DirectionArrows.SceneObjects[2] as Arrow;
 
-                Matrix4x4 directionForwardModelToCameraView = this.WorldToCameraView * directionForward.ModelToWorld;
-                Matrix4x4 directionUpModelToCameraView = this.WorldToCameraView * directionUp.ModelToWorld;
-                Matrix4x4 directionRightModelToCameraView = this.WorldToCameraView * directionRight.ModelToWorld;
+                    Matrix4x4 directionForwardModelToView = this.WorldToView * directionForward.ModelToWorld;
+                    Matrix4x4 directionUpModelToView = this.WorldToView * directionUp.ModelToWorld;
+                    Matrix4x4 directionRightModelToView = this.WorldToView * directionRight.ModelToWorld;
 
-                foreach (Face face in directionForward.Faces)
-                {
-                    AddFaceToZBuffer
-                    (
-                        face,
-                        3,
-                        ref directionForwardModelToCameraView,
-                        ref this.CameraViewToCameraScreen,
-                        ref cameraScreenToWindow
-                    );
-                }
-                foreach (Face face in directionUp.Faces)
-                {
-                    AddFaceToZBuffer
-                    (
-                        face,
-                        3,
-                        ref directionUpModelToCameraView,
-                        ref this.CameraViewToCameraScreen,
-                        ref cameraScreenToWindow
-                    );
-                }
-                foreach (Face face in directionRight.Faces)
-                {
-                    AddFaceToZBuffer
-                    (
-                        face,
-                        3,
-                        ref directionRightModelToCameraView,
-                        ref this.CameraViewToCameraScreen,
-                        ref cameraScreenToWindow
-                    );
+                    foreach (Face face in directionForward.Faces)
+                    {
+                        AddFaceToZBuffer
+                        (
+                            face,
+                            3,
+                            ref directionForwardModelToView,
+                            ref this.ViewToScreen,
+                            ref ScreenToWindow
+                        );
+                    }
+                    foreach (Face face in directionUp.Faces)
+                    {
+                        AddFaceToZBuffer
+                        (
+                            face,
+                            3,
+                            ref directionUpModelToView,
+                            ref this.ViewToScreen,
+                            ref ScreenToWindow
+                        );
+                    }
+                    foreach (Face face in directionRight.Faces)
+                    {
+                        AddFaceToZBuffer
+                        (
+                            face,
+                            3,
+                            ref directionRightModelToView,
+                            ref this.ViewToScreen,
+                            ref ScreenToWindow
+                        );
+                    }
                 }
             }
         }
@@ -146,9 +148,9 @@ namespace _3D_Engine.SceneObjects.Cameras
         private void AddFaceToZBuffer(
             Face face,
             int meshDimension,
-            ref Matrix4x4 modelToCameraView,
-            ref Matrix4x4 cameraViewToCameraScreen,
-            ref Matrix4x4 cameraScreenToWindow)
+            ref Matrix4x4 modelToView,
+            ref Matrix4x4 viewToScreen,
+            ref Matrix4x4 screenToWindow)
         {
             // Reset the vertices to model space values
             face.ResetVertices();
@@ -156,13 +158,13 @@ namespace _3D_Engine.SceneObjects.Cameras
             // Draw outline if needed ??
             if (face.DrawOutline)
             {
-                DrawEdge(face.p1, face.p2, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
-                DrawEdge(face.p1, face.p3, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
-                DrawEdge(face.p2, face.p3, Color.Black, ref modelToCameraView, ref cameraViewToCameraScreen);
+                DrawEdge(face.p1, face.p2, Color.Black, ref modelToView, ref viewToScreen);
+                DrawEdge(face.p1, face.p3, Color.Black, ref modelToView, ref viewToScreen);
+                DrawEdge(face.p2, face.p3, Color.Black, ref modelToView, ref viewToScreen);
             }
 
-            // Move the face from model space to camera-view space
-            face.ApplyMatrix(modelToCameraView);
+            // Move the face from model space to view space
+            face.ApplyMatrix(modelToView);
 
             if (meshDimension == 3)
             {
@@ -171,15 +173,15 @@ namespace _3D_Engine.SceneObjects.Cameras
                 { return; }
             }
 
-            // Clip the face in camera-view space
-            Queue<Face> faceClipQueue = new();
-            faceClipQueue.Enqueue(face);
-            if (!Clipping.ClipFaces(faceClipQueue, this.CameraViewClippingPlanes)) { return; }
+            // Clip the face in view space
+            Queue<Face> faceClip = new();
+            faceClip.Enqueue(face);
+            if (!Clipping.ClipFaces(faceClip, this.ViewClippingPlanes)) { return; }
 
-            // Move the new triangles from camera-view space to camera-screen space, including a correction for perspective
-            foreach (var clippedFace in faceClipQueue)
+            // Move the new triangles from view space to screen space, including a correction for perspective
+            foreach (Face clippedFace in faceClip)
             {
-                clippedFace.ApplyMatrix(cameraViewToCameraScreen);
+                clippedFace.ApplyMatrix(viewToScreen);
 
                 if (this is PerspectiveCamera)
                 {
@@ -196,18 +198,18 @@ namespace _3D_Engine.SceneObjects.Cameras
                 }
             }
 
-            // Clip the face in camera-screen space
-            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClipQueue, Camera.CameraScreenClippingPlanes)) { return; } // anything outside cube?
+            // Clip the face in screen space
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClip, Camera.CameraScreenClippingPlanes)) { return; } // anything outside cube?
 
-            foreach (Face clippedFace in faceClipQueue)
+            foreach (Face clippedFace in faceClip)
             {
                 // Skip the face if it is flat
                 if ((clippedFace.p1.x == clippedFace.p2.x && clippedFace.p2.x == clippedFace.p3.x) ||
                     (clippedFace.p1.y == clippedFace.p2.y && clippedFace.p2.y == clippedFace.p3.y))
                 { continue; }
 
-                // Move the new triangles from camera-screen space to camera-window space
-                clippedFace.ApplyMatrix(cameraScreenToWindow);
+                // Move the new triangles from screen space to window space
+                clippedFace.ApplyMatrix(screenToWindow);
 
                 // Round the vertices
                 int x1 = clippedFace.p1.x.RoundToInt();
@@ -293,88 +295,6 @@ namespace _3D_Engine.SceneObjects.Cameras
             {
                 throw new IndexOutOfRangeException($"Attempted to render outside the canvas at ({x}, {y}, {z})", e);
             }
-        }
-
-        // Shadow Map Check (SMC)
-        private void SMCCameraPerspective(
-            int x, int y, float z,
-            ref Color pointColour,
-            ref Matrix4x4 windowToCameraScreen,
-            ref Matrix4x4 cameraScreenToWorld)
-        {
-            // Move the point from window space to camera-screen space
-            Vector4D cameraScreenSpacePoint = windowToCameraScreen * new Vector4D(x, y, z, 1);
-
-            // Move the point from camera-screen space to world space
-            cameraScreenSpacePoint *= 2 * this.ZNear * this.ZFar / (this.ZNear + this.ZFar - cameraScreenSpacePoint.z * (this.ZFar - this.ZNear));
-
-            // Apply lighting
-            ApplyLighting(cameraScreenToWorld * cameraScreenSpacePoint, ref pointColour, x, y);
-        }
-
-        // Lighting
-        private void ApplyLighting(
-            Vector4D worldSpacePoint,
-            ref Color pointColour, int x, int y)
-        {
-            bool lightApplied = false;
-
-            foreach (Light light in Scene.Lights)
-            {
-                if (light.Visible)
-                {
-                    // Move the point from world space to light-view space
-                    Vector4D lightViewSpacePoint = light.WorldToLightView * worldSpacePoint;
-
-                    Color newLightColour = light.Colour;
-                    if (light is PointLight or Spotlight)
-                    {
-                        // Darken the Light's colour based on how far away the point is from the light
-                        Vector3D light_to_point = (Vector3D)lightViewSpacePoint;
-                        float distant_intensity = light.Strength / light_to_point.Squared_Magnitude();
-                        newLightColour = light.Colour.Darken_Percentage(distant_intensity);
-                    }
-
-                    // Move the point from light-view space to light-screen space
-                    Vector4D lightScreenSpacePoint = light.LightViewToLightScreen * lightViewSpacePoint;
-                    if (light is PointLight or Spotlight)
-                    {
-                        lightScreenSpacePoint /= lightScreenSpacePoint.w;
-                    }
-
-                    Vector4D lightWindowSpacePoint = light.LightScreenToLightWindow * lightScreenSpacePoint;
-
-                    // Round the points
-                    int light_point_x = lightWindowSpacePoint.x.RoundToInt();
-                    int light_point_y = lightWindowSpacePoint.y.RoundToInt();
-                    float light_point_z = lightWindowSpacePoint.z;
-
-                    //Trace.WriteLine("The following light point has been calculated: "+new Vector3D(light_point_x,light_point_y,light_point_z));
-
-                    if (light_point_x >= 0 && light_point_x < light.ShadowMapWidth &&
-                        light_point_y >= 0 && light_point_y < light.ShadowMapHeight)
-                    {
-                        if (light_point_z.Approx_Less_Than_Equals(light.ShadowMap.Values[light_point_x][light_point_y], 1E-4F))
-                        {
-                            // Point is not in shadow and light does contribute to the point's overall colour
-                            pointColour = pointColour.Mix(newLightColour);
-                            lightApplied = true;
-
-                            /*if (light_point_z < -1) light_point_z = -1;
-                            if (light_point_z > 1) light_point_z = 1;
-
-                            int value = (255 * ((light_point_z + 1) / 2)).Round_to_Int();
-                            Color greyscale_colour = Color.FromArgb(255, value, value, value);
-                            bitmap.SetPixel(light_point_x, light_point_y, greyscale_colour);*/
-                            
-                            // Trace.WriteLine("Lighting was added at "+new Vector3D(light_point_x,light_point_y,light_point_z)+" and the shadow map point z was: "+light.Shadow_Map[light_point_x][light_point_y]);
-                        }
-                    }
-                }
-            }
-
-            // Update the colour buffer (use black if there are no lights affecting the point)
-            colourBuffer.Values[x][y] = lightApplied ? pointColour : Color.Black;
         }
     }
 }

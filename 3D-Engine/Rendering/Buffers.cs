@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Drawing;
 
-namespace _3D_Engine.SceneObjects.Cameras
+namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {
-    public abstract partial class Camera : SceneObject
+    public abstract partial class Camera : RenderingObject
     {
-        
-
         private void TexturedCheckAgainstZBuffer(Bitmap texture, int x, int y, float z, int tx, int ty)
         {
             try

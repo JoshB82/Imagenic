@@ -10,10 +10,10 @@
  * Encapsulates creation of a group.
  */
 
-using _3D_Engine.SceneObjects.Cameras;
-using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System.Collections.Generic;
 
 namespace _3D_Engine.SceneObjects.Groups
@@ -31,22 +31,8 @@ namespace _3D_Engine.SceneObjects.Groups
         public List<Camera> Cameras { get; set; } = new();
         public List<Light> Lights { get; set; } = new();
         public List<Mesh> Meshes { get; set; } = new();
-        /*
-        public override Vector3D WorldOrigin
-        {
-            get => base.WorldOrigin;
-            set
-            {
-                base.WorldOrigin = value;
-                if (SceneObjects is not null)
-                {
-                    foreach (SceneObject sceneObject in SceneObjects)
-                    {
-                        sceneObject.WorldOrigin += value - base.WorldOrigin;
-                    }
-                }
-            }
-        }*/
+
+        internal Camera RenderCamera { get; set; }
 
         #endregion
 
@@ -75,6 +61,12 @@ namespace _3D_Engine.SceneObjects.Groups
                 case Mesh mesh:
                     Meshes.Add(mesh);
                     break;
+            }
+
+            if (RenderCamera is not null)
+            {
+                RenderCamera.NewRenderNeeded = true;
+                sceneObject.RenderCamera = RenderCamera;
             }
         }
         public void Add(Group group) => Add(group.SceneObjects);

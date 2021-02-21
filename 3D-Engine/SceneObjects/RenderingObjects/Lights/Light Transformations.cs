@@ -1,8 +1,8 @@
 ﻿using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.SceneObjects.Lights
+namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 {
-    public abstract partial class Light : SceneObject
+    public abstract partial class Light : RenderingObject
     {
         public override void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {

@@ -1,6 +1,6 @@
 ﻿using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.SceneObjects.Lights
+namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 {
     public sealed class PointLight : Light
     {

@@ -1,8 +1,8 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Cameras;
-using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Transformations;
 using System;
 using System.Diagnostics;
@@ -34,7 +34,7 @@ namespace _3D_Engine.SceneObjects
                 newWorldDirectionUp,
                 Transform.CalculateDirectionRight(newWorldDirectionForward, newWorldDirectionUp)
             );
-            Output_Direction();
+            OutputDirection();
         }
         
         /// <summary>
@@ -58,7 +58,7 @@ namespace _3D_Engine.SceneObjects
                 newWorldDirectionUp,
                 newWorldDirectionRight
             );
-            Output_Direction();
+            OutputDirection();
         }
         /// <summary>
         /// Sets the forward, up and right directions given the right and forward directions.
@@ -81,7 +81,7 @@ namespace _3D_Engine.SceneObjects
                 Transform.CalculateDirectionUp(newWorldDirectionRight, newWorldDirectionForward),
                 newWorldDirectionRight
             );
-            Output_Direction();
+            OutputDirection();
         }
 
         private void AdjustVectors(Vector3D direction_forward, Vector3D direction_up, Vector3D direction_right)
@@ -90,14 +90,13 @@ namespace _3D_Engine.SceneObjects
             WorldDirectionUp = direction_up;
             WorldDirectionRight = direction_right;
 
-            if (HasDirectionArrows && DirectionArrows is not null)
-            {
-                ((Arrow)DirectionArrows.SceneObjects[0]).Unit_Vector = direction_forward;
-                ((Arrow)DirectionArrows.SceneObjects[1]).Unit_Vector = direction_up;
-                ((Arrow)DirectionArrows.SceneObjects[2]).Unit_Vector = direction_right;
-            }
+            ((Arrow)DirectionArrows.SceneObjects[0]).Unit_Vector = direction_forward;
+            ((Arrow)DirectionArrows.SceneObjects[1]).Unit_Vector = direction_up;
+            ((Arrow)DirectionArrows.SceneObjects[2]).Unit_Vector = direction_right;
+
+            if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true;
         }
-        private void Output_Direction()
+        private void OutputDirection()
         {
             if (!Settings.Trace_Output) return;
 

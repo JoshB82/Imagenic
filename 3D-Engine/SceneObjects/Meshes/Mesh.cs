@@ -76,7 +76,7 @@ namespace _3D_Engine.SceneObjects.Meshes
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Casts_Shadows']/*"/>
         public bool Casts_Shadows { get; set; } = true;
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
-        public bool Draw_Outline { get; set; } = false;
+        public bool DrawOutline { get; set; } = false;
 
         // Matrices and Vectors
         internal override void CalculateMatrices()
@@ -92,7 +92,7 @@ namespace _3D_Engine.SceneObjects.Meshes
 
         #region Constructors
 
-        internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows) { }
+        internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp) { }
 
         #endregion
     }

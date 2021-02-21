@@ -1,10 +1,10 @@
 ﻿using _3D_Engine.Rendering;
 using System.Drawing;
 
-namespace _3D_Engine.SceneObjects.Cameras
+namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {
     
-    public abstract partial class Camera : SceneObject
+    public abstract partial class Camera : RenderingObject
     {
         
 

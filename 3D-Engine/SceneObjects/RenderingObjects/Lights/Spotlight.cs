@@ -3,7 +3,7 @@ using _3D_Engine.Maths.Vectors;
 
 using static _3D_Engine.Properties.Settings;
 
-namespace _3D_Engine.SceneObjects.Lights
+namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 {
     public sealed class Spotlight : Light
     {
@@ -20,7 +20,7 @@ namespace _3D_Engine.SceneObjects.Lights
                 shadow_map_width = value;
 
                 // Update shadow map
-                SetShadowMap();
+                UpdateProperties();
 
                 // Update light-view-to-light-screen matrix
                 LightViewToLightScreen.m00 = 2 * shadow_map_z_near / shadow_map_width;
@@ -35,7 +35,7 @@ namespace _3D_Engine.SceneObjects.Lights
                 shadow_map_height = value;
                 
                 // Update shadow map
-                SetShadowMap();
+                UpdateProperties();
 
                 // Update light-view-to-light-screen matrix
                 LightViewToLightScreen.m11 = 2 * shadow_map_z_near / shadow_map_height;

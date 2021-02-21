@@ -103,7 +103,13 @@ namespace _3D_Engine.Transformations
                 );
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})']/*"/>
+        /// <summary>
+        /// Creates a rotation <see cref="Matrix4x4"/> that rotates one <see cref="Vector3D" /> onto another. A rotation axis must be supplied if <see cref="Vector3D" > Vector3Ds </ see > are antiparallel.
+        /// </summary>
+        /// <param name="v1">The first <see cref="Vector3D"/>.</param>
+        /// <param name="v2">The second <see cref="Vector3D"/>.</param>
+        /// <param name="axis">Axis that will be rotated around if <see cref="Vector3D">Vector3Ds</see> are antiparallel.</param>
+        /// <returns>A rotation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 RotateBetweenVectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
             if (v1.ApproxEquals(v2, 1E-6f)) return Matrix4x4.Identity;

@@ -4,7 +4,7 @@ using static System.MathF;
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
-    public class Ellipse : Mesh
+    public sealed class Ellipse : Mesh
     {
         #region Fields and Properties
 

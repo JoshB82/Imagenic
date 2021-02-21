@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="_3D_Engine.SceneObjects.SceneObject" Collapsed="true">
+    <Position X="28.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgAKAAYAAIAAACAtABIQAABA0AAAQAAJBAAECBAAFgA=</HashCode>
+      <FileName>SceneObjects\Scene Object Transformations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Cameras.Camera" Collapsed="true">
+    <Position X="45.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADIgUTCYEAhYEAAQAEBIAAQGUoKSAAABABAABAiDNxA=</HashCode>
+      <FileName>Rendering\BitmapGeneration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Cameras.OrthogonalCamera" Collapsed="true">
+    <Position X="43.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABBgAAAQYYAAAAEAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Cameras\Orthogonal Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Cameras.PerspectiveCamera" Collapsed="true">
+    <Position X="45.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABJhAAAQgQAAAAEAAAAAAAAAAAgAAAAgAAAA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Cameras\Perspective Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Cameras.StereoCamera" Collapsed="true">
+    <Position X="48" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABBhAAAQAQAAAAEAAAAAAAAAAAgAAAAgAAAA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Cameras\Stereo Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Lights.Light" Collapsed="true">
+    <Position X="52.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FAAAAAAAAAAAAAABAARAAAAEAJRAAAAAQAAFBBAAAAA=</HashCode>
+      <FileName>Rendering\Shadow Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Lights.Ambient_Light" Collapsed="true">
+    <Position X="57.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Lights\Ambient Light.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Lights.DistantLight" Collapsed="true">
+    <Position X="50.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABBAEAIAIAAAAAAAABBBAAAAIA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Lights\Distant Light.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Lights.PointLight" Collapsed="true">
+    <Position X="52.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAIAAAAAAAAABBAAAAAA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Lights\Point Light.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.Lights.Spotlight" Collapsed="true">
+    <Position X="54.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABBAAAAAIAAAAAAAAADBAMAAAA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Lights\Spotlight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Groups.Group" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAgAAAAAAEAgAAAABgAA0EIAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Groups\Group Transformations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Groups.Scene" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Groups\Scene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.Components.Edge" Collapsed="true">
+    <Position X="60.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAACAAAAIAAAAABAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\Components\Edge.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.Components.Face" Collapsed="true">
+    <Position X="57.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAgAgAEAAgAAAAAAAAFQIAABGBCAAIgAgAABAAAIA=</HashCode>
+      <FileName>SceneObjects\Meshes\Components\Face.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.Components.Texture" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="59" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAgAAEAEAAAAEAAAAAAAABA=</HashCode>
+      <FileName>SceneObjects\Meshes\Components\Texture.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.Components.Vertex" Collapsed="true">
+    <Position X="60.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\Components\Vertex.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.OneDimension.WorldPoint" Collapsed="true">
+    <Position X="23.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\OneDimension\World Point.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.ThreeDimensions.Arrow" Collapsed="true">
+    <Position X="30" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hBAQAAABAAAAAQAAAEAAAABAIAAgCAAAAAYEAIAARAA=</HashCode>
+      <FileName>SceneObjects\Meshes\ThreeDimensions\Arrow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.ThreeDimensions.Cone" Collapsed="true">
+    <Position X="36.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAADAAAAAQAAAAAACAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\ThreeDimensions\Cone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.ThreeDimensions.Cube" Collapsed="true">
+    <Position X="3" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAgAAAAIAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\ThreeDimensions\Cube.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.ThreeDimensions.Cuboid" Collapsed="true">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAABAAAAAQAQEAAAEBAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\ThreeDimensions\Cuboid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.ThreeDimensions.Cylinder" Collapsed="true">
+    <Position X="14.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAADAAAAAQAAAAAACAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\ThreeDimensions\Cylinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.ThreeDimensions.Sphere" Collapsed="true">
+    <Position X="18.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\ThreeDimensions\Sphere.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.ThreeDimensions.Text3D" Collapsed="true">
+    <Position X="25.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAgAAAAAAAAAAAAAAAAAAgBAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\ThreeDimensions\Text3D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.ThreeDimensions.Torus" Collapsed="true">
+    <Position X="32.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\ThreeDimensions\Torus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.TwoDimensions.Bézier_Curve" Collapsed="true">
+    <Position X="39" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\TwoDimensions\Bézier Curve.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.TwoDimensions.Circle" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAACAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\TwoDimensions\Circle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.TwoDimensions.Ellipse" Collapsed="true">
+    <Position X="12" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAgAAggAAAAAAAACAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\TwoDimensions\Ellipse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.TwoDimensions.Line" Collapsed="true">
+    <Position X="16.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAQAAIAAQAA=</HashCode>
+      <FileName>SceneObjects\Meshes\TwoDimensions\Line.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.TwoDimensions.Plane" Collapsed="true">
+    <Position X="21" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAQEAAAEBAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\TwoDimensions\Plane.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.TwoDimensions.Ring" Collapsed="true">
+    <Position X="27.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAQAAAAAAAIABAAAAAACAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\TwoDimensions\Ring.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.TwoDimensions.Square" Collapsed="true">
+    <Position X="34.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>SceneObjects\Meshes\TwoDimensions\Square.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.TwoDimensions.Text2D" Collapsed="true">
+    <Position X="41.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAgAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\TwoDimensions\Text2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.Custom" Collapsed="true">
+    <Position X="7.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\Custom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.Meshes.Mesh" Collapsed="true">
+    <Position X="22" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAEIEABAAAIAAAMAAAABQAAQUAAAEIAAEAA=</HashCode>
+      <FileName>SceneObjects\Meshes\Mesh Transformations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.ClippingPlane" Collapsed="true">
+    <Position X="59" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Clipping Plane.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3D_Engine.SceneObjects.RenderingObjects.RenderingObject" Collapsed="true">
+    <Position X="49" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAIABBiAAAABAAAAAEAAgAiABIAAAAAAAAEAEAA=</HashCode>
+      <FileName>SceneObjects\RenderingObjects\Rendering Object.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="_3D_Engine.SceneObjects.VolumeOutline" Collapsed="true">
+    <Position X="59" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>SceneObjects\Scene Object.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="_3D_Engine.SceneObjects.Meshes.Components.Outside_Texture_Behaviour" Collapsed="true">
+    <Position X="57.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>SceneObjects\Meshes\Components\Texture.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

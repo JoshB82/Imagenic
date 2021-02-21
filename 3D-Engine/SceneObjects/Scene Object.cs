@@ -12,12 +12,13 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Miscellaneous;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Transformations;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 
 using static _3D_Engine.Properties.Settings;
@@ -32,19 +33,19 @@ namespace _3D_Engine.SceneObjects
         #region Fields and Properties
 
         // Appearance
+        private bool visible = true;
         /// <summary>
-        /// Determines whether the <see cref="Scene_Object"/> is visible or not.
+        /// Determines whether the <see cref="SceneObject"/> is visible or not.
         /// </summary>
-        public bool Visible { get; set; } = true;
-
-        // Direction Arrows
-        internal Group DirectionArrows { get; }
-        internal bool HasDirectionArrows;
-
-        /// <summary>
-        /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
-        /// </summary>
-        public bool DisplayDirectionArrows { get; set; } = false;
+        public bool Visible
+        {
+            get => visible;
+            set
+            {
+                visible = value;
+                UpdateRenderCamera();
+            }
+        }
 
         // Directions
         internal static readonly Vector3D ModelDirectionForward = Vector3D.UnitZ;
@@ -64,6 +65,22 @@ namespace _3D_Engine.SceneObjects
         /// </summary>
         public Vector3D WorldDirectionRight { get; private set; }
 
+        internal Group DirectionArrows { get; set; }
+
+        private bool displayDirectionArrows = false;
+        /// <summary>
+        /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
+        /// </summary>
+        public bool DisplayDirectionArrows
+        {
+            get => displayDirectionArrows;
+            set
+            {
+                displayDirectionArrows = value;
+                UpdateRenderCamera();
+            }
+        }
+
         // ID
         /// <summary>
         /// The identification number.
@@ -72,7 +89,7 @@ namespace _3D_Engine.SceneObjects
         private static int nextId = -1;
 
         // Matrices
-        internal Matrix4x4 ModelToWorld;
+        internal Matrix4x4 ModelToWorld { get; set; }
 
         internal virtual void CalculateMatrices()
         {
@@ -89,38 +106,46 @@ namespace _3D_Engine.SceneObjects
 
         // Origins
         internal static readonly Vector4D ModelOrigin = Vector4D.UnitW;
-
+        private Vector3D worldOrigin;
         /// <summary>
         /// The position of the <see cref="SceneObject"/> in world space.
         /// </summary>
-        public virtual Vector3D WorldOrigin { get; set; }
+        public Vector3D WorldOrigin
+        {
+            get => worldOrigin;
+            set
+            {
+                worldOrigin = value;
+                UpdateRenderCamera();
+            }
+        }
         internal void CalculateWorldOrigin() => WorldOrigin = (Vector3D)(ModelToWorld * ModelOrigin);
 
-        public List<Scene> ParentScenes { get; set; }
+        // Render Camera
+        internal Camera RenderCamera { get; set; }
+        internal void UpdateRenderCamera()
+        {
+            if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true;
+        }
 
         #endregion
 
         #region Constructors
 
-        internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true)
+        internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp)
         {
             Id = ++nextId;
 
             WorldOrigin = origin;
             SetDirection1(directionForward, directionUp);
 
-            if (HasDirectionArrows = hasDirectionArrows)
-            {
-                List<SceneObject> directionArrows = new()
-                {
-                    new Arrow(origin, WorldDirectionForward, WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Blue }, // Z-axis
-                    new Arrow(origin, WorldDirectionUp, -WorldDirectionForward, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Green }, // Y-axis
-                    new Arrow(origin, WorldDirectionRight, -WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Red } // X-axis
-                };
-                DirectionArrows = new Group(directionArrows);
-            }
+            Arrow DirectionForwardArrow = new(origin, WorldDirectionForward, WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Blue };
+            Arrow DirectionUpArrow = new(origin, WorldDirectionUp, -WorldDirectionForward, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Green };
+            Arrow DirectionRightArrow = new(origin, WorldDirectionRight, -WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Red };
 
-            Trace.WriteLine($"{GetType().Name} created at {origin}");
+            DirectionArrows = new(new List<SceneObject>() { DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow });
+
+            ConsoleOutput.DisplayMessageFromObject(this, $"Created at {origin}");
         }
 
         #endregion

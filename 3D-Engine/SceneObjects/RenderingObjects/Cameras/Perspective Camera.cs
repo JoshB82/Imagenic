@@ -12,11 +12,12 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Drawing;
 
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
-namespace _3D_Engine.SceneObjects.Cameras
+namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="PerspectiveCamera"/>.
@@ -27,7 +28,7 @@ namespace _3D_Engine.SceneObjects.Cameras
 
         private float width, height, z_near, z_far;
 
-        public override float Width
+        public override float ViewWidth
         {
             get => width;
             set
@@ -41,9 +42,11 @@ namespace _3D_Engine.SceneObjects.Cameras
                 float semi_width = width / 2, semi_height = height / 2;
                 CameraViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semi_width, -semi_height, z_near), new Vector3D(-semi_width, semi_height, z_near));
                 CameraViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semi_width, semi_height, z_near), new Vector3D(semi_width, -semi_height, z_near));
+
+                NewRenderNeeded = true;
             }
         }
-        public override float Height
+        public override float ViewHeight
         {
             get => height;
             set
@@ -57,6 +60,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                 float semi_width = width / 2, semi_height = height / 2;
                 CameraViewClippingPlanes[4].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semi_width, semi_height, z_near), new Vector3D(semi_width, semi_height, z_near));
                 CameraViewClippingPlanes[1].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semi_width, -semi_height, z_near), new Vector3D(-semi_width, -semi_height, z_near));
+
+                NewRenderNeeded = true;
             }
         }
         public override float ZNear
@@ -72,6 +77,8 @@ namespace _3D_Engine.SceneObjects.Cameras
 
                 // Update near clipping plane
                 CameraViewClippingPlanes[2].Point.z = z_near;
+
+                NewRenderNeeded = true;
             }
         }
         public override float ZFar
@@ -87,6 +94,8 @@ namespace _3D_Engine.SceneObjects.Cameras
                 
                 // Update far clipping plane
                 CameraViewClippingPlanes[5].Point.z = z_far;
+
+                NewRenderNeeded = true;
             }
         }
 
@@ -114,17 +123,59 @@ namespace _3D_Engine.SceneObjects.Cameras
             ZNear = z_near;
             ZFar = z_far;
             this.height = height;
-            Width = width;
-            Height = height;
+            ViewWidth = width;
+            ViewHeight = height;
         }
 
-        public PerspectiveCamera Perspective_Camera_Angle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+        public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
 
         public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.WorldOrigin - origin, direction_up) { }
 
         public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.WorldOrigin - origin, direction_up, width, height, z_near, z_far) { }
 
-        public PerspectiveCamera Perspective_Camera_Angle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+        public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+
+        #endregion
+
+        #region Methods
+
+        internal override void ProcessLighting()
+        {
+            for (int x = 0; x < renderWidth; x++)
+            {
+                for (int y = 0; y < renderHeight; y++)
+                {
+                    // check all floats and ints
+                    if (zBuffer.Values[x][y] != outOfBoundsValue)
+                    {
+                        ShadowMapCheck
+                        (
+                            x, y, zBuffer.Values[x][y],
+                            ref colourBuffer.Values[x][y],
+                            ref cameraScreenToWindowInverse,
+                            ref this.CameraScreenToWorld
+                        );
+                    }
+                }
+            }
+        }
+
+        // Shadow Map Check (SMC)
+        private void ShadowMapCheck(
+            int x, int y, float z,
+            ref Color pointColour,
+            ref Matrix4x4 windowToCameraScreen,
+            ref Matrix4x4 cameraScreenToWorld)
+        {
+            // Move the point from window space to camera-screen space
+            Vector4D cameraScreenSpacePoint = windowToCameraScreen * new Vector4D(x, y, z, 1);
+
+            // Move the point from camera-screen space to world space
+            cameraScreenSpacePoint *= 2 * this.ZNear * this.ZFar / (this.ZNear + this.ZFar - cameraScreenSpacePoint.z * (this.ZFar - this.ZNear));
+
+            // Apply lighting
+            ApplyLighting(cameraScreenToWorld * cameraScreenSpacePoint, ref pointColour, x, y);
+        }
 
         #endregion
     }

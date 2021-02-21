@@ -1,9 +1,9 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Cameras;
 using _3D_Engine.SceneObjects.Groups;
-using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System.Windows.Forms;
 
 namespace Simple_Demo
@@ -15,7 +15,7 @@ namespace Simple_Demo
             InitializeComponent();
 
             // Create a new scene
-            Group scene = new();
+            Scene scene = new();
 
             // Create some meshes
             WorldPoint origin = WorldPoint.ZeroOrigin;
@@ -33,15 +33,14 @@ namespace Simple_Demo
 
             // Create a camera
             float cameraWidth = pictureBox.Width / 10f, cameraHeight = pictureBox.Height / 10f;
-            PerspectiveCamera camera = new(new Vector3D(100, 0, 100), scene.SceneObjects[0], Vector3D.UnitY, cameraWidth, cameraHeight, 10, 750);
-            scene.Add(camera);
+            PerspectiveCamera renderCamera = new(new Vector3D(100, 0, 100), scene.SceneObjects[0], Vector3D.UnitY, cameraWidth, cameraHeight, 10, 750);
 
             // Adjust render settings
-            camera.MakeRenderSizeOfControl(pictureBox);
+            renderCamera.MakeRenderSizeOfControl(pictureBox);
 
             // Render the scene and display the output in the picture box
-            camera.Scene = scene;
-            pictureBox.Image = camera.Render();
+            renderCamera.SceneToRender = scene;
+            pictureBox.Image = renderCamera.Render();
         }
     }
 }

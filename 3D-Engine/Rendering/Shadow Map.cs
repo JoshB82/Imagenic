@@ -1,23 +1,40 @@
-﻿using _3D_Engine.Maths;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Encapsulates creation of a shadow map.
+ */
+
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
-using _3D_Engine.SceneObjects.Cameras;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using System.Collections.Generic;
 
-namespace _3D_Engine.SceneObjects.Lights
+namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 {
-    public abstract partial class Light : SceneObject
+    public abstract partial class Light : RenderingObject
     {
-        public void GenerateShadowMap(Group group)
+        private const byte outOfBoundsValue = 2;
+
+        public void GenerateShadowMap(Group scene)
         {
-            foreach (Camera camera in group.Cameras)
+            ShadowMap.SetAllToValue(outOfBoundsValue);
+
+            foreach (Camera camera in scene.Cameras)
             {
                 if (camera.DrawIcon)
                 {
-                    Matrix4x4 modelToLightView = WorldToLightView * camera.Icon.ModelToWorld;
+                    Matrix4x4 modelToView = WorldToView * camera.Icon.ModelToWorld;
 
                     foreach (Face face in camera.Icon.Faces)
                     {
@@ -27,18 +44,18 @@ namespace _3D_Engine.SceneObjects.Lights
                             (
                                 face,
                                 camera.Icon.Dimension,
-                                ref modelToLightView
+                                ref modelToView
                             );
                         }
                     }
                 }
             }
             
-            foreach (Light light in group.Lights)
+            foreach (Light light in scene.Lights)
             {
                 if (light.DrawIcon)
                 {
-                    Matrix4x4 modelToLightView = WorldToLightView * light.Icon.ModelToWorld;
+                    Matrix4x4 modelToView = WorldToView * light.Icon.ModelToWorld;
 
                     foreach (Face face in light.Icon.Faces)
                     {
@@ -48,18 +65,18 @@ namespace _3D_Engine.SceneObjects.Lights
                             (
                                 face,
                                 light.Icon.Dimension,
-                                ref modelToLightView
+                                ref modelToView
                             );
                         }
                     }
                 }
             }
             
-            foreach (Mesh mesh in group.Meshes)
+            foreach (Mesh mesh in scene.Meshes)
             {
                 if (mesh.Visible && mesh.DrawFaces)
                 {
-                    Matrix4x4 modelToLightView = WorldToLightView * mesh.ModelToWorld;
+                    Matrix4x4 modelToView = WorldToView * mesh.ModelToWorld;
 
                     foreach (Face face in mesh.Faces)
                     {
@@ -69,29 +86,66 @@ namespace _3D_Engine.SceneObjects.Lights
                             (
                                 face,
                                 mesh.Dimension,
-                                ref modelToLightView
+                                ref modelToView
                             );
                         }
                     }
                 }
             }
-        }
+        
+            foreach (SceneObject sceneObject in scene.SceneObjects)
+            {
+                if (sceneObject.DisplayDirectionArrows)
+                {
+                    Arrow directionForward = sceneObject.DirectionArrows.SceneObjects[0] as Arrow;
+                    Arrow directionUp = sceneObject.DirectionArrows.SceneObjects[1] as Arrow;
+                    Arrow directionRight = sceneObject.DirectionArrows.SceneObjects[2] as Arrow;
 
-        private void DirectionArrowsShadowMap()
-        {
+                    Matrix4x4 directionForwardModelToView = WorldToView * directionForward.ModelToWorld;
+                    Matrix4x4 directionUpModelToView = WorldToView * directionUp.ModelToWorld;
+                    Matrix4x4 directionRightModelToView = WorldToView * directionRight.ModelToWorld;
 
+                    foreach (Face face in directionForward.Faces)
+                    {
+                        CalculateDepth
+                        (
+                            face,
+                            3,
+                            ref directionForwardModelToView
+                        );
+                    }  
+                    foreach (Face face in directionUp.Faces)
+                    {
+                        CalculateDepth
+                        (
+                            face,
+                            3,
+                            ref directionUpModelToView
+                        );
+                    }
+                    foreach (Face face in directionRight.Faces)
+                    {
+                        CalculateDepth
+                        (
+                            face,
+                            3,
+                            ref directionRightModelToView
+                        );
+                    }
+                }
+            }
         }
 
         private void CalculateDepth(
             Face face,
             int meshDimension,
-            ref Matrix4x4 modelToLightView)
+            ref Matrix4x4 modelToView)
         {
             // Reset the vertices to model space values
             face.ResetVertices();
-
-            // Move the face from model space to light view space
-            face.ApplyMatrix(modelToLightView);
+            
+            // Move the face from model space to view space
+            face.ApplyMatrix(modelToView);
 
             if (meshDimension == 3)
             {
@@ -100,15 +154,15 @@ namespace _3D_Engine.SceneObjects.Lights
                 { return; }
             }
 
-            // Clip the face in light-view space
+            // Clip the face in view space
             Queue<Face> faceClip = new();
             faceClip.Enqueue(face);
-            if (!Clipping.ClipFaces(faceClip, LightViewClippingPlanes)) { return; }
+            if (!Clipping.ClipFaces(faceClip, ViewClippingPlanes)) { return; }
 
-            // Move the new triangles from light-view space to screen space, including a correction for perspective
+            // Move the new triangles from view space to screen space, including a correction for perspective
             foreach (Face clippedFace in faceClip)
             {
-                clippedFace.ApplyMatrix(LightViewToLightScreen);
+                clippedFace.ApplyMatrix(ViewToScreen);
 
                 if (this is PointLight or Spotlight)
                 {
@@ -128,8 +182,8 @@ namespace _3D_Engine.SceneObjects.Lights
                     (clippedFace.p1.y == clippedFace.p2.y && clippedFace.p2.y == clippedFace.p3.y))
                 { continue; }
 
-                // Move the new triangles from light-screen space to light-window space
-                clippedFace.ApplyMatrix(LightScreenToLightWindow);
+                // Move the new triangles from screen space to window space
+                clippedFace.ApplyMatrix(ScreenToWindow);
                 
                 // Round the vertices
                 int x1 = clippedFace.p1.x.RoundToInt();
@@ -164,7 +218,7 @@ namespace _3D_Engine.SceneObjects.Lights
 
         private void MeshDepthFromLight(object @object, int x, int y, float z)
         {
-            if (x < ShadowMapWidth && y < ShadowMapHeight)
+            if (x < WindowWidth && y < WindowHeight)
             {
                 if (z.ApproxLessThan(ShadowMap.Values[x][y], 1E-4f))
                 {

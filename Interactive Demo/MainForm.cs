@@ -1,9 +1,9 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Cameras;
 using _3D_Engine.SceneObjects.Groups;
-using _3D_Engine.SceneObjects.Lights;
 using _3D_Engine.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
@@ -45,7 +45,7 @@ namespace Interactive_Demo
             // Adjust render settings
             camera.MakeRenderSizeOfControl(pictureBox);
 
-            camera.Scene = scene;
+            camera.SceneToRender = scene;
 
             Thread thread = new Thread(Loop) { IsBackground = true };
             thread.Start();
@@ -85,7 +85,7 @@ namespace Interactive_Demo
                 if (updateTime >= updateMinimumTime)
                 {
                     //Update_Position(); uncomment
-                    noUpdates++;
+                    noUpdates++; //?
                     updateTime -= updateMinimumTime;
                 }
 
