@@ -22,70 +22,6 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     /// </summary>
     public sealed class OrthogonalCamera : Camera
     {
-        #region Fields and Properties
-
-        public override float ViewWidth
-        {
-            get => viewWidth;
-            set
-            {
-                NewRenderNeeded = true;
-            }
-        }
-        public override float ViewHeight
-        {
-            get => viewHeight;
-            set
-            {
-                viewHeight = value;
-
-                // Update view-to-screen matrix
-                ViewToScreen.m11 = 2 / viewHeight;
-
-                // Update top and bottom clipping planes
-                ViewClippingPlanes[1].Point.y = -viewHeight / 2;
-                ViewClippingPlanes[4].Point.y = viewHeight / 2;
-
-                NewRenderNeeded = true;
-            }
-        }
-        public override float ZNear
-        {
-            get => zNear;
-            set
-            {
-                zNear = value;
-
-                // Update view-to-screen matrix
-                ViewToScreen.m22 = 2 / (zFar - zNear);
-                ViewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
-
-                // Update near clipping plane
-                ViewClippingPlanes[2].Point.z = zNear;
-
-                NewRenderNeeded = true;
-            }
-        }
-        public override float ZFar
-        {
-            get => zFar;
-            set
-            {
-                zFar = value;
-
-                // Update view-to-screen matrix
-                ViewToScreen.m22 = 2 / (zFar - zNear);
-                ViewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
-
-                // Update far clipping plane
-                ViewClippingPlanes[5].Point.z = zFar;
-
-                NewRenderNeeded = true;
-            }
-        }
-
-        #endregion
-
         #region Constructors
 
         public OrthogonalCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar) { }
@@ -108,9 +44,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         {
             Matrix4x4 windowToWorld = this.ModelToWorld * this.ViewToScreen.Inverse() * cameraScreenToWindowInverse;
 
-            for (int x = 0; x < renderWidth; x++)
+            for (int x = 0; x < RenderWidth; x++)
             {
-                for (int y = 0; y < renderHeight; y++)
+                for (int y = 0; y < RenderHeight; y++)
                 {
                     if (zBuffer.Values[x][y] != outOfBoundsValue)
                     {

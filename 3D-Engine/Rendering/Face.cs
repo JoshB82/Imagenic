@@ -199,7 +199,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             }
 
             // Clip the face in screen space
-            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClip, Camera.CameraScreenClippingPlanes)) { return; } // anything outside cube?
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClip, ScreenClippingPlanes)) { return; } // anything outside cube?
 
             foreach (Face clippedFace in faceClip)
             {

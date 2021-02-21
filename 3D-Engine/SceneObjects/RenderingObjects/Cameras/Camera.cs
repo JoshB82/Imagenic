@@ -31,8 +31,12 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     {
         #region Fields and Properties
 
+        // Buffers
+        protected Buffer2D<Color> colourBuffer;
+        protected Buffer2D<float> zBuffer;
+
         // Matrices
-        internal Matrix4x4 ScreenToWorld { get; set; }
+        internal Matrix4x4 ScreenToWorld;
 
         internal override void CalculateMatrices()
         {
@@ -41,24 +45,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             ScreenToWorld = ModelToWorld * ViewToScreen.Inverse();
         }
 
-        internal static readonly ClippingPlane[] CameraScreenClippingPlanes = new ClippingPlane[]
-        {
-            new(-Vector3D.One, Vector3D.UnitX), // Left
-            new(-Vector3D.One, Vector3D.UnitY), // Bottom
-            new(-Vector3D.One, Vector3D.UnitZ), // Near
-            new(Vector3D.One, Vector3D.UnitNegativeX), // Right
-            new(Vector3D.One, Vector3D.UnitNegativeY), // Top
-            new(Vector3D.One, Vector3D.UnitNegativeZ) // Far
-        };    
-
         internal abstract void ProcessLighting();
 
-        // Buffers
-        protected Buffer2D<Color> colourBuffer;
-        protected Buffer2D<float> zBuffer;
-
         // Matrices
-        
         protected Matrix4x4 cameraScreenToWindowInverse;
 
         // View Volume

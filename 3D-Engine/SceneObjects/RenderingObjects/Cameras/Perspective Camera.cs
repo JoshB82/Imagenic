@@ -25,17 +25,15 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     {
         #region Constructors
 
-        public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar) { }
+        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar) { }
 
-        public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
+        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar)
         {
-            
-
-            ZNear = z_near;
-            ZFar = z_far;
-            this.height = height;
-            ViewWidth = width;
-            ViewHeight = height;
+            ZNear = zNear; //!!
+            ZFar = zFar;
+            this.height = viewHeight;
+            ViewWidth = viewWidth;
+            ViewHeight = viewHeight;
         }
 
         public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
@@ -64,7 +62,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                             x, y, zBuffer.Values[x][y],
                             ref colourBuffer.Values[x][y],
                             ref cameraScreenToWindowInverse,
-                            ref this.CameraScreenToWorld
+                            ref this.ScreenToWorld
                         );
                     }
                 }

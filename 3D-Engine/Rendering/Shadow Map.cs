@@ -173,7 +173,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
             }
 
             // Clip the face in screen space
-            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClip, Camera.CameraScreenClippingPlanes)) { return; }
+            if (Settings.Screen_Space_Clip && !Clipping.ClipFaces(faceClip, ScreenClippingPlanes)) { return; }
 
             foreach (Face clippedFace in faceClip)
             {

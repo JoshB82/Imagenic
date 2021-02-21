@@ -46,7 +46,15 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
         // Clipping Planes
         internal ClippingPlane[] ViewClippingPlanes { get; set; }
-        internal ClippingPlane[] ScreenClippingPlanes { get; set; }
+        internal static readonly ClippingPlane[] ScreenClippingPlanes = new ClippingPlane[]
+        {
+            new(-Vector3D.One, Vector3D.UnitX), // Left
+            new(-Vector3D.One, Vector3D.UnitY), // Bottom
+            new(-Vector3D.One, Vector3D.UnitZ), // Near
+            new(Vector3D.One, Vector3D.UnitNegativeX), // Right
+            new(Vector3D.One, Vector3D.UnitNegativeY), // Top
+            new(Vector3D.One, Vector3D.UnitNegativeZ) // Far
+        };
 
         // Matrices
         internal Matrix4x4 WorldToView { get; set; }
