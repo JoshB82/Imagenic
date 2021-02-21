@@ -22,32 +22,32 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     {
         private void Draw_Edge(
             Edge edge,
-            ref Matrix4x4 modelToCameraView,
-            ref Matrix4x4 cameraViewToCameraScreen)
+            ref Matrix4x4 modelToView,
+            ref Matrix4x4 viewToScreen)
             => DrawEdge(
                 edge.P1.Point,
                 edge.P2.Point,
                 edge.Colour,
-                ref modelToCameraView,
-                ref cameraViewToCameraScreen);
+                ref modelToView,
+                ref viewToScreen);
 
         private void DrawEdge(
             Vector4D point1,
             Vector4D point2,
             Color colour,
-            ref Matrix4x4 modelToCameraView,
-            ref Matrix4x4 cameraViewToCameraScreen)
+            ref Matrix4x4 modelToView,
+            ref Matrix4x4 viewToScreen)
         {
-            // Move the edge from model space to camera-view space
-            point1 = modelToCameraView * point1;
-            point2 = modelToCameraView * point2;
+            // Move the edge from model space to view space
+            point1 = modelToView * point1;
+            point2 = modelToView * point2;
 
-            // Clip the edge in camera-view space
-            if (!Clipping.ClipEdges(this.CameraViewClippingPlanes, ref point1, ref point2)) { return; }
+            // Clip the edge in view space
+            if (!Clipping.ClipEdges(ViewClippingPlanes, ref point1, ref point2)) { return; }
 
-            // Move the edge from camera-view space to camera-screen space, including a correction for perspective
-            point1 = cameraViewToCameraScreen * point1;
-            point2 = cameraViewToCameraScreen * point2;
+            // Move the edge from view space to screen space, including a correction for perspective
+            point1 = viewToScreen * point1;
+            point2 = viewToScreen * point2;
 
             if (this is PerspectiveCamera)
             {
@@ -55,15 +55,15 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                 point2 /= point2.w; 
             }
 
-            // Clip the edge in camera-screen space
+            // Clip the edge in screen space
             if (Settings.Screen_Space_Clip)
             {
-                if (!Clipping.ClipEdges(Camera.CameraScreenClippingPlanes, ref point1, ref point2)) { return; }
+                if (!Clipping.ClipEdges(ScreenClippingPlanes, ref point1, ref point2)) { return; }
             }
 
-            // Mode the edge from camera-screen space to window space
-            point1 = cameraScreenToWindow * point1;
-            point2 = cameraScreenToWindow * point2;
+            // Mode the edge from screen space to window space
+            point1 = ScreenToWindow * point1;
+            point2 = ScreenToWindow * point2;
 
             // Round the vertices
             int resultPoint1X = point1.x.RoundToInt();

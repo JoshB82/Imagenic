@@ -31,7 +31,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         {
             ZNear = zNear; //!!
             ZFar = zFar;
-            this.height = viewHeight;
+            //this.height = viewHeight;
             ViewWidth = viewWidth;
             ViewHeight = viewHeight;
         }
@@ -50,9 +50,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         internal override void ProcessLighting()
         {
-            for (int x = 0; x < renderWidth; x++)
+            for (int x = 0; x < RenderWidth; x++)
             {
-                for (int y = 0; y < renderHeight; y++)
+                for (int y = 0; y < RenderHeight; y++)
                 {
                     // check all floats and ints
                     if (zBuffer.Values[x][y] != outOfBoundsValue)

@@ -25,10 +25,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         #region Constructors
 
-        public StereoCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up)
-        {
-            
-        }
+        public StereoCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar) { }
 
         #endregion
 

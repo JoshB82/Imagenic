@@ -17,10 +17,8 @@ using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Transformations;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-
 using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.SceneObjects
@@ -80,6 +78,7 @@ namespace _3D_Engine.SceneObjects
                 UpdateRenderCamera();
             }
         }
+        internal bool HasDirectionArrows { get; set; } = true;
 
         // ID
         /// <summary>
@@ -139,9 +138,9 @@ namespace _3D_Engine.SceneObjects
             WorldOrigin = origin;
             SetDirection1(directionForward, directionUp);
 
-            Arrow DirectionForwardArrow = new(origin, WorldDirectionForward, WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Blue };
-            Arrow DirectionUpArrow = new(origin, WorldDirectionUp, -WorldDirectionForward, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Green };
-            Arrow DirectionRightArrow = new(origin, WorldDirectionRight, -WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Red };
+            Arrow DirectionForwardArrow = new(origin, WorldDirectionForward, WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution) { FaceColour = Color.Blue, HasDirectionArrows = false };
+            Arrow DirectionUpArrow = new(origin, WorldDirectionUp, -WorldDirectionForward, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution) { FaceColour = Color.Green, HasDirectionArrows = false };
+            Arrow DirectionRightArrow = new(origin, WorldDirectionRight, -WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution) { FaceColour = Color.Red, HasDirectionArrows = false };
 
             DirectionArrows = new(new List<SceneObject>() { DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow });
 
@@ -149,25 +148,5 @@ namespace _3D_Engine.SceneObjects
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// Encapsulates options regarding how view volume outlines are drawn.
-    /// </summary>
-    [Flags]
-    public enum VolumeOutline : byte
-    {
-        /// <summary>
-        /// Indicates that no view volume outline should be drawn.
-        /// </summary>
-        None = 0,
-        /// <summary>
-        /// Indicates that a view volume outline should be drawn from the origin to the near plane.
-        /// </summary>
-        Near = 1,
-        /// <summary>
-        /// Indicates that a view volume outline should be drawn from the origin to the far plane.
-        /// </summary>
-        Far = 2
     }
 }

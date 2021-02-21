@@ -29,7 +29,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 
         public DistantLight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength) : this(origin, directionForward, directionUp, strength, Default.ShadowMapWidth, Default.ShadowMapHeight, Default.ShadowMapZNear, Default.ShadowMapZFar) { }
 
-        public DistantLight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, int width, int height, float zNear, float zFar) : base(origin, directionForward, directionUp)
+        public DistantLight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, int viewWidth, int viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar)
         {
             Strength = strength;   
 

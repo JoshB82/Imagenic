@@ -98,7 +98,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
             foreach (SceneObject sceneObject in scene.SceneObjects)
             {
-                if (sceneObject.DisplayDirectionArrows)
+                if (sceneObject.HasDirectionArrows && sceneObject.DisplayDirectionArrows)
                 {
                     Arrow directionForward = sceneObject.DirectionArrows.SceneObjects[0] as Arrow;
                     Arrow directionUp = sceneObject.DirectionArrows.SceneObjects[1] as Arrow;

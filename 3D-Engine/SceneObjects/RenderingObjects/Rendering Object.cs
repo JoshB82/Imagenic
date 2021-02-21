@@ -10,6 +10,7 @@
  * Encapsulates creation of a rendering object.
  */
 
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes;

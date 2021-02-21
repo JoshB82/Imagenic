@@ -18,80 +18,14 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 {
     public sealed class Spotlight : Light
     {
-        #region Fields and Properties
-
-        private int shadow_map_width, shadow_map_height;
-        private float shadow_map_z_near, shadowMapZFar;
-
-        public override int ShadowMapWidth
-        {
-            get => shadow_map_width;
-            set
-            {
-                shadow_map_width = value;
-
-                // Update shadow map
-                UpdateProperties();
-
-                // Update light-view-to-light-screen matrix
-                LightViewToLightScreen.m00 = 2 * shadow_map_z_near / shadow_map_width;
-            }
-        }
-
-        public override int ShadowMapHeight
-        {
-            get => shadow_map_height;
-            set
-            {
-                shadow_map_height = value;
-                
-                // Update shadow map
-                UpdateProperties();
-
-                // Update light-view-to-light-screen matrix
-                LightViewToLightScreen.m11 = 2 * shadow_map_z_near / shadow_map_height;
-            }
-        }
-
-        public override float ShadowMapZNear
-        {
-            get => shadow_map_z_near;
-            set
-            {
-                shadow_map_z_near = value;
-
-                // Update light-view-to-light-screen matrix
-                LightViewToLightScreen.m22 = (shadowMapZFar + shadow_map_z_near) / (shadowMapZFar - shadow_map_z_near);
-                LightViewToLightScreen.m23 = -(2 * shadowMapZFar * shadow_map_z_near) / (shadowMapZFar - shadow_map_z_near);
-            }
-        }
-
-        public override float ShadowMapZFar
-        {
-            get => shadowMapZFar;
-            set
-            {
-                shadowMapZFar = value;
-
-                // Update light-view-to-light-screen matrix
-                LightViewToLightScreen.m22 = (shadowMapZFar + shadow_map_z_near) / (shadowMapZFar - shadow_map_z_near);
-                LightViewToLightScreen.m23 = -(2 * shadowMapZFar * shadow_map_z_near) / (shadowMapZFar - shadow_map_z_near);
-            }
-        }
-
-        #endregion
-
         #region Constructors
         
-        public Spotlight(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float strength) : base(origin, direction_forward, direction_up)
+        public Spotlight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar)
         {
-            LightViewToLightScreen = Matrix4x4.Zero;
-            LightViewToLightScreen.m32 = 1;
-
-            ShadowMapWidth = Default.ShadowMapWidth;
-            ShadowMapHeight = Default.ShadowMapHeight;
-            ShadowMapZNear = Default.ShadowMapZNear;
-            ShadowMapZFar = Default.ShadowMapZFar;
+            ViewWidth = Default.ShadowMapWidth;
+            ViewHeight = Default.ShadowMapHeight;
+            ZNear = Default.ShadowMapZNear;
+            ZFar = Default.ShadowMapZFar;
 
             Strength = strength;
         }

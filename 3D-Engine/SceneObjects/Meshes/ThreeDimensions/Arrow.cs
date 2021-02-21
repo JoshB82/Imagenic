@@ -1,9 +1,20 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Encapsulates creation of an arrow.
+ */
+
+using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 using System.Drawing;
-
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
@@ -92,31 +103,31 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
 
         #region Constructors
 
-        public Arrow(Vector3D start_position, Vector3D end_position, Vector3D direction_up, float body_radius, float tip_length, float tip_radius, int resolution, bool has_direction_arrows = true) : base(start_position, end_position - start_position, direction_up, has_direction_arrows)
+        public Arrow(Vector3D startPosition, Vector3D endPosition, Vector3D directionUp, float bodyRadius, float tipLength, float tipRadius, int resolution) : base(startPosition, endPosition - startPosition, directionUp)
         {
             Dimension = 3;
 
-            Start_Position = start_position;
-            Body_Length = (end_position - start_position).Magnitude() - tip_length;
-            Tip_Length = tip_length;
-            End_Position = end_position;
-            Body_Radius = body_radius;
-            Tip_Radius = tip_radius;
+            Start_Position = startPosition;
+            Body_Length = (endPosition - startPosition).Magnitude() - tipLength;
+            Tip_Length = tipLength;
+            End_Position = endPosition;
+            Body_Radius = bodyRadius;
+            Tip_Radius = tipRadius;
             Resolution = resolution;
 
             // Vertices are defined in anti-clockwise order.
             Vertices = new Vertex[3 * resolution + 3];
             Vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
             Vertices[1] = new Vertex(new Vector4D(Vector3D.UnitZ * body_length, 1));
-            Vertices[2] = new Vertex(new Vector4D(Vector3D.UnitZ * (body_length + tip_length), 1));
+            Vertices[2] = new Vertex(new Vector4D(Vector3D.UnitZ * (body_length + tipLength), 1));
 
             float angle = 2 * PI / resolution;
             for (int i = 0; i < resolution; i++)
             {
                 float sin = Sin(angle * i), cos = Cos(angle * i);
-                Vertices[i + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, 0, 1));
-                Vertices[i + resolution + 3] = new Vertex(new Vector4D(cos * body_radius, sin * body_radius, body_length, 1));
-                Vertices[i + 2 * resolution + 3] = new Vertex(new Vector4D(cos * tip_radius, sin * tip_radius, body_length, 1));
+                Vertices[i + 3] = new Vertex(new Vector4D(cos * bodyRadius, sin * bodyRadius, 0, 1));
+                Vertices[i + resolution + 3] = new Vertex(new Vector4D(cos * bodyRadius, sin * bodyRadius, body_length, 1));
+                Vertices[i + 2 * resolution + 3] = new Vertex(new Vector4D(cos * tipRadius, sin * tipRadius, body_length, 1));
             }
 
             Edges = new Edge[5 * resolution];
@@ -158,7 +169,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
             Faces[6 * resolution - 1] = new Face(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3], Vertices[2]);
         }
 
-        public Arrow(Vector3D start_position, Vector3D unit_vector, Vector3D direction_up, float body_length, float body_radius, float tip_length, float tip_radius, int resolution, bool has_direction_arrows = true) : this(start_position, unit_vector * (body_length + tip_length) + start_position, direction_up, body_radius, tip_length, tip_radius, resolution, has_direction_arrows) { }
+        public Arrow(Vector3D startPosition, Vector3D unitVector, Vector3D directionUp, float bodyLength, float bodyRadius, float tipLength, float tipRadius, int resolution) : this(startPosition, unitVector * (bodyLength + tipLength) + startPosition, directionUp, bodyRadius, tipLength, tipRadius, resolution) { }
 
         #endregion
     }
