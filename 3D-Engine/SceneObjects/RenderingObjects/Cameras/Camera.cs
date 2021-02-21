@@ -61,6 +61,73 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         
         protected Matrix4x4 cameraScreenToWindowInverse;
 
+        // View Volume
+        public override float ViewWidth
+        {
+            get => base.ViewWidth;
+            set
+            {
+                base.ViewWidth = value;
+                NewRenderNeeded = true;
+            }
+        }
+        public override float ViewHeight
+        {
+            get => base.ViewHeight;
+            set
+            {
+                base.ViewHeight = value;
+                NewRenderNeeded = true;
+            }
+        }
+        public override float ZNear
+        {
+            get => base.ZNear;
+            set
+            {
+                base.ZNear = value;
+                NewRenderNeeded = true;
+            }
+        }
+        public override float ZFar
+        {
+            get => base.ZFar;
+            set
+            {
+                base.ZFar = value;
+                NewRenderNeeded = true;
+            }
+        }
+        public override int RenderWidth
+        {
+            get => base.RenderWidth;
+            set
+            {
+                base.RenderWidth = value;
+                UpdateProperties();
+            }
+        }
+        public override int RenderHeight
+        {
+            get => base.RenderHeight;
+            set
+            {
+                base.RenderHeight = value;
+                UpdateProperties();
+            }
+        }
+
+        private void UpdateProperties()
+        {
+            colourBuffer = new(RenderWidth, RenderHeight);
+            zBuffer = new(RenderWidth, RenderHeight);
+
+            ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * windowTranslate;
+            cameraScreenToWindowInverse = ScreenToWindow.Inverse();
+
+            NewRenderNeeded = true;
+        }
+
         // Render
         internal Bitmap LastRender { get; set; }
         internal bool NewRenderNeeded { get; set; } = true;
@@ -72,40 +139,10 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 renderBackgroundColour = value;
-                if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true;
+                NewRenderNeeded = true;
             }
         }
 
-        protected int renderWidth, renderHeight;
-        public int RenderWidth
-        {
-            get => renderWidth;
-            set
-            {
-                renderWidth = value;
-                UpdateProperties();
-            }
-        }
-        public int RenderHeight
-        {
-            get => renderHeight;
-            set
-            {
-                renderHeight = value;
-                UpdateProperties();
-            }
-        }
-        private void UpdateProperties()
-        {
-            colourBuffer = new(renderWidth, renderHeight);
-            zBuffer = new(renderWidth, renderHeight);
-
-            ScreenToWindow = Transform.Scale(0.5f * (renderWidth - 1), 0.5f * (renderHeight - 1), 1) * windowTranslate;
-            cameraScreenToWindowInverse = ScreenToWindow.Inverse();
-
-            NewRenderNeeded = true;
-        }
-        
         public void MakeRenderSizeOfControl(Control control)
         {
             RenderWidth = control.Width;
@@ -144,7 +181,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         #region Constructors
 
-        internal Camera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp)
+        internal Camera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar)
         {
             string[] iconObjData = Properties.Resources.Camera.Split("\n");
             Icon = new Custom(origin, directionForward, directionUp, iconObjData)
@@ -265,16 +302,16 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     Vector4D lightWindowSpacePoint = light.ScreenToWindow * lightScreenSpacePoint;
 
                     // Round the points
-                    int light_point_x = lightWindowSpacePoint.x.RoundToInt();
-                    int light_point_y = lightWindowSpacePoint.y.RoundToInt();
-                    float light_point_z = lightWindowSpacePoint.z;
+                    int lightPointX = lightWindowSpacePoint.x.RoundToInt();
+                    int lightPointY = lightWindowSpacePoint.y.RoundToInt();
+                    float lightPointZ = lightWindowSpacePoint.z;
 
                     //Trace.WriteLine("The following light point has been calculated: "+new Vector3D(light_point_x,light_point_y,light_point_z));
 
-                    if (light_point_x >= 0 && light_point_x < light.ShadowMapWidth &&
-                        light_point_y >= 0 && light_point_y < light.ShadowMapHeight)
+                    if (lightPointX >= 0 && lightPointX < light.RenderWidth &&
+                        lightPointY >= 0 && lightPointY < light.RenderHeight)
                     {
-                        if (light_point_z.Approx_Less_Than_Equals(light.ShadowMap.Values[light_point_x][light_point_y], 1E-4F))
+                        if (lightPointZ.ApproxLessThanEquals(light.ShadowMap.Values[lightPointX][lightPointY], 1E-4F))
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
                             pointColour = pointColour.Mix(newLightColour);

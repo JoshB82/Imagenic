@@ -218,7 +218,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 
         private void MeshDepthFromLight(object @object, int x, int y, float z)
         {
-            if (x < WindowWidth && y < WindowHeight)
+            if (x < RenderWidth && y < RenderHeight)
             {
                 if (z.ApproxLessThan(ShadowMap.Values[x][y], 1E-4f))
                 {

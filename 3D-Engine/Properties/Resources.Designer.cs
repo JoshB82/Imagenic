@@ -105,9 +105,9 @@ namespace _3D_Engine.Properties {
         ///v -1.100713 -0.174123 1.016396
         ///v -0.468012 0.01 [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string Distant_Light {
+        public static string DistantLight {
             get {
-                return ResourceManager.GetString("Distant_Light", resourceCulture);
+                return ResourceManager.GetString("DistantLight", resourceCulture);
             }
         }
         

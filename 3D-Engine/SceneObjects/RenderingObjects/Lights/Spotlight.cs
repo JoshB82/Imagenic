@@ -1,6 +1,17 @@
-﻿using _3D_Engine.Maths;
-using _3D_Engine.Maths.Vectors;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Encapsulates creation of a spotlight.
+ */
 
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
 using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects.Lights

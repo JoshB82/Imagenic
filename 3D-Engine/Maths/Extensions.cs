@@ -41,7 +41,7 @@ namespace _3D_Engine
         // Equality
         //source
         public static bool ApproxEquals(this float v1, float v2, float epsilon = float.Epsilon) => Math.Abs(v1 - v2) <= epsilon;
-        public static bool Approx_Less_Than_Equals(this float v1, float v2, float epsilon = float.Epsilon) => v1 <= v2 + epsilon;
+        public static bool ApproxLessThanEquals(this float v1, float v2, float epsilon = float.Epsilon) => v1 <= v2 + epsilon;
         public static bool Approx_More_Than_Equals(this float v1, float v2, float epsilon = float.Epsilon) => v1 >= v2 - epsilon;
         public static bool ApproxLessThan(this float v1, float v2, float epsilon = float.Epsilon) => v1 < v2 + epsilon;
         public static bool Approx_More_Than(this float v1, float v2, float epsilon = float.Epsilon) => v1 > v2 - epsilon;

@@ -17,6 +17,7 @@ using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Transformations;
+using System;
 using System.Collections.Generic;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects
@@ -49,8 +50,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
         // Matrices
         internal Matrix4x4 WorldToView { get; set; }
-        internal Matrix4x4 ViewToScreen;
-        internal Matrix4x4 ScreenToWindow;
+        internal Matrix4x4 ViewToScreen, ScreenToWindow;
 
         internal override void CalculateMatrices()
         {
@@ -60,19 +60,44 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         }
 
         // View Volume
-        private float width, height, znear, zfar;
-        private int windowWidth, windowHeight;
+        private float viewWidth, viewHeight, zNear, zFar;
+        private int renderWidth, renderHeight;
 
         /// <summary>
         /// The width of the <see cref="RenderingObject">RenderingObject's</see> view/near plane.
         /// </summary>
         public virtual float ViewWidth
         {
-            get => width;
+            get => viewWidth;
             set
             {
-                width = value;
+                viewWidth = value;
                 UpdateRenderCamera();
+
+                switch (this)
+                {
+                    case OrthogonalCamera or DistantLight:
+                        // Update view-to-screen matrix
+                        ViewToScreen.m00 = 2 / viewWidth;
+
+                        // Update left and right clipping planes
+                        ViewClippingPlanes[0].Point.x = -viewWidth / 2;
+                        ViewClippingPlanes[3].Point.x = viewWidth / 2;
+
+                        break;
+                    case PerspectiveCamera or Spotlight:
+                        // Update view-to-screen matrix
+                        ViewToScreen.m00 = 2 * zNear / viewWidth;
+
+                        // Update left and right clipping planes
+                        float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
+                        ViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, semiHeight, zNear));
+                        ViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, semiHeight, zNear), new Vector3D(semiWidth, -semiHeight, zNear));
+                        
+                        break;
+                    default:
+                        throw typeNotSupportedException;
+                }
             }
         }
         /// <summary>
@@ -80,11 +105,36 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         /// </summary>
         public virtual float ViewHeight
         {
-            get => height;
+            get => viewHeight;
             set
             {
-                height = value;
+                viewHeight = value;
                 UpdateRenderCamera();
+
+                switch (this)
+                {
+                    case OrthogonalCamera or DistantLight:
+                        // Update view-to-screen matrix
+                        ViewToScreen.m11 = 2 / viewHeight;
+
+                        // Update top and bottom clipping planes
+                        ViewClippingPlanes[1].Point.y = -viewHeight / 2;
+                        ViewClippingPlanes[4].Point.y = viewHeight / 2;
+
+                        break;
+                    case PerspectiveCamera or Spotlight:
+                        // Update view-to-screen matrix
+                        ViewToScreen.m11 = 2 * zNear / viewHeight;
+
+                        // Update top and bottom clipping planes
+                        float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
+                        ViewClippingPlanes[4].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, semiHeight, zNear), new Vector3D(semiWidth, semiHeight, zNear));
+                        ViewClippingPlanes[1].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, -semiHeight, zNear));
+
+                        break;
+                    default:
+                        throw typeNotSupportedException;
+                }
             }
         }
         /// <summary>
@@ -92,11 +142,35 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         /// </summary>
         public virtual float ZNear
         {
-            get => znear;
+            get => zNear;
             set
             {
-                znear = value;
+                zNear = value;
                 UpdateRenderCamera();
+
+                switch (this)
+                {
+                    case OrthogonalCamera or DistantLight:
+                        // Update view-to-screen matrix
+                        ViewToScreen.m22 = 2 / (zFar - zNear);
+                        ViewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
+
+                        // Update near clipping plane
+                        ViewClippingPlanes[2].Point.z = zNear;
+
+                        break;
+                    case PerspectiveCamera or Spotlight:
+                        // Update view-to-screen matrix
+                        ViewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
+                        ViewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
+
+                        // Update near clipping plane
+                        ViewClippingPlanes[2].Point.z = zNear;
+
+                        break;
+                    default:
+                        throw typeNotSupportedException;
+                }
             }
         }
         /// <summary>
@@ -104,29 +178,53 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         /// </summary>
         public virtual float ZFar
         {
-            get => zfar;
+            get => zFar;
             set
             {
-                zfar = value;
+                zFar = value;
                 UpdateRenderCamera();
+
+                switch (this)
+                {
+                    case OrthogonalCamera or DistantLight:
+                        // Update view-to-screen matrix
+                        ViewToScreen.m22 = 2 / (zFar - zNear);
+                        ViewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
+
+                        // Update far clipping plane
+                        ViewClippingPlanes[5].Point.z = zFar;
+
+                        break;
+                    case PerspectiveCamera or Spotlight:
+                        // Update view-to-screen matrix
+                        ViewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
+                        ViewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
+
+                        // Update far clipping plane
+                        ViewClippingPlanes[5].Point.z = zFar;
+
+                        break;
+                    default:
+                        throw typeNotSupportedException;
+                }
             }
         }
 
-        public virtual int WindowWidth
+        public virtual int RenderWidth
         {
-            get => windowWidth;
+            get => renderWidth;
             set
             {
-                windowWidth = value;
+                renderWidth = value;
                 UpdateRenderCamera();
             }
         }
-        public virtual int WindowHeight
+        public virtual int RenderHeight
         {
-            get => windowHeight;
+            get => renderHeight;
             set
             {
-                windowHeight = value;
+                renderHeight = value;
                 UpdateRenderCamera();
             }
         }
@@ -198,11 +296,55 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
         protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
 
+        // Miscellaneous
+        private static readonly NotSupportedException typeNotSupportedException = new("This type is not supported.");
+
         #endregion
 
         #region Constructors
 
-        internal RenderingObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp) { }
+        internal RenderingObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp)
+        {
+            switch (this)
+            {
+                case OrthogonalCamera or DistantLight:
+                    ViewToScreen = Matrix4x4.Identity;
+
+                    ViewClippingPlanes = new ClippingPlane[]
+                    {
+                        new(Vector3D.Zero, Vector3D.UnitX), // Left
+                        new(Vector3D.Zero, Vector3D.UnitY), // Bottom
+                        new(Vector3D.Zero, Vector3D.UnitZ), // Near
+                        new(Vector3D.Zero, Vector3D.UnitNegativeX), // Right
+                        new(Vector3D.Zero, Vector3D.UnitNegativeY), // Top
+                        new(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
+                    };
+
+                    break;
+                case PerspectiveCamera or Spotlight:
+                    ViewToScreen = Matrix4x4.Zero;
+                    ViewToScreen.m32 = 1;
+
+                    ViewClippingPlanes = new ClippingPlane[]
+                    {
+                        new(Vector3D.Zero, Vector3D.Zero), // Left
+                        new(Vector3D.Zero, Vector3D.Zero), // Bottom
+                        new(Vector3D.Zero, Vector3D.UnitZ), // Near
+                        new(Vector3D.Zero, Vector3D.Zero), // Right
+                        new(Vector3D.Zero, Vector3D.Zero), // Top
+                        new(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
+                    };
+
+                    break;
+                default:
+                    throw typeNotSupportedException;
+            }
+
+            ViewWidth = viewWidth;
+            ViewHeight = viewHeight;
+            ZNear = zNear;
+            ZFar = zFar;
+        }
 
         #endregion
     }

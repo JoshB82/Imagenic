@@ -12,7 +12,6 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
@@ -25,22 +24,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     {
         #region Fields and Properties
 
-        private float viewWidth, viewHeight, zNear, zFar;
-
         public override float ViewWidth
         {
             get => viewWidth;
             set
             {
-                viewWidth = value;
-
-                // Update view-to-screen matrix
-                ViewToScreen.m00 = 2 / viewWidth;
-
-                // Update left and right clipping planes
-                ViewClippingPlanes[0].Point.x = -viewWidth / 2;
-                ViewClippingPlanes[3].Point.x = viewWidth / 2;
-
                 NewRenderNeeded = true;
             }
         }
@@ -102,25 +90,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         public OrthogonalCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar) { }
 
-        public OrthogonalCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float width, float height, float zNear, float zFar) : base(origin, directionForward, directionUp)
-        {
-            ViewToScreen = Matrix4x4.Identity;
-
-            ViewClippingPlanes = new ClippingPlane[]
-            {
-                new(Vector3D.Zero, Vector3D.UnitX), // Left
-                new(Vector3D.Zero, Vector3D.UnitY), // Bottom
-                new(Vector3D.Zero, Vector3D.UnitZ), // Near
-                new(Vector3D.Zero, Vector3D.UnitNegativeX), // Right
-                new(Vector3D.Zero, Vector3D.UnitNegativeY), // Top
-                new(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
-            };
-
-            ViewWidth = width;
-            ViewHeight = height;
-            ZNear = zNear;
-            ZFar = zFar;
-        }
+        public OrthogonalCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar) { }
 
         public static OrthogonalCamera OrthogonalCameraAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar) => new OrthogonalCamera(origin, directionForward, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar);
 

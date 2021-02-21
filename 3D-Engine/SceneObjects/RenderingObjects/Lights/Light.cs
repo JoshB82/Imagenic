@@ -59,21 +59,21 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
         // Shadow map volume
         internal Buffer2D<float> ShadowMap { get; set; }
 
-        public override int WindowWidth
+        public override int RenderWidth
         {
-            get => base.WindowWidth;
+            get => base.RenderWidth;
             set
             {
-                base.WindowWidth = value;
+                base.RenderWidth = value;
                 UpdateProperties();
             }
         }
-        public override int WindowHeight
+        public override int RenderHeight
         {
-            get => base.WindowHeight;
+            get => base.RenderHeight;
             set
             {
-                base.WindowHeight = value;
+                base.RenderHeight = value;
                 UpdateProperties();
             }
         }
@@ -81,17 +81,17 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
         private void UpdateProperties()
         {
             // Set shadow map
-            ShadowMap = new(WindowWidth, WindowHeight);
+            ShadowMap = new(RenderWidth, RenderHeight);
             
             // Set screen-to-window matrix
-            ScreenToWindow = Transform.Scale(0.5f * (WindowWidth - 1), 0.5f * (WindowHeight - 1), 1) * RenderingObject.windowTranslate;
+            ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * RenderingObject.windowTranslate;
         }
 
         #endregion
 
         #region Constructors
 
-        internal Light(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp) { }
+        internal Light(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar) { }
 
         #endregion
 
@@ -112,11 +112,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
             string fileDirectory = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(fileDirectory)) Directory.CreateDirectory(fileDirectory);
 
-            using (Bitmap shadowMapBitmap = new Bitmap(WindowWidth, WindowHeight))
+            using (Bitmap shadowMapBitmap = new Bitmap(RenderWidth, RenderHeight))
             {
-                for (int x = 0; x < WindowWidth; x++)
+                for (int x = 0; x < RenderWidth; x++)
                 {
-                    for (int y = 0; y < WindowHeight; y++)
+                    for (int y = 0; y < RenderHeight; y++)
                     {
                         if (ShadowMap.Values[x][y] == 2)
                         {

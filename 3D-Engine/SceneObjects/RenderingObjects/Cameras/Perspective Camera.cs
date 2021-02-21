@@ -13,7 +13,6 @@
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Drawing;
-
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
@@ -24,101 +23,13 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     /// </summary>
     public sealed class PerspectiveCamera : Camera
     {
-        #region Fields and Properties
-
-        private float width, height, z_near, z_far;
-
-        public override float ViewWidth
-        {
-            get => width;
-            set
-            {
-                width = value;
-
-                // Update camera-view-to-camera-screen matrix
-                CameraViewToCameraScreen.m00 = 2 * z_near / width;
-                
-                // Update left and right clipping planes
-                float semi_width = width / 2, semi_height = height / 2;
-                CameraViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semi_width, -semi_height, z_near), new Vector3D(-semi_width, semi_height, z_near));
-                CameraViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semi_width, semi_height, z_near), new Vector3D(semi_width, -semi_height, z_near));
-
-                NewRenderNeeded = true;
-            }
-        }
-        public override float ViewHeight
-        {
-            get => height;
-            set
-            {
-                height = value;
-
-                // Update camera-view-to-camera-screen matrix
-                CameraViewToCameraScreen.m11 = 2 * z_near / height;
-
-                // Update top and bottom clipping planes
-                float semi_width = width / 2, semi_height = height / 2;
-                CameraViewClippingPlanes[4].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semi_width, semi_height, z_near), new Vector3D(semi_width, semi_height, z_near));
-                CameraViewClippingPlanes[1].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semi_width, -semi_height, z_near), new Vector3D(-semi_width, -semi_height, z_near));
-
-                NewRenderNeeded = true;
-            }
-        }
-        public override float ZNear
-        {
-            get => z_near;
-            set
-            {
-                z_near = value;
-
-                // Update camera-view-to-camera-screen matrix
-                CameraViewToCameraScreen.m22 = (z_far + z_near) / (z_far - z_near);
-                CameraViewToCameraScreen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
-
-                // Update near clipping plane
-                CameraViewClippingPlanes[2].Point.z = z_near;
-
-                NewRenderNeeded = true;
-            }
-        }
-        public override float ZFar
-        {
-            get => z_far;
-            set
-            {
-                z_far = value;
-
-                // Update camera-view-to-camera-screen matrix
-                CameraViewToCameraScreen.m22 = (z_far + z_near) / (z_far - z_near);
-                CameraViewToCameraScreen.m23 = -(2 * z_far * z_near) / (z_far - z_near);
-                
-                // Update far clipping plane
-                CameraViewClippingPlanes[5].Point.z = z_far;
-
-                NewRenderNeeded = true;
-            }
-        }
-
-        #endregion
-
         #region Constructors
 
         public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : this(origin, direction_forward, direction_up, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar) { }
 
         public PerspectiveCamera(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float width, float height, float z_near, float z_far) : base(origin, direction_forward, direction_up)
         {
-            CameraViewToCameraScreen = Matrix4x4.Zero;
-            CameraViewToCameraScreen.m32 = 1;
-
-            CameraViewClippingPlanes = new[]
-            {
-                new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Left
-                new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Bottom
-                new ClippingPlane(Vector3D.Zero, Vector3D.UnitZ), // Near
-                new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Right
-                new ClippingPlane(Vector3D.Zero, Vector3D.Zero), // Top
-                new ClippingPlane(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
-            };
+            
 
             ZNear = z_near;
             ZFar = z_far;
