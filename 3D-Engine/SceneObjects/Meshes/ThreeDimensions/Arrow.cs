@@ -144,10 +144,6 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
 
         #region Constructors
 
-        /*
-        internal Arrow(Vector3D startPosition, Vector3D endPosition, Vector3D directionUp, float bodyRadius, float tipLength, float tipRadius, int resolution, bool hasDirectionArrows) : base(startPosition, endPosition - startPosition, directionUp, hasDirectionArrows) { }
-        */
-
         internal Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution, bool hasDirectionArrows) : base(worldOrigin, directionForward, directionUp, hasDirectionArrows)
         {
             Dimension = 3;
@@ -166,13 +162,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         }
         public Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution) : this(worldOrigin, directionForward, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true) { }
 
-        //
-
-        /*
-        public Arrow(Vector3D startPosition, Vector3D endPosition, Vector3D directionUp, float bodyRadius, float tipLength, float tipRadius, int resolution) : this(startPosition, endPosition, directionUp, bodyRadius, tipLength, tipRadius, resolution, false) { }
-
-        public Arrow(Vector3D startPosition, Vector3D unitVector, Vector3D directionUp, float bodyLength, float bodyRadius, float tipLength, float tipRadius, int resolution) : this(startPosition, unitVector * (bodyLength + tipLength) + startPosition, directionUp, bodyRadius, tipLength, tipRadius, resolution) { }
-        */
+        public Arrow ArrowTipPosition(Vector3D worldOrigin, Vector3D tipPosition, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution) => new Arrow(worldOrigin, tipPosition - worldOrigin, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true);
 
         #endregion
 
