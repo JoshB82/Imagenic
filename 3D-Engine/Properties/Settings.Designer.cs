@@ -172,12 +172,12 @@ namespace _3D_Engine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public float DirrectionArrowBodyRadius {
+        public float DirectionArrowBodyRadius {
             get {
-                return ((float)(this["DirrectionArrowBodyRadius"]));
+                return ((float)(this["DirectionArrowBodyRadius"]));
             }
             set {
-                this["DirrectionArrowBodyRadius"] = value;
+                this["DirectionArrowBodyRadius"] = value;
             }
         }
         

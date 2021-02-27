@@ -38,7 +38,7 @@
     <Setting Name="DirectionArrowResolution" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
-    <Setting Name="DirrectionArrowBodyRadius" Type="System.Single" Scope="User">
+    <Setting Name="DirectionArrowBodyRadius" Type="System.Single" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="DirectionArrowTipRadius" Type="System.Single" Scope="User">
