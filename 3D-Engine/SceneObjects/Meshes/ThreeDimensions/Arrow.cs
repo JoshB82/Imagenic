@@ -24,63 +24,38 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
     {
         #region Fields and Properties
 
+        // Axes
         public static readonly Arrow XAxis = new(Vector3D.Zero, new Vector3D(Default.AxisArrowLength, 0, 0), Vector3D.UnitY, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Red };
         public static readonly Arrow YAxis = new(Vector3D.Zero, new Vector3D(0, Default.AxisArrowLength, 0), Vector3D.UnitNegativeZ, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Green };
         public static readonly Arrow ZAxis = new(Vector3D.Zero, new Vector3D(0, 0, Default.AxisArrowLength), Vector3D.UnitY, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Blue };
 
         public static readonly Group Axes = new(new List<SceneObject>() { XAxis, YAxis, ZAxis });
 
-        private Vector3D start_position, end_position, unit_vector;
+        private Vector3D tipPosition;
+        private float length, bodyLength, tipLength, bodyRadius, tipRadius;
+        private int resolution;
 
-        public Vector3D Start_Position
+        public override Vector3D WorldDirectionForward
         {
-            get => start_position;
-            set
+            get => base.WorldDirectionForward;
+            protected set
             {
-                start_position = value;
-                WorldOrigin = start_position;
-            }
-        }
-        public Vector3D End_Position
-        {
-            get => end_position;
-            set
-            {
-                end_position = value;
-                Vector3D line_vector = end_position - start_position;
-                unit_vector = line_vector.Normalise();
-                length = (line_vector).Magnitude();
-                body_length = length - tip_length;
-            }   
-        }
-        public Vector3D Unit_Vector
-        {
-            get => unit_vector;
-            set
-            {
-                unit_vector = value.Normalise();
-                end_position = unit_vector * (body_length + tip_length) + start_position;
-            }
-        }
+                base.WorldDirectionForward = value;
 
-        private float body_length, tip_length, length;
-        public float Body_Length {
-            get => body_length;
-            set
-            {
-                body_length = value;
-                end_position = unit_vector * (body_length + tip_length) + start_position;
-                length = body_length + tip_length;
+                tipPosition = WorldDirectionForward * length;
             }
         }
-        public float Tip_Length
+        public Vector3D TipPosition
         {
-            get => tip_length;
+            get => tipPosition;
             set
             {
-                tip_length = value;
-                end_position = unit_vector * (body_length + tip_length) + start_position;
-                length = body_length + tip_length;
+                tipPosition = value;
+
+                length = (tipPosition - WorldOrigin).Magnitude();
+                bodyLength = length - tipLength;
+
+                UpdateRenderCamera();
             }
         }
         public float Length
@@ -89,87 +64,183 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
             set
             {
                 length = value;
-                end_position = unit_vector * length + start_position;
-                body_length = length - tip_length;
+
+                tipPosition = WorldDirectionForward * length;
+                bodyLength = length = tipLength;
+
+                UpdateRenderCamera();
             }
         }
+        public float BodyLength
+        {
+            get => bodyLength;
+            set
+            {
+                bodyLength = value;
 
-        public float Body_Radius { get; set; }
-        public float Tip_Radius { get; set; }
+                length = bodyLength + tipLength;
+                tipPosition = WorldOrigin + WorldDirectionForward * length;
 
-        public int Resolution { get; set; }
+                GenerateVertices();
+
+                UpdateRenderCamera();
+            }
+        }
+        public float TipLength
+        {
+            get => tipLength;
+            set
+            {
+                tipLength = value;
+
+                length = bodyLength + tipLength;
+                tipPosition = WorldOrigin + WorldDirectionForward * length;
+
+                GenerateVertices();
+
+                UpdateRenderCamera();
+            }
+        }
+        public float BodyRadius
+        {
+            get => bodyRadius;
+            set
+            {
+                bodyRadius = value;
+
+                GenerateVertices();
+
+                UpdateRenderCamera();
+            }
+        }
+        public float TipRadius
+        {
+            get => tipRadius;
+            set
+            {
+                tipRadius = value;
+
+                GenerateVertices();
+
+                UpdateRenderCamera();
+            }
+        }
+        public int Resolution
+        {
+            get => resolution;
+            set
+            {
+                resolution = value;
+
+                GenerateVertices();
+                GenerateEdges();
+                GenerateFaces();
+
+                UpdateRenderCamera();
+            }
+        }
 
         #endregion
 
         #region Constructors
 
-        public Arrow(Vector3D startPosition, Vector3D endPosition, Vector3D directionUp, float bodyRadius, float tipLength, float tipRadius, int resolution) : base(startPosition, endPosition - startPosition, directionUp)
+        /*
+        internal Arrow(Vector3D startPosition, Vector3D endPosition, Vector3D directionUp, float bodyRadius, float tipLength, float tipRadius, int resolution, bool hasDirectionArrows) : base(startPosition, endPosition - startPosition, directionUp, hasDirectionArrows) { }
+        */
+
+        internal Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float bodyRadius, float tipLength, float tipRadius, int resolution, bool hasDirectionArrows) : base(worldOrigin, directionForward, directionUp, hasDirectionArrows)
         {
             Dimension = 3;
 
-            Start_Position = startPosition;
-            Body_Length = (endPosition - startPosition).Magnitude() - tipLength;
-            Tip_Length = tipLength;
-            End_Position = endPosition;
-            Body_Radius = bodyRadius;
-            Tip_Radius = tipRadius;
+
+            GenerateVertices();
+            GenerateEdges();
+            GenerateFaces();
+
+            //EndPosition = unitVector* (bodyLength + tipLength) + startPosition;
+
+
+
+
+
+            BodyLength = (endPosition - startPosition).Magnitude() - tipLength;
+            TipLength = tipLength;
+            EndPosition = endPosition;
+            BodyRadius = bodyRadius;
+            TipRadius = tipRadius;
             Resolution = resolution;
 
-            // Vertices are defined in anti-clockwise order.
+
+
+
+        }
+
+        public Arrow(Vector3D startPosition, Vector3D endPosition, Vector3D directionUp, float bodyRadius, float tipLength, float tipRadius, int resolution) : this(startPosition, endPosition, directionUp, bodyRadius, tipLength, tipRadius, resolution, false) { }
+
+        public Arrow(Vector3D startPosition, Vector3D unitVector, Vector3D directionUp, float bodyLength, float bodyRadius, float tipLength, float tipRadius, int resolution) : this(startPosition, unitVector * (bodyLength + tipLength) + startPosition, directionUp, bodyRadius, tipLength, tipRadius, resolution) { }
+
+        #endregion
+
+        #region Methods
+
+        private void GenerateVertices()
+        {
             Vertices = new Vertex[3 * resolution + 3];
-            Vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
-            Vertices[1] = new Vertex(new Vector4D(Vector3D.UnitZ * body_length, 1));
-            Vertices[2] = new Vertex(new Vector4D(Vector3D.UnitZ * (body_length + tipLength), 1));
+            Vertices[0] = new(new Vector4D(0, 0, 0, 1));
+            Vertices[1] = new(new Vector4D(Vector3D.UnitZ * bodyLength, 1));
+            Vertices[2] = new(new Vector4D(Vector3D.UnitZ * (bodyLength + tipLength), 1));
 
             float angle = 2 * PI / resolution;
             for (int i = 0; i < resolution; i++)
             {
                 float sin = Sin(angle * i), cos = Cos(angle * i);
-                Vertices[i + 3] = new Vertex(new Vector4D(cos * bodyRadius, sin * bodyRadius, 0, 1));
-                Vertices[i + resolution + 3] = new Vertex(new Vector4D(cos * bodyRadius, sin * bodyRadius, body_length, 1));
-                Vertices[i + 2 * resolution + 3] = new Vertex(new Vector4D(cos * tipRadius, sin * tipRadius, body_length, 1));
+                Vertices[i + 3] = new(new Vector4D(cos * bodyRadius, sin * bodyRadius, 0, 1));
+                Vertices[i + resolution + 3] = new(new Vector4D(cos * bodyRadius, sin * bodyRadius, bodyLength, 1));
+                Vertices[i + 2 * resolution + 3] = new(new Vector4D(cos * tipRadius, sin * tipRadius, bodyLength, 1));
             }
-
+        }
+        private void GenerateEdges()
+        {
             Edges = new Edge[5 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
             {
-                Edges[i] = new Edge(Vertices[i + 3], Vertices[i + 4]);
-                Edges[i + resolution] = new Edge(Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
-                Edges[i + 2 * resolution] = new Edge(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4]);
+                Edges[i] = new(Vertices[i + 3], Vertices[i + 4]);
+                Edges[i + resolution] = new(Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
+                Edges[i + 2 * resolution] = new(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4]);
             }
-            Edges[resolution - 1] = new Edge(Vertices[resolution + 2], Vertices[3]);
-            Edges[2 * resolution - 1] = new Edge(Vertices[2 * resolution + 2], Vertices[resolution + 3]);
-            Edges[3 * resolution - 1] = new Edge(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3]);
+            Edges[resolution - 1] = new(Vertices[resolution + 2], Vertices[3]);
+            Edges[2 * resolution - 1] = new(Vertices[2 * resolution + 2], Vertices[resolution + 3]);
+            Edges[3 * resolution - 1] = new(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3]);
 
             for (int i = 0; i < resolution; i++)
             {
-                Edges[i + 3 * resolution] = new Edge(Vertices[i + 3], Vertices[i + resolution + 3]);
-                Edges[i + 4 * resolution] = new Edge(Vertices[i + 2 * resolution + 3], Vertices[2]);
+                Edges[i + 3 * resolution] = new(Vertices[i + 3], Vertices[i + resolution + 3]);
+                Edges[i + 4 * resolution] = new(Vertices[i + 2 * resolution + 3], Vertices[2]);
             }
 
-            Draw_Edges = false;
-
+            DrawEdges = false;
+        }
+        private void GenerateFaces()
+        {
             Faces = new Face[6 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
             {
-                Faces[i] = new Face(Vertices[i + 3], Vertices[0], Vertices[i + 4]);
-                Faces[i + resolution] = new Face(Vertices[i + 3], Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
-                Faces[i + 2 * resolution] = new Face(Vertices[i + 3], Vertices[i + resolution + 4], Vertices[i + 4]);
-                Faces[i + 3 * resolution] = new Face(Vertices[i + resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[i + 2 * resolution + 3]);
-                Faces[i + 4 * resolution] = new Face(Vertices[i + resolution + 3], Vertices[i + resolution + 4], Vertices[i + 2 * resolution + 4]);
-                Faces[i + 5 * resolution] = new Face(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[2]);
+                Faces[i] = new(Vertices[i + 3], Vertices[0], Vertices[i + 4]);
+                Faces[i + resolution] = new(Vertices[i + 3], Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
+                Faces[i + 2 * resolution] = new(Vertices[i + 3], Vertices[i + resolution + 4], Vertices[i + 4]);
+                Faces[i + 3 * resolution] = new(Vertices[i + resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[i + 2 * resolution + 3]);
+                Faces[i + 4 * resolution] = new(Vertices[i + resolution + 3], Vertices[i + resolution + 4], Vertices[i + 2 * resolution + 4]);
+                Faces[i + 5 * resolution] = new(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[2]);
             }
-            Faces[resolution - 1] = new Face(Vertices[resolution + 2], Vertices[0], Vertices[3]);
-            Faces[2 * resolution - 1] = new Face(Vertices[resolution + 2], Vertices[2 * resolution + 2], Vertices[resolution + 3]);
-            Faces[3 * resolution - 1] = new Face(Vertices[resolution + 2], Vertices[resolution + 3], Vertices[3]);
-            Faces[4 * resolution - 1] = new Face(Vertices[2 * resolution + 2], Vertices[2 * resolution + 3], Vertices[3 * resolution + 2]);
-            Faces[5 * resolution - 1] = new Face(Vertices[2 * resolution + 2], Vertices[resolution + 3], Vertices[2 * resolution + 3]);
-            Faces[6 * resolution - 1] = new Face(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3], Vertices[2]);
+            Faces[resolution - 1] = new(Vertices[resolution + 2], Vertices[0], Vertices[3]);
+            Faces[2 * resolution - 1] = new(Vertices[resolution + 2], Vertices[2 * resolution + 2], Vertices[resolution + 3]);
+            Faces[3 * resolution - 1] = new(Vertices[resolution + 2], Vertices[resolution + 3], Vertices[3]);
+            Faces[4 * resolution - 1] = new(Vertices[2 * resolution + 2], Vertices[2 * resolution + 3], Vertices[3 * resolution + 2]);
+            Faces[5 * resolution - 1] = new(Vertices[2 * resolution + 2], Vertices[resolution + 3], Vertices[2 * resolution + 3]);
+            Faces[6 * resolution - 1] = new(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3], Vertices[2]);
         }
-
-        public Arrow(Vector3D startPosition, Vector3D unitVector, Vector3D directionUp, float bodyLength, float bodyRadius, float tipLength, float tipRadius, int resolution) : this(startPosition, unitVector * (bodyLength + tipLength) + startPosition, directionUp, bodyRadius, tipLength, tipRadius, resolution) { }
 
         #endregion
     }

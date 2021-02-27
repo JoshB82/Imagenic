@@ -40,7 +40,7 @@ namespace _3D_Engine.SceneObjects.Meshes.OneDimension
             
             Vertices = new Vertex[1] { new Vertex(new Vector4D(0, 0, 0, 1)) };
 
-            Draw_Edges = false;
+            DrawEdges = false;
             
             DrawFaces = false;
         }

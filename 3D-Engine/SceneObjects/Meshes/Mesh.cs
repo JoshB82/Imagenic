@@ -32,7 +32,7 @@ namespace _3D_Engine.SceneObjects.Meshes
 
         // Appearance
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Edges']/*"/>
-        public bool Draw_Edges { get; set; } = true;
+        public bool DrawEdges { get; set; } = true;
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Faces']/*"/>
         public bool DrawFaces { get; set; } = true;
 
@@ -68,7 +68,7 @@ namespace _3D_Engine.SceneObjects.Meshes
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Textures']/*"/>
         public Texture[] Textures { get; internal set; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Has_Texture']/*"/>
-        public bool Has_Texture { get; protected set; } = false;
+        public bool HasTexture { get; protected set; } = false;
 
         // Miscellaneous
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Dimension']/*"/>
@@ -92,7 +92,7 @@ namespace _3D_Engine.SceneObjects.Meshes
 
         #region Constructors
 
-        internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp) { }
+        internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows) { }
 
         #endregion
     }

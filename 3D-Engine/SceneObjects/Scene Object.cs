@@ -53,7 +53,7 @@ namespace _3D_Engine.SceneObjects
         /// <summary>
         /// The forward direction of the <see cref="SceneObject"/> in world space.
         /// </summary>
-        public Vector3D WorldDirectionForward { get; private set; }
+        public virtual Vector3D WorldDirectionForward { get; protected set; }
         /// <summary>
         /// The up direction of the <see cref="SceneObject"/> in world space.
         /// </summary>
@@ -131,18 +131,21 @@ namespace _3D_Engine.SceneObjects
 
         #region Constructors
 
-        internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp)
+        internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true)
         {
             Id = ++nextId;
-
+            
             WorldOrigin = origin;
             SetDirection1(directionForward, directionUp);
 
-            Arrow DirectionForwardArrow = new(origin, WorldDirectionForward, WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution) { FaceColour = Color.Blue, HasDirectionArrows = false };
-            Arrow DirectionUpArrow = new(origin, WorldDirectionUp, -WorldDirectionForward, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution) { FaceColour = Color.Green, HasDirectionArrows = false };
-            Arrow DirectionRightArrow = new(origin, WorldDirectionRight, -WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution) { FaceColour = Color.Red, HasDirectionArrows = false };
+            if (HasDirectionArrows = hasDirectionArrows)
+            {
+                Arrow DirectionForwardArrow = new(origin, WorldDirectionForward, WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Blue };
+                Arrow DirectionUpArrow = new(origin, WorldDirectionUp, -WorldDirectionForward, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Green };
+                Arrow DirectionRightArrow = new(origin, WorldDirectionRight, -WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirrectionArrowBodyRadius, Default.DirectionArrowTipLength, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Red };
 
-            DirectionArrows = new(new List<SceneObject>() { DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow });
+                DirectionArrows = new(new List<SceneObject>() { DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow });
+            }
 
             ConsoleOutput.DisplayMessageFromObject(this, $"Created at {origin}");
         }

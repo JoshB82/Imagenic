@@ -33,7 +33,7 @@ namespace _3D_Engine.SceneObjects.Meshes
             Edges = edges;
             Faces = faces;
 
-            Has_Texture = true;
+            HasTexture = true;
             Textures = textures;
         }
 
@@ -133,7 +133,7 @@ namespace _3D_Engine.SceneObjects.Meshes
         /// <param name="texture">The <see cref="Bitmap"/> that makes up the surface of the <see cref="Custom"/> mesh.</param>
         public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string file_path, Bitmap texture) : base(origin, direction_forward, direction_up)
         {
-            Has_Texture = true;
+            HasTexture = true;
 
             List<Vertex> vertices = new List<Vertex>();
             List<Vector3D> texture_vertices = new List<Vector3D>();

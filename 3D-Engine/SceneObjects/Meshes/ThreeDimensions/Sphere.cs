@@ -39,7 +39,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
                 }
             }
 
-            Draw_Edges = false;
+            DrawEdges = false;
 
             //Faces = new Face[];
 

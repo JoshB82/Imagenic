@@ -21,17 +21,6 @@ namespace _3D_Engine
     }
 
     /// <summary>
-    /// Options for how verbose output should be.??????????????
-    /// </summary>
-    public enum Verbosity
-    {
-        None,
-        Brief,
-        Detailed,
-        All
-    }
-
-    /// <summary>
     /// Collection of <see cref="Settings"/>.
     /// </summary>
     public static class Settings
@@ -44,15 +33,6 @@ namespace _3D_Engine
 
         // Clipping
         public static bool Screen_Space_Clip { get; set; }
-
-        // Trace
-        /// <summary>
-        /// Determines if any <see cref="Trace"/> text is outputted.
-        /// </summary>
-        public static bool Trace_Output = false;
-        public static Verbosity Camera_Trace_Output_Verbosity = Verbosity.None;
-        public static Verbosity Light_Trace_Output_Verbosity = Verbosity.None;
-        public static Verbosity Mesh_Trace_Output_Verbosity = Verbosity.None;
 
         #endregion
     }

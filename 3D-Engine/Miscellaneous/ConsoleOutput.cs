@@ -10,6 +10,8 @@
  * Provides methods for outputting console messages.
  */
 
+using _3D_Engine.Enums;
+using _3D_Engine.SceneObjects;
 using System;
 using System.Diagnostics;
 
@@ -18,9 +20,30 @@ namespace _3D_Engine.Miscellaneous
     internal static class ConsoleOutput
     {
         private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
-        
+
         // Display message
         internal static void DisplayMessage(string message) => Trace.WriteLine($"[{GetTime()}] {message}");
         internal static void DisplayMessageFromObject(object @object, string message) => DisplayMessage($"[{@object.GetType().Name}] {message}");
+
+        // From specific methods
+        internal static void DisplayOutputDirectionMessage(SceneObject sceneObject, Verbosity verbosity)
+        {
+            switch (verbosity)
+            {
+                case Verbosity.Brief:
+                    DisplayMessageFromObject(sceneObject, "Changed direction.");
+                    break;
+                case Verbosity.Detailed:
+                    DisplayMessageFromObject(sceneObject, "Changed direction vectors.");
+                    break;
+                case Verbosity.All:
+                    DisplayMessageFromObject(sceneObject,
+                        "Changed direction to:\n" +
+                        $"Forward: {sceneObject.WorldDirectionForward}\n" +
+                        $"Up: {sceneObject.WorldDirectionUp}\n" +
+                        $"Right: {sceneObject.WorldDirectionRight}");
+                    break;
+            }
+        }
     }
 }

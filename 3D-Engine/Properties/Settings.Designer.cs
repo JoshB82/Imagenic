@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using _3D_Engine.Enums;
+
 namespace _3D_Engine.Properties {
     
     
@@ -272,6 +274,18 @@ namespace _3D_Engine.Properties {
             }
             set {
                 this["AxisArrowLength"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public Verbosity Verbosity {
+            get {
+                return ((Verbosity)(this["Verbosity"]));
+            }
+            set {
+                this["Verbosity"] = value;
             }
         }
     }
