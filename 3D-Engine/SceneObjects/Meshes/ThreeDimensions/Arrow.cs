@@ -148,36 +148,31 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         internal Arrow(Vector3D startPosition, Vector3D endPosition, Vector3D directionUp, float bodyRadius, float tipLength, float tipRadius, int resolution, bool hasDirectionArrows) : base(startPosition, endPosition - startPosition, directionUp, hasDirectionArrows) { }
         */
 
-        internal Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float bodyRadius, float tipLength, float tipRadius, int resolution, bool hasDirectionArrows) : base(worldOrigin, directionForward, directionUp, hasDirectionArrows)
+        internal Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution, bool hasDirectionArrows) : base(worldOrigin, directionForward, directionUp, hasDirectionArrows)
         {
             Dimension = 3;
 
+            this.length = bodyLength + tipLength;
+            this.tipPosition = worldOrigin + directionForward * this.length;
+            this.bodyLength = bodyLength;
+            this.tipLength = tipLength;
+            this.bodyRadius = bodyRadius;
+            this.tipRadius = tipRadius;
+            this.resolution = resolution;
 
             GenerateVertices();
             GenerateEdges();
             GenerateFaces();
-
-            //EndPosition = unitVector* (bodyLength + tipLength) + startPosition;
-
-
-
-
-
-            BodyLength = (endPosition - startPosition).Magnitude() - tipLength;
-            TipLength = tipLength;
-            EndPosition = endPosition;
-            BodyRadius = bodyRadius;
-            TipRadius = tipRadius;
-            Resolution = resolution;
-
-
-
-
         }
+        public Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution) : this(worldOrigin, directionForward, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true) { }
 
+        //
+
+        /*
         public Arrow(Vector3D startPosition, Vector3D endPosition, Vector3D directionUp, float bodyRadius, float tipLength, float tipRadius, int resolution) : this(startPosition, endPosition, directionUp, bodyRadius, tipLength, tipRadius, resolution, false) { }
 
         public Arrow(Vector3D startPosition, Vector3D unitVector, Vector3D directionUp, float bodyLength, float bodyRadius, float tipLength, float tipRadius, int resolution) : this(startPosition, unitVector * (bodyLength + tipLength) + startPosition, directionUp, bodyRadius, tipLength, tipRadius, resolution) { }
+        */
 
         #endregion
 
