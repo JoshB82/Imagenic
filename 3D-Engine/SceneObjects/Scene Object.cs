@@ -135,9 +135,6 @@ namespace _3D_Engine.SceneObjects
         {
             Id = ++nextId;
 
-            WorldOrigin = origin;
-            SetDirection1(directionForward, directionUp);
-
             if (HasDirectionArrows = hasDirectionArrows)
             {
                 Arrow DirectionForwardArrow = new(origin, WorldDirectionForward, WorldDirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Blue };
@@ -146,6 +143,9 @@ namespace _3D_Engine.SceneObjects
 
                 DirectionArrows = new(new List<SceneObject>() { DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow });
             }
+
+            WorldOrigin = origin;
+            SetDirection1(directionForward, directionUp);
 
             ConsoleOutput.DisplayMessageFromObject(this, $"Created at {origin}");
         }
