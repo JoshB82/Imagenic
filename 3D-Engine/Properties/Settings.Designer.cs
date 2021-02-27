@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using _3D_Engine.Enums;
-
 namespace _3D_Engine.Properties {
     
     
@@ -267,22 +265,22 @@ namespace _3D_Engine.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("150")]
-        public float AxisArrowLength {
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float AxisArrowBodyLength {
             get {
-                return ((float)(this["AxisArrowLength"]));
+                return ((float)(this["AxisArrowBodyLength"]));
             }
             set {
-                this["AxisArrowLength"] = value;
+                this["AxisArrowBodyLength"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public Verbosity Verbosity {
+        public string Verbosity {
             get {
-                return ((Verbosity)(this["Verbosity"]));
+                return ((string)(this["Verbosity"]));
             }
             set {
                 this["Verbosity"] = value;

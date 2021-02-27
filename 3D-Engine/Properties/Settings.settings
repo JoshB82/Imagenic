@@ -62,8 +62,8 @@
     <Setting Name="AxisArrowTipLength" Type="System.Single" Scope="User">
       <Value Profile="(Default)">50</Value>
     </Setting>
-    <Setting Name="AxisArrowLength" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">150</Value>
+    <Setting Name="AxisArrowBodyLength" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="Verbosity" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

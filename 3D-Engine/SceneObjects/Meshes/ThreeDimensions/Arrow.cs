@@ -25,9 +25,9 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         #region Fields and Properties
 
         // Axes
-        public static readonly Arrow XAxis = new(Vector3D.Zero, new Vector3D(Default.AxisArrowLength, 0, 0), Vector3D.UnitY, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Red };
-        public static readonly Arrow YAxis = new(Vector3D.Zero, new Vector3D(0, Default.AxisArrowLength, 0), Vector3D.UnitNegativeZ, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Green };
-        public static readonly Arrow ZAxis = new(Vector3D.Zero, new Vector3D(0, 0, Default.AxisArrowLength), Vector3D.UnitY, Default.AxisArrowBodyRadius, Default.AxisArrowTipLength, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Blue };
+        public static readonly Arrow XAxis = new(Vector3D.Zero, Vector3D.UnitX, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Red };
+        public static readonly Arrow YAxis = new(Vector3D.Zero, Vector3D.UnitY, Vector3D.UnitNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Green };
+        public static readonly Arrow ZAxis = new(Vector3D.Zero, Vector3D.UnitZ, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Blue };
 
         public static readonly Group Axes = new(new List<SceneObject>() { XAxis, YAxis, ZAxis });
 
