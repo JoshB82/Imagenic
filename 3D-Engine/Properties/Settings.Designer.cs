@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using _3D_Engine.Enums;
+
 namespace _3D_Engine.Properties {
     
     
@@ -278,9 +280,9 @@ namespace _3D_Engine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Verbosity {
+        public Verbosity Verbosity {
             get {
-                return ((string)(this["Verbosity"]));
+                return ((Verbosity)(this["Verbosity"]));
             }
             set {
                 this["Verbosity"] = value;

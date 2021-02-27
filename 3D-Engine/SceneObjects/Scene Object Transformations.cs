@@ -79,9 +79,9 @@ namespace _3D_Engine.SceneObjects
 
             if (HasDirectionArrows)
             {
-                ((Arrow)DirectionArrows.SceneObjects[0]).UnitVector = directionForward;
-                ((Arrow)DirectionArrows.SceneObjects[1]).UnitVector = directionUp;
-                ((Arrow)DirectionArrows.SceneObjects[2]).UnitVector = directionRight;
+                ((Arrow)DirectionArrows.SceneObjects[0]).SetDirection1(directionForward, directionUp);
+                ((Arrow)DirectionArrows.SceneObjects[1]).SetDirection1(directionForward, directionUp);
+                ((Arrow)DirectionArrows.SceneObjects[2]).SetDirection1(directionForward, directionUp);
             }
 
             ConsoleOutput.DisplayOutputDirectionMessage(this, Properties.Settings.Default.Verbosity);
