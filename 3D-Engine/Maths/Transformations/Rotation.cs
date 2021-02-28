@@ -7,19 +7,18 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Provides static methods for calculating matrices and quaternions representing rotations.
+ * Encapsulates static methods for calculating matrices and quaternions representing rotations.
  */
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-
 using static System.MathF;
 
 namespace _3D_Engine.Transformations
 {
     public static partial class Transform
     {
-        #region Matrix rotations
+        #region Matrix Rotations
 
         /// <summary>
         /// Creates a <see cref="Matrix4x4"/> for rotation about the x-axis.
@@ -121,21 +120,44 @@ namespace _3D_Engine.Transformations
 
         #endregion
 
-        #region Quaternion rotations
+        #region Quaternion Rotations
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate_X(System.Single)']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Quaternion"/> for rotation about the x-axis.
+        /// </summary>
+        /// <param name="angle">Angle to rotate by.</param>
+        /// <returns>A rotation <see cref="Quaternion"/>.</returns>
         public static Quaternion QuaternionRotateX(float angle) => QuaternionRotate(Vector3D.UnitX, angle);
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate_Y(System.Single)']/*"/>
+        /// <summary>
+        /// Creates a<see cref="Quaternion"/> for rotation about the y-axis.
+        /// </summary>
+        /// <param name="angle">Angle to rotate by.</param>
+        /// <returns>A rotation <see cref="Quaternion"/>.</returns>
         public static Quaternion QuaternionRotateY(float angle) => QuaternionRotate(Vector3D.UnitY, angle);
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate_Z(System.Single)']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Quaternion"/> for rotation about the z-axis.
+        /// </summary>
+        /// <param name="angle">Angle to rotate by.</param>
+        /// <returns>A rotation <see cref="Quaternion"/>.</returns>
         public static Quaternion QuaternionRotateZ(float angle) => QuaternionRotate(Vector3D.UnitZ, angle);
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate(_3D_Engine.Vector3D,System.Single)']/*"/>
+        /// <summary>
+        /// Creates a <see cref= "Quaternion"/> that represents a rotation around any axis.
+        /// </summary>
+        /// <param name="axis">Axis that will be rotated around.</param>
+        /// <param name="angle">Angle to rotate by.</param>
+        /// <returns>A rotation <see cref="Quaternion"/>.</returns>
         public static Quaternion QuaternionRotate(Vector3D axis, float angle) => angle.ApproxEquals(0, 1E-6f) ? Quaternion.Identity : new Quaternion(Cos(angle / 2), axis.Normalise() * Sin(angle / 2)).Normalise();
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Quaternion_Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Quaternion"/> that rotates one <see cref="Vector3D"/> onto another. A rotation axis must be supplied if <see cref="Vector3D"> Vector3Ds </see> are antiparallel.
+        /// </summary>
+        /// <param name="v1">The first <see cref="Vector3D"/>.</param>
+        /// <param name="v2">The second <see cref="Vector3D"/>.</param>
+        /// <param name="axis">Axis that will be rotated around if <see cref="Vector3D">Vector3Ds</see> are antiparallel.</param>
+        /// <returns>A rotation <see cref="Quaternion"/>.</returns>
         public static Quaternion QuaternionRotateBetweenVectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
             if (v1.ApproxEquals(v2, 1E-6f)) return Quaternion.Identity;
@@ -147,7 +169,7 @@ namespace _3D_Engine.Transformations
 
         #endregion
 
-        #region Quaternion to matrix conversion
+        #region Quaternion to Matrix Conversion
 
         /// <summary>
         /// Creates the corresponding rotation <see cref="T:_3D_Engine.Matrix4x4" /> for the specified <see cref="T:_3D_Engine.Quaternion" />.

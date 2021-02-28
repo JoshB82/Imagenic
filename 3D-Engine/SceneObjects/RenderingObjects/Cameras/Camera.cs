@@ -276,9 +276,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     Color newLightColour = light.Colour;
                     if (light is PointLight or Spotlight)
                     {
-                        // Darken the Light's colour based on how far away the point is from the light
-                        Vector3D light_to_point = (Vector3D)lightViewSpacePoint;
-                        float distantIntensity = light.Strength / light_to_point.Squared_Magnitude();
+                        // Darken the light's colour based on how far away the point is from the light
+                        Vector3D lightToPoint = (Vector3D)lightViewSpacePoint;
+                        float distantIntensity = light.Strength / lightToPoint.SquaredMagnitude();
                         newLightColour = light.Colour.Darken_Percentage(distantIntensity);
                     }
 

@@ -309,44 +309,8 @@
             <param name="direction_up">The up direction.</param>
             <returns>The right direction.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_X(System.Single)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Quaternion" /> for rotation about the x-axis.
-            </summary>
-            <param name="angle">Angle to rotate by.</param>
-            <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Y(System.Single)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Quaternion" /> for rotation about the y-axis.
-            </summary>
-            <param name="angle">Angle to rotate by.</param>
-            <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Z(System.Single)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Quaternion" /> for rotation about the z-axis.
-            </summary>
-            <param name="angle">Angle to rotate by.</param>
-            <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate(_3D_Engine.Vector3D,System.Single)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Quaternion" /> that represents a rotation around any axis.
-            </summary>
-            <param name="axis">Axis that will be rotated around.</param>
-            <param name="angle">Angle to rotate by.</param>
-            <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Quaternion_Rotate_Between_Vectors(_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Nullable{_3D_Engine.Vector3D})">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Quaternion" /> that rotates one <see cref="T:_3D_Engine.Vector3D"/> onto another. A rotation axis must be supplied if <see cref="T:_3D_Engine.Vector3D">Vector3Ds</see> are antiparallel.
-            </summary>
-            <param name="v1">The first <see cref="T:_3D_Engine.Vector3D"/>.</param>
-            <param name="v2">The second <see cref="T:_3D_Engine.Vector3D"/>.</param>
-            <param name="axis">Axis that will be rotated around if <see cref="T:_3D_Engine.Vector3D">Vector3Ds</see> are antiparallel.</param>
-            <returns>A rotation <see cref="T:_3D_Engine.Quaternion" />.</returns>
-        </member>
+
+
       <member name="M:_3D_Engine.Transform.Scale_X(System.Single)">
             <summary>
             Creates a matrix for scaling in the x-direction.

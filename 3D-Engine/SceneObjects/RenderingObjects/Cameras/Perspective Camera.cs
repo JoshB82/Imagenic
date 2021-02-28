@@ -72,10 +72,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             // Move the point from window space to camera-screen space
             Vector4D cameraScreenSpacePoint = windowToCameraScreen * new Vector4D(x, y, z, 1);
 
-            // Move the point from camera-screen space to world space
+            // Move the point from camera-screen space to world space and apply lighting
             cameraScreenSpacePoint *= 2 * this.ZNear * this.ZFar / (this.ZNear + this.ZFar - cameraScreenSpacePoint.z * (this.ZFar - this.ZNear));
-
-            // Apply lighting
             ApplyLighting(cameraScreenToWorld * cameraScreenSpacePoint, ref pointColour, x, y);
         }
 

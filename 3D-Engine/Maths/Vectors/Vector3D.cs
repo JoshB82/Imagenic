@@ -134,13 +134,13 @@ namespace _3D_Engine.Maths.Vectors
         /// Finds the magnitude of a <see cref="Vector3D"/>.
         /// </summary>
         /// <returns>The magnitude of a <see cref="Vector3D"/>.</returns>
-        public readonly float Magnitude() => Sqrt(Squared_Magnitude());
+        public readonly float Magnitude() => Sqrt(SquaredMagnitude());
 
         /// <summary>
         /// Finds the squared magnitude of a <see cref="Vector3D"/>.
         /// </summary>
         /// <returns>The squared magnitude of a <see cref="Vector3D"/>.</returns>
-        public readonly float Squared_Magnitude() => x * x + y * y + z * z;
+        public readonly float SquaredMagnitude() => x * x + y * y + z * z;
 
         /// <summary>
         /// Normalises a <see cref="Vector3D"/>.

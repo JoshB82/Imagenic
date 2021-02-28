@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Provides static methods for calculating direction vectors for scene objects.
+ * Encapsulates static methods for calculating direction vectors.
  */
 
 using _3D_Engine.Maths.Vectors;
@@ -15,7 +15,7 @@ using _3D_Engine.Maths.Vectors;
 namespace _3D_Engine.Transformations
 {
     /// <summary>
-    /// Encapsulates static methods for calculating notable vectors, matrices and quaternions.
+    /// Provides static methods for calculating notable vectors, matrices and quaternions.
     /// </summary>
     public static partial class Transform
     {
@@ -34,7 +34,7 @@ namespace _3D_Engine.Transformations
         /// <param name="directionForward">The forward direction.</param>
         /// <returns>The up direction.</returns>
         public static Vector3D CalculateDirectionUp(Vector3D directionRight, Vector3D directionForward) => directionForward.CrossProduct(directionRight);
-        
+
         /// <summary>
         /// Calculates the right direction given the forward direction and the up direction.
         /// </summary>

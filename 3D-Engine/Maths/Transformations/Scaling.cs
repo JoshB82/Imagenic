@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Provides static methods for calculating matrices representing scaling.
+ * Encapsulates static methods for calculating matrices representing scaling.
  */
 
 using _3D_Engine.Maths;
