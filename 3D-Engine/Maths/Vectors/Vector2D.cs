@@ -11,7 +11,6 @@
  */
 
 using System;
-
 using static System.MathF;
 
 namespace _3D_Engine.Maths.Vectors
@@ -21,7 +20,7 @@ namespace _3D_Engine.Maths.Vectors
     {
         #region Fields and Properties
 
-        // Common vectors
+        // Common Vectors
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (0, 0).
         /// </summary>
@@ -47,7 +46,7 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         public static readonly Vector2D UnitNegativeY = new Vector2D(0, -1);
 
-        // Vector contents
+        // Vector Contents
         public float x;
         public float y;
 

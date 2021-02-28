@@ -11,7 +11,6 @@
  */
 
 using System;
-
 using static System.MathF;
 
 namespace _3D_Engine.Maths.Vectors
@@ -21,7 +20,7 @@ namespace _3D_Engine.Maths.Vectors
     {
         #region Fields and Properties
 
-        // Common vectors
+        // Common Vectors
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, 0, 0).
         /// </summary>
@@ -63,7 +62,7 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         public static readonly Vector4D UnitNegativeW = new Vector4D(0, 0, 0, -1);
 
-        // Vector contents
+        // Vector Contents
         /// <summary>
         /// First component of the <see cref="Vector4D"/>, equivalent to the q1 component of a <see cref="Quaternion"/>.
         /// </summary>
