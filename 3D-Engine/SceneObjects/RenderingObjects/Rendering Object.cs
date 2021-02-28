@@ -349,11 +349,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                     throw typeNotSupportedException;
             }
 
+            ZNear = zNear;
+            ZFar = zFar;
             this.viewHeight = viewHeight;
             ViewWidth = viewWidth;
             ViewHeight = viewHeight;
-            ZNear = zNear;
-            ZFar = zFar;
             RenderWidth = renderWidth;
             RenderHeight = renderHeight;
         }
