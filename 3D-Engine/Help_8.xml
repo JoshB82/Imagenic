@@ -4,8 +4,8 @@
         <name>3D-Engine</name>
     </assembly>
     <members>
-        
-        
+
+
         <member name="T:_3D_Engine.Matrix4x4">
             <summary>
             Encapsulates creation of a <see cref="T:_3D_Engine.Matrix4x4" /> (square matrix with four rows and four columns).
@@ -348,43 +348,6 @@
             <param name="scale_factor">Factor to scale by.</param>
             <returns>Scaling matrix.</returns>
         </member>
-        <member name="M:_3D_Engine.Transform.Translate_X(System.Single)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Matrix4x4"/> for translation in the x-direction.
-            </summary>
-            <param name="distance">Distance to move by.</param>
-            <returns>A translation <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate_Y(System.Single)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Matrix4x4"/> for translation in the y-direction.
-            </summary>
-            <param name="distance">Distance to move by.</param>
-            <returns>A translation <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate_Z(System.Single)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Matrix4x4"/> for translation in the z-direction.
-            </summary>
-            <param name="distance">Distance to move by.</param>
-            <returns>A translation <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate(System.Single,System.Single,System.Single)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Matrix4x4"/> for translation in all directions.
-            </summary>
-            <param name="distance_x">Distance to move by in x-direction.</param>
-            <param name="distance_y">Distance to move by in y-direction.</param>
-            <param name="distance_z">Distance to move by in z-direction.</param>
-            <returns>A translation <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
-        </member>
-        <member name="M:_3D_Engine.Transform.Translate(_3D_Engine.Vector3D)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Matrix4x4"/> for translation in all directions.
-            </summary>
-            <param name="displacement">Vector to translate by.</param>
-            <returns>A translation <see cref="T:_3D_Engine.Matrix4x4"/>.</returns>
-        </member>
         <member name="T:_3D_Engine.Vector2D">
             <summary>
               Encapsulates creation of a <see cref="T:_3D_Engine.Vector2D"/>.
@@ -663,7 +626,7 @@
         <member name="M:_3D_Engine.Light.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <!-- No matching elements were found for the following include tag --><include file="Help_8.xml" path="doc/members/member[@name='']/*" />
         </member>
-        
+
         <member name="M:_3D_Engine.Light.Export_Shadow_Map(System.String)">
             <summary>
             Exports the shadow map to the specified file path.
@@ -1138,8 +1101,8 @@
             Determines if the <see cref="T:_3D_Engine.Mesh">Mesh's</see> <see cref="T:_3D_Engine.Face">Faces</see> are drawn.
             </summary>
         </member>
-        
-        
+
+
         <member name="P:_3D_Engine.Mesh.Textures">
             <summary>
             The <see cref="T:_3D_Engine.Texture">Textures</see> that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh" />.
@@ -1165,7 +1128,7 @@
             Determines if an outline is drawn with the <see cref="T:_3D_Engine.Mesh" />.
             </summary>
         </member>
-       
+
         <member name="M:_3D_Engine.SceneObject.Set_Direction_1(_3D_Engine.Vector3D,_3D_Engine.Vector3D)">
             <summary>
             Sets the forward, up and right directions given the forward and up directions.
@@ -1240,10 +1203,10 @@
             Determines whether the <see cref="T:_3D_Engine.SceneObject" /> is visible or not.
             </summary>
         </member>
-        
-        
-        
-        
+
+
+
+
         <member name="T:_3D_Engine.Viewport">
             <summary>
             Options for the style of the viewport.

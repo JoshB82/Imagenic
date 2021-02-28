@@ -17,7 +17,11 @@ namespace _3D_Engine.Transformations
 {
     public static partial class Transform
     {
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate_X(System.Single)']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> for translation in the x-direction.
+        /// </summary>
+        /// <param name="distance">Distance to move by.</param>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 TranslateX(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
@@ -25,7 +29,11 @@ namespace _3D_Engine.Transformations
             return translation;
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate_Y(System.Single)']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> for translation in the y-direction.
+        /// </summary>
+        /// <param name="distance">Distance to move by.</param>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 TranslateY(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
@@ -33,7 +41,11 @@ namespace _3D_Engine.Transformations
             return translation;
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate_Z(System.Single)']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> for translation in the z-direction.
+        /// </summary>
+        /// <param name="distance">Distance to move by.</param>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 TranslateZ(float distance)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
@@ -41,7 +53,13 @@ namespace _3D_Engine.Transformations
             return translation;
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate(System.Single,System.Single,System.Single)']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> for translation in all directions.
+        /// </summary>
+        /// <param name="distanceX">Distance to move by in x-direction.</param>
+        /// <param name="distanceY">Distance to move by in y-direction.</param>
+        /// <param name="distanceZ">Distance to move by in z-direction.</param>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Translate(float distanceX, float distanceY, float distanceZ)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
@@ -51,7 +69,11 @@ namespace _3D_Engine.Transformations
             return translation;
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Transform.Translate(_3D_Engine.Vector3D)']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> for translation in all directions.
+        /// </summary>
+        /// <param name="displacement">Vector to translate by.</param>
+        /// <returns>A translation <see cref="Matrix4x4"/>.</returns>
         public static Matrix4x4 Translate(Vector3D displacement)
         {
             Matrix4x4 translation = Matrix4x4.Identity;
