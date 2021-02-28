@@ -12,7 +12,7 @@ namespace Interactive_Demo
 {
     public partial class MainForm : Form
     {
-        private PerspectiveCamera camera;
+        private readonly PerspectiveCamera camera;
         private long updateTime;
 
         public MainForm()
@@ -38,12 +38,12 @@ namespace Interactive_Demo
             scene.Add(light);
 
             // Create a camera
-            float cameraWidth = pictureBox.Width / 10f, cameraHeight = pictureBox.Height / 10f;
-            camera = new(new Vector3D(100, 0, 100), scene.SceneObjects[0], Vector3D.UnitY, cameraWidth, cameraHeight, 10, 750);
+            float cameraViewWidth = pictureBox.Width / 10f, cameraViewHeight = pictureBox.Height / 10f;
+            camera = new(new Vector3D(100, 0, 100), scene.SceneObjects[0], Vector3D.UnitY, cameraViewWidth, cameraViewHeight, 10, 750, pictureBox.Width, pictureBox.Height);
             scene.Add(camera);
 
             // Adjust render settings
-            camera.MakeRenderSizeOfControl(pictureBox);
+            //camera.MakeRenderSizeOfControl(pictureBox);
 
             camera.SceneToRender = scene;
 

@@ -8,10 +8,10 @@
     <Setting Name="FaceColour" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">LightBlue</Value>
     </Setting>
-    <Setting Name="ShadowMapWidth" Type="System.Int32" Scope="User">
+    <Setting Name="ShadowMapViewWidth" Type="System.Single" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="ShadowMapHeight" Type="System.Int32" Scope="User">
+    <Setting Name="ShadowMapViewHeight" Type="System.Single" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
     <Setting Name="ShadowMapZNear" Type="System.Single" Scope="User">
@@ -66,7 +66,19 @@
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="Verbosity" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Verbosity.All</Value>
+    </Setting>
+    <Setting Name="CameraRenderWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">810</Value>
+    </Setting>
+    <Setting Name="CameraRenderHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">640</Value>
+    </Setting>
+    <Setting Name="ShadowMapRenderWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="ShadowMapRenderHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

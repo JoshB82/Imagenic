@@ -41,7 +41,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
                 UpdateRenderCamera();
             }
         }
-        
+
         private float strength;
         public float Strength
         {
@@ -82,7 +82,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
         {
             // Set shadow map
             ShadowMap = new(RenderWidth, RenderHeight);
-            
+
             // Set screen-to-window matrix
             ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * RenderingObject.windowTranslate;
         }
@@ -91,7 +91,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 
         #region Constructors
 
-        internal Light(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar) { }
+        internal Light(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
         #endregion
 

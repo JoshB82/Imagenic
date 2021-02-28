@@ -29,14 +29,14 @@ namespace Simple_Demo
 
             // Create a light
             DistantLight light = new(new Vector3D(0, 100, 0), scene.Meshes[0], Vector3D.UnitZ);
-            //scene.Add(light);
+            scene.Add(light);
 
             // Create a camera
-            float cameraWidth = pictureBox.Width / 10f, cameraHeight = pictureBox.Height / 10f;
-            PerspectiveCamera renderCamera = new(new Vector3D(100, 0, 100), scene.SceneObjects[0], Vector3D.UnitY, cameraWidth, cameraHeight, 10, 750);
+            float cameraViewWidth = pictureBox.Width / 10f, cameraViewHeight = pictureBox.Height / 10f;
+            PerspectiveCamera renderCamera = new(new Vector3D(100, 0, 100), scene.SceneObjects[0], Vector3D.UnitY, cameraViewWidth, cameraViewHeight, 10, 750, pictureBox.Width, pictureBox.Height);
 
             // Adjust render settings
-            renderCamera.MakeRenderSizeOfControl(pictureBox);
+            //renderCamera.MakeRenderSizeOfControl(pictureBox);
 
             // Render the scene and display the output in the picture box
             renderCamera.SceneToRender = scene;

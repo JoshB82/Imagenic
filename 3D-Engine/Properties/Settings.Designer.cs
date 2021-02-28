@@ -52,24 +52,24 @@ namespace _3D_Engine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int ShadowMapWidth {
+        public float ShadowMapViewWidth {
             get {
-                return ((int)(this["ShadowMapWidth"]));
+                return ((float)(this["ShadowMapViewWidth"]));
             }
             set {
-                this["ShadowMapWidth"] = value;
+                this["ShadowMapViewWidth"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int ShadowMapHeight {
+        public float ShadowMapViewHeight {
             get {
-                return ((int)(this["ShadowMapHeight"]));
+                return ((float)(this["ShadowMapViewHeight"]));
             }
             set {
-                this["ShadowMapHeight"] = value;
+                this["ShadowMapViewHeight"] = value;
             }
         }
         
@@ -279,13 +279,61 @@ namespace _3D_Engine.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Verbosity.All")]
         public Verbosity Verbosity {
             get {
                 return ((Verbosity)(this["Verbosity"]));
             }
             set {
                 this["Verbosity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("810")]
+        public int CameraRenderWidth {
+            get {
+                return ((int)(this["CameraRenderWidth"]));
+            }
+            set {
+                this["CameraRenderWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("640")]
+        public int CameraRenderHeight {
+            get {
+                return ((int)(this["CameraRenderHeight"]));
+            }
+            set {
+                this["CameraRenderHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int ShadowMapRenderWidth {
+            get {
+                return ((int)(this["ShadowMapRenderWidth"]));
+            }
+            set {
+                this["ShadowMapRenderWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int ShadowMapRenderHeight {
+            get {
+                return ((int)(this["ShadowMapRenderHeight"]));
+            }
+            set {
+                this["ShadowMapRenderHeight"] = value;
             }
         }
     }

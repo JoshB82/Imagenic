@@ -25,24 +25,17 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     {
         #region Constructors
 
-        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar) { }
+        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar, Default.CameraRenderWidth, Default.CameraRenderHeight) { }
 
-        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar)
-        {
-            ZNear = zNear; //!!
-            ZFar = zFar;
-            //this.height = viewHeight;
-            ViewWidth = viewWidth;
-            ViewHeight = viewHeight;
-        }
+        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
-        public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, direction_forward, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+        public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => new PerspectiveCamera(origin, directionForward, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar, renderWidth, renderHeight);
 
-        public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up) : this(origin, pointed_at.WorldOrigin - origin, direction_up) { }
+        public PerspectiveCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp) { }
 
-        public PerspectiveCamera(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float width, float height, float z_near, float z_far) : this(origin, pointed_at.WorldOrigin - origin, direction_up, width, height, z_near, z_far) { }
+        public PerspectiveCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float width, float height, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, width, height, zNear, zFar, renderWidth, renderHeight) { }
 
-        public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, SceneObject pointed_at, Vector3D direction_up, float fov_x, float fov_y, float z_near, float z_far) => new PerspectiveCamera(origin, pointed_at, direction_up, Tan(fov_x / 2) * z_near * 2, Tan(fov_y / 2) * z_near * 2, z_near, z_far);
+        public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => PerspectiveCameraAngle(origin, pointedAt.WorldOrigin - origin, directionUp, fovX, fovY, zNear, zFar, renderWidth, renderHeight);
 
         #endregion
 
@@ -69,7 +62,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             }
         }
 
-        // Shadow Map Check (SMC)
+        // Shadow Map Check
         private void ShadowMapCheck(
             int x, int y, float z,
             ref Color pointColour,

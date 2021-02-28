@@ -170,7 +170,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         #region Constructors
 
-        internal Camera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar)
+        internal Camera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
         {
             string[] iconObjData = Properties.Resources.Camera.Split("\n");
             Icon = new Custom(origin, directionForward, directionUp, iconObjData)
@@ -203,9 +203,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         public Bitmap Render()
         {
             if (!NewRenderNeeded) return LastRender;
-            
+
             if (SceneToRender is null) throw new NullReferenceException("No scene has been set to render.");
-            
+
             // Calculate matrices and world origins
             foreach (Camera camera in SceneToRender.Cameras)
             {
@@ -231,6 +231,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     mesh.CalculateMatrices();
                 }
             }
+            this.CalculateMatrices();
             this.CalculateWorldOrigin();
 
             // Generate a shadow map for each light (only if needed)
@@ -243,11 +244,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     #if DEBUG
 
                     light.ExportShadowMap();
-                        
+
                     #endif
                 }
             }
-            
+
             // Generate z buffer
             GenerateZBuffer(SceneToRender);
 

@@ -19,14 +19,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
     public sealed class Spotlight : Light
     {
         #region Constructors
-        
-        public Spotlight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar)
-        {
-            ViewWidth = Default.ShadowMapWidth;
-            ViewHeight = Default.ShadowMapHeight;
-            ZNear = Default.ShadowMapZNear;
-            ZFar = Default.ShadowMapZFar;
 
+        public Spotlight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
+        {
             Strength = strength;
         }
 

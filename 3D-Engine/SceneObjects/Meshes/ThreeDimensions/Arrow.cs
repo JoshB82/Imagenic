@@ -161,8 +161,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
             GenerateFaces();
         }
         public Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution) : this(worldOrigin, directionForward, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true) { }
-
-        public Arrow ArrowTipPosition(Vector3D worldOrigin, Vector3D tipPosition, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution) => new Arrow(worldOrigin, tipPosition - worldOrigin, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true);
+        public static Arrow ArrowTipPosition(Vector3D worldOrigin, Vector3D tipPosition, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution) => new Arrow(worldOrigin, tipPosition - worldOrigin, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true);
 
         #endregion
 

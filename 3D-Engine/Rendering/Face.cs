@@ -12,6 +12,7 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Miscellaneous;
 using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes;
@@ -143,6 +144,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     }
                 }
             }
+
+            ConsoleOutput.DisplayMessageFromObject(this, "Generated Z buffer.");
         }
 
         private void AddFaceToZBuffer(
@@ -188,7 +191,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     clippedFace.p1 /= clippedFace.p1.w;
                     clippedFace.p2 /= clippedFace.p2.w;
                     clippedFace.p3 /= clippedFace.p3.w;
-                    
+
                     if (face.HasTexture)
                     {
                         clippedFace.t1 /= clippedFace.p1.w;
@@ -220,8 +223,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                 float z2 = clippedFace.p2.z;
                 int x3 = clippedFace.p3.x.RoundToInt();
                 int y3 = clippedFace.p3.y.RoundToInt();
-                float z3 = clippedFace.p3.z;                                
-                
+                float z3 = clippedFace.p3.z;
+
                 // Check if the face has a texture
                 if (face.HasTexture)
                 {

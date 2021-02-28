@@ -9,13 +9,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
         #endregion
 
         #region Constructors
-        
-        public PointLight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar) { }
 
-        public override float ViewWidth { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public override float ViewHeight { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public override float ZNear { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public override float ZFar { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public PointLight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
+        {
+            Strength = strength;
+        }
 
         #endregion
     }

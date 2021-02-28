@@ -102,7 +102,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                         float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
                         ViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, semiHeight, zNear));
                         ViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, semiHeight, zNear), new Vector3D(semiWidth, -semiHeight, zNear));
-                        
+
                         break;
                     default:
                         throw typeNotSupportedException;
@@ -312,7 +312,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
         #region Constructors
 
-        internal RenderingObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp)
+        internal RenderingObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp)
         {
             switch (this)
             {
@@ -349,10 +349,13 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                     throw typeNotSupportedException;
             }
 
+            this.viewHeight = viewHeight;
             ViewWidth = viewWidth;
             ViewHeight = viewHeight;
             ZNear = zNear;
             ZFar = zFar;
+            RenderWidth = renderWidth;
+            RenderHeight = renderHeight;
         }
 
         #endregion

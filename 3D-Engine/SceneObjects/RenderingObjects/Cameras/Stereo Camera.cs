@@ -9,23 +9,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     /// </summary>
     public sealed class StereoCamera : Camera
     {
-        #region Fields and Properties
-
-        private float width = Default.CameraWidth;
-        private float height = Default.CameraHeight;
-        private float z_near = Default.CameraZNear;
-        private float z_far = Default.CameraZFar;
-
-        public override float ViewWidth { get; set; }
-        public override float ViewHeight { get; set; }
-        public override float ZNear { get; set; }
-        public override float ZFar { get; set; }
-
-        #endregion
-
         #region Constructors
 
-        public StereoCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar) { }
+        public StereoCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
         #endregion
 

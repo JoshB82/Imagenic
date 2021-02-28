@@ -12,6 +12,7 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Miscellaneous;
 using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes;
@@ -50,7 +51,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
                     }
                 }
             }
-            
+
             foreach (Light light in scene.Lights)
             {
                 if (light.DrawIcon)
@@ -71,7 +72,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
                     }
                 }
             }
-            
+
             foreach (Mesh mesh in scene.Meshes)
             {
                 if (mesh.Visible && mesh.DrawFaces)
@@ -92,7 +93,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
                     }
                 }
             }
-        
+
             foreach (SceneObject sceneObject in scene.SceneObjects)
             {
                 if (sceneObject.HasDirectionArrows && sceneObject.DisplayDirectionArrows)
@@ -134,6 +135,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
                     }
                 }
             }
+
+            ConsoleOutput.DisplayMessageFromObject(this, "Generated shadow map.");
         }
 
         private void CalculateDepth(
@@ -143,7 +146,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
         {
             // Reset the vertices to model space values
             face.ResetVertices();
-            
+
             // Move the face from model space to view space
             face.ApplyMatrix(modelToView);
 
