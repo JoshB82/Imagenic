@@ -10,6 +10,7 @@
  * Encapsulates creation of a three-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector3D has a size of 12 bytes, so, where possible, a Vector3D should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine.Constants;
 using System;
 using static System.MathF;
 
@@ -24,35 +25,35 @@ namespace _3D_Engine.Maths.Vectors
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, 0, 0).
         /// </summary>
-        public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
+        public static readonly Vector3D Zero = new(0, 0, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (1, 1, 1).
         /// </summary>
-        public static readonly Vector3D One = new Vector3D(1, 1, 1);
+        public static readonly Vector3D One = new(1, 1, 1);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (1, 0, 0).
         /// </summary>
-        public static readonly Vector3D UnitX = new Vector3D(1, 0, 0);
+        public static readonly Vector3D UnitX = new(1, 0, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, 1, 0).
         /// </summary>
-        public static readonly Vector3D UnitY = new Vector3D(0, 1, 0);
+        public static readonly Vector3D UnitY = new(0, 1, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, 0, 1).
         /// </summary>
-        public static readonly Vector3D UnitZ = new Vector3D(0, 0, 1);
+        public static readonly Vector3D UnitZ = new(0, 0, 1);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (-1, 0, 0).
         /// </summary>
-        public static readonly Vector3D UnitNegativeX = new Vector3D(-1, 0, 0);
+        public static readonly Vector3D UnitNegativeX = new(-1, 0, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, -1, 0).
         /// </summary>
-        public static readonly Vector3D UnitNegativeY = new Vector3D(0, -1, 0);
+        public static readonly Vector3D UnitNegativeY = new(0, -1, 0);
         /// <summary>
         /// A <see cref="Vector3D"/> equal to (0, 0, -1).
         /// </summary>
-        public static readonly Vector3D UnitNegativeZ = new Vector3D(0, 0, -1);
+        public static readonly Vector3D UnitNegativeZ = new(0, 0, -1);
 
         // Vector Contents
         public float x;
@@ -98,7 +99,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <param name="elements">The array containing elements to be put in the <see cref="Vector3D"/>.</param>
         public Vector3D(float[] elements)
         {
-            if (elements.Length < 3) throw new ArgumentException("Parameter \"elements\" must at least be of length 3.", nameof(elements));
+            if (elements.Length < 3) throw new ArgumentException(Exceptions.Vector3DParameterLength, nameof(elements));
             x = elements[0];
             y = elements[1];
             z = elements[2];
@@ -116,7 +117,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <returns>The angle between two <see cref="Vector3D">Vector3Ds</see>.</returns>
         public readonly float Angle(Vector3D v)
         {
-            if (this == Vector3D.Zero || v == Vector3D.Zero) throw new ArgumentException("Cannot calculate angle with one or more zero vectors."); //?
+            if (this == Vector3D.Zero || v == Vector3D.Zero) throw Exceptions.Angle;
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return Acos(quotient);
@@ -146,9 +147,9 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         /// <returns>A normalised <see cref="Vector3D"/>.</returns>
         public readonly Vector3D Normalise() =>
-            this.ApproxEquals(Vector3D.Zero, 1E-6f)
-                ? throw new ArgumentException("Cannot normalise a zero vector.")
-                : this / Magnitude();
+            this.ApproxEquals(Zero, 1E-6f)
+            ? throw Exceptions.Normalise
+            : this / Magnitude();
 
         // Equality and miscellaneous
         public static bool operator ==(Vector3D v1, Vector3D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
@@ -169,16 +170,16 @@ namespace _3D_Engine.Maths.Vectors
 
         #region Vector Operations (Geometry)
 
-        public static Vector3D LineIntersectPlane(Vector3D line_start, Vector3D line_finish, Vector3D plane_point, Vector3D plane_normal, out float d)
+        public static Vector3D LineIntersectPlane(Vector3D lineStart, Vector3D lineFinish, Vector3D planePoint, Vector3D planeNormal, out float d)
         {
-            Vector3D line = line_finish - line_start;
-            float denominator = line * plane_normal;
+            Vector3D line = lineFinish - lineStart;
+            float denominator = line * planeNormal;
             //if (denominator == 0) throw new ArgumentException("Line does not intersect plane or exists entirely on plane.");
 
             // d = new length / old length
-            d = (plane_point - line_start) * plane_normal / (denominator);
+            d = (planePoint - lineStart) * planeNormal / (denominator);
             // Round in direction of normal!?
-            return line * d + line_start;
+            return line * d + lineStart;
         }
 
         /// <summary>
@@ -190,33 +191,33 @@ namespace _3D_Engine.Maths.Vectors
         /// <returns>A normal vector.</returns>
         public static Vector3D NormalFromPlane(Vector3D p1, Vector3D p2, Vector3D p3) => (p3 - p1).CrossProduct(p2 - p1).Normalise();
 
-        public static float PointDistanceFromPlane(Vector3D point, Vector3D plane_point, Vector3D plane_normal) => point * plane_normal - plane_point * plane_normal;
+        public static float PointDistanceFromPlane(Vector3D point, Vector3D planePoint, Vector3D planeNormal) => point * planeNormal - planePoint * planeNormal;
 
         #endregion
 
         #region Operator Overloading
 
-        public static Vector3D operator +(Vector3D v1, Vector3D v2) => new Vector3D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+        public static Vector3D operator +(Vector3D v1, Vector3D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 
-        public static Vector3D operator -(Vector3D v1, Vector3D v2) => new Vector3D(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+        public static Vector3D operator -(Vector3D v1, Vector3D v2) => new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 
         public static float operator *(Vector3D v1, Vector3D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 
-        public static Vector3D operator *(Vector3D v, float scalar) => new Vector3D(v.x * scalar, v.y * scalar, v.z * scalar);
+        public static Vector3D operator *(Vector3D v, float scalar) => new(v.x * scalar, v.y * scalar, v.z * scalar);
 
         public static Vector3D operator *(float scalar, Vector3D v) => v * scalar;
 
-        public static Vector3D operator /(Vector3D v, float scalar) => new Vector3D(v.x / scalar, v.y / scalar, v.z / scalar);
+        public static Vector3D operator /(Vector3D v, float scalar) => new(v.x / scalar, v.y / scalar, v.z / scalar);
 
-        public static Vector3D operator -(Vector3D v) => new Vector3D(-v.x, -v.y, -v.z);
+        public static Vector3D operator -(Vector3D v) => new(-v.x, -v.y, -v.z);
 
         #endregion
 
         #region Casting
 
-        public static explicit operator Vector2D(Vector3D v) => new Vector2D(v.x, v.y);
+        public static explicit operator Vector2D(Vector3D v) => new(v.x, v.y);
 
-        public static implicit operator Vector4D(Vector3D v) => new Vector4D(v);
+        public static implicit operator Vector4D(Vector3D v) => new(v);
 
         #endregion
     }

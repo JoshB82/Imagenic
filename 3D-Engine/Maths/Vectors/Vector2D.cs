@@ -84,7 +84,7 @@ namespace _3D_Engine.Maths.Vectors
         // Common
         public readonly float Angle(Vector2D v)
         {
-            if (this == Vector2D.Zero || v == Vector2D.Zero) throw Exceptions.Vector2DAngle;
+            if (this == Vector2D.Zero || v == Vector2D.Zero) throw Exceptions.Angle;
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return Acos(quotient);
@@ -108,7 +108,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <returns>A normalised <see cref="Vector2D"/>.</returns>
         public readonly Vector2D Normalise() =>
             this.ApproxEquals(Zero, 1E-6f)
-            ? throw Exceptions.Vector2DNormalise
+            ? throw Exceptions.Normalise
             : this / Magnitude();
 
         // Equality and miscellaneous

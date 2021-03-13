@@ -10,6 +10,7 @@
  * Encapsulates creation of a four-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector4D has a size of 16 bytes, so, where possible, a Vector4D should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine.Constants;
 using System;
 using static System.MathF;
 
@@ -24,43 +25,43 @@ namespace _3D_Engine.Maths.Vectors
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, 0, 0).
         /// </summary>
-        public static readonly Vector4D Zero = new Vector4D();
+        public static readonly Vector4D Zero = new();
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (1, 1, 1, 1).
         /// </summary>
-        public static readonly Vector4D One = new Vector4D(1, 1, 1, 1);
+        public static readonly Vector4D One = new(1, 1, 1, 1);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (1, 0, 0, 0).
         /// </summary>
-        public static readonly Vector4D UnitX = new Vector4D(1, 0, 0, 0);
+        public static readonly Vector4D UnitX = new(1, 0, 0, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 1, 0, 0).
         /// </summary>
-        public static readonly Vector4D UnitY = new Vector4D(0, 1, 0, 0);
+        public static readonly Vector4D UnitY = new(0, 1, 0, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, 1, 0).
         /// </summary>
-        public static readonly Vector4D UnitZ = new Vector4D(0, 0, 1, 0);
+        public static readonly Vector4D UnitZ = new(0, 0, 1, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, 0, 1).
         /// </summary>
-        public static readonly Vector4D UnitW = new Vector4D(0, 0, 0, 1);
+        public static readonly Vector4D UnitW = new(0, 0, 0, 1);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (-1, 0, 0, 0).
         /// </summary>
-        public static readonly Vector4D UnitNegativeX = new Vector4D(-1, 0, 0, 0);
+        public static readonly Vector4D UnitNegativeX = new(-1, 0, 0, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, -1, 0, 0).
         /// </summary>
-        public static readonly Vector4D UnitNegativeY = new Vector4D(0, -1, 0, 0);
+        public static readonly Vector4D UnitNegativeY = new(0, -1, 0, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, -1, 0).
         /// </summary>
-        public static readonly Vector4D UnitNegativeZ = new Vector4D(0, 0, -1, 0);
+        public static readonly Vector4D UnitNegativeZ = new(0, 0, -1, 0);
         /// <summary>
         /// A <see cref="Vector4D"/> equal to (0, 0, 0, -1).
         /// </summary>
-        public static readonly Vector4D UnitNegativeW = new Vector4D(0, 0, 0, -1);
+        public static readonly Vector4D UnitNegativeW = new(0, 0, 0, -1);
 
         // Vector Contents
         /// <summary>
@@ -142,7 +143,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <param name="elements">The array containing elements to be put in the <see cref="Vector4D"/>.</param>
         public Vector4D(float[] elements)
         {
-            if (elements.Length < 4) throw new ArgumentException("Parameter \"elements\" must at least be of length 4.", nameof(elements));
+            if (elements.Length < 4) throw new ArgumentException(Exceptions.Vector4DParameterLength, nameof(elements));
             x = elements[0];
             y = elements[1];
             z = elements[2];
@@ -156,7 +157,7 @@ namespace _3D_Engine.Maths.Vectors
         // Common
         public readonly float Angle(Vector4D v)
         {
-            if (this == Vector4D.Zero || v == Vector4D.Zero) throw new ArgumentException("Cannot calculate angle with one or more zero vectors."); //?
+            if (this == Vector4D.Zero || v == Vector4D.Zero) throw Exceptions.Angle;
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return Acos(quotient);
@@ -166,22 +167,22 @@ namespace _3D_Engine.Maths.Vectors
         /// Finds the magnitude of a <see cref="Vector4D"/>.
         /// </summary>
         /// <returns>The magnitude of a <see cref="Vector4D"/>.</returns>
-        public readonly float Magnitude() => Sqrt(Squared_Magnitude());
+        public readonly float Magnitude() => Sqrt(SquaredMagnitude());
 
         /// <summary>
         /// Finds the squared magnitude of a <see cref="Vector4D"/>.
         /// </summary>
         /// <returns>The squared magnitude of a <see cref="Vector4D"/>.</returns>
-        public readonly float Squared_Magnitude() => x * x + y * y + z * z + w * w;
+        public readonly float SquaredMagnitude() => x * x + y * y + z * z + w * w;
 
         /// <summary>
         /// Normalises a <see cref="Vector4D"/>.
         /// </summary>
         /// <returns>A normalised <see cref="Vector4D"/>.</returns>
         public readonly Vector4D Normalise() =>
-            this.Approx_Equals(Vector4D.Zero, 1E-6f)
-                ? throw new ArgumentException("Cannot normalise a zero vector.")
-                : this / Magnitude();
+            this.Approx_Equals(Zero, 1E-6f)
+            ? throw Exceptions.Normalise
+            : this / Magnitude();
 
         // Equality and miscellaneous
         public static bool operator ==(Vector4D v1, Vector4D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z && v1.w == v2.w;
@@ -206,29 +207,29 @@ namespace _3D_Engine.Maths.Vectors
 
         #region Operator Overloading
 
-        public static Vector4D operator +(Vector4D v1, Vector4D v2) => new Vector4D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
+        public static Vector4D operator +(Vector4D v1, Vector4D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
 
-        public static Vector4D operator +(Vector4D v1, Vector3D v2) => new Vector4D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
+        public static Vector4D operator +(Vector4D v1, Vector3D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
 
-        public static Vector4D operator -(Vector4D v1, Vector4D v2) => new Vector4D(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w);
+        public static Vector4D operator -(Vector4D v1, Vector4D v2) => new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w);
 
         public static float operator *(Vector4D v1, Vector4D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 
-        public static Vector4D operator *(Vector4D v, float scalar) => new Vector4D(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar);
+        public static Vector4D operator *(Vector4D v, float scalar) => new(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar);
 
         public static Vector4D operator *(float scalar, Vector4D v) => v * scalar;
 
-        public static Vector4D operator /(Vector4D v, float scalar) => new Vector4D(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar);
+        public static Vector4D operator /(Vector4D v, float scalar) => new(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar);
 
-        public static Vector4D operator -(Vector4D v) => new Vector4D(-v.x, -v.y, -v.z, -v.w);
+        public static Vector4D operator -(Vector4D v) => new(-v.x, -v.y, -v.z, -v.w);
 
         #endregion
 
         #region Casting
 
-        public static explicit operator Quaternion(Vector4D v) => new Quaternion(v.x, v.y, v.z, v.w);
+        public static explicit operator Quaternion(Vector4D v) => new(v.x, v.y, v.z, v.w);
 
-        public static explicit operator Vector3D(Vector4D v) => new Vector3D(v.x, v.y, v.z);
+        public static explicit operator Vector3D(Vector4D v) => new(v.x, v.y, v.z);
 
         #endregion
     }
