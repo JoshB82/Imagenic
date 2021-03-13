@@ -10,6 +10,7 @@
  * Encapsulates creation of a 4x4 square matrix and provides methods to extract common information and for operator overloading. Each instance of a Matrix4x4 has a size of 64 bytes, so, where possible, a Matrix4x4 should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine.Constants;
 using _3D_Engine.Maths.Vectors;
 using System;
 
@@ -86,7 +87,7 @@ namespace _3D_Engine.Maths
         {
             if (elements.GetLength(0) < 4 ||
                 elements.GetLength(1) < 4)
-                throw new ArgumentException("Parameter \"elements\" must at least be of size 4x4.", nameof(elements));
+                throw new ArgumentException(Exceptions.Matrix4x4ParameterSize, nameof(elements));
 
             (m00, m01, m02, m03) = (elements[0, 0], elements[0, 1], elements[0, 2], elements[0, 3]);
             (m10, m11, m12, m13) = (elements[1, 0], elements[1, 1], elements[1, 2], elements[1, 3]);
@@ -102,7 +103,7 @@ namespace _3D_Engine.Maths
                 elements[1].Length < 4 ||
                 elements[2].Length < 4 ||
                 elements[3].Length < 4)
-                throw new ArgumentException("Parameter \"elements\" must at least be of size 4x4.", nameof(elements));
+                throw new ArgumentException(Exceptions.Matrix4x4ParameterSize, nameof(elements));
 
             (m00, m01, m02, m03) = (elements[0][0], elements[0][1], elements[0][2], elements[0][3]);
             (m10, m11, m12, m13) = (elements[1][0], elements[1][1], elements[1][2], elements[1][3]);
@@ -158,7 +159,7 @@ namespace _3D_Engine.Maths
                         - m01 * (m10 * d18 - m12 * d15 + m13 * d14)
                         + m02 * (m10 * d17 - m11 * d15 + m13 * d13)
                         - m03 * (m10 * d16 - m11 * d14 + m12 * d13);
-            if (det == 0) throw new InvalidOperationException("Matrix4x4 does not have an inverse.");
+            if (det == 0) throw Exceptions.Matrix4x4NoInverse;
 
             return new Matrix4x4
             (
@@ -237,7 +238,7 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Addition(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator +(Matrix4x4 m1, Matrix4x4 m2) =>
-            new Matrix4x4()
+            new()
             {
                 m00 = m1.m00 + m2.m00, m01 = m1.m01 + m2.m01, m02 = m1.m02 + m2.m02, m03 = m1.m03 + m2.m03,
                 m10 = m1.m10 + m2.m10, m11 = m1.m11 + m2.m11, m12 = m1.m12 + m2.m12, m13 = m1.m13 + m2.m13,
@@ -247,7 +248,7 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator -(Matrix4x4 m1, Matrix4x4 m2) =>
-            new Matrix4x4()
+            new()
             {
                 m00 = m1.m00 - m2.m00, m01 = m1.m01 - m2.m01, m02 = m1.m02 - m2.m02, m03 = m1.m03 - m2.m03,
                 m10 = m1.m10 - m2.m10, m11 = m1.m11 - m2.m11, m12 = m1.m12 - m2.m12, m13 = m1.m13 - m2.m13,
@@ -257,7 +258,7 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator *(Matrix4x4 m1, Matrix4x4 m2) =>
-            new Matrix4x4
+            new
             (
                 m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20 + m1.m03 * m2.m30,
                 m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21 + m1.m03 * m2.m31,
@@ -279,7 +280,7 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)']/*"/>
         public static Vector4D operator *(Matrix4x4 m, Vector4D v) => 
-            new Vector4D(
+            new(
                 m.m00 * v.x + m.m01 * v.y + m.m02 * v.z + m.m03 * v.w,
                 m.m10 * v.x + m.m11 * v.y + m.m12 * v.z + m.m13 * v.w,
                 m.m20 * v.x + m.m21 * v.y + m.m22 * v.z + m.m23 * v.w,
@@ -288,7 +289,7 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,System.Single)']/*"/>
         public static Matrix4x4 operator *(Matrix4x4 m, float scalar) =>
-            new Matrix4x4()
+            new()
             {
                 m00 = m.m00 * scalar, m01 = m.m01 * scalar, m02 = m.m02 * scalar, m03 = m.m03 * scalar,
                 m10 = m.m10 * scalar, m11 = m.m11 * scalar, m12 = m.m12 * scalar, m13 = m.m13 * scalar,
@@ -306,7 +307,7 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Division(_3D_Engine.Matrix4x4,System.Single)']/*"/>
         public static Matrix4x4 operator /(Matrix4x4 m, float scalar) =>
-            new Matrix4x4()
+            new()
             {
                 m00 = m.m00 / scalar, m01 = m.m01 / scalar, m02 = m.m02 / scalar, m03 = m.m03 / scalar,
                 m10 = m.m10 / scalar, m11 = m.m11 / scalar, m12 = m.m12 / scalar, m13 = m.m13 / scalar,

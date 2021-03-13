@@ -10,6 +10,7 @@
  * Encapsulates creation of a quaternion and provides methods to extract common information and for operator overloading. Each instance of a Quaternion has a size of 16 bytes, so, where possible, a Quaternion should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine.Constants;
 using _3D_Engine.Maths.Vectors;
 using System;
 
@@ -67,7 +68,7 @@ namespace _3D_Engine.Maths
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.#ctor(System.Single[])']/*"/>
         public Quaternion(float[] elements)
         {
-            if (elements.Length < 4) throw new ArgumentException("Parameter \"elements\" must at least be of length 4.", nameof(elements));
+            if (elements.Length < 4) throw new ArgumentException(Exceptions.FourParameterLength, nameof(elements));
             q1 = elements[0];
             q2 = elements[1];
             q3 = elements[2];
@@ -80,15 +81,15 @@ namespace _3D_Engine.Maths
 
         // Common
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Magnitude']/*"/>
-        public readonly float Magnitude() => Sqrt(Squared_Magnitude());
+        public readonly float Magnitude() => Sqrt(SquaredMagnitude());
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Squared_Magnitude']/*"/>
-        public readonly float Squared_Magnitude() => q1 * q1 + q2 * q2 + q3 * q3 + q4 * q4;
+        public readonly float SquaredMagnitude() => q1 * q1 + q2 * q2 + q3 * q3 + q4 * q4;
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Normalise']/*"/>
         public readonly Quaternion Normalise() =>
-            this.Approx_Equals(Quaternion.Zero, 1E-6f)
-                ? throw new ArgumentException("Cannot normalise a zero quaternion.")
+            this.Approx_Equals(Zero, 1E-6f)
+                ? throw Exceptions.QuaternionNormalise
                 : this / Magnitude();
 
         // Equality and miscellaneous
@@ -116,14 +117,14 @@ namespace _3D_Engine.Maths
         #region Operator Overloading
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Addition(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
-        public static Quaternion operator +(Quaternion q1, Quaternion q2) => new Quaternion(q1.q1 + q2.q1, q1.q2 + q2.q2, q1.q3 + q2.q3, q1.q4 + q2.q4);
+        public static Quaternion operator +(Quaternion q1, Quaternion q2) => new(q1.q1 + q2.q1, q1.q2 + q2.q2, q1.q3 + q2.q3, q1.q4 + q2.q4);
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Subtraction(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
-        public static Quaternion operator -(Quaternion q1, Quaternion q2) => new Quaternion(q1.q1 - q2.q1, q1.q2 - q2.q2, q1.q3 - q2.q3, q1.q4 - q2.q4);
+        public static Quaternion operator -(Quaternion q1, Quaternion q2) => new(q1.q1 - q2.q1, q1.q2 - q2.q2, q1.q3 - q2.q3, q1.q4 - q2.q4);
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,_3D_Engine.Quaternion)']/*"/>
         public static Quaternion operator *(Quaternion q1, Quaternion q2) =>
-            new Quaternion
+            new
             (
                 q1.q1 * q2.q1 - q1.q2 * q2.q2 - q1.q3 * q2.q3 - q1.q4 * q2.q4,
                 q1.q1 * q2.q2 - q1.q2 * q2.q1 - q1.q3 * q2.q4 - q1.q4 * q2.q3,
@@ -132,12 +133,12 @@ namespace _3D_Engine.Maths
             );
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Multiply(_3D_Engine.Quaternion,System.Single)']/*"/>
-        public static Quaternion operator *(Quaternion q, float scalar) => new Quaternion(q.q1 * scalar, q.q2 * scalar, q.q3 * scalar, q.q4 * scalar);
+        public static Quaternion operator *(Quaternion q, float scalar) => new(q.q1 * scalar, q.q2 * scalar, q.q3 * scalar, q.q4 * scalar);
 
         public static Quaternion operator *(float scalar, Quaternion q) => q * scalar;
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.op_Division(_3D_Engine.Quaternion,System.Single)']/*"/>
-        public static Quaternion operator /(Quaternion q, float scalar) => new Quaternion(q.q1 / scalar, q.q2 / scalar, q.q3 / scalar, q.q4 / scalar);
+        public static Quaternion operator /(Quaternion q, float scalar) => new(q.q1 / scalar, q.q2 / scalar, q.q3 / scalar, q.q4 / scalar);
 
         #endregion
     }

@@ -15,11 +15,11 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
         /// <summary>
         /// Defines how the outside of a <see cref="Texture"/> file should be drawn.
         /// </summary>
-        public Outside_Texture_Behaviour Outside_Behaviour { get; set; } = Outside_Texture_Behaviour.Repeat;
+        public OutsideTextureBehaviour Outside_Behaviour { get; set; } = OutsideTextureBehaviour.Repeat;
         /// <summary>
-        /// The <see cref="Color"/> used to fill outside of <see cref="Texture"/> should <see cref="Outside_Texture_Behaviour.Colour_Fill"/> be selected for Outside_Behaviour.
+        /// The <see cref="Color"/> used to fill outside of <see cref="Texture"/> should <see cref="OutsideTextureBehaviour.Colour_Fill"/> be selected for Outside_Behaviour.
         /// </summary>
-        public Color Outside_Colour { get; set; } = Color.Black;
+        public Color OutsideColour { get; set; } = Color.Black;
         public Vector3D[] Vertices { get; set; }
 
         #endregion
@@ -55,7 +55,7 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
 
     }
 
-    public enum Outside_Texture_Behaviour : byte
+    public enum OutsideTextureBehaviour : byte
     {
         Colour_Fill,
         Repeat,

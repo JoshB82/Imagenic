@@ -10,6 +10,7 @@
  * Encapsulates creation of a rendering object.
  */
 
+using _3D_Engine.Constants;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
@@ -106,7 +107,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                         break;
                     default:
-                        throw typeNotSupportedException;
+                        throw Exceptions.RenderingObjectTypeNotSupported; ;
                 }
             }
         }
@@ -143,7 +144,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                         break;
                     default:
-                        throw typeNotSupportedException;
+                        throw Exceptions.RenderingObjectTypeNotSupported; ;
                 }
             }
         }
@@ -179,7 +180,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                         break;
                     default:
-                        throw typeNotSupportedException;
+                        throw Exceptions.RenderingObjectTypeNotSupported; ;
                 }
             }
         }
@@ -215,7 +216,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                         break;
                     default:
-                        throw typeNotSupportedException;
+                        throw Exceptions.RenderingObjectTypeNotSupported;
                 }
             }
         }
@@ -305,9 +306,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         }
 
         protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
-
-        // Miscellaneous
-        private static readonly NotSupportedException typeNotSupportedException = new("This type is not supported.");
+        
 
         #endregion
 
@@ -347,7 +346,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                     break;
                 default:
-                    throw typeNotSupportedException;
+                    throw Exceptions.RenderingObjectTypeNotSupported;
             }
 
             ZNear = zNear;

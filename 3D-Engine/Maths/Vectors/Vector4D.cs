@@ -143,7 +143,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <param name="elements">The array containing elements to be put in the <see cref="Vector4D"/>.</param>
         public Vector4D(float[] elements)
         {
-            if (elements.Length < 4) throw new ArgumentException(Exceptions.Vector4DParameterLength, nameof(elements));
+            if (elements.Length < 4) throw new ArgumentException(Exceptions.FourParameterLength, nameof(elements));
             x = elements[0];
             y = elements[1];
             z = elements[2];
