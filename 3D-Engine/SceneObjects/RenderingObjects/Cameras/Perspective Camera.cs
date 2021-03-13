@@ -10,9 +10,7 @@
  * Encapsulates creation of a perspective camera.
  */
 
-using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
@@ -33,7 +31,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         public PerspectiveCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp) { }
 
-        public PerspectiveCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float width, float height, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, width, height, zNear, zFar, renderWidth, renderHeight) { }
+        public PerspectiveCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
         public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => PerspectiveCameraAngle(origin, pointedAt.WorldOrigin - origin, directionUp, fovX, fovY, zNear, zFar, renderWidth, renderHeight);
 
@@ -47,34 +45,17 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             {
                 for (int y = 0; y < RenderHeight; y++)
                 {
-                    // check all floats and ints
                     if (zBuffer.Values[x][y] != outOfBoundsValue)
                     {
-                        ShadowMapCheck
-                        (
-                            x, y, zBuffer.Values[x][y],
-                            ref colourBuffer.Values[x][y],
-                            ref cameraScreenToWindowInverse,
-                            ref this.ScreenToWorld
-                        );
+                        // Move the point from window space to screen space
+                        Vector4D screenSpacePoint = WindowToScreen * new Vector4D(x, y, zBuffer.Values[x][y], 1);
+
+                        // Move the point from screen space to world space and apply lighting
+                        screenSpacePoint *= 2 * ZNear * ZFar / (ZNear + ZFar - screenSpacePoint.z * (ZFar - ZNear));
+                        ApplyLighting(ScreenToWorld * screenSpacePoint, ref colourBuffer.Values[x][y], x, y);
                     }
                 }
             }
-        }
-
-        // Shadow Map Check
-        private void ShadowMapCheck(
-            int x, int y, float z,
-            ref Color pointColour,
-            ref Matrix4x4 windowToCameraScreen,
-            ref Matrix4x4 cameraScreenToWorld)
-        {
-            // Move the point from window space to camera-screen space
-            Vector4D cameraScreenSpacePoint = windowToCameraScreen * new Vector4D(x, y, z, 1);
-
-            // Move the point from camera-screen space to world space and apply lighting
-            cameraScreenSpacePoint *= 2 * this.ZNear * this.ZFar / (this.ZNear + this.ZFar - cameraScreenSpacePoint.z * (this.ZFar - this.ZNear));
-            ApplyLighting(cameraScreenToWorld * cameraScreenSpacePoint, ref pointColour, x, y);
         }
 
         #endregion

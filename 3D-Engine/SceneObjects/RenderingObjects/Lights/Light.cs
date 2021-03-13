@@ -84,7 +84,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
             ShadowMap = new(RenderWidth, RenderHeight);
 
             // Set screen-to-window matrix
-            ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * RenderingObject.windowTranslate;
+            ScreenToWindow = Transform.Scale(0.5f * RenderWidth, 0.5f * RenderHeight, 1) * windowTranslate;
         }
 
         #endregion

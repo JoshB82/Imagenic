@@ -36,19 +36,21 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         protected Buffer2D<float> zBuffer;
 
         // Matrices
+        protected Matrix4x4 ViewToWorld;
+        protected Matrix4x4 ScreenToView;
+        protected Matrix4x4 WindowToScreen;
+
         internal Matrix4x4 ScreenToWorld;
 
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
 
-            ScreenToWorld = ModelToWorld * ViewToScreen.Inverse();
+            ViewToWorld = ModelToWorld;
         }
 
+        //ScreenToWorld = ModelToWorld * ScreenToView;
         internal abstract void ProcessLighting();
-
-        // Matrices
-        protected Matrix4x4 cameraScreenToWindowInverse;
 
         // View Volume
         public override float ViewWidth
@@ -57,6 +59,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 base.ViewWidth = value;
+                ScreenToView = ViewToScreen.Inverse();
                 NewRenderNeeded = true;
             }
         }
@@ -66,6 +69,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 base.ViewHeight = value;
+                ScreenToView = ViewToScreen.Inverse();
                 NewRenderNeeded = true;
             }
         }
@@ -75,6 +79,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 base.ZNear = value;
+                ScreenToView = ViewToScreen.Inverse();
                 NewRenderNeeded = true;
             }
         }
@@ -84,6 +89,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 base.ZFar = value;
+                ScreenToView = ViewToScreen.Inverse();
                 NewRenderNeeded = true;
             }
         }
@@ -111,8 +117,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             colourBuffer = new(RenderWidth, RenderHeight);
             zBuffer = new(RenderWidth, RenderHeight);
 
-            ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * windowTranslate;
-            cameraScreenToWindowInverse = ScreenToWindow.Inverse();
+            ScreenToWindow = Transform.Scale(0.5f * RenderWidth, 0.5f * RenderHeight, 1) * windowTranslate;
+            WindowToScreen = ScreenToWindow.Inverse();
 
             NewRenderNeeded = true;
         }

@@ -199,6 +199,19 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                         clippedFace.t3 /= clippedFace.p3.w;
                     }
                 }
+
+                // this position relative to skip?
+                
+                clippedFace.p1.x = clippedFace.p1.x.TruncateToRange(-1, 1);
+                clippedFace.p1.y = clippedFace.p1.y.TruncateToRange(-1, 1);
+                clippedFace.p1.z = clippedFace.p1.z.TruncateToRange(-1, 1);
+                clippedFace.p2.x = clippedFace.p2.x.TruncateToRange(-1, 1);
+                clippedFace.p2.y = clippedFace.p2.y.TruncateToRange(-1, 1);
+                clippedFace.p2.z = clippedFace.p2.z.TruncateToRange(-1, 1);
+                clippedFace.p3.x = clippedFace.p3.x.TruncateToRange(-1, 1);
+                clippedFace.p3.y = clippedFace.p3.y.TruncateToRange(-1, 1);
+                clippedFace.p3.z = clippedFace.p3.z.TruncateToRange(-1, 1);
+                
             }
 
             // Clip the face in screen space

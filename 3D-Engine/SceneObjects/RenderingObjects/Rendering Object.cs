@@ -58,8 +58,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         };
 
         // Matrices
-        internal Matrix4x4 WorldToView { get; set; }
-        internal Matrix4x4 ViewToScreen, ScreenToWindow;
+        internal Matrix4x4 WorldToView;
+        internal Matrix4x4 ViewToScreen;
+        internal Matrix4x4 ScreenToWindow;
 
         internal override void CalculateMatrices()
         {
@@ -354,6 +355,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             this.viewHeight = viewHeight;
             ViewWidth = viewWidth;
             ViewHeight = viewHeight;
+            this.renderHeight = renderHeight;
             RenderWidth = renderWidth;
             RenderHeight = renderHeight;
         }

@@ -169,7 +169,7 @@ namespace _3D_Engine.Maths.Vectors
 
         #region Vector Operations (Geometry)
 
-        public static Vector3D Line_Intersect_Plane(Vector3D line_start, Vector3D line_finish, Vector3D plane_point, Vector3D plane_normal, out float d)
+        public static Vector3D LineIntersectPlane(Vector3D line_start, Vector3D line_finish, Vector3D plane_point, Vector3D plane_normal, out float d)
         {
             Vector3D line = line_finish - line_start;
             float denominator = line * plane_normal;

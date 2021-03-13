@@ -84,12 +84,12 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         /// Creates a <see cref="Cone"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cone"/>.</param>
-        /// <param name="direction_forward">The direction the <see cref="Cone"/> faces.</param>
-        /// <param name="direction_up">The upward orientation of the <see cref="Cone"/>.</param>
+        /// <param name="directionForward">The direction the <see cref="Cone"/> faces.</param>
+        /// <param name="directionUp">The upward orientation of the <see cref="Cone"/>.</param>
         /// <param name="height">The height of the <see cref="Cone"/>.</param>
         /// <param name="radius">The radius of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
         /// <param name="resolution">The number of <see cref="Vertex">Vertices</see> that are on the perimeter of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
-        public Cone(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float height, float radius, int resolution) : base(origin, direction_forward, direction_up)
+        public Cone(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float height, float radius, int resolution) : base(origin, directionForward, directionUp)
         {
             Dimension = 3;
 
@@ -97,7 +97,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
             Radius = radius;
             Resolution = resolution;
         }
-        
+
         #endregion
     }
 }

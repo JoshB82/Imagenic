@@ -40,7 +40,7 @@ namespace _3D_Engine.Rendering
                 if (point_2_distance < 0)
                 {
                     // One point is on the inside, the other on the outside, so clip the line
-                    point2 = Line_Intersect_Plane((Vector3D)point1, (Vector3D)point2, planePoint, planeNormal, out _);
+                    point2 = LineIntersectPlane((Vector3D)point1, (Vector3D)point2, planePoint, planeNormal, out _);
                 }
                 // If above condition fails, both points are on the inside, so return line unchanged
                 return true;
@@ -49,7 +49,7 @@ namespace _3D_Engine.Rendering
             if (point_2_distance >= 0)
             {
                 // One point is on the outside, the other on the inside, so clip the line
-                Vector3D intersection = Line_Intersect_Plane((Vector3D)point2, (Vector3D)point1, planePoint, planeNormal, out _);
+                Vector3D intersection = LineIntersectPlane((Vector3D)point2, (Vector3D)point1, planePoint, planeNormal, out _);
                 point1 = point2;
                 point2 = intersection;
                 return true;
@@ -119,8 +119,8 @@ namespace _3D_Engine.Rendering
                     break;
                 case 1:
                     // One point is on the inside, so only a smaller face is needed
-                    Vector4D intersection_1 = Line_Intersect_Plane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out float d1);
-                    Vector4D intersection_2 = Line_Intersect_Plane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2);
+                    Vector4D intersection_1 = LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out float d1);
+                    Vector4D intersection_2 = LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2);
 
                     Face face1;
                     if (faceToClip.HasTexture)
@@ -139,8 +139,8 @@ namespace _3D_Engine.Rendering
                     break;
                 case 2:
                     // Two points are on the inside, so a quadrilateral is formed and split into two faces
-                    intersection_1 = Line_Intersect_Plane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d1);
-                    intersection_2 = Line_Intersect_Plane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2);
+                    intersection_1 = LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d1);
+                    intersection_2 = LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2);
 
                     Face face2;
                     if (faceToClip.HasTexture)

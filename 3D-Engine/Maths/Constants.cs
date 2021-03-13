@@ -20,7 +20,7 @@ namespace _3D_Engine.Maths
     public static class Constants
     {
         #region Physics
-        
+
         // Gravitational Acceleration
         /// <summary>
         /// Gravitational acceleration near the surface of the Earth as a <see cref="float"/>.
@@ -29,7 +29,7 @@ namespace _3D_Engine.Maths
         /// <summary>
         /// Gravitational acceleration near the surface of the Earth as a <see cref="Vector3D"/>.
         /// </summary>
-        public static Vector3D GravAccVector = new Vector3D(0, GravAcc, 0);
+        public static readonly Vector3D GravAccVector = new(0, GravAcc, 0);
 
         #endregion
     }

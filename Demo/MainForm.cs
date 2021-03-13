@@ -15,28 +15,51 @@ namespace Simple_Demo
             InitializeComponent();
 
             // Create a new scene
-            Scene scene = new();
+            Group scene = new();
 
             // Create some meshes
             WorldPoint origin = WorldPoint.ZeroOrigin;
             scene.Add(origin);
             Group axes = Arrow.Axes;
             scene.Add(axes);
-            Cube cube = new(new Vector3D(10, 10, 10), Vector3D.UnitZ, Vector3D.UnitY, 30);
-            scene.Add(cube);
-            Cone cone = new(new Vector3D(70, 10, 10), Vector3D.UnitZ, Vector3D.UnitY, 30, 20, 50);
-            scene.Add(cone);
+
+            Cube cube = new(
+                origin: new Vector3D(10, 10, 10),
+                directionForward: Vector3D.UnitZ,
+                directionUp: Vector3D.UnitY,
+                sideLength: 30
+            );
+
+            Cone cone = new(
+                origin: new Vector3D(70, 10, 10),
+                directionForward: Vector3D.UnitZ,
+                directionUp: Vector3D.UnitY,
+                height: 30,
+                radius: 20,
+                resolution: 50
+            );
+            scene.Add(cube, cone);
 
             // Create a light
-            DistantLight light = new(new Vector3D(0, 100, 0), scene.Meshes[0], Vector3D.UnitZ);
+            DistantLight light = new(
+                origin: new Vector3D(0, 100, 0),
+                pointedAt: scene.Meshes[0],
+                directionUp: Vector3D.UnitZ
+            );
             scene.Add(light);
 
             // Create a camera
-            float cameraViewWidth = pictureBox.Width / 10f, cameraViewHeight = pictureBox.Height / 10f;
-            PerspectiveCamera renderCamera = new(new Vector3D(100, 0, 100), scene.SceneObjects[0], Vector3D.UnitY, cameraViewWidth, cameraViewHeight, 10, 750, pictureBox.Width, pictureBox.Height);
-
-            // Adjust render settings
-            //renderCamera.MakeRenderSizeOfControl(pictureBox);
+            OrthogonalCamera renderCamera = new(
+                origin: new Vector3D(100, 0, 100),
+                pointedAt: scene.SceneObjects[0],
+                directionUp: Vector3D.UnitY,
+                viewWidth: pictureBox.Width / 10f,
+                viewHeight: pictureBox.Height / 10f,
+                zNear: 10,
+                zFar: 750,
+                renderWidth: pictureBox.Width,
+                renderHeight: pictureBox.Height
+            );
 
             // Render the scene and display the output in the picture box
             renderCamera.SceneToRender = scene;

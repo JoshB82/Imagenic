@@ -13,7 +13,6 @@
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.Components;
-using System.Collections.Generic;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
@@ -29,7 +28,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         public static readonly Arrow YAxis = new(Vector3D.Zero, Vector3D.UnitY, Vector3D.UnitNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Green };
         public static readonly Arrow XAxis = new(Vector3D.Zero, Vector3D.UnitX, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Red };
 
-        public static readonly Group Axes = new(new List<SceneObject>() { XAxis, YAxis, ZAxis });
+        public static readonly Group Axes = new(XAxis, YAxis, ZAxis);
 
         private Vector3D tipPosition;
         private float length, bodyLength, tipLength, bodyRadius, tipRadius;

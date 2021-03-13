@@ -27,6 +27,7 @@ namespace _3D_Engine.SceneObjects.Groups
     {
         #region Fields and Properties
 
+        // Contents
         public List<SceneObject> SceneObjects { get; set; } = new();
         public List<Camera> Cameras { get; set; } = new();
         public List<Light> Lights { get; set; } = new();
@@ -39,8 +40,12 @@ namespace _3D_Engine.SceneObjects.Groups
         #region Constructors
 
         public Group() { }
-
+        public Group(SceneObject sceneObject) => Add(sceneObject);
         public Group(IEnumerable<SceneObject> sceneObjects) => Add(sceneObjects);
+        public Group(params SceneObject[] sceneObjects) => Add(sceneObjects);
+        public Group(Group group) => Add(group);
+        public Group(IEnumerable<Group> groups) => Add(groups);
+        public Group(params Group[] groups) => Add(groups);
 
         #endregion
 
@@ -69,17 +74,26 @@ namespace _3D_Engine.SceneObjects.Groups
                 sceneObject.RenderCamera = RenderCamera;
             }
         }
-        public void Add(Group group) => Add(group.SceneObjects);
         public void Add(IEnumerable<SceneObject> sceneObjects)
         {
-            foreach(SceneObject sceneObject in sceneObjects)
+            foreach (SceneObject sceneObject in sceneObjects)
             {
                 Add(sceneObject);
             }
         }
+        public void Add(params SceneObject[] sceneObjects) => Add((IEnumerable<SceneObject>)sceneObjects);
+        public void Add(Group group) => Add(group.SceneObjects);
+        public void Add(IEnumerable<Group> groups)
+        {
+            foreach(Group group in groups)
+            {
+                Add(group);
+            }
+        }
+        public void Add(params Group[] groups) => Add((IEnumerable<Group>)groups);
 
         // Remove
-        public void Remove() { }
+        //public void RemoveAll(Predicate<SceneObject> predicate) => ;
 
         #endregion
 
@@ -104,7 +118,7 @@ namespace _3D_Engine.SceneObjects.Groups
                 textures.AddRange(mesh.Textures);
             }
 
-            Custom customCast = new Custom(group.Meshes[0].WorldOrigin, group.Meshes[0].WorldDirectionForward, group.Meshes[0].WorldDirectionUp, vertices.ToArray(), edges.ToArray(), faces.ToArray(), textures.ToArray());
+            Custom customCast = new(group.Meshes[0].WorldOrigin, group.Meshes[0].WorldDirectionForward, group.Meshes[0].WorldDirectionUp, vertices.ToArray(), edges.ToArray(), faces.ToArray(), textures.ToArray());
 
             return customCast;
         }

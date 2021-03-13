@@ -32,7 +32,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp) { }
 
-        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float width, float height, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, width, height, zNear, zFar, renderWidth, renderHeight) { }
+        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
         public static OrthogonalCamera OrthogonalCameraAngle(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => OrthogonalCameraAngle(origin, pointedAt.WorldOrigin - origin, directionUp, fovX, fovY, zNear, zFar, renderWidth, renderHeight);
 
@@ -42,7 +42,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         internal override void ProcessLighting()
         {
-            Matrix4x4 windowToWorld = this.ModelToWorld * this.ViewToScreen.Inverse() * cameraScreenToWindowInverse;
+            Matrix4x4 windowToWorld = ViewToWorld * ScreenToView * WindowToScreen;
 
             for (int x = 0; x < RenderWidth; x++)
             {
@@ -50,8 +50,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                 {
                     if (zBuffer.Values[x][y] != outOfBoundsValue)
                     {
-                        // Move the point from window space to world space and apply lighting
-                        ApplyLighting(windowToWorld * new Vector4D(x, y, zBuffer.Values[x][y], 1), ref colourBuffer.Values[x][y], x, y);
+                        // Move the point from window space to world space
+                        Vector4D worldSpacePoint = windowToWorld * new Vector4D(x, y, zBuffer.Values[x][y], 1);
+
+                        // Apply lighting
+                        ApplyLighting(worldSpacePoint, ref colourBuffer.Values[x][y], x, y);
                     }
                 }
             }

@@ -10,6 +10,7 @@
  * Encapsulates creation of a two-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector2D has a size of 8 bytes, so, where possible, a Vector2D should be passed by reference to reduce unnecessary copying (depending on the architecture of the machine).
  */
 
+using _3D_Engine.Constants;
 using System;
 using static System.MathF;
 
@@ -24,27 +25,27 @@ namespace _3D_Engine.Maths.Vectors
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (0, 0).
         /// </summary>
-        public static readonly Vector2D Zero = new Vector2D(0, 0);
+        public static readonly Vector2D Zero = new(0, 0);
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (1, 1).
         /// </summary>
-        public static readonly Vector2D One = new Vector2D(1, 1);
+        public static readonly Vector2D One = new(1, 1);
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (1, 0).
         /// </summary>
-        public static readonly Vector2D UnitX = new Vector2D(1, 0);
+        public static readonly Vector2D UnitX = new(1, 0);
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (0, 1).
         /// </summary>
-        public static readonly Vector2D UnitY = new Vector2D(0, 1);
+        public static readonly Vector2D UnitY = new(0, 1);
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (-1, 0).
         /// </summary>
-        public static readonly Vector2D UnitNegativeX = new Vector2D(-1, 0);
+        public static readonly Vector2D UnitNegativeX = new(-1, 0);
         /// <summary>
         /// A <see cref="Vector2D"/> equal to (0, -1).
         /// </summary>
-        public static readonly Vector2D UnitNegativeY = new Vector2D(0, -1);
+        public static readonly Vector2D UnitNegativeY = new(0, -1);
 
         // Vector Contents
         public float x;
@@ -71,7 +72,7 @@ namespace _3D_Engine.Maths.Vectors
         /// <param name="elements">The array containing elements to be put in the <see cref="Vector2D"/>.</param>
         public Vector2D(float[] elements)
         {
-            if (elements.Length < 2) throw new ArgumentException("Parameter \"elements\" must at least be of length 2.", nameof(elements));
+            if (elements.Length < 2) throw new ArgumentException(Exceptions.Vector2DParameterLength, nameof(elements));
             x = elements[0];
             y = elements[1];
         }
@@ -83,7 +84,7 @@ namespace _3D_Engine.Maths.Vectors
         // Common
         public readonly float Angle(Vector2D v)
         {
-            if (this == Vector2D.Zero || v == Vector2D.Zero) throw new ArgumentException("Cannot calculate angle with one or more zero vectors."); //?
+            if (this == Vector2D.Zero || v == Vector2D.Zero) throw Exceptions.Vector2DAngle;
             float quotient = this * v / (this.Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return Acos(quotient);
@@ -93,21 +94,21 @@ namespace _3D_Engine.Maths.Vectors
         /// Finds the magnitude of a <see cref="Vector2D"/>.
         /// </summary>
         /// <returns>The magnitude of a <see cref="Vector2D"/>.</returns>
-        public readonly float Magnitude() => Sqrt(Squared_Magnitude());
+        public readonly float Magnitude() => Sqrt(SquaredMagnitude());
 
         /// <summary>
         /// Finds the squared magnitude of a <see cref="Vector2D"/>.
         /// </summary>
         /// <returns>The squared magnitude of a <see cref="Vector2D"/>.</returns>
-        public readonly float Squared_Magnitude() => x * x + y * y;
+        public readonly float SquaredMagnitude() => x * x + y * y;
 
         /// <summary>
         /// Normalises a <see cref="Vector2D"/>.
         /// </summary>
         /// <returns>A normalised <see cref="Vector2D"/>.</returns>
         public readonly Vector2D Normalise() =>
-            this.Approx_Equals(Vector2D.Zero, 1E-6f)
-            ? throw new ArgumentException("Cannot normalise a zero vector.")
+            this.ApproxEquals(Zero, 1E-6f)
+            ? throw Exceptions.Vector2DNormalise
             : this / Magnitude();
 
         // Equality and miscellaneous
@@ -117,7 +118,7 @@ namespace _3D_Engine.Maths.Vectors
 
         public readonly bool Equals(Vector2D v) => this == v;
 
-        public readonly bool Approx_Equals(Vector2D v, float epsilon = float.Epsilon) => this.x.ApproxEquals(v.x, epsilon) && this.y.ApproxEquals(v.y, epsilon);
+        public readonly bool ApproxEquals(Vector2D v, float epsilon = float.Epsilon) => this.x.ApproxEquals(v.x, epsilon) && this.y.ApproxEquals(v.y, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Vector2D)obj;
 
@@ -129,25 +130,25 @@ namespace _3D_Engine.Maths.Vectors
 
         #region Operator Overloading
 
-        public static Vector2D operator +(Vector2D v1, Vector2D v2) => new Vector2D(v1.x + v2.x, v1.y + v2.y);
+        public static Vector2D operator +(Vector2D v1, Vector2D v2) => new(v1.x + v2.x, v1.y + v2.y);
 
-        public static Vector2D operator -(Vector2D v1, Vector2D v2) => new Vector2D(v1.x - v2.x, v1.y - v2.y);
+        public static Vector2D operator -(Vector2D v1, Vector2D v2) => new(v1.x - v2.x, v1.y - v2.y);
 
         public static float operator *(Vector2D v1, Vector2D v2) => v1.x * v2.x + v1.y * v2.y;
 
-        public static Vector2D operator *(Vector2D v, float scalar) => new Vector2D(v.x * scalar, v.y * scalar);
+        public static Vector2D operator *(Vector2D v, float scalar) => new(v.x * scalar, v.y * scalar);
 
         public static Vector2D operator *(float scalar, Vector2D v) => v * scalar;
 
-        public static Vector2D operator /(Vector2D v, float scalar) => new Vector2D(v.x / scalar, v.y / scalar);
+        public static Vector2D operator /(Vector2D v, float scalar) => new(v.x / scalar, v.y / scalar);
 
-        public static Vector2D operator -(Vector2D v) => new Vector2D(-v.x, -v.y);
+        public static Vector2D operator -(Vector2D v) => new(-v.x, -v.y);
 
         #endregion
 
         #region Casting
 
-        public static implicit operator Vector3D(Vector2D v) => new Vector3D(v);
+        public static implicit operator Vector3D(Vector2D v) => new(v);
 
         #endregion
     }
