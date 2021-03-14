@@ -12,7 +12,7 @@ namespace Interactive_Demo
 {
     public partial class MainForm : Form
     {
-        private readonly PerspectiveCamera camera;
+        private readonly OrthogonalCamera camera;
         private long updateTime;
 
         public MainForm()

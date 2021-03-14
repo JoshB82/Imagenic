@@ -50,13 +50,13 @@ namespace Simple_Demo
 
             // Create a camera
             OrthogonalCamera renderCamera = new(
-                origin: new Vector3D(100, 0, 100),
+                origin: new Vector3D(1000, 1000, 1000),
                 pointedAt: scene.SceneObjects[0],
-                directionUp: Vector3D.UnitY,
+                directionUp: new Vector3D(-1, 2, -1),
                 viewWidth: pictureBox.Width / 10f,
                 viewHeight: pictureBox.Height / 10f,
-                zNear: 10,
-                zFar: 750,
+                zNear: 500,
+                zFar: 10000,
                 renderWidth: pictureBox.Width,
                 renderHeight: pictureBox.Height
             );

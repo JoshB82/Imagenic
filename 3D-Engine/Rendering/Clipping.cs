@@ -14,7 +14,6 @@ using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.RenderingObjects;
 using System.Collections.Generic;
-
 using static _3D_Engine.Maths.Vectors.Vector3D;
 
 namespace _3D_Engine.Rendering
@@ -32,12 +31,12 @@ namespace _3D_Engine.Rendering
 
         internal static bool ClipEdge(Vector3D planePoint, Vector3D planeNormal, ref Vector4D point1, ref Vector4D point2)
         {
-            float point_1_distance = PointDistanceFromPlane((Vector3D)point1, planePoint, planeNormal);
-            float point_2_distance = PointDistanceFromPlane((Vector3D)point2, planePoint, planeNormal);
+            float point1Distance = PointDistanceFromPlane((Vector3D)point1, planePoint, planeNormal);
+            float point2Distance = PointDistanceFromPlane((Vector3D)point2, planePoint, planeNormal);
 
-            if (point_1_distance >= 0)
+            if (point1Distance >= 0)
             {
-                if (point_2_distance < 0)
+                if (point2Distance < 0)
                 {
                     // One point is on the inside, the other on the outside, so clip the line
                     point2 = LineIntersectPlane((Vector3D)point1, (Vector3D)point2, planePoint, planeNormal, out _);
@@ -45,8 +44,8 @@ namespace _3D_Engine.Rendering
                 // If above condition fails, both points are on the inside, so return line unchanged
                 return true;
             }
-            
-            if (point_2_distance >= 0)
+
+            if (point2Distance >= 0)
             {
                 // One point is on the outside, the other on the inside, so clip the line
                 Vector3D intersection = LineIntersectPlane((Vector3D)point2, (Vector3D)point1, planePoint, planeNormal, out _);
@@ -119,42 +118,42 @@ namespace _3D_Engine.Rendering
                     break;
                 case 1:
                     // One point is on the inside, so only a smaller face is needed
-                    Vector4D intersection_1 = LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out float d1);
-                    Vector4D intersection_2 = LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2);
+                    Vector4D intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out float d1), 1);
+                    Vector4D intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2), 1);
 
                     Face face1;
                     if (faceToClip.HasTexture)
                     {
-                        Vector3D t_intersection_1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
-                        Vector3D t_intersection_2 = (outsideTexturePoints[1] - insideTexturePoints[0]) * d2 + insideTexturePoints[0];
+                        Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
+                        Vector3D tIntersection2 = (outsideTexturePoints[1] - insideTexturePoints[0]) * d2 + insideTexturePoints[0];
 
-                        face1 = new Face(insidePoints[0], intersection_1, intersection_2, insideTexturePoints[0], t_intersection_1, t_intersection_2, faceToClip.Texture_Object) { HasTexture = true };
+                        face1 = new Face(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, faceToClip.Texture_Object) { HasTexture = true };
                     }
                     else
                     {
-                        face1 = new Face(insidePoints[0], intersection_1, intersection_2) { Colour = faceToClip.Colour };
+                        face1 = new Face(insidePoints[0], intersection1, intersection2) { Colour = faceToClip.Colour };
                     }
 
                     facesQueue.Enqueue(face1);
                     break;
                 case 2:
                     // Two points are on the inside, so a quadrilateral is formed and split into two faces
-                    intersection_1 = LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d1);
-                    intersection_2 = LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2);
+                    intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d1), 1);
+                    intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2), 1);
 
                     Face face2;
                     if (faceToClip.HasTexture)
                     {
-                        Vector3D t_intersection_1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
-                        Vector3D t_intersection_2 = (outsideTexturePoints[0] - insideTexturePoints[1]) * d2 + insideTexturePoints[1];
+                        Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
+                        Vector3D tIntersection2 = (outsideTexturePoints[0] - insideTexturePoints[1]) * d2 + insideTexturePoints[1];
 
-                        face1 = new Face(insidePoints[0], intersection_1, insidePoints[1], insideTexturePoints[0], t_intersection_1, insideTexturePoints[1], faceToClip.Texture_Object) { HasTexture = true };
-                        face2 = new Face(insidePoints[1], intersection_1, intersection_2, insideTexturePoints[1], t_intersection_1, t_intersection_2, faceToClip.Texture_Object) { HasTexture = true };
+                        face1 = new Face(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], faceToClip.Texture_Object) { HasTexture = true };
+                        face2 = new Face(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, faceToClip.Texture_Object) { HasTexture = true };
                     }
                     else
                     {
-                        face1 = new Face(insidePoints[0], intersection_1, insidePoints[1]) { Colour = faceToClip.Colour };
-                        face2 = new Face(insidePoints[1], intersection_1, intersection_2) { Colour = faceToClip.Colour };
+                        face1 = new Face(insidePoints[0], intersection1, insidePoints[1]) { Colour = faceToClip.Colour };
+                        face2 = new Face(insidePoints[1], intersection1, intersection2) { Colour = faceToClip.Colour };
                     }
 
                     facesQueue.Enqueue(face1);

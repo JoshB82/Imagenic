@@ -25,11 +25,11 @@ namespace _3D_Engine.Maths
         /// <summary>
         /// A <see cref="Matrix4x4"/> with all values set to zero.
         /// </summary>
-        public static readonly Matrix4x4 Zero = new Matrix4x4();
+        public static readonly Matrix4x4 Zero = new();
         /// <summary>
         /// A <see cref="Matrix4x4"/> equal to the 4x4 identity matrix.
         /// </summary>
-        public static readonly Matrix4x4 Identity = new Matrix4x4 { m00 = 1, m11 = 1, m22 = 1, m33 = 1 };
+        public static readonly Matrix4x4 Identity = new() { m00 = 1, m11 = 1, m22 = 1, m33 = 1 };
 
         // Matrix contents
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m00']/*"/>
@@ -71,9 +71,9 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)']/*"/>
         public Matrix4x4(
-            float m00, float m01, float m02, float m03, 
-            float m10, float m11, float m12, float m13, 
-            float m20, float m21, float m22, float m23, 
+            float m00, float m01, float m02, float m03,
+            float m10, float m11, float m12, float m13,
+            float m20, float m21, float m22, float m23,
             float m30, float m31, float m32, float m33)
         {
             (this.m00, this.m01, this.m02, this.m03) = (m00, m01, m02, m03);
@@ -155,7 +155,7 @@ namespace _3D_Engine.Maths
             float d17 = m21 * m33 - m23 * m31;
             float d18 = m22 * m33 - m23 * m32;
 
-            float det =   m00 * (m11 * d18 - m12 * d17 + m13 * d16) 
+            float det =   m00 * (m11 * d18 - m12 * d17 + m13 * d16)
                         - m01 * (m10 * d18 - m12 * d15 + m13 * d14)
                         + m02 * (m10 * d17 - m11 * d15 + m13 * d13)
                         - m03 * (m10 * d16 - m11 * d14 + m12 * d13);
@@ -184,7 +184,7 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Transpose']/*"/>
         public readonly Matrix4x4 Transpose() =>
-            new Matrix4x4
+            new
             (
                 m00, m10, m20, m30,
                 m01, m11, m21, m31,
@@ -279,7 +279,7 @@ namespace _3D_Engine.Maths
             );
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)']/*"/>
-        public static Vector4D operator *(Matrix4x4 m, Vector4D v) => 
+        public static Vector4D operator *(Matrix4x4 m, Vector4D v) =>
             new(
                 m.m00 * v.x + m.m01 * v.y + m.m02 * v.z + m.m03 * v.w,
                 m.m10 * v.x + m.m11 * v.y + m.m12 * v.z + m.m13 * v.w,

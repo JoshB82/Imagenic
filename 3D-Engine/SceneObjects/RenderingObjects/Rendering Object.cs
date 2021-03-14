@@ -19,7 +19,6 @@ using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Transformations;
-using System;
 using System.Collections.Generic;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects
@@ -306,7 +305,6 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         }
 
         protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
-        
 
         #endregion
 

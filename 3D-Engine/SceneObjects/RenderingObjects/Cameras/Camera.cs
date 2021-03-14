@@ -117,7 +117,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             colourBuffer = new(RenderWidth, RenderHeight);
             zBuffer = new(RenderWidth, RenderHeight);
 
-            ScreenToWindow = Transform.Scale(0.5f * RenderWidth, 0.5f * RenderHeight, 1) * windowTranslate;
+            ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * windowTranslate;
             WindowToScreen = ScreenToWindow.Inverse();
 
             NewRenderNeeded = true;
