@@ -81,25 +81,25 @@ namespace _3D_Engine.Transformations
         {
             if (angle == 0) return Matrix4x4.Identity;
             float sinAngle = Sin(angle), cosAngle = Cos(angle);
-            return new Matrix4x4
-                (
-                    cosAngle + axis.x * axis.x * (1 - cosAngle),
-                    axis.x * axis.y * (1 - cosAngle) - axis.z * sinAngle,
-                    axis.x * axis.z * (1 - cosAngle) + axis.y * sinAngle,
-                    0,
-                    axis.y * axis.x * (1 - cosAngle) + axis.z * sinAngle,
-                    cosAngle + axis.y * axis.y * (1 - cosAngle),
-                    axis.y * axis.z * (1 - cosAngle) - axis.x * sinAngle,
-                    0,
-                    axis.z * axis.x * (1 - cosAngle) - axis.y * sinAngle,
-                    axis.z * axis.y * (1 - cosAngle) + axis.x * sinAngle,
-                    cosAngle + axis.z * axis.z * (1 - cosAngle),
-                    0,
-                    0,
-                    0,
-                    0,
-                    1
-                );
+            return new
+            (
+                cosAngle + axis.x * axis.x * (1 - cosAngle),
+                axis.x * axis.y * (1 - cosAngle) - axis.z * sinAngle,
+                axis.x * axis.z * (1 - cosAngle) + axis.y * sinAngle,
+                0,
+                axis.y * axis.x * (1 - cosAngle) + axis.z * sinAngle,
+                cosAngle + axis.y * axis.y * (1 - cosAngle),
+                axis.y * axis.z * (1 - cosAngle) - axis.x * sinAngle,
+                0,
+                axis.z * axis.x * (1 - cosAngle) - axis.y * sinAngle,
+                axis.z * axis.y * (1 - cosAngle) + axis.x * sinAngle,
+                cosAngle + axis.z * axis.z * (1 - cosAngle),
+                0,
+                0,
+                0,
+                0,
+                1
+            );
         }
 
         /// <summary>
@@ -180,25 +180,25 @@ namespace _3D_Engine.Transformations
         public static Matrix4x4 QuaternionToMatrix(Quaternion q) =>
             // RIGHT HANDED ROTATION
             // (ANTI CLOCKWISE WHEN LOOKING AT ORIGIN FROM ARROW TIP TO BEGINNING)
-            new Matrix4x4
-                (
-                    1 - 2 * (q.q3 * q.q3 + q.q4 * q.q4),
-                    2 * (q.q2 * q.q3 - q.q4 * q.q1),
-                    2 * (q.q2 * q.q4 + q.q3 * q.q1),
-                    0,
-                    2 * (q.q2 * q.q3 + q.q4 * q.q1),
-                    1 - 2 * (q.q2 * q.q2 + q.q4 * q.q4),
-                    2 * (q.q3 * q.q4 - q.q2 * q.q1),
-                    0,
-                    2 * (q.q2 * q.q4 - q.q3 * q.q1),
-                    2 * (q.q3 * q.q4 + q.q2 * q.q1),
-                    1 - 2 * (q.q2 * q.q2 + q.q3 * q.q3),
-                    0,
-                    0,
-                    0,
-                    0,
-                    1
-                );
+            new
+            (
+                1 - 2 * (q.q3 * q.q3 + q.q4 * q.q4),
+                2 * (q.q2 * q.q3 - q.q4 * q.q1),
+                2 * (q.q2 * q.q4 + q.q3 * q.q1),
+                0,
+                2 * (q.q2 * q.q3 + q.q4 * q.q1),
+                1 - 2 * (q.q2 * q.q2 + q.q4 * q.q4),
+                2 * (q.q3 * q.q4 - q.q2 * q.q1),
+                0,
+                2 * (q.q2 * q.q4 - q.q3 * q.q1),
+                2 * (q.q3 * q.q4 + q.q2 * q.q1),
+                1 - 2 * (q.q2 * q.q2 + q.q3 * q.q3),
+                0,
+                0,
+                0,
+                0,
+                1
+            );
 
         #endregion
     }

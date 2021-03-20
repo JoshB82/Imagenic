@@ -17,7 +17,6 @@ using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Transformations;
-using System.Collections.Generic;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 
@@ -141,7 +140,7 @@ namespace _3D_Engine.SceneObjects
                 Arrow DirectionUpArrow = new(origin, directionUp, -directionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Green };
                 Arrow DirectionRightArrow = new(origin, Transform.CalculateDirectionRight(directionForward, directionUp), directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Red };
 
-                DirectionArrows = new(new List<SceneObject>() { DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow });
+                DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
             }
 
             WorldOrigin = origin;

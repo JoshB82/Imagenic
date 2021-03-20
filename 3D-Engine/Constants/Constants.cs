@@ -12,7 +12,7 @@
 
 using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.Maths
+namespace _3D_Engine.Constants
 {
     /// <summary>
     /// Encapsulates frequently used <see cref="Constants"/>.
