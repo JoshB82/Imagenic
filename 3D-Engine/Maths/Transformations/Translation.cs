@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates static methods for calculating matrices representing translations.
+ * Defines static methods for calculating matrices representing translations.
  */
 
 using _3D_Engine.Maths;
