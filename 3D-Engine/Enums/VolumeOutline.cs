@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of the volume outline enum.
+ * Defines an enum for options describing how view volume outlines are drawn.
  */
 
 using System;
@@ -15,7 +15,7 @@ using System;
 namespace _3D_Engine.Enums
 {
     /// <summary>
-    /// Encapsulates options regarding how view volume outlines are drawn.
+    /// Options describing how view volume outlines are drawn.
     /// </summary>
     [Flags]
     public enum VolumeOutline : byte
