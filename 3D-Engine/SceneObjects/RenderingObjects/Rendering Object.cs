@@ -106,7 +106,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                         break;
                     default:
-                        throw Exceptions.RenderingObjectTypeNotSupported; ;
+                        throw Exceptions.RenderingObjectTypeNotSupported;
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                         break;
                     default:
-                        throw Exceptions.RenderingObjectTypeNotSupported; ;
+                        throw Exceptions.RenderingObjectTypeNotSupported;
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                         break;
                     default:
-                        throw Exceptions.RenderingObjectTypeNotSupported; ;
+                        throw Exceptions.RenderingObjectTypeNotSupported;
                 }
             }
         }

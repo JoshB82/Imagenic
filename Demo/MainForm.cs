@@ -29,7 +29,6 @@ namespace Simple_Demo
                 directionUp: Vector3D.UnitY,
                 sideLength: 30
             );
-
             Cone cone = new(
                 origin: new Vector3D(70, 10, 10),
                 directionForward: Vector3D.UnitZ,
@@ -50,9 +49,9 @@ namespace Simple_Demo
 
             // Create a camera
             OrthogonalCamera renderCamera = new(
-                origin: new Vector3D(1000, 1000, 1000),
+                origin: new Vector3D(5000, 0, 0),
                 pointedAt: scene.SceneObjects[0],
-                directionUp: new Vector3D(-1, 2, -1),
+                directionUp: Vector3D.UnitY,
                 viewWidth: pictureBox.Width / 10f,
                 viewHeight: pictureBox.Height / 10f,
                 zNear: 500,
