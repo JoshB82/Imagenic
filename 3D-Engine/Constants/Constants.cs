@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates frequently used constants.
+ * Defines frequently used constants.
  */
 
 using _3D_Engine.Maths.Vectors;
