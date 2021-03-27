@@ -66,16 +66,16 @@ namespace _3D_Engine.SceneObjects.Meshes
             }
 
             // Create the mesh
-            Generate_Custom_From_OBJ(lines);
+            GenerateCustomFromOBJ(lines);
         }
 
-        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string[] lines) : base(origin, direction_forward, direction_up) => Generate_Custom_From_OBJ(lines);
+        public Custom(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string[] lines) : base(origin, direction_forward, direction_up) => GenerateCustomFromOBJ(lines);
 
-        private void Generate_Custom_From_OBJ(string[] lines)
+        private void GenerateCustomFromOBJ(string[] lines)
         {
-            List<Vertex> vertices = new List<Vertex>();
-            List<Edge> edges = new List<Edge>();
-            List<Face> faces = new List<Face>();
+            List<Vertex> vertices = new();
+            List<Edge> edges = new();
+            List<Face> faces = new();
 
             foreach (string line in lines)
             {

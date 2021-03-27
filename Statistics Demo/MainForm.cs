@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
@@ -18,6 +19,7 @@ namespace Statistics_Demo
         private Group sceneToRender;
         private List<Keys> keysPressed = new();
         private int noSceneObjects = 0;
+        private AllStatisticsForm allStatisticsForm;
 
         public MainForm()
         {
@@ -25,8 +27,10 @@ namespace Statistics_Demo
 
             Group scene = new();
 
-            scene.Add(WorldPoint.ZeroOrigin);
-            scene.Add(Arrow.Axes);
+            WorldPoint origin = WorldPoint.ZeroOrigin;
+            scene.Add(origin);
+            Group axes = Arrow.Axes;
+            scene.Add(axes);
 
             Circle circle = new(new Vector3D(50, 50, 50), Vector3D.UnitX, Vector3D.UnitY, 25, 50);
             scene.Add(circle);
@@ -37,7 +41,6 @@ namespace Statistics_Demo
             noSceneObjects = 4;
             noSceneObjectsValueLabel.Text = noSceneObjects.ToString();
 
-            //pictureBox.Image = camera.Render(scene);
             sceneToRender = scene;
 
             Thread thread = new(Loop) { IsBackground = true };
@@ -163,7 +166,31 @@ namespace Statistics_Demo
 
         private void viewAllButton_Click(object sender, System.EventArgs e)
         {
+            allStatisticsForm = new();
 
+            // Populate list view
+            allStatisticsForm.listView.Items.Clear();
+
+            foreach (SceneObject sceneObject in sceneToRender.SceneObjects)
+            {
+                var sceneObjectData = new string[]
+                {
+                    sceneObject.Id.ToString(),
+                    sceneObject.GetType().Name,
+                    sceneObject.WorldOrigin.ToString(),
+                    sceneObject.WorldDirectionForward.ToString(),
+                    sceneObject.WorldDirectionUp.ToString(),
+                    sceneObject.WorldDirectionRight.ToString()
+                };
+                allStatisticsForm.listView.Items.Add(new ListViewItem(sceneObjectData));
+            }
+
+            allStatisticsForm.Show();
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            allStatisticsForm.Close();
         }
     }
 }
