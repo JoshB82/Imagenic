@@ -35,7 +35,12 @@ namespace _3D_Engine.Constants
         internal const string Vector3DParameterLength = "Parameter \"elements\" must at least be of length 3.";
         internal const string FourParameterLength = "Parameter \"elements\" must at least be of length 4.";
         internal const string Matrix4x4ParameterSize = "Parameter \"elements\" must at least be of size 4x4.";
-        
+
+        internal const string RenderWidthLessThanZero = "Parameter \"renderWidth\" must be non-negative.";
+        internal const string RenderHeightLessThanZero = "Parameter \"renderHeight\" must be non-negative.";
+        internal const string SceneToRenderCannotBeNull = "Parameter \"sceneToRender\" cannot be null.";
+        internal const string InvalidPixelFormatForRendering = "Parameter \"renderPixelFormat\" is invalid for rendering.";
+
         #endregion
     }
 }

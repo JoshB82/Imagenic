@@ -12,6 +12,7 @@
 
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Groups;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
@@ -40,7 +41,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         #region Methods
 
-        internal override void ProcessLighting()
+        internal override void ProcessLighting(Group sceneToRender)
         {
             Matrix4x4 windowToWorld = ViewToWorld * ScreenToView * WindowToScreen;
 
@@ -54,7 +55,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                         Vector4D worldSpacePoint = windowToWorld * new Vector4D(x, y, zBuffer.Values[x][y], 1);
 
                         // Apply lighting
-                        ApplyLighting(worldSpacePoint, ref colourBuffer.Values[x][y], x, y);
+                        ApplyLighting(worldSpacePoint, ref colourBuffer.Values[x][y], x, y, sceneToRender);
                     }
                 }
             }

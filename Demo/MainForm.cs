@@ -49,20 +49,19 @@ namespace Simple_Demo
 
             // Create a camera
             OrthogonalCamera renderCamera = new(
-                origin: new Vector3D(5000, 0, 0),
+                origin: new Vector3D(500, 0, 100),
                 pointedAt: scene.SceneObjects[0],
                 directionUp: Vector3D.UnitY,
                 viewWidth: pictureBox.Width / 10f,
                 viewHeight: pictureBox.Height / 10f,
-                zNear: 500,
-                zFar: 10000,
+                zNear: 50,
+                zFar: 750,
                 renderWidth: pictureBox.Width,
                 renderHeight: pictureBox.Height
             );
 
             // Render the scene and display the output in the picture box
-            renderCamera.SceneToRender = scene;
-            pictureBox.Image = renderCamera.Render();
+            pictureBox.Image = renderCamera.Render(scene);
         }
     }
 }
