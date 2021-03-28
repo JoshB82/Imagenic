@@ -1,55 +1,53 @@
-﻿using _3D_Engine.Enums;
-using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.SceneObjects.Meshes.TwoDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Interactive_Demo
+namespace Statistics_Demo
 {
     public partial class MainForm : Form
     {
-        private readonly PerspectiveCamera camera;
+        private readonly OrthogonalCamera camera;
+        private Group sceneToRender;
         private List<Keys> keysPressed = new();
+        private int noSceneObjects = 0;
+        private AllStatisticsForm allStatisticsForm;
 
         public MainForm()
         {
             InitializeComponent();
+            this.KeyPreview = true; //?
 
-            // Create a new scene
             Group scene = new();
 
-            // Create some meshes
             WorldPoint origin = WorldPoint.ZeroOrigin;
             scene.Add(origin);
             Group axes = Arrow.Axes;
             scene.Add(axes);
 
-            Cube cube = new(new Vector3D(10, 10, 10), Vector3D.UnitZ, Vector3D.UnitY, 30);
-            Cone cone = new(new Vector3D(70, 10, 10), Vector3D.UnitZ, Vector3D.UnitY, 30, 20, 50);
-            scene.Add(cube, cone);
+            Circle circle = new(new Vector3D(50, 50, 50), Vector3D.UnitX, Vector3D.UnitY, 25, 50);
+            scene.Add(circle);
 
-            // Create a light
             DistantLight light = new(new Vector3D(0, 100, 0), scene.Meshes[0], Vector3D.UnitZ);
             scene.Add(light);
 
-            // Create a camera
-            float cameraViewWidth = pictureBox.Width / 10f, cameraViewHeight = pictureBox.Height / 10f;
-            camera = new(new Vector3D(100, 0, 100), scene.SceneObjects[0], Vector3D.UnitY, cameraViewWidth, cameraViewHeight, 10, 750, pictureBox.Width, pictureBox.Height);
+            camera = new OrthogonalCamera(new Vector3D(500, 50, 200), scene.SceneObjects[0], Vector3D.UnitY, pictureBox.Width / 10f, pictureBox.Height / 10f, 50, 750, pictureBox.Width, pictureBox.Height);
             scene.Add(camera);
 
-            // Adjust render settings
-            //camera.MakeRenderSizeOfControl(pictureBox);
+            noSceneObjects = 4;
+            noSceneObjectsValueLabel.Text = noSceneObjects.ToString();
 
-            _3D_Engine.Properties.Settings.Default.Verbosity = Verbosity.None;
-
-            camera.SceneToRender = scene;
+            sceneToRender = scene;
 
             Thread thread = new(Loop) { IsBackground = true };
             thread.Start();
@@ -81,7 +79,7 @@ namespace Interactive_Demo
 
                 if (frameTime >= frameMinimumTime)
                 {
-                    this.Invoke((MethodInvoker)(() => pictureBox.Image = camera.Render()));
+                    this.Invoke((MethodInvoker)(() => pictureBox.Image = camera.Render(sceneToRender)));
                     noFrames++; //?
                     frameTime -= frameMinimumTime;
                 }
@@ -106,7 +104,7 @@ namespace Interactive_Demo
 
         private void CheckKeyboard(long updateTime)
         {
-            const float cameraPanDampener = 0.0008f, cameraTiltDampener = 0.000001f;
+            const float cameraPanDampener = 0.01f, cameraTiltDampener = 0.0000001f;
 
             for (int i = 0; i < keysPressed.Count; i++)
             {
@@ -115,53 +113,70 @@ namespace Interactive_Demo
                     case Keys.W:
                         // Pan forward
                         camera.PanForward(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.A:
                         // Pan left
                         camera.PanLeft(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.D:
                         // Pan right
                         camera.PanRight(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.S:
                         // Pan backward
                         camera.PanBackward(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.Q:
                         // Pan up
                         camera.PanUp(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.E:
                         // Pan down
                         camera.PanDown(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.I:
                         // Rotate up
                         camera.RotateUp(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.J:
                         // Rotate left
                         camera.RotateLeft(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.L:
                         // Rotate right
                         camera.RotateRight(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.K:
                         // Rotate down
                         camera.RotateDown(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.U:
                         // Roll left
                         camera.RollLeft(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.O:
                         // Roll right
                         camera.RollRight(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                 }
             }
+        }
+
+        private void KeyboardUpdateListView()
+        {
+            if (allStatisticsForm is not null) this.Invoke((MethodInvoker)(() => UpdateListView()));
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -172,12 +187,56 @@ namespace Interactive_Demo
 
         private void MainForm_KeyUp(object sender, KeyEventArgs e) => keysPressed.Remove(e.KeyCode);
 
-        private void MainForm_Resize(object sender, System.EventArgs e)
+        private void viewAllButton_Click(object sender, System.EventArgs e)
         {
-            camera.ViewWidth = pictureBox.Width / 10f;
-            camera.ViewHeight = pictureBox.Height / 10f;
-            camera.RenderWidth = pictureBox.Width;
-            camera.RenderHeight = pictureBox.Height;
+            allStatisticsForm = new();
+            UpdateListView();
+            allStatisticsForm.Show();
         }
+
+        private void UpdateListView()
+        {
+            allStatisticsForm.listView.Items.Clear();
+
+            foreach (SceneObject sceneObject in sceneToRender.SceneObjects)
+            {
+                var sceneObjectData = new string[]
+                {
+                    sceneObject.Id.ToString(),
+                    sceneObject.GetType().Name,
+                    sceneObject.WorldOrigin.ToString(),
+                    sceneObject.WorldDirectionForward.ToString(),
+                    sceneObject.WorldDirectionUp.ToString(),
+                    sceneObject.WorldDirectionRight.ToString()
+                };
+                allStatisticsForm.listView.Items.Add(new ListViewItem(sceneObjectData));
+            }
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            allStatisticsForm.Close();
+        }
+
+        private void addCubeButton_Click(object sender, System.EventArgs e)
+        {
+            byte[] rndNums = new byte[4];
+            new Random().NextBytes(rndNums);
+            Cube cube = new(new Vector3D(rndNums[0], rndNums[1], rndNums[2]), Vector3D.UnitX, Vector3D.UnitY, rndNums[3]);
+            sceneToRender.Add(cube);
+            IncreaseSceneObjectCount();
+        }
+
+        private void addConeButton_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void addCylinderButton_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void IncreaseSceneObjectCount() => noSceneObjectsValueLabel.Text = (++noSceneObjects).ToString();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
-
+using _3D_Engine.SceneObjects.Groups;
 using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
@@ -17,7 +17,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         #region Methods
 
-        internal override void ProcessLighting()
+        internal override void ProcessLighting(Group sceneToRender)
         {
             throw new System.NotImplementedException();
         }

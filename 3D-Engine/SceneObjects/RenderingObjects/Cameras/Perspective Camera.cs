@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Groups;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
@@ -39,7 +40,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         #region Methods
 
-        internal override void ProcessLighting()
+        internal override void ProcessLighting(Group sceneToRender)
         {
             for (int x = 0; x < RenderWidth; x++)
             {
@@ -52,7 +53,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
                         // Move the point from screen space to world space and apply lighting
                         screenSpacePoint *= 2 * ZNear * ZFar / (ZNear + ZFar - screenSpacePoint.z * (ZFar - ZNear));
-                        ApplyLighting(ScreenToWorld * screenSpacePoint, ref colourBuffer.Values[x][y], x, y);
+                        ApplyLighting(ScreenToWorld * screenSpacePoint, ref colourBuffer.Values[x][y], x, y, sceneToRender);
                     }
                 }
             }

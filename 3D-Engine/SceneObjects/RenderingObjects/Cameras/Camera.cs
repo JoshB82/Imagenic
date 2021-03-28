@@ -10,6 +10,7 @@
  * Encapsulates creation of a camera.
  */
 
+using _3D_Engine.Constants;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
@@ -50,7 +51,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         }
 
         //ScreenToWorld = ModelToWorld * ScreenToView;
-        internal abstract void ProcessLighting();
+        internal abstract void ProcessLighting(Group sceneToRender);
 
         // View Volume
         public override float ViewWidth
@@ -178,7 +179,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         internal Camera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
         {
-            string[] iconObjData = Properties.Resources.Camera.Split("\n");
+            string[] iconObjData = Properties.Resources.Camera.Split(Environment.NewLine);
             Icon = new Custom(origin, directionForward, directionUp, iconObjData)
             {
                 Dimension = 3,
@@ -191,29 +192,25 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         #region Methods
 
-        public Bitmap Render(int width, int height)
+        public Bitmap Render() => Render(SceneToRender, RenderWidth, RenderHeight, RenderPixelFormat);
+        public Bitmap Render(Group sceneToRender) => Render(sceneToRender, RenderWidth, RenderHeight, RenderPixelFormat);
+        public Bitmap Render(int renderWidth, int renderHeight) => Render(SceneToRender, renderWidth, renderHeight, RenderPixelFormat);
+        public Bitmap Render(Group sceneToRender, int renderWidth, int renderHeight, PixelFormat renderPixelFormat)
         {
-            RenderWidth = width;
-            RenderHeight = height;
+            // Parameter checks
+            if (sceneToRender is null) throw new ArgumentException(Exceptions.SceneToRenderCannotBeNull, nameof(sceneToRender));
+            if (renderWidth < 0) throw new ArgumentException(Exceptions.RenderWidthLessThanZero, nameof(renderWidth));
+            if (renderHeight < 0) throw new ArgumentException(Exceptions.RenderHeightLessThanZero, nameof(renderHeight));
+            if (renderWidth == 0 || renderHeight == 0) return null;
+            if (renderPixelFormat is PixelFormat.DontCare or PixelFormat.Extended or PixelFormat.Max or PixelFormat.Undefined)
+            {
+                throw new ArgumentException(Exceptions.InvalidPixelFormatForRendering, nameof(renderPixelFormat));
+            }
 
-            return Render();
-        }
-
-        public Bitmap Render(Group sceneToRender)
-        {
-            SceneToRender = sceneToRender;
-
-            return Render();
-        }
-
-        public Bitmap Render()
-        {
             if (!NewRenderNeeded) return LastRender;
 
-            if (SceneToRender is null) throw new NullReferenceException("No scene has been set to render.");
-
             // Calculate matrices and world origins
-            foreach (Camera camera in SceneToRender.Cameras)
+            foreach (Camera camera in sceneToRender.Cameras)
             {
                 if (camera.Visible)
                 {
@@ -221,7 +218,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     camera.CalculateMatrices();
                 }
             }
-            foreach (Light light in SceneToRender.Lights)
+            foreach (Light light in sceneToRender.Lights)
             {
                 if (light.Visible)
                 {
@@ -230,7 +227,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     light.CalculateWorldOrigin();
                 }
             }
-            foreach (Mesh mesh in SceneToRender.Meshes)
+            foreach (Mesh mesh in sceneToRender.Meshes)
             {
                 if (mesh.Visible)
                 {
@@ -241,11 +238,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             this.CalculateWorldOrigin();
 
             // Generate a shadow map for each light (only if needed)
-            foreach (Light light in SceneToRender.Lights)
+            foreach (Light light in sceneToRender.Lights)
             {
                 if (light.ShadowMapNeedsUpdating && light.Visible)
                 {
-                    light.GenerateShadowMap(SceneToRender);
+                    light.GenerateShadowMap(sceneToRender);
 
                     #if DEBUG
 
@@ -256,23 +253,25 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             }
 
             // Generate z buffer
-            GenerateZBuffer(SceneToRender);
+            GenerateZBuffer(sceneToRender);
 
             // Process lighting
-            ProcessLighting();
+            ProcessLighting(sceneToRender);
 
             NewRenderNeeded = false;
-            return LastRender = CreateBitmap(RenderWidth, RenderHeight, colourBuffer, RenderPixelFormat);
+
+            return LastRender = CreateBitmap(renderWidth, renderHeight, colourBuffer, renderPixelFormat);
         }
 
         // Lighting
         protected void ApplyLighting(
             Vector4D worldSpacePoint,
-            ref Color pointColour, int x, int y)
+            ref Color pointColour, int x, int y,
+            Group sceneToRender)
         {
             bool lightApplied = false;
 
-            foreach (Light light in SceneToRender.Lights)
+            foreach (Light light in sceneToRender.Lights)
             {
                 if (light.Visible)
                 {
