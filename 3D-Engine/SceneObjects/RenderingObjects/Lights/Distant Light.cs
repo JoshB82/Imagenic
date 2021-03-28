@@ -12,6 +12,7 @@
 
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes;
+using System;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
@@ -33,7 +34,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
         {
             Strength = strength;
 
-            string[] iconObjData = Properties.Resources.DistantLight.Split("\n");
+            string[] iconObjData = Properties.Resources.DistantLight.Split(Environment.NewLine);
             Icon = new Custom(origin, directionForward, directionUp, iconObjData)
             {
                 Dimension = 3,

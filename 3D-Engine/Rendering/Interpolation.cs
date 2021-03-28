@@ -89,5 +89,15 @@ namespace _3D_Engine.Rendering
                 }
             }
         }
+
+        internal static void TextureInterpolateTriangle(
+            Action<object, int, int, float> action,
+            object @object,
+            int x1, int y1, float z1,
+            int x2, int y2, float z2,
+            int x3, int y3, float z3)
+        {
+
+        }
     }
 }

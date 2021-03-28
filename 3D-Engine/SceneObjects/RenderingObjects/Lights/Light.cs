@@ -135,7 +135,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
                 shadowMapBitmap.Save(filePath, ImageFormat.Bmp);
             }
 
-            ConsoleOutput.DisplayMessageFromObject(this, $"Successfully saved shadow map");
+            ConsoleOutput.DisplayMessageFromObject(this, $"Successfully saved shadow map.");
         }
 
         #endregion
