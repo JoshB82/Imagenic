@@ -5,6 +5,8 @@ using _3D_Engine.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.Meshes.TwoDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.SceneObjects.RenderingObjects.Lights;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,6 +26,7 @@ namespace Statistics_Demo
         public MainForm()
         {
             InitializeComponent();
+            this.KeyPreview = true; //?
 
             Group scene = new();
 
@@ -34,6 +37,9 @@ namespace Statistics_Demo
 
             Circle circle = new(new Vector3D(50, 50, 50), Vector3D.UnitX, Vector3D.UnitY, 25, 50);
             scene.Add(circle);
+
+            DistantLight light = new(new Vector3D(0, 100, 0), scene.Meshes[0], Vector3D.UnitZ);
+            scene.Add(light);
 
             camera = new OrthogonalCamera(new Vector3D(500, 50, 200), scene.SceneObjects[0], Vector3D.UnitY, pictureBox.Width / 10f, pictureBox.Height / 10f, 50, 750, pictureBox.Width, pictureBox.Height);
             scene.Add(camera);
@@ -98,7 +104,7 @@ namespace Statistics_Demo
 
         private void CheckKeyboard(long updateTime)
         {
-            const float cameraPanDampener = 0.0008f, cameraTiltDampener = 0.000001f;
+            const float cameraPanDampener = 0.01f, cameraTiltDampener = 0.0000001f;
 
             for (int i = 0; i < keysPressed.Count; i++)
             {
@@ -107,53 +113,70 @@ namespace Statistics_Demo
                     case Keys.W:
                         // Pan forward
                         camera.PanForward(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.A:
                         // Pan left
                         camera.PanLeft(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.D:
                         // Pan right
                         camera.PanRight(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.S:
                         // Pan backward
                         camera.PanBackward(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.Q:
                         // Pan up
                         camera.PanUp(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.E:
                         // Pan down
                         camera.PanDown(cameraPanDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.I:
                         // Rotate up
                         camera.RotateUp(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.J:
                         // Rotate left
                         camera.RotateLeft(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.L:
                         // Rotate right
                         camera.RotateRight(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.K:
                         // Rotate down
                         camera.RotateDown(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.U:
                         // Roll left
                         camera.RollLeft(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                     case Keys.O:
                         // Roll right
                         camera.RollRight(cameraTiltDampener * updateTime);
+                        KeyboardUpdateListView();
                         break;
                 }
             }
+        }
+
+        private void KeyboardUpdateListView()
+        {
+            if (allStatisticsForm is not null) this.Invoke((MethodInvoker)(() => UpdateListView()));
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -167,8 +190,12 @@ namespace Statistics_Demo
         private void viewAllButton_Click(object sender, System.EventArgs e)
         {
             allStatisticsForm = new();
+            UpdateListView();
+            allStatisticsForm.Show();
+        }
 
-            // Populate list view
+        private void UpdateListView()
+        {
             allStatisticsForm.listView.Items.Clear();
 
             foreach (SceneObject sceneObject in sceneToRender.SceneObjects)
@@ -184,13 +211,32 @@ namespace Statistics_Demo
                 };
                 allStatisticsForm.listView.Items.Add(new ListViewItem(sceneObjectData));
             }
-
-            allStatisticsForm.Show();
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             allStatisticsForm.Close();
         }
+
+        private void addCubeButton_Click(object sender, System.EventArgs e)
+        {
+            byte[] rndNums = new byte[4];
+            new Random().NextBytes(rndNums);
+            Cube cube = new(new Vector3D(rndNums[0], rndNums[1], rndNums[2]), Vector3D.UnitX, Vector3D.UnitY, rndNums[3]);
+            sceneToRender.Add(cube);
+            IncreaseSceneObjectCount();
+        }
+
+        private void addConeButton_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void addCylinderButton_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void IncreaseSceneObjectCount() => noSceneObjectsValueLabel.Text = (++noSceneObjects).ToString();
     }
 }

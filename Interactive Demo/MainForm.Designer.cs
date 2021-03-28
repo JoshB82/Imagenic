@@ -38,7 +38,7 @@ namespace Interactive_Demo
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox.Location = new System.Drawing.Point(0, 0);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(800, 450);
+            this.pictureBox.Size = new System.Drawing.Size(1085, 525);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
@@ -46,7 +46,7 @@ namespace Interactive_Demo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1085, 525);
             this.Controls.Add(this.pictureBox);
             this.Name = "MainForm";
             this.Text = "Interactive Demo";

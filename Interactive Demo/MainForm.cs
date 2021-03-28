@@ -15,7 +15,7 @@ namespace Interactive_Demo
 {
     public partial class MainForm : Form
     {
-        private readonly OrthogonalCamera camera;
+        private readonly PerspectiveCamera camera;
         private List<Keys> keysPressed = new();
 
         public MainForm()
