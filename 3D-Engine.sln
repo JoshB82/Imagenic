@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interactive Demo", "Interac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unit Tests", "Unit Tests\Unit Tests.csproj", "{6A16A564-68A2-4E56-B7F4-EFC6A0A8A0C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statistics Demo", "Statistics Demo\Statistics Demo.csproj", "{B48FF987-9396-4A12-81D5-A71E2EEF44AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Statistics Demo", "Statistics Demo\Statistics Demo.csproj", "{B48FF987-9396-4A12-81D5-A71E2EEF44AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{D9095A4C-E515-4C94-8351-A5AB724C8AA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{73DB7BB9-FCEB-412F-A99C-86BC58D557CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F3D3426D-DDA9-434B-9856-C0301D2F21EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +48,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCF14E26-3F6C-4448-A529-955DCE58645A} = {73DB7BB9-FCEB-412F-A99C-86BC58D557CC}
+		{04218791-4EF6-4A14-B268-55BE33C20658} = {D9095A4C-E515-4C94-8351-A5AB724C8AA2}
+		{121724D6-E1CD-48E9-B756-55B8BE9BBCA2} = {D9095A4C-E515-4C94-8351-A5AB724C8AA2}
+		{6A16A564-68A2-4E56-B7F4-EFC6A0A8A0C0} = {F3D3426D-DDA9-434B-9856-C0301D2F21EE}
+		{B48FF987-9396-4A12-81D5-A71E2EEF44AF} = {D9095A4C-E515-4C94-8351-A5AB724C8AA2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D38BCF8-EE33-4180-B06D-A1C7398F7CC0}

@@ -79,7 +79,7 @@ namespace _3D_Engine.SceneObjects
         }
         internal bool HasDirectionArrows { get; set; }
 
-        // ID
+        // Id
         /// <summary>
         /// The identification number.
         /// </summary>

@@ -85,7 +85,7 @@ namespace _3D_Engine.SceneObjects.Groups
         public void Add(Group group) => Add(group.SceneObjects);
         public void Add(IEnumerable<Group> groups)
         {
-            foreach(Group group in groups)
+            foreach (Group group in groups)
             {
                 Add(group);
             }
@@ -94,6 +94,31 @@ namespace _3D_Engine.SceneObjects.Groups
 
         // Remove
         //public void RemoveAll(Predicate<SceneObject> predicate) => ;
+
+        //??
+        public void Remove(int id)
+        {
+            SceneObjects.RemoveAll(x => x.Id == id);
+            switch (SceneObjects.Find(x => x.Id == id))
+            {
+                case Camera camera:
+                    Cameras.Remove(camera);
+                    break;
+                case Light light:
+                    Lights.Remove(light);
+                    break;
+                case Mesh mesh:
+                    Meshes.Remove(mesh);
+                    break;
+            }
+        }
+        public void Remove(IEnumerable<int> ids)
+        {
+            foreach (int id in ids)
+            {
+                Remove(id);
+            }
+        }
 
         #endregion
 

@@ -23,6 +23,9 @@ using System.Collections.Generic;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects
 {
+    /// <summary>
+    /// An abstract base class that defines objects of type <see cref="RenderingObject"/>. Any object which inherits from this class provides rendering functionality.
+    /// </summary>
     public abstract class RenderingObject : SceneObject
     {
         #region Fields and Properties
@@ -61,11 +64,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         internal Matrix4x4 WorldToView;
         internal Matrix4x4 ViewToScreen;
         internal Matrix4x4 ScreenToWindow;
+        protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
 
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
-
             WorldToView = ModelToWorld.Inverse();
         }
 
@@ -303,8 +306,6 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 }
             }
         }
-
-        protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
 
         #endregion
 

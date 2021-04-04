@@ -26,7 +26,7 @@ using System.Windows.Forms;
 namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Camera"/>.
+    /// An abstract base class that defines objects of type <see cref="Camera"/>. Any object which inherits from this class provides camera functionality.
     /// </summary>
     public abstract partial class Camera : RenderingObject
     {

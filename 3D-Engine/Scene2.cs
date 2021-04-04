@@ -51,7 +51,7 @@ namespace _3D_Engine
         public readonly List<Group> Groups = new();
 
         // Miscellaneous
-        private static readonly object locker = new();        
+        private static readonly object locker = new();
 
         #endregion
 
@@ -147,7 +147,7 @@ namespace _3D_Engine
                 }
             }
         }
-        
+
         //^^??
 
         public void Render(Camera renderCamera)
@@ -155,7 +155,7 @@ namespace _3D_Engine
             lock (locker)
             {
                 //if (new_frame is not null) new_frame.Dispose();
-                
+
 
                 /*
                 // Draw edges
@@ -290,13 +290,13 @@ namespace _3D_Engine
         }
         private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] new_colour_buffer) // source of this method?! (and other one)
         {
-            
+
         }
 
         // Generate matrices
         public void GenerateMatrices()
         {
-            
+
         }
 
         #endregion

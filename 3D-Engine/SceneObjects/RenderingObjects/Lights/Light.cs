@@ -21,7 +21,7 @@ using System.IO;
 namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Light"/>.
+    /// An abstract base class that defines objects of type <see cref="Light"/>. Any object which inherits from this class provides lighting functionality.
     /// </summary>
     public abstract partial class Light : RenderingObject
     {
