@@ -29,11 +29,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 
         public void GenerateShadowMap(Group scene)
         {
-            ShadowMap.SetAllToValue(outOfBoundsValue);
+            zBuffer.SetAllToValue(outOfBoundsValue);
 
             foreach (Camera camera in scene.Cameras)
             {
-                if (camera.DrawIcon)
+                if (camera.Icon.Visible)
                 {
                     Matrix4x4 modelToView = WorldToView * camera.Icon.ModelToWorld;
 
@@ -54,7 +54,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 
             foreach (Light light in scene.Lights)
             {
-                if (light.DrawIcon)
+                if (light.Icon.Visible)
                 {
                     Matrix4x4 modelToView = WorldToView * light.Icon.ModelToWorld;
 
@@ -114,7 +114,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
                             3,
                             ref directionForwardModelToView
                         );
-                    }  
+                    }
                     foreach (Face face in directionUp.Faces)
                     {
                         CalculateDepth
@@ -187,7 +187,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
 
                 // Move the new triangles from screen space to window space
                 clippedFace.ApplyMatrix(ScreenToWindow);
-                
+
                 // Round the vertices
                 int x1 = clippedFace.p1.x.RoundToInt();
                 int y1 = clippedFace.p1.y.RoundToInt();
@@ -223,9 +223,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
         {
             if (x < RenderWidth && y < RenderHeight)
             {
-                if (z.ApproxLessThan(ShadowMap.Values[x][y], 1E-4f))
+                if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
                 {
-                    ShadowMap.Values[x][y] = z;
+                    zBuffer.Values[x][y] = z;
                 }
             }
         }

@@ -12,8 +12,6 @@
 
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Miscellaneous;
-using _3D_Engine.Rendering;
-using _3D_Engine.Transformations;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -56,37 +54,6 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
         // COME BACK TO
         internal bool ShadowMapNeedsUpdating { get; set; } = true;
 
-        // Shadow map volume
-        internal Buffer2D<float> ShadowMap { get; set; }
-
-        public override int RenderWidth
-        {
-            get => base.RenderWidth;
-            set
-            {
-                base.RenderWidth = value;
-                UpdateProperties();
-            }
-        }
-        public override int RenderHeight
-        {
-            get => base.RenderHeight;
-            set
-            {
-                base.RenderHeight = value;
-                UpdateProperties();
-            }
-        }
-
-        private void UpdateProperties()
-        {
-            // Set shadow map
-            ShadowMap = new(RenderWidth, RenderHeight);
-
-            // Set screen-to-window matrix
-            ScreenToWindow = Transform.Scale(0.5f * RenderWidth, 0.5f * RenderHeight, 1) * windowTranslate; //?
-        }
-
         #endregion
 
         #region Constructors
@@ -112,19 +79,19 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
             string fileDirectory = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(fileDirectory)) Directory.CreateDirectory(fileDirectory);
 
-            using (Bitmap shadowMapBitmap = new Bitmap(RenderWidth, RenderHeight))
+            using (Bitmap shadowMapBitmap = new(RenderWidth, RenderHeight))
             {
                 for (int x = 0; x < RenderWidth; x++)
                 {
                     for (int y = 0; y < RenderHeight; y++)
                     {
-                        if (ShadowMap.Values[x][y] == 2)
+                        if (zBuffer.Values[x][y] == 2)
                         {
                             shadowMapBitmap.SetPixel(x, y, Color.DarkMagenta);
                         }
                         else
                         {
-                            int value = (255 * ((ShadowMap.Values[x][y] + 1) / 2)).RoundToInt();
+                            int value = (255 * ((zBuffer.Values[x][y] + 1) / 2)).RoundToInt();
 
                             Color greyscaleColour = Color.FromArgb(255, value, value, value);
                             shadowMapBitmap.SetPixel(x, y, greyscaleColour);

@@ -34,7 +34,6 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         // Buffers
         protected Buffer2D<Color> colourBuffer;
-        protected Buffer2D<float> zBuffer;
 
         // Matrices
         protected Matrix4x4 ViewToWorld;
@@ -46,7 +45,6 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
-
             ViewToWorld = ModelToWorld;
         }
 
@@ -113,15 +111,13 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             }
         }
 
-        private void UpdateProperties()
+        internal override void UpdateProperties()
         {
+            base.UpdateProperties();
             colourBuffer = new(RenderWidth, RenderHeight);
-            zBuffer = new(RenderWidth, RenderHeight);
-
-            ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * windowTranslate;
             WindowToScreen = ScreenToWindow.Inverse();
 
-            NewRenderNeeded = true;
+            NewRenderNeeded = true; //?
         }
 
         // Render
@@ -209,6 +205,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
             if (!NewRenderNeeded) return LastRender;
 
+            /*
+
             // Calculate matrices and world origins
             foreach (Camera camera in sceneToRender.Cameras)
             {
@@ -234,8 +232,10 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     mesh.CalculateMatrices();
                 }
             }
+
             this.CalculateMatrices();
             this.CalculateWorldOrigin();
+            */
 
             // Generate a shadow map for each light (only if needed)
             foreach (Light light in sceneToRender.Lights)

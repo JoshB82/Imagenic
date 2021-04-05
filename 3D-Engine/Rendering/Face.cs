@@ -36,40 +36,26 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
             foreach (Camera camera in scene.Cameras)
             {
-                if (camera.DrawIcon)
+                if (camera.Icon.Visible)
                 {
                     Matrix4x4 modelToView = this.WorldToView * camera.Icon.ModelToWorld;
 
                     foreach (Face face in camera.Icon.Faces)
                     {
-                        AddFaceToZBuffer
-                        (
-                            face,
-                            3,
-                            ref modelToView,
-                            ref this.ViewToScreen,
-                            ref ScreenToWindow
-                        );
+                        AddFaceToZBuffer(face, 3, ref modelToView);
                     }
                 }
             }
 
             foreach (Light light in scene.Lights)
             {
-                if (light.DrawIcon)
+                if (light.Icon.Visible)
                 {
                     Matrix4x4 modelToView = this.WorldToView * light.Icon.ModelToWorld;
 
                     foreach (Face face in light.Icon.Faces)
                     {
-                        AddFaceToZBuffer
-                        (
-                            face,
-                            3,
-                            ref modelToView,
-                            ref this.ViewToScreen,
-                            ref ScreenToWindow
-                        );
+                        AddFaceToZBuffer(face, 3, ref modelToView);
                     }
                 }
             }
@@ -84,14 +70,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     {
                         if (face.Visible)
                         {
-                            AddFaceToZBuffer
-                            (
-                                face,
-                                mesh.Dimension,
-                                ref modelToView,
-                                ref this.ViewToScreen,
-                                ref ScreenToWindow
-                            );
+                            AddFaceToZBuffer(face, mesh.Dimension, ref modelToView);
                         }
                     }
                 }
@@ -111,36 +90,15 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
                     foreach (Face face in directionForward.Faces)
                     {
-                        AddFaceToZBuffer
-                        (
-                            face,
-                            3,
-                            ref directionForwardModelToView,
-                            ref this.ViewToScreen,
-                            ref ScreenToWindow
-                        );
+                        AddFaceToZBuffer(face, 3, ref directionForwardModelToView);
                     }
                     foreach (Face face in directionUp.Faces)
                     {
-                        AddFaceToZBuffer
-                        (
-                            face,
-                            3,
-                            ref directionUpModelToView,
-                            ref this.ViewToScreen,
-                            ref ScreenToWindow
-                        );
+                        AddFaceToZBuffer(face, 3, ref directionUpModelToView);
                     }
                     foreach (Face face in directionRight.Faces)
                     {
-                        AddFaceToZBuffer
-                        (
-                            face,
-                            3,
-                            ref directionRightModelToView,
-                            ref this.ViewToScreen,
-                            ref ScreenToWindow
-                        );
+                        AddFaceToZBuffer(face, 3, ref directionRightModelToView);
                     }
                 }
             }
@@ -151,20 +109,19 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         private void AddFaceToZBuffer(
             Face face,
             int meshDimension,
-            ref Matrix4x4 modelToView,
-            ref Matrix4x4 viewToScreen,
-            ref Matrix4x4 screenToWindow)
+            ref Matrix4x4 modelToView)
         {
             // Reset the vertices to model space values
             face.ResetVertices();
 
+            /*
             // Draw outline if needed ??
             if (face.DrawOutline)
             {
                 DrawEdge(face.p1, face.p2, Color.Black, ref modelToView, ref viewToScreen);
                 DrawEdge(face.p1, face.p3, Color.Black, ref modelToView, ref viewToScreen);
                 DrawEdge(face.p2, face.p3, Color.Black, ref modelToView, ref viewToScreen);
-            }
+            }*/
 
             // Move the face from model space to view space
             face.ApplyMatrix(modelToView);
@@ -184,7 +141,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             // Move the new triangles from view space to screen space, including a correction for perspective
             foreach (Face clippedFace in faceClip)
             {
-                clippedFace.ApplyMatrix(viewToScreen);
+                clippedFace.ApplyMatrix(ViewToScreen);
 
                 if (this is PerspectiveCamera)
                 {
@@ -212,7 +169,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                 { continue; }
 
                 // Move the new triangles from screen space to window space
-                clippedFace.ApplyMatrix(screenToWindow);
+                clippedFace.ApplyMatrix(ScreenToWindow);
 
                 // Round the vertices
                 int x1 = clippedFace.p1.x.RoundToInt();

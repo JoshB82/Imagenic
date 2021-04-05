@@ -71,7 +71,7 @@ namespace _3D_Engine.SceneObjects
             );
         }
 
-        private void AdjustVectors(Vector3D directionForward, Vector3D directionUp, Vector3D directionRight)
+        internal virtual void AdjustVectors(Vector3D directionForward, Vector3D directionUp, Vector3D directionRight)
         {
             WorldDirectionForward = directionForward;
             WorldDirectionUp = directionUp;
@@ -87,6 +87,8 @@ namespace _3D_Engine.SceneObjects
             ConsoleOutput.DisplayOutputDirectionMessage(this, Properties.Settings.Default.Verbosity);
 
             if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true;
+
+            CalculateMatrices();
         }
 
         private static void VectorCheck(Vector3D firstVector, Vector3D secondVector)

@@ -14,6 +14,7 @@ using _3D_Engine.Constants;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
@@ -34,18 +35,12 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         // COME BACK TO
         public Mesh Icon { get; set; }
 
-        private bool drawIcon = false;
-        /// <summary>
-        /// Determines if the <see cref="RenderingObject"/> is drawn in the <see cref="SceneToRender"/>.
-        /// </summary>
-        public bool DrawIcon
+        // Buffers
+        protected Buffer2D<float> zBuffer;
+        internal virtual void UpdateProperties()
         {
-            get => drawIcon;
-            set
-            {
-                drawIcon = value;
-                UpdateRenderCamera();
-            }
+            zBuffer = new(RenderWidth, RenderHeight);
+            ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * windowTranslate;
         }
 
         // Clipping Planes
@@ -61,16 +56,25 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         };
 
         // Matrices
-        internal Matrix4x4 WorldToView;
-        internal Matrix4x4 ViewToScreen;
-        internal Matrix4x4 ScreenToWindow;
-        protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
-
+        public Matrix4x4 WorldToView { get; private set; }
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
             WorldToView = ModelToWorld.Inverse();
         }
+
+        private Matrix4x4 viewToScreen;
+        public Matrix4x4 ViewToScreen
+        {
+            get => viewToScreen;
+            private set
+            {
+                viewToScreen = value;
+            }
+        }
+
+        public Matrix4x4 ScreenToWindow { get; private set; }
+        protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
 
         // View Volume
         private float viewWidth, viewHeight, zNear, zFar;
@@ -91,7 +95,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 {
                     case OrthogonalCamera or DistantLight:
                         // Update view-to-screen matrix
-                        ViewToScreen.m00 = 2 / viewWidth;
+                        viewToScreen.m00 = 2 / viewWidth;
 
                         // Update left and right clipping planes
                         ViewClippingPlanes[0].Point.x = -viewWidth / 2;
@@ -100,7 +104,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                         break;
                     case PerspectiveCamera or Spotlight:
                         // Update view-to-screen matrix
-                        ViewToScreen.m00 = 2 * zNear / viewWidth;
+                        viewToScreen.m00 = 2 * zNear / viewWidth;
 
                         // Update left and right clipping planes
                         float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
@@ -128,7 +132,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 {
                     case OrthogonalCamera or DistantLight:
                         // Update view-to-screen matrix
-                        ViewToScreen.m11 = 2 / viewHeight;
+                        viewToScreen.m11 = 2 / viewHeight;
 
                         // Update top and bottom clipping planes
                         ViewClippingPlanes[1].Point.y = -viewHeight / 2;
@@ -137,7 +141,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                         break;
                     case PerspectiveCamera or Spotlight:
                         // Update view-to-screen matrix
-                        ViewToScreen.m11 = 2 * zNear / viewHeight;
+                        viewToScreen.m11 = 2 * zNear / viewHeight;
 
                         // Update top and bottom clipping planes
                         float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
@@ -165,8 +169,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 {
                     case OrthogonalCamera or DistantLight:
                         // Update view-to-screen matrix
-                        ViewToScreen.m22 = 2 / (zFar - zNear);
-                        ViewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
+                        viewToScreen.m22 = 2 / (zFar - zNear);
+                        viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
 
                         // Update near clipping plane
                         ViewClippingPlanes[2].Point.z = zNear;
@@ -174,8 +178,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                         break;
                     case PerspectiveCamera or Spotlight:
                         // Update view-to-screen matrix
-                        ViewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
-                        ViewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
+                        viewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
+                        viewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
 
                         // Update near clipping plane
                         ViewClippingPlanes[2].Point.z = zNear;
@@ -201,8 +205,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 {
                     case OrthogonalCamera or DistantLight:
                         // Update view-to-screen matrix
-                        ViewToScreen.m22 = 2 / (zFar - zNear);
-                        ViewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
+                        viewToScreen.m22 = 2 / (zFar - zNear);
+                        viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
 
                         // Update far clipping plane
                         ViewClippingPlanes[5].Point.z = zFar;
@@ -210,8 +214,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                         break;
                     case PerspectiveCamera or Spotlight:
                         // Update view-to-screen matrix
-                        ViewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
-                        ViewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
+                        viewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
+                        viewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
 
                         // Update far clipping plane
                         ViewClippingPlanes[5].Point.z = zFar;
@@ -222,13 +226,13 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 }
             }
         }
-
         public virtual int RenderWidth
         {
             get => renderWidth;
             set
             {
                 renderWidth = value;
+                UpdateProperties();
                 UpdateRenderCamera();
             }
         }
@@ -238,6 +242,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             set
             {
                 renderHeight = value;
+                UpdateProperties();
                 UpdateRenderCamera();
             }
         }
@@ -316,7 +321,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             switch (this)
             {
                 case OrthogonalCamera or DistantLight:
-                    ViewToScreen = Matrix4x4.Identity;
+                    viewToScreen = Matrix4x4.Identity;
 
                     ViewClippingPlanes = new ClippingPlane[]
                     {
@@ -330,8 +335,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                     break;
                 case PerspectiveCamera or Spotlight:
-                    ViewToScreen = Matrix4x4.Zero;
-                    ViewToScreen.m32 = 1;
+                    viewToScreen = Matrix4x4.Zero;
+                    viewToScreen.m32 = 1;
 
                     ViewClippingPlanes = new ClippingPlane[]
                     {

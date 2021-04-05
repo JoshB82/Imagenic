@@ -87,8 +87,7 @@ namespace _3D_Engine.SceneObjects
         private static int nextId = -1;
 
         // Matrices
-        internal Matrix4x4 ModelToWorld { get; set; }
-
+        public Matrix4x4 ModelToWorld { get; internal set; }
         internal virtual void CalculateMatrices()
         {
             Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(ModelDirectionForward, WorldDirectionForward);
@@ -108,12 +107,15 @@ namespace _3D_Engine.SceneObjects
         /// <summary>
         /// The position of the <see cref="SceneObject"/> in world space.
         /// </summary>
-        public Vector3D WorldOrigin
+        public virtual Vector3D WorldOrigin
         {
             get => worldOrigin;
             set
             {
                 worldOrigin = value;
+
+                CalculateMatrices();
+
                 UpdateRenderCamera();
             }
         }
