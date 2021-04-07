@@ -27,7 +27,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
     /// <summary>
     /// An abstract base class that defines objects of type <see cref="RenderingObject"/>. Any object which inherits from this class provides rendering functionality.
     /// </summary>
-    public abstract class RenderingObject : SceneObject
+    public abstract partial class RenderingObject : SceneObject
     {
         #region Fields and Properties
 
@@ -36,7 +36,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         public Mesh Icon { get; set; }
 
         // Buffers
-        protected Buffer2D<float> zBuffer;
+        internal Buffer2D<float> zBuffer;
         internal virtual void UpdateProperties()
         {
             zBuffer = new(RenderWidth, RenderHeight);

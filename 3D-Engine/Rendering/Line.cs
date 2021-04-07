@@ -41,7 +41,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     {
                         for (int i = 0; i <= D; i++)
                         {
-                            ZBufferCheck(colour, x, y, z_value);
+                            AddPointToBuffers(colour, x, y, z_value);
                             x += increment_x;
                             z_value += z_increase_x * increment_x;
                             R += 2 * delta_y;
@@ -57,7 +57,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     {
                         for (int i = 0; i <= D; i++)
                         {
-                            ZBufferCheck(colour, x, y, z_value);
+                            AddPointToBuffers(colour, x, y, z_value);
                             y += increment_y;
                             z_value += z_increase_y * increment_y;
                             R += 2 * delta_x;
@@ -84,7 +84,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
             for (int x = x1; x <= x2; x++)
             {
-                ZBufferCheck(colour, x, y1, z1);
+                AddPointToBuffers(colour, x, y1, z1);
                 z1 += z_increase_x;
             }
         }
@@ -100,7 +100,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
             for (int y = y1; y <= y2; y++)
             {
-                ZBufferCheck(colour, x1, y, z1);
+                AddPointToBuffers(colour, x1, y, z1);
                 z1 += z_increase_y;
             }
         }

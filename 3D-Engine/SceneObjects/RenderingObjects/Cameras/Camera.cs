@@ -242,7 +242,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             {
                 if (light.ShadowMapNeedsUpdating && light.Visible)
                 {
-                    light.GenerateShadowMap(sceneToRender);
+                    light.CalculateDepth(sceneToRender);
 
                     #if DEBUG
 
@@ -253,7 +253,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             }
 
             // Generate z buffer
-            GenerateZBuffer(sceneToRender);
+            CalculateDepth(sceneToRender);
 
             // Process lighting
             ProcessLighting(sceneToRender);
@@ -306,7 +306,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                     if (lightPointX >= 0 && lightPointX < light.RenderWidth &&
                         lightPointY >= 0 && lightPointY < light.RenderHeight)
                     {
-                        if (lightPointZ.ApproxLessThanEquals(light.ShadowMap.Values[lightPointX][lightPointY], 1E-4F))
+                        if (lightPointZ.ApproxLessThanEquals(light.zBuffer.Values[lightPointX][lightPointY], 1E-4F))
                         {
                             // Point is not in shadow and light does contribute to the point's overall colour
                             pointColour = pointColour.Mix(newLightColour);
@@ -327,6 +327,40 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
             // Update the colour buffer (use black if there are no lights affecting the point)
             colourBuffer.Values[x][y] = lightApplied ? pointColour : Color.Black;
+        }
+
+        internal override void ResetBuffers()
+        {
+            zBuffer.SetAllToValue(outOfBoundsValue);
+            colourBuffer.SetAllToValue(RenderBackgroundColour);
+        }
+
+        internal override void AddPointToBuffers(object colour, int x, int y, float z)
+        {
+            #if DEBUG
+
+            if (x >= 0 && y >= 0 && x < RenderWidth && y < RenderHeight)
+            {
+                if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
+                {
+                    zBuffer.Values[x][y] = z;
+                    colourBuffer.Values[x][y] = (Color)colour;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException($"Attempted to add a point outside buffer range at ({x}, {y}, {z}).");
+            }
+
+            #else
+
+            if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
+            {
+                zBuffer.Values[x][y] = z;
+                colourBuffer.Values[x][y] = (Color)colour;
+            }
+
+            #endif
         }
 
         #endregion

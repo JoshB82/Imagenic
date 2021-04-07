@@ -27,7 +27,7 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
 
         // Appearance
         public Color Colour { get; set; } = Properties.Settings.Default.FaceColour;
-        public Texture Texture_Object { get; set; }
+        public Texture TextureObject { get; set; }
         public bool DrawOutline { get; set; } = false;
         public bool Visible { get; set; } = true;
 
@@ -44,7 +44,7 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
         {
             this.p1 = p1; this.p2 = p2; this.p3 = p3;
             this.t1 = t1; this.t2 = t2; this.t3 = t3;
-            Texture_Object = texture_object;
+            TextureObject = texture_object;
         }
 
         public Face(Vertex model_p1, Vertex model_p2, Vertex model_p3)
@@ -56,7 +56,7 @@ namespace _3D_Engine.SceneObjects.Meshes.Components
         {
             P1 = model_p1; P2 = model_p2; P3 = model_p3;
             T1 = t1; T2 = t2; T3 = t3;
-            HasTexture = true; Texture_Object = texture_object;
+            HasTexture = true; TextureObject = texture_object;
         }
 
         #endregion

@@ -127,7 +127,7 @@ namespace _3D_Engine.Rendering
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
                         Vector3D tIntersection2 = (outsideTexturePoints[1] - insideTexturePoints[0]) * d2 + insideTexturePoints[0];
 
-                        face1 = new Face(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, faceToClip.Texture_Object) { HasTexture = true };
+                        face1 = new Face(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, faceToClip.TextureObject) { HasTexture = true };
                     }
                     else
                     {
@@ -147,8 +147,8 @@ namespace _3D_Engine.Rendering
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
                         Vector3D tIntersection2 = (outsideTexturePoints[0] - insideTexturePoints[1]) * d2 + insideTexturePoints[1];
 
-                        face1 = new Face(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], faceToClip.Texture_Object) { HasTexture = true };
-                        face2 = new Face(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, faceToClip.Texture_Object) { HasTexture = true };
+                        face1 = new Face(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], faceToClip.TextureObject) { HasTexture = true };
+                        face2 = new Face(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, faceToClip.TextureObject) { HasTexture = true };
                     }
                     else
                     {

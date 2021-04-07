@@ -12,6 +12,7 @@
 
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Miscellaneous;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -103,6 +104,37 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
             }
 
             ConsoleOutput.DisplayMessageFromObject(this, $"Successfully saved shadow map.");
+        }
+
+        internal override void ResetBuffers()
+        {
+            zBuffer.SetAllToValue(outOfBoundsValue);
+        }
+
+        internal override void AddPointToBuffers(object data, int x, int y, float z)
+        {
+            #if DEBUG
+
+            if (x >= 0 && y >= 0 && x < RenderWidth && y < RenderHeight)
+            {
+                if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
+                {
+                    zBuffer.Values[x][y] = z;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException($"Attempted to add a point outside buffer range at ({x}, {y}, {z}).");
+            }
+
+            #else
+
+            if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
+            {
+                zBuffer.Values[x][y] = z;
+            }
+
+            #endif
         }
 
         #endregion
