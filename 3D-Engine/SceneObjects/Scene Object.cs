@@ -145,10 +145,10 @@ namespace _3D_Engine.SceneObjects
                 DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
             }
 
-            WorldOrigin = origin;
             SetDirection1(directionForward, directionUp);
+            WorldOrigin = origin;
 
-            ConsoleOutput.DisplayMessageFromObject(this, $"Created at {origin}");
+            ConsoleOutput.DisplayMessageFromObject(this, $"Created at {origin}.");
         }
 
         #endregion
