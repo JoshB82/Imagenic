@@ -86,7 +86,16 @@ namespace _3D_Engine.SceneObjects.Meshes
             ModelToWorld *= Transform.Scale(Scaling.x, Scaling.y, Scaling.z);
         }
 
-        internal Vector3D Scaling = Vector3D.One;
+        private Vector3D scaling = Vector3D.One;
+        internal Vector3D Scaling
+        {
+            get => scaling;
+            set
+            {
+                scaling = value;
+                CalculateMatrices();
+            }
+        }
 
         #endregion
 
