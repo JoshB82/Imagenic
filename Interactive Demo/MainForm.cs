@@ -22,6 +22,8 @@ namespace Interactive_Demo
         {
             InitializeComponent();
 
+            MessageBox.Show("Use QEWASD to move camera, UOIJKL to rotate camera.", "Controls");
+
             // Create a new scene
             Group scene = new();
 
@@ -106,7 +108,7 @@ namespace Interactive_Demo
 
         private void CheckKeyboard(long updateTime)
         {
-            const float cameraPanDampener = 0.0008f, cameraTiltDampener = 0.000001f;
+            const float cameraPanDampener = 0.0001f, cameraTiltDampener = 0.00001f;
 
             for (int i = 0; i < keysPressed.Count; i++)
             {

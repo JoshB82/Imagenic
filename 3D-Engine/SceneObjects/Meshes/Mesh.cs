@@ -74,7 +74,7 @@ namespace _3D_Engine.SceneObjects.Meshes
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Dimension']/*"/>
         public int Dimension { get; internal set; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Casts_Shadows']/*"/>
-        public bool Casts_Shadows { get; set; } = true;
+        public bool CastsShadows { get; set; } = true;
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool DrawOutline { get; set; } = false;
 

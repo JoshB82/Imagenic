@@ -11,13 +11,14 @@
  */
 
 using _3D_Engine.Constants;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Miscellaneous;
 using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
-using _3D_Engine.Transformations;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -35,11 +36,14 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         // Buffers
         protected Buffer2D<Color> colourBuffer;
 
+        // Lighting
+        public Spotlight Headlamp { get; set; }
+        internal abstract void ProcessLighting(Group sceneToRender);
+
         // Matrices
         protected Matrix4x4 ViewToWorld;
         protected Matrix4x4 ScreenToView;
         protected Matrix4x4 WindowToScreen;
-
         internal Matrix4x4 ScreenToWorld;
 
         internal override void CalculateMatrices()
@@ -49,7 +53,6 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
         }
 
         //ScreenToWorld = ModelToWorld * ScreenToView;
-        internal abstract void ProcessLighting(Group sceneToRender);
 
         // View Volume
         public override float ViewWidth
@@ -58,7 +61,10 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 base.ViewWidth = value;
-                ScreenToView = ViewToScreen.Inverse();
+
+                // Update view-to-screen matrix
+                ScreenToView.m00 = ViewWidth / (2 * ZNear);
+
                 NewRenderNeeded = true;
             }
         }
@@ -68,7 +74,10 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 base.ViewHeight = value;
-                ScreenToView = ViewToScreen.Inverse();
+
+                // Update view-to-screen matrix
+                ScreenToView.m11 = ViewHeight / (2 * ZNear);
+
                 NewRenderNeeded = true;
             }
         }
@@ -78,7 +87,13 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 base.ZNear = value;
-                ScreenToView = ViewToScreen.Inverse();
+
+                // Update view-to-screen matrix
+                ScreenToView.m00 = ViewWidth / (2 * ZNear);
+                ScreenToView.m11 = ViewHeight / (2 * ZNear);
+                ScreenToView.m32 = (ZNear - ZFar) / (2 * ZNear * ZFar);
+                ScreenToView.m33 = (ZNear + ZFar) / (2 * ZNear * ZFar);
+
                 NewRenderNeeded = true;
             }
         }
@@ -88,7 +103,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             set
             {
                 base.ZFar = value;
-                ScreenToView = ViewToScreen.Inverse();
+
+                // Update view-to-screen matrix
+                ScreenToView.m32 = (ZNear - ZFar) / (2 * ZNear * ZFar);
+                ScreenToView.m33 = (ZNear + ZFar) / (2 * ZNear * ZFar);
+
                 NewRenderNeeded = true;
             }
         }
@@ -117,7 +136,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             colourBuffer = new(RenderWidth, RenderHeight);
             WindowToScreen = ScreenToWindow.Inverse();
 
-            NewRenderNeeded = true; //?
+            NewRenderNeeded = true;
         }
 
         // Render
@@ -141,7 +160,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             RenderHeight = control.Height;
         }
 
-        private PixelFormat renderPixelFormat = PixelFormat.Format24bppRgb; //????(and everywhere)
+        private PixelFormat renderPixelFormat = PixelFormat.Format24bppRgb;
         public PixelFormat RenderPixelFormat
         {
             get => renderPixelFormat;
@@ -168,6 +187,9 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                 NewRenderNeeded = true;
             }
         }
+
+        // Update
+        public Update UpdateMethod { get; set; } = Update.OnSceneObjectChange;
 
         #endregion
 
@@ -203,7 +225,13 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                 throw new ArgumentException(Exceptions.InvalidPixelFormatForRendering, nameof(renderPixelFormat));
             }
 
-            if (!NewRenderNeeded) return LastRender;
+            if (UpdateMethod == Update.OnSceneObjectChange && !NewRenderNeeded) return LastRender;
+
+            #if DEBUG
+
+                ConsoleOutput.DisplayMessageFromObject(this, $"Rendering...");
+
+            #endif
 
             /*
 

@@ -119,7 +119,6 @@ namespace _3D_Engine.SceneObjects
                 UpdateRenderCamera();
             }
         }
-        internal void CalculateWorldOrigin() => WorldOrigin = (Vector3D)(ModelToWorld * ModelOrigin);
 
         // Render Camera
         internal Camera RenderCamera { get; set; }

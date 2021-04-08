@@ -10,17 +10,17 @@ namespace _3D_Engine.SceneObjects.Meshes
         /// Scales a <see cref="Mesh"/> in the x-direction.
         /// </summary>
         /// <param name="scaleFactor">Factor to scale by.</param>
-        public void ScaleX(float scaleFactor) => Scaling = new Vector3D(Scaling.x * scaleFactor, 0, 0);
+        public void ScaleX(float scaleFactor) => Scaling = new Vector3D(Scaling.x * scaleFactor, Scaling.y, Scaling.z);
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the y-direction.
         /// </summary>
         /// <param name="scaleFactor">Factor to scale by.</param>
-        public void ScaleY(float scaleFactor) => Scaling = new Vector3D(0, Scaling.y * scaleFactor, 0);
+        public void ScaleY(float scaleFactor) => Scaling = new Vector3D(Scaling.x, Scaling.y * scaleFactor, Scaling.z);
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the z-direction.
         /// </summary>
         /// <param name="scaleFactor">Factor to scale by.</param>
-        public void ScaleZ(float scaleFactor) => Scaling = new Vector3D(0, 0, Scaling.z * scaleFactor);
+        public void ScaleZ(float scaleFactor) => Scaling = new Vector3D(Scaling.x, Scaling.y, Scaling.z * scaleFactor);
         /// <summary>
         /// Scales a <see cref="Mesh"/> in all directions.
         /// </summary>

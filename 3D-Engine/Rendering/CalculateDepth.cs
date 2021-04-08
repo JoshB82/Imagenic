@@ -116,7 +116,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 }
             }
 
-            ConsoleOutput.DisplayMessageFromObject(this, "Generated depth values.");
+            #if DEBUG
+
+                ConsoleOutput.DisplayMessageFromObject(this, "Generated depth values.");
+
+            #endif
         }
 
         private void AddFaceToZBuffer(Face face, int meshDimension, ref Matrix4x4 modelToView)

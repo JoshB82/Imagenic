@@ -178,6 +178,8 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                         break;
                     case PerspectiveCamera or Spotlight:
                         // Update view-to-screen matrix
+                        viewToScreen.m00 = 2 * zNear / viewWidth;
+                        viewToScreen.m11 = 2 * zNear / viewHeight;
                         viewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
                         viewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
 

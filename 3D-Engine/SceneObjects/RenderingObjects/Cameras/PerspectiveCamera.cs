@@ -10,6 +10,7 @@
  * Encapsulates creation of a perspective camera.
  */
 
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Groups;
 using static _3D_Engine.Properties.Settings;
@@ -26,7 +27,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
         public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar, Default.CameraRenderWidth, Default.CameraRenderHeight) { }
 
-        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
+        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
+        {
+            ScreenToView = Matrix4x4.Zero;
+            ScreenToView.m23 = 1;
+        }
 
         public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => new(origin, directionForward, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar, renderWidth, renderHeight);
 

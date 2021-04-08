@@ -33,7 +33,20 @@ namespace _3D_Engine.SceneObjects.Groups
         public List<Light> Lights { get; set; } = new();
         public List<Mesh> Meshes { get; set; } = new();
 
-        internal Camera RenderCamera { get; set; }
+        // Render
+        private Camera renderCamera;
+        internal Camera RenderCamera
+        {
+            get => renderCamera;
+            set
+            {
+                renderCamera = value;
+                foreach (SceneObject sceneObject in SceneObjects)
+                {
+                    sceneObject.RenderCamera = renderCamera;
+                }
+            }
+        }
 
         #endregion
 
