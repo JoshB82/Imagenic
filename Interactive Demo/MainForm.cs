@@ -176,10 +176,10 @@ namespace Interactive_Demo
 
         private void MainForm_Resize(object sender, System.EventArgs e)
         {
-            camera.ViewWidth = pictureBox.Width / 10f;
-            camera.ViewHeight = pictureBox.Height / 10f;
-            camera.RenderWidth = pictureBox.Width;
-            camera.RenderHeight = pictureBox.Height;
+            //camera.ViewWidth = pictureBox.Width / 10f;
+            //camera.ViewHeight = pictureBox.Height / 10f;
+            //camera.RenderWidth = pictureBox.Width;
+            //camera.RenderHeight = pictureBox.Height;
         }
     }
 }

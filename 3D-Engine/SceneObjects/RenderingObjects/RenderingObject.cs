@@ -17,6 +17,7 @@ using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Transformations;

@@ -1,5 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using static System.MathF;
 
 namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
@@ -64,15 +66,15 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
                 Edges[resolution - 1] = new Edge(Vertices[resolution + 1], Vertices[2]);
 
                 // Faces
-                Faces = new Face[2 * resolution];
+                Faces = new SolidFace[2 * resolution];
 
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Faces[i] = new Face(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
-                    Faces[i + resolution] = new Face(Vertices[i + 2], Vertices[i + 3], Vertices[1]);
+                    Faces[i] = new SolidFace(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
+                    Faces[i + resolution] = new SolidFace(Vertices[i + 2], Vertices[i + 3], Vertices[1]);
                 }
-                Faces[resolution - 1] = new Face(Vertices[resolution - 1], Vertices[0], Vertices[2]);
-                Faces[2 * resolution - 1] = new Face(Vertices[resolution - 1], Vertices[2], Vertices[1]);
+                Faces[resolution - 1] = new SolidFace(Vertices[resolution - 1], Vertices[0], Vertices[2]);
+                Faces[2 * resolution - 1] = new SolidFace(Vertices[resolution - 1], Vertices[2], Vertices[1]);
             }
         }
 

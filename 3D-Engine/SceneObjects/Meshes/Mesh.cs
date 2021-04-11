@@ -12,6 +12,8 @@
 
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Transformations;
 using System.Drawing;
 
@@ -60,7 +62,7 @@ namespace _3D_Engine.SceneObjects.Meshes
             set
             {
                 faceColour = value;
-                foreach (Face face in Faces) face.Colour = faceColour;
+                //foreach (Face face in Faces) face.Colour = faceColour; TODO: fix
             }
         }
 

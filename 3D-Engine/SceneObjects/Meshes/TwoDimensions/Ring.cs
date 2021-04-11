@@ -1,5 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using static System.MathF;
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
@@ -11,38 +13,38 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
-        private float inner_radius, outer_radius;
+        private float innerRadius, outerRadius;
         private int resolution;
 
         /// <summary>
         /// The radius of the inner <see cref="Circle"/>.
         /// </summary>
-        public float Inner_Radius
+        public float InnerRadius
         {
-            get => inner_radius;
+            get => innerRadius;
             set
             {
-                inner_radius = value;
+                innerRadius = value;
                 if (resolution == 0) return;
 
                 // Vertices are defined in anti-clockwise order.
                 float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i) * inner_radius, 0, Sin(angle * i) * inner_radius, 1));
+                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i) * innerRadius, 0, Sin(angle * i) * innerRadius, 1));
             }
         }
         /// <summary>
         /// The radius of the outer <see cref="Circle"/>.
         /// </summary>
-        public float Outer_Radius
+        public float OuterRadius
         {
-            get => outer_radius;
+            get => outerRadius;
             set
             {
-                outer_radius = value;
+                outerRadius = value;
                 if (resolution == 0) return;
 
                 float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D(Cos(angle * i) * outer_radius, 0, Sin(angle * i) * outer_radius, 1));
+                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D(Cos(angle * i) * outerRadius, 0, Sin(angle * i) * outerRadius, 1));
             }
         }
         /// <summary>
@@ -62,8 +64,8 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
                 for (int i = 0; i < resolution; i++)
                 {
                     float sin = Sin(angle * i), cos = Cos(angle * i);
-                    Vertices[i + 1] = new Vertex(new Vector4D(cos * inner_radius, 0, sin * inner_radius, 1));
-                    Vertices[i + resolution + 1] = new Vertex(new Vector4D(cos * outer_radius, 0, sin * outer_radius, 1));
+                    Vertices[i + 1] = new Vertex(new Vector4D(cos * innerRadius, 0, sin * innerRadius, 1));
+                    Vertices[i + resolution + 1] = new Vertex(new Vector4D(cos * outerRadius, 0, sin * outerRadius, 1));
                 }
 
                 Edges = new Edge[2 * resolution];
@@ -75,14 +77,14 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
                 Edges[resolution - 1] = new Edge(Vertices[resolution], Vertices[1]);
                 Edges[2 * resolution - 1] = new Edge(Vertices[2 * resolution], Vertices[resolution + 1]);
 
-                Faces = new Face[2 * resolution];
+                Faces = new SolidFace[2 * resolution];
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Faces[i] = new Face(Vertices[i + 1], Vertices[i + resolution + 2], Vertices[i + resolution + 1]);
-                    Faces[i + resolution] = new Face(Vertices[i + 1], Vertices[i + 2], Vertices[i + resolution + 2]);
+                    Faces[i] = new SolidFace(Vertices[i + 1], Vertices[i + resolution + 2], Vertices[i + resolution + 1]);
+                    Faces[i + resolution] = new SolidFace(Vertices[i + 1], Vertices[i + 2], Vertices[i + resolution + 2]);
                 }
-                Faces[resolution - 1] = new Face(Vertices[resolution], Vertices[resolution + 1], Vertices[2 * resolution]);
-                Faces[2 * resolution - 1] = new Face(Vertices[resolution], Vertices[1], Vertices[resolution + 1]);
+                Faces[resolution - 1] = new SolidFace(Vertices[resolution], Vertices[resolution + 1], Vertices[2 * resolution]);
+                Faces[2 * resolution - 1] = new SolidFace(Vertices[resolution], Vertices[1], Vertices[resolution + 1]);
             }
         }
 
@@ -94,17 +96,17 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
         /// Creates a <see cref="Ring"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Ring"/>.</param>
-        /// <param name="direction_forward">The direction the <see cref="Ring"/> faces.</param>
-        /// <param name="direction_up">The upward orientation of the <see cref="Ring"/>.</param>
-        /// <param name="inner_radius">The radius of the inner <see cref="Circle"/>.</param>
-        /// <param name="outer_radius">The radius of the outer <see cref="Circle"/>.</param>
+        /// <param name="directionForward">The direction the <see cref="Ring"/> faces.</param>
+        /// <param name="directionUp">The upward orientation of the <see cref="Ring"/>.</param>
+        /// <param name="innerRadius">The radius of the inner <see cref="Circle"/>.</param>
+        /// <param name="outerRadius">The radius of the outer <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Ring"/>.</param>
-        public Ring(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float inner_radius, float outer_radius, int resolution) : base(origin, direction_forward, direction_up)
+        public Ring(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float innerRadius, float outerRadius, int resolution) : base(origin, directionForward, directionUp)
         {
             Dimension = 2;
 
-            Inner_Radius = inner_radius;
-            Outer_Radius = outer_radius;
+            InnerRadius = innerRadius;
+            OuterRadius = outerRadius;
             Resolution = resolution;
         }
 

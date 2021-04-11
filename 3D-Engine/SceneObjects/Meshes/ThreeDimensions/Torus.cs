@@ -9,18 +9,16 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
     {
         #region Fields and Properties
 
-        public float Inner_Radius { get; set; }
-        public float Outer_Radius { get; set; }
+        public float InnerRadius { get; set; }
+        public float OuterRadius { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Torus(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float radius, float inner_radius, float outer_radius) : base(origin, direction_forward, direction_up)
+        public Torus(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float radius, float innerRadius, float outerRadius) : base(origin, directionForward, directionUp)
         {
             Dimension = 3;
-
-
         }
 
         #endregion

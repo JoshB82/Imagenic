@@ -11,7 +11,7 @@
  */
 
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.SceneObjects.RenderingObjects;
 using System.Collections.Generic;
 using static _3D_Engine.Maths.Vectors.Vector3D;
@@ -20,6 +20,7 @@ namespace _3D_Engine.Rendering
 {
     internal static class Clipping
     {
+        // Edges
         internal static bool ClipEdges(ClippingPlane[] clippingPlanes, ref Vector4D point1, ref Vector4D point2)
         {
             foreach (ClippingPlane clippingPlane in clippingPlanes)
@@ -59,6 +60,7 @@ namespace _3D_Engine.Rendering
         }
 
         //source!
+        // Faces
         internal static bool ClipFaces(Queue<Face> faceQueue, ClippingPlane[] clippingPlanes)
         {
             foreach (ClippingPlane clippingPlane in clippingPlanes)
@@ -78,37 +80,42 @@ namespace _3D_Engine.Rendering
             Vector3D[] insideTexturePoints = new Vector3D[3], outsideTexturePoints = new Vector3D[3];
             int insidePointCount = 0, outsidePointCount = 0;
 
-            if (PointDistanceFromPlane((Vector3D)faceToClip.p1, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane((Vector3D)faceToClip.P1, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = faceToClip.p1;
-                insideTexturePoints[insidePointCount++] = faceToClip.t1;
+                insidePoints[insidePointCount] = faceToClip.P1;
+                if (faceToClip is TextureFace textureFace) insideTexturePoints[insidePointCount] = textureFace.T1;
+                insidePointCount++;
             }
             else
             {
-                outsidePoints[outsidePointCount] = faceToClip.p1;
-                outsideTexturePoints[outsidePointCount++] = faceToClip.t1;
+                outsidePoints[outsidePointCount] = faceToClip.P1;
+                if (faceToClip is TextureFace textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T1;
+                outsidePointCount++;
             }
 
-            if (PointDistanceFromPlane((Vector3D)faceToClip.p2, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane((Vector3D)faceToClip.P2, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = faceToClip.p2;
-                insideTexturePoints[insidePointCount++] = faceToClip.t2;
+                insidePoints[insidePointCount] = faceToClip.P2;
+                if (faceToClip is TextureFace textureFace) insideTexturePoints[insidePointCount] = textureFace.T2;
+                insidePointCount++;
             }
             else
             {
-                outsidePoints[outsidePointCount] = faceToClip.p2;
-                outsideTexturePoints[outsidePointCount++] = faceToClip.t2;
+                outsidePoints[outsidePointCount] = faceToClip.P2;
+                if (faceToClip is TextureFace textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T2;
+                outsidePointCount++;
             }
 
-            if (PointDistanceFromPlane((Vector3D)faceToClip.p3, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane((Vector3D)faceToClip.P3, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = faceToClip.p3;
-                insideTexturePoints[insidePointCount++] = faceToClip.t3;
+                insidePoints[insidePointCount] = faceToClip.P3;
+                if (faceToClip is TextureFace textureFace) insideTexturePoints[insidePointCount] = textureFace.T3;
+                insidePointCount++;
             }
             else
             {
-                outsidePoints[outsidePointCount] = faceToClip.p3;
-                outsideTexturePoints[outsidePointCount] = faceToClip.T3;
+                outsidePoints[outsidePointCount] = faceToClip.P3;
+                if (faceToClip is TextureFace textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T3;
             }
 
             switch (insidePointCount)
@@ -122,16 +129,16 @@ namespace _3D_Engine.Rendering
                     Vector4D intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2), 1);
 
                     Face face1;
-                    if (faceToClip.HasTexture)
+                    if (faceToClip is TextureFace)
                     {
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
                         Vector3D tIntersection2 = (outsideTexturePoints[1] - insideTexturePoints[0]) * d2 + insideTexturePoints[0];
 
-                        face1 = new Face(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, faceToClip.TextureObject) { HasTexture = true };
+                        face1 = new TextureFace(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, ((TextureFace)faceToClip).TextureObject);
                     }
                     else
                     {
-                        face1 = new Face(insidePoints[0], intersection1, intersection2) { Colour = faceToClip.Colour };
+                        face1 = new SolidFace(insidePoints[0], intersection1, intersection2) { Colour = ((SolidFace)faceToClip).Colour };
                     }
 
                     facesQueue.Enqueue(face1);
@@ -142,18 +149,18 @@ namespace _3D_Engine.Rendering
                     intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2), 1);
 
                     Face face2;
-                    if (faceToClip.HasTexture)
+                    if (faceToClip is TextureFace)
                     {
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
                         Vector3D tIntersection2 = (outsideTexturePoints[0] - insideTexturePoints[1]) * d2 + insideTexturePoints[1];
 
-                        face1 = new Face(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], faceToClip.TextureObject) { HasTexture = true };
-                        face2 = new Face(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, faceToClip.TextureObject) { HasTexture = true };
+                        face1 = new TextureFace(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], ((TextureFace)faceToClip).TextureObject);
+                        face2 = new TextureFace(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, ((TextureFace)faceToClip).TextureObject);
                     }
                     else
                     {
-                        face1 = new Face(insidePoints[0], intersection1, insidePoints[1]) { Colour = faceToClip.Colour };
-                        face2 = new Face(insidePoints[1], intersection1, intersection2) { Colour = faceToClip.Colour };
+                        face1 = new SolidFace(insidePoints[0], intersection1, insidePoints[1]) { Colour = ((SolidFace)faceToClip).Colour };
+                        face2 = new SolidFace(insidePoints[1], intersection1, intersection2) { Colour = ((SolidFace)faceToClip).Colour };
                     }
 
                     facesQueue.Enqueue(face1);

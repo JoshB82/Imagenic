@@ -1,12 +1,13 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
     public sealed class Line : Mesh
     {
         #region Fields and Properties
-        
+
         private Vector3D start_position, end_position;
 
         public Vector3D Start_Position

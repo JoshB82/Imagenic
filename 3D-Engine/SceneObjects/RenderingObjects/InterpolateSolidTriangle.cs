@@ -1,11 +1,12 @@
-﻿using System;
+﻿using _3D_Engine.Rendering;
+using System;
 
-namespace _3D_Engine.Rendering
+namespace _3D_Engine.SceneObjects.RenderingObjects
 {
-    internal static class Interpolation
+    public abstract partial class RenderingObject : SceneObject
     {
         // Interpolation (source!)
-        internal static void InterpolateTriangle(
+        internal static void InterpolateSolidTriangle(
             Action<object, int, int, float> action,
             object @object,
             int x1, int y1, float z1,
@@ -88,16 +89,6 @@ namespace _3D_Engine.Rendering
                     }
                 }
             }
-        }
-
-        internal static void TextureInterpolateTriangle(
-            Action<object, int, int, float> action,
-            object @object,
-            int x1, int y1, float tx1, float ty1, float tz1,
-            int x2, int y2, float tx2, float ty2, float tz2,
-            int x3, int y3, float tx3, float ty3, float tz3)
-        {
-
         }
     }
 }

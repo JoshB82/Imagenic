@@ -1,5 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using static System.MathF;
 
 namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
@@ -69,19 +71,19 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
                 Edges[resolution - 1] = new Edge(Vertices[resolution + 1], Vertices[2]);
                 Edges[2 * resolution - 1] = new Edge(Vertices[2 * resolution + 1], Vertices[resolution + 2]);
 
-                Faces = new Face[4 * resolution];
+                Faces = new SolidFace[4 * resolution];
 
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Faces[i] = new Face(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
-                    Faces[i + resolution] = new Face(Vertices[i + 2], Vertices[i + resolution + 3], Vertices[i + resolution + 2]);
-                    Faces[i + 2 * resolution] = new Face(Vertices[i + 2], Vertices[i + 3], Vertices[i + resolution + 3]);
-                    Faces[i + 3 * resolution] = new Face(Vertices[i + resolution + 2], Vertices[i + resolution + 3], Vertices[1]);
+                    Faces[i] = new SolidFace(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
+                    Faces[i + resolution] = new SolidFace(Vertices[i + 2], Vertices[i + resolution + 3], Vertices[i + resolution + 2]);
+                    Faces[i + 2 * resolution] = new SolidFace(Vertices[i + 2], Vertices[i + 3], Vertices[i + resolution + 3]);
+                    Faces[i + 3 * resolution] = new SolidFace(Vertices[i + resolution + 2], Vertices[i + resolution + 3], Vertices[1]);
                 }
-                Faces[resolution - 1] = new Face(Vertices[resolution + 1], Vertices[0], Vertices[2]);
-                Faces[2 * resolution - 1] = new Face(Vertices[resolution + 1], Vertices[resolution + 2], Vertices[2 * resolution + 1]);
-                Faces[3 * resolution - 1] = new Face(Vertices[resolution + 1], Vertices[2], Vertices[resolution + 2]);
-                Faces[4 * resolution - 1] = new Face(Vertices[2 * resolution + 1], Vertices[resolution + 2], Vertices[1]);
+                Faces[resolution - 1] = new SolidFace(Vertices[resolution + 1], Vertices[0], Vertices[2]);
+                Faces[2 * resolution - 1] = new SolidFace(Vertices[resolution + 1], Vertices[resolution + 2], Vertices[2 * resolution + 1]);
+                Faces[3 * resolution - 1] = new SolidFace(Vertices[resolution + 1], Vertices[2], Vertices[resolution + 2]);
+                Faces[4 * resolution - 1] = new SolidFace(Vertices[2 * resolution + 1], Vertices[resolution + 2], Vertices[1]);
             }
         }
 
@@ -93,12 +95,12 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         /// Creates a <see cref="Cylinder"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Cylinder"/>.</param>
-        /// <param name="direction_forward">The direction the <see cref="Cylinder"/> faces.</param>
-        /// <param name="direction_up">The upward orientation of the <see cref="Cylinder"/>.</param>
+        /// <param name="directionForward">The direction the <see cref="Cylinder"/> faces.</param>
+        /// <param name="directionUp">The upward orientation of the <see cref="Cylinder"/>.</param>
         /// <param name="height">The height of the <see cref="Cylinder"/>.</param>
         /// <param name="radius">The radius of the top and bottom <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
-        public Cylinder(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float height, float radius, int resolution) : base(origin, direction_forward, direction_up)
+        public Cylinder(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float height, float radius, int resolution) : base(origin, directionForward, directionUp)
         {
             Dimension = 3;
 

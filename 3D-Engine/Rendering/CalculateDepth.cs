@@ -16,10 +16,11 @@ using _3D_Engine.Miscellaneous;
 using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes;
-using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
+using System;
 using System.Collections.Generic;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects
@@ -118,13 +119,15 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
             #if DEBUG
 
-                ConsoleOutput.DisplayMessageFromObject(this, "Generated depth values.");
+            ConsoleOutput.DisplayMessageFromObject(this, "Generated depth values.");
 
             #endif
         }
 
         private void AddFaceToZBuffer(Face face, int meshDimension, ref Matrix4x4 modelToView)
         {
+            Action<object, int, int, float> bufferAction = (this is Light || face is SolidFace) ? AddPointToBuffers : null;
+
             // Reset the vertices to model space values
             face.ResetVertices();
 
@@ -135,12 +138,11 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             if (meshDimension == 3)
             {
                 // Discard the face if it is not visible from the rendering object's point of view
-                if ((Vector3D)face.p1 * Vector3D.NormalFromPlane((Vector3D)face.p1, (Vector3D)face.p2, (Vector3D)face.p3) >= 0) { return; }
+                if ((Vector3D)face.P1 * Vector3D.NormalFromPlane((Vector3D)face.P1, (Vector3D)face.P2, (Vector3D)face.P3) >= 0) { return; }
             }
 
             // Clip the face in view space
-            Queue<Face> faceClip = new();
-            faceClip.Enqueue(face);
+            Queue<Face> faceClip = new(); faceClip.Enqueue(face);
             if (!Clipping.ClipFaces(faceClip, ViewClippingPlanes)) { return; }
 
             // Move the new triangles from view space to screen space, including a correction for perspective
@@ -151,15 +153,15 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 
                 if (this is PerspectiveCamera or Spotlight)
                 {
-                    clippedFace.p1 /= clippedFace.p1.w;
-                    clippedFace.p2 /= clippedFace.p2.w;
-                    clippedFace.p3 /= clippedFace.p3.w;
+                    clippedFace.P1 /= clippedFace.P1.w;
+                    clippedFace.P2 /= clippedFace.P2.w;
+                    clippedFace.P3 /= clippedFace.P3.w;
 
-                    if (this is PerspectiveCamera && face.HasTexture)
+                    if (this is PerspectiveCamera && clippedFace is TextureFace)
                     {
-                        clippedFace.t1 /= clippedFace.p1.w;
-                        clippedFace.t2 /= clippedFace.p2.w;
-                        clippedFace.t3 /= clippedFace.p3.w;
+                        ((TextureFace)clippedFace).T1 /= clippedFace.P1.w;
+                        ((TextureFace)clippedFace).T2 /= clippedFace.P2.w;
+                        ((TextureFace)clippedFace).T3 /= clippedFace.P3.w;
                     }
                 }
             }
@@ -170,87 +172,21 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             foreach (Face clippedFace in faceClip)
             {
                 // Skip the face if it is flat
-                if ((clippedFace.p1.x == clippedFace.p2.x && clippedFace.p2.x == clippedFace.p3.x) ||
-                    (clippedFace.p1.y == clippedFace.p2.y && clippedFace.p2.y == clippedFace.p3.y))
+                if ((clippedFace.P1.x == clippedFace.P2.x && clippedFace.P2.x == clippedFace.P3.x) ||
+                    (clippedFace.P1.y == clippedFace.P2.y && clippedFace.P2.y == clippedFace.P3.y))
                 { continue; }
 
                 // Move the face from screen space to window space
                 clippedFace.ApplyMatrix(ScreenToWindow);
 
-                // Round the vertices
-                int x1 = clippedFace.p1.x.RoundToInt();
-                int y1 = clippedFace.p1.y.RoundToInt();
-                float z1 = clippedFace.p1.z;
-                int x2 = clippedFace.p2.x.RoundToInt();
-                int y2 = clippedFace.p2.y.RoundToInt();
-                float z2 = clippedFace.p2.z;
-                int x3 = clippedFace.p3.x.RoundToInt();
-                int y3 = clippedFace.p3.y.RoundToInt();
-                float z3 = clippedFace.p3.z;
-
-                // Check if the face has a texture
-                if (this is Camera && face.HasTexture)
-                {
-                    // Scale the texture co-ordinates
-                    int textureWidth = face.TextureObject.File.Width - 1;
-                    int textureHeight = face.TextureObject.File.Height - 1;
-
-                    // afterwards?
-                    float tx1 = face.T1.x * textureWidth;
-                    float ty1 = face.T1.y * textureHeight;
-                    float tz1 = face.T1.z;
-                    float tx2 = face.T2.x * textureWidth;
-                    float ty2 = face.T2.y * textureHeight;
-                    float tz2 = face.T2.z;
-                    float tx3 = face.T3.x * textureWidth;
-                    float ty3 = face.T3.y * textureHeight;
-                    float tz3 = face.T3.z;
-
-                    // Sort the vertices by their y-co-ordinate
-                    NumericManipulation.TexturedSortByY
-                    (
-                        ref x1, ref y1, ref tx1, ref ty1, ref tz1,
-                        ref x2, ref y2, ref tx2, ref ty2, ref tz2,
-                        ref x3, ref y3, ref tx3, ref ty3, ref tz3
-                    );
-
-                    // Generate z-buffer
-                    Interpolation.TextureInterpolateTriangle
-                    (
-                        AddPointToBuffers,
-                        face.TextureObject.File,
-                        x1, y1, tx1, ty1, tz1,
-                        x2, y2, tx2, ty2, tz2,
-                        x3, y3, tx3, ty3, tz3
-                    );
-                }
-                else
-                {
-                    // Sort the vertices by their y-co-ordinate
-                    NumericManipulation.SortByY
-                    (
-                        ref x1, ref y1, ref z1,
-                        ref x2, ref y2, ref z2,
-                        ref x3, ref y3, ref z3
-                    );
-
-                    // Interpolate each point in the triangle
-                    Interpolation.InterpolateTriangle
-                    (
-                        AddPointToBuffers,
-                        face.Colour,
-                        x1, y1, z1,
-                        x2, y2, z2,
-                        x3, y3, z3
-                    );
-                }
+                // Call the required interpolator method
+                clippedFace.Interpolator(this, bufferAction);
             }
         }
 
         #endregion
     }
 }
-
 
 /*
             // Draw outline if needed ??

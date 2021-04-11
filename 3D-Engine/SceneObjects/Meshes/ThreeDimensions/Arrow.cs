@@ -13,6 +13,8 @@
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
@@ -206,23 +208,23 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         }
         private void GenerateFaces()
         {
-            Faces = new Face[6 * resolution];
+            Faces = new SolidFace[6 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
             {
-                Faces[i] = new(Vertices[i + 3], Vertices[0], Vertices[i + 4]);
-                Faces[i + resolution] = new(Vertices[i + 3], Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
-                Faces[i + 2 * resolution] = new(Vertices[i + 3], Vertices[i + resolution + 4], Vertices[i + 4]);
-                Faces[i + 3 * resolution] = new(Vertices[i + resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[i + 2 * resolution + 3]);
-                Faces[i + 4 * resolution] = new(Vertices[i + resolution + 3], Vertices[i + resolution + 4], Vertices[i + 2 * resolution + 4]);
-                Faces[i + 5 * resolution] = new(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[2]);
+                Faces[i] = new SolidFace(Vertices[i + 3], Vertices[0], Vertices[i + 4]);
+                Faces[i + resolution] = new SolidFace(Vertices[i + 3], Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
+                Faces[i + 2 * resolution] = new SolidFace(Vertices[i + 3], Vertices[i + resolution + 4], Vertices[i + 4]);
+                Faces[i + 3 * resolution] = new SolidFace(Vertices[i + resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[i + 2 * resolution + 3]);
+                Faces[i + 4 * resolution] = new SolidFace(Vertices[i + resolution + 3], Vertices[i + resolution + 4], Vertices[i + 2 * resolution + 4]);
+                Faces[i + 5 * resolution] = new SolidFace(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4], Vertices[2]);
             }
-            Faces[resolution - 1] = new(Vertices[resolution + 2], Vertices[0], Vertices[3]);
-            Faces[2 * resolution - 1] = new(Vertices[resolution + 2], Vertices[2 * resolution + 2], Vertices[resolution + 3]);
-            Faces[3 * resolution - 1] = new(Vertices[resolution + 2], Vertices[resolution + 3], Vertices[3]);
-            Faces[4 * resolution - 1] = new(Vertices[2 * resolution + 2], Vertices[2 * resolution + 3], Vertices[3 * resolution + 2]);
-            Faces[5 * resolution - 1] = new(Vertices[2 * resolution + 2], Vertices[resolution + 3], Vertices[2 * resolution + 3]);
-            Faces[6 * resolution - 1] = new(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3], Vertices[2]);
+            Faces[resolution - 1] = new SolidFace(Vertices[resolution + 2], Vertices[0], Vertices[3]);
+            Faces[2 * resolution - 1] = new SolidFace(Vertices[resolution + 2], Vertices[2 * resolution + 2], Vertices[resolution + 3]);
+            Faces[3 * resolution - 1] = new SolidFace(Vertices[resolution + 2], Vertices[resolution + 3], Vertices[3]);
+            Faces[4 * resolution - 1] = new SolidFace(Vertices[2 * resolution + 2], Vertices[2 * resolution + 3], Vertices[3 * resolution + 2]);
+            Faces[5 * resolution - 1] = new SolidFace(Vertices[2 * resolution + 2], Vertices[resolution + 3], Vertices[2 * resolution + 3]);
+            Faces[6 * resolution - 1] = new SolidFace(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3], Vertices[2]);
         }
 
         #endregion

@@ -391,6 +391,34 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             #endif
         }
 
+        internal void TextureAddPointToBuffers(Bitmap texture, int x, int y, float z, int tx, int ty)
+        {
+            #if DEBUG
+
+            if (x >= 0 && y >= 0 && x < RenderWidth && y < RenderHeight)
+            {
+                if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
+                {
+                    zBuffer.Values[x][y] = z;
+                    colourBuffer.Values[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException($"Attempted to add a point outside buffer range at ({x}, {y}, {z}).");
+            }
+
+            #else
+
+            if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
+            {
+                zBuffer.Values[x][y] = z;
+                colourBuffer.Values[x][y] = texture.GetPixel(tx, ty * -1 + texture.Height - 1);
+            }
+
+            #endif
+        }
+
         #endregion
     }
 }

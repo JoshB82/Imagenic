@@ -1,5 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 
 namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
 {
@@ -39,7 +41,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         public Cube(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float sideLength) : base(origin, directionForward, directionUp)
         {
             SetStructure(sideLength);
-            Faces = new Face[12]
+            Faces = new SolidFace[12]
             {
                 new(Vertices[1], Vertices[6], Vertices[2]), // 0
                 new(Vertices[1], Vertices[5], Vertices[6]), // 1
@@ -68,7 +70,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         {
             SetStructure(sideLength);
             Textures = new Texture[1] { texture };
-            Faces = new Face[12]
+            Faces = new TextureFace[12]
             {
                 new(Vertices[1], Vertices[6], Vertices[2], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 0
                 new(Vertices[1], Vertices[5], Vertices[6], texture.Vertices[1], texture.Vertices[0], texture.Vertices[3], texture), // 1
@@ -101,16 +103,8 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
         public Cube(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float sideLength, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom) : base(origin, directionForward, directionUp)
         {
             SetStructure(sideLength);
-            Textures = new Texture[6]
-            {
-                front,
-                right,
-                back,
-                left,
-                top,
-                bottom
-            };
-            Faces = new Face[12]
+            Textures = new Texture[6] { front, right, back, left, top, bottom };
+            Faces = new TextureFace[12]
             {
                 new(Vertices[1], Vertices[6], Vertices[2], front.Vertices[1], front.Vertices[3], front.Vertices[2], front), // 0
                 new(Vertices[1], Vertices[5], Vertices[6], front.Vertices[1], front.Vertices[0], front.Vertices[3], front), // 1
@@ -157,7 +151,7 @@ namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
                 new(Vertices[4], Vertices[7]), // 8
                 new(Vertices[6], Vertices[7]), // 9
                 new(Vertices[0], Vertices[4]), // 10
-                new(Vertices[3], Vertices[7]), // 11
+                new(Vertices[3], Vertices[7]) // 11
             };
         }
 

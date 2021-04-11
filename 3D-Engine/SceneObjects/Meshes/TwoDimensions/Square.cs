@@ -1,5 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
@@ -10,18 +12,18 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
-        private float side_length;
+        private float sideLength;
 
         /// <summary>
         /// The length of each side of the <see cref="Square"/>.
         /// </summary>
-        public float Side_Length
+        public float SideLength
         {
-            get => side_length;
+            get => sideLength;
             set
             {
-                side_length = value;
-                Scaling = new Vector3D(side_length, 1, side_length);
+                sideLength = value;
+                Scaling = new Vector3D(sideLength, 1, sideLength);
             }
         }
 
@@ -33,58 +35,58 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
         /// Creates a <see cref="Square"/> mesh.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Square"/>.</param>
-        /// <param name="direction_forward">The direction the <see cref="Square"/> faces.</param>
+        /// <param name="directionForward">The direction the <see cref="Square"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
-        /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D direction_forward, Vector3D normal, float side_length) : base(origin, direction_forward, normal)
+        /// <param name="sideLength">The length of each side of the <see cref="Square"/>.</param>
+        public Square(Vector3D origin, Vector3D directionForward, Vector3D normal, float sideLength) : base(origin, directionForward, normal)
         {
-            Set_Structure(side_length);
-            Faces = new Face[2]
+            SetStructure(sideLength);
+            Faces = new SolidFace[2]
             {
-                new Face(Vertices[0], Vertices[1], Vertices[2]), // 0
-                new Face(Vertices[0], Vertices[2], Vertices[3]) // 1
+                new SolidFace(Vertices[0], Vertices[1], Vertices[2]), // 0
+                new SolidFace(Vertices[0], Vertices[2], Vertices[3]) // 1
             };
         }
-        
+
         /// <summary>
         /// Creates a textured <see cref="Square"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
         /// <param name="origin">The position of the <see cref="Square"/>.</param>
-        /// <param name="direction_forward">The direction the <see cref="Square"/> faces.</param>
+        /// <param name="directionForward">The direction the <see cref="Square"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
         /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D direction_forward, Vector3D normal, float side_length, Texture texture) : base(origin, direction_forward, normal)
+        public Square(Vector3D origin, Vector3D directionForward, Vector3D normal, float side_length, Texture texture) : base(origin, directionForward, normal)
         {
-            Set_Structure(side_length);
+            SetStructure(side_length);
             Textures = new Texture[1] { texture };
-            Faces = new Face[2]
+            Faces = new TextureFace[2]
             {
-                new Face(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[0], texture.Vertices[1], texture.Vertices[2], texture), // 0
-                new Face(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1
+                new(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[0], texture.Vertices[1], texture.Vertices[2], texture), // 0
+                new(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1
             };
         }
 
-        private void Set_Structure(float side_length)
+        private void SetStructure(float sideLength)
         {
             Dimension = 2;
 
-            Side_Length = side_length;
+            SideLength = sideLength;
 
             Vertices = new Vertex[4]
             {
-                new Vertex(new Vector4D(0, 0, 0, 1)), // 0
-                new Vertex(new Vector4D(1, 0, 0, 1)), // 1
-                new Vertex(new Vector4D(1, 0, 1, 1)), // 2
-                new Vertex(new Vector4D(0, 0, 1, 1)) // 3
+                new(new Vector4D(0, 0, 0, 1)), // 0
+                new(new Vector4D(1, 0, 0, 1)), // 1
+                new(new Vector4D(1, 0, 1, 1)), // 2
+                new(new Vector4D(0, 0, 1, 1)) // 3
             };
 
             Edges = new Edge[4]
             {
-                new Edge(Vertices[0], Vertices[1]), // 0
-                new Edge(Vertices[1], Vertices[2]), // 1
-                new Edge(Vertices[2], Vertices[3]), // 2
-                new Edge(Vertices[0], Vertices[3]) // 3
+                new(Vertices[0], Vertices[1]), // 0
+                new(Vertices[1], Vertices[2]), // 1
+                new(Vertices[2], Vertices[3]), // 2
+                new(Vertices[0], Vertices[3]) // 3
             };
         }
 
@@ -97,7 +99,7 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
         /// </summary>
         /// <param name="square"><see cref="Square"/> to cast.</param>
         public static explicit operator Plane(Square square) =>
-            new Plane(square.WorldOrigin, square.WorldDirectionForward, square.WorldDirectionUp, square.side_length, square.side_length)
+            new(square.WorldOrigin, square.WorldDirectionForward, square.WorldDirectionUp, square.sideLength, square.sideLength)
             {
                 Textures = square.Textures,
                 Faces = square.Faces

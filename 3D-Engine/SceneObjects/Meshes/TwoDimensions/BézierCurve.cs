@@ -2,15 +2,15 @@
 
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
-    public sealed class Bézier_Curve : Mesh
+    public sealed class BézierCurve : Mesh
     {
         #region Fields and Properties
 
         #endregion
 
         #region Constructors
-        
-        public Bézier_Curve(Vector3D origin, Vector3D direction_forward, Vector3D direction_up) : base(origin, direction_forward, direction_up)
+
+        public BézierCurve(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp)
         {
 
         }

@@ -293,12 +293,6 @@ namespace _3D_Engine
 
         }
 
-        // Generate matrices
-        public void GenerateMatrices()
-        {
-
-        }
-
         #endregion
     }
 }
