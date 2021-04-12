@@ -1,8 +1,9 @@
 ﻿using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects;
 using _3D_Engine.Transformations;
 
-namespace _3D_Engine.SceneObjects.Groups
+namespace _3D_Engine.Groups
 {
     public partial class Group
     {

@@ -10,6 +10,7 @@
  * Encapsulates creation of a group.
  */
 
+using _3D_Engine.SceneObjects;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.Meshes.Components.Edges;
@@ -18,7 +19,7 @@ using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System.Collections.Generic;
 
-namespace _3D_Engine.SceneObjects.Groups
+namespace _3D_Engine.Groups
 {
     //^^ encapsulates above? And everywhere else?
 

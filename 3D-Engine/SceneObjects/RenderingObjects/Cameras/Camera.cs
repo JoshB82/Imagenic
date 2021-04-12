@@ -12,11 +12,11 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Enums;
+using _3D_Engine.Groups;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Miscellaneous;
 using _3D_Engine.Rendering;
-using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System;

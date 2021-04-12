@@ -1,5 +1,5 @@
-﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Groups;
+﻿using _3D_Engine.Groups;
+using _3D_Engine.Maths.Vectors;
 using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras

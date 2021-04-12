@@ -10,10 +10,10 @@
  * Encapsulates creation of a scene object.
  */
 
+using _3D_Engine.Groups;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Miscellaneous;
-using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Transformations;

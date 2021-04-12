@@ -16,9 +16,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
-using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Groups;
 
 namespace _3D_Engine
 {

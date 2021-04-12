@@ -10,11 +10,11 @@
  * Provides methods for generating data required to generate depth values.
  */
 
+using _3D_Engine.Groups;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Miscellaneous;
 using _3D_Engine.Rendering;
-using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes;
 using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;

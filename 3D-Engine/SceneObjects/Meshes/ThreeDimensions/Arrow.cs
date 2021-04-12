@@ -10,8 +10,8 @@
  * Encapsulates creation of an arrow.
  */
 
+using _3D_Engine.Groups;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Groups;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.SceneObjects.Meshes.Components.Faces;
