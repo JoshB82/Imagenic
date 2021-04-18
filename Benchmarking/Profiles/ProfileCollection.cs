@@ -10,6 +10,7 @@ namespace Benchmarking.Profiles
         {
             // Add profiles in this method
             Profiles.Add(new Profile("Cube render", CubeRender));
+            Profiles.Add(new Profile("Many random cones", ManyRandomCones));
         }
     }
 }
