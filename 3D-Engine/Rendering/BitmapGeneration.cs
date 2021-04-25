@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Rendering;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading.Tasks;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {
@@ -23,18 +24,56 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             return newFrame;
         }
 
-        private static unsafe void Format24bppRgb(int width, int height, BitmapData data, Buffer2D<Color> colourBuffer)
+        private static unsafe void Format24bppRgb(
+            int width,
+            int height,
+            BitmapData data,
+            Buffer2D<Color> colourBuffer)
         {
-            for (int y = 0; y < height; y++)
+            const int noTasks = 4; // TODO: Move to configuration
+
+            int smallHeight = height / noTasks;
+            int noSmallHeights = noTasks - height % noTasks;
+            int largeHeight = smallHeight + 1;
+            int noLargeHeights = height % noTasks;
+
+            Task[] renderTasks = new Task[noTasks];
+
+            for (int i = 0; i < noSmallHeights; i++)
             {
-                byte* rowStart = (byte*)data.Scan0 + y * data.Stride;
-                for (int x = 0; x < width; x++)
+                renderTasks[i] = Task.Factory.StartNew(() =>
                 {
-                    rowStart[x * 3] = colourBuffer.Values[x][y * -1 + height - 1].B; // Blue
-                    rowStart[x * 3 + 1] = colourBuffer.Values[x][y * -1 + height - 1].G; // Green
-                    rowStart[x * 3 + 2] = colourBuffer.Values[x][y * -1 + height - 1].R; // Red
-                }
+                    for (int y = i * smallHeight; y < (i + 1) * smallHeight; y++)
+                    {
+                        byte* rowStart = (byte*)data.Scan0 + y * data.Stride;
+                        for (int x = 0; x < width; x++)
+                        {
+                            rowStart[x * 3] = colourBuffer.Values[x][y * -1 + height - 1].B; // Blue
+                            rowStart[x * 3 + 1] = colourBuffer.Values[x][y * -1 + height - 1].G; // Green
+                            rowStart[x * 3 + 2] = colourBuffer.Values[x][y * -1 + height - 1].R; // Red
+                        }
+                    }
+                });
             }
+
+            for (int i = 0; i < noLargeHeights; i++)
+            {
+                renderTasks[i + noSmallHeights] = Task.Factory.StartNew(() =>
+                {
+                    for (int y = i * largeHeight + noSmallHeights * smallHeight; y < (i + 1) * largeHeight + noSmallHeights * smallHeight; y++)
+                    {
+                        byte* rowStart = (byte*)data.Scan0 + y * data.Stride;
+                        for (int x = 0; x < width; x++)
+                        {
+                            rowStart[x * 3] = colourBuffer.Values[x][y * -1 + height - 1].B; // Blue
+                            rowStart[x * 3 + 1] = colourBuffer.Values[x][y * -1 + height - 1].G; // Green
+                            rowStart[x * 3 + 2] = colourBuffer.Values[x][y * -1 + height - 1].R; // Red
+                        }
+                    }
+                });
+            }
+
+            Task.WaitAll(renderTasks);
         }
     }
 }
