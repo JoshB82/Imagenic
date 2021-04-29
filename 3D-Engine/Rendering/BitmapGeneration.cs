@@ -41,9 +41,10 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
             for (int i = 0; i < noSmallHeights; i++)
             {
+                int ii = i;
                 renderTasks[i] = Task.Factory.StartNew(() =>
                 {
-                    for (int y = i * smallHeight; y < (i + 1) * smallHeight; y++)
+                    for (int y = ii * smallHeight; y < (ii + 1) * smallHeight; y++)
                     {
                         byte* rowStart = (byte*)data.Scan0 + y * data.Stride;
                         for (int x = 0; x < width; x++)
@@ -58,9 +59,10 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 
             for (int i = 0; i < noLargeHeights; i++)
             {
+                int ii = i;
                 renderTasks[i + noSmallHeights] = Task.Factory.StartNew(() =>
                 {
-                    for (int y = i * largeHeight + noSmallHeights * smallHeight; y < (i + 1) * largeHeight + noSmallHeights * smallHeight; y++)
+                    for (int y = ii * largeHeight + noSmallHeights * smallHeight; y < (ii + 1) * largeHeight + noSmallHeights * smallHeight; y++)
                     {
                         byte* rowStart = (byte*)data.Scan0 + y * data.Stride;
                         for (int x = 0; x < width; x++)
