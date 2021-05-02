@@ -89,6 +89,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             get => viewWidth;
             set
             {
+                if (value == viewWidth) return;
                 viewWidth = value;
                 UpdateRenderCamera();
 
@@ -126,6 +127,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             get => viewHeight;
             set
             {
+                if (value == viewHeight) return;
                 viewHeight = value;
                 UpdateRenderCamera();
 
@@ -163,6 +165,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             get => zNear;
             set
             {
+                if (value == zNear) return;
                 zNear = value;
                 UpdateRenderCamera();
 
@@ -201,6 +204,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             get => zFar;
             set
             {
+                if (value == zFar) return;
                 zFar = value;
                 UpdateRenderCamera();
 
@@ -234,6 +238,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             get => renderWidth;
             set
             {
+                if (value == renderWidth) return;
                 renderWidth = value;
                 UpdateProperties();
                 UpdateRenderCamera();
@@ -244,6 +249,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             get => renderHeight;
             set
             {
+                if (value == renderHeight) return;
                 renderHeight = value;
                 UpdateProperties();
                 UpdateRenderCamera();
@@ -262,6 +268,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             get => volumeStyle;
             set
             {
+                if (value == volumeStyle) return;
                 volumeStyle = value;
                 UpdateRenderCamera();
 

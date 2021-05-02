@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of a scene object.
+ * An abstract base class that defines objects of type SceneObject. Any object which inherits from this class can be part of a Group.
  */
 
 using _3D_Engine.Groups;
@@ -23,7 +23,7 @@ using static _3D_Engine.Properties.Settings;
 namespace _3D_Engine.SceneObjects
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="SceneObject"/>.
+    /// An abstract base class that defines objects of type <see cref="SceneObject"/>. Any object which inherits from this class can be part of a <see cref="Group"/>.
     /// </summary>
     public abstract partial class SceneObject
     {
@@ -39,6 +39,7 @@ namespace _3D_Engine.SceneObjects
             get => visible;
             set
             {
+                if (value == visible) return;
                 visible = value;
                 UpdateRenderCamera();
             }
@@ -73,6 +74,7 @@ namespace _3D_Engine.SceneObjects
             get => displayDirectionArrows;
             set
             {
+                if (value == displayDirectionArrows) return;
                 displayDirectionArrows = value;
                 UpdateRenderCamera();
             }
@@ -80,11 +82,11 @@ namespace _3D_Engine.SceneObjects
         internal bool HasDirectionArrows { get; set; }
 
         // Id
+        private static int nextId = -1;
         /// <summary>
         /// The identification number.
         /// </summary>
-        public int Id { get; private set; }
-        private static int nextId = -1;
+        public int Id { get; } = ++nextId;
 
         // Matrices
         public Matrix4x4 ModelToWorld { get; internal set; }
@@ -112,10 +114,9 @@ namespace _3D_Engine.SceneObjects
             get => worldOrigin;
             set
             {
+                if (value == worldOrigin) return;
                 worldOrigin = value;
-
                 CalculateMatrices();
-
                 UpdateRenderCamera();
             }
         }
@@ -133,8 +134,6 @@ namespace _3D_Engine.SceneObjects
 
         internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true)
         {
-            Id = ++nextId;
-
             if (HasDirectionArrows = hasDirectionArrows)
             {
                 Arrow DirectionForwardArrow = new(origin, directionForward, directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Blue };

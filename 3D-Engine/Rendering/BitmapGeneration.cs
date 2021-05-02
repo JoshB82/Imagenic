@@ -1,4 +1,5 @@
-﻿using _3D_Engine.Rendering;
+﻿using _3D_Engine.Miscellaneous;
+using _3D_Engine.Rendering;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
@@ -54,6 +55,12 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                             rowStart[x * 3 + 2] = colourBuffer.Values[x][y * -1 + height - 1].R; // Red
                         }
                     }
+
+                    #if DEBUG
+
+                    ConsoleOutput.DisplayMessage("Task completed.");
+
+                    #endif
                 });
             }
 
@@ -72,6 +79,12 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
                             rowStart[x * 3 + 2] = colourBuffer.Values[x][y * -1 + height - 1].R; // Red
                         }
                     }
+
+                    #if DEBUG
+
+                    ConsoleOutput.DisplayMessage("Task completed.");
+
+                    #endif
                 });
             }
 

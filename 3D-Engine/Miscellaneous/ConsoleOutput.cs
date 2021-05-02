@@ -19,10 +19,11 @@ namespace _3D_Engine.Miscellaneous
 {
     internal static class ConsoleOutput
     {
+        private const string projectName = "3D-Engine";
         private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
 
         // Display message
-        internal static void DisplayMessage(string message) => Trace.WriteLine($"[3D-Engine] [{GetTime()}] {message}");
+        internal static void DisplayMessage(string message) => Trace.WriteLine($"[{projectName}] [{GetTime()}] {message}");
         internal static void DisplayMessageFromObject(object @object, string message) => DisplayMessage($"[{@object.GetType().Name}] {message}");
 
         // From specific methods
