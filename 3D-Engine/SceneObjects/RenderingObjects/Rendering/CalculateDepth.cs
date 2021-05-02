@@ -189,10 +189,10 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
 }
 
 /*
-            // Draw outline if needed ??
-            if (face.DrawOutline)
-            {
-                DrawEdge(face.p1, face.p2, Color.Black, ref modelToView, ref viewToScreen);
-                DrawEdge(face.p1, face.p3, Color.Black, ref modelToView, ref viewToScreen);
-                DrawEdge(face.p2, face.p3, Color.Black, ref modelToView, ref viewToScreen);
-            }*/
+// Draw outline if needed ??
+if (face.DrawOutline)
+{
+    DrawEdge(face.p1, face.p2, Color.Black, ref modelToView, ref viewToScreen);
+    DrawEdge(face.p1, face.p3, Color.Black, ref modelToView, ref viewToScreen);
+    DrawEdge(face.p2, face.p3, Color.Black, ref modelToView, ref viewToScreen);
+}*/
