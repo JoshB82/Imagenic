@@ -8,7 +8,6 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {
     public abstract partial class Camera : RenderingObject
     {
-        // How works?
         private static Bitmap CreateBitmap(int width, int height, Buffer2D<Color> colourBuffer, PixelFormat pixelFormat)
         {
             Bitmap newFrame = new Bitmap(width, height, pixelFormat);
