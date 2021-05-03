@@ -14,6 +14,7 @@ using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.SceneObjects.RenderingObjects;
 using _3D_Engine.Transformations;
 using System.Drawing;
 
@@ -33,11 +34,39 @@ namespace _3D_Engine.SceneObjects.Meshes
         public Face[] Faces { get; internal set; }
 
         // Appearance
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Edges']/*"/>
-        public bool DrawEdges { get; set; } = true;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Faces']/*"/>
-        public bool DrawFaces { get; set; } = true;
+        private bool drawEdges = true;
+        /// <summary>
+        /// Determines if the <see cref="Mesh"> Mesh's</see> <see cref="Edge">Edges</see> are drawn.
+        /// </summary>
+        public bool DrawEdges
+        {
+            get => drawEdges;
+            set
+            {
+                if (value == drawEdges) return;
+                drawEdges = value;
+                UpdateHeadedRenderingObject();
+                UpdateRenderCamera();
+            }
+        }
 
+        private bool drawFaces = true;
+        /// <summary>
+        /// Determines if the<see cref="Mesh"> Mesh's</see> <see cref="Face">Faces</see> are drawn.
+        /// </summary>
+        public bool DrawFaces
+        {
+            get => drawFaces;
+            set
+            {
+                if (value == drawFaces) return;
+                drawFaces = value;
+                UpdateHeadedRenderingObject();
+                UpdateRenderCamera();
+            }
+        }
+
+        /*
         // Colours
         private Color edgeColour, faceColour;
 
@@ -65,6 +94,14 @@ namespace _3D_Engine.SceneObjects.Meshes
                 //foreach (Face face in Faces) face.Colour = faceColour; TODO: fix
             }
         }
+        */
+
+        // Headed Rendering Object
+        internal RenderingObject HeadedRenderingObject { get; set; }
+        internal void UpdateHeadedRenderingObject()
+        {
+            if (HeadedRenderingObject is not null) HeadedRenderingObject.RenderCamera.NewRenderNeeded = true;
+        }
 
         // Textures
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Textures']/*"/>
@@ -84,7 +121,6 @@ namespace _3D_Engine.SceneObjects.Meshes
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
-
             ModelToWorld *= Transform.Scale(Scaling.x, Scaling.y, Scaling.z);
         }
 
@@ -94,8 +130,11 @@ namespace _3D_Engine.SceneObjects.Meshes
             get => scaling;
             set
             {
+                if (value == scaling) return;
                 scaling = value;
                 CalculateMatrices();
+                UpdateHeadedRenderingObject();
+                UpdateRenderCamera();
             }
         }
 

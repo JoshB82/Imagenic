@@ -33,8 +33,16 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
         #region Fields and Properties
 
         // Appearance
-        // COME BACK TO
-        public Mesh Icon { get; set; }
+        private Mesh icon;
+        public Mesh Icon
+        {
+            get => icon;
+            set
+            {
+                icon = value;
+
+            }
+        }
 
         // Buffers
         internal Buffer2D<float> zBuffer;
