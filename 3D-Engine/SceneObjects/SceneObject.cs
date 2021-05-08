@@ -17,6 +17,7 @@ using _3D_Engine.Miscellaneous;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Transformations;
+using System;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 
@@ -41,7 +42,7 @@ namespace _3D_Engine.SceneObjects
             {
                 if (value == visible) return;
                 visible = value;
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
 
@@ -76,10 +77,14 @@ namespace _3D_Engine.SceneObjects
             {
                 if (value == displayDirectionArrows) return;
                 displayDirectionArrows = value;
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
         internal bool HasDirectionArrows { get; set; }
+
+        // Events
+        public event EventHandler Update;
+        protected void OnUpdate() => Update?.Invoke(this, EventArgs.Empty);
 
         // Id
         private static int nextId = -1;
@@ -117,16 +122,12 @@ namespace _3D_Engine.SceneObjects
                 if (value == worldOrigin) return;
                 worldOrigin = value;
                 CalculateMatrices();
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
 
         // Render Camera
         internal Camera RenderCamera { get; set; }
-        internal void UpdateRenderCamera()
-        {
-            if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true;
-        }
 
         #endregion
 
@@ -134,11 +135,16 @@ namespace _3D_Engine.SceneObjects
 
         internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true)
         {
+            Update += (sender, eventArgs) => { if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true; };
+
             if (HasDirectionArrows = hasDirectionArrows)
             {
-                Arrow DirectionForwardArrow = new(origin, directionForward, directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Blue };
-                Arrow DirectionUpArrow = new(origin, directionUp, -directionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Green };
-                Arrow DirectionRightArrow = new(origin, Transform.CalculateDirectionRight(directionForward, directionUp), directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false) { FaceColour = Color.Red };
+                Arrow DirectionForwardArrow = new(origin, directionForward, directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
+                DirectionForwardArrow.ColourSolidFaces(Color.Blue);
+                Arrow DirectionUpArrow = new(origin, directionUp, -directionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
+                DirectionUpArrow.ColourSolidFaces(Color.Green);
+                Arrow DirectionRightArrow = new(origin, Transform.CalculateDirectionRight(directionForward, directionUp), directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
+                DirectionRightArrow.ColourSolidFaces(Color.Red);
 
                 DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
             }
@@ -146,7 +152,11 @@ namespace _3D_Engine.SceneObjects
             SetDirection1(directionForward, directionUp);
             WorldOrigin = origin;
 
+            #if DEBUG
+
             ConsoleOutput.DisplayMessageFromObject(this, $"Created at {origin}.");
+
+            #endif
         }
 
         #endregion

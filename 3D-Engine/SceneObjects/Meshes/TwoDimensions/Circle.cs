@@ -54,6 +54,8 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
                 GenerateVertices();
                 GenerateEdges();
                 GenerateFaces();
+
+                OnUpdate();
             }
         }
 

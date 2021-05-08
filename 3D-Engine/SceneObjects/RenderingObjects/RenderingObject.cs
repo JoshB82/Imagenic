@@ -28,6 +28,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
     /// <summary>
     /// An abstract base class that defines objects of type <see cref="RenderingObject"/>. Any object which inherits from this class provides rendering functionality.
     /// </summary>
+    /// <remarks>This class inherits from the <see cref="SceneObject"/> class.</remarks>
     public abstract partial class RenderingObject : SceneObject
     {
         #region Fields and Properties

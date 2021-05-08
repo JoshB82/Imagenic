@@ -1,4 +1,16 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Defines a class for square meshes which are composed of two identical triangular faces.
+ */
+
+using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.Components;
 using _3D_Engine.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.SceneObjects.Meshes.Components.Faces;
@@ -6,8 +18,9 @@ using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Square"/> mesh.
+    /// A sealed class that defines objects of type <see cref="Square"/> and represents a square mesh.
     /// </summary>
+    /// <remarks>This class inherits from the <see cref="Mesh"/> class.</remarks>
     public sealed class Square : Mesh
     {
         #region Fields and Properties
@@ -43,8 +56,8 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
             SetStructure(sideLength);
             Faces = new SolidFace[2]
             {
-                new SolidFace(Vertices[0], Vertices[1], Vertices[2]), // 0
-                new SolidFace(Vertices[0], Vertices[2], Vertices[3]) // 1
+                new(Vertices[0], Vertices[1], Vertices[2]), // 0
+                new(Vertices[0], Vertices[2], Vertices[3]) // 1
             };
         }
 
@@ -54,11 +67,11 @@ namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
         /// <param name="origin">The position of the <see cref="Square"/>.</param>
         /// <param name="directionForward">The direction the <see cref="Square"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
-        /// <param name="side_length">The length of each side of the <see cref="Square"/>.</param>
+        /// <param name="sideLength">The length of each side of the <see cref="Square"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D directionForward, Vector3D normal, float side_length, Texture texture) : base(origin, directionForward, normal)
+        public Square(Vector3D origin, Vector3D directionForward, Vector3D normal, float sideLength, Texture texture) : base(origin, directionForward, normal)
         {
-            SetStructure(side_length);
+            SetStructure(sideLength);
             Textures = new Texture[1] { texture };
             Faces = new TextureFace[2]
             {

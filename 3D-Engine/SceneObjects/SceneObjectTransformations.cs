@@ -86,9 +86,8 @@ namespace _3D_Engine.SceneObjects
 
             ConsoleOutput.DisplayOutputDirectionMessage(this, Properties.Settings.Default.Verbosity);
 
-            if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true;
-
             CalculateMatrices();
+            OnUpdate();
         }
 
         private static void VectorCheck(Vector3D firstVector, Vector3D secondVector)

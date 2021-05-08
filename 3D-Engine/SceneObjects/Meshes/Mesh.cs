@@ -45,8 +45,7 @@ namespace _3D_Engine.SceneObjects.Meshes
             {
                 if (value == drawEdges) return;
                 drawEdges = value;
-                UpdateHeadedRenderingObject();
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
 
@@ -61,8 +60,7 @@ namespace _3D_Engine.SceneObjects.Meshes
             {
                 if (value == drawFaces) return;
                 drawFaces = value;
-                UpdateHeadedRenderingObject();
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
 
@@ -133,8 +131,7 @@ namespace _3D_Engine.SceneObjects.Meshes
                 if (value == scaling) return;
                 scaling = value;
                 CalculateMatrices();
-                UpdateHeadedRenderingObject();
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
 
@@ -142,7 +139,25 @@ namespace _3D_Engine.SceneObjects.Meshes
 
         #region Constructors
 
-        internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows) { }
+        internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows)
+        {
+            Update += (sender, eventArgs) => { if (HeadedRenderingObject is not null) HeadedRenderingObject.RenderCamera.NewRenderNeeded = true; };
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void ColourSolidFaces(Color colour)
+        {
+            foreach (Face face in Faces)
+            {
+                if (face is SolidFace solidFace)
+                {
+                    solidFace.Colour = colour;
+                }
+            }
+        }
 
         #endregion
     }
