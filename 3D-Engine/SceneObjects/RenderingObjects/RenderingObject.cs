@@ -100,7 +100,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             {
                 if (value == viewWidth) return;
                 viewWidth = value;
-                UpdateRenderCamera();
+                OnUpdate();
 
                 switch (this)
                 {
@@ -138,7 +138,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             {
                 if (value == viewHeight) return;
                 viewHeight = value;
-                UpdateRenderCamera();
+                OnUpdate();
 
                 switch (this)
                 {
@@ -176,7 +176,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             {
                 if (value == zNear) return;
                 zNear = value;
-                UpdateRenderCamera();
+                OnUpdate();
 
                 switch (this)
                 {
@@ -215,7 +215,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             {
                 if (value == zFar) return;
                 zFar = value;
-                UpdateRenderCamera();
+                OnUpdate();
 
                 switch (this)
                 {
@@ -250,7 +250,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 if (value == renderWidth) return;
                 renderWidth = value;
                 UpdateProperties();
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
         public virtual int RenderHeight
@@ -261,7 +261,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
                 if (value == renderHeight) return;
                 renderHeight = value;
                 UpdateProperties();
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
 
@@ -279,7 +279,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects
             {
                 if (value == volumeStyle) return;
                 volumeStyle = value;
-                UpdateRenderCamera();
+                OnUpdate();
 
                 VolumeEdges.Clear();
 
