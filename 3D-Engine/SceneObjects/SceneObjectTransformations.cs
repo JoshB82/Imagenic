@@ -1,7 +1,7 @@
-﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Miscellaneous;
+﻿using _3D_Engine.Maths.Transformations;
+using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
-using _3D_Engine.Transformations;
+using _3D_Engine.Utilities;
 using System;
 
 namespace _3D_Engine.SceneObjects

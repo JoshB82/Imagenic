@@ -1,6 +1,6 @@
 ﻿using _3D_Engine.Maths;
+using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Transformations;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {

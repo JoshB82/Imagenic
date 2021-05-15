@@ -12,11 +12,11 @@
 
 using _3D_Engine.Groups;
 using _3D_Engine.Maths;
+using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Miscellaneous;
 using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.Transformations;
+using _3D_Engine.Utilities;
 using System;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
@@ -87,11 +87,11 @@ namespace _3D_Engine.SceneObjects
         protected void OnUpdate() => Update?.Invoke(this, EventArgs.Empty);
 
         // Id
-        private static int nextId = -1;
+        private static int nextId;
         /// <summary>
         /// The identification number.
         /// </summary>
-        public int Id { get; } = ++nextId;
+        public int Id { get; } = nextId++;
 
         // Matrices
         public Matrix4x4 ModelToWorld { get; internal set; }
@@ -140,10 +140,11 @@ namespace _3D_Engine.SceneObjects
             if (HasDirectionArrows = hasDirectionArrows)
             {
                 Arrow DirectionForwardArrow = new(origin, directionForward, directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
-                DirectionForwardArrow.ColourSolidFaces(Color.Blue);
                 Arrow DirectionUpArrow = new(origin, directionUp, -directionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
-                DirectionUpArrow.ColourSolidFaces(Color.Green);
                 Arrow DirectionRightArrow = new(origin, Transform.CalculateDirectionRight(directionForward, directionUp), directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
+
+                DirectionForwardArrow.ColourSolidFaces(Color.Blue);
+                DirectionUpArrow.ColourSolidFaces(Color.Green);
                 DirectionRightArrow.ColourSolidFaces(Color.Red);
 
                 DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);

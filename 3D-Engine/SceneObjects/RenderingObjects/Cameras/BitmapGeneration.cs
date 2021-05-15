@@ -1,5 +1,5 @@
-﻿using _3D_Engine.Miscellaneous;
-using _3D_Engine.Rendering;
+﻿using _3D_Engine.Rendering;
+using _3D_Engine.Utilities;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
     {
         private static Bitmap CreateBitmap(int width, int height, Buffer2D<Color> colourBuffer, PixelFormat pixelFormat)
         {
-            Bitmap newFrame = new Bitmap(width, height, pixelFormat);
+            Bitmap newFrame = new(width, height, pixelFormat);
             BitmapData data = newFrame.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, pixelFormat); //????????????
 
             switch (pixelFormat)

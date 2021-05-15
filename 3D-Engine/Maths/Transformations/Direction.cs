@@ -12,7 +12,7 @@
 
 using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.Transformations
+namespace _3D_Engine.Maths.Transformations
 {
     /// <summary>
     /// Provides static methods for calculating notable vectors, matrices and quaternions.

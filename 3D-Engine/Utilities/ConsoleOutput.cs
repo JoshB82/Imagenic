@@ -15,7 +15,7 @@ using _3D_Engine.SceneObjects;
 using System;
 using System.Diagnostics;
 
-namespace _3D_Engine.Miscellaneous
+namespace _3D_Engine.Utilities
 {
     internal static class ConsoleOutput
     {

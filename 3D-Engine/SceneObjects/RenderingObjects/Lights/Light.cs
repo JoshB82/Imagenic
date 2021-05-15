@@ -11,7 +11,7 @@
  */
 
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Miscellaneous;
+using _3D_Engine.Utilities;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -37,7 +37,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
             set
             {
                 colour = value;
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
 
@@ -48,7 +48,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
             set
             {
                 strength = value;
-                UpdateRenderCamera();
+                OnUpdate();
             }
         }
 
