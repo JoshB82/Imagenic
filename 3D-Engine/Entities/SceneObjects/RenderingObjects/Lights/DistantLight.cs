@@ -10,13 +10,12 @@
  * Encapsulates creation of a distant light.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
-using _3D_Engine.SceneObjects.RenderingObjects.Lights;
-using _3D_Engine.SceneObjects;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
 {

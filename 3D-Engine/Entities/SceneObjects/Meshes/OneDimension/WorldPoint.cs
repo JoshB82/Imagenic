@@ -10,8 +10,8 @@
  * Encapsulates creation of a world point mesh.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
 {

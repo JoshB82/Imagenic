@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.Threading.Tasks;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 
-namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {
     public abstract partial class Camera : RenderingObject
     {

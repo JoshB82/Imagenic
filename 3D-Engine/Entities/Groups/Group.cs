@@ -10,16 +10,16 @@
  * Encapsulates creation of a group.
  */
 
-using _3D_Engine.SceneObjects;
-using _3D_Engine.SceneObjects.Meshes;
-using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System.Collections.Generic;
 using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 
-namespace _3D_Engine.Groups
+namespace _3D_Engine.Entities.Groups
 {
     //^^ encapsulates above? And everywhere else?
 

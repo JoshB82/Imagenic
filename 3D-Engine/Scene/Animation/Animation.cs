@@ -1,4 +1,4 @@
-﻿using _3D_Engine.SceneObjects;
+﻿using _3D_Engine.Entities.SceneObjects;
 using System.Collections.Generic;
 using System.Reflection;
 

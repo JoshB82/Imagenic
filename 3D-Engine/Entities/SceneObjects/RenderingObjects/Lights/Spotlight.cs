@@ -13,7 +13,6 @@
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static _3D_Engine.Properties.Settings;
-using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
 {

@@ -17,7 +17,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
 {
     /// <summary>
     /// An abstract base class that defines objects of type <see cref="Light"/>. Any object which inherits from this class provides lighting functionality.

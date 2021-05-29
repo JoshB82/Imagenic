@@ -10,13 +10,14 @@
  * Encapsulates creation of an arrow.
  */
 
-using _3D_Engine.Groups;
 using _3D_Engine.Maths.Vectors;
-using System.Drawing;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
-using _3D_Engine.SceneObjects.Meshes;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Entities.Groups;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {

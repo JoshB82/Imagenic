@@ -1,7 +1,7 @@
-﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects;
+﻿using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.Groups
+namespace _3D_Engine.Entities.Groups
 {
     public partial class Group
     {

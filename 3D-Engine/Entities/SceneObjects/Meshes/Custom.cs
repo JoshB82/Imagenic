@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
-using _3D_Engine.SceneObjects.Meshes;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
 {

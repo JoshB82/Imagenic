@@ -1,6 +1,6 @@
 ﻿using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.SceneObjects.Meshes
+namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
     public abstract partial class Mesh : SceneObject
     {

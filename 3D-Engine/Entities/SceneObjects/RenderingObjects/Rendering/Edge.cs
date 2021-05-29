@@ -13,10 +13,10 @@
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Drawing;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 
-namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {
     public abstract partial class Camera : RenderingObject
     {
@@ -52,7 +52,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             if (this is PerspectiveCamera)
             {
                 point1 /= point1.w;
-                point2 /= point2.w; 
+                point2 /= point2.w;
             }
 
             // Clip the edge in screen space

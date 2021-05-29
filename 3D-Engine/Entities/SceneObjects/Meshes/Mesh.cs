@@ -12,12 +12,13 @@
 
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.RenderingObjects;
 using System.Drawing;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 
-namespace _3D_Engine.SceneObjects.Meshes
+namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Mesh']/*"/>
     public abstract partial class Mesh : SceneObject

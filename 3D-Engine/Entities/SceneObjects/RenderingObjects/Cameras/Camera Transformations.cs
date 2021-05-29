@@ -2,7 +2,7 @@
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {
     public abstract partial class Camera : RenderingObject
     {

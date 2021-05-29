@@ -10,13 +10,11 @@
  * Encapsulates creation of an orthogonal camera.
  */
 
-using _3D_Engine.Groups;
+using _3D_Engine.Entities.Groups;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
-using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.SceneObjects;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {

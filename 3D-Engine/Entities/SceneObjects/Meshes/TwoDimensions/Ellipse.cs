@@ -1,6 +1,6 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Maths.Vectors;
 using static System.MathF;
-using _3D_Engine.SceneObjects.Meshes;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
@@ -35,13 +35,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         #endregion
 
         #region Constructors
-        
-        public Ellipse(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float major_axis, float minor_axis, int resolution) : base(origin, direction_forward, direction_up)
+
+        public Ellipse(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float majorAxis, float minorAxis, int resolution) : base(origin, directionForward, directionUp)
         {
             Dimension = 2;
 
-            Major_Axis = major_axis;
-            Minor_Axis = minor_axis;
+            Major_Axis = majorAxis;
+            Minor_Axis = minorAxis;
             Resolution = resolution;
 
             Vertices = new Vertex[resolution + 1];

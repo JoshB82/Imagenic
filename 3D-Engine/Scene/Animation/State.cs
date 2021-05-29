@@ -1,15 +1,15 @@
-﻿using _3D_Engine.SceneObjects;
+﻿using _3D_Engine.Entities.SceneObjects;
 
 namespace _3D_Engine
 {
     class State<T>
     {
-        
+
         public T Value { get; set; }
 
         public State()
         {
-            
+
         }
     }
 

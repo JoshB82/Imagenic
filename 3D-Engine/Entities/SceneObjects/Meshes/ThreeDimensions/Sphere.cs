@@ -1,6 +1,6 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Maths.Vectors;
 using static System.MathF;
-using _3D_Engine.SceneObjects.Meshes;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
@@ -15,7 +15,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         #endregion
 
         #region Constructors /////////////////////////////////////////
-        
+
         public Sphere(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float radius, int res_lat, int res_long) : base(origin, direction_forward, direction_up)
         {
             Dimension = 3;
@@ -27,7 +27,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             float x, y, z;
 
             Vertices = new Vertex[res_lat * res_long];
-            
+
             for (int i = 0; i < res_lat; i++)
             {
                 for (int j = 0; j < res_long; j++)

@@ -1,6 +1,6 @@
 ﻿using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
 {
     public abstract partial class Light : RenderingObject
     {

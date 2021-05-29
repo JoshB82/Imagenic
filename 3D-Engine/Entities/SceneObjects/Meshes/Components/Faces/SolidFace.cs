@@ -1,9 +1,8 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.RenderingObjects;
 using System;
 using System.Drawing;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {

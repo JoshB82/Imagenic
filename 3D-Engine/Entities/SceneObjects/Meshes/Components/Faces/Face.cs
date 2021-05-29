@@ -1,6 +1,6 @@
-﻿using _3D_Engine.Maths;
+﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.RenderingObjects;
 using System;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces

@@ -10,8 +10,8 @@
  * Provides methods for outputting console messages.
  */
 
+using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Enums;
-using _3D_Engine.SceneObjects;
 using System;
 using System.Diagnostics;
 

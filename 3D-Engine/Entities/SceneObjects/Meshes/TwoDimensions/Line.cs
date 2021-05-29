@@ -1,5 +1,6 @@
-﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {

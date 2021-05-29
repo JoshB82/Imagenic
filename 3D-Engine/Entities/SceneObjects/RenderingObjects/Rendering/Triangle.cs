@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿/*
+using _3D_Engine.Entities.SceneObjects.RenderingObjects;
+using System.Drawing;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {
@@ -14,7 +16,7 @@ namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
             int x2, int y2, float tx2, float ty2, float tz2,
             int x3, int y3, float tx3, float ty3, float tz3)
         {
-            
+
         }
     }
-}
+}*/

@@ -11,7 +11,9 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects;
+using _3D_Engine.Entities.SceneObjects.Meshes;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
@@ -19,10 +21,9 @@ using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes;
 using System.Collections.Generic;
 
-namespace _3D_Engine.SceneObjects.RenderingObjects
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 {
     /// <summary>
     /// An abstract base class that defines objects of type <see cref="RenderingObject"/>. Any object which inherits from this class provides rendering functionality.

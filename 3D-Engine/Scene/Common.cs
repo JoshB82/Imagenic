@@ -11,14 +11,13 @@
  */
 
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects;
 using System.Drawing;
 
 /*namespace _3D_Engine
 {
     public abstract partial class Mesh : SceneObject
     {
-        
+
 
 
         //public void CreateOrigin() => .Add(new WorldPoint(Vector3D.Zero));
@@ -27,11 +26,11 @@ using System.Drawing;
         public void CreateAxes()
         {
             // settings??? and elsewhere
-            
 
-            //Arrow x_axis = 
-            //Arrow y_axis = 
-            //Arrow z_axis = 
+
+            //Arrow x_axis =
+            //Arrow y_axis =
+            //Arrow z_axis =
 
             //Add(x_axis); Add(y_axis); Add(z_axis);
         }

@@ -4,7 +4,7 @@ using _3D_Engine.Utilities;
 using System;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 
-namespace _3D_Engine.SceneObjects
+namespace _3D_Engine.Entities.SceneObjects
 {
     public abstract partial class SceneObject
     {
