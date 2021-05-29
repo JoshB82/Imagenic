@@ -1,9 +1,9 @@
 ﻿using _3D_Engine.Groups;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.OneDimension;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
-using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using System;
+using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 
 namespace Benchmarking.Profiles
 {
@@ -20,7 +20,7 @@ namespace Benchmarking.Profiles
             Random rnd = new();
             byte[] origins = new byte[noCones * 3], heights = new byte[noCones], radii = new byte[noCones];
             rnd.NextBytes(origins); rnd.NextBytes(heights); rnd.NextBytes(radii);
-            
+
             Cone[] cones = new Cone[noCones];
 
             for (int i = 0; i <= noCones - 1; i++)

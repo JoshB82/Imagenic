@@ -1,8 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
     public sealed class Line : Mesh
     {

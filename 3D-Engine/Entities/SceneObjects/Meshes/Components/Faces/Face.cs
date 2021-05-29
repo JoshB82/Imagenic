@@ -3,7 +3,7 @@ using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects.RenderingObjects;
 using System;
 
-namespace _3D_Engine.SceneObjects.Meshes.Components.Faces
+namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
     public abstract class Face
     {

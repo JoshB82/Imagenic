@@ -1,15 +1,15 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes
+namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Custom']/*"/>
     public sealed class Custom : Mesh

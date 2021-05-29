@@ -15,8 +15,10 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
+using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.SceneObjects;
 
-namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="OrthogonalCamera"/>.

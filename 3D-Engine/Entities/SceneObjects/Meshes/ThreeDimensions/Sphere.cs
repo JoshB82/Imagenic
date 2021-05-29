@@ -1,8 +1,8 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
 using static System.MathF;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
     public sealed class Sphere : Mesh
     {

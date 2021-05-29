@@ -11,9 +11,9 @@
  */
 
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.OneDimension
+namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="WorldPoint"/> mesh.

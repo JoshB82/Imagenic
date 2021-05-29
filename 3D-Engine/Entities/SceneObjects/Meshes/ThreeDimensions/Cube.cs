@@ -1,9 +1,9 @@
-﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.SceneObjects.Meshes.Components.Faces;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Cube"/> mesh.

@@ -12,14 +12,13 @@
 
 using _3D_Engine.Groups;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using System.Drawing;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
     public sealed class Arrow : Mesh
     {

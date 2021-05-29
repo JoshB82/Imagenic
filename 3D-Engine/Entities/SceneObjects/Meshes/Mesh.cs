@@ -12,11 +12,10 @@
 
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.SceneObjects.RenderingObjects;
 using System.Drawing;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 
 namespace _3D_Engine.SceneObjects.Meshes
 {

@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.ThreeDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Torus"/> mesh.

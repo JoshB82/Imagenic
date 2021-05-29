@@ -1,10 +1,11 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.RenderingObjects;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using System;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 
-namespace _3D_Engine.SceneObjects.Meshes.Components.Faces
+namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
     public sealed class TextureFace : Face
     {

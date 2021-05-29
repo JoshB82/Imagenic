@@ -11,12 +11,11 @@
  */
 
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components.Faces;
-using _3D_Engine.SceneObjects.RenderingObjects;
 using System.Collections.Generic;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using static _3D_Engine.Maths.Vectors.Vector3D;
 
-namespace _3D_Engine.Rendering
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
 {
     internal static class Clipping
     {

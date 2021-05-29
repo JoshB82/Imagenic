@@ -11,13 +11,13 @@
  */
 
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.SceneObjects.Meshes.Components.Faces;
 using System;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using static System.MathF;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Circle']/*"/>
     public sealed class Circle : Mesh

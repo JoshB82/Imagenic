@@ -1,8 +1,8 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
 using static System.MathF;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
     public sealed class Ellipse : Mesh
     {

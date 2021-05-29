@@ -1,10 +1,10 @@
 ﻿using _3D_Engine.Groups;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.OneDimension;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
-using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System.Windows.Forms;
+using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 
 namespace Simple_Demo
 {

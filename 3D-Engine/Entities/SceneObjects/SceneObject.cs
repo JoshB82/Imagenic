@@ -14,11 +14,11 @@ using _3D_Engine.Groups;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Utilities;
 using System;
 using System.Drawing;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.SceneObjects

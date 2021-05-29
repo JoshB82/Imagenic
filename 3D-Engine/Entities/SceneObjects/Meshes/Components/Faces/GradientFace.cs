@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 
-namespace _3D_Engine.SceneObjects.Meshes.Components.Faces
+namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
     public sealed class GradientFace : Face
     {

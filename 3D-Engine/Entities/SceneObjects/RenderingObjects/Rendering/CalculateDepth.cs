@@ -13,15 +13,17 @@
 using _3D_Engine.Groups;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.Meshes;
-using _3D_Engine.SceneObjects.Meshes.Components.Faces;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Utilities;
 using System;
 using System.Collections.Generic;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects
 {

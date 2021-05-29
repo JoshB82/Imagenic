@@ -1,8 +1,8 @@
-﻿using _3D_Engine.Rendering;
-using _3D_Engine.Utilities;
+﻿using _3D_Engine.Utilities;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 
 namespace _3D_Engine.SceneObjects.RenderingObjects.Cameras
 {

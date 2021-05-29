@@ -11,13 +11,14 @@
  */
 
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes;
 using System;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
+using _3D_Engine.SceneObjects.RenderingObjects.Lights;
+using _3D_Engine.SceneObjects;
 
-namespace _3D_Engine.SceneObjects.RenderingObjects.Lights
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="DistantLight"/>.

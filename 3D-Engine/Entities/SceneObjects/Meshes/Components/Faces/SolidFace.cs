@@ -1,10 +1,11 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Rendering;
 using _3D_Engine.SceneObjects.RenderingObjects;
 using System;
 using System.Drawing;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 
-namespace _3D_Engine.SceneObjects.Meshes.Components.Faces
+namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="SolidFace"/>.

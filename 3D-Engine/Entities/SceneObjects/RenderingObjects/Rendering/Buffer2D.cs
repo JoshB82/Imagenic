@@ -1,4 +1,4 @@
-﻿namespace _3D_Engine.Rendering
+﻿namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
 {
     public class Buffer2D<T>
     {

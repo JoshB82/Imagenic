@@ -12,8 +12,6 @@
 
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.SceneObjects;
-using _3D_Engine.SceneObjects.Meshes.OneDimension;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
 using System.Drawing;
 
 /*namespace _3D_Engine

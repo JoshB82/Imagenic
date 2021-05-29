@@ -10,12 +10,13 @@
  * Defines a class for square meshes which are composed of two identical triangular faces.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Meshes.Components;
-using _3D_Engine.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.SceneObjects.Meshes;
 
-namespace _3D_Engine.SceneObjects.Meshes.TwoDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
     /// <summary>
     /// A sealed class that defines objects of type <see cref="Square"/> and represents a square mesh.
