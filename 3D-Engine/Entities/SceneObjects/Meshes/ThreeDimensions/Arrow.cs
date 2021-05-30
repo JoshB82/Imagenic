@@ -10,14 +10,14 @@
  * Encapsulates creation of an arrow.
  */
 
-using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Entities.Groups;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths.Vectors;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Entities.Groups;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
@@ -26,9 +26,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         #region Fields and Properties
 
         // Axes
-        public static readonly Arrow ZAxis = new(Vector3D.Zero, Vector3D.UnitZ, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Blue };
-        public static readonly Arrow YAxis = new(Vector3D.Zero, Vector3D.UnitY, Vector3D.UnitNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Green };
-        public static readonly Arrow XAxis = new(Vector3D.Zero, Vector3D.UnitX, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution) { FaceColour = Color.Red };
+        public static readonly Arrow ZAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitZ, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Blue);
+        public static readonly Arrow YAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitY, Vector3D.UnitNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Green);
+        public static readonly Arrow XAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitX, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Red);
 
         public static readonly Group Axes = new(XAxis, YAxis, ZAxis);
 

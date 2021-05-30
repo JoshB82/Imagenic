@@ -189,7 +189,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
         }
 
         // Update
-        public Update UpdateMethod { get; set; } = Update.OnSceneObjectChange;
+        public UpdateMethod UpdateMethod { get; set; } = UpdateMethod.OnSceneObjectChange;
 
         #endregion
 
@@ -198,11 +198,8 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
         internal Camera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
         {
             string[] iconObjData = Properties.Resources.Camera.Split(Environment.NewLine);
-            Icon = new Custom(origin, directionForward, directionUp, iconObjData)
-            {
-                Dimension = 3,
-                FaceColour = Color.DarkCyan
-            };
+            Icon = new Custom(origin, directionForward, directionUp, iconObjData) { Dimension = 3 };
+            Icon.ColourAllSolidFaces(Color.DarkCyan);
             Icon.Scale(5);
         }
 
@@ -225,7 +222,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
                 throw new ArgumentException(Exceptions.InvalidPixelFormatForRendering, nameof(renderPixelFormat));
             }
 
-            if (UpdateMethod == Update.OnSceneObjectChange && !NewRenderNeeded) return LastRender;
+            if (UpdateMethod == UpdateMethod.OnSceneObjectChange && !NewRenderNeeded) return LastRender;
 
             #if DEBUG
 
@@ -312,7 +309,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
                         // Darken the light's colour based on how far away the point is from the light
                         Vector3D lightToPoint = (Vector3D)lightViewSpacePoint;
                         float distantIntensity = light.Strength / lightToPoint.SquaredMagnitude();
-                        newLightColour = light.Colour.Darken_Percentage(distantIntensity);
+                        newLightColour = light.Colour.DarkenPercentage(distantIntensity);
                     }
 
                     // Move the point from light-view space to light-screen space

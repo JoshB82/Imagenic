@@ -12,7 +12,6 @@
 
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
-using System.Drawing;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
@@ -142,21 +141,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows)
         {
             Update += (sender, eventArgs) => { if (HeadedRenderingObject is not null) HeadedRenderingObject.RenderCamera.NewRenderNeeded = true; };
-        }
-
-        #endregion
-
-        #region Methods
-
-        public void ColourSolidFaces(Color colour)
-        {
-            foreach (Face face in Faces)
-            {
-                if (face is SolidFace solidFace)
-                {
-                    solidFace.Colour = colour;
-                }
-            }
         }
 
         #endregion

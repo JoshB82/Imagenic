@@ -1,5 +1,4 @@
 ﻿using _3D_Engine.Enums;
-using _3D_Engine.Groups;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +9,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
+using _3D_Engine.Entities.Groups;
 
 namespace Interactive_Demo
 {

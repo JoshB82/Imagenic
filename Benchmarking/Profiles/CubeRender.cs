@@ -1,7 +1,7 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
+﻿using _3D_Engine.Entities.Groups;
+using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.Groups;
 using _3D_Engine.Maths.Vectors;
 
 namespace Benchmarking.Profiles

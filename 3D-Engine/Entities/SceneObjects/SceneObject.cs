@@ -143,9 +143,9 @@ namespace _3D_Engine.Entities.SceneObjects
                 Arrow DirectionUpArrow = new(origin, directionUp, -directionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
                 Arrow DirectionRightArrow = new(origin, Transform.CalculateDirectionRight(directionForward, directionUp), directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
 
-                DirectionForwardArrow.ColourSolidFaces(Color.Blue);
-                DirectionUpArrow.ColourSolidFaces(Color.Green);
-                DirectionRightArrow.ColourSolidFaces(Color.Red);
+                DirectionForwardArrow.ColourAllSolidFaces(Color.Blue);
+                DirectionUpArrow.ColourAllSolidFaces(Color.Green);
+                DirectionRightArrow.ColourAllSolidFaces(Color.Red);
 
                 DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
             }

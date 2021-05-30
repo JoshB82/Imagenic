@@ -35,11 +35,8 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
             Strength = strength;
 
             string[] iconObjData = Properties.Resources.DistantLight.Split(Environment.NewLine);
-            Icon = new Custom(origin, directionForward, directionUp, iconObjData)
-            {
-                Dimension = 3,
-                FaceColour = Color.DarkCyan
-            };
+            Icon = new Custom(origin, directionForward, directionUp, iconObjData) { Dimension = 3 };
+            Icon.ColourAllSolidFaces(Color.DarkCyan);
             Icon.Scale(5);
         }
 
