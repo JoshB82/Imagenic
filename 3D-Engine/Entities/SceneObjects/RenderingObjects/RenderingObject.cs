@@ -105,23 +105,12 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 switch (this)
                 {
                     case OrthogonalCamera or DistantLight:
-                        // Update view-to-screen matrix
-                        viewToScreen.m00 = 2 / viewWidth;
-
-                        // Update left and right clipping planes
-                        ViewClippingPlanes[0].Point.x = -viewWidth / 2;
-                        ViewClippingPlanes[3].Point.x = viewWidth / 2;
-
+                        UpdateMatrixOrthogonal1();
+                        UpdateClippingPlaneOrthogonal1();
                         break;
                     case PerspectiveCamera or Spotlight:
-                        // Update view-to-screen matrix
-                        viewToScreen.m00 = 2 * zNear / viewWidth;
-
-                        // Update left and right clipping planes
-                        float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
-                        ViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, semiHeight, zNear));
-                        ViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, semiHeight, zNear), new Vector3D(semiWidth, -semiHeight, zNear));
-
+                        UpdateMatrixPerspective1();
+                        UpdateClippingPlanePerspective1();
                         break;
                     default:
                         throw Exceptions.RenderingObjectTypeNotSupported;
@@ -143,23 +132,12 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 switch (this)
                 {
                     case OrthogonalCamera or DistantLight:
-                        // Update view-to-screen matrix
-                        viewToScreen.m11 = 2 / viewHeight;
-
-                        // Update top and bottom clipping planes
-                        ViewClippingPlanes[1].Point.y = -viewHeight / 2;
-                        ViewClippingPlanes[4].Point.y = viewHeight / 2;
-
+                        UpdateMatrixOrthogonal2();
+                        UpdateClippingPlaneOrthogonal2();
                         break;
                     case PerspectiveCamera or Spotlight:
-                        // Update view-to-screen matrix
-                        viewToScreen.m11 = 2 * zNear / viewHeight;
-
-                        // Update top and bottom clipping planes
-                        float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
-                        ViewClippingPlanes[4].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, semiHeight, zNear), new Vector3D(semiWidth, semiHeight, zNear));
-                        ViewClippingPlanes[1].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, -semiHeight, zNear));
-
+                        UpdateMatrixPerspective2();
+                        UpdateClippingPlanePerspective2();
                         break;
                     default:
                         throw Exceptions.RenderingObjectTypeNotSupported;
@@ -181,24 +159,12 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 switch (this)
                 {
                     case OrthogonalCamera or DistantLight:
-                        // Update view-to-screen matrix
-                        viewToScreen.m22 = 2 / (zFar - zNear);
-                        viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
-
-                        // Update near clipping plane
-                        ViewClippingPlanes[2].Point.z = zNear;
-
+                        UpdateMatrixOrthogonal3();
+                        UpdateClippingPlaneOrthogonal3();
                         break;
                     case PerspectiveCamera or Spotlight:
-                        // Update view-to-screen matrix
-                        viewToScreen.m00 = 2 * zNear / viewWidth;
-                        viewToScreen.m11 = 2 * zNear / viewHeight;
-                        viewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
-                        viewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
-
-                        // Update near clipping plane
-                        ViewClippingPlanes[2].Point.z = zNear;
-
+                        UpdateMatrixPerspective3();
+                        UpdateClippingPlanePerspective3();
                         break;
                     default:
                         throw Exceptions.RenderingObjectTypeNotSupported;
@@ -380,6 +346,94 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             this.renderHeight = renderHeight;
             RenderWidth = renderWidth;
             RenderHeight = renderHeight;
+        }
+
+        #endregion
+
+        #region Methods
+
+        // Update matrix
+        private void UpdateMatrixOrthogonal1()
+        {
+            // Update view-to-screen matrix
+            viewToScreen.m00 = 2 / viewWidth;
+        }
+
+        private void UpdateMatrixPerspective1()
+        {
+            // Update view-to-screen matrix
+            viewToScreen.m00 = 2 * zNear / viewWidth;
+        }
+
+        private void UpdateMatrixOrthogonal2()
+        {
+            // Update view-to-screen matrix
+            viewToScreen.m11 = 2 / viewHeight;
+        }
+
+        private void UpdateMatrixPerspective2()
+        {
+            // Update view-to-screen matrix
+            viewToScreen.m11 = 2 * zNear / viewHeight;
+        }
+
+        private void UpdateMatrixOrthogonal3()
+        {
+            // Update view-to-screen matrix
+            viewToScreen.m22 = 2 / (zFar - zNear);
+            viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
+        }
+
+        private void UpdateMatrixPerspective3()
+        {
+            // Update view-to-screen matrix
+            viewToScreen.m00 = 2 * zNear / viewWidth;
+            viewToScreen.m11 = 2 * zNear / viewHeight;
+            viewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
+            viewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
+        }
+
+        // Update clipping planes
+        private void UpdateClippingPlaneOrthogonal1()
+        {
+            // Update left and right clipping planes
+            ViewClippingPlanes[0].Point.x = -viewWidth / 2;
+            ViewClippingPlanes[3].Point.x = viewWidth / 2;
+        }
+
+        private void UpdateClippingPlanePerspective1()
+        {
+            // Update left and right clipping planes
+            float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
+            ViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, semiHeight, zNear));
+            ViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, semiHeight, zNear), new Vector3D(semiWidth, -semiHeight, zNear));
+        }
+
+        private void UpdateClippingPlaneOrthogonal2()
+        {
+            // Update top and bottom clipping planes
+            ViewClippingPlanes[1].Point.y = -viewHeight / 2;
+            ViewClippingPlanes[4].Point.y = viewHeight / 2;
+        }
+
+        private void UpdateClippingPlanePerspective2()
+        {
+            // Update top and bottom clipping planes
+            float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
+            ViewClippingPlanes[4].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, semiHeight, zNear), new Vector3D(semiWidth, semiHeight, zNear));
+            ViewClippingPlanes[1].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, -semiHeight, zNear));
+        }
+
+        private void UpdateClippingPlaneOrthogonal3()
+        {
+            // Update near clipping plane
+            ViewClippingPlanes[2].Point.z = zNear;
+        }
+
+        private void UpdateClippingPlanePerspective3()
+        {
+            // Update near clipping plane
+            ViewClippingPlanes[2].Point.z = zNear;
         }
 
         #endregion
