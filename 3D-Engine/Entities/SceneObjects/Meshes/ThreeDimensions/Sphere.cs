@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
@@ -14,9 +15,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #endregion
 
-        #region Constructors /////////////////////////////////////////
+        #region Constructors
 
-        public Sphere(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float radius, int res_lat, int res_long) : base(origin, direction_forward, direction_up)
+        public Sphere(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float radius, SphereConstruction sphereConstruction) : base(origin, directionForward, directionUp)
+        {
+        }
+
+        /*
+        public Sphere(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, float radius, int res_lat, int res_long) : base(origin, directionForward, direction_up)
         {
             Dimension = 3;
 
@@ -43,7 +49,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
             //Faces = new Face[];
 
-        }
+        }*/
 
         #endregion
     }

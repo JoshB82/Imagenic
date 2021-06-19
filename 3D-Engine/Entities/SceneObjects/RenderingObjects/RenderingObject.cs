@@ -303,19 +303,24 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
         internal RenderingObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp)
         {
+            // Construct view-space clipping planes and matrix
+            float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;
             switch (this)
             {
                 case OrthogonalCamera or DistantLight:
                     viewToScreen = Matrix4x4.Identity;
 
+                    Vector3D nearBottomLeftPoint = new(-semiViewWidth, -semiViewHeight, zNear);
+                    Vector3D farTopRightPoint = new(semiViewWidth, semiViewHeight, zFar);
+
                     ViewClippingPlanes = new ClippingPlane[]
                     {
-                        new(Vector3D.Zero, Vector3D.UnitX), // Left
-                        new(Vector3D.Zero, Vector3D.UnitY), // Bottom
-                        new(Vector3D.Zero, Vector3D.UnitZ), // Near
-                        new(Vector3D.Zero, Vector3D.UnitNegativeX), // Right
-                        new(Vector3D.Zero, Vector3D.UnitNegativeY), // Top
-                        new(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
+                        new(nearBottomLeftPoint, Vector3D.UnitX), // Left
+                        new(nearBottomLeftPoint, Vector3D.UnitY), // Bottom
+                        new(nearBottomLeftPoint, Vector3D.UnitZ), // Near
+                        new(farTopRightPoint, Vector3D.UnitNegativeX), // Right
+                        new(farTopRightPoint, Vector3D.UnitNegativeY), // Top
+                        new(farTopRightPoint, Vector3D.UnitNegativeZ) // Far
                     };
 
                     break;
@@ -323,14 +328,21 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     viewToScreen = Matrix4x4.Zero;
                     viewToScreen.m32 = 1;
 
+                    nearBottomLeftPoint = new(-viewWidth / 2, -viewHeight / 2, zNear);
+                    farTopRightPoint = new(viewWidth * zFar / (2 * zNear), viewHeight * zFar / (2 * zNear), zFar);
+                    Vector3D nearTopLeftPoint = new(-semiViewWidth, semiViewHeight, zNear);
+                    Vector3D nearTopRightPoint = new(semiViewWidth, semiViewHeight, zNear);
+                    Vector3D farBottomLeftPoint = new(-semiViewWidth * zFar / zNear, -semiViewHeight * zFar / zNear, zFar);
+                    Vector3D farBottomRightPoint = new(semiViewWidth * zFar / zNear, -semiViewHeight * zFar / zNear, zFar);
+
                     ViewClippingPlanes = new ClippingPlane[]
                     {
-                        new(Vector3D.Zero, Vector3D.Zero), // Left
-                        new(Vector3D.Zero, Vector3D.Zero), // Bottom
-                        new(Vector3D.Zero, Vector3D.UnitZ), // Near
-                        new(Vector3D.Zero, Vector3D.Zero), // Right
-                        new(Vector3D.Zero, Vector3D.Zero), // Top
-                        new(Vector3D.Zero, Vector3D.UnitNegativeZ) // Far
+                        new(nearBottomLeftPoint, Vector3D.NormalFromPlane(farBottomLeftPoint, nearTopLeftPoint, nearBottomLeftPoint)), // Left
+                        new(nearBottomLeftPoint, Vector3D.NormalFromPlane(nearBottomLeftPoint, farBottomRightPoint, farBottomLeftPoint)), // Bottom
+                        new(nearBottomLeftPoint, Vector3D.UnitZ), // Near
+                        new(farTopRightPoint, Vector3D.NormalFromPlane(nearTopRightPoint, farTopRightPoint, farBottomRightPoint)), // Right
+                        new(farTopRightPoint, Vector3D.NormalFromPlane(nearTopLeftPoint, farTopRightPoint, nearTopRightPoint)), // Top
+                        new(farTopRightPoint, Vector3D.UnitNegativeZ) // Far
                     };
 
                     break;
