@@ -249,13 +249,13 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
                 VolumeEdges.Clear();
 
-                float semiWidth = ViewWidth / 2, semiHeight = ViewHeight / 2;
+                float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;
 
                 Vertex zeroPoint = new(new Vector4D(0, 0, 0, 1));
-                Vertex nearTopLeftPoint = new(new Vector4D(-semiWidth, semiHeight, ZNear, 1));
-                Vertex nearTopRightPoint = new(new Vector4D(semiWidth, semiHeight, ZNear, 1));
-                Vertex nearBottomLeftPoint = new(new Vector4D(-semiWidth, -semiHeight, ZNear, 1));
-                Vertex nearBottomRightPoint = new(new Vector4D(semiWidth, -semiHeight, ZNear, 1));
+                Vertex nearTopLeftPoint = new(new Vector4D(-semiViewWidth, semiViewHeight, ZNear, 1));
+                Vertex nearTopRightPoint = new(new Vector4D(semiViewWidth, semiViewHeight, ZNear, 1));
+                Vertex nearBottomLeftPoint = new(new Vector4D(-semiViewWidth, -semiViewHeight, ZNear, 1));
+                Vertex nearBottomRightPoint = new(new Vector4D(semiViewWidth, -semiViewHeight, ZNear, 1));
 
                 if ((volumeStyle & VolumeOutline.Near) == VolumeOutline.Near)
                 {
@@ -275,12 +275,12 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 if ((volumeStyle & VolumeOutline.Far) == VolumeOutline.Far)
                 {
                     float ratio = (this is OrthogonalCamera or DistantLight) ? 1 : ZFar / ZNear;
-                    float semiWidthRatio = semiWidth * ratio, semiHeightRatio = semiHeight * ratio;
+                    float semiViewWidthRatio = semiViewWidth * ratio, semiViewHeightRatio = semiViewHeight * ratio;
 
-                    Vertex farTopLeftPoint = new(new Vector4D(-semiWidthRatio, semiHeightRatio, ZFar, 1));
-                    Vertex farTopRightPoint = new(new Vector4D(semiWidthRatio, semiHeightRatio, ZFar, 1));
-                    Vertex farBottomLeftPoint = new(new Vector4D(-semiWidthRatio, -semiHeightRatio, ZFar, 1));
-                    Vertex farBottomRightPoint = new(new Vector4D(semiWidthRatio, -semiHeightRatio, ZFar, 1));
+                    Vertex farTopLeftPoint = new(new Vector4D(-semiViewWidthRatio, semiViewHeightRatio, ZFar, 1));
+                    Vertex farTopRightPoint = new(new Vector4D(semiViewWidthRatio, semiViewHeightRatio, ZFar, 1));
+                    Vertex farBottomLeftPoint = new(new Vector4D(-semiViewWidthRatio, -semiViewHeightRatio, ZFar, 1));
+                    Vertex farBottomRightPoint = new(new Vector4D(semiViewWidthRatio, -semiViewHeightRatio, ZFar, 1));
 
                     VolumeEdges.AddRange(new Edge[]
                     {
