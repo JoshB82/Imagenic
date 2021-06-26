@@ -359,14 +359,12 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     throw Exceptions.RenderingObjectTypeNotSupported;
             }
 
-            ZNear = zNear;
-            ZFar = zFar;
+            this.viewWidth = viewWidth;
             this.viewHeight = viewHeight;
-            ViewWidth = viewWidth;
-            ViewHeight = viewHeight;
+            this.zNear = zNear;
+            this.zFar = zFar;
+            this.renderWidth = renderWidth;
             this.renderHeight = renderHeight;
-            RenderWidth = renderWidth;
-            RenderHeight = renderHeight;
         }
 
         #endregion
