@@ -305,6 +305,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
         {
             // Construct view-space clipping planes and matrix
             float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;
+            Vector3D nearBottomLeftPoint = new(-semiViewWidth, -semiViewHeight, zNear);
 
             switch (this)
             {
@@ -315,7 +316,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     viewToScreen.m22 = 2 / (zFar - zNear);
                     viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
 
-                    Vector3D nearBottomLeftPoint = new(-semiViewWidth, -semiViewHeight, zNear);
+
                     Vector3D farTopRightPoint = new(semiViewWidth, semiViewHeight, zFar);
 
                     ViewClippingPlanes = new ClippingPlane[]
@@ -331,9 +332,12 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     break;
                 case PerspectiveCamera or Spotlight:
                     viewToScreen = Matrix4x4.Zero;
+                    viewToScreen.m00 = 2 * zNear / viewWidth;
+                    viewToScreen.m11 = 2 * zNear / viewHeight;
+                    viewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
+                    viewToScreen.m23 = -2 * zNear * zFar / (zFar - zNear);
                     viewToScreen.m32 = 1;
 
-                    nearBottomLeftPoint = new(-viewWidth / 2, -viewHeight / 2, zNear);
                     farTopRightPoint = new(viewWidth * zFar / (2 * zNear), viewHeight * zFar / (2 * zNear), zFar);
                     Vector3D nearTopLeftPoint = new(-semiViewWidth, semiViewHeight, zNear);
                     Vector3D nearTopRightPoint = new(semiViewWidth, semiViewHeight, zNear);
