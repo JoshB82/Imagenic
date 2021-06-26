@@ -305,10 +305,15 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
         {
             // Construct view-space clipping planes and matrix
             float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;
+
             switch (this)
             {
                 case OrthogonalCamera or DistantLight:
                     viewToScreen = Matrix4x4.Identity;
+                    viewToScreen.m00 = 2 / viewWidth;
+                    viewToScreen.m11 = 2 / viewHeight;
+                    viewToScreen.m22 = 2 / (zFar - zNear);
+                    viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
 
                     Vector3D nearBottomLeftPoint = new(-semiViewWidth, -semiViewHeight, zNear);
                     Vector3D farTopRightPoint = new(semiViewWidth, semiViewHeight, zFar);
