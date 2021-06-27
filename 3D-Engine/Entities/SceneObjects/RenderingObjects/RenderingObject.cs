@@ -49,8 +49,8 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
         internal Buffer2D<float> zBuffer;
         internal virtual void UpdateProperties()
         {
-            zBuffer = new(RenderWidth, RenderHeight);
-            ScreenToWindow = Transform.Scale(0.5f * (RenderWidth - 1), 0.5f * (RenderHeight - 1), 1) * windowTranslate;
+            zBuffer = new(renderWidth, renderHeight);
+            ScreenToWindow = Transform.Scale(0.5f * (renderWidth - 1), 0.5f * (renderHeight - 1), 1) * windowTranslate;
         }
 
         // Clipping Planes
@@ -365,6 +365,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             this.zFar = zFar;
             this.renderWidth = renderWidth;
             this.renderHeight = renderHeight;
+            UpdateProperties();
         }
 
         #endregion
