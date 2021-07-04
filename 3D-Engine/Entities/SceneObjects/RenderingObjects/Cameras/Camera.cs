@@ -369,7 +369,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
                 if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
                 {
                     zBuffer.Values[x][y] = z;
-                    colourBuffer.Values[x][y] = (Color)colour;
+                    colourBuffer.Values[x][y] = (Color)(object)colour;
                 }
             }
             else
@@ -382,7 +382,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
             if (z.ApproxLessThan(zBuffer.Values[x][y], 1E-4f))
             {
                 zBuffer.Values[x][y] = z;
-                colourBuffer.Values[x][y] = (Color)colour;
+                colourBuffer.Values[x][y] = (Color)(object)colour;
             }
 
             #endif
