@@ -36,7 +36,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
         #region Methods
 
         internal abstract void ResetBuffers();
-        internal abstract void AddPointToBuffers(object data, int x, int y, float z);
+        internal abstract void AddPointToBuffers<T>(T data, int x, int y, float z);
 
         internal void CalculateDepth(Group scene)
         {

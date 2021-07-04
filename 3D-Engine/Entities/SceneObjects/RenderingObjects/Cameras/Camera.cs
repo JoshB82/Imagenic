@@ -360,7 +360,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
             colourBuffer.SetAllToValue(RenderBackgroundColour);
         }
 
-        internal override void AddPointToBuffers(object colour, int x, int y, float z)
+        internal override void AddPointToBuffers<T>(T colour, int x, int y, float z)
         {
             #if DEBUG
 

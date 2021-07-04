@@ -111,7 +111,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
             zBuffer.SetAllToValue(outOfBoundsValue);
         }
 
-        internal override void AddPointToBuffers(object data, int x, int y, float z)
+        internal override void AddPointToBuffers<T>(T data, int x, int y, float z)
         {
             #if DEBUG
 
