@@ -157,11 +157,11 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     clippedFace.P2 /= clippedFace.P2.w;
                     clippedFace.P3 /= clippedFace.P3.w;
 
-                    if (this is PerspectiveCamera && clippedFace is TextureFace)
+                    if (this is PerspectiveCamera && clippedFace is TextureFace clippedTextureFace)
                     {
-                        ((TextureFace)clippedFace).T1 /= clippedFace.P1.w;
-                        ((TextureFace)clippedFace).T2 /= clippedFace.P2.w;
-                        ((TextureFace)clippedFace).T3 /= clippedFace.P3.w;
+                        clippedTextureFace.T1 /= clippedFace.P1.w;
+                        clippedTextureFace.T2 /= clippedFace.P2.w;
+                        clippedTextureFace.T3 /= clippedFace.P3.w;
                     }
                 }
             }
