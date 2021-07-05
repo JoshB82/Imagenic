@@ -150,7 +150,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         internal Mesh(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows)
         {
-            Update += (sender, eventArgs) => { if (HeadedRenderingObject is not null) HeadedRenderingObject.RenderCamera.NewRenderNeeded = true; };
+            //Update += (sender, eventArgs) => { if (HeadedRenderingObject is not null) HeadedRenderingObject.RenderCamera.NewRenderNeeded = true; };
         }
 
         #endregion
