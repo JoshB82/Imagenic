@@ -37,7 +37,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
             set
             {
                 colour = value;
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 
@@ -48,7 +48,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
             set
             {
                 strength = value;
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 

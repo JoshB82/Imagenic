@@ -44,7 +44,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             {
                 if (value == drawEdges) return;
                 drawEdges = value;
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 
@@ -59,7 +59,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             {
                 if (value == drawFaces) return;
                 drawFaces = value;
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 
@@ -130,7 +130,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
                 if (value == scaling) return;
                 scaling = value;
                 CalculateMatrices();
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 

@@ -87,7 +87,7 @@ namespace _3D_Engine.Entities.SceneObjects
             ConsoleOutput.DisplayOutputDirectionMessage(this, Properties.Settings.Default.Verbosity);
 
             CalculateMatrices();
-            OnUpdate();
+            RequestNewRenders();
         }
 
         private static void VectorCheck(Vector3D firstVector, Vector3D secondVector)

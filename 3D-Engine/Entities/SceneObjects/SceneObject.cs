@@ -10,16 +10,17 @@
  * An abstract base class that defines objects of type SceneObject. Any object which inherits from this class can be part of a Group.
  */
 
+using _3D_Engine.Entities.Groups;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using static _3D_Engine.Properties.Settings;
-using _3D_Engine.Entities.Groups;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
@@ -42,7 +43,7 @@ namespace _3D_Engine.Entities.SceneObjects
             {
                 if (value == visible) return;
                 visible = value;
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 
@@ -77,14 +78,14 @@ namespace _3D_Engine.Entities.SceneObjects
             {
                 if (value == displayDirectionArrows) return;
                 displayDirectionArrows = value;
-                OnUpdate();
+                RequestNewRenders();
             }
         }
         internal bool HasDirectionArrows { get; set; }
 
         // Events
-        public event EventHandler Update;
-        protected void OnUpdate() => Update?.Invoke(this, EventArgs.Empty);
+        //public event EventHandler Update;
+        //protected void RequestNewRenders2() => Update?.Invoke(this, EventArgs.Empty);
 
         // Id
         private static int nextId;
@@ -122,12 +123,19 @@ namespace _3D_Engine.Entities.SceneObjects
                 if (value == worldOrigin) return;
                 worldOrigin = value;
                 CalculateMatrices();
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 
         // Render Camera
-        internal Camera RenderCamera { get; set; }
+        internal List<Camera> RenderCameras { get; set; } = new();
+        internal void RequestNewRenders()
+        {
+            foreach (Camera camera in RenderCameras)
+            {
+                camera.NewRenderNeeded = true;
+            }
+        }
 
         #endregion
 
@@ -135,7 +143,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
         internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true)
         {
-            Update += (sender, eventArgs) => { if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true; };
+            //Update += (sender, eventArgs) => { if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true; };
 
             if (HasDirectionArrows = hasDirectionArrows)
             {

@@ -100,7 +100,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             {
                 if (value == viewWidth) return;
                 viewWidth = value;
-                OnUpdate();
+                RequestNewRenders();
 
                 switch (this)
                 {
@@ -127,7 +127,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             {
                 if (value == viewHeight) return;
                 viewHeight = value;
-                OnUpdate();
+                RequestNewRenders();
 
                 switch (this)
                 {
@@ -154,7 +154,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             {
                 if (value == zNear) return;
                 zNear = value;
-                OnUpdate();
+                RequestNewRenders();
 
                 switch (this)
                 {
@@ -181,7 +181,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             {
                 if (value == zFar) return;
                 zFar = value;
-                OnUpdate();
+                RequestNewRenders();
 
                 switch (this)
                 {
@@ -216,7 +216,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 if (value == renderWidth) return;
                 renderWidth = value;
                 UpdateProperties();
-                OnUpdate();
+                RequestNewRenders();
             }
         }
         public virtual int RenderHeight
@@ -227,7 +227,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 if (value == renderHeight) return;
                 renderHeight = value;
                 UpdateProperties();
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 
@@ -245,7 +245,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             {
                 if (value == volumeStyle) return;
                 volumeStyle = value;
-                OnUpdate();
+                RequestNewRenders();
 
                 VolumeEdges.Clear();
 

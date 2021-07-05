@@ -55,7 +55,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                 GenerateEdges();
                 GenerateFaces();
 
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 

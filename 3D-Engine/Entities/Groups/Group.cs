@@ -46,7 +46,7 @@ namespace _3D_Engine.Entities.Groups
                 renderCamera = value;
                 foreach (SceneObject sceneObject in SceneObjects)
                 {
-                    sceneObject.RenderCamera = renderCamera;
+                    sceneObject.RenderCameras.Add(renderCamera);
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace _3D_Engine.Entities.Groups
             if (RenderCamera is not null)
             {
                 RenderCamera.NewRenderNeeded = true;
-                sceneObject.RenderCamera = RenderCamera;
+                sceneObject.RenderCameras.Add(RenderCamera);
             }
         }
         public void Add(IEnumerable<SceneObject> sceneObjects)

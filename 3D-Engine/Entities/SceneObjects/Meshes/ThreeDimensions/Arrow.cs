@@ -56,7 +56,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 length = (tipPosition - WorldOrigin).Magnitude();
                 bodyLength = length - tipLength;
 
-                OnUpdate();
+                RequestNewRenders();
             }
         }
         public float Length
@@ -69,7 +69,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 tipPosition = WorldDirectionForward * length;
                 bodyLength = length = tipLength;
 
-                OnUpdate();
+                RequestNewRenders();
             }
         }
         public float BodyLength
@@ -84,7 +84,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
                 GenerateVertices();
 
-                OnUpdate();
+                RequestNewRenders();
             }
         }
         public float TipLength
@@ -99,7 +99,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
                 GenerateVertices();
 
-                OnUpdate();
+                RequestNewRenders();
             }
         }
         public float BodyRadius
@@ -111,7 +111,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
                 GenerateVertices();
 
-                OnUpdate();
+                RequestNewRenders();
             }
         }
         public float TipRadius
@@ -123,7 +123,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
                 GenerateVertices();
 
-                OnUpdate();
+                RequestNewRenders();
             }
         }
         public int Resolution
@@ -137,7 +137,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 GenerateEdges();
                 GenerateFaces();
 
-                OnUpdate();
+                RequestNewRenders();
             }
         }
 
