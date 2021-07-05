@@ -129,7 +129,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
         // Render Camera
         internal List<Camera> RenderCameras { get; set; } = new();
-        internal void RequestNewRenders()
+        internal virtual void RequestNewRenders()
         {
             foreach (Camera camera in RenderCameras)
             {

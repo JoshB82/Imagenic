@@ -52,7 +52,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     {
                         if (face.Visible)
                         {
-                            AddFaceToZBuffer(face, camera.Icon.Dimension, ref modelToView);
+                            AddFaceToBuffer(face, camera.Icon.Dimension, ref modelToView);
                         }
                     }
                 }
@@ -68,7 +68,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     {
                         if (face.Visible)
                         {
-                            AddFaceToZBuffer(face, light.Icon.Dimension, ref modelToView);
+                            AddFaceToBuffer(face, light.Icon.Dimension, ref modelToView);
                         }
                     }
                 }
@@ -84,7 +84,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     {
                         if (face.Visible)
                         {
-                            AddFaceToZBuffer(face, mesh.Dimension, ref modelToView);
+                            AddFaceToBuffer(face, mesh.Dimension, ref modelToView);
                         }
                     }
                 }
@@ -104,15 +104,15 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
                     foreach (Face face in directionForward.Faces)
                     {
-                        AddFaceToZBuffer(face, 3, ref directionForwardModelToView);
+                        AddFaceToBuffer(face, 3, ref directionForwardModelToView);
                     }
                     foreach (Face face in directionUp.Faces)
                     {
-                        AddFaceToZBuffer(face, 3, ref directionUpModelToView);
+                        AddFaceToBuffer(face, 3, ref directionUpModelToView);
                     }
                     foreach (Face face in directionRight.Faces)
                     {
-                        AddFaceToZBuffer(face, 3, ref directionRightModelToView);
+                        AddFaceToBuffer(face, 3, ref directionRightModelToView);
                     }
                 }
             }
@@ -124,7 +124,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             #endif
         }
 
-        private void AddFaceToZBuffer(Face face, int meshDimension, ref Matrix4x4 modelToView)
+        private void AddFaceToBuffer(Face face, int meshDimension, ref Matrix4x4 modelToView)
         {
             Action<object, int, int, float> bufferAction = (this is Light || face is SolidFace) ? AddPointToBuffers : null;
 

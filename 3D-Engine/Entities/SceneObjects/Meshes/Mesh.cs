@@ -16,6 +16,8 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using System.Collections.Generic;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
@@ -94,10 +96,18 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         */
 
         // Headed Rendering Object
-        internal RenderingObject HeadedRenderingObject { get; set; }
-        internal void UpdateHeadedRenderingObject()
+        internal List<RenderingObject> HeadedRenderingObjects { get; set; } = new();
+        internal override void RequestNewRenders()
         {
-            if (HeadedRenderingObject is not null) HeadedRenderingObject.RenderCamera.NewRenderNeeded = true;
+            base.RequestNewRenders();
+
+            foreach (RenderingObject renderingObject in HeadedRenderingObjects)
+            {
+                foreach (Camera camera in renderingObject.RenderCameras)
+                {
+                    camera.NewRenderNeeded = true;
+                }
+            }
         }
 
         // Textures
