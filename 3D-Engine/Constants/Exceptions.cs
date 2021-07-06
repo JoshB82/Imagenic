@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Defines exceptions and their messages in one central location.
+ * Defines exceptions and their messages.
  */
 
 using System;
