@@ -113,15 +113,15 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         {
             if (Textures is null)
             {
-                Faces = new SolidFace[resolution];
-                for (int i = 0; i < resolution - 1; i++) Faces[i] = new SolidFace(Vertices[i + 1], Vertices[0], Vertices[i + 2]);
-                Faces[resolution - 1] = new SolidFace(Vertices[resolution], Vertices[0], Vertices[1]);
+                Triangles = new SolidFace[resolution];
+                for (int i = 0; i < resolution - 1; i++) Triangles[i] = new SolidFace(Vertices[i + 1], Vertices[0], Vertices[i + 2]);
+                Triangles[resolution - 1] = new SolidFace(Vertices[resolution], Vertices[0], Vertices[1]);
             }
             else
             {
-                Faces = new TextureFace[resolution];
-                for (int i = 0; i < resolution - 1; i++) Faces[i] = new TextureFace(Vertices[i + 1], Vertices[0], Vertices[i + 2], Textures[0].Vertices[i + 1], Textures[0].Vertices[0], Textures[0].Vertices[i + 2], Textures[0]);
-                Faces[resolution - 1] = new TextureFace(Vertices[resolution], Vertices[0], Vertices[1], Textures[0].Vertices[resolution], Textures[0].Vertices[0], Textures[0].Vertices[1], Textures[0]);
+                Triangles = new TextureFace[resolution];
+                for (int i = 0; i < resolution - 1; i++) Triangles[i] = new TextureFace(Vertices[i + 1], Vertices[0], Vertices[i + 2], Textures[0].Vertices[i + 1], Textures[0].Vertices[0], Textures[0].Vertices[i + 2], Textures[0]);
+                Triangles[resolution - 1] = new TextureFace(Vertices[resolution], Vertices[0], Vertices[1], Textures[0].Vertices[resolution], Textures[0].Vertices[0], Textures[0].Vertices[1], Textures[0]);
             }
         }
 

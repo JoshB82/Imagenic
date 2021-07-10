@@ -21,7 +21,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         {
             Vertices = vertices;
             Edges = edges;
-            Faces = faces;
+            Triangles = faces;
         }
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
@@ -33,7 +33,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         {
             Vertices = vertices;
             Edges = edges;
-            Faces = faces;
+            Triangles = faces;
 
             HasTexture = true;
             Textures = textures;
@@ -122,7 +122,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
             Vertices = vertices.ToArray();
             Edges = edges.ToArray();
-            Faces = faces.ToArray();
+            Triangles = faces.ToArray();
         }
 //b
         /// <summary>
@@ -201,7 +201,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
             Vertices = vertices.ToArray();
             Edges = edges.ToArray();
-            Faces = faces.ToArray();
+            Triangles = faces.ToArray();
             Textures = new Texture[] { new Texture(texture, textureVertices.ToArray()) };
         }
 
@@ -217,7 +217,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         {
             Vertices = m1.Vertices.Concat(m2.Vertices).ToArray(); // Not entirely sure how this works?
             Edges = m1.Edges.Concat(m2.Edges).ToArray();
-            Faces = m1.Faces.Concat(m2.Faces).ToArray();
+            Triangles = m1.Triangles.Concat(m2.Triangles).ToArray();
             Textures = m1.Textures.Concat(m2.Textures).ToArray();
         }
 

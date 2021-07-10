@@ -66,15 +66,15 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 Edges[resolution - 1] = new Edge(Vertices[resolution + 1], Vertices[2]);
 
                 // Faces
-                Faces = new SolidFace[2 * resolution];
+                Triangles = new SolidFace[2 * resolution];
 
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Faces[i] = new SolidFace(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
-                    Faces[i + resolution] = new SolidFace(Vertices[i + 2], Vertices[i + 3], Vertices[1]);
+                    Triangles[i] = new SolidFace(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
+                    Triangles[i + resolution] = new SolidFace(Vertices[i + 2], Vertices[i + 3], Vertices[1]);
                 }
-                Faces[resolution - 1] = new SolidFace(Vertices[resolution - 1], Vertices[0], Vertices[2]);
-                Faces[2 * resolution - 1] = new SolidFace(Vertices[resolution - 1], Vertices[2], Vertices[1]);
+                Triangles[resolution - 1] = new SolidFace(Vertices[resolution - 1], Vertices[0], Vertices[2]);
+                Triangles[2 * resolution - 1] = new SolidFace(Vertices[resolution - 1], Vertices[2], Vertices[1]);
             }
         }
 

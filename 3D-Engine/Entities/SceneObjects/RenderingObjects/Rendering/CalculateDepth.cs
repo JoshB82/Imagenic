@@ -48,7 +48,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 {
                     Matrix4x4 modelToView = WorldToView * camera.Icon.ModelToWorld;
 
-                    foreach (Triangle face in camera.Icon.Faces)
+                    foreach (Triangle face in camera.Icon.Triangles)
                     {
                         if (face.Visible)
                         {
@@ -64,7 +64,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 {
                     Matrix4x4 modelToView = WorldToView * light.Icon.ModelToWorld;
 
-                    foreach (Triangle face in light.Icon.Faces)
+                    foreach (Triangle face in light.Icon.Triangles)
                     {
                         if (face.Visible)
                         {
@@ -80,7 +80,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 {
                     Matrix4x4 modelToView = WorldToView * mesh.ModelToWorld;
 
-                    foreach (Triangle face in mesh.Faces)
+                    foreach (Triangle face in mesh.Triangles)
                     {
                         if (face.Visible)
                         {
@@ -102,15 +102,15 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     Matrix4x4 directionUpModelToView = WorldToView * directionUp.ModelToWorld;
                     Matrix4x4 directionRightModelToView = WorldToView * directionRight.ModelToWorld;
 
-                    foreach (Triangle face in directionForward.Faces)
+                    foreach (Triangle face in directionForward.Triangles)
                     {
                         AddFaceToBuffer(face, 3, ref directionForwardModelToView);
                     }
-                    foreach (Triangle face in directionUp.Faces)
+                    foreach (Triangle face in directionUp.Triangles)
                     {
                         AddFaceToBuffer(face, 3, ref directionUpModelToView);
                     }
-                    foreach (Triangle face in directionRight.Faces)
+                    foreach (Triangle face in directionRight.Triangles)
                     {
                         AddFaceToBuffer(face, 3, ref directionRightModelToView);
                     }

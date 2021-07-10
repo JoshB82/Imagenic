@@ -54,7 +54,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         public Plane(Vector3D origin, Vector3D directionForward, Vector3D normal, float length, float width) : base(origin, directionForward, normal)
         {
             SetStructure(length, width);
-            Faces = new SolidFace[2]
+            Triangles = new SolidFace[2]
             {
                 new(Vertices[0], Vertices[1], Vertices[2]), // 0
                 new(Vertices[0], Vertices[2], Vertices[3]) // 1
@@ -74,7 +74,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         {
             SetStructure(length, width);
             Textures = new Texture[1] { texture };
-            Faces = new TextureFace[2]
+            Triangles = new TextureFace[2]
             {
                 new(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[0], texture.Vertices[1], texture.Vertices[2], texture), // 0
                 new(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1

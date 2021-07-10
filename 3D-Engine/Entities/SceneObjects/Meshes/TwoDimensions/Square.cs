@@ -54,7 +54,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         public Square(Vector3D origin, Vector3D directionForward, Vector3D normal, float sideLength) : base(origin, directionForward, normal)
         {
             SetStructure(sideLength);
-            Faces = new SolidFace[2]
+            Triangles = new SolidFace[2]
             {
                 new(Vertices[0], Vertices[1], Vertices[2]), // 0
                 new(Vertices[0], Vertices[2], Vertices[3]) // 1
@@ -73,7 +73,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         {
             SetStructure(sideLength);
             Textures = new Texture[1] { texture };
-            Faces = new TextureFace[2]
+            Triangles = new TextureFace[2]
             {
                 new(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[0], texture.Vertices[1], texture.Vertices[2], texture), // 0
                 new(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1
@@ -115,7 +115,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             new(square.WorldOrigin, square.WorldDirectionForward, square.WorldDirectionUp, square.sideLength, square.sideLength)
             {
                 Textures = square.Textures,
-                Faces = square.Faces
+                Triangles = square.Triangles
             };
 
         #endregion

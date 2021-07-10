@@ -5,47 +5,25 @@ using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
-    public class Sphere : Mesh
+    public abstract class Sphere : Mesh
     {
         #region Fields and Properties
 
         public float Radius { get; set; }
 
-        public SphereConstruction Construction { get; }
+        //public SphereConstruction Construction { get; }
 
-        public int Res_Lat { get; set; }
-        public int Res_Long { get; set; }
+        //public int Res_Lat { get; set; }
+        //public int Res_Long { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Sphere(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float radius, int latResolution, int longResolution) : base(origin, directionForward, directionUp)
+        public Sphere(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float radius) : base(origin, directionForward, directionUp)
         {
             Dimension = 3;
             Radius = radius;
-            Construction = SphereConstruction.SectorsAndStacks;
-
-            Vertices = new Vertex[latResolution * longResolution];
-
-            float latAngleStep = 2 * PI / latResolution;
-            float longAngleStep = PI / longResolution;
-
-            for (int i = 0; i < longResolution; i++)
-            {
-                float longAngle = longAngleStep * i - PI / 2;
-
-                for (int j = 0; j < latResolution; j++)
-                {
-                    float latAngle = latAngleStep * j;
-
-                    float x = Cos(latAngle) * Cos(longAngle);
-                    float y = Sin(latAngle) * Cos(longAngle);
-                    float z = Sin(longAngle);
-
-                    Vertices[i * longResolution + j] = new Vertex(new Vector4D(x, y, z, 1));
-                }
-            }
         }
 
         /*

@@ -155,7 +155,7 @@ namespace _3D_Engine.Entities.Groups
             {
                 vertices.AddRange(mesh.Vertices);
                 edges.AddRange(mesh.Edges);
-                faces.AddRange(mesh.Faces);
+                faces.AddRange(mesh.Triangles);
                 textures.AddRange(mesh.Textures);
             }
 
