@@ -107,16 +107,19 @@ namespace _3D_Engine.Entities.SceneObjects
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
         public virtual void TranslateX(float distance) => WorldOrigin += new Vector3D(distance, 0, 0);
+
         /// <summary>
         /// Translates the <see cref="SceneObject"/> in the y-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
         public virtual void TranslateY(float distance) => WorldOrigin += new Vector3D(0, distance, 0);
+
         /// <summary>
         /// Translates the <see cref="SceneObject"/> in the z-direction.
         /// </summary>
         /// <param name="distance">Amount to translate by.</param>
         public virtual void TranslateZ(float distance) => WorldOrigin += new Vector3D(0, 0, distance);
+
         /// <summary>
         /// Translates the <see cref="SceneObject"/> by the given vector.
         /// </summary>
