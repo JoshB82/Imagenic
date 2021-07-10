@@ -148,7 +148,7 @@ namespace _3D_Engine.Entities.Groups
         {
             List<Vertex> vertices = new();
             List<Edge> edges = new();
-            List<Face> faces = new();
+            List<Triangle> faces = new();
             List<Texture> textures = new();
 
             foreach (Mesh mesh in group.Meshes)

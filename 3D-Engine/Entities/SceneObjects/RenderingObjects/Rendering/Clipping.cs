@@ -60,7 +60,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
 
         //source!
         // Faces
-        internal static bool ClipFaces(Queue<Face> faceQueue, ClippingPlane[] clippingPlanes)
+        internal static bool ClipFaces(Queue<Triangle> faceQueue, ClippingPlane[] clippingPlanes)
         {
             foreach (ClippingPlane clippingPlane in clippingPlanes)
             {
@@ -73,7 +73,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
 
         // check clockwise/anticlockwise stuff
         // source (for everything in file)
-        internal static void ClipFace(Face faceToClip, Queue<Face> facesQueue, Vector3D planePoint, Vector3D planeNormal)
+        internal static void ClipFace(Triangle faceToClip, Queue<Triangle> facesQueue, Vector3D planePoint, Vector3D planeNormal)
         {
             Vector4D[] insidePoints = new Vector4D[3], outsidePoints = new Vector4D[3];
             Vector3D[] insideTexturePoints = new Vector3D[3], outsideTexturePoints = new Vector3D[3];
@@ -127,7 +127,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
                     Vector4D intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out float d1), 1);
                     Vector4D intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2), 1);
 
-                    Face face1;
+                    Triangle face1;
                     if (faceToClip is TextureFace)
                     {
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
@@ -147,7 +147,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
                     intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d1), 1);
                     intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2), 1);
 
-                    Face face2;
+                    Triangle face2;
                     if (faceToClip is TextureFace)
                     {
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];

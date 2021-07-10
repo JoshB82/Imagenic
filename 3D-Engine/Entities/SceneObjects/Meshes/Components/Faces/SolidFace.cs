@@ -9,7 +9,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
     /// <summary>
     /// Encapsulates creation of a <see cref="SolidFace"/>.
     /// </summary>
-    public sealed class SolidFace : Face
+    public sealed class SolidFace : Triangle
     {
         #region Fields and Properties
 

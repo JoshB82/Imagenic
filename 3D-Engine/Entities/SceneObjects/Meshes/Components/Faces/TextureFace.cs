@@ -6,7 +6,7 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
-    public sealed class TextureFace : Face
+    public sealed class TextureFace : Triangle
     {
         #region Fields and Properties
 

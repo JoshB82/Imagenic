@@ -5,7 +5,7 @@ using System;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
-    public abstract class Face
+    public abstract class Triangle
     {
         #region Fields and Properties
 

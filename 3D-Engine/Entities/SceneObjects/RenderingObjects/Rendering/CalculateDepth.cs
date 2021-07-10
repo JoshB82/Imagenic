@@ -48,7 +48,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 {
                     Matrix4x4 modelToView = WorldToView * camera.Icon.ModelToWorld;
 
-                    foreach (Face face in camera.Icon.Faces)
+                    foreach (Triangle face in camera.Icon.Faces)
                     {
                         if (face.Visible)
                         {
@@ -64,7 +64,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 {
                     Matrix4x4 modelToView = WorldToView * light.Icon.ModelToWorld;
 
-                    foreach (Face face in light.Icon.Faces)
+                    foreach (Triangle face in light.Icon.Faces)
                     {
                         if (face.Visible)
                         {
@@ -80,7 +80,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 {
                     Matrix4x4 modelToView = WorldToView * mesh.ModelToWorld;
 
-                    foreach (Face face in mesh.Faces)
+                    foreach (Triangle face in mesh.Faces)
                     {
                         if (face.Visible)
                         {
@@ -102,15 +102,15 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     Matrix4x4 directionUpModelToView = WorldToView * directionUp.ModelToWorld;
                     Matrix4x4 directionRightModelToView = WorldToView * directionRight.ModelToWorld;
 
-                    foreach (Face face in directionForward.Faces)
+                    foreach (Triangle face in directionForward.Faces)
                     {
                         AddFaceToBuffer(face, 3, ref directionForwardModelToView);
                     }
-                    foreach (Face face in directionUp.Faces)
+                    foreach (Triangle face in directionUp.Faces)
                     {
                         AddFaceToBuffer(face, 3, ref directionUpModelToView);
                     }
-                    foreach (Face face in directionRight.Faces)
+                    foreach (Triangle face in directionRight.Faces)
                     {
                         AddFaceToBuffer(face, 3, ref directionRightModelToView);
                     }
@@ -124,7 +124,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             #endif
         }
 
-        private void AddFaceToBuffer(Face face, int meshDimension, ref Matrix4x4 modelToView)
+        private void AddFaceToBuffer(Triangle face, int meshDimension, ref Matrix4x4 modelToView)
         {
             Action<object, int, int, float> bufferAction = (this is Light || face is SolidFace) ? AddPointToBuffers : null;
 
@@ -142,11 +142,11 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             }
 
             // Clip the face in view space
-            Queue<Face> faceClip = new(); faceClip.Enqueue(face);
+            Queue<Triangle> faceClip = new(); faceClip.Enqueue(face);
             if (!Clipping.ClipFaces(faceClip, ViewClippingPlanes)) { return; }
 
             // Move the new triangles from view space to screen space, including a correction for perspective
-            foreach (Face clippedFace in faceClip)
+            foreach (Triangle clippedFace in faceClip)
             {
                 // Move the face from view space to screen space
                 clippedFace.ApplyMatrix(ViewToScreen);
@@ -169,7 +169,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             // Clip the face in screen space
             if (!Clipping.ClipFaces(faceClip, ScreenClippingPlanes)) { return; } // anything outside cube?
 
-            foreach (Face clippedFace in faceClip)
+            foreach (Triangle clippedFace in faceClip)
             {
                 // Skip the face if it is flat
                 if ((clippedFace.P1.x == clippedFace.P2.x && clippedFace.P2.x == clippedFace.P3.x) ||

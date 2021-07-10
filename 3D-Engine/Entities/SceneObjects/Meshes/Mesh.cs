@@ -32,7 +32,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edges']/*"/>
         public Edge[] Edges { get; protected set; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Faces']/*"/>
-        public Face[] Faces { get; internal set; }
+        public Triangle[] Faces { get; internal set; }
 
         // Appearance
         private bool drawEdges = true;
@@ -52,7 +52,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         private bool drawFaces = true;
         /// <summary>
-        /// Determines if the<see cref="Mesh"> Mesh's</see> <see cref="Face">Faces</see> are drawn.
+        /// Determines if the<see cref="Mesh"> Mesh's</see> <see cref="Triangle">Faces</see> are drawn.
         /// </summary>
         public bool DrawFaces
         {

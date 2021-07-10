@@ -61,7 +61,7 @@ namespace _3D_Engine
 
         public static T ColourAllSolidFaces<T>(this T input, Color colour) where T : Mesh
         {
-            foreach (Face face in input.Faces)
+            foreach (Triangle face in input.Faces)
             {
                 if (face is SolidFace solidFace)
                 {

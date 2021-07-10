@@ -17,7 +17,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Constructors
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
-        public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp, Vertex[] vertices, Edge[] edges, Face[] faces) : base(origin, directionForward, directionUp)
+        public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp, Vertex[] vertices, Edge[] edges, Triangle[] faces) : base(origin, directionForward, directionUp)
         {
             Vertices = vertices;
             Edges = edges;
@@ -28,7 +28,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp,
             Vertex[] vertices,
             Edge[] edges,
-            Face[] faces,
+            Triangle[] faces,
             Texture[] textures) : base(origin, directionForward, directionUp)
         {
             Vertices = vertices;
@@ -77,7 +77,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         {
             List<Vertex> vertices = new();
             List<Edge> edges = new();
-            List<Face> faces = new();
+            List<Triangle> faces = new();
 
             foreach (string line in lines)
             {
@@ -140,7 +140,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             List<Vertex> vertices = new();
             List<Vector3D> textureVertices = new();
             List<Edge> edges = new();
-            List<Face> faces = new();
+            List<Triangle> faces = new();
 
             try
             {
