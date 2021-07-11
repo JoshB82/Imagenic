@@ -82,39 +82,39 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
             if (PointDistanceFromPlane((Vector3D)faceToClip.P1, planePoint, planeNormal) >= 0)
             {
                 insidePoints[insidePointCount] = faceToClip.P1;
-                if (faceToClip is TextureFace textureFace) insideTexturePoints[insidePointCount] = textureFace.T1;
+                if (faceToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T1;
                 insidePointCount++;
             }
             else
             {
                 outsidePoints[outsidePointCount] = faceToClip.P1;
-                if (faceToClip is TextureFace textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T1;
+                if (faceToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T1;
                 outsidePointCount++;
             }
 
             if (PointDistanceFromPlane((Vector3D)faceToClip.P2, planePoint, planeNormal) >= 0)
             {
                 insidePoints[insidePointCount] = faceToClip.P2;
-                if (faceToClip is TextureFace textureFace) insideTexturePoints[insidePointCount] = textureFace.T2;
+                if (faceToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T2;
                 insidePointCount++;
             }
             else
             {
                 outsidePoints[outsidePointCount] = faceToClip.P2;
-                if (faceToClip is TextureFace textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T2;
+                if (faceToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T2;
                 outsidePointCount++;
             }
 
             if (PointDistanceFromPlane((Vector3D)faceToClip.P3, planePoint, planeNormal) >= 0)
             {
                 insidePoints[insidePointCount] = faceToClip.P3;
-                if (faceToClip is TextureFace textureFace) insideTexturePoints[insidePointCount] = textureFace.T3;
+                if (faceToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T3;
                 insidePointCount++;
             }
             else
             {
                 outsidePoints[outsidePointCount] = faceToClip.P3;
-                if (faceToClip is TextureFace textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T3;
+                if (faceToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T3;
             }
 
             switch (insidePointCount)
@@ -128,16 +128,16 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
                     Vector4D intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2), 1);
 
                     Triangle face1;
-                    if (faceToClip is TextureFace)
+                    if (faceToClip is TextureTriangle)
                     {
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
                         Vector3D tIntersection2 = (outsideTexturePoints[1] - insideTexturePoints[0]) * d2 + insideTexturePoints[0];
 
-                        face1 = new TextureFace(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, ((TextureFace)faceToClip).TextureObject);
+                        face1 = new TextureTriangle(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, ((TextureTriangle)faceToClip).TextureObject);
                     }
                     else
                     {
-                        face1 = new SolidFace(insidePoints[0], intersection1, intersection2) { Colour = ((SolidFace)faceToClip).Colour };
+                        face1 = new SolidTriangle(insidePoints[0], intersection1, intersection2) { Colour = ((SolidTriangle)faceToClip).Colour };
                     }
 
                     facesQueue.Enqueue(face1);
@@ -148,18 +148,18 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
                     intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2), 1);
 
                     Triangle face2;
-                    if (faceToClip is TextureFace)
+                    if (faceToClip is TextureTriangle)
                     {
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
                         Vector3D tIntersection2 = (outsideTexturePoints[0] - insideTexturePoints[1]) * d2 + insideTexturePoints[1];
 
-                        face1 = new TextureFace(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], ((TextureFace)faceToClip).TextureObject);
-                        face2 = new TextureFace(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, ((TextureFace)faceToClip).TextureObject);
+                        face1 = new TextureTriangle(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], ((TextureTriangle)faceToClip).TextureObject);
+                        face2 = new TextureTriangle(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, ((TextureTriangle)faceToClip).TextureObject);
                     }
                     else
                     {
-                        face1 = new SolidFace(insidePoints[0], intersection1, insidePoints[1]) { Colour = ((SolidFace)faceToClip).Colour };
-                        face2 = new SolidFace(insidePoints[1], intersection1, intersection2) { Colour = ((SolidFace)faceToClip).Colour };
+                        face1 = new SolidTriangle(insidePoints[0], intersection1, insidePoints[1]) { Colour = ((SolidTriangle)faceToClip).Colour };
+                        face2 = new SolidTriangle(insidePoints[1], intersection1, intersection2) { Colour = ((SolidTriangle)faceToClip).Colour };
                     }
 
                     facesQueue.Enqueue(face1);

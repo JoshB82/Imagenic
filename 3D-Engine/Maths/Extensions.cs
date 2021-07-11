@@ -63,7 +63,7 @@ namespace _3D_Engine
         {
             foreach (Triangle face in input.Triangles)
             {
-                if (face is SolidFace solidFace)
+                if (face is SolidTriangle solidFace)
                 {
                     solidFace.Colour = colour;
                 }

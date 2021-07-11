@@ -10,7 +10,6 @@
 
     public static class Settings
     {
-        #region Engine Settings
 
         public static Resolution Z_Buffer_Resolution = Resolution.Float;
 
@@ -18,7 +17,5 @@
 
         // Clipping
         public static bool Screen_Space_Clip { get; set; }
-
-        #endregion
     }
 }

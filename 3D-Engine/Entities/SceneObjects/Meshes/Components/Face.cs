@@ -7,9 +7,15 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
 {
     public class Face
     {
+        #region Fields and Properties
+
         public IList<Vertex> Vertices { get; set; }
         public IList<Edge> Edges { get; set; }
         public IList<Triangle> Triangles { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public Face(IList<Vertex> vertices)
         {
@@ -37,6 +43,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
             Triangles = triangles;
         }
 
+        #endregion
+
+        #region Methods
+
         public Mesh Extrude(Face face, Vector3D displacement)
         {
 
@@ -51,5 +61,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
         {
 
         }
+
+        internal Triangle[] Decompose(Vertex[] vertices)
+        {
+
+        }
+
+        #endregion
     }
 }

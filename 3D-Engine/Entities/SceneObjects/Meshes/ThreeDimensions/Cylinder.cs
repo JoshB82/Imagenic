@@ -71,19 +71,19 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 Edges[resolution - 1] = new Edge(Vertices[resolution + 1], Vertices[2]);
                 Edges[2 * resolution - 1] = new Edge(Vertices[2 * resolution + 1], Vertices[resolution + 2]);
 
-                Triangles = new SolidFace[4 * resolution];
+                Triangles = new SolidTriangle[4 * resolution];
 
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Triangles[i] = new SolidFace(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
-                    Triangles[i + resolution] = new SolidFace(Vertices[i + 2], Vertices[i + resolution + 3], Vertices[i + resolution + 2]);
-                    Triangles[i + 2 * resolution] = new SolidFace(Vertices[i + 2], Vertices[i + 3], Vertices[i + resolution + 3]);
-                    Triangles[i + 3 * resolution] = new SolidFace(Vertices[i + resolution + 2], Vertices[i + resolution + 3], Vertices[1]);
+                    Triangles[i] = new SolidTriangle(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
+                    Triangles[i + resolution] = new SolidTriangle(Vertices[i + 2], Vertices[i + resolution + 3], Vertices[i + resolution + 2]);
+                    Triangles[i + 2 * resolution] = new SolidTriangle(Vertices[i + 2], Vertices[i + 3], Vertices[i + resolution + 3]);
+                    Triangles[i + 3 * resolution] = new SolidTriangle(Vertices[i + resolution + 2], Vertices[i + resolution + 3], Vertices[1]);
                 }
-                Triangles[resolution - 1] = new SolidFace(Vertices[resolution + 1], Vertices[0], Vertices[2]);
-                Triangles[2 * resolution - 1] = new SolidFace(Vertices[resolution + 1], Vertices[resolution + 2], Vertices[2 * resolution + 1]);
-                Triangles[3 * resolution - 1] = new SolidFace(Vertices[resolution + 1], Vertices[2], Vertices[resolution + 2]);
-                Triangles[4 * resolution - 1] = new SolidFace(Vertices[2 * resolution + 1], Vertices[resolution + 2], Vertices[1]);
+                Triangles[resolution - 1] = new SolidTriangle(Vertices[resolution + 1], Vertices[0], Vertices[2]);
+                Triangles[2 * resolution - 1] = new SolidTriangle(Vertices[resolution + 1], Vertices[resolution + 2], Vertices[2 * resolution + 1]);
+                Triangles[3 * resolution - 1] = new SolidTriangle(Vertices[resolution + 1], Vertices[2], Vertices[resolution + 2]);
+                Triangles[4 * resolution - 1] = new SolidTriangle(Vertices[2 * resolution + 1], Vertices[resolution + 2], Vertices[1]);
             }
         }
 

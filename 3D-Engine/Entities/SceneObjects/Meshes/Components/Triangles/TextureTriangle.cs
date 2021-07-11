@@ -1,12 +1,12 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using System;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using System;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
-    public sealed class TextureFace : Triangle
+    public sealed class TextureTriangle : Triangle
     {
         #region Fields and Properties
 
@@ -27,14 +27,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 
         #region Constructors
 
-        public TextureFace(Vector4D p1, Vector4D p2, Vector4D p3, Vector3D t1, Vector3D t2, Vector3D t3, Texture textureObject)
+        public TextureTriangle(Vector4D p1, Vector4D p2, Vector4D p3, Vector3D t1, Vector3D t2, Vector3D t3, Texture textureObject)
         {
             (P1, P2, P3) = (p1, p2, p3);
             (T1, T2, T3) = (t1, t2, t3);
             TextureObject = textureObject;
         }
 
-        public TextureFace(Vertex modelP1, Vertex modelP2, Vertex modelP3, Vector3D textureT1, Vector3D textureT2, Vector3D textureT3, Texture textureObject)
+        public TextureTriangle(Vertex modelP1, Vertex modelP2, Vertex modelP3, Vector3D textureT1, Vector3D textureT2, Vector3D textureT3, Texture textureObject)
         {
             (ModelP1, ModelP2, ModelP3) = (modelP1, modelP2, modelP3);
             (TextureT1, TextureT2, TextureT3) = (textureT1, textureT2, textureT3);

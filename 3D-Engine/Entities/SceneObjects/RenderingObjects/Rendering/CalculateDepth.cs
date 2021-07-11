@@ -126,7 +126,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
         private void AddFaceToBuffer(Triangle face, int meshDimension, ref Matrix4x4 modelToView)
         {
-            Action<object, int, int, float> bufferAction = (this is Light || face is SolidFace) ? AddPointToBuffers : null;
+            Action<object, int, int, float> bufferAction = (this is Light || face is SolidTriangle) ? AddPointToBuffers : null;
 
             // Reset the vertices to model space values
             face.ResetVertices();
@@ -157,7 +157,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     clippedFace.P2 /= clippedFace.P2.w;
                     clippedFace.P3 /= clippedFace.P3.w;
 
-                    if (this is PerspectiveCamera && clippedFace is TextureFace clippedTextureFace)
+                    if (this is PerspectiveCamera && clippedFace is TextureTriangle clippedTextureFace)
                     {
                         clippedTextureFace.T1 /= clippedFace.P1.w;
                         clippedTextureFace.T2 /= clippedFace.P2.w;

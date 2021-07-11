@@ -5,7 +5,7 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
-    public sealed class GradientFace : Triangle
+    public sealed class GradientTriangle : Triangle
     {
         #region Fields and Properties
 

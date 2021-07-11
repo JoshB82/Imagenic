@@ -115,7 +115,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
                         p1 = int.Parse(data[1]);
                         p2 = int.Parse(data[2]);
                         p3 = int.Parse(data[3]);
-                        faces.Add(new SolidFace(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
+                        faces.Add(new SolidTriangle(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
                         break;
                 }
             }
@@ -188,7 +188,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
                             p1 = int.Parse(data[1]);
                             p2 = int.Parse(data[2]);
                             p3 = int.Parse(data[3]);
-                            faces.Add(new SolidFace(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1])); // TODO: fix
+                            faces.Add(new SolidTriangle(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1])); // TODO: fix
                             break;
                     }
                 }
