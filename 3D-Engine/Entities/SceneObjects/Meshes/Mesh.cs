@@ -32,7 +32,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edges']/*"/>
         public Edge[] Edges { get; protected set; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Faces']/*"/>
-        public Triangle[] Triangles { get; internal set; }
+        //public Triangle[] Triangles { get; internal set; }
 
         public Face[] Faces { get; set; }
 
@@ -130,7 +130,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         internal override void CalculateMatrices()
         {
             base.CalculateMatrices();
-            ModelToWorld *= Transform.Scale(Scaling.x, Scaling.y, Scaling.z);
+            ModelToWorld *= Transform.Scale(Scaling);
         }
 
         private Vector3D scaling = Vector3D.One;

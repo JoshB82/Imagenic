@@ -2,11 +2,12 @@
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Cube"/> mesh.
+    /// A mesh of a cube. It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
     /// </summary>
     public sealed class Cube : Mesh
     {
@@ -15,7 +16,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         private float sideLength;
 
         /// <summary>
-        /// The length of each side of the <see cref="Cube"/>.
+        /// The length of each side.
         /// </summary>
         public float SideLength
         {
@@ -37,10 +38,49 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="origin">The position of the <see cref="Cube"/>.</param>
         /// <param name="directionForward">The direction the <see cref="Cube"/> faces.</param>
         /// <param name="directionUp">The upward orientation of the <see cref="Cube"/>.</param>
-        /// <param name="sideLength">The length of each side of the <see cref="Cube"/>.</param>
-        public Cube(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float sideLength) : base(origin, directionForward, directionUp)
+        /// <param name="sideLength">The length of each side.</param>
+        public Cube(Vector3D origin,
+                    Vector3D directionForward,
+                    Vector3D directionUp,
+                    float sideLength) : base(origin, directionForward, directionUp)
         {
             SetStructure(sideLength);
+
+            Faces = new Face[6]
+            {
+                new Face(new List<Triangle>()
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>()
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>()
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>()
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>()
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>()
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                })
+            };
+
+            /*
             Triangles = new SolidTriangle[12]
             {
                 new(Vertices[1], Vertices[6], Vertices[2]), // 0
@@ -56,6 +96,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 new(Vertices[4], Vertices[5], Vertices[1]), // 10
                 new(Vertices[4], Vertices[1], Vertices[0]) // 11
             };
+            */
         }
 
         /// <summary>
@@ -64,9 +105,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="origin">The position of the <see cref="Cube"/>.</param>
         /// <param name="directionForward">The direction the <see cref="Cube"/> faces.</param>
         /// <param name="directionUp">The upward orientation of the <see cref="Cube"/>.</param>
-        /// <param name="sideLength">The length of each side of the <see cref="Cube"/>.</param>
+        /// <param name="sideLength">The length of each side.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cube"/>.</param>
-        public Cube(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float sideLength, Texture texture) : base(origin, directionForward, directionUp)
+        public Cube(Vector3D origin,
+                    Vector3D directionForward,
+                    Vector3D directionUp,
+                    float sideLength,
+                    Texture texture) : base(origin, directionForward, directionUp)
         {
             SetStructure(sideLength);
             Textures = new Texture[1] { texture };
@@ -100,7 +145,16 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="left">The <see cref="Texture"/> for the left face of the <see cref="Cube"/>.</param>
         /// <param name="top">The <see cref="Texture"/> for the top face of the <see cref="Cube"/>.</param>
         /// <param name="bottom">The <see cref="Texture"/> for the bottom face of the <see cref="Cube"/>.</param>
-        public Cube(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float sideLength, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom) : base(origin, directionForward, directionUp)
+        public Cube(Vector3D origin,
+                    Vector3D directionForward,
+                    Vector3D directionUp,
+                    float sideLength,
+                    Texture front,
+                    Texture right,
+                    Texture back,
+                    Texture left,
+                    Texture top,
+                    Texture bottom) : base(origin, directionForward, directionUp)
         {
             SetStructure(sideLength);
             Textures = new Texture[6] { front, right, back, left, top, bottom };
