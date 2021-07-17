@@ -46,34 +46,34 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         {
             SetStructure(sideLength);
 
-            Faces = new Face[6]
+            Faces = new List<Face>
             {
-                new Face(new List<Triangle>()
+                new Face(new List<Triangle>
                 {
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                 }),
-                new Face(new List<Triangle>()
+                new Face(new List<Triangle>
                 {
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                 }),
-                new Face(new List<Triangle>()
+                new Face(new List<Triangle>
                 {
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                 }),
-                new Face(new List<Triangle>()
+                new Face(new List<Triangle>
                 {
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                 }),
-                new Face(new List<Triangle>()
+                new Face(new List<Triangle>
                 {
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                 }),
-                new Face(new List<Triangle>()
+                new Face(new List<Triangle>
                 {
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
                     new SolidTriangle(Vertices[],Vertices[],Vertices[]),
@@ -115,6 +115,41 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         {
             SetStructure(sideLength);
             Textures = new Texture[1] { texture };
+
+            Faces = new List<Face>
+            {
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                })
+            };
+
             Triangles = new TextureTriangle[12]
             {
                 new(Vertices[1], Vertices[6], Vertices[2], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 0

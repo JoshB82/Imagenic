@@ -2,11 +2,12 @@
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Cuboid"/> mesh.
+    /// A mesh of a cuboid. It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
     /// </summary>
     public sealed class Cuboid : Mesh
     {
@@ -64,9 +65,49 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float length, float width, float height) : base(origin, directionForward, directionUp)
+        public Cuboid(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      float length,
+                      float width,
+                      float height) : base(origin, directionForward, directionUp)
         {
             SetStructure(length, width, height);
+
+            Faces = new List<Face>
+            {
+                new Face(new List<Triangle>
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                }),
+                new Face(new List<Triangle>
+                {
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                })
+            };
+
             Triangles = new SolidTriangle[12]
             {
                 new(Vertices[1], Vertices[6], Vertices[2]), // 0
@@ -94,7 +135,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float length, float width, float height, Texture texture) : base(origin, directionForward, directionUp)
+        public Cuboid(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      float length,
+                      float width,
+                      float height,
+                      Texture texture) : base(origin, directionForward, directionUp)
         {
             SetStructure(length, width, height);
             Textures = new Texture[1] { texture };
@@ -130,7 +177,18 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="left">The <see cref="Texture"/> for the left face of the <see cref="Cuboid"/>.</param>
         /// <param name="top">The <see cref="Texture"/> for the top face of the <see cref="Cuboid"/>.</param>
         /// <param name="bottom">The <see cref="Texture"/> for the bottom face of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float length, float width, float height, Texture front, Texture right, Texture back, Texture left, Texture top, Texture bottom) : base(origin, directionForward, directionUp)
+        public Cuboid(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      float length,
+                      float width,
+                      float height,
+                      Texture front,
+                      Texture right,
+                      Texture back,
+                      Texture left,
+                      Texture top,
+                      Texture bottom) : base(origin, directionForward, directionUp)
         {
             SetStructure(length, width, height);
             Textures = new Texture[6] { front, right, back, left, top, bottom };
