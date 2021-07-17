@@ -148,15 +148,16 @@ namespace _3D_Engine.Entities.Groups
         {
             List<Vertex> vertices = new();
             List<Edge> edges = new();
-            List<Triangle> faces = new();
+            List<Face> faces = new();
             List<Texture> textures = new();
 
             foreach (Mesh mesh in group.Meshes)
             {
                 vertices.AddRange(mesh.Vertices);
                 edges.AddRange(mesh.Edges);
-                faces.AddRange(mesh.Triangles);
+                //faces.AddRange(mesh.Triangles);
                 textures.AddRange(mesh.Textures);
+                faces.AddRange(mesh.Faces);
             }
 
             Custom customCast = new(group.Meshes[0].WorldOrigin, group.Meshes[0].WorldDirectionForward, group.Meshes[0].WorldDirectionUp, vertices.ToArray(), edges.ToArray(), faces.ToArray(), textures.ToArray());
