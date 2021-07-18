@@ -83,10 +83,6 @@ namespace _3D_Engine.Entities.SceneObjects
         }
         internal bool HasDirectionArrows { get; set; }
 
-        // Events
-        //public event EventHandler Update;
-        //protected void RequestNewRenders2() => Update?.Invoke(this, EventArgs.Empty);
-
         // Id
         private static int nextId;
         /// <summary>
@@ -143,8 +139,6 @@ namespace _3D_Engine.Entities.SceneObjects
 
         internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true)
         {
-            //Update += (sender, eventArgs) => { if (RenderCamera is not null) RenderCamera.NewRenderNeeded = true; };
-
             if (HasDirectionArrows = hasDirectionArrows)
             {
                 Arrow DirectionForwardArrow = new(origin, directionForward, directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);

@@ -301,7 +301,15 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
         #region Constructors
 
-        internal RenderingObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp)
+        internal RenderingObject(Vector3D origin,
+                                 Vector3D directionForward,
+                                 Vector3D directionUp,
+                                 float viewWidth,
+                                 float viewHeight,
+                                 float zNear,
+                                 float zFar,
+                                 int renderWidth,
+                                 int renderHeight) : base(origin, directionForward, directionUp)
         {
             // Construct view-space clipping planes and matrix
             float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;
@@ -315,7 +323,6 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                     viewToScreen.m11 = 2 / viewHeight;
                     viewToScreen.m22 = 2 / (zFar - zNear);
                     viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
-
 
                     Vector3D farTopRightPoint = new(semiViewWidth, semiViewHeight, zFar);
 

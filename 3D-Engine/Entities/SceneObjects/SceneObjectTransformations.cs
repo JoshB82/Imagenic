@@ -1,8 +1,20 @@
-﻿using _3D_Engine.Maths.Transformations;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Defines methods for rotating and translating SceneObjects.
+ */
+
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
 using System;
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
@@ -30,6 +42,7 @@ namespace _3D_Engine.Entities.SceneObjects
                 Transform.CalculateDirectionRight(newWorldDirectionForward, newWorldDirectionUp)
             );
         }
+
         /// <summary>
         /// Sets the forward, up and right directions given the up and right directions.
         /// </summary>
@@ -50,6 +63,7 @@ namespace _3D_Engine.Entities.SceneObjects
                 newWorldDirectionRight
             );
         }
+
         /// <summary>
         /// Sets the forward, up and right directions given the right and forward directions.
         /// </summary>
