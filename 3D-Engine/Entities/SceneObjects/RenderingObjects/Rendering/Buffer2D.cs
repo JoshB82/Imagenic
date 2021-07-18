@@ -1,4 +1,16 @@
-﻿namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Defines a two-dimensional buffer called Buffer2D that holds values of type T.
+ */
+
+namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
 {
     public class Buffer2D<T>
     {
