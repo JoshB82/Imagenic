@@ -9,6 +9,18 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
     {
         #region Fields and Properties
 
+        // Appearance
+        private bool visible = true;
+        public bool Visible
+        {
+            get => visible;
+            set
+            {
+                visible = value;
+            }
+        }
+
+        // Structure
         public IList<Vertex> Vertices { get; set; }
         public IList<Edge> Edges { get; set; }
         public IList<Triangle> Triangles { get; set; }

@@ -10,9 +10,9 @@
  * Provides static methods for clipping edges and faces against specified planes.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using static _3D_Engine.Maths.Vectors.Vector3D;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering

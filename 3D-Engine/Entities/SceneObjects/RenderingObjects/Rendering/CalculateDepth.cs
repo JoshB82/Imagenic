@@ -10,11 +10,6 @@
  * Provides methods for generating data required to generate depth values.
  */
 
-using _3D_Engine.Maths;
-using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Utilities;
-using System;
-using System.Collections.Generic;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
@@ -22,6 +17,12 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects.Meshes;
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Utilities;
+using System;
+using System.Collections.Generic;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 {
@@ -48,11 +49,17 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 {
                     Matrix4x4 modelToView = WorldToView * camera.Icon.ModelToWorld;
 
-                    foreach (Triangle face in camera.Icon.Triangles)
+                    foreach (Face face in camera.Icon.Faces)
                     {
                         if (face.Visible)
                         {
-                            AddFaceToBuffer(face, camera.Icon.Dimension, ref modelToView);
+                            foreach (Triangle triangle in face.Triangles)
+                            {
+                                if (triangle.Visible)
+                                {
+                                    AddFaceToBuffer(triangle, camera.Icon.Dimension, ref modelToView);
+                                }
+                            }
                         }
                     }
                 }
@@ -124,26 +131,32 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             #endif
         }
 
-        private void AddFaceToBuffer(Triangle face, int meshDimension, ref Matrix4x4 modelToView)
+        private void AddFaceToBuffer(Triangle triangle, int meshDimension, ref Matrix4x4 modelToView)
         {
-            Action<object, int, int, float> bufferAction = (this is Light || face is SolidTriangle) ? AddPointToBuffers : null;
+            Action<object, int, int, float> bufferAction = (this is Light || triangle is SolidTriangle) ? AddPointToBuffers : null;
 
             // Reset the vertices to model space values
-            face.ResetVertices();
+            triangle.ResetVertices();
 
             // Move the face from model space to view space
-            face.ApplyMatrix(modelToView);
+            triangle.ApplyMatrix(modelToView);
 
             // Back-face culling if the mesh is three-dimensional
             if (meshDimension == 3)
             {
                 // Discard the face if it is not visible from the rendering object's point of view
-                if ((Vector3D)face.P1 * Vector3D.NormalFromPlane((Vector3D)face.P1, (Vector3D)face.P2, (Vector3D)face.P3) >= 0) { return; }
+                if ((Vector3D)triangle.P1 * Vector3D.NormalFromPlane((Vector3D)triangle.P1, (Vector3D)triangle.P2, (Vector3D)triangle.P3) >= 0)
+                {
+                    return;
+                }
             }
 
             // Clip the face in view space
-            Queue<Triangle> faceClip = new(); faceClip.Enqueue(face);
-            if (!Clipping.ClipFaces(faceClip, ViewClippingPlanes)) { return; }
+            Queue<Triangle> faceClip = new(); faceClip.Enqueue(triangle);
+            if (!Clipping.ClipFaces(faceClip, ViewClippingPlanes))
+            {
+                return;
+            }
 
             // Move the new triangles from view space to screen space, including a correction for perspective
             foreach (Triangle clippedFace in faceClip)
@@ -167,14 +180,19 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             }
 
             // Clip the face in screen space
-            if (!Clipping.ClipFaces(faceClip, ScreenClippingPlanes)) { return; } // anything outside cube?
+            if (!Clipping.ClipFaces(faceClip, ScreenClippingPlanes))
+            {
+                return;
+            } // anything outside cube?
 
             foreach (Triangle clippedFace in faceClip)
             {
                 // Skip the face if it is flat
                 if ((clippedFace.P1.x == clippedFace.P2.x && clippedFace.P2.x == clippedFace.P3.x) ||
                     (clippedFace.P1.y == clippedFace.P2.y && clippedFace.P2.y == clippedFace.P3.y))
-                { continue; }
+                {
+                    continue;
+                }
 
                 // Move the face from screen space to window space
                 clippedFace.ApplyMatrix(ScreenToWindow);
