@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace _3D_Engine.Loaders
 {
-    public static class OBJLoader
+    public class OBJLoader : Loader
     {
         public IList<Vertex> GetVertices()
         {
