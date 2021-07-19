@@ -137,7 +137,10 @@ namespace _3D_Engine.Entities.SceneObjects
 
         #region Constructors
 
-        internal SceneObject(Vector3D origin, Vector3D directionForward, Vector3D directionUp, bool hasDirectionArrows = true)
+        internal SceneObject(Vector3D origin,
+                             Vector3D directionForward,
+                             Vector3D directionUp,
+                             bool hasDirectionArrows = true)
         {
             if (HasDirectionArrows = hasDirectionArrows)
             {

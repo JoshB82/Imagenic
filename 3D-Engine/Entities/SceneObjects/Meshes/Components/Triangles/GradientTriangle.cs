@@ -1,7 +1,7 @@
-﻿using System;
+﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {

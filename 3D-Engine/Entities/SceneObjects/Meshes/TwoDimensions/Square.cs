@@ -51,7 +51,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// <param name="directionForward">The direction the <see cref="Square"/> faces.</param>
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
         /// <param name="sideLength">The length of each side of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D directionForward, Vector3D normal, float sideLength) : base(origin, directionForward, normal)
+        public Square(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D normal,
+                      float sideLength) : base(origin, directionForward, normal)
         {
             SetStructure(sideLength);
             Triangles = new SolidTriangle[2]
@@ -69,7 +72,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// <param name="normal">The upward orientation of the <see cref="Square"/>. This is also a normal to the surface of the <see cref="Square"/>.</param>
         /// <param name="sideLength">The length of each side of the <see cref="Square"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Square"/>.</param>
-        public Square(Vector3D origin, Vector3D directionForward, Vector3D normal, float sideLength, Texture texture) : base(origin, directionForward, normal)
+        public Square(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D normal,
+                      float sideLength,
+                      Texture texture) : base(origin, directionForward, normal)
         {
             SetStructure(sideLength);
             Textures = new Texture[1] { texture };

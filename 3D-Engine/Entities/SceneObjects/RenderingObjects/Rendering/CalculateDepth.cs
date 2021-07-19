@@ -57,7 +57,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                             {
                                 if (triangle.Visible)
                                 {
-                                    AddFaceToBuffer(triangle, camera.Icon.Dimension, ref modelToView);
+                                    AddTriangleToBuffer(triangle, camera.Icon.Dimension, ref modelToView);
                                 }
                             }
                         }
@@ -79,7 +79,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                             {
                                 if (triangle.Visible)
                                 {
-                                    AddFaceToBuffer(triangle, light.Icon.Dimension, ref modelToView);
+                                    AddTriangleToBuffer(triangle, light.Icon.Dimension, ref modelToView);
                                 }
                             }
                         }
@@ -101,7 +101,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                             {
                                 if (triangle.Visible)
                                 {
-                                    AddFaceToBuffer(triangle, mesh.Dimension, ref modelToView);
+                                    AddTriangleToBuffer(triangle, mesh.Dimension, ref modelToView);
                                 }
                             }
                         }
@@ -123,15 +123,15 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
                     foreach (Triangle face in directionForward.Triangles)
                     {
-                        AddFaceToBuffer(face, 3, ref directionForwardModelToView);
+                        AddTriangleToBuffer(face, 3, ref directionForwardModelToView);
                     }
                     foreach (Triangle face in directionUp.Triangles)
                     {
-                        AddFaceToBuffer(face, 3, ref directionUpModelToView);
+                        AddTriangleToBuffer(face, 3, ref directionUpModelToView);
                     }
                     foreach (Triangle face in directionRight.Triangles)
                     {
-                        AddFaceToBuffer(face, 3, ref directionRightModelToView);
+                        AddTriangleToBuffer(face, 3, ref directionRightModelToView);
                     }
                 }
             }
@@ -143,7 +143,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             #endif
         }
 
-        private void AddFaceToBuffer(Triangle triangle, int meshDimension, ref Matrix4x4 modelToView)
+        private void AddTriangleToBuffer(Triangle triangle, int meshDimension, ref Matrix4x4 modelToView)
         {
             Action<object, int, int, float> bufferAction = (this is Light || triangle is SolidTriangle) ? AddPointToBuffers : null;
 
@@ -164,14 +164,14 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             }
 
             // Clip the face in view space
-            Queue<Triangle> faceClip = new(); faceClip.Enqueue(triangle);
-            if (!Clipping.ClipFaces(faceClip, ViewClippingPlanes))
+            Queue<Triangle> triangleClip = new(); triangleClip.Enqueue(triangle);
+            if (!Clipping.ClipTriangles(triangleClip, ViewClippingPlanes))
             {
                 return;
             }
 
             // Move the new triangles from view space to screen space, including a correction for perspective
-            foreach (Triangle clippedFace in faceClip)
+            foreach (Triangle clippedFace in triangleClip)
             {
                 // Move the face from view space to screen space
                 clippedFace.ApplyMatrix(ViewToScreen);
@@ -192,12 +192,12 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
             }
 
             // Clip the face in screen space
-            if (!Clipping.ClipFaces(faceClip, ScreenClippingPlanes))
+            if (!Clipping.ClipTriangles(triangleClip, ScreenClippingPlanes))
             {
                 return;
             } // anything outside cube?
 
-            foreach (Triangle clippedFace in faceClip)
+            foreach (Triangle clippedFace in triangleClip)
             {
                 // Skip the face if it is flat
                 if ((clippedFace.P1.x == clippedFace.P2.x && clippedFace.P2.x == clippedFace.P3.x) ||

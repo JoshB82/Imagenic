@@ -1,13 +1,13 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
@@ -46,7 +46,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="directionForward">The direction the <see cref="Custom"/> mesh faces.</param>
         /// <param name="directionUp">The upward orientation of the <see cref="Custom"/> mesh.</param>
         /// <param name="filePath">The path of the OBJ file.</param>
-        public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp, string filePath) : base(origin, directionForward, directionUp)
+        public Custom(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      string filePath) : base(origin, directionForward, directionUp)
         {
             // Check if the file exists
             if (!File.Exists(filePath))
@@ -71,7 +74,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             GenerateCustomFromOBJ(lines);
         }
 
-        public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp, string[] lines) : base(origin, directionForward, directionUp) => GenerateCustomFromOBJ(lines);
+        public Custom(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      string[] lines) : base(origin, directionForward, directionUp) => GenerateCustomFromOBJ(lines);
 
         private void GenerateCustomFromOBJ(string[] lines)
         {
@@ -133,7 +139,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="directionUp">The upward orientation of the <see cref="Custom"/> mesh.</param>
         /// <param name="filePath">The path of the OBJ file.</param>
         /// <param name="texture">The <see cref="Bitmap"/> that makes up the surface of the <see cref="Custom"/> mesh.</param>
-        public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp, string filePath, Bitmap texture) : base(origin, directionForward, directionUp)
+        public Custom(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      string filePath,
+                      Bitmap texture) : base(origin, directionForward, directionUp)
         {
             HasTexture = true;
 
@@ -213,7 +223,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="directionUp">The upward orientation of the resultant <see cref="Custom"/> mesh.</param>
         /// <param name="m1">The first <see cref="Mesh"/> to be joined.</param>
         /// <param name="m2">The second <see cref="Mesh"/> to be joined.</param>
-        public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp, Mesh m1, Mesh m2) : base(origin, directionForward, directionUp)
+        public Custom(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      Mesh m1,
+                      Mesh m2) : base(origin, directionForward, directionUp)
         {
             Vertices = m1.Vertices.Concat(m2.Vertices).ToArray(); // Not entirely sure how this works?
             Edges = m1.Edges.Concat(m2.Edges).ToArray();

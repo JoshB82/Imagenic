@@ -51,7 +51,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// <param name="normal">The upward orientation of the <see cref="Plane"/>. This is also a normal to the surface of the <see cref="Plane"/>.</param>
         /// <param name="length">The length of the <see cref="Plane"/>.</param>
         /// <param name="width">The width of the <see cref="Plane"/>.</param>
-        public Plane(Vector3D origin, Vector3D directionForward, Vector3D normal, float length, float width) : base(origin, directionForward, normal)
+        public Plane(Vector3D origin,
+                     Vector3D directionForward,
+                     Vector3D normal,
+                     float length,
+                     float width) : base(origin, directionForward, normal)
         {
             SetStructure(length, width);
             Triangles = new SolidTriangle[2]
@@ -70,7 +74,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// <param name="length">The length of the <see cref="Plane"/>.</param>
         /// <param name="width">The width of the <see cref="Plane"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Plane"/>.</param>
-        public Plane(Vector3D origin, Vector3D directionForward, Vector3D normal, float length, float width, Texture texture) : base(origin, directionForward, normal)
+        public Plane(Vector3D origin,
+                     Vector3D directionForward,
+                     Vector3D normal,
+                     float length,
+                     float width,
+                     Texture texture) : base(origin, directionForward, normal)
         {
             SetStructure(length, width);
             Textures = new Texture[1] { texture };

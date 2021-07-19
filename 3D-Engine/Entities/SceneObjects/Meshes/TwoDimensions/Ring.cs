@@ -101,7 +101,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// <param name="innerRadius">The radius of the inner <see cref="Circle"/>.</param>
         /// <param name="outerRadius">The radius of the outer <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Ring"/>.</param>
-        public Ring(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float innerRadius, float outerRadius, int resolution) : base(origin, directionForward, directionUp)
+        public Ring(Vector3D origin,
+                    Vector3D directionForward,
+                    Vector3D directionUp,
+                    float innerRadius,
+                    float outerRadius,
+                    int resolution) : base(origin, directionForward, directionUp)
         {
             Dimension = 2;
 

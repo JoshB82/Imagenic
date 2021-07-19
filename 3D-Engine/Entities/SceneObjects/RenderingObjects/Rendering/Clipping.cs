@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Provides static methods for clipping edges and faces against specified planes.
+ * Defines static methods for clipping edges and faces against specified planes.
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
@@ -24,7 +24,10 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
         {
             foreach (ClippingPlane clippingPlane in clippingPlanes)
             {
-                if (!ClipEdge(clippingPlane.Point, clippingPlane.Normal, ref point1, ref point2)) return false;
+                if (!ClipEdge(clippingPlane.Point, clippingPlane.Normal, ref point1, ref point2))
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -58,116 +61,115 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
             return false;
         }
 
-        //source!
-        // Faces
-        internal static bool ClipFaces(Queue<Triangle> faceQueue, ClippingPlane[] clippingPlanes)
+        // Triangles
+        internal static bool ClipTriangles(Queue<Triangle> triangleQueue, ClippingPlane[] clippingPlanes)
         {
             foreach (ClippingPlane clippingPlane in clippingPlanes)
             {
-                int noFaces = faceQueue.Count;
-                while (noFaces-- > 0) ClipFace(faceQueue.Dequeue(), faceQueue, clippingPlane.Point, clippingPlane.Normal);
+                int noFaces = triangleQueue.Count;
+                while (noFaces-- > 0) ClipTriangle(triangleQueue.Dequeue(), triangleQueue, clippingPlane.Point, clippingPlane.Normal);
             }
 
-            return faceQueue.Count > 0;
+            return triangleQueue.Count > 0;
         }
 
         // check clockwise/anticlockwise stuff
         // source (for everything in file)
-        internal static void ClipFace(Triangle faceToClip, Queue<Triangle> facesQueue, Vector3D planePoint, Vector3D planeNormal)
+        internal static void ClipTriangle(Triangle triangleToClip, Queue<Triangle> trianglesQueue, Vector3D planePoint, Vector3D planeNormal)
         {
             Vector4D[] insidePoints = new Vector4D[3], outsidePoints = new Vector4D[3];
             Vector3D[] insideTexturePoints = new Vector3D[3], outsideTexturePoints = new Vector3D[3];
             int insidePointCount = 0, outsidePointCount = 0;
 
-            if (PointDistanceFromPlane((Vector3D)faceToClip.P1, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane((Vector3D)triangleToClip.P1, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = faceToClip.P1;
-                if (faceToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T1;
+                insidePoints[insidePointCount] = triangleToClip.P1;
+                if (triangleToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T1;
                 insidePointCount++;
             }
             else
             {
-                outsidePoints[outsidePointCount] = faceToClip.P1;
-                if (faceToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T1;
+                outsidePoints[outsidePointCount] = triangleToClip.P1;
+                if (triangleToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T1;
                 outsidePointCount++;
             }
 
-            if (PointDistanceFromPlane((Vector3D)faceToClip.P2, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane((Vector3D)triangleToClip.P2, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = faceToClip.P2;
-                if (faceToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T2;
+                insidePoints[insidePointCount] = triangleToClip.P2;
+                if (triangleToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T2;
                 insidePointCount++;
             }
             else
             {
-                outsidePoints[outsidePointCount] = faceToClip.P2;
-                if (faceToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T2;
+                outsidePoints[outsidePointCount] = triangleToClip.P2;
+                if (triangleToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T2;
                 outsidePointCount++;
             }
 
-            if (PointDistanceFromPlane((Vector3D)faceToClip.P3, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane((Vector3D)triangleToClip.P3, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = faceToClip.P3;
-                if (faceToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T3;
+                insidePoints[insidePointCount] = triangleToClip.P3;
+                if (triangleToClip is TextureTriangle textureFace) insideTexturePoints[insidePointCount] = textureFace.T3;
                 insidePointCount++;
             }
             else
             {
-                outsidePoints[outsidePointCount] = faceToClip.P3;
-                if (faceToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T3;
+                outsidePoints[outsidePointCount] = triangleToClip.P3;
+                if (triangleToClip is TextureTriangle textureFace) outsideTexturePoints[outsidePointCount] = textureFace.T3;
             }
 
             switch (insidePointCount)
             {
                 case 0:
-                    // All points are on the outside, so no valid faces to enqueue
+                    // All points are on the outside, so no valid triangles to enqueue
                     break;
                 case 1:
-                    // One point is on the inside, so only a smaller face is needed
+                    // One point is on the inside, so only a smaller triangle is needed
                     Vector4D intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out float d1), 1);
                     Vector4D intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2), 1);
 
-                    Triangle face1;
-                    if (faceToClip is TextureTriangle)
+                    Triangle triangle1;
+                    if (triangleToClip is TextureTriangle)
                     {
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
                         Vector3D tIntersection2 = (outsideTexturePoints[1] - insideTexturePoints[0]) * d2 + insideTexturePoints[0];
 
-                        face1 = new TextureTriangle(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, ((TextureTriangle)faceToClip).TextureObject);
+                        triangle1 = new TextureTriangle(insidePoints[0], intersection1, intersection2, insideTexturePoints[0], tIntersection1, tIntersection2, ((TextureTriangle)triangleToClip).TextureObject);
                     }
                     else
                     {
-                        face1 = new SolidTriangle(insidePoints[0], intersection1, intersection2) { Colour = ((SolidTriangle)faceToClip).Colour };
+                        triangle1 = new SolidTriangle(insidePoints[0], intersection1, intersection2) { Colour = ((SolidTriangle)triangleToClip).Colour };
                     }
 
-                    facesQueue.Enqueue(face1);
+                    trianglesQueue.Enqueue(triangle1);
                     break;
                 case 2:
-                    // Two points are on the inside, so a quadrilateral is formed and split into two faces
+                    // Two points are on the inside, so a quadrilateral is formed and split into two triangles
                     intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d1), 1);
                     intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2), 1);
 
-                    Triangle face2;
-                    if (faceToClip is TextureTriangle)
+                    Triangle triangle2;
+                    if (triangleToClip is TextureTriangle)
                     {
                         Vector3D tIntersection1 = (outsideTexturePoints[0] - insideTexturePoints[0]) * d1 + insideTexturePoints[0];
                         Vector3D tIntersection2 = (outsideTexturePoints[0] - insideTexturePoints[1]) * d2 + insideTexturePoints[1];
 
-                        face1 = new TextureTriangle(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], ((TextureTriangle)faceToClip).TextureObject);
-                        face2 = new TextureTriangle(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, ((TextureTriangle)faceToClip).TextureObject);
+                        triangle1 = new TextureTriangle(insidePoints[0], intersection1, insidePoints[1], insideTexturePoints[0], tIntersection1, insideTexturePoints[1], ((TextureTriangle)triangleToClip).TextureObject);
+                        triangle2 = new TextureTriangle(insidePoints[1], intersection1, intersection2, insideTexturePoints[1], tIntersection1, tIntersection2, ((TextureTriangle)triangleToClip).TextureObject);
                     }
                     else
                     {
-                        face1 = new SolidTriangle(insidePoints[0], intersection1, insidePoints[1]) { Colour = ((SolidTriangle)faceToClip).Colour };
-                        face2 = new SolidTriangle(insidePoints[1], intersection1, intersection2) { Colour = ((SolidTriangle)faceToClip).Colour };
+                        triangle1 = new SolidTriangle(insidePoints[0], intersection1, insidePoints[1]) { Colour = ((SolidTriangle)triangleToClip).Colour };
+                        triangle2 = new SolidTriangle(insidePoints[1], intersection1, intersection2) { Colour = ((SolidTriangle)triangleToClip).Colour };
                     }
 
-                    facesQueue.Enqueue(face1);
-                    facesQueue.Enqueue(face2);
+                    trianglesQueue.Enqueue(triangle1);
+                    trianglesQueue.Enqueue(triangle2);
                     break;
                 case 3:
-                    // All points are on the inside, so enqueue the face unchanged
-                    facesQueue.Enqueue(faceToClip);
+                    // All points are on the inside, so enqueue the triangle unchanged
+                    trianglesQueue.Enqueue(triangleToClip);
                     break;
             }
         }
