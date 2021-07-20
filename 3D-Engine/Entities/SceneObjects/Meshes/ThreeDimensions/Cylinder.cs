@@ -100,10 +100,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="height">The height of the <see cref="Cylinder"/>.</param>
         /// <param name="radius">The radius of the top and bottom <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
-        public Cylinder(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float height, float radius, int resolution) : base(origin, directionForward, directionUp)
+        public Cylinder(Vector3D origin,
+                        Vector3D directionForward,
+                        Vector3D directionUp,
+                        float height,
+                        float radius,
+                        int resolution) : base(origin, directionForward, directionUp, 3)
         {
-            Dimension = 3;
-
             Height = height;
             Radius = radius;
             Resolution = resolution;

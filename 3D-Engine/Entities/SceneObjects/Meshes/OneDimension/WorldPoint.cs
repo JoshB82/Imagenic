@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of a world point mesh.
+ * Defines a point Mesh called a WorldPoint and consisting of a single Vertex.
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
@@ -36,10 +36,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
 
         public WorldPoint(Vector3D origin,
                           Vector3D directionForward,
-                          Vector3D directionUp) : base(origin, directionForward, directionUp)
+                          Vector3D directionUp) : base(origin, directionForward, directionUp, 1)
         {
-            Dimension = 1;
-
             Vertices = new Vertex[1] { new Vertex(new Vector4D(0, 0, 0, 1)) };
 
             DrawEdges = false;

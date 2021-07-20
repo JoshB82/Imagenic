@@ -7,6 +7,30 @@ namespace _3D_Engine.Entities.Groups
     {
         #region Rotations
 
+        public void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
+        {
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.SetDirection1(newWorldDirectionForward, newWorldDirectionUp);
+            }
+        }
+
+        public void SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
+        {
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.SetDirection2(newWorldDirectionUp, newWorldDirectionRight);
+            }
+        }
+
+        public void SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
+        {
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.SetDirection3(newWorldDirectionRight, newWorldDirectionForward);
+            }
+        }
+
         /*
         public override void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {

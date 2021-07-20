@@ -7,17 +7,17 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of a group.
+ * Defines a collection of SceneObjects called a Group.
  */
 
-using System.Collections.Generic;
+using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
-using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.Groups
 {
@@ -26,7 +26,7 @@ namespace _3D_Engine.Entities.Groups
     /// <summary>
     /// Encapsulates creation of a <see cref="Group"/>.
     /// </summary>
-    public partial class Group
+    public partial class Group : IEnumerable<SceneObject>
     {
         #region Fields and Properties
 
@@ -134,6 +134,16 @@ namespace _3D_Engine.Entities.Groups
             {
                 Remove(id);
             }
+        }
+
+        public IEnumerator<SceneObject> GetEnumerator()
+        {
+            return SceneObjects.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion
