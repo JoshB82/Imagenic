@@ -91,10 +91,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="height">The height of the <see cref="Cone"/>.</param>
         /// <param name="radius">The radius of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
         /// <param name="resolution">The number of <see cref="Vertex">Vertices</see> that are on the perimeter of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
-        public Cone(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float height, float radius, int resolution) : base(origin, directionForward, directionUp)
+        public Cone(Vector3D origin,
+                    Vector3D directionForward,
+                    Vector3D directionUp,
+                    float height,
+                    float radius,
+                    int resolution) : base(origin, directionForward, directionUp, 3)
         {
-            Dimension = 3;
-
             Height = height;
             Radius = radius;
             Resolution = resolution;

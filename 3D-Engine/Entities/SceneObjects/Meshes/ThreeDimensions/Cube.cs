@@ -42,7 +42,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         public Cube(Vector3D origin,
                     Vector3D directionForward,
                     Vector3D directionUp,
-                    float sideLength) : base(origin, directionForward, directionUp)
+                    float sideLength) : base(origin, directionForward, directionUp, 3)
         {
             SetStructure(sideLength);
 
@@ -111,7 +111,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                     Vector3D directionForward,
                     Vector3D directionUp,
                     float sideLength,
-                    Texture texture) : base(origin, directionForward, directionUp)
+                    Texture texture) : base(origin, directionForward, directionUp, 3)
         {
             SetStructure(sideLength);
             Textures = new Texture[1] { texture };
@@ -189,7 +189,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                     Texture back,
                     Texture left,
                     Texture top,
-                    Texture bottom) : base(origin, directionForward, directionUp)
+                    Texture bottom) : base(origin, directionForward, directionUp, 3)
         {
             SetStructure(sideLength);
             Textures = new Texture[6] { front, right, back, left, top, bottom };
@@ -212,7 +212,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         private void SetStructure(float sideLength)
         {
-            Dimension = 3;
             SideLength = sideLength;
 
             Vertices = new Vertex[8]
