@@ -186,9 +186,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 switch (this)
                 {
                     case OrthogonalCamera or DistantLight:
-                        // Update view-to-screen matrix
-                        viewToScreen.m22 = 2 / (zFar - zNear);
-                        viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
+                        UpdateMatrixOrthogonal3();
 
                         // Update far clipping plane
                         ViewClippingPlanes[5].Point.z = zFar;

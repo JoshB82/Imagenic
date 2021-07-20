@@ -17,7 +17,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Constructors
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
-        public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp, Vertex[] vertices, Edge[] edges, Triangle[] faces) : base(origin, directionForward, directionUp)
+        public Custom(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      Vertex[] vertices,
+                      Edge[] edges,
+                      Triangle[] faces) : base(origin, directionForward, directionUp)
         {
             Vertices = vertices;
             Edges = edges;
@@ -25,11 +30,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         }
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
-        public Custom(Vector3D origin, Vector3D directionForward, Vector3D directionUp,
-            Vertex[] vertices,
-            Edge[] edges,
-            Triangle[] faces,
-            Texture[] textures) : base(origin, directionForward, directionUp)
+        public Custom(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      Vertex[] vertices,
+                      Edge[] edges,
+                      Triangle[] faces,
+                      Texture[] textures) : base(origin, directionForward, directionUp)
         {
             Vertices = vertices;
             Edges = edges;
