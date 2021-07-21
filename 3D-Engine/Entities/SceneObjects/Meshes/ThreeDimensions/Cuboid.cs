@@ -70,7 +70,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                       Vector3D directionUp,
                       float length,
                       float width,
-                      float height) : base(origin, directionForward, directionUp)
+                      float height) : base(origin, directionForward, directionUp, 3)
         {
             SetStructure(length, width, height);
 
@@ -141,7 +141,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                       float length,
                       float width,
                       float height,
-                      Texture texture) : base(origin, directionForward, directionUp)
+                      Texture texture) : base(origin, directionForward, directionUp, 3)
         {
             SetStructure(length, width, height);
             Textures = new Texture[1] { texture };
@@ -188,7 +188,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                       Texture back,
                       Texture left,
                       Texture top,
-                      Texture bottom) : base(origin, directionForward, directionUp)
+                      Texture bottom) : base(origin, directionForward, directionUp, 3)
         {
             SetStructure(length, width, height);
             Textures = new Texture[6] { front, right, back, left, top, bottom };

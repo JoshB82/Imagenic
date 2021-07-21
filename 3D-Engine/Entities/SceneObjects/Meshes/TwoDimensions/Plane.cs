@@ -55,7 +55,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                      Vector3D directionForward,
                      Vector3D normal,
                      float length,
-                     float width) : base(origin, directionForward, normal)
+                     float width) : base(origin, directionForward, normal, 2)
         {
             SetStructure(length, width);
             Triangles = new SolidTriangle[2]
@@ -79,7 +79,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                      Vector3D normal,
                      float length,
                      float width,
-                     Texture texture) : base(origin, directionForward, normal)
+                     Texture texture) : base(origin, directionForward, normal, 2)
         {
             SetStructure(length, width);
             Textures = new Texture[1] { texture };

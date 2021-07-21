@@ -68,7 +68,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       Vector3D directionForward,
                       Vector3D normal,
                       float radius,
-                      int resolution) : base(origin, directionForward, normal)
+                      int resolution) : base(origin, directionForward, normal, 2)
         {
             Dimension = 2;
 
@@ -82,7 +82,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       Vector3D normal,
                       float radius,
                       int resolution,
-                      Texture texture) : base(origin, directionForward, normal)
+                      Texture texture) : base(origin, directionForward, normal, 2)
         {
             Dimension = 2;
 

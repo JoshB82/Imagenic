@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
@@ -15,7 +16,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Constructors
 
-        public Text3D(Vector3D origin, Vector3D direction_forward, Vector3D direction_up, string[] fonts, float size, char style, float depth) : base(origin, direction_forward, direction_up)
+        public Text3D(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      IEnumerable<string> fonts,
+                      float size,
+                      char style,
+                      float depth) : base(origin, directionForward, directionUp, 3)
         {
             Dimension = 3;
 

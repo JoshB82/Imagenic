@@ -106,7 +106,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                     Vector3D directionUp,
                     float innerRadius,
                     float outerRadius,
-                    int resolution) : base(origin, directionForward, directionUp)
+                    int resolution) : base(origin, directionForward, directionUp, 2)
         {
             Dimension = 2;
 

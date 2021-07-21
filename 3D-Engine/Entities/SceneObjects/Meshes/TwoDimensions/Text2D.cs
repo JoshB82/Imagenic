@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
@@ -14,7 +15,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Constructors
 
-        public Text2D(Vector3D origin, Vector3D directionForward, Vector3D directionUp, string[] fonts, float size, char style) : base(origin, directionForward, directionUp)
+        public Text2D(Vector3D origin,
+                      Vector3D directionForward,
+                      Vector3D directionUp,
+                      IEnumerable<string> fonts,
+                      float size,
+                      char style) : base(origin, directionForward, directionUp, 2)
         {
             Dimension = 2;
         }

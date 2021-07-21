@@ -10,7 +10,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Constructors
 
-        public BézierCurve(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : base(origin, directionForward, directionUp)
+        public BézierCurve(Vector3D origin,
+                           Vector3D directionForward,
+                           Vector3D directionUp) : base(origin, directionForward, directionUp, 2)
         {
 
         }

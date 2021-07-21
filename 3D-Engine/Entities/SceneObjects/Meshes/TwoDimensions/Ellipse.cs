@@ -8,25 +8,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
-        private float major_axis, minor_axis;
+        private float majorAxis, minorAxis;
 
-        public float Major_Axis
+        public float MajorAxis
         {
-            get => major_axis;
+            get => majorAxis;
             set
             {
-                major_axis = value;
-                Scaling = new Vector3D(major_axis, 1, minor_axis);
+                majorAxis = value;
+                Scaling = new Vector3D(majorAxis, 1, minorAxis);
             }
         }
 
-        public float Minor_Axis
+        public float MinorAxis
         {
-            get => Minor_Axis;
+            get => MinorAxis;
             set
             {
-                minor_axis = value;
-                Scaling = new Vector3D(major_axis, 1, minor_axis);
+                minorAxis = value;
+                Scaling = new Vector3D(majorAxis, 1, minorAxis);
             }
         }
 
@@ -36,12 +36,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Constructors
 
-        public Ellipse(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float majorAxis, float minorAxis, int resolution) : base(origin, directionForward, directionUp)
+        public Ellipse(Vector3D origin,
+                       Vector3D directionForward,
+                       Vector3D directionUp,
+                       float majorAxis,
+                       float minorAxis,
+                       int resolution) : base(origin, directionForward, directionUp, 2)
         {
             Dimension = 2;
 
-            Major_Axis = majorAxis;
-            Minor_Axis = minorAxis;
+            MajorAxis = majorAxis;
+            MinorAxis = minorAxis;
             Resolution = resolution;
 
             Vertices = new Vertex[resolution + 1];
