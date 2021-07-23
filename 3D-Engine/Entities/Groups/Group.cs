@@ -26,7 +26,7 @@ namespace _3D_Engine.Entities.Groups
     /// <summary>
     /// Encapsulates creation of a <see cref="Group"/>.
     /// </summary>
-    public partial class Group : IEnumerable<SceneObject>
+    public partial class Group : SceneObject, IEnumerable<SceneObject>
     {
         #region Fields and Properties
 

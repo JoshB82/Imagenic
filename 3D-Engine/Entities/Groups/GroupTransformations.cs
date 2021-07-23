@@ -7,7 +7,7 @@ namespace _3D_Engine.Entities.Groups
     {
         #region Rotations
 
-        public void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
+        public override void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {
             foreach (SceneObject sceneObject in SceneObjects)
             {
@@ -15,7 +15,7 @@ namespace _3D_Engine.Entities.Groups
             }
         }
 
-        public void SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
+        public override void SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
         {
             foreach (SceneObject sceneObject in SceneObjects)
             {
@@ -23,7 +23,7 @@ namespace _3D_Engine.Entities.Groups
             }
         }
 
-        public void SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
+        public override void SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
         {
             foreach (SceneObject sceneObject in SceneObjects)
             {
@@ -101,32 +101,40 @@ namespace _3D_Engine.Entities.Groups
 
         #region Translations
 
-        public void TranslateX(float distance)
+        public override void TranslateX(float distance)
         {
+            base.TranslateX(distance);
+
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.WorldOrigin += new Vector3D(distance, 0, 0);
             }
         }
 
-        public void TranslateY(float distance)
+        public override void TranslateY(float distance)
         {
+            base.TranslateY(distance);
+
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.WorldOrigin += new Vector3D(0, distance, 0);
             }
         }
 
-        public void TranslateZ(float distance)
+        public override void TranslateZ(float distance)
         {
+            base.TranslateZ(distance);
+
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.WorldOrigin += new Vector3D(0, 0, distance);
             }
         }
 
-        public void Translate(Vector3D displacement)
+        public override void Translate(Vector3D displacement)
         {
+            base.Translate(displacement);
+
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.WorldOrigin += displacement;
