@@ -112,6 +112,16 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
+        public virtual void Rotate(Vector3D axis, float angle)
+        {
+
+        }
+
+        public virtual void RotateBetweenVectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
+        {
+
+        }
+
         #endregion
 
         #region Translations

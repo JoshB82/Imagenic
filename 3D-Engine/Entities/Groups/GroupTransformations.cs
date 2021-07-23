@@ -31,6 +31,26 @@ namespace _3D_Engine.Entities.Groups
             }
         }
 
+        public override void Rotate(Vector3D axis, float angle)
+        {
+            base.Rotate(axis, angle);
+
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.Rotate(axis, angle);
+            }
+        }
+
+        public override void RotateBetweenVectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
+        {
+            base.RotateBetweenVectors(v1, v2, axis);
+
+            foreach (SceneObject sceneObject in SceneObjects)
+            {
+                sceneObject.RotateBetweenVectors(v1, v2, axis);
+            }
+        }
+
         /*
         public override void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {
