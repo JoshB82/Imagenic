@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
@@ -63,6 +64,9 @@ namespace _3D_Engine.Entities.SceneObjects
                 throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionRight));
             }
 
+            newWorldDirectionUp = newWorldDirectionUp.Normalise();
+            newWorldDirectionRight = newWorldDirectionRight.Normalise();
+
             return sceneObject;
         }
 
@@ -77,12 +81,20 @@ namespace _3D_Engine.Entities.SceneObjects
                 throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionForward));
             }
 
+            newWorldDirectionForward = newWorldDirectionForward.Normalise();
+            newWorldDirectionRight = newWorldDirectionRight.Normalise();
+
             return sceneObject;
         }
 
         public static T Rotate<T>(this T sceneObject, Vector3D axis, float angle) where T : SceneObject
         {
+            Matrix4x4 rotation = Transform.Rotate(axis, angle);
 
+            sceneObject.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneObject.WorldOrigin, 1));
+            sceneObject.WorldDirectionForward = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1));
+            sceneObject.WorldDirectionUp = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1));
+            sceneObject.WorldDirectionRight = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionRight, 1));
 
             return sceneObject;
         }
@@ -216,10 +228,10 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
-        public virtual void Rotate(Vector3D axis, float angle)
-        {
+        //public virtual void Rotate(Vector3D axis, float angle)
+        //{
 
-        }
+        //}
 
         public virtual void RotateBetweenVectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {

@@ -3,67 +3,62 @@ using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.Groups
 {
-    public static class GroupExtensions
-    {
-        public static T Rotate<T>(this T group, Vector3D axis, float angle) where T : Group
-        {
-            group.Rotate<SceneObject>(axis, angle); //??
-
-            return group;
-        }
-    }
-
     public partial class Group
     {
         #region Rotations
 
-        public override void SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
+        public Group SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.SetDirection1(newWorldDirectionForward, newWorldDirectionUp);
             }
+
+            return this;
         }
 
-        public override void SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
+        public Group SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
         {
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.SetDirection2(newWorldDirectionUp, newWorldDirectionRight);
             }
+
+            return this;
         }
 
-        public override void SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
+        public Group SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
         {
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.SetDirection3(newWorldDirectionRight, newWorldDirectionForward);
             }
+
+            return this;
         }
 
-        public override void Rotate(Vector3D axis, float angle)
+        public Group Rotate(Vector3D axis, float angle)
         {
-            base.Rotate(axis, angle);
+            this.Rotate<Group>(axis, angle);
 
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.Rotate(axis, angle);
             }
-        }
 
-        public Group Rotate(Vector3D axis, float angle)
-        {
             return this;
         }
 
-        public override void RotateBetweenVectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
+        public Group RotateBetweenVectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)
         {
-            base.RotateBetweenVectors(v1, v2, axis);
+            //base.RotateBetweenVectors(v1, v2, axis);
 
             foreach (SceneObject sceneObject in SceneObjects)
             {
                 sceneObject.RotateBetweenVectors(v1, v2, axis);
             }
+
+            return this;
         }
 
         /*
