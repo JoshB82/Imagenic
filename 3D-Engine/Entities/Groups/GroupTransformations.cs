@@ -3,6 +3,16 @@ using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.Groups
 {
+    public static class GroupExtensions
+    {
+        public static T Rotate<T>(this T group, Vector3D axis, float angle) where T : Group
+        {
+            group.Rotate<SceneObject>(axis, angle); //??
+
+            return group;
+        }
+    }
+
     public partial class Group
     {
         #region Rotations
@@ -39,6 +49,11 @@ namespace _3D_Engine.Entities.Groups
             {
                 sceneObject.Rotate(axis, angle);
             }
+        }
+
+        public Group Rotate(Vector3D axis, float angle)
+        {
+            return this;
         }
 
         public override void RotateBetweenVectors(Vector3D v1, Vector3D v2, Vector3D? axis = null)

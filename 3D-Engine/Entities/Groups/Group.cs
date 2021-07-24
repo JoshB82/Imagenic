@@ -130,6 +130,9 @@ namespace _3D_Engine.Entities.Groups
                 case Mesh mesh:
                     Meshes.Remove(mesh);
                     break;
+                case Group group:
+                    Groups.Remove(group);
+                    break;
             }
         }
         public void Remove(IEnumerable<int> ids)
