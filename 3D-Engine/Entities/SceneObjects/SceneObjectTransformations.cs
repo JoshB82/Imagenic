@@ -80,6 +80,45 @@ namespace _3D_Engine.Entities.SceneObjects
             return sceneObject;
         }
 
+        public static T Rotate<T>(this T sceneObject, Vector3D axis, float angle) where T : SceneObject
+        {
+
+
+            return sceneObject;
+        }
+
+        public static T RotateBetweenVectors<T>(this T sceneObject, Vector3D v1, Vector3D v2, Vector3D? axis = null) where T : SceneObject
+        {
+
+
+            return sceneObject;
+        }
+
+        // Translations
+        public static T TranslateX<T>(this T sceneObject, float distance) where T : SceneObject
+        {
+            sceneObject.WorldOrigin += new Vector3D(distance, 0, 0);
+            return sceneObject;
+        }
+
+        public static T TranslateY<T>(this T sceneObject, float distance) where T : SceneObject
+        {
+            sceneObject.WorldOrigin += new Vector3D(0, distance, 0);
+            return sceneObject;
+        }
+
+        public static T TranslateZ<T>(this T sceneObject, float distance) where T : SceneObject
+        {
+            sceneObject.WorldOrigin += new Vector3D(0, 0, distance);
+            return sceneObject;
+        }
+
+        public static T Translate<T>(this T sceneObject, Vector3D displacement) where T : SceneObject
+        {
+            sceneObject.WorldOrigin += displacement;
+            return sceneObject;
+        }
+
         #endregion
     }
 

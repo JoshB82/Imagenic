@@ -35,6 +35,7 @@ namespace _3D_Engine.Entities.Groups
         public List<Camera> Cameras { get; set; } = new();
         public List<Light> Lights { get; set; } = new();
         public List<Mesh> Meshes { get; set; } = new();
+        public List<Group> Groups { get; set; } = new();
 
         // Render
         private Camera renderCamera;
@@ -81,6 +82,9 @@ namespace _3D_Engine.Entities.Groups
                     break;
                 case Mesh mesh:
                     Meshes.Add(mesh);
+                    break;
+                case Group group:
+                    Groups.Add(group);
                     break;
             }
 
