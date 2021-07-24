@@ -18,6 +18,71 @@ using System;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
+    public static class SceneObjectExtensions
+    {
+        #region Fields and Properties
+
+        private const float epsilon = 1E-6f;
+
+        #endregion
+
+        #region Methods
+
+        // Rotations
+        public static T SetDirection1<T>(this T sceneObject, Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp) where T : SceneObject
+        {
+            if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionForward));
+            }
+            if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionUp));
+            }
+
+            newWorldDirectionForward = newWorldDirectionForward.Normalise();
+            newWorldDirectionUp = newWorldDirectionUp.Normalise();
+
+            AdjustVectors(
+                newWorldDirectionForward,
+                newWorldDirectionUp,
+                Transform.CalculateDirectionRight(newWorldDirectionForward, newWorldDirectionUp)
+            );
+
+            return sceneObject;
+        }
+
+        public static T SetDirection2<T>(this T sceneObject, Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight) where T : SceneObject
+        {
+            if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionUp));
+            }
+            if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionRight));
+            }
+
+            return sceneObject;
+        }
+
+        public static T SetDirection3<T>(this T sceneObject, Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward) where T : SceneObject
+        {
+            if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionRight));
+            }
+            if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionForward));
+            }
+
+            return sceneObject;
+        }
+
+        #endregion
+    }
+
     public abstract partial class SceneObject
     {
         #region Rotations
