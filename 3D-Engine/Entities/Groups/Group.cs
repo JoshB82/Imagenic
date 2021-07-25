@@ -26,12 +26,12 @@ namespace _3D_Engine.Entities.Groups
     /// <summary>
     /// Encapsulates creation of a <see cref="Group"/>.
     /// </summary>
-    public partial class Group : SceneObject, IEnumerable<SceneObject>
+    public partial class Group : SceneObject, IList<SceneObject>
     {
         #region Fields and Properties
 
         // Contents
-        public List<SceneObject> SceneObjects { get; set; } = new();
+        private List<SceneObject> SceneObjects { get; set; } = new();
         public List<Camera> Cameras { get; set; } = new();
         public List<Light> Lights { get; set; } = new();
         public List<Mesh> Meshes { get; set; } = new();
@@ -50,6 +50,16 @@ namespace _3D_Engine.Entities.Groups
                     sceneObject.RenderCameras.Add(renderCamera);
                 }
             }
+        }
+
+        public int Count => SceneObjects.Count;
+
+        public bool IsReadOnly => throw new System.NotImplementedException();
+
+        public SceneObject this[int index]
+        {
+            get => throw new System.NotImplementedException();
+            set => throw new System.NotImplementedException();
         }
 
         #endregion
@@ -151,6 +161,41 @@ namespace _3D_Engine.Entities.Groups
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public int IndexOf(SceneObject item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Insert(int index, SceneObject item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Contains(SceneObject item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void CopyTo(SceneObject[] array, int arrayIndex)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Remove(SceneObject item)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion
