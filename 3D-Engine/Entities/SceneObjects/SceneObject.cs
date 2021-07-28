@@ -17,7 +17,6 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
@@ -131,6 +130,25 @@ namespace _3D_Engine.Entities.SceneObjects
             {
                 camera.NewRenderNeeded = true;
             }
+        }
+
+        // Tree
+        private SceneObject parent;
+        public SceneObject Parent
+        {
+            get => parent;
+            set
+            {
+                parent = value;
+                parent.Children.Add(this);
+            }
+        }
+        public IList<SceneObject> Children { get; private set; }
+
+        public void AddChild(SceneObject child)
+        {
+            Children.Add(child);
+            child.Parent = this;
         }
 
         #endregion
