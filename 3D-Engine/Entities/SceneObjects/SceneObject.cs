@@ -139,6 +139,7 @@ namespace _3D_Engine.Entities.SceneObjects
             get => parent;
             set
             {
+                parent.RemoveChild(this);
                 parent = value;
                 parent.AddChild(this);
             }
