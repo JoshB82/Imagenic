@@ -164,6 +164,12 @@ namespace _3D_Engine.Entities.SceneObjects
             child.Parent = this;
             TotalChildrenCount += GetTotalNumberOfChildren(child) + 1;
         }
+        public void RemoveChild(SceneObject child)
+        {
+            Children.Remove(child);
+            child.Parent = null;
+            TotalChildrenCount -= GetTotalNumberOfChildren(child) + 1;
+        }
 
         public int TotalChildrenCount { get; private set; }
         public int GetTotalNumberOfChildren(SceneObject sceneObject)
