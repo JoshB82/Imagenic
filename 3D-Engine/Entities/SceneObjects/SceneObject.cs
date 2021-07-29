@@ -149,6 +149,11 @@ namespace _3D_Engine.Entities.SceneObjects
             get => children;
             set
             {
+                foreach (SceneObject child in children)
+                {
+                    child.Parent = null;
+                }
+                TotalChildrenCount = 0;
                 children = value;
                 foreach (SceneObject child in children)
                 {
