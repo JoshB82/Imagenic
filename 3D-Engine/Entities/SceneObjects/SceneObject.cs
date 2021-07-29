@@ -140,15 +140,40 @@ namespace _3D_Engine.Entities.SceneObjects
             set
             {
                 parent = value;
-                parent.Children.Add(this);
+                parent.AddChild(this);
             }
         }
-        public IList<SceneObject> Children { get; private set; }
+        private IList<SceneObject> children = new List<SceneObject>();
+        public IList<SceneObject> Children
+        {
+            get => children;
+            set
+            {
+                children = value;
+                foreach (SceneObject child in children)
+                {
+                    child.Parent = this;
+                    TotalChildrenCount += GetTotalNumberOfChildren(child) + 1;
+                }
+            }
+        }
 
         public void AddChild(SceneObject child)
         {
             Children.Add(child);
             child.Parent = this;
+            TotalChildrenCount += GetTotalNumberOfChildren(child) + 1;
+        }
+
+        public int TotalChildrenCount { get; private set; }
+        public int GetTotalNumberOfChildren(SceneObject sceneObject)
+        {
+            int count = 0;
+            foreach (SceneObject child in sceneObject.children)
+            {
+                count += GetTotalNumberOfChildren(child);
+            }
+            return count;
         }
 
         #endregion
