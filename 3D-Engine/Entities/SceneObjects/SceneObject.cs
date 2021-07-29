@@ -181,7 +181,7 @@ namespace _3D_Engine.Entities.SceneObjects
         public int GetTotalNumberOfChildren(SceneObject sceneObject)
         {
             int count = 0;
-            foreach (SceneObject child in sceneObject.children)
+            foreach (SceneObject child in sceneObject.Children)
             {
                 count += GetTotalNumberOfChildren(child);
             }
