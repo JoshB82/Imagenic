@@ -31,38 +31,51 @@ namespace _3D_Engine.Entities.SceneObjects
         #region Methods
 
         // Rotations
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="newWorldDirectionForward"></param>
+        /// <param name="newWorldDirectionUp"></param>
+        /// <returns></returns>
         public static T SetDirection1<T>(this T sceneObject, Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp) where T : SceneObject
         {
             if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw VectorCannotBeZeroException.GenerateWithParameters(nameof(newWorldDirectionForward));
+                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionForward));
             }
             if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw VectorCannotBeZeroException.GenerateWithParameters(nameof(newWorldDirectionUp));
+                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionUp));
             }
 
             newWorldDirectionForward = newWorldDirectionForward.Normalise();
             newWorldDirectionUp = newWorldDirectionUp.Normalise();
 
-            AdjustVectors(
-                newWorldDirectionForward,
-                newWorldDirectionUp,
-                Transform.CalculateDirectionRight(newWorldDirectionForward, newWorldDirectionUp)
+            AdjustVectors(newWorldDirectionForward, newWorldDirectionUp,Transform.CalculateDirectionRight(newWorldDirectionForward, newWorldDirectionUp)
             );
 
             return sceneObject;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="newWorldDirectionUp"></param>
+        /// <param name="newWorldDirectionRight"></param>
+        /// <returns></returns>
         public static T SetDirection2<T>(this T sceneObject, Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight) where T : SceneObject
         {
             if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw VectorCannotBeZeroException.GenerateWithParameters(nameof(newWorldDirectionUp));
+                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionUp));
             }
             if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw VectorCannotBeZeroException.GenerateWithParameters(nameof(newWorldDirectionRight));
+                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionRight));
             }
 
             newWorldDirectionUp = newWorldDirectionUp.Normalise();
@@ -71,15 +84,23 @@ namespace _3D_Engine.Entities.SceneObjects
             return sceneObject;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="newWorldDirectionRight"></param>
+        /// <param name="newWorldDirectionForward"></param>
+        /// <returns></returns>
         public static T SetDirection3<T>(this T sceneObject, Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward) where T : SceneObject
         {
             if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw VectorCannotBeZeroException.GenerateWithParameters(nameof(newWorldDirectionRight));
+                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionRight));
             }
             if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw VectorCannotBeZeroException.GenerateWithParameters(nameof(newWorldDirectionForward));
+                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionForward));
             }
 
             newWorldDirectionForward = newWorldDirectionForward.Normalise();
@@ -88,6 +109,14 @@ namespace _3D_Engine.Entities.SceneObjects
             return sceneObject;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="axis"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
         public static T Rotate<T>(this T sceneObject, Vector3D axis, float angle) where T : SceneObject
         {
             Matrix4x4 rotation = Transform.Rotate(axis, angle);
@@ -100,6 +129,15 @@ namespace _3D_Engine.Entities.SceneObjects
             return sceneObject;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <param name="axis"></param>
+        /// <returns></returns>
         public static T RotateBetweenVectors<T>(this T sceneObject, Vector3D v1, Vector3D v2, Vector3D? axis = null) where T : SceneObject
         {
             Matrix4x4 rotation = Transform.RotateBetweenVectors(v1, v2, axis);
@@ -113,24 +151,52 @@ namespace _3D_Engine.Entities.SceneObjects
         }
 
         // Translations
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
         public static T TranslateX<T>(this T sceneObject, float distance) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(distance, 0, 0);
             return sceneObject;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
         public static T TranslateY<T>(this T sceneObject, float distance) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(0, distance, 0);
             return sceneObject;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
         public static T TranslateZ<T>(this T sceneObject, float distance) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(0, 0, distance);
             return sceneObject;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="displacement"></param>
+        /// <returns></returns>
         public static T Translate<T>(this T sceneObject, Vector3D displacement) where T : SceneObject
         {
             sceneObject.WorldOrigin += displacement;
@@ -155,9 +221,6 @@ namespace _3D_Engine.Entities.SceneObjects
 
             // if (new_world_direction_forward * new_world_direction_up != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
-            newWorldDirectionForward = newWorldDirectionForward.Normalise();
-            newWorldDirectionUp = newWorldDirectionUp.Normalise();
-
             AdjustVectors(
                 newWorldDirectionForward,
                 newWorldDirectionUp,
@@ -176,9 +239,6 @@ namespace _3D_Engine.Entities.SceneObjects
 
             // if (new_world_direction_up * new_world_direction_right != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
 
-            newWorldDirectionUp = newWorldDirectionUp.Normalise();
-            newWorldDirectionRight = newWorldDirectionRight.Normalise();
-
             AdjustVectors(
                 Transform.CalculateDirectionForward(newWorldDirectionUp, newWorldDirectionRight),
                 newWorldDirectionUp,
@@ -196,9 +256,6 @@ namespace _3D_Engine.Entities.SceneObjects
             VectorCheck(newWorldDirectionRight, newWorldDirectionForward);
 
             // if (new_world_direction_right * new_world_direction_forward != 0) throw new ArgumentException("Direction vectors are not orthogonal.");
-
-            newWorldDirectionForward = newWorldDirectionForward.Normalise();
-            newWorldDirectionRight = newWorldDirectionRight.Normalise();
 
             AdjustVectors(
                 newWorldDirectionForward,

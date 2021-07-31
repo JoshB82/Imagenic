@@ -45,11 +45,28 @@ namespace _3D_Engine.Constants
 
     }
 
-    // ------
-
     internal static class EngineExceptionMessages
     {
         internal const string VectorCannotBeZeroMessage = "Vector /parameter1/ cannot be zero.";
+        internal const string Matrix4x4DoesNotHaveAnInverseMessage = "Matrix4x4 does not have an inverse.";
+    }
+
+    internal static class EngineExceptionUtilities
+    {
+        internal static T GenerateException<T>(params string[] parameters) where T : Exception
+        {
+            string newMessage = typeof(EngineExceptionMessages).GetField($"{typeof(T).Name}Message").GetValue(null).ToString();
+
+            if (parameters.Length > 0)
+            {
+                for (int i = 1; i <= parameters.Length; i++)
+                {
+                    newMessage = newMessage.Replace($"/parameter{i}/", parameters[i]);
+                }
+            }
+
+            return Activator.CreateInstance(typeof(T), newMessage) as T;
+        }
     }
 
     public class VectorCannotBeZeroException : Exception
@@ -57,15 +74,19 @@ namespace _3D_Engine.Constants
         public VectorCannotBeZeroException() { }
         public VectorCannotBeZeroException(string message) : base(message) { }
         public VectorCannotBeZeroException(string message, Exception inner) : base(message, inner) { }
+    }
 
-        public static VectorCannotBeZeroException GenerateWithParameters(params string[] parameters)
-        {
-            string newMessage = EngineExceptionMessages.VectorCannotBeZeroMessage;
-            for (int i = 1; i <= parameters.Length; i++)
-            {
-                newMessage = newMessage.Replace($"/parameter{i}/", parameters[i]);
-            }
-            return new VectorCannotBeZeroException(newMessage);
-        }
+    public class Matrix4x4DoesNotHaveAnInverseException : InvalidOperationException
+    {
+        public Matrix4x4DoesNotHaveAnInverseException() { }
+        public Matrix4x4DoesNotHaveAnInverseException(string message) : base(message) { }
+        public Matrix4x4DoesNotHaveAnInverseException(string message, Exception inner) : base(message, inner) { }
+    }
+
+    public class InvalidPixelFormatException : Exception
+    {
+        public InvalidPixelFormatException() { }
+        public InvalidPixelFormatException(string message) : base(message) { }
+        public InvalidPixelFormatException(string message, Exception inner) : base(message, inner) { }
     }
 }
