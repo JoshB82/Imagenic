@@ -19,6 +19,7 @@ using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.Entities.SceneObjects
@@ -139,9 +140,9 @@ namespace _3D_Engine.Entities.SceneObjects
             get => parent;
             set
             {
-                parent.RemoveChild(this);
+                parent.RemoveChildren(this);
                 parent = value;
-                parent.AddChild(this);
+                parent.AddChildren(this);
             }
         }
         private IList<SceneObject> children = new List<SceneObject>();
@@ -154,38 +155,53 @@ namespace _3D_Engine.Entities.SceneObjects
                 {
                     child.Parent = null;
                 }
-                TotalChildrenCount = 0;
                 children = value;
                 foreach (SceneObject child in children)
                 {
                     child.Parent = this;
-                    TotalChildrenCount += GetTotalNumberOfChildren(child) + 1;
                 }
             }
         }
 
-        public void AddChild(SceneObject child)
+        public void AddChildren(params SceneObject[] children)
         {
-            Children.Add(child);
-            child.Parent = this;
-            TotalChildrenCount += GetTotalNumberOfChildren(child) + 1;
+            foreach (SceneObject child in children)
+            {
+                Children.Add(child);
+                child.Parent = this;
+            }
         }
-        public void RemoveChild(SceneObject child)
-        {
-            Children.Remove(child);
-            child.Parent = null;
-            TotalChildrenCount -= GetTotalNumberOfChildren(child) + 1;
-        }
+        public void AddChildren(IEnumerable<SceneObject> children) => AddChildren(children.ToArray());
 
-        public int TotalChildrenCount { get; private set; }
-        public int GetTotalNumberOfChildren(SceneObject sceneObject)
+        public void RemoveChildren(params SceneObject[] children)
         {
-            int count = 0;
+            foreach (SceneObject child in children)
+            {
+                Children.Remove(child);
+                child.Parent = null;
+            }
+        }
+        public void RemoveChildren(IEnumerable<SceneObject> children) => RemoveChildren(children.ToArray());
+
+        public IEnumerable<SceneObject> GetAllParents(SceneObject sceneObject)
+        {
+            List<SceneObject> parents = new();
+            if (sceneObject.Parent is not null)
+            {
+                parents.Add(sceneObject.Parent);
+                parents.AddRange(GetAllParents(sceneObject.Parent));
+            }
+            return parents;
+        }
+        public IEnumerable<SceneObject> GetAllChildren(SceneObject sceneObject)
+        {
+            List<SceneObject> children = new();
             foreach (SceneObject child in sceneObject.Children)
             {
-                count += GetTotalNumberOfChildren(child);
+                children.Add(child);
+                children.AddRange(GetAllChildren(child));
             }
-            return count;
+            return children;
         }
 
         #endregion
