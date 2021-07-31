@@ -10,6 +10,7 @@
  * Defines methods for rotating and translating SceneObjects.
  */
 
+using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
@@ -32,14 +33,8 @@ namespace _3D_Engine.Entities.SceneObjects
         // Rotations
         public static T SetDirection1<T>(this T sceneObject, Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp) where T : SceneObject
         {
-            if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
-            {
-                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionForward));
-            }
-            if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
-            {
-                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionUp));
-            }
+            VectorZeroCheck(newWorldDirectionForward);
+            VectorZeroCheck(newWorldDirectionUp);
 
             newWorldDirectionForward = newWorldDirectionForward.Normalise();
             newWorldDirectionUp = newWorldDirectionUp.Normalise();
@@ -55,14 +50,8 @@ namespace _3D_Engine.Entities.SceneObjects
 
         public static T SetDirection2<T>(this T sceneObject, Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight) where T : SceneObject
         {
-            if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
-            {
-                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionUp));
-            }
-            if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
-            {
-                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionRight));
-            }
+            VectorZeroCheck(newWorldDirectionUp);
+            VectorZeroCheck(newWorldDirectionRight);
 
             newWorldDirectionUp = newWorldDirectionUp.Normalise();
             newWorldDirectionRight = newWorldDirectionRight.Normalise();
@@ -72,14 +61,8 @@ namespace _3D_Engine.Entities.SceneObjects
 
         public static T SetDirection3<T>(this T sceneObject, Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward) where T : SceneObject
         {
-            if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
-            {
-                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionRight));
-            }
-            if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
-            {
-                throw new ArgumentException("Vector cannot be zero.", nameof(newWorldDirectionForward));
-            }
+            VectorZeroCheck(newWorldDirectionRight);
+            VectorZeroCheck(newWorldDirectionForward);
 
             newWorldDirectionForward = newWorldDirectionForward.Normalise();
             newWorldDirectionRight = newWorldDirectionRight.Normalise();
@@ -129,6 +112,14 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             sceneObject.WorldOrigin += displacement;
             return sceneObject;
+        }
+
+        private static void VectorZeroCheck(Vector3D v)
+        {
+            if (v.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                throw VectorCannotBeZeroException.GenerateWithParameters(nameof(v));
+            }
         }
 
         #endregion

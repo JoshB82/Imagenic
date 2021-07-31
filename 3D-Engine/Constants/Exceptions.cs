@@ -42,5 +42,30 @@ namespace _3D_Engine.Constants
         internal const string InvalidPixelFormatForRendering = "Parameter \"renderPixelFormat\" is invalid for rendering.";
 
         #endregion
+
+    }
+
+    // ------
+
+    internal static class EngineExceptionMessages
+    {
+        internal const string VectorCannotBeZeroMessage = "Vector /parameter1/ cannot be zero.";
+    }
+
+    public class VectorCannotBeZeroException : Exception
+    {
+        public VectorCannotBeZeroException() { }
+        public VectorCannotBeZeroException(string message) : base(message) { }
+        public VectorCannotBeZeroException(string message, Exception inner) : base(message, inner) { }
+
+        public static VectorCannotBeZeroException GenerateWithParameters(params string[] parameters)
+        {
+            string newMessage = EngineExceptionMessages.VectorCannotBeZeroMessage;
+            for (int i = 1; i <= parameters.Length; i++)
+            {
+                newMessage = newMessage.Replace($"/parameter{i}/", parameters[i]);
+            }
+            return new VectorCannotBeZeroException(newMessage);
+        }
     }
 }
