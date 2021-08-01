@@ -183,23 +183,23 @@ namespace _3D_Engine.Entities.SceneObjects
         }
         public void RemoveChildren(IEnumerable<SceneObject> children) => RemoveChildren(children.ToArray());
 
-        public IEnumerable<SceneObject> GetAllParents(SceneObject sceneObject)
+        public IEnumerable<SceneObject> GetAllParents()
         {
             List<SceneObject> parents = new();
-            if (sceneObject.Parent is not null)
+            if (Parent is not null)
             {
-                parents.Add(sceneObject.Parent);
-                parents.AddRange(GetAllParents(sceneObject.Parent));
+                parents.Add(Parent);
+                parents.AddRange(Parent.GetAllParents());
             }
             return parents;
         }
-        public IEnumerable<SceneObject> GetAllChildren(SceneObject sceneObject)
+        public IEnumerable<SceneObject> GetAllChildren()
         {
             List<SceneObject> children = new();
-            foreach (SceneObject child in sceneObject.Children)
+            foreach (SceneObject child in Children)
             {
                 children.Add(child);
-                children.AddRange(GetAllChildren(child));
+                children.AddRange(child.GetAllChildren());
             }
             return children;
         }

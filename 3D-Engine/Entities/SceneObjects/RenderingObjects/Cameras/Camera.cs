@@ -20,8 +20,10 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
@@ -207,12 +209,37 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 
         #region Methods
 
+        public async Task<Bitmap> Render(SceneObject sceneToRender, int renderWidth, int renderHeight, PixelFormat renderPixelFormat, bool includeChildren = true)
+        {
+            List<SceneObject> sceneObjectsToRender = new() { sceneToRender };
+            if (includeChildren)
+            {
+                sceneObjectsToRender.AddRange(sceneToRender.GetAllChildren());
+            }
+
+            return await Render(sceneObjectsToRender, renderWidth, renderHeight, renderPixelFormat);
+        }
+
+        public async Task<Bitmap> Render(IEnumerable<SceneObject> sceneToRender,
+                                         int renderWidth,
+                                         int renderHeight,
+                                         PixelFormat renderPixelFormat)
+        {
+
+        }
+
         public Bitmap Render() => Render(SceneToRender, RenderWidth, RenderHeight, RenderPixelFormat);
         public Bitmap Render(Group sceneToRender) => Render(sceneToRender, RenderWidth, RenderHeight, RenderPixelFormat);
         public Bitmap Render(int renderWidth, int renderHeight) => Render(SceneToRender, renderWidth, renderHeight, RenderPixelFormat);
         public Bitmap Render(Group sceneToRender, int renderWidth, int renderHeight, PixelFormat renderPixelFormat)
         {
             // Parameter checks
+            if (sceneToRender is null)
+            {
+                throw GenerateException<ParameterCannotBeNullException>(nameof(sceneToRender));
+            }
+
+
             if (sceneToRender is null) throw new ArgumentException(Exceptions.SceneToRenderCannotBeNull, nameof(sceneToRender));
             if (renderWidth < 0) throw new ArgumentException(Exceptions.RenderWidthLessThanZero, nameof(renderWidth));
             if (renderHeight < 0) throw new ArgumentException(Exceptions.RenderHeightLessThanZero, nameof(renderHeight));

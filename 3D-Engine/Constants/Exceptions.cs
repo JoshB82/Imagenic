@@ -49,13 +49,15 @@ namespace _3D_Engine.Constants
     {
         internal const string VectorCannotBeZeroMessage = "Vector /parameter1/ cannot be zero.";
         internal const string Matrix4x4DoesNotHaveAnInverseMessage = "Matrix4x4 does not have an inverse.";
+        internal const string ArrayLengthTooLowMessage = "Array length is too low (must be greater than /parameter1/).";
+        internal const string ParameterCannotBeNullMessage = "/parameter1/ cannot be null.";
     }
 
     internal static class EngineExceptionUtilities
     {
         internal static T GenerateException<T>(params string[] parameters) where T : Exception
         {
-            string newMessage = typeof(EngineExceptionMessages).GetField($"{typeof(T).Name}Message").GetValue(null).ToString();
+            string newMessage = typeof(EngineExceptionMessages).GetField($"{typeof(T).Name[0..^9]}Message").GetValue(null).ToString();
 
             if (parameters.Length > 0)
             {
@@ -88,5 +90,19 @@ namespace _3D_Engine.Constants
         public InvalidPixelFormatException() { }
         public InvalidPixelFormatException(string message) : base(message) { }
         public InvalidPixelFormatException(string message, Exception inner) : base(message, inner) { }
+    }
+
+    public class ArrayLengthTooLowException : ArgumentException
+    {
+        public ArrayLengthTooLowException() { }
+        public ArrayLengthTooLowException(string message) : base(message) { }
+        public ArrayLengthTooLowException(string message, Exception inner) : base(message, inner) { }
+    }
+
+    public class ParameterCannotBeNullException : ArgumentNullException
+    {
+        public ParameterCannotBeNullException() { }
+        public ParameterCannotBeNullException(string message) : base(message) { }
+        public ParameterCannotBeNullException(string message, Exception inner) : base(message, inner) { }
     }
 }
