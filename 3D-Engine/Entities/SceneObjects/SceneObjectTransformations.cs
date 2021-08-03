@@ -206,7 +206,7 @@ namespace _3D_Engine.Entities.SceneObjects
         #endregion
     }
 
-    public abstract partial class SceneObject
+    public abstract partial class SceneObject2
     {
         #region Rotations
 

@@ -27,14 +27,16 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Fields and Properties
 
         // Structure
+        public IList<Vertex> Vertices { get; set; }
+        public IList<Edge> Edges { get; set; }
+        public IList<Face> Faces { get; set; }
+
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Vertices']/*"/>
         public Vertex[] Vertices { get; protected set; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edges']/*"/>
         public Edge[] Edges { get; protected set; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Faces']/*"/>
         //public Triangle[] Triangles { get; internal set; }
-
-        public IList<Face> Faces { get; set; }
 
         // Appearance
         private bool drawEdges = true;

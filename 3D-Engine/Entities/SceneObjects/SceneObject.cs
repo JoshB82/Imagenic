@@ -17,6 +17,7 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace _3D_Engine.Entities.SceneObjects
     /// <summary>
     /// An abstract base class that defines objects of type <see cref="SceneObject"/>. Any object which inherits from this class can be part of a <see cref="Group"/>.
     /// </summary>
-    public abstract partial class SceneObject
+    public abstract class SceneObject : IEnumerable<SceneObject>
     {
         #region Fields and Properties
 
@@ -202,6 +203,16 @@ namespace _3D_Engine.Entities.SceneObjects
                 children.AddRange(child.GetAllChildren());
             }
             return children;
+        }
+
+        public IEnumerator<SceneObject> GetEnumerator()
+        {
+            return Children.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion

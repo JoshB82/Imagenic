@@ -18,6 +18,11 @@ namespace _3D_Engine.Loaders
 {
     public class OBJLoader : Loader
     {
+        public OBJLoader(string filePath) : base(filePath)
+        {
+
+        }
+
         public IList<Vertex> GetVertices()
         {
 

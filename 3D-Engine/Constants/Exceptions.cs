@@ -51,6 +51,7 @@ namespace _3D_Engine.Constants
         internal const string Matrix4x4DoesNotHaveAnInverseMessage = "Matrix4x4 does not have an inverse.";
         internal const string ArrayLengthTooLowMessage = "Array length is too low (must be greater than /parameter1/).";
         internal const string ParameterCannotBeNullMessage = "/parameter1/ cannot be null.";
+        internal const string FileDoesNotExistMessage = "File /parameter1/ does not exist.";
     }
 
     internal static class EngineExceptionUtilities
@@ -104,5 +105,12 @@ namespace _3D_Engine.Constants
         public ParameterCannotBeNullException() { }
         public ParameterCannotBeNullException(string message) : base(message) { }
         public ParameterCannotBeNullException(string message, Exception inner) : base(message, inner) { }
+    }
+
+    public class FileDoesNotExistException : Exception
+    {
+        public FileDoesNotExistException() { }
+        public FileDoesNotExistException(string message) : base(message) { }
+        public FileDoesNotExistException(string message, Exception inner) : base(message, inner) { }
     }
 }
