@@ -106,6 +106,9 @@ namespace _3D_Engine.Entities.SceneObjects
             ModelToWorld = translation * directionUpRotation * directionForwardRotation;
         }
 
+        // Orientation
+        public Orientation WorldOrientation { get; set; }
+
         // Origins
         internal static readonly Vector4D ModelOrigin = Vector4D.UnitW;
         private Vector3D worldOrigin;
@@ -245,6 +248,13 @@ namespace _3D_Engine.Entities.SceneObjects
             ConsoleOutput.DisplayMessageFromObject(this, $"Created at {origin}.");
 
             #endif
+        }
+
+        internal SceneObject(Vector3D worldOrigin,
+                             Orientation worldOrientation,
+                             bool hasDirectionArrows = true)
+        {
+
         }
 
         #endregion

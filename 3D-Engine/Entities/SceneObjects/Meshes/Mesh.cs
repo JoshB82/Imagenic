@@ -15,6 +15,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -161,6 +162,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             Dimension = dimension;
 
             //Update += (sender, eventArgs) => { if (HeadedRenderingObject is not null) HeadedRenderingObject.RenderCamera.NewRenderNeeded = true; };
+        }
+
+        internal Mesh(Vector3D worldOrigin,
+                      Orientation worldOrientation,
+                      int dimension,
+                      bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
+        {
+            Dimension = dimension;
         }
 
         #endregion

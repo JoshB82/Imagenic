@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
@@ -33,6 +34,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
         /// </summary>
         /// <param name="origin">The position of the <see cref="WorldPoint"/>.</param>
         public WorldPoint(Vector3D origin) : this(origin, Vector3D.UnitZ, Vector3D.UnitY) { }
+
+        public WorldPoint(Vector3D worldOrigin,
+                          Orientation worldOrientation) : base(worldOrigin, worldOrientation, 0)
+        {
+
+        }
 
         public WorldPoint(Vector3D origin,
                           Vector3D directionForward,

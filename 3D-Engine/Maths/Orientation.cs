@@ -15,6 +15,15 @@ namespace _3D_Engine.Maths
 
         #region Constructors
 
+        /*
+        private Orientation()
+        {
+            DirectionForward = Vector3D.Zero;
+            DirectionUp = Vector3D.Zero;
+            DirectionRight = Vector3D.Zero;
+        }
+        */
+
         public static Orientation CreateOrientationForwardUp(Vector3D directionForward, Vector3D directionUp)
         {
             return new Orientation
