@@ -45,32 +45,33 @@ namespace _3D_Engine.Constants
 
     }
 
-    internal static class EngineExceptionMessages
+    internal static class EngineExceptions
     {
-        internal const string VectorCannotBeZeroMessage = "Vector /parameter1/ cannot be zero.";
-        internal const string Matrix4x4DoesNotHaveAnInverseMessage = "Matrix4x4 does not have an inverse.";
-        internal const string ArrayLengthTooLowMessage = "Array length is too low (must be greater than /parameter1/).";
-        internal const string ParameterCannotBeNullMessage = "/parameter1/ cannot be null.";
-        internal const string FileDoesNotExistMessage = "File /parameter1/ does not exist.";
-    }
+        #region Messages
 
-    internal static class EngineExceptionUtilities
-    {
+        private const string VectorCannotBeZeroMessage = "Vector {0} cannot be zero.";
+        private const string Matrix4x4DoesNotHaveAnInverseMessage = "Matrix4x4 does not have an inverse.";
+        private const string ArrayLengthTooLowMessage = "Array length is too low (must be greater than {0}).";
+        private const string ParameterCannotBeNullMessage = "{0} cannot be null.";
+        private const string FileDoesNotExistMessage = "File {0} does not exist.";
+
+        #endregion
+
+        #region Methods
+
         internal static T GenerateException<T>(params string[] parameters) where T : Exception
         {
-            string newMessage = typeof(EngineExceptionMessages).GetField($"{typeof(T).Name[0..^9]}Message").GetValue(null).ToString();
+            string message = typeof(EngineExceptions).GetField($"{typeof(T).Name[0..^"Exception".Length]}Message").GetValue(null).ToString();
 
-            if (parameters.Length > 0)
-            {
-                for (int i = 1; i <= parameters.Length; i++)
-                {
-                    newMessage = newMessage.Replace($"/parameter{i}/", parameters[i]);
-                }
-            }
+            message = string.Format(message, parameters);
 
-            return Activator.CreateInstance(typeof(T), newMessage) as T;
+            return Activator.CreateInstance(typeof(T), message) as T;
         }
+
+        #endregion
     }
+
+    #region Exceptions
 
     public class VectorCannotBeZeroException : Exception
     {
@@ -113,4 +114,6 @@ namespace _3D_Engine.Constants
         public FileDoesNotExistException(string message) : base(message) { }
         public FileDoesNotExistException(string message, Exception inner) : base(message, inner) { }
     }
+
+    #endregion
 }
