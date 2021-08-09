@@ -73,6 +73,7 @@ namespace _3D_Engine.Constants
 
     #region Exceptions
 
+    [Serializable]
     public class VectorCannotBeZeroException : Exception
     {
         public VectorCannotBeZeroException() { }
@@ -80,6 +81,7 @@ namespace _3D_Engine.Constants
         public VectorCannotBeZeroException(string message, Exception inner) : base(message, inner) { }
     }
 
+    [Serializable]
     public class Matrix4x4DoesNotHaveAnInverseException : InvalidOperationException
     {
         public Matrix4x4DoesNotHaveAnInverseException() { }
@@ -87,6 +89,7 @@ namespace _3D_Engine.Constants
         public Matrix4x4DoesNotHaveAnInverseException(string message, Exception inner) : base(message, inner) { }
     }
 
+    [Serializable]
     public class InvalidPixelFormatException : Exception
     {
         public InvalidPixelFormatException() { }
@@ -94,6 +97,7 @@ namespace _3D_Engine.Constants
         public InvalidPixelFormatException(string message, Exception inner) : base(message, inner) { }
     }
 
+    [Serializable]
     public class ArrayLengthTooLowException : ArgumentException
     {
         public ArrayLengthTooLowException() { }
@@ -101,6 +105,7 @@ namespace _3D_Engine.Constants
         public ArrayLengthTooLowException(string message, Exception inner) : base(message, inner) { }
     }
 
+    [Serializable]
     public class ParameterCannotBeNullException : ArgumentNullException
     {
         public ParameterCannotBeNullException() { }
@@ -108,6 +113,7 @@ namespace _3D_Engine.Constants
         public ParameterCannotBeNullException(string message, Exception inner) : base(message, inner) { }
     }
 
+    [Serializable]
     public class FileDoesNotExistException : Exception
     {
         public FileDoesNotExistException() { }
