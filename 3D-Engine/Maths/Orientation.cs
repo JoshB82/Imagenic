@@ -1,9 +1,10 @@
 ﻿using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
+using System;
 
 namespace _3D_Engine.Maths
 {
-    public struct Orientation
+    public struct Orientation : IEquatable<Orientation>
     {
         #region Fields and Properties
 
@@ -77,6 +78,11 @@ namespace _3D_Engine.Maths
             DirectionForward = directionForward;
             DirectionUp = Transform.CalculateDirectionUp(directionRight, directionForward);
             DirectionRight = directionRight;
+        }
+
+        public bool Equals(Orientation other)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
