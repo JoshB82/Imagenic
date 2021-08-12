@@ -71,11 +71,31 @@ namespace _3D_Engine.Constants
         #endregion
     }
 
+    internal interface IEngineException<T> where T : Exception
+    {
+        internal string NoneVerbosityText { get; }
+        internal string BriefVerbosityText { get; }
+        internal string DetailedVerbosityText { get; }
+        internal string AllVerbosityText { get; }
+
+        internal T WithParameters(params string[] parameters);
+    }
+
     #region Exceptions
 
     [Serializable]
-    public class VectorCannotBeZeroException : Exception
+    public class VectorCannotBeZeroException : Exception, IEngineException<VectorCannotBeZeroException>
     {
+        internal string NoneVerbosityText => "";
+        internal string BriefVerbosityText => "";
+        internal string DetailedVerbosityText => "";
+        internal string AllVerbosityText => "";
+
+        internal VectorCannotBeZeroException WithParameters(params string[] parameters)
+        {
+
+        }
+
         public VectorCannotBeZeroException() { }
         public VectorCannotBeZeroException(string message) : base(message) { }
         public VectorCannotBeZeroException(string message, Exception inner) : base(message, inner) { }
