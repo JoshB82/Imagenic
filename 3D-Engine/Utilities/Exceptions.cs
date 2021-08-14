@@ -10,6 +10,7 @@
  * Defines exceptions and their messages.
  */
 
+using _3D_Engine.Enums;
 using System;
 
 namespace _3D_Engine.Constants
@@ -78,7 +79,19 @@ namespace _3D_Engine.Constants
         internal string DetailedVerbosityText { get; }
         internal string AllVerbosityText { get; }
 
-        internal T WithParameters(params string[] parameters);
+        internal T WithParameters(params string[] parameters)
+        {
+            string message = Properties.Settings.Default.Verbosity switch
+            {
+                Verbosity.None => NoneVerbosityText,
+                Verbosity.Brief => BriefVerbosityText,
+                Verbosity.Detailed => DetailedVerbosityText,
+                Verbosity.All => AllVerbosityText,
+                _ => throw new Exception("Cannot handle setting.")
+            };
+
+            return Activator.CreateInstance(typeof(T), string.Format(message, parameters)) as T;
+        }
     }
 
     #region Exceptions
@@ -90,11 +103,6 @@ namespace _3D_Engine.Constants
         internal string BriefVerbosityText => "";
         internal string DetailedVerbosityText => "";
         internal string AllVerbosityText => "";
-
-        internal VectorCannotBeZeroException WithParameters(params string[] parameters)
-        {
-
-        }
 
         public VectorCannotBeZeroException() { }
         public VectorCannotBeZeroException(string message) : base(message) { }
