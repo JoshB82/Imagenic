@@ -72,21 +72,17 @@ namespace _3D_Engine.Constants
         #endregion
     }
 
-    internal interface IEngineException<T> where T : Exception
+    public static class EngineExceptionUtilities
     {
-        internal string NoneVerbosityText { get; }
-        internal string BriefVerbosityText { get; }
-        internal string DetailedVerbosityText { get; }
-        internal string AllVerbosityText { get; }
-
-        internal T WithParameters(params string[] parameters)
+        public static T WithParameters<T>(params string[] parameters) where T : class, IEngineException, new()
         {
+            T engineException = new();
             string message = Properties.Settings.Default.Verbosity switch
             {
-                Verbosity.None => NoneVerbosityText,
-                Verbosity.Brief => BriefVerbosityText,
-                Verbosity.Detailed => DetailedVerbosityText,
-                Verbosity.All => AllVerbosityText,
+                Verbosity.None => "",
+                Verbosity.Brief => engineException.BriefVerbosityText,
+                Verbosity.Detailed => engineException.DetailedVerbosityText,
+                Verbosity.All => engineException.AllVerbosityText,
                 _ => throw new Exception("Cannot handle setting.")
             };
 
@@ -94,10 +90,18 @@ namespace _3D_Engine.Constants
         }
     }
 
+    public interface IEngineException
+    {
+        internal string NoneVerbosityText { get; }
+        internal string BriefVerbosityText { get; }
+        internal string DetailedVerbosityText { get; }
+        internal string AllVerbosityText { get; }
+    }
+
     #region Exceptions
 
     [Serializable]
-    public class VectorCannotBeZeroException : Exception, IEngineException<VectorCannotBeZeroException>
+    public class VectorCannotBeZeroException : Exception, IEngineException
     {
         internal string NoneVerbosityText => "";
         internal string BriefVerbosityText => "";
@@ -110,7 +114,7 @@ namespace _3D_Engine.Constants
     }
 
     [Serializable]
-    public class Matrix4x4DoesNotHaveAnInverseException : InvalidOperationException
+    public class Matrix4x4DoesNotHaveAnInverseException : InvalidOperationException, IEngineException
     {
         public Matrix4x4DoesNotHaveAnInverseException() { }
         public Matrix4x4DoesNotHaveAnInverseException(string message) : base(message) { }
@@ -147,6 +151,14 @@ namespace _3D_Engine.Constants
         public FileDoesNotExistException() { }
         public FileDoesNotExistException(string message) : base(message) { }
         public FileDoesNotExistException(string message, Exception inner) : base(message, inner) { }
+    }
+
+    [Serializable]
+    public class VectorsAreNotOrthogonalException : Exception
+    {
+        public VectorsAreNotOrthogonalException() { }
+        public VectorsAreNotOrthogonalException(string message) : base(message) { }
+        public VectorsAreNotOrthogonalException(string message, Exception inner) : base(message, inner) { }
     }
 
     #endregion
