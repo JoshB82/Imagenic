@@ -74,12 +74,12 @@ namespace _3D_Engine.Constants
 
     public static class EngineExceptionUtilities
     {
-        public static T WithParameters<T>(params string[] parameters) where T : class, IEngineException, new()
+        public static T WithParameters<T>(params string[] parameters) where T : class, IVerbose, new()
         {
             T engineException = new();
             string message = Properties.Settings.Default.Verbosity switch
             {
-                Verbosity.None => "",
+                Verbosity.None => string.Empty,
                 Verbosity.Brief => engineException.BriefVerbosityText,
                 Verbosity.Detailed => engineException.DetailedVerbosityText,
                 Verbosity.All => engineException.AllVerbosityText,
@@ -90,23 +90,21 @@ namespace _3D_Engine.Constants
         }
     }
 
-    public interface IEngineException
+    public interface IVerbose
     {
-        internal string NoneVerbosityText { get; }
-        internal string BriefVerbosityText { get; }
-        internal string DetailedVerbosityText { get; }
-        internal string AllVerbosityText { get; }
+        public string BriefVerbosityText { get; }
+        public string DetailedVerbosityText { get; }
+        public string AllVerbosityText { get; }
     }
 
     #region Exceptions
 
     [Serializable]
-    public class VectorCannotBeZeroException : Exception, IEngineException
+    public class VectorCannotBeZeroException : Exception, IVerbose
     {
-        internal string NoneVerbosityText => "";
-        internal string BriefVerbosityText => "";
-        internal string DetailedVerbosityText => "";
-        internal string AllVerbosityText => "";
+        public string BriefVerbosityText => "";
+        public string DetailedVerbosityText => "";
+        public string AllVerbosityText => "";
 
         public VectorCannotBeZeroException() { }
         public VectorCannotBeZeroException(string message) : base(message) { }
@@ -114,48 +112,72 @@ namespace _3D_Engine.Constants
     }
 
     [Serializable]
-    public class Matrix4x4DoesNotHaveAnInverseException : InvalidOperationException, IEngineException
+    public class Matrix4x4DoesNotHaveAnInverseException : InvalidOperationException, IVerbose
     {
+        public string BriefVerbosityText => "";
+        public string DetailedVerbosityText => "";
+        public string AllVerbosityText => "";
+
         public Matrix4x4DoesNotHaveAnInverseException() { }
         public Matrix4x4DoesNotHaveAnInverseException(string message) : base(message) { }
         public Matrix4x4DoesNotHaveAnInverseException(string message, Exception inner) : base(message, inner) { }
     }
 
     [Serializable]
-    public class InvalidPixelFormatException : Exception
+    public class InvalidPixelFormatException : Exception, IVerbose
     {
+        public string BriefVerbosityText => "";
+        public string DetailedVerbosityText => "";
+        public string AllVerbosityText => "";
+
         public InvalidPixelFormatException() { }
         public InvalidPixelFormatException(string message) : base(message) { }
         public InvalidPixelFormatException(string message, Exception inner) : base(message, inner) { }
     }
 
     [Serializable]
-    public class ArrayLengthTooLowException : ArgumentException
+    public class ArrayLengthTooLowException : ArgumentException, IVerbose
     {
+        public string BriefVerbosityText => "";
+        public string DetailedVerbosityText => "";
+        public string AllVerbosityText => "";
+
         public ArrayLengthTooLowException() { }
         public ArrayLengthTooLowException(string message) : base(message) { }
         public ArrayLengthTooLowException(string message, Exception inner) : base(message, inner) { }
     }
 
     [Serializable]
-    public class ParameterCannotBeNullException : ArgumentNullException
+    public class ParameterCannotBeNullException : ArgumentNullException, IVerbose
     {
+        public string BriefVerbosityText => "";
+        public string DetailedVerbosityText => "";
+        public string AllVerbosityText => "";
+
         public ParameterCannotBeNullException() { }
         public ParameterCannotBeNullException(string message) : base(message) { }
         public ParameterCannotBeNullException(string message, Exception inner) : base(message, inner) { }
     }
 
     [Serializable]
-    public class FileDoesNotExistException : Exception
+    public class FileDoesNotExistException : Exception, IVerbose
     {
+        public string BriefVerbosityText => "";
+        public string DetailedVerbosityText => "";
+        public string AllVerbosityText => "";
+
         public FileDoesNotExistException() { }
         public FileDoesNotExistException(string message) : base(message) { }
         public FileDoesNotExistException(string message, Exception inner) : base(message, inner) { }
     }
 
     [Serializable]
-    public class VectorsAreNotOrthogonalException : Exception
+    public class VectorsAreNotOrthogonalException : Exception, IVerbose
     {
+        public string BriefVerbosityText => "";
+        public string DetailedVerbosityText => "";
+        public string AllVerbosityText => "";
+
         public VectorsAreNotOrthogonalException() { }
         public VectorsAreNotOrthogonalException(string message) : base(message) { }
         public VectorsAreNotOrthogonalException(string message, Exception inner) : base(message, inner) { }
