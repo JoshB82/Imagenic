@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 
@@ -28,9 +29,36 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             }
         }
 
+        internal static readonly IList<Vertex> CubeVertices = new List<Vertex>
+        {
+            new Vertex(),
+            new Vertex(),
+            new Vertex(),
+            new Vertex(),
+            new Vertex(),
+            new Vertex(),
+            new Vertex(),
+            new Vertex(),
+        };
+
+        internal static readonly IList<Edge> CubeEdges = new List<Edge>
+        {
+
+        };
+
+        internal static readonly IList<Face> CubeFaces = new List<Face>
+        {
+
+        };
+
         #endregion
 
         #region Constructors
+
+        public Cube(Vector3D worldOrigin, Orientation worldOrientation, float sideLength) : base(worldOrigin, worldOrientation, 3)
+        {
+
+        }
 
         /// <summary>
         /// Creates a <see cref="Cube"/> mesh.
