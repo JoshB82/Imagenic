@@ -43,11 +43,11 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionForward));
+                throw GenerateException.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionForward));
             }
             if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionUp));
+                throw GenerateException.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionUp));
             }
 
             newWorldDirectionForward = newWorldDirectionForward.Normalise();
@@ -71,11 +71,11 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionUp));
+                throw GenerateException.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionUp));
             }
             if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionRight));
+                throw GenerateException.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionRight));
             }
 
             newWorldDirectionUp = newWorldDirectionUp.Normalise();
@@ -96,11 +96,11 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionRight));
+                throw GenerateException.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionRight));
             }
             if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
             {
-                throw EngineExceptionUtilities.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionForward));
+                throw GenerateException.GenerateException<VectorCannotBeZeroException>(nameof(newWorldDirectionForward));
             }
 
             newWorldDirectionForward = newWorldDirectionForward.Normalise();

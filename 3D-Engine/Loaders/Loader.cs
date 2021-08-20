@@ -27,7 +27,7 @@ namespace _3D_Engine.Loaders
         {
             if (!File.Exists(filePath))
             {
-                EngineExceptionUtilities.GenerateException<FileDoesNotExistException>(filePath);
+                GenerateException.GenerateException<FileDoesNotExistException>(filePath);
             }
         }
 

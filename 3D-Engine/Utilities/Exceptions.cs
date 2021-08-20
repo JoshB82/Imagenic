@@ -57,24 +57,11 @@ namespace _3D_Engine.Constants
         private const string FileDoesNotExistMessage = "File {0} does not exist.";
 
         #endregion
-
-        #region Methods
-
-        internal static T GenerateException<T>(params string[] parameters) where T : Exception
-        {
-            string message = typeof(EngineExceptions).GetField($"{typeof(T).Name[0..^"Exception".Length]}Message").GetValue(null).ToString();
-
-            message = string.Format(message, parameters);
-
-            return Activator.CreateInstance(typeof(T), message) as T;
-        }
-
-        #endregion
     }
 
-    public static class EngineExceptionUtilities
+    public static class GenerateException
     {
-        public static T WithParameters<T>(params string[] parameters) where T : class, IVerbose, new()
+        public static T WithParameters<T>(params string[] parameters) where T : Exception, IVerbose, new()
         {
             T engineException = new();
             string message = Properties.Settings.Default.Verbosity switch
@@ -90,14 +77,7 @@ namespace _3D_Engine.Constants
         }
     }
 
-    public interface IVerbose
-    {
-        public string BriefVerbosityText { get; }
-        public string DetailedVerbosityText { get; }
-        public string AllVerbosityText { get; }
-    }
-
-    #region Exceptions
+    #region Exception Types
 
     [Serializable]
     public class VectorCannotBeZeroException : Exception, IVerbose
@@ -174,9 +154,9 @@ namespace _3D_Engine.Constants
     [Serializable]
     public class VectorsAreNotOrthogonalException : Exception, IVerbose
     {
-        public string BriefVerbosityText => "";
-        public string DetailedVerbosityText => "";
-        public string AllVerbosityText => "";
+        public string BriefVerbosityText => "Vectors are not orthogonal.";
+        public string DetailedVerbosityText => "Vectors {0} and {1} are not orthogonal.";
+        public string AllVerbosityText => "Vectors {0} and {1} are not orthogonal - the angle between them should be 90 degrees or pi/2 radians.";
 
         public VectorsAreNotOrthogonalException() { }
         public VectorsAreNotOrthogonalException(string message) : base(message) { }

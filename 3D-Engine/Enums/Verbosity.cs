@@ -34,4 +34,11 @@ namespace _3D_Engine.Enums
         /// </summary>
         All
     }
+
+    public interface IVerbose
+    {
+        public string BriefVerbosityText { get; }
+        public string DetailedVerbosityText { get; }
+        public string AllVerbosityText { get; }
+    }
 }
