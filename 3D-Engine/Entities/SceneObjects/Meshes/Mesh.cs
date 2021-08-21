@@ -33,9 +33,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         public IList<Face> Faces { get; set; }
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Vertices']/*"/>
-        public Vertex[] Vertices { get; protected set; }
+        //public Vertex[] Vertices { get; protected set; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edges']/*"/>
-        public Edge[] Edges { get; protected set; }
+        //public Edge[] Edges { get; protected set; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Faces']/*"/>
         //public Triangle[] Triangles { get; internal set; }
 

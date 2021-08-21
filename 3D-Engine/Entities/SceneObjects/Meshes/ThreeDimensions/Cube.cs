@@ -1,4 +1,16 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ *
+ */
+
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
@@ -29,24 +41,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             }
         }
 
-        internal static readonly IList<Vertex> CubeVertices = new List<Vertex>
+        // Structure
+        internal static readonly IList<Vertex> ModelVertices = new List<Vertex>
         {
-            new Vertex(),
-            new Vertex(),
-            new Vertex(),
-            new Vertex(),
-            new Vertex(),
-            new Vertex(),
-            new Vertex(),
-            new Vertex(),
+            new Vertex(new Vector4D(,,,), new Vector3D(,,)),
+            new Vertex(new Vector4D(,,,), new Vector3D(,,)),
+            new Vertex(new Vector4D(,,,), new Vector3D(,,)),
+            new Vertex(new Vector4D(,,,), new Vector3D(,,)),
+            new Vertex(new Vector4D(,,,), new Vector3D(,,)),
+            new Vertex(new Vector4D(,,,), new Vector3D(,,)),
+            new Vertex(new Vector4D(,,,), new Vector3D(,,)),
+            new Vertex(new Vector4D(,,,), new Vector3D(,,)),
         };
 
-        internal static readonly IList<Edge> CubeEdges = new List<Edge>
+        internal static readonly IList<Edge> MeshEdges = new List<Edge>
         {
 
         };
 
-        internal static readonly IList<Face> CubeFaces = new List<Face>
+        internal static readonly IList<Face> MeshFaces = new List<Face>
         {
 
         };
@@ -55,9 +68,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Constructors
 
-        public Cube(Vector3D worldOrigin, Orientation worldOrientation, float sideLength) : base(worldOrigin, worldOrientation, 3)
+        public Cube(Vector3D worldOrigin,
+                    Orientation worldOrientation,
+                    float sideLength) : base(worldOrigin, worldOrientation, 3)
         {
-
+            Vertices = ModelVertices;
+            Edges = MeshEdges;
+            Faces = MeshFaces;
         }
 
         /// <summary>
@@ -74,7 +91,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         {
             SetStructure(sideLength);
 
-            Faces = new List<Face>
+            base.Faces = new List<Face>
             {
                 new Face(new List<Triangle>
                 {
@@ -144,7 +161,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             SetStructure(sideLength);
             Textures = new Texture[1] { texture };
 
-            Faces = new List<Face>
+            base.Faces = new List<Face>
             {
                 new Face(new List<Triangle>
                 {
