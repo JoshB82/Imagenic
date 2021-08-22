@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
@@ -92,11 +93,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <param name="radius">The radius of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
         /// <param name="resolution">The number of <see cref="Vertex">Vertices</see> that are on the perimeter of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
         public Cone(Vector3D origin,
-                    Vector3D directionForward,
-                    Vector3D directionUp,
+                    Orientation worldOrientation,
                     float height,
                     float radius,
-                    int resolution) : base(origin, directionForward, directionUp, 3)
+                    int resolution) : base(origin, worldOrientation, 3)
         {
             Height = height;
             Radius = radius;
