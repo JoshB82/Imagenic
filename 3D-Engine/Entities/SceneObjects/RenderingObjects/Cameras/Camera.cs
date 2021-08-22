@@ -197,7 +197,15 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 
         #region Constructors
 
-        internal Camera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
+        internal Camera(Vector3D origin,
+                        Vector3D directionForward,
+                        Vector3D directionUp,
+                        float viewWidth,
+                        float viewHeight,
+                        float zNear,
+                        float zFar,
+                        int renderWidth,
+                        int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
         {
             string[] iconObjData = Properties.Resources.Camera.Split(Environment.NewLine);
             Icon = new Custom(origin, directionForward, directionUp, iconObjData) { Dimension = 3 };
@@ -224,6 +232,17 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
                                          int renderWidth,
                                          int renderHeight,
                                          PixelFormat renderPixelFormat)
+        {
+
+        }
+
+        //
+        public async Task<Bitmap> Render(IEnumerable<SceneObject> sceneObjects)
+        {
+
+        }
+
+        public async Task<Bitmap> Render(params SceneObject[] sceneObjects)
         {
 
         }
