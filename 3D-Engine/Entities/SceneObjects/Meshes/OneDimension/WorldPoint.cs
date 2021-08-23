@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Defines a point Mesh called a WorldPoint and consisting of a single Vertex.
+ * Defines a point Mesh called a WorldPoint which consists of a single Vertex.
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
