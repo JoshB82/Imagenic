@@ -10,10 +10,27 @@
  * Defines methods for scaling Meshes.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Maths;
+using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
+    public static class MeshExtensions
+    {
+        public static T Rotate<T>(this T mesh, Vector3D axis, float angle) where T : Mesh
+        {
+            Matrix4x4 rotation = Transform.Rotate(axis, angle);
+            foreach (Vertex vertex in mesh.Vertices)
+            {
+                vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal, 1));
+            }
+
+            return mesh;
+        }
+    }
+
     public abstract partial class Mesh : SceneObject
     {
         #region Scaling
