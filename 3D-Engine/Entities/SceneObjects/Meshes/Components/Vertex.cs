@@ -7,7 +7,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
     /// </summary>
     public sealed class Vertex
     {
-        #region Fields and Constructors
+        #region Fields and Properties
 
         public Vector3D? Normal { get; set; }
         public Vector4D Point { get; set; }
