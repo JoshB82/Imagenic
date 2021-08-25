@@ -9,16 +9,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
     {
         #region Fields and Constructors
 
-        public Vector3D Normal;
-        public Vector4D Point;
+        public Vector3D? Normal { get; set; }
+        public Vector4D Point { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Vertex(Vector4D point) => Point = point;
-
-        public Vertex(Vector4D point, Vector3D normal)
+        public Vertex(Vector4D point, Vector3D? normal = null)
         {
             Point = point;
             Normal = normal;
