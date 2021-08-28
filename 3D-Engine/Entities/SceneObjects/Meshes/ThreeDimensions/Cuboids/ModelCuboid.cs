@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using System;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
@@ -18,6 +20,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             new Vertex(new Vector4D(1, 1, 1, 1), new Vector3D(,,)), // 6
             new Vertex(new Vector4D(0, 1, 1, 1), new Vector3D(,,)) // 7
         };
+
+        internal static List<Vertex> GenerateModelVertices()
+        {
+            float radical = MathF.Sqrt(3) / 3;
+        }
 
         internal static readonly IList<Edge> MeshEdges = new List<Edge>
         {
