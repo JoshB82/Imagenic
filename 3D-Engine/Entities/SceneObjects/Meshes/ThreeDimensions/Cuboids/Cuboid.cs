@@ -9,7 +9,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     /// <summary>
     /// A mesh of a cuboid. It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
     /// </summary>
-    public sealed class Cuboid : Mesh
+    public sealed partial class Cuboid : Mesh
     {
         #region Fields and Properties
 

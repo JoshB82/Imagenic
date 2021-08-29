@@ -1,11 +1,12 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
-    public sealed partial class ModelCuboid
+    public sealed partial class Cuboid : Mesh
     {
         #region Fields and Properties
 

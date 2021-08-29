@@ -49,9 +49,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                     Orientation worldOrientation,
                     float sideLength) : base(worldOrigin, worldOrientation, 3)
         {
-            Vertices = ModelVertices;
-            Edges = MeshEdges;
-            Faces = MeshFaces;
+            Vertices = Cuboid.ModelVertices;
+            Edges = Cuboid.MeshEdges;
+            Faces = Cuboid.MeshFaces;
         }
 
         /// <summary>
