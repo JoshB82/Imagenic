@@ -21,6 +21,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
     {
         public static T Rotate<T>(this T mesh, Vector3D axis, float angle) where T : Mesh
         {
+            ((SceneObject)mesh).Rotate(axis, angle);
+
             Matrix4x4 rotation = Transform.Rotate(axis, angle);
             foreach (Vertex vertex in mesh.Vertices)
             {
