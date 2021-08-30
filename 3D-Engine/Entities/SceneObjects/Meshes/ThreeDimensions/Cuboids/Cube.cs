@@ -17,7 +17,7 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
+namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
     /// <summary>
     /// A mesh of a cube. It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
@@ -70,7 +70,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
             base.Faces = new List<Face>
             {
-                
+
             };
 
             /*
@@ -111,36 +111,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
             base.Faces = new List<Face>
             {
-                new Face(new List<Triangle>
-                {
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                    new TextureTriangle(Vertices[],Vertices[],Vertices[]),
-                })
+
             };
 
             Triangles = new TextureTriangle[12]

@@ -80,6 +80,40 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             })
         };
 
+        internal static readonly IList<Face> TextureFaces = new List<Face>
+        {
+            new Face(new List<Triangle>
+            {
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+                new TextureTriangle(Vertices[],Vertices[],Vertices[]),
+            })
+        };
+
         #endregion
     }
 }
