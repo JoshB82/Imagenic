@@ -31,7 +31,18 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         internal static readonly IList<Edge> MeshEdges = new List<Edge>
         {
-
+            new Edge(ModelVertices[0], ModelVertices[1]), // 0
+            new Edge(ModelVertices[1], ModelVertices[2]), // 1
+            new Edge(ModelVertices[2], ModelVertices[3]), // 2
+            new Edge(ModelVertices[3], ModelVertices[0]), // 3
+            new Edge(ModelVertices[4], ModelVertices[5]), // 4
+            new Edge(ModelVertices[5], ModelVertices[6]), // 5
+            new Edge(ModelVertices[6], ModelVertices[7]), // 6
+            new Edge(ModelVertices[7], ModelVertices[4]), // 7
+            new Edge(ModelVertices[0], ModelVertices[4]), // 8
+            new Edge(ModelVertices[1], ModelVertices[5]), // 9
+            new Edge(ModelVertices[2], ModelVertices[6]), // 10
+            new Edge(ModelVertices[3], ModelVertices[7]) // 11
         };
 
         internal static readonly IList<Face> MeshFaces = new List<Face>
