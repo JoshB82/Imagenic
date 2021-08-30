@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines creation of a Cube Mesh.
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
@@ -45,6 +45,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         #region Constructors
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="worldOrigin"></param>
+        /// <param name="worldOrientation"></param>
+        /// <param name="sideLength"></param>
         public Cube(Vector3D worldOrigin,
                     Orientation worldOrientation,
                     float sideLength) : base(worldOrigin, worldOrientation, 3)
@@ -52,6 +58,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             Vertices = Cuboid.ModelVertices;
             Edges = Cuboid.MeshEdges;
             Faces = Cuboid.MeshFaces;
+
+            SideLength = sideLength;
         }
 
         /// <summary>
