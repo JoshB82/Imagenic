@@ -31,6 +31,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
             return mesh;
         }
+
+        public static T RotateBetweenVectors<T>(this T mesh, Vector3D v1, Vector3D v2, Vector3D? axis = null) where T : Mesh
+        {
+
+        }
     }
 
     public abstract partial class Mesh : SceneObject
