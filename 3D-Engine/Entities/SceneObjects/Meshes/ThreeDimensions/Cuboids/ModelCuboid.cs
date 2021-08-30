@@ -1,5 +1,6 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,36 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         internal static readonly IList<Face> MeshFaces = new List<Face>
         {
-
+            new Face(new List<Triangle>
+            {
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+            }),
+            new Face(new List<Triangle>
+            {
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+            })
         };
 
         #endregion

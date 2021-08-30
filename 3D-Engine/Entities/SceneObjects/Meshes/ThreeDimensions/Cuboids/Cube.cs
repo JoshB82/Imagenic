@@ -70,36 +70,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
             base.Faces = new List<Face>
             {
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                })
+                
             };
 
             /*
