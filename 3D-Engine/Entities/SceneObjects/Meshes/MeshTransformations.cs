@@ -34,6 +34,21 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         public static T RotateBetweenVectors<T>(this T mesh, Vector3D v1, Vector3D v2, Vector3D? axis = null) where T : Mesh
         {
+            ((SceneObject)mesh).RotateBetweenVectors(v1, v2, axis);
+        }
+
+        public static T ScaleX<T>(this T mesh, float scaleFactor) where T : Mesh
+        {
+
+        }
+
+        public static T ScaleY<T>(this T mesh, float scaleFactor) where T : Mesh
+        {
+
+        }
+
+        public static T ScaleZ<T>(this T mesh, float scaleFactor) where T : Mesh
+        {
 
         }
     }

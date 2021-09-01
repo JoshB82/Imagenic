@@ -81,8 +81,6 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         public float w;
 
-        public bool Visible { get; set; }
-
         #endregion
 
         #region Constructors
