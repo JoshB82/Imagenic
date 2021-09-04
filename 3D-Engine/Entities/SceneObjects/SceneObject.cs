@@ -48,10 +48,7 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
-        // Directions
-        internal static readonly Vector3D ModelDirectionForward = Vector3D.UnitZ;
-        internal static readonly Vector3D ModelDirectionUp = Vector3D.UnitY;
-        internal static readonly Vector3D ModelDirectionRight = Vector3D.UnitX;
+
 
         /// <summary>
         /// The forward direction of the <see cref="SceneObject"/> in world space.
@@ -68,22 +65,6 @@ namespace _3D_Engine.Entities.SceneObjects
 
         internal Group DirectionArrows { get; set; }
 
-        private bool displayDirectionArrows = false;
-        /// <summary>
-        /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
-        /// </summary>
-        public bool DisplayDirectionArrows
-        {
-            get => displayDirectionArrows;
-            set
-            {
-                if (value == displayDirectionArrows) return;
-                displayDirectionArrows = value;
-                RequestNewRenders();
-            }
-        }
-        internal bool HasDirectionArrows { get; set; }
-
         // Id
         private static int nextId;
         /// <summary>
@@ -95,8 +76,8 @@ namespace _3D_Engine.Entities.SceneObjects
         public Matrix4x4 ModelToWorld { get; internal set; }
         internal virtual void CalculateMatrices()
         {
-            Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(ModelDirectionForward, WorldDirectionForward);
-            Matrix4x4 directionUpRotation = Transform.RotateBetweenVectors((Vector3D)(directionForwardRotation * ModelDirectionUp), WorldDirectionUp);
+            Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(Orientation.ModelDirectionForward, WorldDirectionForward);
+            Matrix4x4 directionUpRotation = Transform.RotateBetweenVectors((Vector3D)(directionForwardRotation * Orientation.ModelDirectionUp), WorldDirectionUp);
             Matrix4x4 translation = Transform.Translate(WorldOrigin);
 
             // String the transformations together in the following order:

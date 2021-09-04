@@ -4,9 +4,30 @@ using System;
 
 namespace _3D_Engine.Maths
 {
-    public struct Orientation : IEquatable<Orientation>
+    public class Orientation : IEquatable<Orientation>
     {
         #region Fields and Properties
+
+        private bool displayDirectionArrows = false;
+        /// <summary>
+        /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
+        /// </summary>
+        public bool DisplayDirectionArrows
+        {
+            get => displayDirectionArrows;
+            set
+            {
+                if (value == displayDirectionArrows) return;
+                displayDirectionArrows = value;
+                RequestNewRenders();
+            }
+        }
+        internal bool HasDirectionArrows { get; set; }
+
+        // Directions
+        internal static readonly Vector3D ModelDirectionForward = Vector3D.UnitZ;
+        internal static readonly Vector3D ModelDirectionUp = Vector3D.UnitY;
+        internal static readonly Vector3D ModelDirectionRight = Vector3D.UnitX;
 
         public Vector3D DirectionForward { get; private set; }
         public Vector3D DirectionUp { get; private set; }
