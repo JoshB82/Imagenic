@@ -19,6 +19,16 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
     public static class MeshExtensions
     {
+        #region Rotations
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="axis"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
         public static T Rotate<T>(this T mesh, Vector3D axis, float angle) where T : Mesh
         {
             ((SceneObject)mesh).Rotate(axis, angle);
@@ -26,31 +36,82 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             Matrix4x4 rotation = Transform.Rotate(axis, angle);
             foreach (Vertex vertex in mesh.Vertices)
             {
-                vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal, 1));
+                if (vertex.Normal.HasValue)
+                {
+                    vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
+                }
             }
 
             return mesh;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <param name="axis"></param>
+        /// <returns></returns>
         public static T RotateBetweenVectors<T>(this T mesh, Vector3D v1, Vector3D v2, Vector3D? axis = null) where T : Mesh
         {
             ((SceneObject)mesh).RotateBetweenVectors(v1, v2, axis);
+
+            Matrix4x4 rotation = Transform.RotateBetweenVectors(v1, v2, axis);
+            foreach (Vertex vertex in mesh.Vertices)
+            {
+                if (vertex.Normal.HasValue)
+                {
+                    vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
+                }
+            }
+
+            return mesh;
         }
 
+        #endregion
+
+        #region Scaling
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="scaleFactor"></param>
+        /// <returns></returns>
         public static T ScaleX<T>(this T mesh, float scaleFactor) where T : Mesh
         {
-
+            mesh.Scaling = new Vector3D(mesh.Scaling.x * scaleFactor, mesh.Scaling.y, mesh.Scaling.z);
+            return mesh;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="scaleFactor"></param>
+        /// <returns></returns>
         public static T ScaleY<T>(this T mesh, float scaleFactor) where T : Mesh
         {
-
+            return mesh;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="scaleFactor"></param>
+        /// <returns></returns>
         public static T ScaleZ<T>(this T mesh, float scaleFactor) where T : Mesh
         {
-
+            return mesh;
         }
+
+        #endregion
     }
 
     public abstract partial class Mesh : SceneObject
@@ -61,7 +122,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// Scales a <see cref="Mesh"/> in the x-direction.
         /// </summary>
         /// <param name="scaleFactor">Factor to scale by.</param>
-        public void ScaleX(float scaleFactor) => Scaling = new Vector3D(Scaling.x * scaleFactor, Scaling.y, Scaling.z);
+        public void ScaleX(float scaleFactor) => ;
 
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the y-direction.
