@@ -113,9 +113,44 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             return mesh;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="scaleFactorX"></param>
+        /// <param name="scaleFactorY"></param>
+        /// <param name="scaleFactorZ"></param>
+        /// <returns></returns>
         public static T Scale<T>(this T mesh, float scaleFactorX, float scaleFactorY, float scaleFactorZ) where T : Mesh
         {
             mesh.Scaling = new Vector3D(mesh.Scaling.x * scaleFactorX, mesh.Scaling.y * scaleFactorY, mesh.Scaling.z * scaleFactorZ);
+            return mesh;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="scaleFactor"></param>
+        /// <returns></returns>
+        public static T Scale<T>(this T mesh, float scaleFactor) where T : Mesh
+        {
+            mesh.Scaling = new Vector3D(mesh.Scaling.x * scaleFactor, mesh.Scaling.y * scaleFactor, mesh.Scaling.z * scaleFactor);
+            return mesh;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="scaleFactor"></param>
+        /// <returns></returns>
+        public static T Scale<T>(this T mesh, Vector3D scaleFactor) where T : Mesh
+        {
+            mesh.Scaling = scaleFactor;
             return mesh;
         }
 
@@ -126,19 +161,15 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
     {
         #region Scaling
 
-        public void ScaleX(float scaleFactor) => ;
-
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the y-direction.
         /// </summary>
         /// <param name="scaleFactor">Factor to scale by.</param>
-        public void ScaleY(float scaleFactor) => ;
 
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the z-direction.
         /// </summary>
         /// <param name="scaleFactor">Factor to scale by.</param>
-        public void ScaleZ(float scaleFactor) => ;
 
         /// <summary>
         /// Scales a <see cref="Mesh"/> in all directions.
@@ -152,13 +183,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// Scales a <see cref="Mesh"/> in all directions by the same scale factor.
         /// </summary>
         /// <param name="scaleFactor">Factor to scale by.</param>
-        public void Scale(float scaleFactor) => Scaling = new Vector3D(Scaling.x * scaleFactor, Scaling.y * scaleFactor, Scaling.z * scaleFactor);
+
 
         /// <summary>
         /// Scales a <see cref="Mesh"/> in all directions.
         /// </summary>
         /// <param name="scaleFactor">Vector representing factors to scale by.</param>
-        public void Scale(Vector3D scaleFactor) => Scaling = scaleFactor;
+
 
         #endregion
     }
