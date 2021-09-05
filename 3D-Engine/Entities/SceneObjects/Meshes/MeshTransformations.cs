@@ -88,11 +88,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         }
 
         /// <summary>
-        ///
+        /// Scales a <see cref="Mesh"/> in the y-direction.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mesh"></param>
-        /// <param name="scaleFactor"></param>
+        /// <param name="scaleFactor">Factor to scale by.</param>
         /// <returns></returns>
         public static T ScaleY<T>(this T mesh, float scaleFactor) where T : Mesh
         {
@@ -101,11 +101,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         }
 
         /// <summary>
-        ///
+        /// Scales a <see cref="Mesh"/> in the z-direction.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mesh"></param>
-        /// <param name="scaleFactor"></param>
+        /// <param name="scaleFactor">Factor to scale by.</param>
         /// <returns></returns>
         public static T ScaleZ<T>(this T mesh, float scaleFactor) where T : Mesh
         {
@@ -114,13 +114,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         }
 
         /// <summary>
-        ///
+        /// Scales a <see cref="Mesh"/> in all directions.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mesh"></param>
-        /// <param name="scaleFactorX"></param>
-        /// <param name="scaleFactorY"></param>
-        /// <param name="scaleFactorZ"></param>
+        /// <param name="scaleFactorX">Factor to scale by in the x-direction.</param>
+        /// <param name="scaleFactorY">Factor to scale by in the y-direction.</param>
+        /// <param name="scaleFactorZ">Factor to scale by in the z-direction.</param>
         /// <returns></returns>
         public static T Scale<T>(this T mesh, float scaleFactorX, float scaleFactorY, float scaleFactorZ) where T : Mesh
         {
@@ -162,21 +162,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Scaling
 
         /// <summary>
-        /// Scales a <see cref="Mesh"/> in the y-direction.
+        ///
         /// </summary>
-        /// <param name="scaleFactor">Factor to scale by.</param>
-
-        /// <summary>
-        /// Scales a <see cref="Mesh"/> in the z-direction.
-        /// </summary>
-        /// <param name="scaleFactor">Factor to scale by.</param>
-
-        /// <summary>
-        /// Scales a <see cref="Mesh"/> in all directions.
-        /// </summary>
-        /// <param name="scaleFactorX">Factor to scale by in the x-direction.</param>
-        /// <param name="scaleFactorY">Factor to scale by in the y-direction.</param>
-        /// <param name="scaleFactorZ">Factor to scale by in the z-direction.</param>
 
 
         /// <summary>
