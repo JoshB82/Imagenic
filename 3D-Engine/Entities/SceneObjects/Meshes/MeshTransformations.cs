@@ -129,11 +129,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         }
 
         /// <summary>
-        ///
+        /// Scales a <see cref="Mesh"/> in all directions by the same scale factor.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mesh"></param>
-        /// <param name="scaleFactor"></param>
+        /// <param name="scaleFactor">Factor to scale by.</param>
         /// <returns></returns>
         public static T Scale<T>(this T mesh, float scaleFactor) where T : Mesh
         {
@@ -142,41 +142,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         }
 
         /// <summary>
-        ///
+        /// Scales a <see cref="Mesh"/> in all directions.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mesh"></param>
-        /// <param name="scaleFactor"></param>
+        /// <param name="scaleFactor">Vector representing factors to scale by.</param>
         /// <returns></returns>
         public static T Scale<T>(this T mesh, Vector3D scaleFactor) where T : Mesh
         {
             mesh.Scaling = scaleFactor;
             return mesh;
         }
-
-        #endregion
-    }
-
-    public abstract partial class Mesh : SceneObject
-    {
-        #region Scaling
-
-        /// <summary>
-        ///
-        /// </summary>
-
-
-        /// <summary>
-        /// Scales a <see cref="Mesh"/> in all directions by the same scale factor.
-        /// </summary>
-        /// <param name="scaleFactor">Factor to scale by.</param>
-
-
-        /// <summary>
-        /// Scales a <see cref="Mesh"/> in all directions.
-        /// </summary>
-        /// <param name="scaleFactor">Vector representing factors to scale by.</param>
-
 
         #endregion
     }
