@@ -1,4 +1,5 @@
-﻿using _3D_Engine.Maths.Transformations;
+﻿using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using System;
 
@@ -7,6 +8,8 @@ namespace _3D_Engine.Maths
     public class Orientation : IEquatable<Orientation>
     {
         #region Fields and Properties
+
+        internal SceneObject Subject { get; set; }
 
         private bool displayDirectionArrows = false;
         /// <summary>
@@ -19,7 +22,7 @@ namespace _3D_Engine.Maths
             {
                 if (value == displayDirectionArrows) return;
                 displayDirectionArrows = value;
-                RequestNewRenders();
+                Subject.RequestNewRenders();
             }
         }
         internal bool HasDirectionArrows { get; set; }
