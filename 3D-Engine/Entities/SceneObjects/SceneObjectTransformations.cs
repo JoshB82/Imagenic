@@ -31,6 +31,12 @@ namespace _3D_Engine.Entities.SceneObjects
         #region Methods
 
         // Rotations
+
+        public static T SetDirection<T>(this T sceneObject, Orientation orientation) where T : SceneObject
+        {
+            return sceneObject;
+        }
+
         /// <summary>
         ///
         /// </summary>

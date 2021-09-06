@@ -221,14 +221,10 @@ namespace _3D_Engine.Entities.SceneObjects
                 DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
             }
 
-            SetDirection1(directionForward, directionUp);
-            WorldOrigin = origin;
 
-            #if DEBUG
 
-            ConsoleOutput.DisplayMessageFromObject(this, $"Created at {origin}.");
 
-            #endif
+
         }
 
         internal SceneObject(Vector3D worldOrigin,
@@ -236,6 +232,14 @@ namespace _3D_Engine.Entities.SceneObjects
                              bool hasDirectionArrows = true)
         {
 
+            SetDirection1(directionForward, directionUp);
+            WorldOrigin = worldOrigin;
+
+            #if DEBUG
+
+            ConsoleOutput.DisplayMessageFromObject(this, $"Created at {worldOrigin}.");
+
+            #endif
         }
 
         #endregion
