@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Constants;
+using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
@@ -20,7 +21,7 @@ using System;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
-    public static class SceneObjectExtensions
+    public static class SceneObjectTransformations
     {
         #region Fields and Properties
 
@@ -32,8 +33,19 @@ namespace _3D_Engine.Entities.SceneObjects
 
         // Rotations
 
-        public static T SetDirection<T>(this T sceneObject, Orientation orientation) where T : SceneObject
+        public static T SetOrientation<T>(this T sceneObject, Orientation orientation) where T : SceneObject
         {
+            if (orientation is null)
+            {
+                throw GenerateException.WithParameters<ParameterCannotBeNullException>(nameof(orientation));
+            }
+
+            sceneObject.WorldOrientation = orientation;
+            foreach (SceneObject child in sceneObject.GetAllChildren())
+            {
+                child.WorldOrientation = orientation;
+            }
+
             return sceneObject;
         }
 
@@ -125,12 +137,22 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <returns></returns>
         public static T Rotate<T>(this T sceneObject, Vector3D axis, float angle) where T : SceneObject
         {
-            Matrix4x4 rotation = Transform.Rotate(axis, angle);
+            if (angle.ApproxMoreThan(0, epsilon))
+            {
+                Matrix4x4 rotation = Transform.Rotate(axis, angle);
 
-            sceneObject.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneObject.WorldOrigin, 1));
-            sceneObject.WorldDirectionForward = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1));
-            sceneObject.WorldDirectionUp = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1));
-            sceneObject.WorldDirectionRight = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionRight, 1));
+                sceneObject.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneObject.WorldOrigin, 1));
+                sceneObject.WorldOrientation = Orientation.CreateOrientationForwardUp(
+                    (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1)),
+                    (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1))
+                );
+
+                switch (sceneObject)
+                {
+                    case Mesh mesh:
+                        break;
+                }
+            }
 
             return sceneObject;
         }
