@@ -1,4 +1,17 @@
-﻿using _3D_Engine.Entities.SceneObjects;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ * Defines an object that represents a three-dimensional orientation consisting of three directions: forward, up and right.
+ */
+
+using _3D_Engine.Constants;
+using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using System;
@@ -40,17 +53,17 @@ namespace _3D_Engine.Maths
 
         #region Constructors
 
-        /*
-        private Orientation()
-        {
-            DirectionForward = Vector3D.Zero;
-            DirectionUp = Vector3D.Zero;
-            DirectionRight = Vector3D.Zero;
-        }
-        */
-
         public static Orientation CreateOrientationForwardUp(Vector3D directionForward, Vector3D directionUp)
         {
+            if (directionForward.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionForward));
+            }
+            if (directionUp.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionUp));
+            }
+
             return new Orientation
             {
                 DirectionForward = directionForward,
@@ -61,6 +74,15 @@ namespace _3D_Engine.Maths
 
         public static Orientation CreateOrientationUpRight(Vector3D directionUp, Vector3D directionRight)
         {
+            if (directionUp.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionUp));
+            }
+            if (directionRight.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionRight));
+            }
+
             return new Orientation
             {
                 DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight),
@@ -71,6 +93,15 @@ namespace _3D_Engine.Maths
 
         public static Orientation CreateOrientationRightForward(Vector3D directionRight, Vector3D directionForward)
         {
+            if (directionRight.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionRight));
+            }
+            if (directionForward.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionForward));
+            }
+
             return new Orientation
             {
                 DirectionForward = directionForward,
@@ -85,6 +116,15 @@ namespace _3D_Engine.Maths
 
         public void SetDirectionForwardUp(Vector3D directionForward, Vector3D directionUp)
         {
+            if (directionForward.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionForward));
+            }
+            if (directionUp.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionUp));
+            }
+
             DirectionForward = directionForward;
             DirectionUp = directionUp;
             DirectionRight = Transform.CalculateDirectionRight(directionForward, directionUp);
@@ -92,6 +132,15 @@ namespace _3D_Engine.Maths
 
         public void SetDirectionUpRight(Vector3D directionUp, Vector3D directionRight)
         {
+            if (directionUp.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionUp));
+            }
+            if (directionRight.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionRight));
+            }
+
             DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight);
             DirectionUp = directionUp;
             DirectionRight = directionRight;
@@ -99,6 +148,15 @@ namespace _3D_Engine.Maths
 
         public void SetDirectionRightForward(Vector3D directionRight, Vector3D directionForward)
         {
+            if (directionRight.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionRight));
+            }
+            if (directionForward.ApproxEquals(Vector3D.Zero))
+            {
+                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionForward));
+            }
+
             DirectionForward = directionForward;
             DirectionUp = Transform.CalculateDirectionUp(directionRight, directionForward);
             DirectionRight = directionRight;
