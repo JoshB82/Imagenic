@@ -57,11 +57,11 @@ namespace _3D_Engine.Maths
         {
             if (directionForward.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionForward));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
             if (directionUp.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionUp));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
 
             return new Orientation
@@ -76,11 +76,11 @@ namespace _3D_Engine.Maths
         {
             if (directionUp.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionUp));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
             if (directionRight.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionRight));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
 
             return new Orientation
@@ -95,11 +95,11 @@ namespace _3D_Engine.Maths
         {
             if (directionRight.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionRight));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
             if (directionForward.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionForward));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
 
             return new Orientation
@@ -118,11 +118,11 @@ namespace _3D_Engine.Maths
         {
             if (directionForward.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionForward));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
             if (directionUp.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionUp));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
 
             DirectionForward = directionForward;
@@ -134,11 +134,11 @@ namespace _3D_Engine.Maths
         {
             if (directionUp.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionUp));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
             if (directionRight.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionRight));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
 
             DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight);
@@ -150,11 +150,11 @@ namespace _3D_Engine.Maths
         {
             if (directionRight.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionRight));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
             if (directionForward.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException.WithParameters<VectorCannotBeZeroException>(nameof(directionForward));
+                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
 
             DirectionForward = directionForward;

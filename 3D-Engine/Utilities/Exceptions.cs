@@ -59,9 +59,9 @@ namespace _3D_Engine.Constants
         #endregion
     }
 
-    public static class GenerateException
+    public static class GenerateException<T> where T : Exception, IVerbose, new()
     {
-        public static T WithParameters<T>(params string[] parameters) where T : Exception, IVerbose, new()
+        public static T WithParameters(params string[] parameters)
         {
             T engineException = new();
             string message = Properties.Settings.Default.Verbosity switch
