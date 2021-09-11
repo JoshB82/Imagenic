@@ -57,18 +57,18 @@ namespace _3D_Engine.Maths
         {
             if (directionForward.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
             if (directionUp.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
 
             return new Orientation
             {
-                DirectionForward = directionForward,
-                DirectionUp = directionUp,
-                DirectionRight = Transform.CalculateDirectionRight(directionForward, directionUp)
+                DirectionForward = directionForward.Normalise(),
+                DirectionUp = directionUp.Normalise(),
+                DirectionRight = Transform.CalculateDirectionRight(directionForward, directionUp).Normalise()
             };
         }
 
@@ -76,18 +76,18 @@ namespace _3D_Engine.Maths
         {
             if (directionUp.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
             if (directionRight.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
 
             return new Orientation
             {
-                DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight),
-                DirectionUp = directionUp,
-                DirectionRight = directionRight
+                DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight).Normalise(),
+                DirectionUp = directionUp.Normalise(),
+                DirectionRight = directionRight.Normalise()
             };
         }
 
@@ -95,18 +95,18 @@ namespace _3D_Engine.Maths
         {
             if (directionRight.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
             if (directionForward.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
 
             return new Orientation
             {
-                DirectionForward = directionForward,
-                DirectionUp = Transform.CalculateDirectionUp(directionRight, directionForward),
-                DirectionRight = directionRight
+                DirectionForward = directionForward.Normalise(),
+                DirectionUp = Transform.CalculateDirectionUp(directionRight, directionForward).Normalise(),
+                DirectionRight = directionRight.Normalise()
             };
         }
 
@@ -118,48 +118,48 @@ namespace _3D_Engine.Maths
         {
             if (directionForward.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
             if (directionUp.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
 
-            DirectionForward = directionForward;
-            DirectionUp = directionUp;
-            DirectionRight = Transform.CalculateDirectionRight(directionForward, directionUp);
+            DirectionForward = directionForward.Normalise();
+            DirectionUp = directionUp.Normalise();
+            DirectionRight = Transform.CalculateDirectionRight(directionForward, directionUp).Normalise();
         }
 
         public void SetDirectionUpRight(Vector3D directionUp, Vector3D directionRight)
         {
             if (directionUp.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
             if (directionRight.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
 
-            DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight);
-            DirectionUp = directionUp;
-            DirectionRight = directionRight;
+            DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight).Normalise();
+            DirectionUp = directionUp.Normalise();
+            DirectionRight = directionRight.Normalise();
         }
 
         public void SetDirectionRightForward(Vector3D directionRight, Vector3D directionForward)
         {
             if (directionRight.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
             if (directionForward.ApproxEquals(Vector3D.Zero))
             {
-                GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
+                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
 
-            DirectionForward = directionForward;
-            DirectionUp = Transform.CalculateDirectionUp(directionRight, directionForward);
-            DirectionRight = directionRight;
+            DirectionForward = directionForward.Normalise();
+            DirectionUp = Transform.CalculateDirectionUp(directionRight, directionForward).Normalise();
+            DirectionRight = directionRight.Normalise();
         }
 
         public bool Equals(Orientation other)
