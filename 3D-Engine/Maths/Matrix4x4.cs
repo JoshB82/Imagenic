@@ -54,17 +54,29 @@ namespace _3D_Engine.Maths
         /// From the top left, the value in the second row and first column.
         /// </summary>
         public float m10;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m11']/*"/>
+        /// <summary>
+        /// From the top left, the value in the second row and second column.
+        /// </summary>
         public float m11;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m12']/*"/>
+        /// <summary>
+        /// From the top left, the value in the second row and third column.
+        /// </summary>
         public float m12;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m13']/*"/>
+        /// <summary>
+        /// From the top left, the value in the second row and fourth column.
+        /// </summary>
         public float m13;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m20']/*"/>
+        /// <summary>
+        /// From the top left, the value in the third row and first column.
+        /// </summary>
         public float m20;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m21']/*"/>
+        /// <summary>
+        /// From the top left, the value in the third row and second column.
+        /// </summary>
         public float m21;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m22']/*"/>
+        /// <summary>
+        /// From the top left, the value in the third row and third column.
+        /// </summary>
         public float m22;
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m23']/*"/>
         public float m23;
