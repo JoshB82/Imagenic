@@ -16,7 +16,9 @@ using System;
 
 namespace _3D_Engine.Maths
 {
-    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Matrix4x4']/*"/>
+    /// <summary>
+    /// Encapsulates creation of a <see cref="Matrix4x4"/> (square matrix with four rows and four columns).
+    /// </summary>
     public struct Matrix4x4 : IEquatable<Matrix4x4>
     {
         #region Fields and Properties
@@ -32,15 +34,25 @@ namespace _3D_Engine.Maths
         public static readonly Matrix4x4 Identity = new() { m00 = 1, m11 = 1, m22 = 1, m33 = 1 };
 
         // Matrix contents
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m00']/*"/>
+        /// <summary>
+        /// From the top left, the value in the first row and first column.
+        /// </summary>
         public float m00;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m01']/*"/>
+        /// <summary>
+        /// From the top left, the value in the first row and second column.
+        /// </summary>
         public float m01;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m02']/*"/>
+        /// <summary>
+        /// From the top left, the value in the first row and third column.
+        /// </summary>
         public float m02;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m03']/*"/>
+        /// <summary>
+        /// From the top left, the value in the first row and fourth column.
+        /// </summary>
         public float m03;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m10']/*"/>
+        /// <summary>
+        /// From the top left, the value in the second row and first column.
+        /// </summary>
         public float m10;
         /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m11']/*"/>
         public float m11;
