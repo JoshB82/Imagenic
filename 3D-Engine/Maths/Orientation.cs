@@ -53,61 +53,27 @@ namespace _3D_Engine.Maths
 
         #region Constructors
 
+        private Orientation() { }
+
         public static Orientation CreateOrientationForwardUp(Vector3D directionForward, Vector3D directionUp)
         {
-            if (directionForward.ApproxEquals(Vector3D.Zero))
-            {
-                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
-            }
-            if (directionUp.ApproxEquals(Vector3D.Zero))
-            {
-                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
-            }
-
-            return new Orientation
-            {
-                DirectionForward = directionForward.Normalise(),
-                DirectionUp = directionUp.Normalise(),
-                DirectionRight = Transform.CalculateDirectionRight(directionForward, directionUp).Normalise()
-            };
+            Orientation newOrientation = new();
+            newOrientation.SetDirectionForwardUp(directionForward, directionUp);
+            return newOrientation;
         }
 
         public static Orientation CreateOrientationUpRight(Vector3D directionUp, Vector3D directionRight)
         {
-            if (directionUp.ApproxEquals(Vector3D.Zero))
-            {
-                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
-            }
-            if (directionRight.ApproxEquals(Vector3D.Zero))
-            {
-                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
-            }
-
-            return new Orientation
-            {
-                DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight).Normalise(),
-                DirectionUp = directionUp.Normalise(),
-                DirectionRight = directionRight.Normalise()
-            };
+            Orientation newOrientation = new();
+            newOrientation.SetDirectionUpRight(directionUp, directionRight);
+            return newOrientation;
         }
 
         public static Orientation CreateOrientationRightForward(Vector3D directionRight, Vector3D directionForward)
         {
-            if (directionRight.ApproxEquals(Vector3D.Zero))
-            {
-                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
-            }
-            if (directionForward.ApproxEquals(Vector3D.Zero))
-            {
-                throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
-            }
-
-            return new Orientation
-            {
-                DirectionForward = directionForward.Normalise(),
-                DirectionUp = Transform.CalculateDirectionUp(directionRight, directionForward).Normalise(),
-                DirectionRight = directionRight.Normalise()
-            };
+            Orientation newOrientation = new();
+            newOrientation.SetDirectionRightForward(directionRight, directionForward);
+            return newOrientation;
         }
 
         #endregion
@@ -162,10 +128,7 @@ namespace _3D_Engine.Maths
             DirectionRight = directionRight.Normalise();
         }
 
-        public bool Equals(Orientation other)
-        {
-            throw new NotImplementedException();
-        }
+        public bool Equals(Orientation other) => (DirectionForward, DirectionUp, DirectionRight) == (other.DirectionForward, other.DirectionUp, other.DirectionRight);
 
         #endregion
     }
