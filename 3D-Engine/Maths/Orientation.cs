@@ -22,7 +22,7 @@ namespace _3D_Engine.Maths
     {
         #region Fields and Properties
 
-        internal SceneObject Subject { get; set; }
+        internal SceneObject LinkedSceneObject { get; set; }
 
         private bool displayDirectionArrows = false;
         /// <summary>
@@ -35,7 +35,7 @@ namespace _3D_Engine.Maths
             {
                 if (value == displayDirectionArrows) return;
                 displayDirectionArrows = value;
-                Subject.RequestNewRenders();
+                LinkedSceneObject.RequestNewRenders();
             }
         }
         internal bool HasDirectionArrows { get; set; }
@@ -48,6 +48,9 @@ namespace _3D_Engine.Maths
         public Vector3D DirectionForward { get; private set; }
         public Vector3D DirectionUp { get; private set; }
         public Vector3D DirectionRight { get; private set; }
+
+        // Miscellaneous
+        private const float epsilon = 1E-6f;
 
         #endregion
 
@@ -82,11 +85,11 @@ namespace _3D_Engine.Maths
 
         public void SetDirectionForwardUp(Vector3D directionForward, Vector3D directionUp)
         {
-            if (directionForward.ApproxEquals(Vector3D.Zero))
+            if (directionForward.ApproxEquals(Vector3D.Zero, epsilon))
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }
-            if (directionUp.ApproxEquals(Vector3D.Zero))
+            if (directionUp.ApproxEquals(Vector3D.Zero, epsilon))
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
@@ -98,11 +101,11 @@ namespace _3D_Engine.Maths
 
         public void SetDirectionUpRight(Vector3D directionUp, Vector3D directionRight)
         {
-            if (directionUp.ApproxEquals(Vector3D.Zero))
+            if (directionUp.ApproxEquals(Vector3D.Zero, epsilon))
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
-            if (directionRight.ApproxEquals(Vector3D.Zero))
+            if (directionRight.ApproxEquals(Vector3D.Zero, epsilon))
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
@@ -114,11 +117,11 @@ namespace _3D_Engine.Maths
 
         public void SetDirectionRightForward(Vector3D directionRight, Vector3D directionForward)
         {
-            if (directionRight.ApproxEquals(Vector3D.Zero))
+            if (directionRight.ApproxEquals(Vector3D.Zero, epsilon))
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
-            if (directionForward.ApproxEquals(Vector3D.Zero))
+            if (directionForward.ApproxEquals(Vector3D.Zero, epsilon))
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
             }

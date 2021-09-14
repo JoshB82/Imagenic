@@ -70,36 +70,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             }
         }
 
-        /*
-        // Colours
-        private Color edgeColour, faceColour;
-
-        /// <summary>
-        /// The <see cref="Color"/> of each <see cref="Edge"/> in the <see cref="Mesh"/>.
-        /// </summary>
-        public Color EdgeColour
-        {
-            get => edgeColour;
-            set
-            {
-                edgeColour = value;
-                foreach (Edge edge in Edges) edge.Colour = edgeColour;
-            }
-        }
-        /// <summary>
-        /// The <see cref="Color"/> of each <see cref="Face"/> in the <see cref="Mesh"/>.
-        /// </summary>
-        public Color FaceColour
-        {
-            get => faceColour;
-            set
-            {
-                faceColour = value;
-                //foreach (Face face in Faces) face.Colour = faceColour; TODO: fix
-            }
-        }
-        */
-
         // Headed Rendering Object
         internal List<RenderingObject> HeadedRenderingObjects { get; set; } = new();
         internal override void RequestNewRenders()
@@ -152,17 +122,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #endregion
 
         #region Constructors
-
-        internal Mesh(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
-                      int dimension,
-                      bool hasDirectionArrows = true) : base(origin, directionForward, directionUp, hasDirectionArrows)
-        {
-            Dimension = dimension;
-
-            //Update += (sender, eventArgs) => { if (HeadedRenderingObject is not null) HeadedRenderingObject.RenderCamera.NewRenderNeeded = true; };
-        }
 
         internal Mesh(Vector3D worldOrigin,
                       Orientation worldOrientation,

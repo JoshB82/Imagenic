@@ -1,30 +1,5 @@
-﻿/*
- *       -3D-Engine-
- *     (c) Josh Bryant
- * https://joshdbryant.com
- *
- * Full license is available in the GitHub repository:
- * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
- *
- * Code description for this file:
- * Encapsulates creation of a scene and contains rendering methods.
- */
-
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Drawing;
-using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
-using _3D_Engine.Entities.SceneObjects.Meshes;
-using _3D_Engine.Entities.Groups;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-
-namespace _3D_Engine
+﻿namespace _3D_Engine
 {
-    /// <summary>
-    /// Encapsulates creation of a <see cref="Scene2"/>.
-    /// </summary>
     public sealed partial class Scene2
     {
         #region Fields and Properties
