@@ -172,10 +172,10 @@ namespace _3D_Engine.Entities.SceneObjects
         public IEnumerable<SceneObject> GetAllParents(Predicate<SceneObject> predicate = null)
         {
             List<SceneObject> parents = new();
-            if (Parent is not null && predicate is not null && predicate(Parent))
+            if (Parent is not null && ((predicate is not null && predicate(Parent)) || predicate is null))
             {
                 parents.Add(Parent);
-                parents.AddRange(Parent.GetAllParents());
+                parents.AddRange(Parent.GetAllParents(predicate));
             }
             return parents;
         }
@@ -184,11 +184,13 @@ namespace _3D_Engine.Entities.SceneObjects
             List<SceneObject> children = new();
             foreach (SceneObject child in Children)
             {
-                if (predicate is not null && predicate(child))
+                if (predicate is not null && !predicate(child))
                 {
-                    children.Add(child);
-                    children.AddRange(child.GetAllChildren());
+                    continue;
                 }
+
+                children.Add(child);
+                children.AddRange(child.GetAllChildren(predicate));
             }
             return children;
         }
