@@ -44,6 +44,7 @@ namespace _3D_Engine.Maths
         internal static readonly Vector3D ModelDirectionForward = Vector3D.UnitZ;
         internal static readonly Vector3D ModelDirectionUp = Vector3D.UnitY;
         internal static readonly Vector3D ModelDirectionRight = Vector3D.UnitX;
+        internal static readonly Orientation ModelOrientation = Orientation.CreateOrientationForwardUp(ModelDirectionForward, ModelDirectionUp);
 
         public Vector3D DirectionForward { get; private set; }
         public Vector3D DirectionUp { get; private set; }
