@@ -17,6 +17,7 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -168,23 +169,26 @@ namespace _3D_Engine.Entities.SceneObjects
         }
         public void RemoveChildren(IEnumerable<SceneObject> children) => RemoveChildren(children.ToArray());
 
-        public IEnumerable<SceneObject> GetAllParents()
+        public IEnumerable<SceneObject> GetAllParents(Predicate<SceneObject> predicate = null)
         {
             List<SceneObject> parents = new();
-            if (Parent is not null)
+            if (Parent is not null && predicate(Parent))
             {
                 parents.Add(Parent);
                 parents.AddRange(Parent.GetAllParents());
             }
             return parents;
         }
-        public IEnumerable<SceneObject> GetAllChildren()
+        public IEnumerable<SceneObject> GetAllChildren(Predicate<SceneObject> predicate = null)
         {
             List<SceneObject> children = new();
             foreach (SceneObject child in Children)
             {
-                children.Add(child);
-                children.AddRange(child.GetAllChildren());
+                if (predicate(child))
+                {
+                    children.Add(child);
+                    children.AddRange(child.GetAllChildren());
+                }
             }
             return children;
         }

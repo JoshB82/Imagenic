@@ -12,6 +12,7 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.Meshes;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
@@ -33,11 +34,18 @@ namespace _3D_Engine.Entities.SceneObjects
 
         // Rotations
 
+        /// <summary>
+        /// Sets the <see cref="Orientation"/> to the passed argument.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="orientation"></param>
+        /// <returns></returns>
         public static T SetOrientation<T>(this T sceneObject, Orientation orientation) where T : SceneObject
         {
             if (orientation is null)
             {
-                throw GenerateException.WithParameters<ParameterCannotBeNullException>(nameof(orientation));
+                throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(orientation));
             }
 
             sceneObject.WorldOrientation = orientation;
@@ -150,6 +158,13 @@ namespace _3D_Engine.Entities.SceneObjects
                 switch (sceneObject)
                 {
                     case Mesh mesh:
+                        foreach (Vertex vertex in mesh.Vertices)
+                        {
+                            if (vertex.Normal.HasValue)
+                            {
+                                vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
+                            }
+                        }
                         break;
                 }
             }

@@ -26,30 +26,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mesh"></param>
-        /// <param name="axis"></param>
-        /// <param name="angle"></param>
-        /// <returns></returns>
-        public static T Rotate<T>(this T mesh, Vector3D axis, float angle) where T : Mesh
-        {
-            ((SceneObject)mesh).Rotate(axis, angle);
-
-            Matrix4x4 rotation = Transform.Rotate(axis, angle);
-            foreach (Vertex vertex in mesh.Vertices)
-            {
-                if (vertex.Normal.HasValue)
-                {
-                    vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
-                }
-            }
-
-            return mesh;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="mesh"></param>
         /// <param name="v1"></param>
         /// <param name="v2"></param>
         /// <param name="axis"></param>
