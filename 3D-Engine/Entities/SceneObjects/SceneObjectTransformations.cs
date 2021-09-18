@@ -143,7 +143,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <param name="axis"></param>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static T Rotate<T>(this T sceneObject, Vector3D axis, float angle) where T : SceneObject
+        public static T Rotate<T>(this T sceneObject, Vector3D axis, float angle, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             if (angle.ApproxMoreThan(0, epsilon))
             {
@@ -154,6 +154,15 @@ namespace _3D_Engine.Entities.SceneObjects
                     (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1)),
                     (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1))
                 );
+
+                foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+                {
+                    child.WorldOrigin = (Vector3D)(rotation * new Vector4D(child.WorldOrigin, 1));
+                    child.WorldOrientation = Orientation.CreateOrientationForwardUp(
+                        (Vector3D)(rotation * new Vector4D(child.WorldDirectionForward, 1)),
+                        (Vector3D)(rotation * new Vector4D(child.WorldDirectionUp, 1))
+                    );
+                }
 
                 switch (sceneObject)
                 {
