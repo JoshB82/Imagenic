@@ -164,7 +164,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <param name="v2"></param>
         /// <param name="axis"></param>
         /// <returns></returns>
-        public static T RotateBetweenVectors<T>(this T sceneObject, Vector3D v1, Vector3D v2, Vector3D? axis = null) where T : SceneObject
+        public static T RotateBetweenVectors<T>(this T sceneObject, Vector3D v1, Vector3D v2, Vector3D? axis = null, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             Matrix4x4 rotation = Transform.RotateBetweenVectors(v1, v2, axis);
 
@@ -173,6 +173,15 @@ namespace _3D_Engine.Entities.SceneObjects
                 (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1)),
                 (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1))
             );
+
+            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            {
+                child.WorldOrigin = (Vector3D)(rotation * new Vector4D(child.WorldOrigin, 1));
+                child.WorldOrientation.SetDirectionForwardUp(
+                    (Vector3D)(rotation * new Vector4D(child.WorldDirectionForward, 1)),
+                    (Vector3D)(rotation * new Vector4D(child.WorldDirectionUp, 1))
+                );
+            }
 
             return sceneObject;
         }
@@ -185,7 +194,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <param name="sceneObject"></param>
         /// <param name="distance"></param>
         /// <returns></returns>
-        public static T TranslateX<T>(this T sceneObject, float distance) where T : SceneObject
+        public static T TranslateX<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(distance, 0, 0);
             return sceneObject;
@@ -198,7 +207,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <param name="sceneObject"></param>
         /// <param name="distance"></param>
         /// <returns></returns>
-        public static T TranslateY<T>(this T sceneObject, float distance) where T : SceneObject
+        public static T TranslateY<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(0, distance, 0);
             return sceneObject;
@@ -211,7 +220,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <param name="sceneObject"></param>
         /// <param name="distance"></param>
         /// <returns></returns>
-        public static T TranslateZ<T>(this T sceneObject, float distance) where T : SceneObject
+        public static T TranslateZ<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(0, 0, distance);
             return sceneObject;
@@ -224,7 +233,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <param name="sceneObject"></param>
         /// <param name="displacement"></param>
         /// <returns></returns>
-        public static T Translate<T>(this T sceneObject, Vector3D displacement) where T : SceneObject
+        public static T Translate<T>(this T sceneObject, Vector3D displacement, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             sceneObject.WorldOrigin += displacement;
             return sceneObject;
