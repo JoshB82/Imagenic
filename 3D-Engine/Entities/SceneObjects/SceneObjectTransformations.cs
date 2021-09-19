@@ -197,6 +197,10 @@ namespace _3D_Engine.Entities.SceneObjects
         public static T TranslateX<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(distance, 0, 0);
+            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            {
+                child.WorldOrigin += new Vector3D(distance, 0, 0);
+            }
             return sceneObject;
         }
 
@@ -210,6 +214,10 @@ namespace _3D_Engine.Entities.SceneObjects
         public static T TranslateY<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(0, distance, 0);
+            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            {
+                child.WorldOrigin += new Vector3D(0, distance, 0);
+            }
             return sceneObject;
         }
 
@@ -223,6 +231,10 @@ namespace _3D_Engine.Entities.SceneObjects
         public static T TranslateZ<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             sceneObject.WorldOrigin += new Vector3D(0, 0, distance);
+            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            {
+                child.WorldOrigin += new Vector3D(0, 0, distance);
+            }
             return sceneObject;
         }
 
@@ -236,6 +248,10 @@ namespace _3D_Engine.Entities.SceneObjects
         public static T Translate<T>(this T sceneObject, Vector3D displacement, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             sceneObject.WorldOrigin += displacement;
+            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            {
+                child.WorldOrigin += displacement;
+            }
             return sceneObject;
         }
 
