@@ -14,6 +14,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
+using System;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
@@ -21,15 +22,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
     {
         #region Rotations
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="mesh"></param>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        /// <param name="axis"></param>
-        /// <returns></returns>
         public static T RotateBetweenVectors<T>(this T mesh, Vector3D v1, Vector3D v2, Vector3D? axis = null) where T : Mesh
         {
             ((SceneObject)mesh).RotateBetweenVectors(v1, v2, axis);
@@ -57,9 +49,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="mesh"></param>
         /// <param name="scaleFactor">Factor to scale by.</param>
         /// <returns></returns>
-        public static T ScaleX<T>(this T mesh, float scaleFactor) where T : Mesh
+        public static T ScaleX<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
             mesh.Scaling = new Vector3D(mesh.Scaling.x * scaleFactor, mesh.Scaling.y, mesh.Scaling.z);
+            foreach (Mesh child in mesh.GetAllChildren(predicate))
+            {
+                child.Scaling = new Vector3D(mesh.Scaling.x * scaleFactor, mesh.Scaling.y, mesh.Scaling.z);
+            }
             return mesh;
         }
 

@@ -209,16 +209,15 @@ namespace _3D_Engine.Entities.SceneObjects
 
         #region Constructors
 
-        internal SceneObject(Vector3D origin,
-                             Vector3D directionForward,
-                             Vector3D directionUp,
+        internal SceneObject(Vector3D worldOrigin,
+                             Orientation worldOrientation,
                              bool hasDirectionArrows = true)
         {
             if (HasDirectionArrows = hasDirectionArrows)
             {
-                Arrow DirectionForwardArrow = new(origin, directionForward, directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
-                Arrow DirectionUpArrow = new(origin, directionUp, -directionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
-                Arrow DirectionRightArrow = new(origin, Transform.CalculateDirectionRight(directionForward, directionUp), directionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
+                Arrow DirectionForwardArrow = new(worldOrigin, worldOrientation.DirectionForward, worldOrientation.DirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
+                Arrow DirectionUpArrow = new(worldOrigin, worldOrientation.DirectionUp, -worldOrientation.DirectionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
+                Arrow DirectionRightArrow = new(worldOrigin, Transform.CalculateDirectionRight(worldOrientation.DirectionForward, worldOrientation.DirectionUp), worldOrientation.DirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
 
                 DirectionForwardArrow.ColourAllSolidFaces(Color.Blue);
                 DirectionUpArrow.ColourAllSolidFaces(Color.Green);
@@ -227,18 +226,7 @@ namespace _3D_Engine.Entities.SceneObjects
                 DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
             }
 
-
-
-
-
-        }
-
-        internal SceneObject(Vector3D worldOrigin,
-                             Orientation worldOrientation,
-                             bool hasDirectionArrows = true)
-        {
-
-            SetDirection1(directionForward, directionUp);
+            SetDirection1(worldOrientation.DirectionForward, worldOrientation.DirectionUp);
             WorldOrigin = worldOrigin;
 
             #if DEBUG
