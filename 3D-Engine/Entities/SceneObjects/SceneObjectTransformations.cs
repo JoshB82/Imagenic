@@ -41,7 +41,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <param name="sceneObject"></param>
         /// <param name="orientation"></param>
         /// <returns></returns>
-        public static T SetOrientation<T>(this T sceneObject, Orientation orientation) where T : SceneObject
+        public static T SetOrientation<T>(this T sceneObject, Orientation orientation, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
             if (orientation is null)
             {
@@ -49,7 +49,7 @@ namespace _3D_Engine.Entities.SceneObjects
             }
 
             sceneObject.WorldOrientation = orientation;
-            foreach (SceneObject child in sceneObject.GetAllChildren())
+            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
             {
                 child.WorldOrientation = orientation;
             }
@@ -57,14 +57,6 @@ namespace _3D_Engine.Entities.SceneObjects
             return sceneObject;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sceneObject"></param>
-        /// <param name="newWorldDirectionForward"></param>
-        /// <param name="newWorldDirectionUp"></param>
-        /// <returns></returns>
         public static T SetDirection1<T>(this T sceneObject, Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp) where T : SceneObject
         {
             if (newWorldDirectionForward.ApproxEquals(Vector3D.Zero, epsilon))
@@ -84,15 +76,6 @@ namespace _3D_Engine.Entities.SceneObjects
 
             return sceneObject;
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sceneObject"></param>
-        /// <param name="newWorldDirectionUp"></param>
-        /// <param name="newWorldDirectionRight"></param>
-        /// <returns></returns>
         public static T SetDirection2<T>(this T sceneObject, Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight) where T : SceneObject
         {
             if (newWorldDirectionUp.ApproxEquals(Vector3D.Zero, epsilon))
@@ -109,15 +92,6 @@ namespace _3D_Engine.Entities.SceneObjects
 
             return sceneObject;
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sceneObject"></param>
-        /// <param name="newWorldDirectionRight"></param>
-        /// <param name="newWorldDirectionForward"></param>
-        /// <returns></returns>
         public static T SetDirection3<T>(this T sceneObject, Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward) where T : SceneObject
         {
             if (newWorldDirectionRight.ApproxEquals(Vector3D.Zero, epsilon))
@@ -195,9 +169,10 @@ namespace _3D_Engine.Entities.SceneObjects
             Matrix4x4 rotation = Transform.RotateBetweenVectors(v1, v2, axis);
 
             sceneObject.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneObject.WorldOrigin, 1));
-            sceneObject.WorldDirectionForward = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1));
-            sceneObject.WorldDirectionUp = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1));
-            sceneObject.WorldDirectionRight = (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionRight, 1));
+            sceneObject.WorldOrientation.SetDirectionForwardUp(
+                (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1)),
+                (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1))
+            );
 
             return sceneObject;
         }
