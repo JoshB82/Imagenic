@@ -46,5 +46,10 @@ namespace _3D_Engine.Utilities
                     break;
             }
         }
+
+        internal static void DisplayMessageFrom<T>(string message)
+        {
+
+        }
     }
 }
