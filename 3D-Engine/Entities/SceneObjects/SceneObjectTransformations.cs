@@ -48,8 +48,7 @@ namespace _3D_Engine.Entities.SceneObjects
                 throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(orientation));
             }
 
-            sceneObject.WorldOrientation = orientation;
-            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
             {
                 child.WorldOrientation = orientation;
             }
@@ -123,13 +122,7 @@ namespace _3D_Engine.Entities.SceneObjects
             {
                 Matrix4x4 rotation = Transform.Rotate(axis, angle);
 
-                sceneObject.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneObject.WorldOrigin, 1));
-                sceneObject.WorldOrientation = Orientation.CreateOrientationForwardUp(
-                    (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1)),
-                    (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1))
-                );
-
-                foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+                foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
                 {
                     child.WorldOrigin = (Vector3D)(rotation * new Vector4D(child.WorldOrigin, 1));
                     child.WorldOrientation = Orientation.CreateOrientationForwardUp(
@@ -168,13 +161,7 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             Matrix4x4 rotation = Transform.RotateBetweenVectors(v1, v2, axis);
 
-            sceneObject.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneObject.WorldOrigin, 1));
-            sceneObject.WorldOrientation.SetDirectionForwardUp(
-                (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionForward, 1)),
-                (Vector3D)(rotation * new Vector4D(sceneObject.WorldDirectionUp, 1))
-            );
-
-            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
             {
                 child.WorldOrigin = (Vector3D)(rotation * new Vector4D(child.WorldOrigin, 1));
                 child.WorldOrientation.SetDirectionForwardUp(
@@ -196,8 +183,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <returns></returns>
         public static T TranslateX<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
-            sceneObject.WorldOrigin += new Vector3D(distance, 0, 0);
-            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
             {
                 child.WorldOrigin += new Vector3D(distance, 0, 0);
             }
@@ -213,8 +199,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <returns></returns>
         public static T TranslateY<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
-            sceneObject.WorldOrigin += new Vector3D(0, distance, 0);
-            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
             {
                 child.WorldOrigin += new Vector3D(0, distance, 0);
             }
@@ -230,8 +215,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <returns></returns>
         public static T TranslateZ<T>(this T sceneObject, float distance, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
-            sceneObject.WorldOrigin += new Vector3D(0, 0, distance);
-            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
             {
                 child.WorldOrigin += new Vector3D(0, 0, distance);
             }
@@ -247,8 +231,7 @@ namespace _3D_Engine.Entities.SceneObjects
         /// <returns></returns>
         public static T Translate<T>(this T sceneObject, Vector3D displacement, Predicate<SceneObject> predicate = null) where T : SceneObject
         {
-            sceneObject.WorldOrigin += displacement;
-            foreach (SceneObject child in sceneObject.GetAllChildren(predicate))
+            foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
             {
                 child.WorldOrigin += displacement;
             }
