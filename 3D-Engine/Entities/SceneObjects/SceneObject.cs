@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Entities.Groups;
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
@@ -20,9 +19,7 @@ using _3D_Engine.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
@@ -225,13 +222,7 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             if (HasDirectionArrows = hasDirectionArrows)
             {
-                Arrow DirectionForwardArrow = new(worldOrigin, worldOrientation.DirectionForward, worldOrientation.DirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
-                Arrow DirectionUpArrow = new(worldOrigin, worldOrientation.DirectionUp, -worldOrientation.DirectionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
-                Arrow DirectionRightArrow = new(worldOrigin, Transform.CalculateDirectionRight(worldOrientation.DirectionForward, worldOrientation.DirectionUp), worldOrientation.DirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false);
 
-                DirectionForwardArrow.ColourAllSolidFaces(Color.Blue);
-                DirectionUpArrow.ColourAllSolidFaces(Color.Green);
-                DirectionRightArrow.ColourAllSolidFaces(Color.Red);
 
                 DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
             }

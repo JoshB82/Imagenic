@@ -12,9 +12,12 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using System;
+using System.Drawing;
+using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.Maths
 {
@@ -130,6 +133,15 @@ namespace _3D_Engine.Maths
             DirectionForward = directionForward.Normalise();
             DirectionUp = Transform.CalculateDirectionUp(directionRight, directionForward).Normalise();
             DirectionRight = directionRight.Normalise();
+        }
+
+        private void AddDirectionArrows()
+        {
+            LinkedSceneObject.AddChildren(
+                new Arrow(worldOrigin, worldOrientation.DirectionForward, worldOrientation.DirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Blue),
+                new Arrow(worldOrigin, worldOrientation.DirectionUp, -worldOrientation.DirectionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Green),
+                new Arrow(worldOrigin, Transform.CalculateDirectionRight(worldOrientation.DirectionForward, worldOrientation.DirectionUp), worldOrientation.DirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Red)
+            );
         }
 
         public bool Equals(Orientation other) => (DirectionForward, DirectionUp, DirectionRight) == (other.DirectionForward, other.DirectionUp, other.DirectionRight);
