@@ -51,10 +51,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <returns></returns>
         public static T ScaleX<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            mesh.Scaling = new Vector3D(mesh.Scaling.x * scaleFactor, mesh.Scaling.y, mesh.Scaling.z);
-            foreach (Mesh child in mesh.GetAllChildren(predicate))
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
             {
-                child.Scaling = new Vector3D(mesh.Scaling.x * scaleFactor, mesh.Scaling.y, mesh.Scaling.z);
+                child.Scaling = new Vector3D(child.Scaling.x * scaleFactor, child.Scaling.y, child.Scaling.z);
             }
             return mesh;
         }
@@ -66,9 +65,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="mesh"></param>
         /// <param name="scaleFactor">Factor to scale by.</param>
         /// <returns></returns>
-        public static T ScaleY<T>(this T mesh, float scaleFactor) where T : Mesh
+        public static T ScaleY<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            mesh.Scaling = new Vector3D(mesh.Scaling.x, mesh.Scaling.y * scaleFactor, mesh.Scaling.z);
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            {
+                child.Scaling = new Vector3D(child.Scaling.x, child.Scaling.y * scaleFactor, child.Scaling.z);
+            }
             return mesh;
         }
 
@@ -79,9 +81,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="mesh"></param>
         /// <param name="scaleFactor">Factor to scale by.</param>
         /// <returns></returns>
-        public static T ScaleZ<T>(this T mesh, float scaleFactor) where T : Mesh
+        public static T ScaleZ<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            mesh.Scaling = new Vector3D(mesh.Scaling.x, mesh.Scaling.y, mesh.Scaling.z * scaleFactor);
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            {
+                child.Scaling = new Vector3D(child.Scaling.x, child.Scaling.y, child.Scaling.z * scaleFactor);
+            }
             return mesh;
         }
 
@@ -94,9 +99,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="scaleFactorY">Factor to scale by in the y-direction.</param>
         /// <param name="scaleFactorZ">Factor to scale by in the z-direction.</param>
         /// <returns></returns>
-        public static T Scale<T>(this T mesh, float scaleFactorX, float scaleFactorY, float scaleFactorZ) where T : Mesh
+        public static T Scale<T>(this T mesh, float scaleFactorX, float scaleFactorY, float scaleFactorZ, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            mesh.Scaling = new Vector3D(mesh.Scaling.x * scaleFactorX, mesh.Scaling.y * scaleFactorY, mesh.Scaling.z * scaleFactorZ);
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            {
+                child.Scaling = new Vector3D(child.Scaling.x * scaleFactorX, child.Scaling.y * scaleFactorY, child.Scaling.z * scaleFactorZ);
+            }
             return mesh;
         }
 
@@ -107,9 +115,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="mesh"></param>
         /// <param name="scaleFactor">Factor to scale by.</param>
         /// <returns></returns>
-        public static T Scale<T>(this T mesh, float scaleFactor) where T : Mesh
+        public static T Scale<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            mesh.Scaling = new Vector3D(mesh.Scaling.x * scaleFactor, mesh.Scaling.y * scaleFactor, mesh.Scaling.z * scaleFactor);
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            {
+                child.Scaling = new Vector3D(child.Scaling.x * scaleFactor, child.Scaling.y * scaleFactor, child.Scaling.z * scaleFactor);
+            }
             return mesh;
         }
 
@@ -120,9 +131,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <param name="mesh"></param>
         /// <param name="scaleFactor">Vector representing factors to scale by.</param>
         /// <returns></returns>
-        public static T Scale<T>(this T mesh, Vector3D scaleFactor) where T : Mesh
+        public static T Scale<T>(this T mesh, Vector3D scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            mesh.Scaling = scaleFactor;
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            {
+                child.Scaling = scaleFactor;
+            }
             return mesh;
         }
 
