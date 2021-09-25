@@ -97,6 +97,10 @@ namespace _3D_Engine.Maths
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionUp));
             }
+            if ((directionForward * directionUp).ApproxEquals(0, epsilon))
+            {
+                throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionForward), nameof(directionUp));
+            }
 
             DirectionForward = directionForward.Normalise();
             DirectionUp = directionUp.Normalise();
@@ -113,6 +117,10 @@ namespace _3D_Engine.Maths
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionRight));
             }
+            if ((directionUp * directionRight).ApproxEquals(0, epsilon))
+            {
+                throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionUp), nameof(directionRight));
+            }
 
             DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight).Normalise();
             DirectionUp = directionUp.Normalise();
@@ -128,6 +136,10 @@ namespace _3D_Engine.Maths
             if (directionForward.ApproxEquals(Vector3D.Zero, epsilon))
             {
                 throw GenerateException<VectorCannotBeZeroException>.WithParameters(nameof(directionForward));
+            }
+            if ((directionRight * directionForward).ApproxEquals(0, epsilon))
+            {
+                throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionRight), nameof(directionForward));
             }
 
             DirectionForward = directionForward.Normalise();
