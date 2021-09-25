@@ -5,36 +5,6 @@
     </assembly>
     <members>
         
-        
-        
-        
-        
-        
-        <member name="F:_3D_Engine.Matrix4x4.m23">
-            <summary>
-            From the top left, the value in the third row and fourth column.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Matrix4x4.m30">
-            <summary>
-            From the top left, the value in the fourth row and first column.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Matrix4x4.m31">
-            <summary>
-            From the top left, the value in the fourth row and second column.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Matrix4x4.m32">
-            <summary>
-            From the top left, the value in the fourth row and third column.
-            </summary>
-        </member>
-        <member name="F:_3D_Engine.Matrix4x4.m33">
-            <summary>
-            From the top left, the value in the fourth row and fourth column.
-            </summary>
-        </member>
         <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>
             Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from 16 values.

@@ -78,15 +78,25 @@ namespace _3D_Engine.Maths
         /// From the top left, the value in the third row and third column.
         /// </summary>
         public float m22;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m23']/*"/>
+        /// <summary>
+        /// From the top left, the value in the third row and fourth column.
+        ///</summary>
         public float m23;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m30']/*"/>
+        /// <summary>
+        /// From the top left, the value in the fourth row and first column.
+        /// </summary>
         public float m30;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m31']/*"/>
+        /// <summary>
+        /// From the top left, the value in the fourth row and second column.
+        /// </summary>
         public float m31;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m32']/*"/>
+        /// <summary>
+        /// From the top left, the value in the fourth row and third column.
+        /// </summary>
         public float m32;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m33']/*"/>
+        /// <summary>
+        /// From the top left, the value in the fourth row and fourth column.
+        /// </summary>
         public float m33;
 
         #endregion
