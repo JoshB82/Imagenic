@@ -128,6 +128,18 @@ namespace _3D_Engine.Constants
     }
 
     [Serializable]
+    public class ArraySizeTooSmallException : ArgumentException, IVerbose
+    {
+        public string BriefVerbosityText => "";
+        public string DetailedVerbosityText => "";
+        public string AllVerbosityText => "";
+
+        public ArraySizeTooSmallException() { }
+        public ArraySizeTooSmallException(string message) : base(message) { }
+        public ArraySizeTooSmallException(string message, Exception inner) : base(message, inner) { }
+    }
+
+    [Serializable]
     public class ParameterCannotBeNullException : ArgumentNullException, IVerbose
     {
         public string BriefVerbosityText => "";

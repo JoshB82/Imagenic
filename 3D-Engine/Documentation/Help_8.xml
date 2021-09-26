@@ -4,19 +4,6 @@
         <name>3D-Engine</name>
     </assembly>
     <members>
-        <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single[0:,0:])">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from a two-dimensional array of elements.
-            </summary>
-            <param name="elements">The array containing elements to be entered into the <see cref="T:_3D_Engine.Matrix4x4"/>.</param>
-        </member>
-        <member name="M:_3D_Engine.Matrix4x4.#ctor(System.Single[][])">
-            <summary>
-          Creates a <see cref="T:_3D_Engine.Matrix4x4" /> from a jagged array of elements.
-        </summary><param name="elements">
-          The array containing elements to be entered into the <see cref="T:_3D_Engine.Matrix4x4" />.
-        </param>
-        </member>
         <member name="M:_3D_Engine.Matrix4x4.Determinant">
             <summary>
             Finds the determinant of a <see cref="T:_3D_Engine.Matrix4x4" />.

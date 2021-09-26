@@ -158,6 +158,8 @@ namespace _3D_Engine.Maths
 
         public bool Equals(Orientation other) => (DirectionForward, DirectionUp, DirectionRight) == (other.DirectionForward, other.DirectionUp, other.DirectionRight);
 
+        public override int GetHashCode() => (DirectionForward, DirectionUp, DirectionRight).GetHashCode();
+
         #endregion
     }
 }

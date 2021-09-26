@@ -120,7 +120,7 @@ namespace _3D_Engine.Maths
         /// <param name="m23">From the top left, the value to be put at the third row and fourth column of the <see cref="Matrix4x4"/>.</param>
         /// <param name="m30">From the top left, the value to be put at the fourth row and first column of the <see cref="Matrix4x4"/>.</param>
         /// <param name="m31">From the top left, the value to be put at the fourth row and second column of the <see cref="Matrix4x4"/>.</param>
-        /// <param name="m32"> From the top left, the value to be put at the fourth row and third column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m32">From the top left, the value to be put at the fourth row and third column of the <see cref="Matrix4x4"/>.</param>
         /// <param name="m33">From the top left, the value to be put at the fourth row and fourth column of the <see cref="Matrix4x4"/>.</param>
         public Matrix4x4(
             float m00, float m01, float m02, float m03,
@@ -134,13 +134,16 @@ namespace _3D_Engine.Maths
             (this.m30, this.m31, this.m32, this.m33) = (m30, m31, m32, m33);
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Single[0:,0:])']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> from a two-dimensional array of elements.
+        /// </summary>
+        /// <param name="elements">The array containing elements to be entered into the <see cref= "Matrix4x4"/>.</param>
         public Matrix4x4(float[,] elements)
         {
             if (elements.GetLength(0) < 4 ||
                 elements.GetLength(1) < 4)
             {
-                throw new ArgumentException(Exceptions.Matrix4x4ParameterSize, nameof(elements));
+                throw GenerateException<ArraySizeTooSmallException>.WithParameters(nameof(elements));
             }
 
             (m00, m01, m02, m03) = (elements[0, 0], elements[0, 1], elements[0, 2], elements[0, 3]);
@@ -149,7 +152,10 @@ namespace _3D_Engine.Maths
             (m30, m31, m32, m33) = (elements[3, 0], elements[3, 1], elements[3, 2], elements[3, 3]);
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Single[][])']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> from a jagged array of elements.
+        /// </summary>
+        /// <param name="elements">The array containing elements to be entered into the <see cref="Matrix4x4"/>.</param>
         public Matrix4x4(float[][] elements)
         {
             if (elements.Length < 4 ||
@@ -158,7 +164,7 @@ namespace _3D_Engine.Maths
                 elements[2].Length < 4 ||
                 elements[3].Length < 4)
             {
-                throw new ArgumentException(Exceptions.Matrix4x4ParameterSize, nameof(elements));
+                throw GenerateException<ArraySizeTooSmallException>.WithParameters(nameof(elements));
             }
 
             (m00, m01, m02, m03) = (elements[0][0], elements[0][1], elements[0][2], elements[0][3]);
@@ -217,7 +223,7 @@ namespace _3D_Engine.Maths
                         - m03 * (m10 * d16 - m11 * d14 + m12 * d13);
             if (det == 0)
             {
-                throw Exceptions.Matrix4x4NoInverse;
+                throw GenerateException<Matrix4x4DoesNotHaveAnInverseException>.WithParameters();
             }
 
             return new Matrix4x4
