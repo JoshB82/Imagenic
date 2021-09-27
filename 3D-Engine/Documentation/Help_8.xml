@@ -4,11 +4,6 @@
         <name>3D-Engine</name>
     </assembly>
     <members>
-        <member name="M:_3D_Engine.Matrix4x4.Determinant">
-            <summary>
-            Finds the determinant of a <see cref="T:_3D_Engine.Matrix4x4" />.
-            </summary><returns>Determinant of a <see cref="T:_3D_Engine.Matrix4x4" />.</returns> // source!
-        </member>
         <member name="M:_3D_Engine.Matrix4x4.Inverse">
             <summary>
             Finds the inverse of a <see cref="T:_3D_Engine.Matrix4x4" />.

@@ -140,10 +140,13 @@ namespace _3D_Engine.Maths
         /// <param name="elements">The array containing elements to be entered into the <see cref= "Matrix4x4"/>.</param>
         public Matrix4x4(float[,] elements)
         {
-            if (elements.GetLength(0) < 4 ||
-                elements.GetLength(1) < 4)
+            if (elements is null)
             {
-                throw GenerateException<ArraySizeTooSmallException>.WithParameters(nameof(elements));
+                throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(elements));
+            }
+            if (elements.GetLength(0) != 4 || elements.GetLength(1) != 4)
+            {
+                throw GenerateException<InvalidArraySizeException>.WithParameters(nameof(elements));
             }
 
             (m00, m01, m02, m03) = (elements[0, 0], elements[0, 1], elements[0, 2], elements[0, 3]);
@@ -158,13 +161,13 @@ namespace _3D_Engine.Maths
         /// <param name="elements">The array containing elements to be entered into the <see cref="Matrix4x4"/>.</param>
         public Matrix4x4(float[][] elements)
         {
-            if (elements.Length < 4 ||
-                elements[0].Length < 4 ||
-                elements[1].Length < 4 ||
-                elements[2].Length < 4 ||
-                elements[3].Length < 4)
+            if (elements is null)
             {
-                throw GenerateException<ArraySizeTooSmallException>.WithParameters(nameof(elements));
+                throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(elements));
+            }
+            if (elements.Length != 4 || elements[0].Length != 4 || elements[1].Length != 4 || elements[2].Length != 4 || elements[3].Length != 4)
+            {
+                throw GenerateException<InvalidArraySizeException>.WithParameters(nameof(elements));
             }
 
             (m00, m01, m02, m03) = (elements[0][0], elements[0][1], elements[0][2], elements[0][3]);
@@ -178,7 +181,10 @@ namespace _3D_Engine.Maths
         #region Matrix Operations
 
         // Common
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Determinant']/*"/> // source!
+        /// <summary>
+        /// Finds the determinant of a <see cref="Matrix4x4"/>.
+        /// </summary>
+        /// <returns>Determinant of a <see cref="Matrix4x4"/>.</returns> // source!
         public readonly float Determinant()
         {
             float d1 = m20 * m31 - m21 * m30;
@@ -259,10 +265,10 @@ namespace _3D_Engine.Maths
 
         // Equality and miscellaneous
         public static bool operator ==(Matrix4x4 v1, Matrix4x4 v2) =>
-            v1.m00 == v2.m00 && v1.m01 == v2.m01 && v1.m02 == v2.m02 && v1.m03 == v2.m03 &&
-            v1.m10 == v2.m10 && v1.m11 == v2.m11 && v1.m12 == v2.m12 && v1.m13 == v2.m13 &&
-            v1.m20 == v2.m20 && v1.m21 == v2.m21 && v1.m22 == v2.m22 && v1.m23 == v2.m23 &&
-            v1.m30 == v2.m30 && v1.m31 == v2.m31 && v1.m32 == v2.m32 && v1.m33 == v2.m33;
+            (v1.m00, v1.m01, v1.m02, v1.m03) == (v2.m00, v2.m01, v2.m02, v2.m03) &&
+            (v1.m10, v1.m11, v1.m12, v1.m13) == (v2.m10, v2.m11, v2.m12, v2.m13) &&
+            (v1.m20, v1.m21, v1.m22, v1.m23) == (v2.m20, v2.m21, v2.m22, v2.m23) &&
+            (v1.m30, v1.m31, v1.m32, v1.m33) == (v2.m30, v2.m31, v2.m32, v2.m33);
 
         public static bool operator !=(Matrix4x4 v1, Matrix4x4 v2) => !(v1 == v2);
 

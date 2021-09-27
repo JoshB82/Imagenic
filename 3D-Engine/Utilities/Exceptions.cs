@@ -128,15 +128,15 @@ namespace _3D_Engine.Constants
     }
 
     [Serializable]
-    public class ArraySizeTooSmallException : ArgumentException, IVerbose
+    public class InvalidArraySizeException : ArgumentException, IVerbose
     {
         public string BriefVerbosityText => "";
         public string DetailedVerbosityText => "";
         public string AllVerbosityText => "";
 
-        public ArraySizeTooSmallException() { }
-        public ArraySizeTooSmallException(string message) : base(message) { }
-        public ArraySizeTooSmallException(string message, Exception inner) : base(message, inner) { }
+        public InvalidArraySizeException() { }
+        public InvalidArraySizeException(string message) : base(message) { }
+        public InvalidArraySizeException(string message, Exception inner) : base(message, inner) { }
     }
 
     [Serializable]
