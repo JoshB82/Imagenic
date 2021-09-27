@@ -20,26 +20,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
     public static class MeshExtensions
     {
-        #region Rotations
-
-        public static T RotateBetweenVectors<T>(this T mesh, Vector3D v1, Vector3D v2, Vector3D? axis = null) where T : Mesh
-        {
-            ((SceneObject)mesh).RotateBetweenVectors(v1, v2, axis);
-
-            Matrix4x4 rotation = Transform.RotateBetweenVectors(v1, v2, axis);
-            foreach (Vertex vertex in mesh.Vertices)
-            {
-                if (vertex.Normal.HasValue)
-                {
-                    vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
-                }
-            }
-
-            return mesh;
-        }
-
-        #endregion
-
         #region Scaling
 
         /// <summary>

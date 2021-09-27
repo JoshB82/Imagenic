@@ -3,7 +3,7 @@ using System.IO;
 
 namespace _3D_Engine.Loaders
 {
-    public class Loader
+    public abstract class Loader
     {
         #region Fields and Properties
 

@@ -170,6 +170,19 @@ namespace _3D_Engine.Entities.SceneObjects
                 );
             }
 
+            switch (sceneObject)
+            {
+                case Mesh mesh:
+                    foreach (Vertex vertex in mesh.Vertices)
+                    {
+                        if (vertex.Normal.HasValue)
+                        {
+                            vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
+                        }
+                    }
+                    break;
+            }
+
             return sceneObject;
         }
 
