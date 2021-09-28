@@ -129,19 +129,19 @@ namespace _3D_Engine.Entities.SceneObjects
                         (Vector3D)(rotation * new Vector4D(child.WorldDirectionForward, 1)),
                         (Vector3D)(rotation * new Vector4D(child.WorldDirectionUp, 1))
                     );
-                }
 
-                switch (sceneObject)
-                {
-                    case Mesh mesh:
-                        foreach (Vertex vertex in mesh.Vertices)
-                        {
-                            if (vertex.Normal.HasValue)
+                    switch (child)
+                    {
+                        case Mesh mesh:
+                            foreach (Vertex vertex in mesh.Vertices)
                             {
-                                vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
+                                if (vertex.Normal.HasValue)
+                                {
+                                    vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
+                                }
                             }
-                        }
-                        break;
+                            break;
+                    }
                 }
             }
 
@@ -168,19 +168,19 @@ namespace _3D_Engine.Entities.SceneObjects
                     (Vector3D)(rotation * new Vector4D(child.WorldDirectionForward, 1)),
                     (Vector3D)(rotation * new Vector4D(child.WorldDirectionUp, 1))
                 );
-            }
 
-            switch (sceneObject)
-            {
-                case Mesh mesh:
-                    foreach (Vertex vertex in mesh.Vertices)
-                    {
-                        if (vertex.Normal.HasValue)
+                switch (child)
+                {
+                    case Mesh mesh:
+                        foreach (Vertex vertex in mesh.Vertices)
                         {
-                            vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
+                            if (vertex.Normal.HasValue)
+                            {
+                                vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal.Value, 1));
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
             }
 
             return sceneObject;
