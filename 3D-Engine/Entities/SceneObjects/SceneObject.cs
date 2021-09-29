@@ -47,8 +47,6 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
-        internal Group DirectionArrows { get; set; }
-
         // Id
         private static int nextId;
         /// <summary>
