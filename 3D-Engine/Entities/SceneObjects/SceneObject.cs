@@ -10,6 +10,7 @@
  * An abstract base class that defines objects of type SceneObject. Any object which inherits from this class can be part of a Group.
  */
 
+using _3D_Engine.Constants;
 using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
@@ -71,7 +72,21 @@ namespace _3D_Engine.Entities.SceneObjects
         }
 
         // Orientation
-        public Orientation WorldOrientation { get; set; }
+        private Orientation worldOrientation;
+        public Orientation WorldOrientation
+        {
+            get => worldOrientation;
+            set
+            {
+                if (value == worldOrientation) return;
+                if (value is null)
+                {
+                    throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(value));
+                }
+                worldOrientation = value;
+                RequestNewRenders();
+            }
+        }
 
         // Origins
         internal static readonly Vector4D ModelOrigin = Vector4D.UnitW;
