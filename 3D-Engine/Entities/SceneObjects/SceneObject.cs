@@ -46,21 +46,6 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
-
-
-        /// <summary>
-        /// The forward direction of the <see cref="SceneObject"/> in world space.
-        /// </summary>
-        public virtual Vector3D WorldDirectionForward { get; protected set; }
-        /// <summary>
-        /// The up direction of the <see cref="SceneObject"/> in world space.
-        /// </summary>
-        public Vector3D WorldDirectionUp { get; private set; }
-        /// <summary>
-        /// The right direction of the <see cref="SceneObject"/> in world space.
-        /// </summary>
-        public Vector3D WorldDirectionRight { get; private set; }
-
         internal Group DirectionArrows { get; set; }
 
         // Id
