@@ -58,8 +58,8 @@ namespace _3D_Engine.Entities.SceneObjects
         public Matrix4x4 ModelToWorld { get; internal set; }
         internal virtual void CalculateMatrices()
         {
-            Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(Orientation.ModelDirectionForward, WorldDirectionForward);
-            Matrix4x4 directionUpRotation = Transform.RotateBetweenVectors((Vector3D)(directionForwardRotation * Orientation.ModelDirectionUp), WorldDirectionUp);
+            Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(Orientation.ModelDirectionForward, worldOrientation.DirectionForward);
+            Matrix4x4 directionUpRotation = Transform.RotateBetweenVectors((Vector3D)(directionForwardRotation * Orientation.ModelDirectionUp), worldOrientation.DirectionUp);
             Matrix4x4 translation = Transform.Translate(WorldOrigin);
 
             // String the transformations together in the following order:
@@ -225,7 +225,8 @@ namespace _3D_Engine.Entities.SceneObjects
                 DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
             }
 
-            SetDirection1(worldOrientation.DirectionForward, worldOrientation.DirectionUp);
+            this.SetOrientation(worldOrientation);
+            this.worldOrientation.LinkedSceneObject = this;
             WorldOrigin = worldOrigin;
 
             #if DEBUG
