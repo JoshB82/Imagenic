@@ -187,12 +187,8 @@ namespace _3D_Engine.Maths
         /// <returns>Determinant of a <see cref="Matrix4x4"/>.</returns> // source!
         public readonly float Determinant()
         {
-            float d1 = m20 * m31 - m21 * m30;
-            float d2 = m20 * m32 - m22 * m30;
-            float d3 = m20 * m33 - m23 * m30;
-            float d4 = m21 * m32 - m22 * m31;
-            float d5 = m21 * m33 - m23 * m31;
-            float d6 = m22 * m33 - m23 * m32;
+            float d1 = m20 * m31 - m21 * m30, d2 = m20 * m32 - m22 * m30, d3 = m20 * m33 - m23 * m30;
+            float d4 = m21 * m32 - m22 * m31, d5 = m21 * m33 - m23 * m31, d6 = m22 * m33 - m23 * m32;
 
             return
               m00 * (m11 * d6 - m12 * d5 + m13 * d4)
@@ -201,27 +197,18 @@ namespace _3D_Engine.Maths
             - m03 * (m10 * d4 - m11 * d2 + m12 * d1);
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Inverse']/*"/>
+        /// <summary>
+        /// Finds the inverse of a <see cref="Matrix4x4"/>.
+        /// </summary>
+        /// <returns>Inverse of a <see cref="Matrix4x4"/>.</returns>
         public readonly Matrix4x4 Inverse()
         {
-            float d1 = m10 * m21 - m11 * m20;
-            float d2 = m10 * m22 - m12 * m20;
-            float d3 = m10 * m23 - m13 * m20;
-            float d4 = m10 * m31 - m11 * m30;
-            float d5 = m10 * m32 - m12 * m30;
-            float d6 = m10 * m33 - m13 * m30;
-            float d7 = m11 * m22 - m12 * m21;
-            float d8 = m11 * m23 - m13 * m21;
-            float d9 = m11 * m32 - m12 * m31;
-            float d10 = m11 * m33 - m13 * m31;
-            float d11 = m12 * m23 - m13 * m22;
-            float d12 = m12 * m33 - m13 * m32;
-            float d13 = m20 * m31 - m21 * m30;
-            float d14 = m20 * m32 - m22 * m30;
-            float d15 = m20 * m33 - m23 * m30;
-            float d16 = m21 * m32 - m22 * m31;
-            float d17 = m21 * m33 - m23 * m31;
-            float d18 = m22 * m33 - m23 * m32;
+            float d1 = m10 * m21 - m11 * m20, d2 = m10 * m22 - m12 * m20, d3 = m10 * m23 - m13 * m20;
+            float d4 = m10 * m31 - m11 * m30, d5 = m10 * m32 - m12 * m30, d6 = m10 * m33 - m13 * m30;
+            float d7 = m11 * m22 - m12 * m21, d8 = m11 * m23 - m13 * m21, d9 = m11 * m32 - m12 * m31;
+            float d10 = m11 * m33 - m13 * m31, d11 = m12 * m23 - m13 * m22, d12 = m12 * m33 - m13 * m32;
+            float d13 = m20 * m31 - m21 * m30, d14 = m20 * m32 - m22 * m30, d15 = m20 * m33 - m23 * m30;
+            float d16 = m21 * m32 - m22 * m31, d17 = m21 * m33 - m23 * m31, d18 = m22 * m33 - m23 * m32;
 
             float det =   m00 * (m11 * d18 - m12 * d17 + m13 * d16)
                         - m01 * (m10 * d18 - m12 * d15 + m13 * d14)

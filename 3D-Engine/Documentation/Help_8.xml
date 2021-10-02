@@ -4,11 +4,6 @@
         <name>3D-Engine</name>
     </assembly>
     <members>
-        <member name="M:_3D_Engine.Matrix4x4.Inverse">
-            <summary>
-            Finds the inverse of a <see cref="T:_3D_Engine.Matrix4x4" />.
-            </summary><returns>Inverse of a <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
-        </member>
         <member name="M:_3D_Engine.Matrix4x4.Transpose">
             <summary>
             Finds the transpose of a <see cref="T:_3D_Engine.Matrix4x4" />.
