@@ -953,21 +953,6 @@
             </summary>
             <param name="scale_factor">Factor to scale by.</param>
         </member>
-        <member name="P:_3D_Engine.Mesh.Vertices">
-            <summary>
-            The <see cref="T:_3D_Engine.Vertex">vertices</see> in the <see cref="T:_3D_Engine.Mesh" />.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.Edges">
-            <summary>
-            The <see cref="T:_3D_Engine.Edge">Edges</see> in the <see cref="T:_3D_Engine.Mesh" />.
-            </summary>
-        </member>
-        <member name="P:_3D_Engine.Mesh.Faces">
-            <summary>
-            The <see cref="T:_3D_Engine.Face">Faces</see> in the <see cref="T:_3D_Engine.Mesh" />.
-            </summary>
-        </member>
         <member name="P:_3D_Engine.Mesh.Textures">
             <summary>
             The <see cref="T:_3D_Engine.Texture">Textures</see> that define what to draw on the surface of the <see cref="T:_3D_Engine.Mesh" />.

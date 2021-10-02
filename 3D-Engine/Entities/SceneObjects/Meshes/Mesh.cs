@@ -32,11 +32,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         public IList<Edge> Edges { get; set; }
         public IList<Face> Faces { get; set; }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Vertices']/*"/>
+        /// <summary>
+        /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.
+        /// </summary>
         //public Vertex[] Vertices { get; protected set; }
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Edges']/*"/>
+        /// <summary>
+        /// The <see cref="Edge">edges</see> in the <see cref="Mesh"/>.
+        /// </summary>
         //public Edge[] Edges { get; protected set; }
-        /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Faces']/*"/>
+        /// <summary>
+        /// The <see cref="Triangle">triangles</see> in the <see cref="Mesh"/>.
+        /// </summary>
         //public Triangle[] Triangles { get; internal set; }
 
         // Appearance
@@ -98,6 +104,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         public bool CastsShadows { get; set; } = true;
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
         public bool DrawOutline { get; set; } = false;
+        public float Opacity { get; set; } = 1f;
 
         // Matrices and Vectors
         internal override void CalculateMatrices()
