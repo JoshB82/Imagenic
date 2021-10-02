@@ -58,18 +58,5 @@ namespace _3D_Engine
             if (num > highest) return highest;
             return num;
         }
-
-        public static T ColourAllSolidFaces<T>(this T input, Color colour) where T : Mesh
-        {
-            foreach (Triangle face in input.Triangles)
-            {
-                if (face is SolidTriangle solidFace)
-                {
-                    solidFace.Colour = colour;
-                }
-            }
-
-            return input;
-        }
     }
 }

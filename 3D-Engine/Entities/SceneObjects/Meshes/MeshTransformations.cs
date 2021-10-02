@@ -7,19 +7,45 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Defines methods for scaling Meshes.
+ * Defines methods for scaling Meshes and other functionality.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Maths;
-using _3D_Engine.Maths.Transformations;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
 using System;
+using System.Drawing;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
     public static class MeshExtensions
     {
+        #region Miscellaneous
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mesh"></param>
+        /// <param name="colour"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static T ColourAllSolidFaces<T>(this T mesh, Color colour, Predicate<Mesh> predicate = null) where T : Mesh
+        {
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            {
+                foreach (Triangle triangle in child.Triangles)
+                {
+                    if (triangle is SolidTriangle solidTriangle)
+                    {
+                        solidTriangle.Colour = colour;
+                    }
+                }
+            }
+            return mesh;
+        }
+
+        #endregion
+
         #region Scaling
 
         /// <summary>
