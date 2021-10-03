@@ -1,4 +1,5 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Maths;
+using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
@@ -16,12 +17,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Constructors
 
-        public Torus(Vector3D origin,
-                     Vector3D directionForward,
-                     Vector3D directionUp,
+        public Torus(Vector3D worldOrigin,
+                     Orientation worldOrientation,
                      float radius,
                      float innerRadius,
-                     float outerRadius) : base(origin, directionForward, directionUp, 3)
+                     float outerRadius) : base(worldOrigin, worldOrientation, 3)
         {
 
         }

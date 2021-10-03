@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
@@ -94,18 +95,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// <summary>
         /// Creates a <see cref="Cylinder"/> mesh.
         /// </summary>
-        /// <param name="origin">The position of the <see cref="Cylinder"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cylinder"/>.</param>
         /// <param name="directionForward">The direction the <see cref="Cylinder"/> faces.</param>
         /// <param name="directionUp">The upward orientation of the <see cref="Cylinder"/>.</param>
         /// <param name="height">The height of the <see cref="Cylinder"/>.</param>
         /// <param name="radius">The radius of the top and bottom <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Cylinder"/>.</param>
-        public Cylinder(Vector3D origin,
-                        Vector3D directionForward,
-                        Vector3D directionUp,
+        public Cylinder(Vector3D worldOrigin,
+                        Orientation worldOrientation,
                         float height,
                         float radius,
-                        int resolution) : base(origin, directionForward, directionUp, 3)
+                        int resolution) : base(worldOrigin, worldOrientation, 3)
         {
             Height = height;
             Radius = radius;

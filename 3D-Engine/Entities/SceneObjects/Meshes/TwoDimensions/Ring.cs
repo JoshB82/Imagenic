@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
@@ -95,18 +96,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// <summary>
         /// Creates a <see cref="Ring"/> mesh.
         /// </summary>
-        /// <param name="origin">The position of the <see cref="Ring"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Ring"/>.</param>
         /// <param name="directionForward">The direction the <see cref="Ring"/> faces.</param>
         /// <param name="directionUp">The upward orientation of the <see cref="Ring"/>.</param>
         /// <param name="innerRadius">The radius of the inner <see cref="Circle"/>.</param>
         /// <param name="outerRadius">The radius of the outer <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Ring"/>.</param>
-        public Ring(Vector3D origin,
-                    Vector3D directionForward,
-                    Vector3D directionUp,
+        public Ring(Vector3D worldOrigin,
+                    Orientation worldOrientation,
                     float innerRadius,
                     float outerRadius,
-                    int resolution) : base(origin, directionForward, directionUp, 2)
+                    int resolution) : base(worldOrigin, worldOrientation, 2)
         {
             Dimension = 2;
 

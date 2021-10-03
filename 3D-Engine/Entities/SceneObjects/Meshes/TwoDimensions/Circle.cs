@@ -64,11 +64,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         #region Constructors
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Int32)']/*"/>
-        public Circle(Vector3D origin,
+        public Circle(Vector3D worldOrigin,
                       Vector3D directionForward,
                       Vector3D normal,
                       float radius,
-                      int resolution) : base(origin, directionForward, normal, 2)
+                      int resolution) : base(worldOrigin, directionForward, normal, 2)
         {
             Dimension = 2;
 
@@ -77,12 +77,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         }
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Int32,_3D_Engine.Texture)']/*"/>
-        public Circle(Vector3D origin,
+        public Circle(Vector3D worldOrigin,
                       Vector3D directionForward,
                       Vector3D normal,
                       float radius,
                       int resolution,
-                      Texture texture) : base(origin, directionForward, normal, 2)
+                      Texture texture) : base(worldOrigin, directionForward, normal, 2)
         {
             Dimension = 2;
 
