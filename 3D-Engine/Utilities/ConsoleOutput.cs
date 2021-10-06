@@ -17,6 +17,42 @@ using System.Diagnostics;
 
 namespace _3D_Engine.Utilities
 {
+    internal static class DisplayMessage<T> where T : IVerbose, new()
+    {
+        private const string projectName = "3D-Engine";
+        private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
+
+        internal static void WithParameters(params string[] parameters)
+        {
+            T message = new();
+            string content = Properties.Settings.Default.Verbosity switch
+            {
+                Verbosity.None => string.Empty,
+                Verbosity.Brief => message.BriefVerbosityText,
+                Verbosity.Detailed => message.DetailedVerbosityText,
+                Verbosity.All => message.AllVerbosityText,
+                _ => throw new Exception("Cannot handle setting.")
+            };
+
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] {string.Format(content, parameters)}");
+        }
+
+        internal static void WithTypeAndParameters<U>(params string[] parameters)
+        {
+            T message = new();
+            string content = Properties.Settings.Default.Verbosity switch
+            {
+                Verbosity.None => string.Empty,
+                Verbosity.Brief => message.BriefVerbosityText,
+                Verbosity.Detailed => message.DetailedVerbosityText,
+                Verbosity.All => message.AllVerbosityText,
+                _ => throw new Exception("Cannot handle setting.")
+            };
+
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {string.Format(content, parameters)}");
+        }
+    }
+
     internal static class ConsoleOutput
     {
         private const string projectName = "3D-Engine";
