@@ -24,23 +24,18 @@ namespace _3D_Engine.Utilities
 
         internal static void WithParameters(params string[] parameters)
         {
-            T message = new();
-            string content = Properties.Settings.Default.Verbosity switch
-            {
-                Verbosity.None => string.Empty,
-                Verbosity.Brief => message.BriefVerbosityText,
-                Verbosity.Detailed => message.DetailedVerbosityText,
-                Verbosity.All => message.AllVerbosityText,
-                _ => throw new Exception("Cannot handle setting.")
-            };
-
-            Trace.WriteLine($"[{GetTime()}] [{projectName}] {string.Format(content, parameters)}");
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] {string.Format(GetContent(), parameters)}");
         }
 
         internal static void WithTypeAndParameters<U>(params string[] parameters)
         {
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {string.Format(GetContent(), parameters)}");
+        }
+
+        private static string GetContent()
+        {
             T message = new();
-            string content = Properties.Settings.Default.Verbosity switch
+            return Properties.Settings.Default.Verbosity switch
             {
                 Verbosity.None => string.Empty,
                 Verbosity.Brief => message.BriefVerbosityText,
@@ -48,8 +43,6 @@ namespace _3D_Engine.Utilities
                 Verbosity.All => message.AllVerbosityText,
                 _ => throw new Exception("Cannot handle setting.")
             };
-
-            Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {string.Format(content, parameters)}");
         }
     }
 
