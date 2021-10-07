@@ -50,33 +50,33 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         {
             new Face(new List<Triangle>
             {
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(ModelVertices[0], ModelVertices[1], ModelVertices[2]),
+                new SolidTriangle(ModelVertices[0], ModelVertices[2], ModelVertices[3])
             }),
             new Face(new List<Triangle>
             {
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(ModelVertices[1], ModelVertices[5], ModelVertices[6]),
+                new SolidTriangle(ModelVertices[1], ModelVertices[6], ModelVertices[2])
             }),
             new Face(new List<Triangle>
             {
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(ModelVertices[5], ModelVertices[4], ModelVertices[7]),
+                new SolidTriangle(ModelVertices[5], ModelVertices[7], ModelVertices[6])
             }),
             new Face(new List<Triangle>
             {
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(ModelVertices[4], ModelVertices[0], ModelVertices[3]),
+                new SolidTriangle(ModelVertices[4], ModelVertices[3], ModelVertices[7])
             }),
             new Face(new List<Triangle>
             {
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(ModelVertices[3], ModelVertices[2], ModelVertices[6]),
+                new SolidTriangle(ModelVertices[3], ModelVertices[6], ModelVertices[7])
             }),
             new Face(new List<Triangle>
             {
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                new SolidTriangle(Vertices[],Vertices[],Vertices[]),
+                new SolidTriangle(ModelVertices[1], ModelVertices[0], ModelVertices[4]),
+                new SolidTriangle(ModelVertices[1], ModelVertices[4], ModelVertices[5])
             })
         };
 
