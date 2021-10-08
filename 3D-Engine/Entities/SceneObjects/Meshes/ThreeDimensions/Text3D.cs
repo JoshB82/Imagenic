@@ -1,4 +1,16 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ *
+ * Full license is available in the GitHub repository:
+ * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
+ *
+ * Code description for this file:
+ *
+ */
+
+using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions

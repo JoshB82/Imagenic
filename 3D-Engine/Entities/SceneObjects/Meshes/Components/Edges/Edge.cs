@@ -17,7 +17,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
     /// <summary>
     /// Encapsulates creation of an <see cref="Edge"/>.
     /// </summary>
-    public sealed class Edge
+    public abstract class Edge
     {
         #region Fields and Properties
 
