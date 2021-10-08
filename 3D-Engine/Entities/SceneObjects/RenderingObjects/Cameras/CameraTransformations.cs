@@ -1,18 +1,19 @@
 ﻿using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
+using System;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {
     public static class CameraTransformations
     {
-        public static T ZoomIn<T>(this T camera, float multiplier) where T : Camera
+        public static T Zoom<T>(this T camera, float multiplier, Predicate<Camera> predicate = null) where T : Camera
         {
-            return camera;
-        }
-
-        public static T ZoomOut<T>(this T camera, float multiplier) where T : Camera
-        {
+            foreach (Camera child in camera.GetAllChildrenAndSelf(x => x is Camera camera && predicate(camera)))
+            {
+                child.ZNear *= multiplier;
+                child.ZFar *= multiplier;
+            }
             return camera;
         }
     }
