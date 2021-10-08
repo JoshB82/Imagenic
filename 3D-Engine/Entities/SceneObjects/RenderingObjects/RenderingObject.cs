@@ -299,15 +299,14 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
         #region Constructors
 
-        internal RenderingObject(Vector3D origin,
-                                 Vector3D directionForward,
-                                 Vector3D directionUp,
+        internal RenderingObject(Vector3D worldOrigin,
+                                 Orientation worldOrientation,
                                  float viewWidth,
                                  float viewHeight,
                                  float zNear,
                                  float zFar,
                                  int renderWidth,
-                                 int renderHeight) : base(origin, directionForward, directionUp)
+                                 int renderHeight) : base(worldOrigin, worldOrientation)
         {
             // Construct view-space clipping planes and matrix
             float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;

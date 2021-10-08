@@ -4,6 +4,19 @@ using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {
+    public static class CameraTransformations
+    {
+        public static T ZoomIn<T>(this T camera, float multiplier) where T : Camera
+        {
+            return camera;
+        }
+
+        public static T ZoomOut<T>(this T camera, float multiplier) where T : Camera
+        {
+            return camera;
+        }
+    }
+
     public abstract partial class Camera : RenderingObject
     {
         #region Common

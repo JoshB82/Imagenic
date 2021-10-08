@@ -35,11 +35,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
         /// <summary>
         /// Creates an <see cref="Edge"/>.
         /// </summary>
-        /// <param name="model_p1">The position of the first point on the <see cref="Edge"/>.</param>
-        /// <param name="model_p2">The position of the second point on the <see cref="Edge"/>.</param>
-        public Edge(Vertex model_p1, Vertex model_p2)
+        /// <param name="modelP1">The position of the first point on the <see cref="Edge"/>.</param>
+        /// <param name="modelP2">The position of the second point on the <see cref="Edge"/>.</param>
+        public Edge(Vertex modelP1, Vertex modelP2)
         {
-            P1 = model_p1; P2 = model_p2;
+            P1 = modelP1; P2 = modelP2;
         }
 
         #endregion
