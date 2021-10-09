@@ -24,27 +24,56 @@ namespace _3D_Engine.Utilities
 
         internal static void WithParameters(params string[] parameters)
         {
-            Trace.WriteLine($"[{GetTime()}] [{projectName}] {string.Format(GetContent(), parameters)}");
+            if (Properties.Settings.Default.Verbosity == Verbosity.None)
+            {
+                return;
+            }
+
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] {GetMessage(parameters)}");
         }
 
         internal static void WithTypeAndParameters<U>(params string[] parameters)
         {
-            Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {string.Format(GetContent(), parameters)}");
+            if (Properties.Settings.Default.Verbosity == Verbosity.None)
+            {
+                return;
+            }
+
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {GetMessage(parameters)}");
         }
 
-        private static string GetContent()
+        private static string GetMessage(string[] parameters)
         {
-            T message = new();
-            return Properties.Settings.Default.Verbosity switch
+            T text = new();
+            return string.Format(Properties.Settings.Default.Verbosity switch
             {
-                Verbosity.None => string.Empty,
-                Verbosity.Brief => message.BriefVerbosityText,
-                Verbosity.Detailed => message.DetailedVerbosityText,
-                Verbosity.All => message.AllVerbosityText,
+                Verbosity.Brief => text.BriefVerbosityText,
+                Verbosity.Detailed => text.DetailedVerbosityText,
+                Verbosity.All => text.AllVerbosityText,
                 _ => throw new Exception("Cannot handle setting.")
-            };
+            }, parameters);
         }
     }
+
+    #region Messages
+
+    internal class OrientationChangedMessage : IVerbose
+    {
+        public string BriefVerbosityText { get; set; } = "Changed orientation.";
+        public string DetailedVerbosityText { get; set; } = "Changed orientation.";
+        public string AllVerbosityText { get; set; } = "Changed orientation to: Forward: {0}, Up: {1}, Right: {2}";
+    }
+
+    internal class EntityCreatedMessage : IVerbose
+    {
+        public string BriefVerbosityText { get; set; } = "Created.";
+        public string DetailedVerbosityText { get; set; } = "Created at {0}.";
+        public string AllVerbosityText { get; set; } = "Entity created at {0}.";
+    }
+
+    #endregion
+
+
 
     internal static class ConsoleOutput
     {
