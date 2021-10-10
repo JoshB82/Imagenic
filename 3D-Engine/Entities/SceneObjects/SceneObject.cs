@@ -231,7 +231,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
             #if DEBUG
 
-            ConsoleOutput.DisplayMessageFromObject(this, $"Created at {worldOrigin}.");
+            DisplayMessage<EntityCreatedMessage>.WithTypeAndParameters<SceneObject>(worldOrigin.ToString());
 
             #endif
         }
