@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Defines methods for rotating and translating SceneObjects.
+ * Defines methods for transforming SceneObjects, specifically rotation and translation.
  */
 
 using _3D_Engine.Constants;
@@ -247,6 +247,23 @@ namespace _3D_Engine.Entities.SceneObjects
             foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
             {
                 child.WorldOrigin += displacement;
+            }
+            return sceneObject;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sceneObject"></param>
+        /// <param name="destination"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static T TranslateTo<T>(this T sceneObject, Vector3D destination, Predicate<SceneObject> predicate = null) where T : SceneObject
+        {
+            foreach (SceneObject child in sceneObject.GetAllChildrenAndSelf(predicate))
+            {
+                child.WorldOrigin = destination;
             }
             return sceneObject;
         }
