@@ -14,7 +14,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         // Structure
         internal static readonly IList<Vertex> ModelVertices = GenerateModelVertices();
 
-        internal static List<Vertex> GenerateModelVertices()
+        private static List<Vertex> GenerateModelVertices()
         {
             float radical = MathF.Sqrt(3) / 3;
             return new List<Vertex>
@@ -88,39 +88,42 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             })
         };
 
-        internal static readonly IList<Face> TextureFaces = new List<Face>
+        internal static IList<Face> GenerateTextureFaces(Texture[] textures)
         {
-            new Face(new List<Triangle>
+            return new List<Face>
             {
-                new TextureTriangle(ModelVertices[0], ModelVertices[1], ModelVertices[2], TextureVertices[0], TextureVertices[1], TextureVertices[2], ),
-                new TextureTriangle(ModelVertices[0], ModelVertices[2], ModelVertices[3], TextureVertices[0], TextureVertices[2], TextureVertices[3], )
-            }),
-            new Face(new List<Triangle>
-            {
-                new TextureTriangle(ModelVertices[1], ModelVertices[5], ModelVertices[6], TextureVertices[0], TextureVertices[1], TextureVertices[2], ),
-                new TextureTriangle(ModelVertices[1], ModelVertices[6], ModelVertices[2], TextureVertices[0], TextureVertices[2], TextureVertices[3], )
-            }),
-            new Face(new List<Triangle>
-            {
-                new TextureTriangle(ModelVertices[5], ModelVertices[4], ModelVertices[7], TextureVertices[0], TextureVertices[1], TextureVertices[2], ),
-                new TextureTriangle(ModelVertices[5], ModelVertices[7], ModelVertices[6], TextureVertices[0], TextureVertices[2], TextureVertices[3], )
-            }),
-            new Face(new List<Triangle>
-            {
-                new TextureTriangle(ModelVertices[4], ModelVertices[0], ModelVertices[3], TextureVertices[0], TextureVertices[1], TextureVertices[2], ),
-                new TextureTriangle(ModelVertices[4], ModelVertices[3], ModelVertices[7], TextureVertices[0], TextureVertices[2], TextureVertices[3], )
-            }),
-            new Face(new List<Triangle>
-            {
-                new TextureTriangle(ModelVertices[3], ModelVertices[2], ModelVertices[6], TextureVertices[0], TextureVertices[1], TextureVertices[2], ),
-                new TextureTriangle(ModelVertices[3], ModelVertices[6], ModelVertices[7], TextureVertices[0], TextureVertices[2], TextureVertices[3], )
-            }),
-            new Face(new List<Triangle>
-            {
-                new TextureTriangle(ModelVertices[1], ModelVertices[0], ModelVertices[4], TextureVertices[0], TextureVertices[1], TextureVertices[2], ),
-                new TextureTriangle(ModelVertices[1], ModelVertices[4], ModelVertices[5], TextureVertices[0], TextureVertices[2], TextureVertices[3], )
-            })
-        };
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(ModelVertices[0], ModelVertices[1], ModelVertices[2], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[0]),
+                    new TextureTriangle(ModelVertices[0], ModelVertices[2], ModelVertices[3], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[0])
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(ModelVertices[1], ModelVertices[5], ModelVertices[6], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[1]),
+                    new TextureTriangle(ModelVertices[1], ModelVertices[6], ModelVertices[2], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[1])
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(ModelVertices[5], ModelVertices[4], ModelVertices[7], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[2]),
+                    new TextureTriangle(ModelVertices[5], ModelVertices[7], ModelVertices[6], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[2])
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(ModelVertices[4], ModelVertices[0], ModelVertices[3], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[3]),
+                    new TextureTriangle(ModelVertices[4], ModelVertices[3], ModelVertices[7], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[3])
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(ModelVertices[3], ModelVertices[2], ModelVertices[6], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[4]),
+                    new TextureTriangle(ModelVertices[3], ModelVertices[6], ModelVertices[7], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[4])
+                }),
+                new Face(new List<Triangle>
+                {
+                    new TextureTriangle(ModelVertices[1], ModelVertices[0], ModelVertices[4], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[5]),
+                    new TextureTriangle(ModelVertices[1], ModelVertices[4], ModelVertices[5], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[5])
+                })
+            };
+        }
 
         #endregion
     }
