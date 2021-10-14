@@ -13,6 +13,7 @@
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 
@@ -71,70 +72,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <summary>
         /// Creates a <see cref="Cuboid"/> mesh.
         /// </summary>
-        /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/>.</param>
         /// <param name="directionForward">The direction the <see cref="Cuboid"/> faces.</param>
         /// <param name="directionUp">The upward orientation of the <see cref="Cuboid"/>.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
+        public Cuboid(Vector3D worldOrigin,
+                      Orientation worldOrientation,
                       float length,
                       float width,
-                      float height) : base(origin, directionForward, directionUp, 3)
+                      float height) : base(worldOrigin, worldOrientation, 3)
         {
-            SetStructure(length, width, height);
+            Length = length;
+            Width = width;
+            Height = height;
 
-            Faces = new List<Face>
-            {
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                }),
-                new Face(new List<Triangle>
-                {
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                    new SolidTriangle(Vertices[],Vertices[],Vertices[]),
-                })
-            };
-
-            Triangles = new SolidTriangle[12]
-            {
-                new(Vertices[1], Vertices[6], Vertices[2]), // 0
-                new(Vertices[1], Vertices[5], Vertices[6]), // 1
-                new(Vertices[4], Vertices[7], Vertices[5]), // 2
-                new(Vertices[5], Vertices[7], Vertices[6]), // 3
-                new(Vertices[0], Vertices[3], Vertices[4]), // 4
-                new(Vertices[4], Vertices[3], Vertices[7]), // 5
-                new(Vertices[0], Vertices[1], Vertices[2]), // 6
-                new(Vertices[0], Vertices[2], Vertices[3]), // 7
-                new(Vertices[7], Vertices[3], Vertices[6]), // 8
-                new(Vertices[6], Vertices[3], Vertices[2]), // 9
-                new(Vertices[4], Vertices[5], Vertices[1]), // 10
-                new(Vertices[4], Vertices[1], Vertices[0]) // 11
-            };
+            Vertices = ModelVertices;
+            Edges = MeshEdges;
+            Faces = MeshFaces;
         }
 
         /// <summary>
