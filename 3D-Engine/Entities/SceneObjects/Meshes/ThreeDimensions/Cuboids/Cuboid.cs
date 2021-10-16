@@ -15,13 +15,15 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
     /// <summary>
-    /// A mesh of a cuboid. It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
+    /// A mesh of a cuboid.
     /// </summary>
+    /// <remarks>
+    /// Composition:
+    /// It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.</remarks>
     public sealed partial class Cuboid : Mesh
     {
         #region Fields and Properties
@@ -96,38 +98,29 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <summary>
         /// Creates a textured <see cref="Cuboid"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
-        /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/>.</param>
         /// <param name="directionForward">The direction the <see cref="Cuboid"/> faces.</param>
         /// <param name="directionUp">The upward orientation of the <see cref="Cuboid"/>.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
+        public Cuboid(Vector3D worldOrigin,
+                      Orientation worldOrientation,
                       float length,
                       float width,
                       float height,
-                      Texture texture) : base(origin, directionForward, directionUp, 3)
+                      Texture texture) : base(worldOrigin, worldOrientation, 3)
         {
-            SetStructure(length, width, height);
+            Length = length;
+            Width = width;
+            Height = height;
+
+            Vertices = ModelVertices;
+            Edges = MeshEdges;
+            Faces = MeshFaces;
+
             Textures = new Texture[1] { texture };
-            Triangles = new TextureTriangle[12]
-            {
-                new(Vertices[1], Vertices[6], Vertices[2], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 0
-                new(Vertices[1], Vertices[5], Vertices[6], texture.Vertices[1], texture.Vertices[0], texture.Vertices[3], texture), // 1
-                new(Vertices[4], Vertices[7], Vertices[5], texture.Vertices[0], texture.Vertices[3], texture.Vertices[1], texture), // 2
-                new(Vertices[5], Vertices[7], Vertices[6], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 3
-                new(Vertices[0], Vertices[3], Vertices[4], texture.Vertices[0], texture.Vertices[3], texture.Vertices[1], texture), // 4
-                new(Vertices[4], Vertices[3], Vertices[7], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 5
-                new(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[1], texture.Vertices[0], texture.Vertices[3], texture), // 6
-                new(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 7
-                new(Vertices[7], Vertices[3], Vertices[6], texture.Vertices[0], texture.Vertices[3], texture.Vertices[1], texture), // 8
-                new(Vertices[6], Vertices[3], Vertices[2], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 9
-                new(Vertices[4], Vertices[5], Vertices[1], texture.Vertices[3], texture.Vertices[2], texture.Vertices[1], texture), // 10
-                new(Vertices[4], Vertices[1], Vertices[0], texture.Vertices[3], texture.Vertices[1], texture.Vertices[0], texture) // 11
-            };
         }
 
         /// <summary>
