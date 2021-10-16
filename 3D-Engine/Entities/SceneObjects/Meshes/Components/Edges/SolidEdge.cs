@@ -24,10 +24,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
 
         #region Constructors
 
-        public SolidEdge(Vertex modelP1, Vertex modelP2, Color colour) : base(modelP1, modelP2)
-        {
-            Colour = colour;
-        }
+        public SolidEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
 
         #endregion
     }

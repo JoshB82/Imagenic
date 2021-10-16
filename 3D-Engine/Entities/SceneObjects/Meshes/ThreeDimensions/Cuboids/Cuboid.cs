@@ -90,9 +90,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             Width = width;
             Height = height;
 
-            Vertices = ModelVertices;
-            Edges = MeshEdges;
-            Faces = MeshFaces;
+            Vertices = MeshData.CuboidVertices;
+            Edges = MeshData.CuboidEdges;
+            Faces = MeshData.CuboidFaces;
         }
 
         /// <summary>
@@ -116,9 +116,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             Width = width;
             Height = height;
 
-            Vertices = ModelVertices;
-            Edges = MeshEdges;
-            Faces = MeshFaces;
+            Vertices = MeshData.CuboidVertices;
+            Edges = MeshData.CuboidEdges;
+            Faces = MeshData.CuboidFaces;
 
             Textures = new Texture[1] { texture };
         }
