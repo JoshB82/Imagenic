@@ -39,8 +39,10 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
         internal abstract void ResetBuffers();
         internal abstract void AddPointToBuffers<T>(T data, int x, int y, float z);
 
-        internal void CalculateDepth(Group scene)
+        internal void CalculateDepth(SceneObject sceneObject)
         {
+            DisplayMessage<GeneratingDepthValuesMessage>.WithType<SceneObject>();
+
             ResetBuffers();
 
             foreach (Camera camera in scene.Cameras)
@@ -138,7 +140,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
             #if DEBUG
 
-            ConsoleOutput.DisplayMessageFromObject(this, "Generated depth values.");
+            DisplayMessage<GeneratedDepthValuesMessage>.WithType<SceneObject>();
 
             #endif
         }

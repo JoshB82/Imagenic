@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Provides methods for outputting console messages.
+ * Provides methods for displaying messages.
  */
 
 using _3D_Engine.Entities.SceneObjects;
@@ -29,7 +29,17 @@ namespace _3D_Engine.Utilities
                 return;
             }
 
-            Trace.WriteLine($"[{GetTime()}] [{projectName}] {GetMessage(parameters)}");
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] {GetMessageWithParameters(parameters)}");
+        }
+
+        internal static void WithType<U>()
+        {
+            if (Properties.Settings.Default.Verbosity == Verbosity.None)
+            {
+                return;
+            }
+
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {GetMessage()}");
         }
 
         internal static void WithTypeAndParameters<U>(params string[] parameters)
@@ -39,19 +49,24 @@ namespace _3D_Engine.Utilities
                 return;
             }
 
-            Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {GetMessage(parameters)}");
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {GetMessageWithParameters(parameters)}");
         }
 
-        private static string GetMessage(string[] parameters)
+        private static string GetMessage()
         {
             T text = new();
-            return string.Format(Properties.Settings.Default.Verbosity switch
+            return Properties.Settings.Default.Verbosity switch
             {
                 Verbosity.Brief => text.BriefVerbosityText,
                 Verbosity.Detailed => text.DetailedVerbosityText,
                 Verbosity.All => text.AllVerbosityText,
                 _ => throw new Exception("Cannot handle setting.")
-            }, parameters);
+            };
+        }
+
+        private static string GetMessageWithParameters(string[] parameters)
+        {
+            return string.Format(GetMessage(), parameters);
         }
     }
 
@@ -69,6 +84,20 @@ namespace _3D_Engine.Utilities
         public string BriefVerbosityText { get; set; } = "Created.";
         public string DetailedVerbosityText { get; set; } = "Created at {0}.";
         public string AllVerbosityText { get; set; } = "Entity created at {0}.";
+    }
+
+    internal class GeneratingDepthValuesMessage : IVerbose
+    {
+        public string BriefVerbosityText { get; set; } = "Generating values...";
+        public string DetailedVerbosityText { get; set; } = "Generating depth values...";
+        public string AllVerbosityText { get; set; } = "Generating depth values...";
+    }
+
+    internal class GeneratedDepthValuesMessage : IVerbose
+    {
+        public string BriefVerbosityText { get; set; } = "Generated values.";
+        public string DetailedVerbosityText { get; set; } = "Generated depth values.";
+        public string AllVerbosityText { get; set; } = "Generated depth values";
     }
 
     #endregion
@@ -103,11 +132,6 @@ namespace _3D_Engine.Utilities
                         $"Right: {sceneObject.WorldDirectionRight}");
                     break;
             }
-        }
-
-        internal static void DisplayMessageFrom<T>(string message)
-        {
-
         }
     }
 }
