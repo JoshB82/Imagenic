@@ -10,8 +10,6 @@
  * Encapsulates creation of an edge.
  */
 
-using System.Drawing;
-
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
 {
     /// <summary>
@@ -21,11 +19,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
     {
         #region Fields and Properties
 
-        // Vertices
-        internal Vertex P1, P2;
-
         // Appearance
         public bool Visible { get; set; } = true;
+
+        // Vertices
+        internal Vertex P1 { get; set; }
+        internal Vertex P2 { get; set; }
 
         #endregion
 
