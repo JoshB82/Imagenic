@@ -46,58 +46,20 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         #region Constructors
 
         /// <summary>
-        ///
+        /// Creates a <see cref="Cube"/> mesh.
         /// </summary>
-        /// <param name="worldOrigin"></param>
-        /// <param name="worldOrientation"></param>
-        /// <param name="sideLength"></param>
+        /// <param name="worldOrigin">The position of the <see cref="Cube"/> in world space.</param>
+        /// <param name="worldOrientation">The orientation of the <see cref="Cube"/> in world space.</param>
+        /// <param name="sideLength">The length of each side.</param>
         public Cube(Vector3D worldOrigin,
                     Orientation worldOrientation,
                     float sideLength) : base(worldOrigin, worldOrientation, 3)
         {
-            Vertices = Cuboid.ModelVertices;
-            Edges = Cuboid.MeshEdges;
-            Faces = Cuboid.MeshFaces;
+            Vertices = MeshData.CuboidVertices;
+            Edges = MeshData.CuboidEdges;
+            Faces = MeshData.CuboidFaces;
 
             SideLength = sideLength;
-        }
-
-        /// <summary>
-        /// Creates a <see cref="Cube"/> mesh.
-        /// </summary>
-        /// <param name="origin">The position of the <see cref="Cube"/>.</param>
-        /// <param name="directionForward">The direction the <see cref="Cube"/> faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Cube"/>.</param>
-        /// <param name="sideLength">The length of each side.</param>
-        public Cube(Vector3D origin,
-                    Vector3D directionForward,
-                    Vector3D directionUp,
-                    float sideLength) : base(origin, directionForward, directionUp, 3)
-        {
-            SetStructure(sideLength);
-
-            base.Faces = new List<Face>
-            {
-
-            };
-
-            /*
-            Triangles = new SolidTriangle[12]
-            {
-                new(Vertices[1], Vertices[6], Vertices[2]), // 0
-                new(Vertices[1], Vertices[5], Vertices[6]), // 1
-                new(Vertices[4], Vertices[7], Vertices[5]), // 2
-                new(Vertices[5], Vertices[7], Vertices[6]), // 3
-                new(Vertices[0], Vertices[3], Vertices[4]), // 4
-                new(Vertices[4], Vertices[3], Vertices[7]), // 5
-                new(Vertices[0], Vertices[1], Vertices[2]), // 6
-                new(Vertices[0], Vertices[2], Vertices[3]), // 7
-                new(Vertices[7], Vertices[3], Vertices[6]), // 8
-                new(Vertices[6], Vertices[3], Vertices[2]), // 9
-                new(Vertices[4], Vertices[5], Vertices[1]), // 10
-                new(Vertices[4], Vertices[1], Vertices[0]) // 11
-            };
-            */
         }
 
         /// <summary>

@@ -124,7 +124,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <summary>
         /// Creates a textured <see cref="Cuboid"/> mesh, specifying a <see cref="Texture"/> for each side.
         /// </summary>
-        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/> in world space.</param>
         /// <param name="worldOrientation">The orientation of the <see cref="Cuboid"/> in world space.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
@@ -147,23 +147,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
                       Texture top,
                       Texture bottom) : base(worldOrigin, worldOrientation, 3)
         {
-            SetStructure(length, width, height);
             Textures = new Texture[6] { front, right, back, left, top, bottom };
-            Triangles = new TextureTriangle[12]
-            {
-                new(Vertices[1], Vertices[6], Vertices[2], front.Vertices[1], front.Vertices[3], front.Vertices[2], front), // 0
-                new(Vertices[1], Vertices[5], Vertices[6], front.Vertices[1], front.Vertices[0], front.Vertices[3], front), // 1
-                new(Vertices[4], Vertices[7], Vertices[5], right.Vertices[0], right.Vertices[3], right.Vertices[1], right), // 2
-                new(Vertices[5], Vertices[7], Vertices[6], right.Vertices[1], right.Vertices[3], right.Vertices[2], right), // 3
-                new(Vertices[0], Vertices[3], Vertices[4], back.Vertices[0], back.Vertices[3], back.Vertices[1], back), // 4
-                new(Vertices[4], Vertices[3], Vertices[7], back.Vertices[1], back.Vertices[3], back.Vertices[2], back), // 5
-                new(Vertices[0], Vertices[1], Vertices[2], left.Vertices[1], left.Vertices[0], left.Vertices[3], left), // 6
-                new(Vertices[0], Vertices[2], Vertices[3], left.Vertices[1], left.Vertices[3], left.Vertices[2], left), // 7
-                new(Vertices[7], Vertices[3], Vertices[6], top.Vertices[0], top.Vertices[3], top.Vertices[1], top), // 8
-                new(Vertices[6], Vertices[3], Vertices[2], top.Vertices[1], top.Vertices[3], top.Vertices[2], top), // 9
-                new(Vertices[4], Vertices[5], Vertices[1], bottom.Vertices[3], bottom.Vertices[2], bottom.Vertices[1], bottom), // 10
-                new(Vertices[4], Vertices[1], Vertices[0], bottom.Vertices[3], bottom.Vertices[1], bottom.Vertices[0], bottom) // 11
-            };
         }
 
         private void SetStructure(float length, float width, float height)
@@ -202,6 +186,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
                 new(Vertices[3], Vertices[7]) // 11
             };
         }
+
+        #endregion
+
+        #region Casting
+
+
 
         #endregion
     }
