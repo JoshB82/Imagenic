@@ -22,8 +22,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
     /// A mesh of a cuboid.
     /// </summary>
     /// <remarks>
-    /// Composition:
-    /// It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.</remarks>
+    /// Composition:<br/>
+    /// Six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
+    /// </remarks>
     public sealed class Cuboid : Mesh
     {
         #region Fields and Properties
@@ -147,44 +148,15 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
                       Texture top,
                       Texture bottom) : base(worldOrigin, worldOrientation, 3)
         {
-            Textures = new Texture[6] { front, right, back, left, top, bottom };
-        }
-
-        private void SetStructure(float length, float width, float height)
-        {
-            Dimension = 3;
-
             Length = length;
             Width = width;
             Height = height;
 
-            Vertices = new Vertex[8]
-            {
-                new(new Vector4D(0, 0, 0, 1)), // 0
-                new(new Vector4D(1, 0, 0, 1)), // 1
-                new(new Vector4D(1, 1, 0, 1)), // 2
-                new(new Vector4D(0, 1, 0, 1)), // 3
-                new(new Vector4D(0, 0, 1, 1)), // 4
-                new(new Vector4D(1, 0, 1, 1)), // 5
-                new(new Vector4D(1, 1, 1, 1)), // 6
-                new(new Vector4D(0, 1, 1, 1)) // 7
-            }; // need to be oriented to front side
+            Vertices = MeshData.CuboidVertices;
+            Edges = MeshData.CuboidEdges;
+            Faces = MeshData.GenerateTextureFaces(new Texture[] { back, right, front, left, top, bottom });
 
-            Edges = new Edge[12]
-            {
-                new(Vertices[0], Vertices[1]), // 0
-                new(Vertices[1], Vertices[2]), // 1
-                new(Vertices[2], Vertices[3]), // 2
-                new(Vertices[0], Vertices[3]), // 3
-                new(Vertices[1], Vertices[5]), // 4
-                new(Vertices[5], Vertices[6]), // 5
-                new(Vertices[2], Vertices[6]), // 6
-                new(Vertices[4], Vertices[5]), // 7
-                new(Vertices[4], Vertices[7]), // 8
-                new(Vertices[6], Vertices[7]), // 9
-                new(Vertices[0], Vertices[4]), // 10
-                new(Vertices[3], Vertices[7]) // 11
-            };
+            Textures = new Texture[6] { front, right, back, left, top, bottom };
         }
 
         #endregion
