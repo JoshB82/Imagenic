@@ -24,7 +24,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
     /// <remarks>
     /// Composition:
     /// It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.</remarks>
-    public sealed partial class Cuboid : Mesh
+    public sealed class Cuboid : Mesh
     {
         #region Fields and Properties
 
@@ -74,9 +74,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <summary>
         /// Creates a <see cref="Cuboid"/> mesh.
         /// </summary>
-        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/>.</param>
-        /// <param name="directionForward">The direction the <see cref="Cuboid"/> faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Cuboid"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/> in world space.</param>
+        /// <param name="worldOrientation">The orientation of the <see cref="Cuboid"/> in world space.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
@@ -98,9 +97,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <summary>
         /// Creates a textured <see cref="Cuboid"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
-        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/>.</param>
-        /// <param name="directionForward">The direction the <see cref="Cuboid"/> faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Cuboid"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/> in world space.</param>
+        /// <param name="worldOrientation">The orientation of the <see cref="Cuboid"/> in world space.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
@@ -118,7 +116,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
             Vertices = MeshData.CuboidVertices;
             Edges = MeshData.CuboidEdges;
-            Faces = MeshData.CuboidFaces;
+            Faces = MeshData.GenerateTextureFaces(new Texture[] { texture, texture, texture, texture, texture, texture });
 
             Textures = new Texture[1] { texture };
         }
@@ -126,9 +124,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <summary>
         /// Creates a textured <see cref="Cuboid"/> mesh, specifying a <see cref="Texture"/> for each side.
         /// </summary>
-        /// <param name="origin">The position of the <see cref="Cuboid"/>.</param>
-        /// <param name="directionForward">The direction the <see cref="Cuboid"/> faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Cuboid"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cuboid"/>.</param>
+        /// <param name="worldOrientation">The orientation of the <see cref="Cuboid"/> in world space.</param>
         /// <param name="length">The length of the <see cref="Cuboid"/>.</param>
         /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
         /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
@@ -138,9 +135,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <param name="left">The <see cref="Texture"/> for the left face of the <see cref="Cuboid"/>.</param>
         /// <param name="top">The <see cref="Texture"/> for the top face of the <see cref="Cuboid"/>.</param>
         /// <param name="bottom">The <see cref="Texture"/> for the bottom face of the <see cref="Cuboid"/>.</param>
-        public Cuboid(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
+        public Cuboid(Vector3D worldOrigin,
+                      Orientation worldOrientation,
                       float length,
                       float width,
                       float height,
@@ -149,7 +145,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
                       Texture back,
                       Texture left,
                       Texture top,
-                      Texture bottom) : base(origin, directionForward, directionUp, 3)
+                      Texture bottom) : base(worldOrigin, worldOrientation, 3)
         {
             SetStructure(length, width, height);
             Textures = new Texture[6] { front, right, back, left, top, bottom };
