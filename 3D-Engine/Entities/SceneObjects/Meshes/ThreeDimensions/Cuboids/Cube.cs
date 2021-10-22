@@ -123,12 +123,18 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// Casts a <see cref="Cube"/> into a <see cref="Cuboid"/>.
         /// </summary>
         /// <param name="cube"><see cref="Cube"/> to cast.</param>
-        public static explicit operator Cuboid(Cube cube) =>
-            new(cube.WorldOrigin, cube.WorldDirectionForward, cube.WorldDirectionUp, cube.sideLength, cube.sideLength, cube.sideLength)
+        public static implicit operator Cuboid(Cube cube)
+        {
+            return new Cuboid(cube.WorldOrigin,
+                              cube.WorldOrientation,
+                              cube.sideLength,
+                              cube.sideLength,
+                              cube.sideLength)
             {
                 Textures = cube.Textures,
-                Triangles = cube.Triangles
+                Faces = cube.Faces
             };
+        }
 
         #endregion
     }

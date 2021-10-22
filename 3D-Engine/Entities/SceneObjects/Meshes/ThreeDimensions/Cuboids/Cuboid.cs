@@ -15,6 +15,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
@@ -163,7 +164,20 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         #region Casting
 
-
+        /// <summary>
+        /// Casts a <see cref="Cuboid"/> into a <see cref="Cube"/>.
+        /// </summary>
+        /// <param name="cuboid"><see cref="Cuboid"/> to cast.</param>
+        public static explicit operator Cube(Cuboid cuboid)
+        {
+            return new Cube(cuboid.WorldOrigin,
+                            cuboid.WorldOrientation,
+                            Math.Min(Math.Min(cuboid.Length, cuboid.Width), cuboid.Height))
+            {
+                Textures = cuboid.Textures,
+                Faces = cuboid.Faces
+            };
+        }
 
         #endregion
     }
