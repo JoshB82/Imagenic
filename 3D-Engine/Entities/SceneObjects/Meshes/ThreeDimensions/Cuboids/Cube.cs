@@ -20,8 +20,12 @@ using System.Collections.Generic;
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
     /// <summary>
-    /// A mesh of a cube. It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
+    /// A mesh of a cube.
     /// </summary>
+    /// <remarks>
+    /// Composition<br/>
+    /// It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
+    /// </remarks>
     public sealed class Cube : Mesh
     {
         #region Fields and Properties
@@ -65,48 +69,28 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <summary>
         /// Creates a textured <see cref="Cube"/> mesh, specifying a single <see cref="Texture"/> for all sides.
         /// </summary>
-        /// <param name="origin">The position of the <see cref="Cube"/>.</param>
-        /// <param name="directionForward">The direction the <see cref="Cube"/> faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Cube"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cube"/> in world space.</param>
+        /// <param name="worldOrientation"></param>
         /// <param name="sideLength">The length of each side.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Cube"/>.</param>
-        public Cube(Vector3D origin,
-                    Vector3D directionForward,
-                    Vector3D directionUp,
+        public Cube(Vector3D worldOrigin,
+                    Orientation worldOrientation,
                     float sideLength,
-                    Texture texture) : base(origin, directionForward, directionUp, 3)
+                    Texture texture) : base(worldOrigin, worldOrientation, 3)
         {
-            SetStructure(sideLength);
+            Vertices = MeshData.CuboidVertices;
+            Edges = MeshData.CuboidEdges;
+            Faces = MeshData.GenerateTextureFaces(new Texture[] { texture, texture, texture, texture, texture, texture });
+
+            SideLength = sideLength;
             Textures = new Texture[1] { texture };
-
-            base.Faces = new List<Face>
-            {
-
-            };
-
-            Triangles = new TextureTriangle[12]
-            {
-                new(Vertices[1], Vertices[6], Vertices[2], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 0
-                new(Vertices[1], Vertices[5], Vertices[6], texture.Vertices[1], texture.Vertices[0], texture.Vertices[3], texture), // 1
-                new(Vertices[4], Vertices[7], Vertices[5], texture.Vertices[0], texture.Vertices[3], texture.Vertices[1], texture), // 2
-                new(Vertices[5], Vertices[7], Vertices[6], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 3
-                new(Vertices[0], Vertices[3], Vertices[4], texture.Vertices[0], texture.Vertices[3], texture.Vertices[1], texture), // 4
-                new(Vertices[4], Vertices[3], Vertices[7], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 5
-                new(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[1], texture.Vertices[0], texture.Vertices[3], texture), // 6
-                new(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 7
-                new(Vertices[7], Vertices[3], Vertices[6], texture.Vertices[0], texture.Vertices[3], texture.Vertices[1], texture), // 8
-                new(Vertices[6], Vertices[3], Vertices[2], texture.Vertices[1], texture.Vertices[3], texture.Vertices[2], texture), // 9
-                new(Vertices[4], Vertices[5], Vertices[1], texture.Vertices[3], texture.Vertices[2], texture.Vertices[1], texture), // 10
-                new(Vertices[4], Vertices[1], Vertices[0], texture.Vertices[3], texture.Vertices[1], texture.Vertices[0], texture) // 11
-            };
         }
 
         /// <summary>
         /// Creates a textured <see cref="Cube"/> mesh, specifying a <see cref="Texture"/> for each side.
         /// </summary>
-        /// <param name="origin">The position of the <see cref="Cube"/>.</param>
-        /// <param name="directionForward">The direction the <see cref="Cube"/> faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Cube"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="Cube"/> in world space.</param>
+        /// <param name="worldOrientation"></param>
         /// <param name="sideLength">The length of each side of the <see cref="Cube"/>.</param>
         /// <param name="front">The <see cref="Texture"/> for the front face of the <see cref="Cube"/>.</param>
         /// <param name="right">The <see cref="Texture"/> for the right face of the <see cref="Cube"/>.</param>
@@ -114,34 +98,18 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <param name="left">The <see cref="Texture"/> for the left face of the <see cref="Cube"/>.</param>
         /// <param name="top">The <see cref="Texture"/> for the top face of the <see cref="Cube"/>.</param>
         /// <param name="bottom">The <see cref="Texture"/> for the bottom face of the <see cref="Cube"/>.</param>
-        public Cube(Vector3D origin,
-                    Vector3D directionForward,
-                    Vector3D directionUp,
+        public Cube(Vector3D worldOrigin,
+                    Orientation worldOrientation,
                     float sideLength,
                     Texture front,
                     Texture right,
                     Texture back,
                     Texture left,
                     Texture top,
-                    Texture bottom) : base(origin, directionForward, directionUp, 3)
+                    Texture bottom) : base(worldOrigin, worldOrientation, 3)
         {
-            SetStructure(sideLength);
+            SideLength = sideLength;
             Textures = new Texture[6] { front, right, back, left, top, bottom };
-            Triangles = new TextureTriangle[12]
-            {
-                new(Vertices[1], Vertices[6], Vertices[2], front.Vertices[1], front.Vertices[3], front.Vertices[2], front), // 0
-                new(Vertices[1], Vertices[5], Vertices[6], front.Vertices[1], front.Vertices[0], front.Vertices[3], front), // 1
-                new(Vertices[4], Vertices[7], Vertices[5], right.Vertices[0], right.Vertices[3], right.Vertices[1], right), // 2
-                new(Vertices[5], Vertices[7], Vertices[6], right.Vertices[1], right.Vertices[3], right.Vertices[2], right), // 3
-                new(Vertices[0], Vertices[3], Vertices[4], back.Vertices[0], back.Vertices[3], back.Vertices[1], back), // 4
-                new(Vertices[4], Vertices[3], Vertices[7], back.Vertices[1], back.Vertices[3], back.Vertices[2], back), // 5
-                new(Vertices[0], Vertices[1], Vertices[2], left.Vertices[1], left.Vertices[0], left.Vertices[3], left), // 6
-                new(Vertices[0], Vertices[2], Vertices[3], left.Vertices[1], left.Vertices[3], left.Vertices[2], left), // 7
-                new(Vertices[7], Vertices[3], Vertices[6], top.Vertices[0], top.Vertices[3], top.Vertices[1], top), // 8
-                new(Vertices[6], Vertices[3], Vertices[2], top.Vertices[1], top.Vertices[3], top.Vertices[2], top), // 9
-                new(Vertices[4], Vertices[5], Vertices[1], bottom.Vertices[3], bottom.Vertices[2], bottom.Vertices[1], bottom), // 10
-                new(Vertices[4], Vertices[1], Vertices[0], bottom.Vertices[3], bottom.Vertices[1], bottom.Vertices[0], bottom) // 11
-            };
         }
 
         private void SetStructure(float sideLength)
