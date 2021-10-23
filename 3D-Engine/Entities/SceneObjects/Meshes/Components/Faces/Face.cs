@@ -35,19 +35,24 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
 
             for (int i = 0; i < vertices.Count - 1; i++)
             {
-                Edges.Add(new Edge(vertices[i], vertices[i + 1]));
+                Edges.Add(new SolidEdge(vertices[i], vertices[i + 1]));
             }
-            Edges.Add(new Edge(vertices[vertices.Count - 1], vertices[0]));
+            Edges.Add(new SolidEdge(vertices[vertices.Count - 1], vertices[0]));
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                Triangles.Add(new SolidFace())
+                //Triangles.Add(new SolidFace())
             }
         }
 
         public Face(IList<Edge> edges)
         {
             Edges = edges;
+        }
+
+        public Face(Triangle triangle)
+        {
+            Triangles = new Triangle[] { triangle };
         }
 
         public Face(IList<Triangle> triangles)
@@ -61,22 +66,22 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
 
         public Mesh Extrude(Face face, Vector3D displacement)
         {
-
+            return null;
         }
 
         public Face Join(Face face1, Face face2)
         {
-
+            return null;
         }
 
         internal bool DoesOverlap(Triangle t1, Triangle t2)
         {
-
+            return true; // o.o
         }
 
         internal Triangle[] Decompose(Vertex[] vertices)
         {
-
+            return null;
         }
 
         #endregion

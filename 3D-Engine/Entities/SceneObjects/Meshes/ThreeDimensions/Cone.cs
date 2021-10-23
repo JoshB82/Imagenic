@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines creation of a cone.
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
@@ -15,6 +15,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
@@ -61,7 +62,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             get => resolution;
             set
             {
+                if (value == resolution) return;
                 resolution = value;
+                RequestNewRenders();
 
                 // Vertices
                 // They are defined in anti-clockwise order, looking from above and then downwards.
@@ -75,19 +78,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 // Edges
                 Edges = new Edge[resolution];
 
-                for (int i = 0; i < resolution - 1; i++) Edges[i] = new Edge(Vertices[i + 2], Vertices[i + 3]);
-                Edges[resolution - 1] = new Edge(Vertices[resolution + 1], Vertices[2]);
+                for (int i = 0; i < resolution - 1; i++) Edges[i] = new SolidEdge(Vertices[i + 2], Vertices[i + 3]);
+                Edges[resolution - 1] = new SolidEdge(Vertices[resolution + 1], Vertices[2]);
 
                 // Faces
-                Triangles = new SolidTriangle[2 * resolution];
+                Faces = new Face[resolution + 1];
+
+                Triangle[] baseTriangles = new Triangle[resolution];
+                for (int i = 0; i < resolution - 1; i++)
+                {
+                    baseTriangles[i] = new SolidTriangle(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
+                }
+                baseTriangles[resolution - 1] = new SolidTriangle(Vertices[resolution - 1], Vertices[0], Vertices[2]);
+                Faces[0] = new Face(baseTriangles);
 
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Triangles[i] = new SolidTriangle(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
-                    Triangles[i + resolution] = new SolidTriangle(Vertices[i + 2], Vertices[i + 3], Vertices[1]);
+                    Faces[i + 1] = new Face(new SolidTriangle(Vertices[i + 2], Vertices[i + 3], Vertices[1]));
                 }
-                Triangles[resolution - 1] = new SolidTriangle(Vertices[resolution - 1], Vertices[0], Vertices[2]);
-                Triangles[2 * resolution - 1] = new SolidTriangle(Vertices[resolution - 1], Vertices[2], Vertices[1]);
+                Faces[2 * resolution - 1] = new Face(new SolidTriangle(Vertices[resolution - 1], Vertices[2], Vertices[1]));
             }
         }
 
