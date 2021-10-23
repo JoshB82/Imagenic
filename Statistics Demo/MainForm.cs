@@ -1,17 +1,17 @@
 ﻿using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects;
-using _3D_Engine.SceneObjects.Groups;
-using _3D_Engine.SceneObjects.Meshes.OneDimension;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
-using _3D_Engine.SceneObjects.Meshes.TwoDimensions;
-using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
+using _3D_Engine.Entities.Groups;
+using _3D_Engine.Entities.SceneObjects;
 
 namespace Statistics_Demo
 {

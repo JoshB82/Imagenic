@@ -162,7 +162,7 @@ namespace _3D_Engine.Maths.Vectors
 
         public override readonly bool Equals(object obj) => this == (Vector3D)obj;
 
-        public override int GetHashCode() => throw new NotImplementedException();
+        public override int GetHashCode() => (x, y, z).GetHashCode();
 
         public override readonly string ToString() => $"({x}, {y}, {z})";
 

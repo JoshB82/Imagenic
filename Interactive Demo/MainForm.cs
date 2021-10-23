@@ -1,15 +1,15 @@
 ﻿using _3D_Engine.Enums;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.SceneObjects.Groups;
-using _3D_Engine.SceneObjects.Meshes.OneDimension;
-using _3D_Engine.SceneObjects.Meshes.ThreeDimensions;
-using _3D_Engine.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.SceneObjects.RenderingObjects.Lights;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
+using _3D_Engine.Entities.Groups;
 
 namespace Interactive_Demo
 {
@@ -21,6 +21,8 @@ namespace Interactive_Demo
         public MainForm()
         {
             InitializeComponent();
+
+            MessageBox.Show("Use QEWASD to move camera, UOIJKL to rotate camera.", "Controls");
 
             // Create a new scene
             Group scene = new();
@@ -106,7 +108,7 @@ namespace Interactive_Demo
 
         private void CheckKeyboard(long updateTime)
         {
-            const float cameraPanDampener = 0.0008f, cameraTiltDampener = 0.000001f;
+            const float cameraPanDampener = 0.0001f, cameraTiltDampener = 0.00001f;
 
             for (int i = 0; i < keysPressed.Count; i++)
             {
@@ -174,10 +176,10 @@ namespace Interactive_Demo
 
         private void MainForm_Resize(object sender, System.EventArgs e)
         {
-            camera.ViewWidth = pictureBox.Width / 10f;
-            camera.ViewHeight = pictureBox.Height / 10f;
-            camera.RenderWidth = pictureBox.Width;
-            camera.RenderHeight = pictureBox.Height;
+            //camera.ViewWidth = pictureBox.Width / 10f;
+            //camera.ViewHeight = pictureBox.Height / 10f;
+            //camera.RenderWidth = pictureBox.Width;
+            //camera.RenderHeight = pictureBox.Height;
         }
     }
 }

@@ -16,7 +16,9 @@ using System;
 
 namespace _3D_Engine.Maths
 {
-    /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Matrix4x4']/*"/>
+    /// <summary>
+    /// Encapsulates creation of a <see cref="Matrix4x4"/> (square matrix with four rows and four columns).
+    /// </summary>
     public struct Matrix4x4 : IEquatable<Matrix4x4>
     {
         #region Fields and Properties
@@ -32,44 +34,94 @@ namespace _3D_Engine.Maths
         public static readonly Matrix4x4 Identity = new() { m00 = 1, m11 = 1, m22 = 1, m33 = 1 };
 
         // Matrix contents
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m00']/*"/>
+        /// <summary>
+        /// From the top left, the value in the first row and first column.
+        /// </summary>
         public float m00;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m01']/*"/>
+        /// <summary>
+        /// From the top left, the value in the first row and second column.
+        /// </summary>
         public float m01;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m02']/*"/>
+        /// <summary>
+        /// From the top left, the value in the first row and third column.
+        /// </summary>
         public float m02;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m03']/*"/>
+        /// <summary>
+        /// From the top left, the value in the first row and fourth column.
+        /// </summary>
         public float m03;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m10']/*"/>
+        /// <summary>
+        /// From the top left, the value in the second row and first column.
+        /// </summary>
         public float m10;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m11']/*"/>
+        /// <summary>
+        /// From the top left, the value in the second row and second column.
+        /// </summary>
         public float m11;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m12']/*"/>
+        /// <summary>
+        /// From the top left, the value in the second row and third column.
+        /// </summary>
         public float m12;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m13']/*"/>
+        /// <summary>
+        /// From the top left, the value in the second row and fourth column.
+        /// </summary>
         public float m13;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m20']/*"/>
+        /// <summary>
+        /// From the top left, the value in the third row and first column.
+        /// </summary>
         public float m20;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m21']/*"/>
+        /// <summary>
+        /// From the top left, the value in the third row and second column.
+        /// </summary>
         public float m21;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m22']/*"/>
+        /// <summary>
+        /// From the top left, the value in the third row and third column.
+        /// </summary>
         public float m22;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m23']/*"/>
+        /// <summary>
+        /// From the top left, the value in the third row and fourth column.
+        ///</summary>
         public float m23;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m30']/*"/>
+        /// <summary>
+        /// From the top left, the value in the fourth row and first column.
+        /// </summary>
         public float m30;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m31']/*"/>
+        /// <summary>
+        /// From the top left, the value in the fourth row and second column.
+        /// </summary>
         public float m31;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m32']/*"/>
+        /// <summary>
+        /// From the top left, the value in the fourth row and third column.
+        /// </summary>
         public float m32;
-        /// <include file="Help_8.xml" path="doc/members/member[@name='F:_3D_Engine.Matrix4x4.m33']/*"/>
+        /// <summary>
+        /// From the top left, the value in the fourth row and fourth column.
+        /// </summary>
         public float m33;
 
         #endregion
 
         #region Constructors
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)']/*"/>
+        /// <summary>
+        /// Creates a <see cref= "Matrix4x4"/> from 16 values.
+        /// </summary>
+        /// <param name="m00">From the top left, the value to be put at the first row and first column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m01">From the top left, the value to be put at the first row and second column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m02">From the top left, the value to be put at the first row and third column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m03">From the top left, the value to be put at the first row and fourth column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m10">From the top left, the value to be put at the second row and first column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m11">From the top left, the value to be put at the second row and second column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m12">From the top left, the value to be put at the second row and third column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m13">From the top left, the value to be put at the second row and fourth column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m20">From the top left, the value to be put at the third row and first column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m21">From the top left, the value to be put at the third row and second column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m22">From the top left, the value to be put at the third row and third column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m23">From the top left, the value to be put at the third row and fourth column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m30">From the top left, the value to be put at the fourth row and first column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m31">From the top left, the value to be put at the fourth row and second column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m32">From the top left, the value to be put at the fourth row and third column of the <see cref="Matrix4x4"/>.</param>
+        /// <param name="m33">From the top left, the value to be put at the fourth row and fourth column of the <see cref="Matrix4x4"/>.</param>
         public Matrix4x4(
             float m00, float m01, float m02, float m03,
             float m10, float m11, float m12, float m13,
@@ -82,12 +134,20 @@ namespace _3D_Engine.Maths
             (this.m30, this.m31, this.m32, this.m33) = (m30, m31, m32, m33);
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Single[0:,0:])']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> from a two-dimensional array of elements.
+        /// </summary>
+        /// <param name="elements">The array containing elements to be entered into the <see cref= "Matrix4x4"/>.</param>
         public Matrix4x4(float[,] elements)
         {
-            if (elements.GetLength(0) < 4 ||
-                elements.GetLength(1) < 4)
-                throw new ArgumentException(Exceptions.Matrix4x4ParameterSize, nameof(elements));
+            if (elements is null)
+            {
+                throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(elements));
+            }
+            if (elements.GetLength(0) != 4 || elements.GetLength(1) != 4)
+            {
+                throw GenerateException<InvalidArraySizeException>.WithParameters(nameof(elements));
+            }
 
             (m00, m01, m02, m03) = (elements[0, 0], elements[0, 1], elements[0, 2], elements[0, 3]);
             (m10, m11, m12, m13) = (elements[1, 0], elements[1, 1], elements[1, 2], elements[1, 3]);
@@ -95,15 +155,20 @@ namespace _3D_Engine.Maths
             (m30, m31, m32, m33) = (elements[3, 0], elements[3, 1], elements[3, 2], elements[3, 3]);
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.#ctor(System.Single[][])']/*"/>
+        /// <summary>
+        /// Creates a <see cref="Matrix4x4"/> from a jagged array of elements.
+        /// </summary>
+        /// <param name="elements">The array containing elements to be entered into the <see cref="Matrix4x4"/>.</param>
         public Matrix4x4(float[][] elements)
         {
-            if (elements.Length < 4 ||
-                elements[0].Length < 4 ||
-                elements[1].Length < 4 ||
-                elements[2].Length < 4 ||
-                elements[3].Length < 4)
-                throw new ArgumentException(Exceptions.Matrix4x4ParameterSize, nameof(elements));
+            if (elements is null)
+            {
+                throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(elements));
+            }
+            if (elements.Length != 4 || elements[0].Length != 4 || elements[1].Length != 4 || elements[2].Length != 4 || elements[3].Length != 4)
+            {
+                throw GenerateException<InvalidArraySizeException>.WithParameters(nameof(elements));
+            }
 
             (m00, m01, m02, m03) = (elements[0][0], elements[0][1], elements[0][2], elements[0][3]);
             (m10, m11, m12, m13) = (elements[1][0], elements[1][1], elements[1][2], elements[1][3]);
@@ -116,15 +181,14 @@ namespace _3D_Engine.Maths
         #region Matrix Operations
 
         // Common
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Determinant']/*"/> // source!
+        /// <summary>
+        /// Finds the determinant of a <see cref="Matrix4x4"/>.
+        /// </summary>
+        /// <returns>Determinant of a <see cref="Matrix4x4"/>.</returns> // source!
         public readonly float Determinant()
         {
-            float d1 = m20 * m31 - m21 * m30;
-            float d2 = m20 * m32 - m22 * m30;
-            float d3 = m20 * m33 - m23 * m30;
-            float d4 = m21 * m32 - m22 * m31;
-            float d5 = m21 * m33 - m23 * m31;
-            float d6 = m22 * m33 - m23 * m32;
+            float d1 = m20 * m31 - m21 * m30, d2 = m20 * m32 - m22 * m30, d3 = m20 * m33 - m23 * m30;
+            float d4 = m21 * m32 - m22 * m31, d5 = m21 * m33 - m23 * m31, d6 = m22 * m33 - m23 * m32;
 
             return
               m00 * (m11 * d6 - m12 * d5 + m13 * d4)
@@ -133,33 +197,27 @@ namespace _3D_Engine.Maths
             - m03 * (m10 * d4 - m11 * d2 + m12 * d1);
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.Inverse']/*"/>
+        /// <summary>
+        /// Finds the inverse of a <see cref="Matrix4x4"/>.
+        /// </summary>
+        /// <returns>Inverse of a <see cref="Matrix4x4"/>.</returns>
         public readonly Matrix4x4 Inverse()
         {
-            float d1 = m10 * m21 - m11 * m20;
-            float d2 = m10 * m22 - m12 * m20;
-            float d3 = m10 * m23 - m13 * m20;
-            float d4 = m10 * m31 - m11 * m30;
-            float d5 = m10 * m32 - m12 * m30;
-            float d6 = m10 * m33 - m13 * m30;
-            float d7 = m11 * m22 - m12 * m21;
-            float d8 = m11 * m23 - m13 * m21;
-            float d9 = m11 * m32 - m12 * m31;
-            float d10 = m11 * m33 - m13 * m31;
-            float d11 = m12 * m23 - m13 * m22;
-            float d12 = m12 * m33 - m13 * m32;
-            float d13 = m20 * m31 - m21 * m30;
-            float d14 = m20 * m32 - m22 * m30;
-            float d15 = m20 * m33 - m23 * m30;
-            float d16 = m21 * m32 - m22 * m31;
-            float d17 = m21 * m33 - m23 * m31;
-            float d18 = m22 * m33 - m23 * m32;
+            float d1 = m10 * m21 - m11 * m20, d2 = m10 * m22 - m12 * m20, d3 = m10 * m23 - m13 * m20;
+            float d4 = m10 * m31 - m11 * m30, d5 = m10 * m32 - m12 * m30, d6 = m10 * m33 - m13 * m30;
+            float d7 = m11 * m22 - m12 * m21, d8 = m11 * m23 - m13 * m21, d9 = m11 * m32 - m12 * m31;
+            float d10 = m11 * m33 - m13 * m31, d11 = m12 * m23 - m13 * m22, d12 = m12 * m33 - m13 * m32;
+            float d13 = m20 * m31 - m21 * m30, d14 = m20 * m32 - m22 * m30, d15 = m20 * m33 - m23 * m30;
+            float d16 = m21 * m32 - m22 * m31, d17 = m21 * m33 - m23 * m31, d18 = m22 * m33 - m23 * m32;
 
             float det =   m00 * (m11 * d18 - m12 * d17 + m13 * d16)
                         - m01 * (m10 * d18 - m12 * d15 + m13 * d14)
                         + m02 * (m10 * d17 - m11 * d15 + m13 * d13)
                         - m03 * (m10 * d16 - m11 * d14 + m12 * d13);
-            if (det == 0) throw Exceptions.Matrix4x4NoInverse;
+            if (det == 0)
+            {
+                throw GenerateException<Matrix4x4DoesNotHaveAnInverseException>.WithParameters();
+            }
 
             return new Matrix4x4
             (
@@ -194,16 +252,16 @@ namespace _3D_Engine.Maths
 
         // Equality and miscellaneous
         public static bool operator ==(Matrix4x4 v1, Matrix4x4 v2) =>
-            v1.m00 == v2.m00 && v1.m01 == v2.m01 && v1.m02 == v2.m02 && v1.m03 == v2.m03 &&
-            v1.m10 == v2.m10 && v1.m11 == v2.m11 && v1.m12 == v2.m12 && v1.m13 == v2.m13 &&
-            v1.m20 == v2.m20 && v1.m21 == v2.m21 && v1.m22 == v2.m22 && v1.m23 == v2.m23 &&
-            v1.m30 == v2.m30 && v1.m31 == v2.m31 && v1.m32 == v2.m32 && v1.m33 == v2.m33;
+            (v1.m00, v1.m01, v1.m02, v1.m03) == (v2.m00, v2.m01, v2.m02, v2.m03) &&
+            (v1.m10, v1.m11, v1.m12, v1.m13) == (v2.m10, v2.m11, v2.m12, v2.m13) &&
+            (v1.m20, v1.m21, v1.m22, v1.m23) == (v2.m20, v2.m21, v2.m22, v2.m23) &&
+            (v1.m30, v1.m31, v1.m32, v1.m33) == (v2.m30, v2.m31, v2.m32, v2.m33);
 
         public static bool operator !=(Matrix4x4 v1, Matrix4x4 v2) => !(v1 == v2);
 
         public readonly bool Equals(Matrix4x4 m) => this == m;
 
-        public readonly bool Approx_Equals(Matrix4x4 m, float epsilon = float.Epsilon) =>
+        public readonly bool ApproxEquals(Matrix4x4 m, float epsilon = float.Epsilon) =>
             this.m00.ApproxEquals(m.m00, epsilon) &&
             this.m01.ApproxEquals(m.m01, epsilon) &&
             this.m02.ApproxEquals(m.m02, epsilon) &&
@@ -223,7 +281,7 @@ namespace _3D_Engine.Maths
 
         public override readonly bool Equals(object obj) => this == (Matrix4x4)obj;
 
-        public override int GetHashCode() => throw new NotImplementedException();
+        public override int GetHashCode() => (m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33).GetHashCode();
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.ToString']/*"/>
         public override readonly string ToString() =>
