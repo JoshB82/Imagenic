@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines creation of a plane.
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
@@ -18,8 +18,17 @@ using _3D_Engine.Maths.Vectors;
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Plane"/> mesh.
+    /// A sealed class representing a two-dimensional plane mesh. It inherits from<br/>
+    /// the abstract <see cref="Mesh"/> class.
     /// </summary>
+    /// <remarks>
+    /// Composition:<br/>
+    /// <list type="bullet">
+    /// <item><description><strong>4</strong> vertices</description></item>
+    /// <item><description><strong>4</strong> edges</description></item>
+    /// <item><description><strong>1</strong> face (made of <strong>2</strong> triangles)</description></item>
+    /// </list>
+    /// </remarks>
     public sealed class Plane : Mesh
     {
         #region Fields and Properties
