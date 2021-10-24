@@ -50,9 +50,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
             Edges = edges;
         }
 
-        public Face(Triangle triangle)
+        public Face(params Triangle[] triangles)
         {
-            Triangles = new Triangle[] { triangle };
+            Triangles = triangles;
         }
 
         public Face(IList<Triangle> triangles)
