@@ -10,6 +10,7 @@
  *
  */
 
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 
@@ -20,21 +21,58 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         #region Fields and Properties
 
         public IEnumerable<string> Fonts { get; set; }
-        public float Size { get; set; }
-        public char Style { get; set; }
+
+        private float size;
+        public float Size
+        {
+            get => size;
+            set
+            {
+                if (value == size) return;
+                size = value;
+                RequestNewRenders();
+            }
+        }
+
+        private char style;
+        public char Style
+        {
+            get => style;
+            set
+            {
+                if (value == style) return;
+                style = value;
+                RequestNewRenders();
+            }
+        }
+
+        private string content;
+        public string Content
+        {
+            get => content;
+            set
+            {
+                if (value == content) return;
+                content = value;
+                RequestNewRenders();
+            }
+        }
 
         #endregion
 
         #region Constructors
 
-        public Text2D(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
+        public Text2D(Vector3D worldOrigin,
+                      Orientation worldOrientation,
                       IEnumerable<string> fonts,
                       float size,
-                      char style) : base(origin, directionForward, directionUp, 2)
+                      char style,
+                      string content) : base(worldOrigin, worldOrientation, 2)
         {
-            Dimension = 2;
+            Fonts = fonts;
+            Size = size;
+            Style = style;
+            Content = content;
         }
 
         #endregion
