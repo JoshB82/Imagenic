@@ -12,6 +12,7 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 
@@ -76,14 +77,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                      float length,
                      float width) : base(worldOrigin, worldOrientation, 2)
         {
+            Vertices = MeshData.PlaneVertices;
+            Edges = MeshData.PlaneEdges;
+            Faces = MeshData.PlaneSolidFaces;
+
             Length = length;
             Width = width;
-
-            Triangles = new SolidTriangle[2]
-            {
-                new(Vertices[0], Vertices[1], Vertices[2]), // 0
-                new(Vertices[0], Vertices[2], Vertices[3]) // 1
-            };
         }
 
         /// <summary>
@@ -100,13 +99,20 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                      float width,
                      Texture texture) : base(worldOrigin, worldOrientation, 2)
         {
+            Vertices = MeshData.PlaneVertices;
+            Edges = MeshData.PlaneEdges;
+            Faces = MeshData.GeneratePlaneTextureFace(texture);
+
+            Length = length;
+            Width = width;
             Textures = new Texture[1] { texture };
-            Triangles = new TextureTriangle[2]
-            {
-                new(Vertices[0], Vertices[1], Vertices[2], texture.Vertices[0], texture.Vertices[1], texture.Vertices[2], texture), // 0
-                new(Vertices[0], Vertices[2], Vertices[3], texture.Vertices[0], texture.Vertices[2], texture.Vertices[3], texture) // 1
-            };
         }
+
+        #endregion
+
+        #region Casting
+
+
 
         #endregion
     }
