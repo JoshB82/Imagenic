@@ -60,7 +60,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         {
             Vertices = MeshData.CuboidVertices;
             Edges = MeshData.CuboidEdges;
-            Faces = MeshData.CuboidFaces;
+            Faces = MeshData.CuboidSolidFaces;
 
             SideLength = sideLength;
         }
@@ -79,7 +79,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         {
             Vertices = MeshData.CuboidVertices;
             Edges = MeshData.CuboidEdges;
-            Faces = MeshData.GenerateTextureFaces(new Texture[] { texture, texture, texture, texture, texture, texture });
+            Faces = MeshData.GenerateCuboidTextureFaces(new Texture[] { texture, texture, texture, texture, texture, texture });
 
             SideLength = sideLength;
             Textures = new Texture[1] { texture };
@@ -109,7 +109,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         {
             Vertices = MeshData.CuboidVertices;
             Edges = MeshData.CuboidEdges;
-            Faces = MeshData.GenerateTextureFaces(new Texture[] { back, right, front, left, top, bottom });
+            Faces = MeshData.GenerateCuboidTextureFaces(new Texture[] { back, right, front, left, top, bottom });
 
             SideLength = sideLength;
             Textures = new Texture[6] { front, right, back, left, top, bottom };
