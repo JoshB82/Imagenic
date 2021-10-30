@@ -10,6 +10,7 @@
  * Defines methods for scaling Meshes and other functionality.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
 using System;
@@ -33,11 +34,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         {
             foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
             {
-                foreach (Triangle triangle in child.Triangles)
+                foreach (Face face in child.Faces)
                 {
-                    if (triangle is SolidTriangle solidTriangle)
+                    foreach (Triangle triangle in face.Triangles)
                     {
-                        solidTriangle.Colour = colour;
+                        if (triangle is SolidTriangle solidTriangle)
+                        {
+                            solidTriangle.Colour = colour;
+                        }
                     }
                 }
             }
