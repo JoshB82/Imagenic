@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
