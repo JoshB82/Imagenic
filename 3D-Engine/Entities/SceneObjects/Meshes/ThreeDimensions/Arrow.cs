@@ -7,13 +7,14 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of an arrow.
+ * Defines an arrow mesh.
  */
 
 using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
@@ -46,98 +47,105 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 tipPosition = WorldDirectionForward * length;
             }
         }
+
         public Vector3D TipPosition
         {
             get => tipPosition;
             set
             {
+                if (value == tipPosition) return;
                 tipPosition = value;
+                RequestNewRenders();
 
                 length = (tipPosition - WorldOrigin).Magnitude();
                 bodyLength = length - tipLength;
-
-                RequestNewRenders();
             }
         }
+
         public float Length
         {
             get => length;
             set
             {
+                if (value == length) return;
                 length = value;
+                RequestNewRenders();
 
                 tipPosition = WorldDirectionForward * length;
                 bodyLength = length = tipLength;
-
-                RequestNewRenders();
             }
         }
+
         public float BodyLength
         {
             get => bodyLength;
             set
             {
+                if (value == bodyLength) return;
                 bodyLength = value;
+                RequestNewRenders();
 
                 length = bodyLength + tipLength;
                 tipPosition = WorldOrigin + WorldDirectionForward * length;
 
                 GenerateVertices();
-
-                RequestNewRenders();
             }
         }
+
         public float TipLength
         {
             get => tipLength;
             set
             {
+                if (value == tipLength) return;
                 tipLength = value;
+                RequestNewRenders();
 
                 length = bodyLength + tipLength;
                 tipPosition = WorldOrigin + WorldDirectionForward * length;
 
                 GenerateVertices();
-
-                RequestNewRenders();
             }
         }
+
         public float BodyRadius
         {
             get => bodyRadius;
             set
             {
+                if (value == bodyRadius) return;
                 bodyRadius = value;
+                RequestNewRenders();
 
                 GenerateVertices();
-
-                RequestNewRenders();
             }
         }
+
         public float TipRadius
         {
             get => tipRadius;
             set
             {
+                if (value == tipRadius) return;
                 tipRadius = value;
+                RequestNewRenders();
 
                 GenerateVertices();
-
-                RequestNewRenders();
             }
         }
+
         public int Resolution
         {
             get => resolution;
             set
             {
+                if (value == resolution) return;
                 resolution = value;
+                RequestNewRenders();
 
                 GenerateVertices();
                 GenerateEdges();
                 GenerateFaces();
-
-                RequestNewRenders();
             }
         }
 
@@ -145,12 +153,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Constructors
 
-        internal Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution, bool hasDirectionArrows) : base(worldOrigin, directionForward, directionUp, hasDirectionArrows)
+        internal Arrow(Vector3D worldOrigin,
+                       Orientation worldOrientation,
+                       float bodyLength,
+                       float tipLength,
+                       float bodyRadius,
+                       float tipRadius,
+                       int resolution,
+                       bool hasDirectionArrows) : base(worldOrigin, worldOrientation, 3, hasDirectionArrows)
         {
-            Dimension = 3;
-
             this.length = bodyLength + tipLength;
-            this.tipPosition = worldOrigin + directionForward * this.length;
+            this.tipPosition = worldOrigin + worldOrientation.DirectionForward * this.length;
             this.bodyLength = bodyLength;
             this.tipLength = tipLength;
             this.bodyRadius = bodyRadius;
@@ -161,8 +174,23 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             GenerateEdges();
             GenerateFaces();
         }
-        public Arrow(Vector3D worldOrigin, Vector3D directionForward, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution) : this(worldOrigin, directionForward, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true) { }
-        public static Arrow ArrowTipPosition(Vector3D worldOrigin, Vector3D tipPosition, Vector3D directionUp, float bodyLength, float tipLength, float bodyRadius, float tipRadius, int resolution) => new(worldOrigin, tipPosition - worldOrigin, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true);
+
+        public Arrow(Vector3D worldOrigin,
+                     Orientation worldOrientation,
+                     float bodyLength,
+                     float tipLength,
+                     float bodyRadius,
+                     float tipRadius,
+                     int resolution) : this(worldOrigin, worldOrientation, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true) { }
+
+        public static Arrow ArrowTipPosition(Vector3D worldOrigin,
+                                             Vector3D tipPosition,
+                                             Vector3D directionUp,
+                                             float bodyLength,
+                                             float tipLength,
+                                             float bodyRadius,
+                                             float tipRadius,
+                                             int resolution) => new(worldOrigin, tipPosition - worldOrigin, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true);
 
         #endregion
 

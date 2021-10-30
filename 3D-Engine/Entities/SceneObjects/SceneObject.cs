@@ -200,6 +200,11 @@ namespace _3D_Engine.Entities.SceneObjects
             return sceneObjects;
         }
 
+        public IEnumerable<SceneObject> GetAllChildrenAndSelf<T>(Predicate<SceneObject> predicate = null)
+        {
+
+        }
+
         public IEnumerator<SceneObject> GetEnumerator()
         {
             return Children.GetEnumerator();
