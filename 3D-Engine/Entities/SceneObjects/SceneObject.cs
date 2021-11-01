@@ -174,6 +174,22 @@ namespace _3D_Engine.Entities.SceneObjects
             }
             return parents;
         }
+
+        public IEnumerable<T> GetAllParents<T>(Predicate<T> predicate = null) where T : SceneObject
+        {
+            return this.GetAllParents(x => x is T t && predicate(t)) as IEnumerable<T>;
+        }
+
+        public IEnumerable<SceneObject> GetAllParentsAndSelf(Predicate<SceneObject> predicate = null)
+        {
+
+        }
+
+        public IEnumerable<T> GetAllParentsAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
+        {
+            return this.GetAllParentsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
+        }
+
         public IEnumerable<SceneObject> GetAllChildren(Predicate<SceneObject> predicate = null)
         {
             List<SceneObject> children = new();
@@ -190,6 +206,11 @@ namespace _3D_Engine.Entities.SceneObjects
             return children;
         }
 
+        public IEnumerable<T> GetAllChildren<T>(Predicate<T> predicate = null) where T : SceneObject
+        {
+            return this.GetAllChildren(x => x is T t && predicate(t)) as IEnumerable<T>;
+        }
+
         public IEnumerable<SceneObject> GetAllChildrenAndSelf(Predicate<SceneObject> predicate = null)
         {
             List<SceneObject> sceneObjects = this.GetAllChildren(predicate).ToList();
@@ -200,7 +221,13 @@ namespace _3D_Engine.Entities.SceneObjects
             return sceneObjects;
         }
 
-        public IEnumerable<T> GetAllChildrenAndSelf<T>(Predicate<SceneObject> predicate = null) where T : SceneObject
+        /// <summary>
+        /// Gets all children and this that are of type <typeparamref name="T"/> and an optional predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of all the returned <see cref="SceneObject">SceneObjects</see>.</typeparam>
+        /// <param name="predicate">A <see cref="Predicate{T}"/> that all returned <see cref="SceneObject">SceneObjects</see> must satisfy.</param>
+        /// <returns></returns>
+        public IEnumerable<T> GetAllChildrenAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
         {
             return this.GetAllChildrenAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
         }
