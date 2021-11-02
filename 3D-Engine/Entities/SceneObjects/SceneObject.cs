@@ -179,7 +179,7 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             foreach (SceneObject child in Children)
             {
-                if (child is T t && predicate(t))
+                if (child is T t && ((predicate is not null && predicate(t)) || predicate is null))
                 {
                     Children.Remove(child);
                 }
