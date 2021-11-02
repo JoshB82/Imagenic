@@ -144,7 +144,7 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
-        public void AddChildren(params SceneObject[] children)
+        public void AddChildren(IEnumerable<SceneObject> children)
         {
             foreach (SceneObject child in children)
             {
@@ -152,9 +152,9 @@ namespace _3D_Engine.Entities.SceneObjects
                 child.Parent = this;
             }
         }
-        public void AddChildren(IEnumerable<SceneObject> children) => AddChildren(children.ToArray());
+        public void AddChildren(params SceneObject[] children) => AddChildren(children);
 
-        public void RemoveChildren(params SceneObject[] children)
+        public void RemoveChildren(IEnumerable<SceneObject> children)
         {
             foreach (SceneObject child in children)
             {
@@ -162,7 +162,29 @@ namespace _3D_Engine.Entities.SceneObjects
                 child.Parent = null;
             }
         }
-        public void RemoveChildren(IEnumerable<SceneObject> children) => RemoveChildren(children.ToArray());
+        public void RemoveChildren(params SceneObject[] children) => RemoveChildren(children);
+
+        public void RemoveChildren(Predicate<SceneObject> predicate)
+        {
+            foreach (SceneObject child in Children)
+            {
+                if (predicate(child))
+                {
+                    Children.Remove(child);
+                }
+            }
+        }
+
+        public void RemoveChildren<T>(Predicate<T> predicate = null)
+        {
+            foreach (SceneObject child in Children)
+            {
+                if (child is T t && predicate(t))
+                {
+                    Children.Remove(child);
+                }
+            }
+        }
 
         public IEnumerable<SceneObject> GetAllParents(Predicate<SceneObject> predicate = null)
         {
@@ -182,7 +204,12 @@ namespace _3D_Engine.Entities.SceneObjects
 
         public IEnumerable<SceneObject> GetAllParentsAndSelf(Predicate<SceneObject> predicate = null)
         {
-
+            List<SceneObject> sceneObjects = this.GetAllParents(predicate).ToList();
+            if ((predicate is not null && predicate(this)) || predicate is null)
+            {
+                sceneObjects.Add(this);
+            }
+            return sceneObjects;
         }
 
         public IEnumerable<T> GetAllParentsAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
