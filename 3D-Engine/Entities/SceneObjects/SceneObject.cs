@@ -27,7 +27,7 @@ namespace _3D_Engine.Entities.SceneObjects
     /// <summary>
     /// An abstract base class that defines objects of type <see cref="SceneObject"/>. Any object which inherits from this class can be part of a <see cref="Group"/>.
     /// </summary>
-    public abstract class SceneObject : IEnumerable<SceneObject>
+    public abstract class SceneObject : IList<SceneObject>
     {
         #region Fields and Properties
 
@@ -82,6 +82,7 @@ namespace _3D_Engine.Entities.SceneObjects
                     throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(value));
                 }
                 worldOrientation = value;
+                CalculateMatrices();
                 RequestNewRenders();
             }
         }
@@ -143,6 +144,12 @@ namespace _3D_Engine.Entities.SceneObjects
                 }
             }
         }
+
+        public int Count => Children.Count;
+
+        public bool IsReadOnly => Children.IsReadOnly;
+
+        public SceneObject this[int index] { get => Children[index]; set => Children[index] = value; }
 
         public void AddChildren(IEnumerable<SceneObject> children)
         {
@@ -267,6 +274,46 @@ namespace _3D_Engine.Entities.SceneObjects
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public int IndexOf(SceneObject item)
+        {
+            return Children.IndexOf(item);
+        }
+
+        public void Insert(int index, SceneObject item)
+        {
+            Children.Insert(index, item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            Children.RemoveAt(index);
+        }
+
+        public void Add(SceneObject item)
+        {
+            Children.Add(item);
+        }
+
+        public void Clear()
+        {
+            Children.Clear();
+        }
+
+        public bool Contains(SceneObject item)
+        {
+            return Children.Contains(item);
+        }
+
+        public void CopyTo(SceneObject[] array, int arrayIndex)
+        {
+            Children.CopyTo(array, arrayIndex);
+        }
+
+        public bool Remove(SceneObject item)
+        {
+            return Children.Remove(item);
         }
 
         #endregion

@@ -10,10 +10,10 @@
  * Defines an arrow mesh.
  */
 
-using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Drawing;
@@ -31,7 +31,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         public static readonly Arrow YAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitY, Vector3D.UnitNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Green);
         public static readonly Arrow XAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitX, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Red);
 
-        public static readonly Group Axes = new(XAxis, YAxis, ZAxis);
+        public static readonly WorldPoint Axes = GenerateAxes();
+
+        private static WorldPoint GenerateAxes()
+        {
+            WorldPoint axes = new WorldPoint(Vector3D.Zero);
+            axes.AddChildren(XAxis, YAxis, ZAxis);
+            return axes;
+        }
 
         private Vector3D tipPosition;
         private float length, bodyLength, tipLength, bodyRadius, tipRadius;
@@ -190,7 +197,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                                              float tipLength,
                                              float bodyRadius,
                                              float tipRadius,
-                                             int resolution) => new(worldOrigin, tipPosition - worldOrigin, directionUp, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true);
+                                             int resolution)
+        {
+            return new Arrow(worldOrigin, Orientation.CreateOrientationForwardUp(tipPosition - worldOrigin, directionUp), bodyLength, tipLength, bodyRadius, tipRadius, resolution, true);
+        }
 
         #endregion
 
@@ -212,30 +222,34 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 Vertices[i + 2 * resolution + 3] = new(new Vector4D(cos * tipRadius, sin * tipRadius, bodyLength, 1));
             }
         }
+
         private void GenerateEdges()
         {
             Edges = new Edge[5 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
             {
-                Edges[i] = new(Vertices[i + 3], Vertices[i + 4]);
-                Edges[i + resolution] = new(Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
-                Edges[i + 2 * resolution] = new(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4]);
+                Edges[i] = new SolidEdge(Vertices[i + 3], Vertices[i + 4]);
+                Edges[i + resolution] = new SolidEdge(Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
+                Edges[i + 2 * resolution] = new SolidEdge(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4]);
             }
-            Edges[resolution - 1] = new(Vertices[resolution + 2], Vertices[3]);
-            Edges[2 * resolution - 1] = new(Vertices[2 * resolution + 2], Vertices[resolution + 3]);
-            Edges[3 * resolution - 1] = new(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3]);
+            Edges[resolution - 1] = new SolidEdge(Vertices[resolution + 2], Vertices[3]);
+            Edges[2 * resolution - 1] = new SolidEdge(Vertices[2 * resolution + 2], Vertices[resolution + 3]);
+            Edges[3 * resolution - 1] = new SolidEdge(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3]);
 
             for (int i = 0; i < resolution; i++)
             {
-                Edges[i + 3 * resolution] = new(Vertices[i + 3], Vertices[i + resolution + 3]);
-                Edges[i + 4 * resolution] = new(Vertices[i + 2 * resolution + 3], Vertices[2]);
+                Edges[i + 3 * resolution] = new SolidEdge(Vertices[i + 3], Vertices[i + resolution + 3]);
+                Edges[i + 4 * resolution] = new SolidEdge(Vertices[i + 2 * resolution + 3], Vertices[2]);
             }
 
             DrawEdges = false;
         }
+
         private void GenerateFaces()
         {
+            Faces = new Face[2 * resolution + 2];
+
             Triangles = new SolidTriangle[6 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)

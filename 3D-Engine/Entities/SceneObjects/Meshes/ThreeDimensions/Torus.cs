@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines a torus mesh.
  */
 
 using _3D_Engine.Maths;
@@ -23,7 +23,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         #region Fields and Properties
 
         public float InnerRadius { get; set; }
+
         public float OuterRadius { get; set; }
+
+        public int Resolution { get; set; }
 
         #endregion
 
