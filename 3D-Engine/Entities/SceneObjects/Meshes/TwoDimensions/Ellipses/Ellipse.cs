@@ -7,10 +7,11 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines an ellipse mesh.
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static System.MathF;
 
@@ -21,6 +22,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         #region Fields and Properties
 
         private float majorAxis, minorAxis;
+        private int resolution;
 
         public float MajorAxis
         {
@@ -42,21 +44,27 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             }
         }
 
-        public int Resolution { get; set; }
+        public int Resolution
+        {
+            get => resolution;
+            set
+            {
+                if (value == resolution) return;
+                resolution = value;
+                RequestNewRenders();
+            }
+        }
 
         #endregion
 
         #region Constructors
 
-        public Ellipse(Vector3D origin,
-                       Vector3D directionForward,
-                       Vector3D directionUp,
+        public Ellipse(Vector3D worldOrigin,
+                       Orientation worldOrientation,
                        float majorAxis,
                        float minorAxis,
-                       int resolution) : base(origin, directionForward, directionUp, 2)
+                       int resolution) : base(worldOrigin, worldOrientation, 2)
         {
-            Dimension = 2;
-
             MajorAxis = majorAxis;
             MinorAxis = minorAxis;
             Resolution = resolution;
@@ -67,6 +75,31 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             float angle = 2 * PI / resolution;
             for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
         }
+
+        #endregion
+
+        #region Methods
+
+        private void GenerateVertices()
+        {
+
+        }
+
+        private void GenerateEdges()
+        {
+
+        }
+
+        private void GenerateFaces()
+        {
+
+        }
+
+        #endregion
+
+        #region Casting
+
+
 
         #endregion
     }

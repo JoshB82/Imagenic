@@ -528,34 +528,6 @@
             </summary>
             <param name="origin">The position of the <see cref="T:_3D_Engine.World_Point"/>.</param>
         </member>
-        <member name="T:_3D_Engine.Circle">
-            <summary>
-            Encapsulates creation of a <see cref="T:_3D_Engine.Circle"/> mesh.
-            </summary>
-        </member>
-
-
-        <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Int32)">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Circle"/> mesh.
-            </summary>
-            <param name="origin">The position of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Circle"/> faces.</param>
-            <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Circle"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="radius">The radius of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="resolution">The number of vertices that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.</param>
-        </member>
-        <member name="M:_3D_Engine.Circle.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,System.Single,System.Int32,_3D_Engine.Texture)">
-            <summary>
-            Creates a textured <see cref="T:_3D_Engine.Circle"/> mesh, specifying a single <see cref="T:_3D_Engine.Texture"/> for all sides.
-            </summary>
-            <param name="origin">The position of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="direction_forward">The direction the <see cref="T:_3D_Engine.Circle"/> faces.</param>
-            <param name="normal">The upward orientation of the <see cref="T:_3D_Engine.Circle"/>. This is also a normal to the surface of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="radius">The radius of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="resolution">The number of vertices that are on the perimeter of the <see cref="T:_3D_Engine.Circle"/>.</param>
-            <param name="texture">The <see cref="T:_3D_Engine.Texture"/> that defines what to draw on the surface of the <see cref="T:_3D_Engine.Circle"/>.</param>
-        </member>
         <member name="T:_3D_Engine.Plane">
             <summary>
             Encapsulates creation of a <see cref="T:_3D_Engine.Plane"/> mesh.
