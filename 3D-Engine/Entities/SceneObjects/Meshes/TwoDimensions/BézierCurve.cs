@@ -7,9 +7,10 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines a Bézier curve mesh.
  */
 
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
@@ -22,9 +23,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Constructors
 
-        public BézierCurve(Vector3D origin,
-                           Vector3D directionForward,
-                           Vector3D directionUp) : base(origin, directionForward, directionUp, 2)
+        public BézierCurve(Vector3D worldOrigin,
+                           Orientation worldOrientation) : base(worldOrigin, worldOrientation, 2)
         {
 
         }
