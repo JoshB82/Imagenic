@@ -26,7 +26,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         // Cuboid
         internal static readonly IList<Vertex> CuboidVertices = GenerateCuboidVertices();
 
-        internal static readonly IList<Vector3D> TextureVertices = new List<Vector3D>
+        internal static readonly IList<Vector3D> TextureVertices = new Vector3D[]
         {
             new Vector3D(0, 0, 1), // 0 [Bottom-left]
             new Vector3D(1, 0, 1), // 1 [Bottom-right]
@@ -87,10 +87,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         // Plane
         internal static readonly IList<Vertex> PlaneVertices = new Vertex[4]
         {
-            new(new Vector4D(0, 0, 0, 1)), // 0 []
-            new(new Vector4D(1, 0, 0, 1)), // 1 []
-            new(new Vector4D(1, 0, 1, 1)), // 2 []
-            new(new Vector4D(0, 0, 1, 1)) // 3 []
+            new(new Vector4D(0, 0, 0, 1)), // 0 [Bottom-left]
+            new(new Vector4D(1, 0, 0, 1)), // 1 [Bottom-right]
+            new(new Vector4D(1, 0, 1, 1)), // 2 [Top-right]
+            new(new Vector4D(0, 0, 1, 1)) // 3 [Top-left]
         };
 
         internal static readonly IList<Edge> PlaneEdges = new Edge[4]
@@ -171,8 +171,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             return new Face[1]
             {
                 new Face(
-                    new TextureTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2], TextureVertices[], TextureVertices[], TextureVertices[], texture), // 0 []
-                    new TextureTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3], TextureVertices[], TextureVertices[], TextureVertices[], texture) // 1 []
+                    new TextureTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2], TextureVertices[0], TextureVertices[1], TextureVertices[2], texture), // 0 []
+                    new TextureTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3], TextureVertices[0], TextureVertices[2], TextureVertices[3], texture) // 1 []
                 )
             };
         }

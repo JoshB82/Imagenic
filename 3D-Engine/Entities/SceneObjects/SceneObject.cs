@@ -7,11 +7,10 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * An abstract base class that defines objects of type SceneObject. Any object which inherits from this class can be part of a Group.
+ * An abstract base class that defines objects of type SceneObject.
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
@@ -25,7 +24,7 @@ using System.Linq;
 namespace _3D_Engine.Entities.SceneObjects
 {
     /// <summary>
-    /// An abstract base class that defines objects of type <see cref="SceneObject"/>. Any object which inherits from this class can be part of a <see cref="Group"/>.
+    /// An abstract base class that defines objects of type <see cref="SceneObject"/>.
     /// </summary>
     public abstract class SceneObject : IList<SceneObject>
     {

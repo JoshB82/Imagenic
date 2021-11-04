@@ -7,8 +7,12 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines a dashed edge.
  */
+
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
 {
@@ -16,11 +20,39 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
     {
         #region Fields and Properties
 
+        private IEnumerable<DashedEdgeSection> sections;
+        public IEnumerable<DashedEdgeSection> Sections
+        {
+            get => sections;
+            set
+            {
+                if (!value.Select(x => x.Percentage).Sum().ApproxEquals(100))
+                {
+                    // throw exception
+                }
+                sections = value;
+            }
+        }
+
         #endregion
 
         #region Constructors
 
-        public DashedEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
+        public DashedEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2)
+        {
+            Sections = new DashedEdgeSection[]
+            {
+                new DashedEdgeSection(50, false, Color.Black),
+                new DashedEdgeSection(50, true)
+            };
+        }
+
+        public DashedEdge(Vertex modelP1,
+                          Vertex modelP2,
+                          IEnumerable<DashedEdgeSection> sections) : base(modelP1, modelP2)
+        {
+            Sections = sections;
+        }
 
         #endregion
     }
