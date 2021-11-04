@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of a rendering object.
+ * Defines a rendering object.
  */
 
 using _3D_Engine.Constants;
@@ -259,14 +259,14 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 {
                     VolumeEdges.AddRange(new Edge[]
                     {
-                        new(zeroPoint, nearTopLeftPoint), // Near top left
-                        new(zeroPoint, nearTopRightPoint), // Near top right
-                        new(zeroPoint, nearBottomLeftPoint), // Near bottom left
-                        new(zeroPoint, nearBottomRightPoint), // Near bottom right
-                        new(nearTopLeftPoint, nearTopRightPoint), // Near top
-                        new(nearBottomLeftPoint, nearBottomRightPoint), // Near bottom
-                        new(nearTopLeftPoint, nearBottomLeftPoint), // Near left
-                        new(nearTopRightPoint, nearBottomRightPoint) // Near right
+                        new DashedEdge(zeroPoint, nearTopLeftPoint), // Near top left
+                        new DashedEdge(zeroPoint, nearTopRightPoint), // Near top right
+                        new DashedEdge(zeroPoint, nearBottomLeftPoint), // Near bottom left
+                        new DashedEdge(zeroPoint, nearBottomRightPoint), // Near bottom right
+                        new DashedEdge(nearTopLeftPoint, nearTopRightPoint), // Near top
+                        new DashedEdge(nearBottomLeftPoint, nearBottomRightPoint), // Near bottom
+                        new DashedEdge(nearTopLeftPoint, nearBottomLeftPoint), // Near left
+                        new DashedEdge(nearTopRightPoint, nearBottomRightPoint) // Near right
                     });
                 }
 
@@ -282,14 +282,14 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
                     VolumeEdges.AddRange(new Edge[]
                     {
-                        new(nearTopLeftPoint, farTopLeftPoint), // Far top left
-                        new(nearTopRightPoint, farTopRightPoint), // Far top right
-                        new(nearBottomLeftPoint, farBottomLeftPoint), // Far bottom left
-                        new(nearBottomRightPoint, farBottomRightPoint), // Far bottom right
-                        new(farTopLeftPoint, farTopRightPoint), // Far top
-                        new(farBottomLeftPoint, farBottomRightPoint), // Far bottom
-                        new(farTopLeftPoint, farBottomLeftPoint), // Far left
-                        new(farTopRightPoint, farBottomRightPoint) // Far right
+                        new DashedEdge(nearTopLeftPoint, farTopLeftPoint), // Far top left
+                        new DashedEdge(nearTopRightPoint, farTopRightPoint), // Far top right
+                        new DashedEdge(nearBottomLeftPoint, farBottomLeftPoint), // Far bottom left
+                        new DashedEdge(nearBottomRightPoint, farBottomRightPoint), // Far bottom right
+                        new DashedEdge(farTopLeftPoint, farTopRightPoint), // Far top
+                        new DashedEdge(farBottomLeftPoint, farBottomRightPoint), // Far bottom
+                        new DashedEdge(farTopLeftPoint, farBottomLeftPoint), // Far left
+                        new DashedEdge(farTopRightPoint, farBottomRightPoint) // Far right
                     });
                 }
             }

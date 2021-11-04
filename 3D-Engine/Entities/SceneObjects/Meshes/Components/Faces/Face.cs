@@ -10,6 +10,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
         #region Fields and Properties
 
         // Appearance
+        public float Opacity { get; set; }
+
         private bool visible = true;
         public bool Visible
         {
