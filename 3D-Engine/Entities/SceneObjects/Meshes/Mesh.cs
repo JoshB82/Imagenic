@@ -107,9 +107,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         public float Opacity { get; set; } = 1f;
 
         // Matrices and Vectors
-        internal override void CalculateMatrices()
+        internal override void CalculateModelToWorldMatrix()
         {
-            base.CalculateMatrices();
+            base.CalculateModelToWorldMatrix();
             ModelToWorld *= Transform.Scale(Scaling);
         }
 
@@ -121,7 +121,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             {
                 if (value == scaling) return;
                 scaling = value;
-                CalculateMatrices();
+                CalculateModelToWorldMatrix();
                 RequestNewRenders();
             }
         }

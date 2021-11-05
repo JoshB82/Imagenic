@@ -48,9 +48,9 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
         protected Matrix4x4 WindowToScreen;
         internal Matrix4x4 ScreenToWorld;
 
-        internal override void CalculateMatrices()
+        internal override void CalculateModelToWorldMatrix()
         {
-            base.CalculateMatrices();
+            base.CalculateModelToWorldMatrix();
             ViewToWorld = ModelToWorld;
         }
 

@@ -11,22 +11,24 @@
  */
 
 using _3D_Engine.Constants;
+using _3D_Engine.Entities.SceneObjects.Meshes;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
+using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
     /// <summary>
     /// An abstract base class that defines objects of type <see cref="SceneObject"/>.
     /// </summary>
-    public abstract class SceneObject : IList<SceneObject>
+    public abstract partial class SceneObject : IList<SceneObject>
     {
         #region Fields and Properties
 
@@ -46,6 +48,22 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
+        private bool displayDirectionArrows = false;
+        /// <summary>
+        /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
+        /// </summary>
+        public bool DisplayDirectionArrows
+        {
+            get => displayDirectionArrows;
+            set
+            {
+                if (value == displayDirectionArrows) return;
+                displayDirectionArrows = value;
+                RequestNewRenders();
+            }
+        }
+        internal bool HasDirectionArrows { get; set; }
+
         // Id
         private static int nextId;
         /// <summary>
@@ -55,18 +73,6 @@ namespace _3D_Engine.Entities.SceneObjects
 
         // Matrices
         public Matrix4x4 ModelToWorld { get; internal set; }
-        internal virtual void CalculateMatrices()
-        {
-            Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(Orientation.ModelDirectionForward, worldOrientation.DirectionForward);
-            Matrix4x4 directionUpRotation = Transform.RotateBetweenVectors((Vector3D)(directionForwardRotation * Orientation.ModelDirectionUp), worldOrientation.DirectionUp);
-            Matrix4x4 translation = Transform.Translate(WorldOrigin);
-
-            // String the transformations together in the following order:
-            // 1) Rotation around direction forward vector
-            // 2) Rotation around direction up vector
-            // 3) Translation to final position in world space
-            ModelToWorld = translation * directionUpRotation * directionForwardRotation;
-        }
 
         // Orientation
         private Orientation worldOrientation;
@@ -81,7 +87,7 @@ namespace _3D_Engine.Entities.SceneObjects
                     throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(value));
                 }
                 worldOrientation = value;
-                CalculateMatrices();
+                CalculateModelToWorldMatrix();
                 RequestNewRenders();
             }
         }
@@ -99,7 +105,7 @@ namespace _3D_Engine.Entities.SceneObjects
             {
                 if (value == worldOrigin) return;
                 worldOrigin = value;
-                CalculateMatrices();
+                CalculateModelToWorldMatrix();
                 RequestNewRenders();
             }
         }
@@ -112,157 +118,6 @@ namespace _3D_Engine.Entities.SceneObjects
             {
                 camera.NewRenderNeeded = true;
             }
-        }
-
-        // Tree
-        private SceneObject parent;
-        public SceneObject Parent
-        {
-            get => parent;
-            set
-            {
-                parent.RemoveChildren(this);
-                parent = value;
-                parent.AddChildren(this);
-            }
-        }
-        private IList<SceneObject> children = new List<SceneObject>();
-        public IList<SceneObject> Children
-        {
-            get => children;
-            set
-            {
-                foreach (SceneObject child in children)
-                {
-                    child.Parent = null;
-                }
-                children = value;
-                foreach (SceneObject child in children)
-                {
-                    child.Parent = this;
-                }
-            }
-        }
-
-        public int Count => Children.Count;
-
-        public bool IsReadOnly => Children.IsReadOnly;
-
-        public SceneObject this[int index] { get => Children[index]; set => Children[index] = value; }
-
-        public void AddChildren(IEnumerable<SceneObject> children)
-        {
-            foreach (SceneObject child in children)
-            {
-                Children.Add(child);
-                child.Parent = this;
-            }
-        }
-        public void AddChildren(params SceneObject[] children) => AddChildren(children);
-
-        public void RemoveChildren(IEnumerable<SceneObject> children)
-        {
-            foreach (SceneObject child in children)
-            {
-                Children.Remove(child);
-                child.Parent = null;
-            }
-        }
-        public void RemoveChildren(params SceneObject[] children) => RemoveChildren(children);
-
-        public void RemoveChildren(Predicate<SceneObject> predicate)
-        {
-            foreach (SceneObject child in Children)
-            {
-                if (predicate(child))
-                {
-                    Children.Remove(child);
-                }
-            }
-        }
-
-        public void RemoveChildren<T>(Predicate<T> predicate = null)
-        {
-            foreach (SceneObject child in Children)
-            {
-                if (child is T t && ((predicate is not null && predicate(t)) || predicate is null))
-                {
-                    Children.Remove(child);
-                }
-            }
-        }
-
-        public IEnumerable<SceneObject> GetAllParents(Predicate<SceneObject> predicate = null)
-        {
-            List<SceneObject> parents = new();
-            if (Parent is not null && ((predicate is not null && predicate(Parent)) || predicate is null))
-            {
-                parents.Add(Parent);
-                parents.AddRange(Parent.GetAllParents(predicate));
-            }
-            return parents;
-        }
-
-        public IEnumerable<T> GetAllParents<T>(Predicate<T> predicate = null) where T : SceneObject
-        {
-            return this.GetAllParents(x => x is T t && predicate(t)) as IEnumerable<T>;
-        }
-
-        public IEnumerable<SceneObject> GetAllParentsAndSelf(Predicate<SceneObject> predicate = null)
-        {
-            List<SceneObject> sceneObjects = this.GetAllParents(predicate).ToList();
-            if ((predicate is not null && predicate(this)) || predicate is null)
-            {
-                sceneObjects.Add(this);
-            }
-            return sceneObjects;
-        }
-
-        public IEnumerable<T> GetAllParentsAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
-        {
-            return this.GetAllParentsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
-        }
-
-        public IEnumerable<SceneObject> GetAllChildren(Predicate<SceneObject> predicate = null)
-        {
-            List<SceneObject> children = new();
-            foreach (SceneObject child in Children)
-            {
-                if (predicate is not null && !predicate(child))
-                {
-                    continue;
-                }
-
-                children.Add(child);
-                children.AddRange(child.GetAllChildren(predicate));
-            }
-            return children;
-        }
-
-        public IEnumerable<T> GetAllChildren<T>(Predicate<T> predicate = null) where T : SceneObject
-        {
-            return this.GetAllChildren(x => x is T t && predicate(t)) as IEnumerable<T>;
-        }
-
-        public IEnumerable<SceneObject> GetAllChildrenAndSelf(Predicate<SceneObject> predicate = null)
-        {
-            List<SceneObject> sceneObjects = this.GetAllChildren(predicate).ToList();
-            if ((predicate is not null && predicate(this)) || predicate is null)
-            {
-                sceneObjects.Add(this);
-            }
-            return sceneObjects;
-        }
-
-        /// <summary>
-        /// Gets all children and this that are of type <typeparamref name="T"/> and an optional predicate.
-        /// </summary>
-        /// <typeparam name="T">The type of all the returned <see cref="SceneObject">SceneObjects</see>.</typeparam>
-        /// <param name="predicate">A <see cref="Predicate{T}"/> that all returned <see cref="SceneObject">SceneObjects</see> must satisfy.</param>
-        /// <returns></returns>
-        public IEnumerable<T> GetAllChildrenAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
-        {
-            return this.GetAllChildrenAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
         }
 
         public IEnumerator<SceneObject> GetEnumerator()
@@ -325,13 +180,14 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             if (HasDirectionArrows = hasDirectionArrows)
             {
-
-
-                DirectionArrows = new(DirectionForwardArrow, DirectionUpArrow, DirectionRightArrow);
+                this.AddChildren(
+                    new Arrow(worldOrigin, worldOrientation, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Blue),
+                    new Arrow(worldOrigin, Orientation.CreateOrientationForwardUp(worldOrientation.DirectionUp, -worldOrientation.DirectionForward), Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Green),
+                    new Arrow(worldOrigin, Orientation.CreateOrientationForwardUp(Transform.CalculateDirectionRight(worldOrientation.DirectionForward, worldOrientation.DirectionUp), worldOrientation.DirectionUp), Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Red)
+                );
             }
 
             this.SetOrientation(worldOrientation);
-            this.worldOrientation.LinkedSceneObject = this;
             WorldOrigin = worldOrigin;
 
             #if DEBUG
@@ -339,6 +195,23 @@ namespace _3D_Engine.Entities.SceneObjects
             DisplayMessage<EntityCreatedMessage>.WithTypeAndParameters<SceneObject>(worldOrigin.ToString());
 
             #endif
+        }
+
+        #endregion
+
+        #region Methods
+
+        internal virtual void CalculateModelToWorldMatrix()
+        {
+            Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(Orientation.ModelDirectionForward, worldOrientation.DirectionForward);
+            Matrix4x4 directionUpRotation = Transform.RotateBetweenVectors((Vector3D)(directionForwardRotation * Orientation.ModelDirectionUp), worldOrientation.DirectionUp);
+            Matrix4x4 translation = Transform.Translate(WorldOrigin);
+
+            // String the transformations together in the following order:
+            // 1) Rotation around direction forward vector
+            // 2) Rotation around direction up vector
+            // 3) Translation to final position in world space
+            ModelToWorld = translation * directionUpRotation * directionForwardRotation;
         }
 
         #endregion
