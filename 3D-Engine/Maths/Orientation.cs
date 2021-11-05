@@ -12,12 +12,10 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using System;
-using System.Drawing;
-using static _3D_Engine.Properties.Settings;
+
 
 namespace _3D_Engine.Maths
 {
@@ -26,22 +24,6 @@ namespace _3D_Engine.Maths
         #region Fields and Properties
 
         internal SceneObject LinkedSceneObject { get; set; }
-
-        private bool displayDirectionArrows = false;
-        /// <summary>
-        /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
-        /// </summary>
-        public bool DisplayDirectionArrows
-        {
-            get => displayDirectionArrows;
-            set
-            {
-                if (value == displayDirectionArrows) return;
-                displayDirectionArrows = value;
-                LinkedSceneObject.RequestNewRenders();
-            }
-        }
-        internal bool HasDirectionArrows { get; set; }
 
         // Directions
         internal static readonly Vector3D ModelDirectionForward = Vector3D.UnitZ;
@@ -147,18 +129,18 @@ namespace _3D_Engine.Maths
             DirectionRight = directionRight.Normalise();
         }
 
-        private void AddDirectionArrows()
+        private void DirectionCheck(string firstDirection, string secondDirection)
         {
-            LinkedSceneObject.AddChildren(
-                new Arrow(worldOrigin, worldOrientation.DirectionForward, worldOrientation.DirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Blue),
-                new Arrow(worldOrigin, worldOrientation.DirectionUp, -worldOrientation.DirectionForward, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Green),
-                new Arrow(worldOrigin, Transform.CalculateDirectionRight(worldOrientation.DirectionForward, worldOrientation.DirectionUp), worldOrientation.DirectionUp, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Red)
-            );
+
         }
 
         public bool Equals(Orientation other) => (DirectionForward, DirectionUp, DirectionRight) == (other.DirectionForward, other.DirectionUp, other.DirectionRight);
 
         public override int GetHashCode() => (DirectionForward, DirectionUp, DirectionRight).GetHashCode();
+
+        public static bool operator ==(Orientation lhs, Orientation rhs) => lhs.Equals(rhs);
+
+        public static bool operator !=(Orientation lhs, Orientation rhs) => !(lhs == rhs);
 
         #endregion
     }

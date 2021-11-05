@@ -67,9 +67,9 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
         // Matrices
         public Matrix4x4 WorldToView { get; private set; }
-        internal override void CalculateMatrices()
+        internal override void CalculateModelToWorldMatrix()
         {
-            base.CalculateMatrices();
+            base.CalculateModelToWorldMatrix();
             WorldToView = ModelToWorld.Inverse();
         }
 
