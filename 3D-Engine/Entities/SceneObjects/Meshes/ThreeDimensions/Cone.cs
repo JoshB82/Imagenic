@@ -15,7 +15,6 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-using System.Collections.Generic;
 using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
@@ -108,8 +107,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         /// Creates a <see cref="Cone"/> mesh.
         /// </summary>
         /// <param name="worldOrigin">The position of the <see cref="Cone"/>.</param>
-        /// <param name="directionForward">The direction the <see cref="Cone"/> faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Cone"/>.</param>
+        /// <param name="worldOrientation">The orientation of the <see cref="Cone"/> in world space.</param>
         /// <param name="height">The height of the <see cref="Cone"/>.</param>
         /// <param name="radius">The radius of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
         /// <param name="resolution">The number of <see cref="Vertex">Vertices</see> that are on the perimeter of the base <see cref="Circle"/> of the <see cref="Cone"/>.</param>
