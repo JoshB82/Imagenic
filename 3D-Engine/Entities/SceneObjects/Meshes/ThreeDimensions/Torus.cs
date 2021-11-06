@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static System.MathF;
@@ -18,8 +19,16 @@ using static System.MathF;
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
     /// <summary>
-    /// Encapsulates creation of a <see cref="Torus"/> mesh.
+    /// A sealed class representing a three-dimensional torus mesh. It inherits from the abstract <see cref="Mesh"/> class.
     /// </summary>
+    /// <remarks>
+    /// Composition:<br/>
+    /// <list type="bullet">
+    /// <item><description>A number of vertices equal to the product of the <see cref="InnerResolution">inner resolution</see> and the <see cref="OuterResolution">outer resolution</see>.</description></item>
+    /// <item><description></description></item>
+    /// <item><description></description></item>
+    /// </list>
+    /// </remarks>
     public sealed class Torus : Mesh
     {
         #region Fields and Properties
@@ -27,6 +36,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         private float innerRadius, outerRadius;
         private int innerResolution, outerResolution;
 
+        /// <summary>
+        ///
+        /// </summary>
         public float InnerRadius
         {
             get => innerRadius;
@@ -40,6 +52,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public float OuterRadius
         {
             get => outerRadius;
@@ -53,6 +68,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public int InnerResolution
         {
             get => innerResolution;
@@ -68,6 +86,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public int OuterResolution
         {
             get => outerResolution;
@@ -113,23 +134,23 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             Content.Vertices = new Vertex[innerResolution * outerResolution];
             Content.Vertices[0] = new Vertex(Vector4D.Zero);
 
-            float interiorRadius = (outerRadius - innerRadius) / 2;
-            float exteriorRadius = innerRadius + interiorRadius;
-            float innerAngle = 2 * PI / innerResolution;
-            float outerAngle = 2 * PI / outerResolution;
-            for (int i = 0; i < innerResolution; i++)
-            {
-                Content.Vertices[i + 1] = new Vertex(new Vector4D(Cos(innerAngle * i) * interiorRadius, Sin(innerAngle * i) * interiorRadius, 0, 1));
-            }
+            float interiorRadius = (outerRadius - innerRadius) / 2, exteriorRadius = innerRadius + interiorRadius;
+            float innerAngle = Tau / innerResolution, outerAngle = Tau / outerResolution;
             for (int i = 0; i < outerResolution; i++)
             {
-                Content.Vertices[i + 1].Point = new Vector4D(Cos(outerAngle * i) * exteriorRadius * Content.Vertices[i + 1].Point.x, Content.Vertices[i + 1].Point.y, Sin(outerAngle * i) * exteriorRadius, 1);
+                for (int j = 0; j < innerResolution; j++)
+                {
+                    Content.Vertices[innerResolution * i + j + 1] = new Vertex(new Vector4D(Cos(innerAngle * i) * interiorRadius * Cos(outerAngle * i) * exteriorRadius,
+                                                                                            Sin(innerAngle * i) * interiorRadius,
+                                                                                            Sin(outerAngle * i) * exteriorRadius,
+                                                                                            1));
+                }
             }
         }
 
         private void GenerateEdges()
         {
-
+            Content.Edges = new Edge[innerResolution * outerResolution];
         }
 
         private void GenerateFaces()
