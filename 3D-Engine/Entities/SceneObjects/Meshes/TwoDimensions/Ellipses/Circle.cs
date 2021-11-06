@@ -78,7 +78,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// Creates a <see cref="Circle"/> mesh.
         /// </summary>
         /// <param name="worldOrigin">The position of the <see cref="Circle"/> in world space.</param>
-        /// <param name="worldOrientation"></param>
+        /// <param name="worldOrientation">The orientation of the <see cref="Circle"/> in world space.</param>
         /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of the <see cref="Circle"/>.</param>
         public Circle(Vector3D worldOrigin,
@@ -94,7 +94,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// Creates a textured <see cref="Circle"/> mesh, specifying a single <see cref= "Texture" /> for all sides.
         /// </summary>
         /// <param name="worldOrigin">The position of the <see cref="Circle"/> in world space.</param>
-        /// <param name="worldOrientation">The direction the <see cref="T:_3D_Engine.Circle" /> faces.</param>
+        /// <param name="worldOrientation">The orientation of the <see cref="Circle"/> in world space.</param>
         /// <param name="radius">The radius of the <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of the <see cref="Circle"/>.</param>
         /// <param name="texture">The <see cref="Texture"/> that defines what to draw on the surface of the <see cref="Circle"/>.</param>

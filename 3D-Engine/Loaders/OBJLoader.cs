@@ -12,6 +12,8 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
@@ -22,7 +24,13 @@ namespace _3D_Engine.Loaders
 {
     public class OBJLoader : Loader
     {
+        #region Fields and Properties
+
         public string[] Lines { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public OBJLoader(string filePath) : base(filePath)
         {
@@ -34,7 +42,11 @@ namespace _3D_Engine.Loaders
             {
                 // Throw exception
             }
+
+            Task.Run(() => Parse());
         }
+
+        #endregion
 
         public async Task<IList<Vertex>> GetVertices()
         {
@@ -70,5 +82,72 @@ namespace _3D_Engine.Loaders
         {
 
         }
+
+        #region Methods
+
+        public async override Task<MeshContent> Parse()
+        {
+            MeshContent meshContent = null;
+
+            await Task.Run(() =>
+            {
+                List<Vertex> vertices = new();
+                List<Edge> edges = new();
+                List<Triangle> triangles = new();
+                List<Face> faces = new();
+
+                foreach (string line in lines)
+                {
+                    string[] data = line.Split();
+                    int p1, p2, p3;
+                    float x, y, z, w;
+
+                    switch (data[0])
+                    {
+                        case "#":
+                            // Comment; ignore line
+                            break;
+                        case "v":
+                            // Vertex
+                            x = float.Parse(data[1]);
+                            y = float.Parse(data[2]);
+                            z = float.Parse(data[3]);
+                            w = (data.Length == 5) ? float.Parse(data[4]) : 1;
+                            vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
+                            break;
+                        case "l":
+                            // Line (or polyline)
+                            int noEndPoints = data.Length - 1;
+                            do
+                            {
+                                p1 = int.Parse(data[noEndPoints]) - 1;
+                                p2 = int.Parse(data[noEndPoints - 1]) - 1;
+                                edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1]));
+                                noEndPoints--;
+                            }
+                            while (noEndPoints > 1);
+                            break;
+                        case "f":
+                            // Face
+                            p1 = int.Parse(data[1]);
+                            p2 = int.Parse(data[2]);
+                            p3 = int.Parse(data[3]);
+                            triangles.Add(new SolidTriangle(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]));
+                            break;
+                    }
+                }
+
+                meshContent = new MeshContent
+                {
+                    Vertices = vertices,
+                    Edges = edges,
+                    Faces = faces
+                };
+            });
+
+            return meshContent;
+        }
+
+        #endregion
     }
 }

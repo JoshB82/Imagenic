@@ -28,9 +28,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Fields and Properties
 
         // Structure
-        public IList<Vertex> Vertices { get; set; }
-        public IList<Edge> Edges { get; set; }
-        public IList<Face> Faces { get; set; }
+
 
         /// <summary>
         /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.
