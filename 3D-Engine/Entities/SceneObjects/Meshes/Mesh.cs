@@ -28,7 +28,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Fields and Properties
 
         // Structure
-        public MeshContent Content { get; set; } = new MeshContent();
+        public abstract MeshContent Content { get; set; }
 
         /// <summary>
         /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.

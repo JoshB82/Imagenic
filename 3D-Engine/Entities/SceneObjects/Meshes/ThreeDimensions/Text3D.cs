@@ -7,9 +7,10 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines a three-dimensional text mesh.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     public sealed class Text3D : Mesh
     {
         #region Fields and Properties
+
+        public override MeshContent Content { get; set; } = new MeshContent();
 
         public IEnumerable<string> Fonts { get; set; }
         public float Size { get; set; }
@@ -36,8 +39,24 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                       char style,
                       float depth) : base(worldOrigin, worldOrientation, 3)
         {
-            Dimension = 3;
+        }
 
+        #endregion
+
+        #region Methods
+
+        private void GenerateVertices()
+        {
+
+        }
+
+        private void GenerateEdges()
+        {
+
+        }
+
+        private void GenerateFaces()
+        {
 
         }
 
