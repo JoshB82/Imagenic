@@ -33,11 +33,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     {
         #region Fields and Properties
 
+        public override MeshContent Content { get; set; } = new MeshContent();
+
         private float innerRadius, outerRadius;
         private int innerResolution, outerResolution;
 
         /// <summary>
-        ///
+        /// The radius of the empty inner circle.
         /// </summary>
         public float InnerRadius
         {
@@ -150,12 +152,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         private void GenerateEdges()
         {
-            Content.Edges = new Edge[innerResolution * outerResolution];
+            Content.Edges = new Edge[innerResolution * outerResolution * 2];
         }
 
         private void GenerateFaces()
         {
-
+            Content.Faces = new Face[innerResolution * outerResolution * 2];
         }
 
         #endregion
