@@ -7,6 +7,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Spheres
 {
     public sealed class LatLongSphere : Sphere
     {
+        #region Fields and Properties
+
+        public override MeshContent Content { get; set; } = new MeshContent();
+
+        #endregion
+
+        #region Constructors
+
         public LatLongSphere(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float radius, int latResolution, int longResolution) : base(origin, directionForward, directionUp, radius)
         {
             Vertices = new Vertex[latResolution * longResolution];
@@ -34,5 +42,26 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Spheres
 
             Faces = new Face[];
         }
+
+        #endregion
+
+        #region Methods
+
+        private void GenerateVertices()
+        {
+
+        }
+
+        private void GenerateEdges()
+        {
+
+        }
+
+        private void GenerateFaces()
+        {
+
+        }
+
+        #endregion
     }
 }

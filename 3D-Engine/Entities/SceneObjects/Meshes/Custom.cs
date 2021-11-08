@@ -16,8 +16,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
     {
         #region Fields and Properties
 
-        public override MeshContent Content { get; set; } = new MeshContent();
-
         #endregion
 
         #region Constructors
