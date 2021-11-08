@@ -20,6 +20,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
+        public override MeshContent Content { get; set; } = new MeshContent();
+
         private Vector3D start_position, end_position;
 
         public Vector3D Start_Position

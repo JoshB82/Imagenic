@@ -26,6 +26,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     {
         #region Fields and Properties
 
+        public override MeshContent Content { get; set; } = new MeshContent();
+
         // Axes
         public static readonly Arrow ZAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitZ, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Blue);
         public static readonly Arrow YAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitY, Vector3D.UnitNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Green);

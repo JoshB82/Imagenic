@@ -10,6 +10,7 @@
  * Defines a Bézier curve mesh.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 
@@ -18,6 +19,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     public sealed class BézierCurve : Mesh
     {
         #region Fields and Properties
+
+        public override MeshContent Content { get; set; } = new MeshContent();
 
         #endregion
 

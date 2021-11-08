@@ -23,6 +23,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
     {
         #region Fields and Properties
 
+        public override MeshContent Content { get; set; } = new MeshContent();
+
         public static readonly WorldPoint ZeroOrigin = new(Vector3D.Zero);
 
         #endregion

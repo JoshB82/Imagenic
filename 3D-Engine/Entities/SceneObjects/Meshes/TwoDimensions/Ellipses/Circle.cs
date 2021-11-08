@@ -36,6 +36,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
+        public override MeshContent Content { get; set; } = new MeshContent();
+
         private float radius;
         private int resolution;
 
