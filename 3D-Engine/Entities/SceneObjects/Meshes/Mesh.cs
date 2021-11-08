@@ -28,7 +28,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Fields and Properties
 
         // Structure
-        public abstract MeshContent Content { get; set; }
+        public MeshContent Content { get; set; }
+        protected abstract IList<Vertex> GenerateVertices();
+        protected abstract IList<Edge> GenerateEdges();
+        protected abstract IList<Face> GenerateFaces();
 
         /// <summary>
         /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.
@@ -134,6 +137,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
                       bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
         {
             Dimension = dimension;
+
+            Content = new MeshContent
+            {
+                Vertices = GenerateVertices(),
+                Edges = GenerateEdges(),
+                Faces = GenerateFaces()
+            };
         }
 
         #endregion

@@ -15,6 +15,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
@@ -29,8 +30,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     public sealed class Cylinder : Mesh
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         private float height, radius;
         private int resolution;
@@ -71,52 +70,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 resolution = value;
                 RequestNewRenders();
 
-                Vertices = new Vertex[2 * resolution + 2];
-                Vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
-                Vertices[1] = new Vertex(new Vector4D(0, 1, 0, 1));
-
-                float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++)
-                {
-                    Vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
-                    Vertices[i + resolution + 2] = new Vertex(new Vector4D(Cos(angle * i), 1, Sin(angle * i), 1));
-                }
-
-                Edges = new Edge[3 * resolution];
-
-                for (int i = 0; i < resolution - 1; i++)
-                {
-                    Edges[i] = new SolidEdge(Vertices[i + 2], Vertices[i + 3]);
-                    Edges[i + resolution] = new SolidEdge(Vertices[i + resolution + 2], Vertices[i + resolution + 3]);
-                    Edges[i + 2 * resolution] = new SolidEdge(Vertices[i + 2], Vertices[i + resolution + 2]);
-                }
-                Edges[resolution - 1] = new SolidEdge(Vertices[resolution + 1], Vertices[2]);
-                Edges[2 * resolution - 1] = new SolidEdge(Vertices[2 * resolution + 1], Vertices[resolution + 2]);
-                Edges[3 * resolution - 1] = new SolidEdge(Vertices[resolution + 1], Vertices[2 * resolution + 1]);
-
-                Faces = new Face[resolution + 2];
-
-                Triangle[] baseTriangles = new Triangle[resolution];
-                Triangle[] topTriangles = new Triangle[resolution];
-
-                for (int i = 0; i < resolution - 1; i++)
-                {
-                    baseTriangles[i] = new SolidTriangle(Vertices[i + 2], Vertices[0], Vertices[i + 3]);
-                    topTriangles[i] = new SolidTriangle(Vertices[i + resolution + 2], Vertices[i + resolution + 3], Vertices[1]);
-                    Faces[i + 2] = new Face(
-                        new SolidTriangle(Vertices[i + 2], Vertices[i + resolution + 3], Vertices[i + resolution + 2]),
-                        new SolidTriangle(Vertices[i + 2], Vertices[i + 3], Vertices[i + resolution + 3])
-                    );
-                }
-                baseTriangles[resolution - 1] = new SolidTriangle(Vertices[resolution + 1], Vertices[0], Vertices[2]);
-                topTriangles[resolution - 1] = new SolidTriangle(Vertices[2 * resolution + 1], Vertices[resolution + 2], Vertices[1]);
-
-                Faces[0] = new Face(baseTriangles);
-                Faces[1] = new Face(topTriangles);
-                Faces[resolution] = new Face(
-                    new SolidTriangle(Vertices[resolution + 1], Vertices[resolution + 2], Vertices[2 * resolution + 1]),
-                    new SolidTriangle(Vertices[resolution + 1], Vertices[2], Vertices[resolution + 2])
-                );
+                GenerateVertices();
+                GenerateEdges();
+                GenerateFaces();
             }
         }
 
@@ -141,6 +97,69 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             Height = height;
             Radius = radius;
             Resolution = resolution;
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override IList<Vertex> GenerateVertices()
+        {
+            IList<Vertex> vertices = new Vertex[2 * resolution + 2];
+            vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
+            vertices[1] = new Vertex(new Vector4D(0, 1, 0, 1));
+
+            float angle = Tau / resolution;
+            for (int i = 0; i < resolution; i++)
+            {
+                vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
+                vertices[i + resolution + 2] = new Vertex(new Vector4D(Cos(angle * i), 1, Sin(angle * i), 1));
+            }
+
+            return vertices;
+        }
+
+        protected override IList<Edge> GenerateEdges()
+        {
+            IList<Vertex> vertices = Content.Vertices;
+            IList<Edge> edges = new Edge[3 * resolution];
+
+            for (int i = 0; i < resolution - 1; i++)
+            {
+                edges[i] = new SolidEdge(vertices[i + 2], vertices[i + 3]);
+                edges[i + resolution] = new SolidEdge(vertices[i + resolution + 2], vertices[i + resolution + 3]);
+                edges[i + 2 * resolution] = new SolidEdge(vertices[i + 2], vertices[i + resolution + 2]);
+            }
+            edges[resolution - 1] = new SolidEdge(vertices[resolution + 1], vertices[2]);
+            edges[2 * resolution - 1] = new SolidEdge(vertices[2 * resolution + 1], vertices[resolution + 2]);
+            edges[3 * resolution - 1] = new SolidEdge(vertices[resolution + 1], vertices[2 * resolution + 1]);
+
+            return edges;
+        }
+
+        protected override IList<Face> GenerateFaces()
+        {
+            IList<Vertex> vertices = Content.Vertices;
+            IList<Face> faces = new Face[resolution + 2];
+
+            for (int i = 0; i < resolution - 1; i++)
+            {
+                faces[0].Triangles.Add(new SolidTriangle(vertices[i + 2], vertices[0], vertices[i + 3]));
+                faces[1].Triangles.Add(new SolidTriangle(vertices[i + resolution + 2], vertices[i + resolution + 3], vertices[1]));
+                faces[i + 2] = new Face(
+                    new SolidTriangle(vertices[i + 2], vertices[i + resolution + 3], vertices[i + resolution + 2]),
+                    new SolidTriangle(vertices[i + 2], vertices[i + 3], vertices[i + resolution + 3])
+                );
+            }
+            faces[0].Triangles.Add(new SolidTriangle(vertices[resolution + 1], vertices[0], vertices[2]));
+            faces[1].Triangles.Add(new SolidTriangle(vertices[2 * resolution + 1], vertices[resolution + 2], vertices[1]));
+
+            faces[resolution] = new Face(
+                new SolidTriangle(vertices[resolution + 1], vertices[resolution + 2], vertices[2 * resolution + 1]),
+                new SolidTriangle(vertices[resolution + 1], vertices[2], vertices[resolution + 2])
+            );
+
+            return faces;
         }
 
         #endregion
