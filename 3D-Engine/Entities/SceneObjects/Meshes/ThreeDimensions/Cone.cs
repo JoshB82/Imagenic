@@ -26,6 +26,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     {
         #region Fields and Properties
 
+        public override MeshContent Content { get; set; } = new MeshContent();
+
         private float height, radius;
         private int resolution;
 

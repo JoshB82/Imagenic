@@ -14,6 +14,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Custom']/*"/>
     public sealed class Custom : Mesh
     {
+        #region Fields and Properties
+
+        public override MeshContent Content { get; set; } = new MeshContent();
+
+        #endregion
+
         #region Constructors
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
@@ -88,7 +94,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         private void GenerateCustomFromOBJ(string[] lines)
         {
-            
+
         }
 //b
         /// <summary>
