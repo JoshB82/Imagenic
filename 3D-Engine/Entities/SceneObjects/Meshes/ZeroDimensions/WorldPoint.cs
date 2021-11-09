@@ -11,8 +11,10 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
 {
@@ -23,8 +25,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
     {
         #region Fields and Properties
 
-        public override MeshContent Content { get; set; } = new MeshContent();
-
         public static readonly WorldPoint ZeroOrigin = new(Vector3D.Zero);
 
         #endregion
@@ -34,15 +34,34 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
         /// <summary>
         /// Creates a <see cref="WorldPoint"/> mesh.
         /// </summary>
-        /// <param name="worldOrigin">The position of the <see cref="WorldPoint"/>.</param>
+        /// <param name="worldOrigin">The position of the <see cref="WorldPoint"/> in world space.</param>
         public WorldPoint(Vector3D worldOrigin) : this(worldOrigin, Orientation.ModelOrientation) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="worldOrigin"></param>
+        /// <param name="worldOrientation"></param>
         public WorldPoint(Vector3D worldOrigin,
-                          Orientation worldOrientation) : base(worldOrigin, worldOrientation, 0)
+                          Orientation worldOrientation) : base(worldOrigin, worldOrientation, 0) { }
+
+        #endregion
+
+        #region Methods
+
+        protected override IList<Vertex> GenerateVertices()
         {
-            Vertices = new Vertex[1] { new Vertex(new Vector4D(0, 0, 0, 1)) };
-            DrawEdges = false;
-            DrawFaces = false;
+            return new Vertex[1] { new Vertex(new Vector4D(0, 0, 0, 1)) };
+        }
+
+        protected override IList<Edge> GenerateEdges()
+        {
+            return null;
+        }
+
+        protected override IList<Face> GenerateFaces()
+        {
+            return null;
         }
 
         #endregion

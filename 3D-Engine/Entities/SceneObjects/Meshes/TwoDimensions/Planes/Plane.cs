@@ -11,9 +11,11 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
@@ -32,8 +34,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     public sealed class Plane : Mesh
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         private float length, width;
 
@@ -107,6 +107,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             Length = length;
             Width = width;
             Textures = new Texture[1] { texture };
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override IList<Vertex> GenerateVertices()
+        {
+
+        }
+
+        protected override IList<Edge> GenerateEdges()
+        {
+
+        }
+
+        protected override IList<Face> GenerateFaces()
+        {
+
         }
 
         #endregion
