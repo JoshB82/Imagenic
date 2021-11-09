@@ -47,7 +47,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         //public Triangle[] Triangles { get; internal set; }
 
         // Appearance
-        private bool drawEdges = true;
+        private bool drawEdges;
         /// <summary>
         /// Determines if the <see cref="Mesh"> Mesh's</see> <see cref="Edge">Edges</see> are drawn.
         /// </summary>
@@ -62,7 +62,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             }
         }
 
-        private bool drawFaces = true;
+        private bool drawFaces;
         /// <summary>
         /// Determines if the<see cref="Mesh"> Mesh's</see> <see cref="Triangle">Faces</see> are drawn.
         /// </summary>
@@ -144,6 +144,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
                 Edges = GenerateEdges(),
                 Faces = GenerateFaces()
             };
+
+            DrawEdges = Content.Edges is not null;
+            DrawFaces = Content.Faces is not null;
         }
 
         #endregion

@@ -200,5 +200,24 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         }
 
         #endregion
+
+        #region Methods
+
+        protected override IList<Vertex> GenerateVertices()
+        {
+
+        }
+
+        protected override IList<Edge> GenerateEdges()
+        {
+
+        }
+
+        protected override IList<Face> GenerateFaces()
+        {
+
+        }
+
+        #endregion
     }
 }

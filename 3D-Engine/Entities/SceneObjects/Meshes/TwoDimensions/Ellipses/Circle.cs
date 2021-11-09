@@ -16,6 +16,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System;
+using System.Collections.Generic;
 using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
@@ -35,8 +36,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     public sealed class Circle : Mesh
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         private float radius;
         private int resolution;
@@ -115,16 +114,16 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Methods
 
-        private void GenerateVertices()
+        protected override IList<Vertex> GenerateVertices()
         {
             // Vertices are defined in anti-clockwise order.
-            Vertices = new Vertex[resolution + 1];
-            Vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
+            IList<Vertex> vertices = new Vertex[resolution + 1];
+            vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
 
-            float angle = 2 * PI / resolution;
+            float angle = Tau / resolution;
             for (int i = 0; i < resolution; i++)
             {
-                Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
+                vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
             }
 
             if (Textures is not null)
@@ -137,38 +136,47 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                     Textures[0].Vertices[i + 1] = new Vector3D(Cos(angle * i) * 0.5f, Sin(angle * i) * 0.5f, 1);
                 }
             }
+
+            return vertices;
         }
 
-        private void GenerateEdges()
+        protected override IList<Edge> GenerateEdges()
         {
-            Edges = new Edge[resolution];
+            IList<Vertex> vertices = Content.Vertices;
+            IList<Edge> edges = new Edge[resolution];
+
             for (int i = 0; i < resolution - 1; i++)
             {
-                Edges[i] = new SolidEdge(Vertices[i + 1], Vertices[i + 2]);
+                edges[i] = new SolidEdge(vertices[i + 1], vertices[i + 2]);
             }
-            Edges[resolution - 1] = new SolidEdge(Vertices[resolution], Vertices[1]);
+            edges[resolution - 1] = new SolidEdge(vertices[resolution], vertices[1]);
+
+            return edges;
         }
 
-        private void GenerateFaces()
+        protected override IList<Face> GenerateFaces()
         {
-            Faces = new Face[1];
+            IList<Vertex> vertices = Content.Vertices;
+            IList<Face> faces = new Face[1];
 
             if (Textures is null)
             {
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Faces[0].Triangles.Add(new SolidTriangle(Vertices[i + 1], Vertices[0], Vertices[i + 2]));
+                    faces[0].Triangles.Add(new SolidTriangle(vertices[i + 1], vertices[0], vertices[i + 2]));
                 }
-                Faces[0].Triangles.Add(new SolidTriangle(Vertices[resolution], Vertices[0], Vertices[1]));
+                faces[0].Triangles.Add(new SolidTriangle(vertices[resolution], vertices[0], vertices[1]));
             }
             else
             {
                 for (int i = 0; i < resolution - 1; i++)
                 {
-                    Faces[0].Triangles.Add(new TextureTriangle(Vertices[i + 1], Vertices[0], Vertices[i + 2], Textures[0].Vertices[i + 1], Textures[0].Vertices[0], Textures[0].Vertices[i + 2], Textures[0]));
+                    faces[0].Triangles.Add(new TextureTriangle(vertices[i + 1], vertices[0], vertices[i + 2], Textures[0].Vertices[i + 1], Textures[0].Vertices[0], Textures[0].Vertices[i + 2], Textures[0]));
                 }
-                Faces[0].Triangles.Add(new TextureTriangle(Vertices[resolution], Vertices[0], Vertices[1], Textures[0].Vertices[resolution], Textures[0].Vertices[0], Textures[0].Vertices[1], Textures[0]));
+                faces[0].Triangles.Add(new TextureTriangle(vertices[resolution], vertices[0], vertices[1], Textures[0].Vertices[resolution], Textures[0].Vertices[0], Textures[0].Vertices[1], Textures[0]));
             }
+
+            return faces;
         }
 
         #endregion

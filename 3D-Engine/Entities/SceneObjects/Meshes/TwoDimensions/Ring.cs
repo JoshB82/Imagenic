@@ -15,6 +15,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
@@ -25,8 +26,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     public sealed class Ring : Mesh
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         private float innerRadius, outerRadius;
         private int resolution;
@@ -127,6 +126,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             InnerRadius = innerRadius;
             OuterRadius = outerRadius;
             Resolution = resolution;
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override IList<Vertex> GenerateVertices()
+        {
+
+        }
+
+        protected override IList<Edge> GenerateEdges()
+        {
+
+        }
+
+        protected override IList<Face> GenerateFaces()
+        {
+
         }
 
         #endregion

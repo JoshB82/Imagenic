@@ -14,6 +14,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
@@ -32,8 +33,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     public sealed class Torus : Mesh
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         private float innerRadius, outerRadius;
         private int innerResolution, outerResolution;
@@ -131,10 +130,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Methods
 
-        private void GenerateVertices()
+        protected override IList<Vertex> GenerateVertices()
         {
-            Content.Vertices = new Vertex[innerResolution * outerResolution];
-            Content.Vertices[0] = new Vertex(Vector4D.Zero);
+            IList<Vertex> vertices = new Vertex[innerResolution * outerResolution];
+            vertices[0] = new Vertex(Vector4D.Zero);
 
             float interiorRadius = (outerRadius - innerRadius) / 2, exteriorRadius = innerRadius + interiorRadius;
             float innerAngle = Tau / innerResolution, outerAngle = Tau / outerResolution;
@@ -142,22 +141,28 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             {
                 for (int j = 0; j < innerResolution; j++)
                 {
-                    Content.Vertices[innerResolution * i + j + 1] = new Vertex(new Vector4D(Cos(innerAngle * i) * interiorRadius * Cos(outerAngle * i) * exteriorRadius,
+                    vertices[innerResolution * i + j + 1] = new Vertex(new Vector4D(Cos(innerAngle * i) * interiorRadius * Cos(outerAngle * i) * exteriorRadius,
                                                                                             Sin(innerAngle * i) * interiorRadius,
                                                                                             Sin(outerAngle * i) * exteriorRadius,
                                                                                             1));
                 }
             }
+
+            return vertices;
         }
 
-        private void GenerateEdges()
+        protected override IList<Edge> GenerateEdges()
         {
-            Content.Edges = new Edge[innerResolution * outerResolution * 2];
+            IList<Edge> edges = new Edge[innerResolution * outerResolution * 2];
+
+            return edges;
         }
 
-        private void GenerateFaces()
+        protected override IList<Face> GenerateFaces()
         {
-            Content.Faces = new Face[innerResolution * outerResolution * 2];
+            IList<Face> faces = new Face[innerResolution * outerResolution * 2];
+
+            return faces;
         }
 
         #endregion

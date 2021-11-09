@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -20,8 +21,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     public sealed class Text3D : Mesh
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         public IEnumerable<string> Fonts { get; set; }
         public float Size { get; set; }
@@ -45,17 +44,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Methods
 
-        private void GenerateVertices()
+        protected override IList<Vertex> GenerateVertices()
         {
 
         }
 
-        private void GenerateEdges()
+        protected override IList<Edge> GenerateEdges()
         {
 
         }
 
-        private void GenerateFaces()
+        protected override IList<Face> GenerateFaces()
         {
 
         }
