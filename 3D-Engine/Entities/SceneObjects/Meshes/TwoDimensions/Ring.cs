@@ -38,12 +38,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             get => innerRadius;
             set
             {
+                if (value == innerRadius) return;
                 innerRadius = value;
-                if (resolution == 0) return;
+                RequestNewRenders();
 
-                // Vertices are defined in anti-clockwise order.
-                float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i) * innerRadius, 0, Sin(angle * i) * innerRadius, 1));
+                GenerateVertices();
             }
         }
         /// <summary>
@@ -54,11 +53,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             get => outerRadius;
             set
             {
+                if (value == outerRadius) return;
                 outerRadius = value;
-                if (resolution == 0) return;
+                RequestNewRenders();
 
-                float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++) Vertices[i + resolution + 1] = new Vertex(new Vector4D(Cos(angle * i) * outerRadius, 0, Sin(angle * i) * outerRadius, 1));
+                GenerateVertices();
             }
         }
         /// <summary>
@@ -69,36 +68,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             get => resolution;
             set
             {
+                if (value == resolution) return;
                 resolution = value;
+                RequestNewRenders();
 
-                Vertices = new Vertex[2 * resolution + 1];
-                Vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
-
-                float angle = 2 * PI / resolution;
-                for (int i = 0; i < resolution; i++)
-                {
-                    float sin = Sin(angle * i), cos = Cos(angle * i);
-                    Vertices[i + 1] = new Vertex(new Vector4D(cos * innerRadius, 0, sin * innerRadius, 1));
-                    Vertices[i + resolution + 1] = new Vertex(new Vector4D(cos * outerRadius, 0, sin * outerRadius, 1));
-                }
-
-                Edges = new Edge[2 * resolution];
-                for (int i = 0; i < resolution - 1; i++)
-                {
-                    Edges[i] = new Edge(Vertices[i + 1], Vertices[i + 2]);
-                    Edges[i + resolution] = new Edge(Vertices[i + resolution + 1], Vertices[i + resolution + 2]);
-                }
-                Edges[resolution - 1] = new Edge(Vertices[resolution], Vertices[1]);
-                Edges[2 * resolution - 1] = new Edge(Vertices[2 * resolution], Vertices[resolution + 1]);
-
-                Triangles = new SolidTriangle[2 * resolution];
-                for (int i = 0; i < resolution - 1; i++)
-                {
-                    Triangles[i] = new SolidTriangle(Vertices[i + 1], Vertices[i + resolution + 2], Vertices[i + resolution + 1]);
-                    Triangles[i + resolution] = new SolidTriangle(Vertices[i + 1], Vertices[i + 2], Vertices[i + resolution + 2]);
-                }
-                Triangles[resolution - 1] = new SolidTriangle(Vertices[resolution], Vertices[resolution + 1], Vertices[2 * resolution]);
-                Triangles[2 * resolution - 1] = new SolidTriangle(Vertices[resolution], Vertices[1], Vertices[resolution + 1]);
+                GenerateVertices();
+                GenerateEdges();
+                GenerateFaces();
             }
         }
 
@@ -110,8 +86,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// Creates a <see cref="Ring"/> mesh.
         /// </summary>
         /// <param name="worldOrigin">The position of the <see cref="Ring"/>.</param>
-        /// <param name="directionForward">The direction the <see cref="Ring"/> faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Ring"/>.</param>
+        /// <param name="worldOrientation"></param>
         /// <param name="innerRadius">The radius of the inner <see cref="Circle"/>.</param>
         /// <param name="outerRadius">The radius of the outer <see cref="Circle"/>.</param>
         /// <param name="resolution">The number of vertices that are on the perimeter of each of the <see cref="Circle"/>s that make up the <see cref="Ring"/>.</param>
@@ -121,11 +96,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                     float outerRadius,
                     int resolution) : base(worldOrigin, worldOrientation, 2)
         {
-            Dimension = 2;
-
-            InnerRadius = innerRadius;
-            OuterRadius = outerRadius;
-            Resolution = resolution;
+            this.innerRadius = innerRadius;
+            this.outerRadius = outerRadius;
+            this.resolution = resolution;
         }
 
         #endregion
@@ -134,17 +107,50 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         protected override IList<Vertex> GenerateVertices()
         {
+            // Vertices are defined in anti-clockwise order.
+            IList<Vertex> vertices = new Vertex[2 * resolution + 1];
 
+            float angle = Tau / resolution;
+            for (int i = 0; i < resolution; i++)
+            {
+                vertices[i + 1] = new Vertex(new Vector4D(Cos(angle * i) * innerRadius, 0, Sin(angle * i) * innerRadius, 1));
+                vertices[i + resolution + 1] = new Vertex(new Vector4D(Cos(angle * i) * outerRadius, 0, Sin(angle * i) * outerRadius, 1));
+            }
+
+            return vertices;
         }
 
         protected override IList<Edge> GenerateEdges()
         {
+            IList<Vertex> vertices = Content.Vertices;
+            IList<Edge> edges = new Edge[2 * resolution];
 
+            for (int i = 0; i < resolution - 1; i++)
+            {
+                edges[i] = new SolidEdge(vertices[i + 1], vertices[i + 2]);
+                edges[i + resolution] = new SolidEdge(vertices[i + resolution + 1], vertices[i + resolution + 2]);
+            }
+            edges[resolution - 1] = new SolidEdge(vertices[resolution], vertices[1]);
+            edges[2 * resolution - 1] = new SolidEdge(vertices[2 * resolution], vertices[resolution + 1]);
+
+            return edges;
         }
 
         protected override IList<Face> GenerateFaces()
         {
+            IList<Vertex> vertices = Content.Vertices;
+            IList<Face> faces = new Face[1];
 
+            faces[0].Triangles = new SolidTriangle[2 * resolution];
+            for (int i = 0; i < resolution - 1; i++)
+            {
+                faces[0].Triangles[i] = new SolidTriangle(vertices[i + 1], vertices[i + resolution + 2], vertices[i + resolution + 1]);
+                faces[0].Triangles[i + resolution] = new SolidTriangle(vertices[i + 1], vertices[i + 2], vertices[i + resolution + 2]);
+            }
+            faces[0].Triangles[resolution - 1] = new SolidTriangle(vertices[resolution], vertices[resolution + 1], vertices[2 * resolution]);
+            faces[0].Triangles[2 * resolution - 1] = new SolidTriangle(vertices[resolution], vertices[1], vertices[resolution + 1]);
+
+            return faces;
         }
 
         #endregion

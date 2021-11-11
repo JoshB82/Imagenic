@@ -15,6 +15,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
@@ -30,7 +31,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         #region Fields and Properties
 
         // Structure
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         private float sideLength;
 
@@ -116,6 +116,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
             SideLength = sideLength;
             Textures = new Texture[6] { front, right, back, left, top, bottom };
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override IList<Vertex> GenerateVertices()
+        {
+
+        }
+
+        protected override IList<Edge> GenerateEdges()
+        {
+
+        }
+
+        protected override IList<Face> GenerateFaces()
+        {
+
         }
 
         #endregion

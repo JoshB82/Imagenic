@@ -18,7 +18,7 @@ using _3D_Engine.Maths.Vectors;
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
     /// <summary>
-    /// A sealed class representing a two-dimensional square mesh. It inherits from<br/>
+    /// A sealed class representing a two-dimensional square mesh. It inherits from
     /// the abstract <see cref="Mesh"/> class.
     /// </summary>
     /// <remarks>

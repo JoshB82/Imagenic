@@ -21,8 +21,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
-        public override MeshContent Content { get; set; } = new MeshContent();
-
         public IEnumerable<string> Fonts { get; set; }
 
         private float size;

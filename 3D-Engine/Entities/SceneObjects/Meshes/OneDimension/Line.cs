@@ -20,27 +20,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
-        public override MeshContent Content { get; set; } = new MeshContent();
+        private Vector3D startPosition, endPosition;
 
-        private Vector3D start_position, end_position;
-
-        public Vector3D Start_Position
+        public Vector3D StartPosition
         {
-            get => start_position;
+            get => startPosition;
             set
             {
-                start_position = value;
-                Vector3D line_vector = end_position - start_position;
+                startPosition = value;
+                Vector3D line_vector = endPosition - startPosition;
                 Scaling = new Vector3D(line_vector.x, line_vector.y, line_vector.z);
             }
         }
-        public Vector3D End_Position
+        public Vector3D EndPosition
         {
-            get => end_position;
+            get => endPosition;
             set
             {
-                end_position = value;
-                Vector3D line_vector = end_position - start_position;
+                endPosition = value;
+                Vector3D line_vector = endPosition - startPosition;
                 Scaling = new Vector3D(line_vector.x, line_vector.y, line_vector.z);
             }
         }
@@ -56,8 +54,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         {
             Dimension = 2;
 
-            Start_Position = start_position;
-            End_Position = end_position;
+            StartPosition = start_position;
+            EndPosition = end_position;
 
             Vertices = new Vertex[2]
             {
