@@ -78,7 +78,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         public Cube(Vector3D worldOrigin,
                     Orientation worldOrientation,
                     float sideLength,
-                    Texture texture) : base(worldOrigin, worldOrientation, 3)
+                    Texture texture) : base(worldOrigin, worldOrientation, 3, new Texture[] { texture })
         {
             Content.Vertices = MeshData.CuboidVertices;
             Content.Edges = MeshData.CuboidEdges;

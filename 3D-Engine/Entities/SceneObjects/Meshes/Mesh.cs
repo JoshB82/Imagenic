@@ -100,7 +100,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         // Miscellaneous
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Dimension']/*"/>
-        public int Dimension { get; internal set; }
+        public int Dimension { get; }
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Casts_Shadows']/*"/>
         public bool CastsShadows { get; set; } = true;
         /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
@@ -131,15 +131,24 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         #region Constructors
 
-        internal Mesh(Vector3D worldOrigin,
-                      Orientation worldOrientation,
-                      int dimension,
-                      bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
+        protected Mesh(Vector3D worldOrigin,
+                    Orientation worldOrientation,
+                    int dimension,
+                    IEnumerable<Texture> textures = null,
+                    bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
         {
-            Dimension = dimension;
+            if (dimension >= 0 && dimension <= 3)
+            {
+                Dimension = dimension;
+            }
+            else
+            {
+                // throw exception
+            }
 
             Content = new MeshContent
             {
+                Textures = textures,
                 Vertices = GenerateVertices(),
                 Edges = GenerateEdges(),
                 Faces = GenerateFaces()
