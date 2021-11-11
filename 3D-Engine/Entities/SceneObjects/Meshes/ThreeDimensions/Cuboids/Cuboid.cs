@@ -16,6 +16,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
@@ -29,8 +30,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
     public sealed class Cuboid : Mesh
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         private float length, width, height;
 
@@ -160,6 +159,25 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             Faces = MeshData.GenerateCuboidTextureFaces(new Texture[] { back, right, front, left, top, bottom });
 
             Textures = new Texture[6] { front, right, back, left, top, bottom };
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override IList<Vertex> GenerateVertices()
+        {
+
+        }
+
+        protected override IList<Edge> GenerateEdges()
+        {
+
+        }
+
+        protected override IList<Face> GenerateFaces()
+        {
+
         }
 
         #endregion

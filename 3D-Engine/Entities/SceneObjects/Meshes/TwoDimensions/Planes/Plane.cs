@@ -20,7 +20,7 @@ using System.Collections.Generic;
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
     /// <summary>
-    /// A sealed class representing a two-dimensional plane mesh. It inherits from<br/>
+    /// A sealed class representing a two-dimensional plane mesh. It inherits from
     /// the abstract <see cref="Mesh"/> class.
     /// </summary>
     /// <remarks>
