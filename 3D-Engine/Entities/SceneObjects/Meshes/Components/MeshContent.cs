@@ -8,5 +8,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
         public IList<Vertex> Vertices { get; set; }
         public IList<Edge> Edges { get; set; }
         public IList<Face> Faces { get; set; }
+
+        public IEnumerable<Texture> Textures { get; set; }
     }
 }
