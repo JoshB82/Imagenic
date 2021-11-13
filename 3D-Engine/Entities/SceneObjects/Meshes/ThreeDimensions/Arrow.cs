@@ -16,6 +16,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
@@ -25,8 +26,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
     public sealed class Arrow : Mesh
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         // Axes
         public static readonly Arrow ZAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitZ, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Blue);
@@ -208,49 +207,55 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Methods
 
-        private void GenerateVertices()
+        protected override IList<Vertex> GenerateVertices()
         {
-            Vertices = new Vertex[3 * resolution + 3];
-            Vertices[0] = new(new Vector4D(0, 0, 0, 1));
-            Vertices[1] = new(new Vector4D(Vector3D.UnitZ * bodyLength, 1));
-            Vertices[2] = new(new Vector4D(Vector3D.UnitZ * (bodyLength + tipLength), 1));
+            IList<Vertex> vertices = new Vertex[3 * resolution + 3];
+            vertices[0] = new(new Vector4D(0, 0, 0, 1));
+            vertices[1] = new(new Vector4D(Vector3D.UnitZ * bodyLength, 1));
+            vertices[2] = new(new Vector4D(Vector3D.UnitZ * (bodyLength + tipLength), 1));
 
-            float angle = 2 * PI / resolution;
+            float angle = Tau / resolution;
             for (int i = 0; i < resolution; i++)
             {
                 float sin = Sin(angle * i), cos = Cos(angle * i);
-                Vertices[i + 3] = new(new Vector4D(cos * bodyRadius, sin * bodyRadius, 0, 1));
-                Vertices[i + resolution + 3] = new(new Vector4D(cos * bodyRadius, sin * bodyRadius, bodyLength, 1));
-                Vertices[i + 2 * resolution + 3] = new(new Vector4D(cos * tipRadius, sin * tipRadius, bodyLength, 1));
+                vertices[i + 3] = new(new Vector4D(cos * bodyRadius, sin * bodyRadius, 0, 1));
+                vertices[i + resolution + 3] = new(new Vector4D(cos * bodyRadius, sin * bodyRadius, bodyLength, 1));
+                vertices[i + 2 * resolution + 3] = new(new Vector4D(cos * tipRadius, sin * tipRadius, bodyLength, 1));
             }
+
+            return vertices;
         }
 
-        private void GenerateEdges()
+        protected override IList<Edge> GenerateEdges()
         {
-            Edges = new Edge[5 * resolution];
+            IList<Vertex> vertices = Content.Vertices;
+            IList<Edge> edges = new Edge[5 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
             {
-                Edges[i] = new SolidEdge(Vertices[i + 3], Vertices[i + 4]);
-                Edges[i + resolution] = new SolidEdge(Vertices[i + resolution + 3], Vertices[i + resolution + 4]);
-                Edges[i + 2 * resolution] = new SolidEdge(Vertices[i + 2 * resolution + 3], Vertices[i + 2 * resolution + 4]);
+                edges[i] = new SolidEdge(vertices[i + 3], vertices[i + 4]);
+                edges[i + resolution] = new SolidEdge(vertices[i + resolution + 3], vertices[i + resolution + 4]);
+                edges[i + 2 * resolution] = new SolidEdge(vertices[i + 2 * resolution + 3], vertices[i + 2 * resolution + 4]);
             }
-            Edges[resolution - 1] = new SolidEdge(Vertices[resolution + 2], Vertices[3]);
-            Edges[2 * resolution - 1] = new SolidEdge(Vertices[2 * resolution + 2], Vertices[resolution + 3]);
-            Edges[3 * resolution - 1] = new SolidEdge(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3]);
+            edges[resolution - 1] = new SolidEdge(vertices[resolution + 2], vertices[3]);
+            edges[2 * resolution - 1] = new SolidEdge(vertices[2 * resolution + 2], vertices[resolution + 3]);
+            edges[3 * resolution - 1] = new SolidEdge(vertices[3 * resolution + 2], vertices[2 * resolution + 3]);
 
             for (int i = 0; i < resolution; i++)
             {
-                Edges[i + 3 * resolution] = new SolidEdge(Vertices[i + 3], Vertices[i + resolution + 3]);
-                Edges[i + 4 * resolution] = new SolidEdge(Vertices[i + 2 * resolution + 3], Vertices[2]);
+                edges[i + 3 * resolution] = new SolidEdge(vertices[i + 3], vertices[i + resolution + 3]);
+                edges[i + 4 * resolution] = new SolidEdge(vertices[i + 2 * resolution + 3], vertices[2]);
             }
 
             DrawEdges = false;
+
+            return edges;
         }
 
-        private void GenerateFaces()
+        protected override IList<Face> GenerateFaces()
         {
-            Faces = new Face[2 * resolution + 2];
+            IList<Vertex> vertices = Content.Vertices;
+            IList<Face> faces = new Face[2 * resolution + 2];
 
             Triangles = new SolidTriangle[6 * resolution];
 
@@ -269,6 +274,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             Triangles[4 * resolution - 1] = new SolidTriangle(Vertices[2 * resolution + 2], Vertices[2 * resolution + 3], Vertices[3 * resolution + 2]);
             Triangles[5 * resolution - 1] = new SolidTriangle(Vertices[2 * resolution + 2], Vertices[resolution + 3], Vertices[2 * resolution + 3]);
             Triangles[6 * resolution - 1] = new SolidTriangle(Vertices[3 * resolution + 2], Vertices[2 * resolution + 3], Vertices[2]);
+
+            return faces;
         }
 
         #endregion
