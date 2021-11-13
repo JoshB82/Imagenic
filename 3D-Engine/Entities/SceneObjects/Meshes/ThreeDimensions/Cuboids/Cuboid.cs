@@ -17,6 +17,7 @@ using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
@@ -92,9 +93,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             Width = width;
             Height = height;
 
-            Vertices = MeshData.CuboidVertices;
-            Edges = MeshData.CuboidEdges;
-            Faces = MeshData.CuboidSolidFaces;
+            
+            
+            
         }
 
         /// <summary>
@@ -111,17 +112,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
                       float length,
                       float width,
                       float height,
-                      Texture texture) : base(worldOrigin, worldOrientation, 3)
+                      Texture texture) : base(worldOrigin, worldOrientation, 3, new Texture[] { texture, texture, texture, texture, texture, texture })
         {
             Length = length;
             Width = width;
             Height = height;
-
-            Vertices = MeshData.CuboidVertices;
-            Edges = MeshData.CuboidEdges;
-            Faces = MeshData.GenerateCuboidTextureFaces(new Texture[] { texture, texture, texture, texture, texture, texture });
-
-            Textures = new Texture[1] { texture };
         }
 
         /// <summary>
@@ -148,17 +143,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
                       Texture back,
                       Texture left,
                       Texture top,
-                      Texture bottom) : base(worldOrigin, worldOrientation, 3)
+                      Texture bottom) : base(worldOrigin, worldOrientation, 3, new Texture[] { back, right, front, left, top, bottom })
         {
             Length = length;
             Width = width;
             Height = height;
-
-            Vertices = MeshData.CuboidVertices;
-            Edges = MeshData.CuboidEdges;
-            Faces = MeshData.GenerateCuboidTextureFaces(new Texture[] { back, right, front, left, top, bottom });
-
-            Textures = new Texture[6] { front, right, back, left, top, bottom };
         }
 
         #endregion
@@ -167,17 +156,24 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         protected override IList<Vertex> GenerateVertices()
         {
-
+            return MeshData.CuboidVertices;
         }
 
         protected override IList<Edge> GenerateEdges()
         {
-
+            return MeshData.CuboidEdges;
         }
 
         protected override IList<Face> GenerateFaces()
         {
-
+            if (Content.Textures is null)
+            {
+                return MeshData.CuboidSolidFaces;
+            }
+            else
+            {
+                return MeshData.GenerateCuboidTextureFaces(Content.Textures.ToArray());
+            }
         }
 
         #endregion
@@ -190,13 +186,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <param name="cuboid"><see cref="Cuboid"/> to cast.</param>
         public static explicit operator Cube(Cuboid cuboid)
         {
-            return new Cube(cuboid.WorldOrigin,
+            Cube cube = new Cube(cuboid.WorldOrigin,
                             cuboid.WorldOrientation,
-                            Math.Min(Math.Min(cuboid.Length, cuboid.Width), cuboid.Height))
-            {
-                Textures = cuboid.Textures,
-                Faces = cuboid.Faces
-            };
+                            Math.Min(Math.Min(cuboid.Length, cuboid.Width), cuboid.Height));
+            cube.Content.Faces = cuboid.Content.Faces;
+            cube.Content.Textures = cuboid.Content.Textures;
+
+            return cube;
         }
 
         #endregion
