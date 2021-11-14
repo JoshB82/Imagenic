@@ -11,9 +11,11 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 {
@@ -79,14 +81,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         public Square(Vector3D worldOrigin,
                       Orientation worldOrientation,
                       float sideLength,
-                      Texture texture) : base(worldOrigin, worldOrientation, 2)
+                      Texture texture) : base(worldOrigin, worldOrientation, 2, new Texture[] { texture })
         {
             Vertices = MeshData.PlaneVertices;
             Edges = MeshData.PlaneEdges;
             Faces = MeshData.GeneratePlaneTextureFace(texture);
 
             SideLength = sideLength;
-            Textures = new Texture[1] { texture };
         }
 
         #endregion
@@ -103,6 +104,27 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                 Textures = square.Textures,
                 Triangles = square.Triangles
             };
+
+        #endregion
+
+        #region Methods
+
+        protected override IList<Vertex> GenerateVertices()
+        {
+
+        }
+
+        protected override IList<Edge> GenerateEdges()
+        {
+
+        }
+
+        protected override IList<Face> GenerateFaces()
+        {
+
+        }
+
+        
 
         #endregion
     }

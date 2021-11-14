@@ -13,6 +13,7 @@
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -102,6 +103,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
                     Texture bottom) : base(worldOrigin, worldOrientation, 3, new Texture[] { back, right, front, left, top, bottom })
         {
             SideLength = sideLength;
+        }
+
+        public Cube(Vector3D worldOrigin, Orientation worldOrientation, Square square) : base(worldOrigin, worldOrientation, 3)
+        {
+            SideLength = square.SideLength;
+            cube.Content.Textures = Content.Textures;
+            cube.Content.Faces[0] = Content.Faces[0];
         }
 
         #endregion

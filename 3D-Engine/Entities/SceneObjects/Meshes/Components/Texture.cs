@@ -38,6 +38,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
 
         #region Constructors
         
+        public Texture(Texture texture1, Texture texture2)
+        {
+
+        }
+
         public Texture(Bitmap file, Vector3D[] vertices)
         {
             File = file;
@@ -48,7 +53,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
 
         #region Methods
 
-        public void Dispose() => throw new NotImplementedException();
+        public void Dispose()
+        {
+            File.Dispose();
+        }
 
         public static Vector3D[] Generate_Vertices(string type) =>
             type switch
