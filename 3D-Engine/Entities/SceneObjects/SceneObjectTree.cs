@@ -64,6 +64,19 @@ namespace _3D_Engine.Entities.SceneObjects
 
         #region Methods
 
+        public void Add(SceneObject item)
+        {
+            Children.Add(item);
+        }
+
+        public void Clear()
+        {
+            foreach (SceneObject child in children)
+            {
+                this.RemoveChildren(child);
+            }
+        }
+
         public void AddChildren(IEnumerable<SceneObject> children)
         {
             foreach (SceneObject child in children)

@@ -145,15 +145,7 @@ namespace _3D_Engine.Entities.SceneObjects
             Children.RemoveAt(index);
         }
 
-        public void Add(SceneObject item)
-        {
-            Children.Add(item);
-        }
-
-        public void Clear()
-        {
-            Children.Clear();
-        }
+        
 
         public bool Contains(SceneObject item)
         {
