@@ -76,7 +76,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
         // Orientation
         private Orientation worldOrientation;
-        public Orientation WorldOrientation
+        public virtual Orientation WorldOrientation
         {
             get => worldOrientation;
             set
