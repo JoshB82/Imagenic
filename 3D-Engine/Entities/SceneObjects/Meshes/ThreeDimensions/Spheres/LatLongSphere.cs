@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Spheres
@@ -8,8 +9,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Spheres
     public sealed class LatLongSphere : Sphere
     {
         #region Fields and Properties
-
-        public override MeshContent Content { get; set; } = new MeshContent();
 
         #endregion
 
@@ -47,17 +46,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Spheres
 
         #region Methods
 
-        private void GenerateVertices()
+        protected override IList<Vertex> GenerateVertices()
         {
 
         }
 
-        private void GenerateEdges()
+        protected override IList<Edge> GenerateEdges()
         {
 
         }
 
-        private void GenerateFaces()
+        protected override IList<Face> GenerateFaces()
         {
 
         }
