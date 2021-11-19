@@ -11,11 +11,9 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using System;
-
 
 namespace _3D_Engine.Maths
 {
@@ -23,13 +21,37 @@ namespace _3D_Engine.Maths
     {
         #region Fields and Properties
 
-        internal SceneObject LinkedSceneObject { get; set; }
-
         // Directions
         internal static readonly Vector3D ModelDirectionForward = Vector3D.UnitZ;
         internal static readonly Vector3D ModelDirectionUp = Vector3D.UnitY;
         internal static readonly Vector3D ModelDirectionRight = Vector3D.UnitX;
+
+        // Orientations
         internal static readonly Orientation ModelOrientation = Orientation.CreateOrientationForwardUp(ModelDirectionForward, ModelDirectionUp);
+        public static readonly Orientation OrientationXY = new(Vector3D.UnitX, Vector3D.UnitY, Vector3D.UnitNegativeZ);
+        public static readonly Orientation OrientationXZ = new(Vector3D.UnitX, Vector3D.UnitZ, Vector3D.UnitNegativeY);
+        public static readonly Orientation OrientationYX = new(Vector3D.UnitY, Vector3D.UnitX, Vector3D.UnitZ);
+        public static readonly Orientation OrientationYZ = new(Vector3D.UnitY, Vector3D.UnitZ, Vector3D.UnitNegativeX);
+        public static readonly Orientation OrientationZX = new(Vector3D.UnitZ, Vector3D.UnitX, Vector3D.UnitNegativeY);
+        public static readonly Orientation OrientationZY = new(Vector3D.UnitZ, Vector3D.UnitY, Vector3D.UnitX);
+        public static readonly Orientation OrientationXNegativeY = new(Vector3D.UnitX, Vector3D.UnitNegativeY, Vector3D.UnitZ);
+        public static readonly Orientation OrientationXNegativeZ = new(Vector3D.UnitX, Vector3D.UnitNegativeZ, Vector3D.UnitY);
+        public static readonly Orientation OrientationYNegativeX = new(Vector3D.UnitY, Vector3D.UnitNegativeX, Vector3D.UnitNegativeZ);
+        public static readonly Orientation OrientationYNegativeZ = new(Vector3D.UnitY, Vector3D.UnitNegativeZ, Vector3D.UnitX);
+        public static readonly Orientation OrientationZNegativeX = new(Vector3D.UnitZ, Vector3D.UnitNegativeX, Vector3D.UnitY);
+        public static readonly Orientation OrientationZNegativeY = new(Vector3D.UnitZ, Vector3D.UnitNegativeY, Vector3D.UnitNegativeX);
+        public static readonly Orientation OrientationNegativeXY = new(Vector3D.UnitNegativeX, Vector3D.UnitY, Vector3D.UnitZ);
+        public static readonly Orientation OrientationNegativeXZ = new(Vector3D.UnitNegativeX, Vector3D.UnitZ, Vector3D.UnitNegativeY);
+        public static readonly Orientation OrientationNegativeYX = new(Vector3D.UnitNegativeY, Vector3D.UnitX, Vector3D.UnitNegativeZ);
+        public static readonly Orientation OrientationNegativeYZ = new(Vector3D.UnitNegativeY, Vector3D.UnitZ, Vector3D.UnitX);
+        public static readonly Orientation OrientationNegativeZX = new(Vector3D.UnitNegativeZ, Vector3D.UnitX, Vector3D.UnitY);
+        public static readonly Orientation OrientationNegativeZY = new(Vector3D.UnitNegativeZ, Vector3D.UnitY, Vector3D.UnitNegativeX);
+        public static readonly Orientation OrientationNegativeXNegativeY = new(Vector3D.UnitNegativeX, Vector3D.UnitNegativeY, Vector3D.UnitNegativeZ);
+        public static readonly Orientation OrientationNegativeXNegativeZ = new(Vector3D.UnitNegativeX, Vector3D.UnitNegativeZ, Vector3D.UnitY);
+        public static readonly Orientation OrientationNegativeYNegativeX = new(Vector3D.UnitNegativeY, Vector3D.UnitNegativeX, Vector3D.UnitZ);
+        public static readonly Orientation OrientationNegativeYNegativeZ = new(Vector3D.UnitNegativeY, Vector3D.UnitNegativeZ, Vector3D.UnitNegativeX);
+        public static readonly Orientation OrientationNegativeZNegativeX = new(Vector3D.UnitNegativeZ, Vector3D.UnitNegativeX, Vector3D.UnitNegativeY);
+        public static readonly Orientation OrientationNegativeZNegativeY = new(Vector3D.UnitNegativeZ, Vector3D.UnitNegativeY, Vector3D.UnitX);
 
         public Vector3D DirectionForward { get; private set; }
         public Vector3D DirectionUp { get; private set; }
@@ -43,6 +65,13 @@ namespace _3D_Engine.Maths
         #region Constructors
 
         private Orientation() { }
+
+        private Orientation(Vector3D directionForward, Vector3D directionUp, Vector3D directionRight)
+        {
+            DirectionForward = directionForward;
+            DirectionUp = directionUp;
+            DirectionRight = directionRight;
+        }
 
         public static Orientation CreateOrientationForwardUp(Vector3D directionForward, Vector3D directionUp)
         {
