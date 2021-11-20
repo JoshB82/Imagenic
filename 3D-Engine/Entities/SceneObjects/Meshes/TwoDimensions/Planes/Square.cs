@@ -64,9 +64,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       Orientation worldOrientation,
                       float sideLength) : base(worldOrigin, worldOrientation, 2)
         {
-            Vertices = MeshData.PlaneVertices;
-            Edges = MeshData.PlaneEdges;
-            Faces = MeshData.PlaneSolidFaces;
+            Vertices = HardcodedMeshData.PlaneVertices;
+            Edges = HardcodedMeshData.PlaneEdges;
+            Faces = HardcodedMeshData.PlaneSolidFaces;
 
             SideLength = sideLength;
         }
@@ -83,9 +83,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       float sideLength,
                       Texture texture) : base(worldOrigin, worldOrientation, 2, new Texture[] { texture })
         {
-            Vertices = MeshData.PlaneVertices;
-            Edges = MeshData.PlaneEdges;
-            Faces = MeshData.GeneratePlaneTextureFace(texture);
+            Vertices = HardcodedMeshData.PlaneVertices;
+            Edges = HardcodedMeshData.PlaneEdges;
+            Faces = HardcodedMeshData.GeneratePlaneTextureFace(texture);
 
             SideLength = sideLength;
         }

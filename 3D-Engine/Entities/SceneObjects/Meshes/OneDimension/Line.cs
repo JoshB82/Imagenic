@@ -12,6 +12,7 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 
@@ -51,6 +52,15 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Constructors
 
+        public Line(Vector3D worldOrigin, Orientation worldOrientation, float length) : base(worldOrigin, worldOrientation, 1)
+        {
+
+        }
+
+        
+
+        
+
         public Line(Vector3D start_position, Vector3D end_position) : base(start_position, Vector3D.UnitZ, Vector3D.UnitY)
         {
             Dimension = 2;
@@ -79,19 +89,37 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData)
+        {
+        }
+
+        protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData)
         {
 
         }
 
-        protected override IList<Edge> GenerateEdges()
-        {
-
-        }
-
-        protected override IList<Face> GenerateFaces()
+        protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
         {
             return null;
+        }
+
+        #endregion
+
+        #region Classes
+
+        private class LineVertexData : MeshData<Vertex>
+        {
+            
+        }
+
+        private class LineEdgeData : MeshData<Edge>
+        {
+
+        }
+
+        private class LineFaceData : MeshData<Face>
+        {
+
         }
 
         #endregion
