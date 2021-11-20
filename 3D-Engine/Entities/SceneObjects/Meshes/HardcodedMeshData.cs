@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
-    internal static class MeshData
+    internal static class HardcodedMeshData
     {
         #region Fields and Properties
 

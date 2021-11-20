@@ -118,23 +118,23 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         protected override IList<Vertex> GenerateVertices()
         {
-            return MeshData.CuboidVertices;
+            return HardcodedMeshData.CuboidVertices;
         }
 
         protected override IList<Edge> GenerateEdges()
         {
-            return MeshData.CuboidEdges;
+            return HardcodedMeshData.CuboidEdges;
         }
 
         protected override IList<Face> GenerateFaces()
         {
             if (Content.Textures is null)
             {
-                return MeshData.CuboidSolidFaces;
+                return HardcodedMeshData.CuboidSolidFaces;
             }
             else
             {
-                return MeshData.GenerateCuboidTextureFaces(Content.Textures.ToArray());
+                return HardcodedMeshData.GenerateCuboidTextureFaces(Content.Textures.ToArray());
             }
         }
 
