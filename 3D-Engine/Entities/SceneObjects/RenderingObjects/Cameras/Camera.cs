@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {
@@ -156,11 +155,11 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
             }
         }
 
-        public void MakeRenderSizeOfControl(Control control)
+        /*public void MakeRenderSizeOfControl(Control control)
         {
             RenderWidth = control.Width;
             RenderHeight = control.Height;
-        }
+        }*/
 
         private PixelFormat renderPixelFormat = PixelFormat.Format24bppRgb;
         public PixelFormat RenderPixelFormat

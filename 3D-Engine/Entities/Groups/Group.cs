@@ -26,6 +26,7 @@ namespace _3D_Engine.Entities.Groups
     /// <summary>
     /// Encapsulates creation of a <see cref="Group"/>.
     /// </summary>
+    /*
     public partial class Group : SceneObject, IList<SceneObject>
     {
         #region Fields and Properties
@@ -229,4 +230,5 @@ namespace _3D_Engine.Entities.Groups
 
         #endregion
     }
+    */
 }

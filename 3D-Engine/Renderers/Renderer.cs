@@ -13,7 +13,7 @@ public abstract class Renderer
 
     #region Methods
 
-    public abstract Task<Bitmap> Render();
+    public abstract Task<Bitmap> Render(RenderingOptions options);
 
     #endregion
 }
