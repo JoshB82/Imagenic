@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of an orthogonal camera.
+ * Defines an orthogonal camera.
  */
 
 using _3D_Engine.Entities.Groups;
@@ -25,17 +25,17 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
     {
         #region Constructors
 
-        public OrthogonalCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar, Default.CameraRenderWidth, Default.CameraRenderHeight) { }
+        public OrthogonalCamera(Vector3D worldOrigin, Orientation worldOrientation) : this(worldOrigin, worldOrientation, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar, Default.CameraRenderWidth, Default.CameraRenderHeight) { }
 
-        public OrthogonalCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
+        public OrthogonalCamera(Vector3D worldOrigin, Orientation worldOrientation, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
-        public static OrthogonalCamera OrthogonalCameraAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => new OrthogonalCamera(origin, directionForward, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar, renderWidth, renderHeight);
+        public static OrthogonalCamera OrthogonalCameraAngle(Vector3D worldOrigin, Orientation worldOrientation, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => new OrthogonalCamera(worldOrigin, worldOrientation, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar, renderWidth, renderHeight);
 
-        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp) { }
+        public OrthogonalCamera(Vector3D worldOrigin, SceneObject pointedAt, Vector3D directionUp) : this(worldOrigin, Orientation.CreateOrientationForwardUp(pointedAt.WorldOrigin - worldOrigin, directionUp)) { }
 
-        public OrthogonalCamera(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
+        public OrthogonalCamera(Vector3D worldOrigin, SceneObject pointedAt, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : this(worldOrigin, Orientation.CreateOrientationForwardUp(pointedAt.WorldOrigin - worldOrigin, directionUp), viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
-        public static OrthogonalCamera OrthogonalCameraAngle(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => OrthogonalCameraAngle(origin, pointedAt.WorldOrigin - origin, directionUp, fovX, fovY, zNear, zFar, renderWidth, renderHeight);
+        public static OrthogonalCamera OrthogonalCameraAngle(Vector3D worldOrigin, SceneObject pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => OrthogonalCameraAngle(worldOrigin, Orientation.CreateOrientationForwardUp(pointedAt.WorldOrigin - worldOrigin, directionUp), fovX, fovY, zNear, zFar, renderWidth, renderHeight);
 
         #endregion
 

@@ -1,7 +1,8 @@
-﻿namespace _3D_Engine
+﻿/*namespace _3D_Engine
 {
     public sealed partial class Scene2
     {
+        /*
         #region Fields and Properties
 
         // Components
@@ -261,13 +262,15 @@
                 // Draw colour buffer on canvas
                 //Draw_Colour_Buffer(canvas, colourBuffer.Values);
                 //Canvas_Box.Image = canvas;
-            }
+            /*}
         }
+/*
         private unsafe void Draw_Colour_Buffer(Bitmap canvas, Color[][] new_colour_buffer) // source of this method?! (and other one)
         {
 
         }
 
         #endregion
+        
     }
-}
+}*/

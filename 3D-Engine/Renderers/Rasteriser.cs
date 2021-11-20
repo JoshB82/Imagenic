@@ -16,7 +16,7 @@ namespace _3D_Engine.Renderers
 
         #region Methods
 
-        public async override Task<Bitmap> Render()
+        public async override Task<Bitmap> Render(RenderingOptions options)
         {
 
         }

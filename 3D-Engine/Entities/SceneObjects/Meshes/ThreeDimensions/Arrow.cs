@@ -28,9 +28,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         #region Fields and Properties
 
         // Axes
-        public static readonly Arrow ZAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitZ, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Blue);
-        public static readonly Arrow YAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitY, Vector3D.UnitNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Green);
-        public static readonly Arrow XAxis = (new Arrow(Vector3D.Zero, Vector3D.UnitX, Vector3D.UnitY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution)).ColourAllSolidFaces(Color.Red);
+        public static readonly Arrow ZAxis = new Arrow(Vector3D.Zero, Orientation.OrientationZY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution).ColourAllSolidFaces(Color.Blue);
+        public static readonly Arrow YAxis = new Arrow(Vector3D.Zero, Orientation.OrientationYNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution).ColourAllSolidFaces(Color.Green);
+        public static readonly Arrow XAxis = new Arrow(Vector3D.Zero, Orientation.OrientationXY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution).ColourAllSolidFaces(Color.Red);
 
         public static readonly WorldPoint Axes = GenerateAxes();
 

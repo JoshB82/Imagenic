@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>_3D_Engine</RootNamespace>
-	<UseWindowsForms>true</UseWindowsForms>
 	<RepositoryUrl>https://github.com/JoshB82/3D-Engine</RepositoryUrl>
 	<Authors>Josh Bryant</Authors>
 	<Nullable>annotations</Nullable>
@@ -21,6 +20,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Graphics" Version="6.0.101-preview.10.640" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
