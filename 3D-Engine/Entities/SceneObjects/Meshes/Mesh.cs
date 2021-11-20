@@ -18,6 +18,7 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
+using System;
 using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
@@ -29,9 +30,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         // Structure
         public MeshContent Content { get; set; }
-        protected abstract IList<Vertex> GenerateVertices();
-        protected abstract IList<Edge> GenerateEdges();
-        protected abstract IList<Face> GenerateFaces();
+        protected abstract IList<Vertex> GenerateVertices(object vertexData = null);
+        protected abstract IList<Edge> GenerateEdges(object edgeData = null);
+        protected abstract IList<Face> GenerateFaces(object faceData = null);
 
         /// <summary>
         /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.
@@ -134,6 +135,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         protected Mesh(Vector3D worldOrigin,
                     Orientation worldOrientation,
                     int dimension,
+                    object vertexData = null,
+                    object edgeData = null,
+                    object faceData = null,
                     IEnumerable<Texture> textures = null,
                     bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
         {
@@ -149,9 +153,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             Content = new MeshContent
             {
                 Textures = textures,
-                Vertices = GenerateVertices(),
-                Edges = GenerateEdges(),
-                Faces = GenerateFaces()
+                Vertices = GenerateVertices(vertexData),
+                Edges = GenerateEdges(edgeData),
+                Faces = GenerateFaces(faceData)
             };
 
             DrawEdges = Content.Edges is not null;
