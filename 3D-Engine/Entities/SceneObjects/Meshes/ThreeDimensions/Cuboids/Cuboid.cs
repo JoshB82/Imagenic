@@ -154,17 +154,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData)
         {
             return HardcodedMeshData.CuboidVertices;
         }
 
-        protected override IList<Edge> GenerateEdges()
+        protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData)
         {
             return HardcodedMeshData.CuboidEdges;
         }
 
-        protected override IList<Face> GenerateFaces()
+        protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
         {
             if (Content.Textures is null)
             {

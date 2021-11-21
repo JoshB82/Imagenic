@@ -64,8 +64,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       Orientation worldOrientation,
                       float sideLength) : base(worldOrigin, worldOrientation, 2)
         {
-            Vertices = HardcodedMeshData.PlaneVertices;
-            Edges = HardcodedMeshData.PlaneEdges;
+            
+            
             Faces = HardcodedMeshData.PlaneSolidFaces;
 
             SideLength = sideLength;
@@ -83,8 +83,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       float sideLength,
                       Texture texture) : base(worldOrigin, worldOrientation, 2, new Texture[] { texture })
         {
-            Vertices = HardcodedMeshData.PlaneVertices;
-            Edges = HardcodedMeshData.PlaneEdges;
+            
+            
             Faces = HardcodedMeshData.GeneratePlaneTextureFace(texture);
 
             SideLength = sideLength;
@@ -98,28 +98,29 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         /// Casts a <see cref="Square"/> into a <see cref="Plane"/>.
         /// </summary>
         /// <param name="square"><see cref="Square"/> to cast.</param>
-        public static explicit operator Plane(Square square) =>
-            new(square.WorldOrigin, square.WorldDirectionForward, square.WorldDirectionUp, square.sideLength, square.sideLength)
+        public static explicit operator Plane(Square square)
+        {
+            return new Plane(square.WorldOrigin, square.WorldOrientation, square.sideLength, square.sideLength)
             {
                 Textures = square.Textures,
-                Triangles = square.Triangles
             };
+        }
 
         #endregion
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData)
         {
-
+            return HardcodedMeshData.PlaneVertices;
         }
 
-        protected override IList<Edge> GenerateEdges()
+        protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData)
         {
-
+            return HardcodedMeshData.PlaneEdges;
         }
 
-        protected override IList<Face> GenerateFaces()
+        protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
         {
 
         }

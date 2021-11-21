@@ -114,7 +114,7 @@ public sealed class Cone : Mesh
 
     #region Methods
 
-    protected override IList<Vertex> GenerateVertices()
+    protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData = null)
     {
         // They are defined in anti-clockwise order, looking from above and then downwards.
         IList<Vertex> vertices = new Vertex[resolution + 2];
@@ -130,7 +130,7 @@ public sealed class Cone : Mesh
         return vertices;
     }
 
-    protected override IList<Edge> GenerateEdges()
+    protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData = null)
     {
         IList<Vertex> vertices = Content.Vertices;
         IList<Edge> edges = new Edge[resolution];
@@ -144,7 +144,7 @@ public sealed class Cone : Mesh
         return edges;
     }
 
-    protected override IList<Face> GenerateFaces()
+    protected override IList<Face> GenerateFaces(MeshData<Face> faceData = null)
     {
         IList<Vertex> vertices = Content.Vertices;
         IList<Face> faces = new Face[resolution + 1];
@@ -164,6 +164,15 @@ public sealed class Cone : Mesh
         faces[2 * resolution - 1] = new Face(new SolidTriangle(vertices[resolution - 1], vertices[2], vertices[1]));
 
         return faces;
+    }
+
+    #endregion
+
+    #region Classes
+
+    private class ConeVertexData : MeshData<Vertex>
+    {
+
     }
 
     #endregion

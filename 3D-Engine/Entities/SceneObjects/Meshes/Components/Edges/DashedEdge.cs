@@ -14,46 +14,45 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
+namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+
+public class DashedEdge : Edge
 {
-    public class DashedEdge : Edge
+    #region Fields and Properties
+
+    private IEnumerable<DashedEdgeSection> sections;
+    public IEnumerable<DashedEdgeSection> Sections
     {
-        #region Fields and Properties
-
-        private IEnumerable<DashedEdgeSection> sections;
-        public IEnumerable<DashedEdgeSection> Sections
+        get => sections;
+        set
         {
-            get => sections;
-            set
+            if (!value.Select(x => x.Percentage).Sum().ApproxEquals(100))
             {
-                if (!value.Select(x => x.Percentage).Sum().ApproxEquals(100))
-                {
-                    // throw exception
-                }
-                sections = value;
+                // throw exception
             }
+            sections = value;
         }
-
-        #endregion
-
-        #region Constructors
-
-        public DashedEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2)
-        {
-            Sections = new DashedEdgeSection[]
-            {
-                new DashedEdgeSection(50, false, Color.Black),
-                new DashedEdgeSection(50, true)
-            };
-        }
-
-        public DashedEdge(Vertex modelP1,
-                          Vertex modelP2,
-                          IEnumerable<DashedEdgeSection> sections) : base(modelP1, modelP2)
-        {
-            Sections = sections;
-        }
-
-        #endregion
     }
+
+    #endregion
+
+    #region Constructors
+
+    public DashedEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2)
+    {
+        Sections = new DashedEdgeSection[]
+        {
+            new DashedEdgeSection(50, false, Color.Black),
+            new DashedEdgeSection(50, true)
+        };
+    }
+
+    public DashedEdge(Vertex modelP1,
+                        Vertex modelP2,
+                        IEnumerable<DashedEdgeSection> sections) : base(modelP1, modelP2)
+    {
+        Sections = sections;
+    }
+
+    #endregion
 }

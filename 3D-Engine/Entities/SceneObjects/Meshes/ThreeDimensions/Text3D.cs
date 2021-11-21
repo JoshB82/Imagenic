@@ -44,17 +44,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData)
         {
 
         }
 
-        protected override IList<Edge> GenerateEdges()
+        protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData)
         {
 
         }
 
-        protected override IList<Face> GenerateFaces()
+        protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
         {
 
         }

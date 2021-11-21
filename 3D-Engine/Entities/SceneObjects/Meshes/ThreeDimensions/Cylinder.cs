@@ -103,7 +103,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData = null)
         {
             IList<Vertex> vertices = new Vertex[2 * resolution + 2];
             vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
@@ -119,7 +119,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             return vertices;
         }
 
-        protected override IList<Edge> GenerateEdges()
+        protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData = null)
         {
             IList<Vertex> vertices = Content.Vertices;
             IList<Edge> edges = new Edge[3 * resolution];
@@ -137,7 +137,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             return edges;
         }
 
-        protected override IList<Face> GenerateFaces()
+        protected override IList<Face> GenerateFaces(MeshData<Face> faceData = null)
         {
             IList<Vertex> vertices = Content.Vertices;
             IList<Face> faces = new Face[resolution + 2];
