@@ -29,9 +29,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         // Structure
         public MeshContent Content { get; set; }
-        protected abstract IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData);
-        protected abstract IList<Edge> GenerateEdges(MeshData<Edge> edgeData);
-        protected abstract IList<Face> GenerateFaces(MeshData<Face> faceData);
+        protected abstract IList<Vertex> GenerateVertices(MeshData meshData);
+        protected abstract IList<Edge> GenerateEdges(MeshData meshData);
+        protected abstract IList<Face> GenerateFaces(MeshData meshData);
 
         /// <summary>
         /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.
@@ -134,9 +134,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         protected Mesh(Vector3D worldOrigin,
                        Orientation worldOrientation,
                        int dimension,
-                       MeshData<Vertex> vertexData = null,
-                       MeshData<Edge> edgeData = null,
-                       MeshData<Face> faceData = null,
+                       MeshData meshData = null,
                        IEnumerable<Texture> textures = null,
                        bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
         {
@@ -152,9 +150,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             Content = new MeshContent
             {
                 Textures = textures,
-                Vertices = GenerateVertices(vertexData),
-                Edges = GenerateEdges(edgeData),
-                Faces = GenerateFaces(faceData)
+                Vertices = GenerateVertices(meshData),
+                Edges = GenerateEdges(meshData),
+                Faces = GenerateFaces(meshData)
             };
 
             DrawEdges = Content.Edges is not null;
@@ -165,7 +163,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
 
         #region Classes
 
-        protected class MeshData<T> { }
+        protected abstract class MeshData { }
 
         #endregion
     }
