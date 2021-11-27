@@ -29,13 +29,13 @@ public abstract partial class Mesh : SceneObject
     #region Fields and Properties
 
     // Structure
-    private MeshContent content = new MeshContent(new Vertex[] { new Vertex(Vector4D.UnitW) });
-    public MeshContent Content
+    private MeshStructure structure = new MeshStructure(new Vertex[] { new Vertex(Vector4D.UnitW) });
+    public MeshStructure Structure
     {
-        get => content;
+        get => structure;
         set
         {
-            content = value ?? throw new ParameterCannotBeNullException();
+            structure = value ?? throw new ParameterCannotBeNullException();
         }
     }
     protected abstract IList<Vertex> GenerateVertices(MeshData meshData);
@@ -158,15 +158,9 @@ public abstract partial class Mesh : SceneObject
             // throw exception
         }
 
-        DrawEdges = Content.Edges is not null;
-        DrawFaces = Content.Faces is not null;
+        DrawEdges = Structure.Edges is not null;
+        DrawFaces = Structure.Faces is not null;
     }
-
-    #endregion
-
-    #region Classes
-
-    protected abstract class MeshData { }
 
     #endregion
 }

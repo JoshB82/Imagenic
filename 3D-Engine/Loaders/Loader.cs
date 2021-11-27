@@ -45,7 +45,7 @@ namespace _3D_Engine.Loaders
             }
         }
 
-        public abstract Task<MeshContent> Parse();
+        public abstract Task<MeshStructure> Parse();
 
         #endregion
     }

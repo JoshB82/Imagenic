@@ -228,7 +228,7 @@ public sealed class Arrow : Mesh
 
     protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData)
     {
-        IList<Vertex> vertices = Content.Vertices;
+        IList<Vertex> vertices = Structure.Vertices;
         IList<Edge> edges = new Edge[5 * resolution];
 
         for (int i = 0; i < resolution - 1; i++)
@@ -254,7 +254,7 @@ public sealed class Arrow : Mesh
 
     protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
     {
-        IList<Vertex> vertices = Content.Vertices;
+        IList<Vertex> vertices = Structure.Vertices;
         IList<Face> faces = new Face[2 * resolution + 2];
 
         Triangles = new SolidTriangle[6 * resolution];

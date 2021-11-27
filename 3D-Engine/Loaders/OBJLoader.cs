@@ -85,9 +85,9 @@ namespace _3D_Engine.Loaders
 
         #region Methods
 
-        public async override Task<MeshContent> Parse()
+        public async override Task<MeshStructure> Parse()
         {
-            MeshContent meshContent = null;
+            MeshStructure meshContent = null;
 
             await Task.Run(() =>
             {

@@ -108,8 +108,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         public Cube(Vector3D worldOrigin, Orientation worldOrientation, Square square) : base(worldOrigin, worldOrientation, 3)
         {
             SideLength = square.SideLength;
-            cube.Content.Textures = Content.Textures;
-            cube.Content.Faces[0] = Content.Faces[0];
+            cube.Content.Textures = Structure.Textures;
+            cube.Content.Faces[0] = Structure.Faces[0];
         }
 
         #endregion
@@ -128,13 +128,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
         {
-            if (Content.Textures is null)
+            if (Structure.Textures is null)
             {
                 return HardcodedMeshData.CuboidSolidFaces;
             }
             else
             {
-                return HardcodedMeshData.GenerateCuboidTextureFaces(Content.Textures.ToArray());
+                return HardcodedMeshData.GenerateCuboidTextureFaces(Structure.Textures.ToArray());
             }
         }
 
@@ -156,7 +156,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             {
                 Textures = cube.Textures
             };
-            cuboid.Content.Faces = cube.Content.Faces;
+            cuboid.Structure.Faces = cube.Structure.Faces;
             return cuboid;
         }
 

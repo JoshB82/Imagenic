@@ -166,13 +166,13 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
         {
-            if (Content.Textures is null)
+            if (Structure.Textures is null)
             {
                 return HardcodedMeshData.CuboidSolidFaces;
             }
             else
             {
-                return HardcodedMeshData.GenerateCuboidTextureFaces(Content.Textures.ToArray());
+                return HardcodedMeshData.GenerateCuboidTextureFaces(Structure.Textures.ToArray());
             }
         }
 
@@ -189,8 +189,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             Cube cube = new Cube(cuboid.WorldOrigin,
                             cuboid.WorldOrientation,
                             Math.Min(Math.Min(cuboid.Length, cuboid.Width), cuboid.Height));
-            cube.Content.Faces = cuboid.Content.Faces;
-            cube.Content.Textures = cuboid.Content.Textures;
+            cube.Structure.Faces = cuboid.Structure.Faces;
+            cube.Structure.Textures = cuboid.Structure.Textures;
 
             return cube;
         }

@@ -132,7 +132,7 @@ public sealed class Cone : Mesh
 
     protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData = null)
     {
-        IList<Vertex> vertices = Content.Vertices;
+        IList<Vertex> vertices = Structure.Vertices;
         IList<Edge> edges = new Edge[resolution];
 
         for (int i = 0; i < resolution - 1; i++)
@@ -146,7 +146,7 @@ public sealed class Cone : Mesh
 
     protected override IList<Face> GenerateFaces(MeshData<Face> faceData = null)
     {
-        IList<Vertex> vertices = Content.Vertices;
+        IList<Vertex> vertices = Structure.Vertices;
         IList<Face> faces = new Face[resolution + 1];
 
         Triangle[] baseTriangles = new Triangle[resolution];

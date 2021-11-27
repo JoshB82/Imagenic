@@ -121,7 +121,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData = null)
         {
-            IList<Vertex> vertices = Content.Vertices;
+            IList<Vertex> vertices = Structure.Vertices;
             IList<Edge> edges = new Edge[3 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
@@ -139,7 +139,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         protected override IList<Face> GenerateFaces(MeshData<Face> faceData = null)
         {
-            IList<Vertex> vertices = Content.Vertices;
+            IList<Vertex> vertices = Structure.Vertices;
             IList<Face> faces = new Face[resolution + 2];
 
             for (int i = 0; i < resolution - 1; i++)

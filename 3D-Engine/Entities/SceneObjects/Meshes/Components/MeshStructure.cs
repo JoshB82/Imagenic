@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
 {
-    public class MeshContent
+    public class MeshStructure
     {
         #region Fields and Properties
 
@@ -26,7 +26,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
 
         #region Constructors
 
-        public MeshContent(IList<Vertex> vertices, IList<Edge> edges = null, IList<Face> faces = null)
+        public MeshStructure(IList<Vertex> vertices, IList<Edge> edges = null, IList<Face> faces = null)
         {
             Vertices = vertices;
             Edges = edges;
