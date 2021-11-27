@@ -28,7 +28,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Fields and Properties
 
         // Structure
-        public MeshContent Content { get; set; }
+        public MeshContent Content { get; set; } = new MeshContent(new Vertex[] { new Vertex(Vector4D.UnitW) });
         protected abstract IList<Vertex> GenerateVertices(MeshData meshData);
         protected abstract IList<Edge> GenerateEdges(MeshData meshData);
         protected abstract IList<Face> GenerateFaces(MeshData meshData);
@@ -146,14 +146,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
             {
                 // throw exception
             }
-
-            Content = new MeshContent
-            {
-                Textures = textures,
-                Vertices = GenerateVertices(meshData),
-                Edges = GenerateEdges(meshData),
-                Faces = GenerateFaces(meshData)
-            };
 
             DrawEdges = Content.Edges is not null;
             DrawFaces = Content.Faces is not null;
