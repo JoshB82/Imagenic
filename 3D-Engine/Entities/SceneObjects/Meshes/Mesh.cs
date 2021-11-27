@@ -10,6 +10,7 @@
  * Encapsulates creation of a mesh.
  */
 
+using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
@@ -28,7 +29,15 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #region Fields and Properties
 
         // Structure
-        public MeshContent Content { get; set; } = new MeshContent(new Vertex[] { new Vertex(Vector4D.UnitW) });
+        private MeshContent content = new MeshContent(new Vertex[] { new Vertex(Vector4D.UnitW) });
+        public MeshContent Content
+        {
+            get => content;
+            set
+            {
+                content = value ?? throw new ParameterCannotBeNullException();
+            }
+        }
         protected abstract IList<Vertex> GenerateVertices(MeshData meshData);
         protected abstract IList<Edge> GenerateEdges(MeshData meshData);
         protected abstract IList<Face> GenerateFaces(MeshData meshData);
