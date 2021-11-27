@@ -115,7 +115,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         }
 
         private Vector3D scaling = Vector3D.One;
-        internal Vector3D Scaling
+        public Vector3D Scaling
         {
             get => scaling;
             set
@@ -134,10 +134,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         protected Mesh(Vector3D worldOrigin,
                        Orientation worldOrientation,
                        int dimension,
-                       MeshData meshData = null,
-                       IEnumerable<Texture> textures = null,
                        bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
         {
+            if (worldOrientation is null)
+            {
+                // throw exception
+            }
             if (dimension >= 0 && dimension <= 3)
             {
                 Dimension = dimension;
