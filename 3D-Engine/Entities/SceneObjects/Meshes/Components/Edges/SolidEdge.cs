@@ -12,20 +12,19 @@
 
 using System.Drawing;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges
+namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+
+public class SolidEdge : Edge
 {
-    public class SolidEdge : Edge
-    {
-        #region Fields and Properties
+    #region Fields and Properties
 
-        public Color Colour { get; set; } = Properties.Settings.Default.EdgeColour;
+    public Color Colour { get; set; } = Properties.Settings.Default.EdgeColour;
 
-        #endregion
+    #endregion
 
-        #region Constructors
+    #region Constructors
 
-        public SolidEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
+    public SolidEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
 
-        #endregion
-    }
+    #endregion
 }
