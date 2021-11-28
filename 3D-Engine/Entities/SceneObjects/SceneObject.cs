@@ -193,6 +193,19 @@ namespace _3D_Engine.Entities.SceneObjects
 
         #region Methods
 
+        public SceneObject ShallowCopy()
+        {
+            return this.MemberwiseClone() as SceneObject;
+        }
+
+        public SceneObject DeepCopy()
+        {
+            SceneObject copy = ShallowCopy();
+            copy.RenderCameras = new List<Camera>();
+            copy.RenderCameras.AddRange(this.RenderCameras);
+            return copy;
+        }
+
         internal virtual void CalculateModelToWorldMatrix()
         {
             Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(Orientation.ModelDirectionForward, worldOrientation.DirectionForward);
