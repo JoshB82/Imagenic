@@ -2,37 +2,36 @@
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
+namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
+
+public class MeshStructure
 {
-    public class MeshStructure
+    #region Fields and Properties
+
+    private IList<Vertex> vertices;
+    public IList<Vertex> Vertices
     {
-        #region Fields and Properties
-
-        private IList<Vertex> vertices;
-        public IList<Vertex> Vertices
+        get => vertices;
+        set
         {
-            get => vertices;
-            set
-            {
-                vertices = value ?? throw new ParameterCannotBeNullException();
-            }
+            vertices = value ?? throw new ParameterCannotBeNullException();
         }
-        public IList<Edge> Edges { get; set; }
-        public IList<Face> Faces { get; set; }
-
-        public IEnumerable<Texture> Textures { get; set; }
-
-        #endregion
-
-        #region Constructors
-
-        public MeshStructure(IList<Vertex> vertices, IList<Edge> edges = null, IList<Face> faces = null)
-        {
-            Vertices = vertices;
-            Edges = edges;
-            Faces = faces;
-        }
-
-        #endregion
     }
+    public IList<Edge> Edges { get; set; }
+    public IList<Face> Faces { get; set; }
+
+    public IEnumerable<Texture> Textures { get; set; }
+
+    #endregion
+
+    #region Constructors
+
+    public MeshStructure(IList<Vertex> vertices, IList<Edge> edges = null, IList<Face> faces = null)
+    {
+        Vertices = vertices;
+        Edges = edges;
+        Faces = faces;
+    }
+
+    #endregion
 }
