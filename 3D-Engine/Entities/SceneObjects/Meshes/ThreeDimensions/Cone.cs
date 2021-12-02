@@ -14,6 +14,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -69,9 +70,7 @@ public sealed class Cone : Mesh
             resolution = value;
             RequestNewRenders();
 
-            GenerateVertices();
-            GenerateEdges();
-            GenerateFaces();
+            Structure = GenerateStructure(resolution);
         }
     }
 
@@ -91,7 +90,7 @@ public sealed class Cone : Mesh
                 Orientation worldOrientation,
                 float height,
                 float radius,
-                int resolution) : base(worldOrigin, worldOrientation, 3)
+                int resolution) : base(worldOrigin, worldOrientation, GenerateStructure(resolution))
     {
         Height = height;
         Radius = radius;
@@ -114,11 +113,20 @@ public sealed class Cone : Mesh
 
     #region Methods
 
-    protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData = null)
+    private static MeshStructure GenerateStructure(int resolution)
+    {
+        IList<Vertex> vertices = GenerateVertices(resolution);
+        IList<Edge> edges = GenerateEdges(resolution, vertices);
+        IList<Face> faces = GenerateFaces(resolution, vertices);
+
+        return new MeshStructure(Dimension.Three, vertices, edges, faces);
+    }
+
+    private static IList<Vertex> GenerateVertices(int resolution)
     {
         // They are defined in anti-clockwise order, looking from above and then downwards.
         IList<Vertex> vertices = new Vertex[resolution + 2];
-        vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
+        vertices[0] = new Vertex(Vector4D.UnitW);
         vertices[1] = new Vertex(new Vector4D(0, 1, 0, 1));
 
         float angle = Tau / resolution;
@@ -130,9 +138,8 @@ public sealed class Cone : Mesh
         return vertices;
     }
 
-    protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData = null)
+    private static IList<Edge> GenerateEdges(int resolution, IList<Vertex> vertices)
     {
-        IList<Vertex> vertices = Structure.Vertices;
         IList<Edge> edges = new Edge[resolution];
 
         for (int i = 0; i < resolution - 1; i++)
@@ -144,9 +151,8 @@ public sealed class Cone : Mesh
         return edges;
     }
 
-    protected override IList<Face> GenerateFaces(MeshData<Face> faceData = null)
+    private static IList<Face> GenerateFaces(int resolution, IList<Vertex> vertices)
     {
-        IList<Vertex> vertices = Structure.Vertices;
         IList<Face> faces = new Face[resolution + 1];
 
         Triangle[] baseTriangles = new Triangle[resolution];
@@ -164,15 +170,6 @@ public sealed class Cone : Mesh
         faces[2 * resolution - 1] = new Face(new SolidTriangle(vertices[resolution - 1], vertices[2], vertices[1]));
 
         return faces;
-    }
-
-    #endregion
-
-    #region Classes
-
-    private class ConeVertexData : MeshData<Vertex>
-    {
-
     }
 
     #endregion

@@ -1,5 +1,6 @@
 ﻿using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Enums;
 using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
@@ -22,12 +23,19 @@ public class MeshStructure
 
     public IEnumerable<Texture> Textures { get; set; }
 
+    public Dimension DimensionCount { get; }
+
     #endregion
 
     #region Constructors
 
-    public MeshStructure(IList<Vertex> vertices, IList<Edge> edges = null, IList<Face> faces = null)
+    public MeshStructure(Dimension dimensionCount,
+                         IList<Vertex> vertices,
+                         IList<Edge> edges = null,
+                         IList<Face> faces = null)
     {
+        DimensionCount = dimensionCount;    
+        
         Vertices = vertices;
         Edges = edges;
         Faces = faces;

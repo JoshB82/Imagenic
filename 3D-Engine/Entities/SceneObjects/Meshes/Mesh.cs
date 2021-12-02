@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Encapsulates creation of a mesh.
+ * Defines a Mesh, which represents any one, two or three-dimensional mesh.
  */
 
 using _3D_Engine.Constants;
@@ -29,7 +29,7 @@ public abstract partial class Mesh : SceneObject
     #region Fields and Properties
 
     // Structure
-    private MeshStructure structure = new MeshStructure(new Vertex[] { new Vertex(Vector4D.UnitW) });
+    private MeshStructure structure;
     public MeshStructure Structure
     {
         get => structure;
@@ -38,10 +38,7 @@ public abstract partial class Mesh : SceneObject
             structure = value ?? throw new ParameterCannotBeNullException();
         }
     }
-    protected abstract IList<Vertex> GenerateVertices(MeshData meshData);
-    protected abstract IList<Edge> GenerateEdges(MeshData meshData);
-    protected abstract IList<Face> GenerateFaces(MeshData meshData);
-
+    
     /// <summary>
     /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.
     /// </summary>
@@ -109,7 +106,7 @@ public abstract partial class Mesh : SceneObject
 
     // Miscellaneous
     /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Dimension']/*"/>
-    public int Dimension { get; }
+    //public int Dimension { get; }
     /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Casts_Shadows']/*"/>
     public bool CastsShadows { get; set; } = true;
     /// <include file="Help_8.xml" path="doc/members/member[@name='P:_3D_Engine.Mesh.Draw_Outline']/*"/>
@@ -141,22 +138,16 @@ public abstract partial class Mesh : SceneObject
     #region Constructors
 
     protected Mesh(Vector3D worldOrigin,
-                    Orientation worldOrientation,
-                    int dimension,
-                    bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
+                   Orientation worldOrientation,
+                   MeshStructure structure,
+                   bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
     {
         if (worldOrientation is null)
         {
             // throw exception
         }
-        if (dimension >= 0 && dimension <= 3)
-        {
-            Dimension = dimension;
-        }
-        else
-        {
-            // throw exception
-        }
+
+        Structure = structure;
 
         DrawEdges = Structure.Edges is not null;
         DrawFaces = Structure.Faces is not null;
