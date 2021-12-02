@@ -12,6 +12,7 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ public sealed class Torus : Mesh
             innerRadius = value;
             RequestNewRenders();
 
-            GenerateVertices();
+            Structure.Vertices = GenerateVertices(innerResolution, outerResolution, innerRadius, outerRadius);
         }
     }
 
@@ -65,7 +66,7 @@ public sealed class Torus : Mesh
             outerRadius = value;
             RequestNewRenders();
 
-            GenerateVertices();
+            Structure.Vertices = GenerateVertices(innerResolution, outerResolution, innerRadius, outerRadius);
         }
     }
 
@@ -81,9 +82,9 @@ public sealed class Torus : Mesh
             innerResolution = value;
             RequestNewRenders();
 
-            GenerateVertices();
-            GenerateEdges();
-            GenerateFaces();
+            Structure.Vertices = GenerateVertices(innerResolution, outerResolution, innerRadius, outerRadius);
+            Structure.Edges = GenerateEdges(innerResolution, outerResolution);
+            Structure.Faces = GenerateFaces(innerResolution, outerResolution);
         }
     }
 
@@ -99,9 +100,9 @@ public sealed class Torus : Mesh
             outerResolution = value;
             RequestNewRenders();
 
-            GenerateVertices();
-            GenerateEdges();
-            GenerateFaces();
+            Structure.Vertices = GenerateVertices(innerResolution, outerResolution, innerRadius, outerRadius);
+            Structure.Edges = GenerateEdges(innerResolution, outerResolution);
+            Structure.Faces = GenerateFaces(innerResolution, outerResolution);
         }
     }
 
@@ -110,27 +111,32 @@ public sealed class Torus : Mesh
     #region Constructors
 
     public Torus(Vector3D worldOrigin,
-                    Orientation worldOrientation,
-                    float innerRadius,
-                    float outerRadius,
-                    int innerResolution,
-                    int outerResolution) : base(worldOrigin, worldOrientation, 3)
+                 Orientation worldOrientation,
+                 float innerRadius,
+                 float outerRadius,
+                 int innerResolution,
+                 int outerResolution) : base(worldOrigin, worldOrientation, GenerateStructure(innerResolution, outerResolution, innerRadius, outerRadius))
     {
         this.innerRadius = innerRadius;
         this.outerRadius = outerRadius;
         this.innerResolution = innerResolution;
         this.outerResolution = outerResolution;
-
-        GenerateVertices();
-        GenerateEdges();
-        GenerateFaces();
     }
 
     #endregion
 
     #region Methods
 
-    protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData = null)
+    private static MeshStructure GenerateStructure(int innerResolution, int outerResolution, float innerRadius, float outerRadius)
+    {
+        IList<Vertex> vertices = GenerateVertices(innerResolution, outerResolution, innerRadius, outerRadius);
+        IList<Edge> edges = GenerateEdges(innerResolution, outerResolution);
+        IList<Face> faces = GenerateFaces(innerResolution, outerResolution);
+
+        return new MeshStructure(Dimension.Three, vertices, edges, faces);
+    }
+
+    private static IList<Vertex> GenerateVertices(int innerResolution, int outerResolution, float innerRadius, float outerRadius)
     {
         IList<Vertex> vertices = new Vertex[innerResolution * outerResolution];
         vertices[0] = new Vertex(Vector4D.Zero);
@@ -151,14 +157,14 @@ public sealed class Torus : Mesh
         return vertices;
     }
 
-    protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData = null)
+    private static IList<Edge> GenerateEdges(int innerResolution, int outerResolution)
     {
         IList<Edge> edges = new Edge[innerResolution * outerResolution * 2];
 
         return edges;
     }
 
-    protected override IList<Face> GenerateFaces(MeshData<Face> faceData = null)
+    private static IList<Face> GenerateFaces(int innerResolution, int outerResolution)
     {
         IList<Face> faces = new Face[innerResolution * outerResolution * 2];
 

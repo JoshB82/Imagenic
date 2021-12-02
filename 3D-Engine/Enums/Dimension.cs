@@ -1,9 +1,8 @@
-﻿namespace _3D_Engine.Enums
+﻿namespace _3D_Engine.Enums;
+
+public enum Dimension
 {
-    public enum Dimension
-    {
-        One,
-        Two,
-        Three
-    }
+    One = 1,
+    Two = 2,
+    Three = 3
 }
