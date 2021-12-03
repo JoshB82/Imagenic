@@ -7,12 +7,13 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Defines creation of a cylinder.
+ * Defines a cylinder.
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -92,7 +93,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                         Orientation worldOrientation,
                         float height,
                         float radius,
-                        int resolution) : base(worldOrigin, worldOrientation, 3)
+                        int resolution)
+            : base(worldOrigin,
+                   worldOrientation,
+                   GenerateStructure(resolution))
         {
             Height = height;
             Radius = radius;
@@ -103,7 +107,16 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData = null)
+        private static MeshStructure GenerateStructure(int resolution)
+        {
+            IList<Vertex> vertices = GenerateVertices(resolution);
+            IList<Edge> edges = GenerateEdges(vertices, resolution);
+            IList<Face> faces = GenerateFaces(vertices, resolution);
+
+            return new MeshStructure(Dimension.Three, vertices, edges, faces);
+        }
+
+        private static IList<Vertex> GenerateVertices(int resolution)
         {
             IList<Vertex> vertices = new Vertex[2 * resolution + 2];
             vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
@@ -119,9 +132,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             return vertices;
         }
 
-        protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData = null)
+        private static IList<Edge> GenerateEdges(IList<Vertex> vertices, int resolution)
         {
-            IList<Vertex> vertices = Structure.Vertices;
             IList<Edge> edges = new Edge[3 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
@@ -137,9 +149,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             return edges;
         }
 
-        protected override IList<Face> GenerateFaces(MeshData<Face> faceData = null)
+        private static IList<Face> GenerateFaces(IList<Vertex> vertices, int resolution)
         {
-            IList<Vertex> vertices = Structure.Vertices;
             IList<Face> faces = new Face[resolution + 2];
 
             for (int i = 0; i < resolution - 1; i++)
