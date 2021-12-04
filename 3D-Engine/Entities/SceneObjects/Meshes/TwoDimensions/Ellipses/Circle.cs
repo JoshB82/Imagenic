@@ -13,6 +13,7 @@
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System;
@@ -85,7 +86,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         public Circle(Vector3D worldOrigin,
                       Orientation worldOrientation,
                       float radius,
-                      int resolution) : base(worldOrigin, worldOrientation, 2)
+                      int resolution) : base(worldOrigin, worldOrientation, GenerateStructure(resolution))
         {
             Radius = radius;
             Resolution = resolution;
@@ -103,7 +104,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       Orientation worldOrientation,
                       float radius,
                       int resolution,
-                      Texture texture) : base(worldOrigin, worldOrientation, 2)
+                      Texture texture) : base(worldOrigin, worldOrientation, GenerateStructure(resolution))
         {
             Radius = radius;
             Textures = new Texture[1] { texture };
@@ -114,7 +115,16 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        private static MeshStructure GenerateStructure(int resolution)
+        {
+            IList<Vertex> vertices = GenerateVertices(resolution);
+            IList<Edge> edges = GenerateEdges(vertices, resolution);
+            IList<Face> faces = GenerateFaces(vertices, resolution);
+
+            return new MeshStructure(Dimension.Two, vertices, edges, faces);
+        }
+
+        private static IList<Vertex> GenerateVertices(int resolution)
         {
             // Vertices are defined in anti-clockwise order.
             IList<Vertex> vertices = new Vertex[resolution + 1];
@@ -140,9 +150,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             return vertices;
         }
 
-        protected override IList<Edge> GenerateEdges()
+        private static IList<Edge> GenerateEdges(IList<Vertex> vertices, int resolution)
         {
-            IList<Vertex> vertices = Structure.Vertices;
             IList<Edge> edges = new Edge[resolution];
 
             for (int i = 0; i < resolution - 1; i++)
@@ -154,9 +163,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             return edges;
         }
 
-        protected override IList<Face> GenerateFaces()
+        private static IList<Face> GenerateFaces(IList<Vertex> vertices, int resolution)
         {
-            IList<Vertex> vertices = Structure.Vertices;
             IList<Face> faces = new Face[1];
 
             if (Textures is null)

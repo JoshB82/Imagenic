@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _3D_Engine.Images;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace _3D_Engine.Renderers.RayTracing
 
         #region Methods
 
-        public async override Task<Bitmap> Render(RenderingOptions options)
+        public async override Task<Image> Render(RenderingOptions options)
         {
             await CastRays();
         }
