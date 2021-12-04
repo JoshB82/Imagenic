@@ -12,6 +12,7 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -69,7 +70,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       IEnumerable<string> fonts,
                       float size,
                       char style,
-                      string content) : base(worldOrigin, worldOrientation, 2)
+                      string content) : base(worldOrigin, worldOrientation, GenerateStructure())
         {
             Fonts = fonts;
             Size = size;
@@ -81,17 +82,26 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        private static MeshStructure GenerateStructure()
+        {
+            IList<Vertex> vertices = GenerateVertices();
+            IList<Edge> edges = GenerateEdges();
+            IList<Face> faces = GenerateFaces();
+
+            return new MeshStructure(Dimension.Two, vertices, edges, faces);
+        }
+
+        private static IList<Vertex> GenerateVertices()
         {
 
         }
 
-        protected override IList<Edge> GenerateEdges()
+        private static IList<Edge> GenerateEdges()
         {
 
         }
 
-        protected override IList<Face> GenerateFaces()
+        private static IList<Face> GenerateFaces()
         {
 
         }

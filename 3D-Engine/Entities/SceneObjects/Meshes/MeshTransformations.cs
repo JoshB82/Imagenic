@@ -32,9 +32,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <returns></returns>
         public static T ColourAllSolidFaces<T>(this T mesh, Color colour, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf<Mesh>(predicate))
             {
-                foreach (Face face in child.Faces)
+                foreach (Face face in child.Structure.Faces)
                 {
                     foreach (Triangle triangle in face.Triangles)
                     {
@@ -61,7 +61,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <returns></returns>
         public static T ScaleX<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf<Mesh>(predicate))
             {
                 child.Scaling = new Vector3D(child.Scaling.x * scaleFactor, child.Scaling.y, child.Scaling.z);
             }
@@ -77,7 +77,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <returns></returns>
         public static T ScaleY<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf<Mesh>(predicate))
             {
                 child.Scaling = new Vector3D(child.Scaling.x, child.Scaling.y * scaleFactor, child.Scaling.z);
             }
@@ -93,7 +93,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <returns></returns>
         public static T ScaleZ<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf<Mesh>(predicate))
             {
                 child.Scaling = new Vector3D(child.Scaling.x, child.Scaling.y, child.Scaling.z * scaleFactor);
             }
@@ -111,7 +111,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <returns></returns>
         public static T Scale<T>(this T mesh, float scaleFactorX, float scaleFactorY, float scaleFactorZ, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf<Mesh>(predicate))
             {
                 child.Scaling = new Vector3D(child.Scaling.x * scaleFactorX, child.Scaling.y * scaleFactorY, child.Scaling.z * scaleFactorZ);
             }
@@ -127,7 +127,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <returns></returns>
         public static T Scale<T>(this T mesh, float scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf<Mesh>(predicate))
             {
                 child.Scaling = new Vector3D(child.Scaling.x * scaleFactor, child.Scaling.y * scaleFactor, child.Scaling.z * scaleFactor);
             }
@@ -143,7 +143,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         /// <returns></returns>
         public static T Scale<T>(this T mesh, Vector3D scaleFactor, Predicate<Mesh> predicate = null) where T : Mesh
         {
-            foreach (Mesh child in mesh.GetAllChildrenAndSelf(x => x is Mesh mesh && predicate(mesh)))
+            foreach (Mesh child in mesh.GetAllChildrenAndSelf<Mesh>(predicate))
             {
                 child.Scaling = scaleFactor;
             }
