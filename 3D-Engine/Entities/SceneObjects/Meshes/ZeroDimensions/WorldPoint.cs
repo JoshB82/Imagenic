@@ -12,6 +12,7 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -43,25 +44,22 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension
         /// <param name="worldOrigin"></param>
         /// <param name="worldOrientation"></param>
         public WorldPoint(Vector3D worldOrigin,
-                          Orientation worldOrientation) : base(worldOrigin, worldOrientation, 0) { }
+                          Orientation worldOrientation) : base(worldOrigin, worldOrientation, GenerateStructure()) { }
 
         #endregion
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        private static MeshStructure GenerateStructure()
+        {
+            IList<Vertex> vertices = GenerateVertices();
+
+            return new MeshStructure(Dimension.Zero, vertices, null, null);
+        }
+
+        private static IList<Vertex> GenerateVertices()
         {
             return new Vertex[1] { new Vertex(new Vector4D(0, 0, 0, 1)) };
-        }
-
-        protected override IList<Edge> GenerateEdges()
-        {
-            return null;
-        }
-
-        protected override IList<Face> GenerateFaces()
-        {
-            return null;
         }
 
         #endregion

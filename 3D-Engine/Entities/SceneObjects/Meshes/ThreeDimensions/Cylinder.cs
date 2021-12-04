@@ -71,9 +71,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                 resolution = value;
                 RequestNewRenders();
 
-                GenerateVertices();
-                GenerateEdges();
-                GenerateFaces();
+                Structure = GenerateStructure(resolution);
             }
         }
 

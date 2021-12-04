@@ -12,6 +12,7 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
                       IEnumerable<string> fonts,
                       float size,
                       char style,
-                      float depth) : base(worldOrigin, worldOrientation, 3)
+                      float depth) : base(worldOrigin, worldOrientation, GenerateStructure())
         {
         }
 
@@ -44,19 +45,28 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData)
+        private static MeshStructure GenerateStructure()
         {
+            IList<Vertex> vertices = GenerateVertices();
+            IList<Edge> edges = GenerateEdges();
+            IList<Face> faces = GenerateFaces();
 
+            return new MeshStructure(Dimension.Three, vertices, edges, faces);
         }
 
-        protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData)
+        private static IList<Vertex> GenerateVertices()
         {
-
+            return null; // TODO: Finish
         }
 
-        protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
+        private static IList<Edge> GenerateEdges()
         {
+            return null; // TODO: Finish
+        }
 
+        private static IList<Face> GenerateFaces()
+        {
+            return null; // TODO: Finish
         }
 
         #endregion
