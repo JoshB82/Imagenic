@@ -14,6 +14,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         /// <param name="sideLength">The length of each side.</param>
         public Cube(Vector3D worldOrigin,
                     Orientation worldOrientation,
-                    float sideLength) : base(worldOrigin, worldOrientation, 3)
+                    float sideLength) : base(worldOrigin, worldOrientation, GenerateStructure())
         {
             SideLength = sideLength;
         }
@@ -75,7 +76,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
         public Cube(Vector3D worldOrigin,
                     Orientation worldOrientation,
                     float sideLength,
-                    Texture texture) : base(worldOrigin, worldOrientation, 3, new Texture[] { texture })
+                    Texture texture) : base(worldOrigin, worldOrientation, GenerateStructure(), new Texture[] { texture })
         {
             SideLength = sideLength;
         }
@@ -116,17 +117,26 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData)
+        private static MeshStructure GenerateStructure()
+        {
+            IList<Vertex> vertices = GenerateVertices();
+            IList<Edge> edges = GenerateEdges();
+            IList<Face> faces = GenerateFaces();
+
+            return new MeshStructure(Dimension.Three, vertices, edges, faces);
+        }
+
+        private static IList<Vertex> GenerateVertices()
         {
             return HardcodedMeshData.CuboidVertices;
         }
 
-        protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData)
+        private static IList<Edge> GenerateEdges()
         {
             return HardcodedMeshData.CuboidEdges;
         }
 
-        protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
+        private static IList<Face> GenerateFaces()
         {
             if (Structure.Textures is null)
             {

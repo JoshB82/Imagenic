@@ -14,6 +14,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ public sealed class Arrow : Mesh
             length = bodyLength + tipLength;
             tipPosition = WorldOrigin + WorldOrientation.DirectionForward * length;
 
-            GenerateVertices();
+            Structure.Vertices = GenerateVertices(Resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
     }
 
@@ -112,7 +113,7 @@ public sealed class Arrow : Mesh
             length = bodyLength + tipLength;
             tipPosition = WorldOrigin + WorldOrientation.DirectionForward * length;
 
-            GenerateVertices();
+            Structure.Vertices = GenerateVertices(Resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
     }
 
@@ -125,7 +126,7 @@ public sealed class Arrow : Mesh
             bodyRadius = value;
             RequestNewRenders();
 
-            GenerateVertices();
+            Structure.Vertices = GenerateVertices(Resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
     }
 
@@ -138,7 +139,7 @@ public sealed class Arrow : Mesh
             tipRadius = value;
             RequestNewRenders();
 
-            GenerateVertices();
+            Structure.Vertices = GenerateVertices(Resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
     }
 
@@ -151,9 +152,7 @@ public sealed class Arrow : Mesh
             resolution = value;
             RequestNewRenders();
 
-            GenerateVertices();
-            GenerateEdges();
-            GenerateFaces();
+            Structure = GenerateStructure(resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
     }
 
@@ -162,13 +161,13 @@ public sealed class Arrow : Mesh
     #region Constructors
 
     internal Arrow(Vector3D worldOrigin,
-                    Orientation worldOrientation,
-                    float bodyLength,
-                    float tipLength,
-                    float bodyRadius,
-                    float tipRadius,
-                    int resolution,
-                    bool hasDirectionArrows) : base(worldOrigin, worldOrientation, 3, hasDirectionArrows)
+                   Orientation worldOrientation,
+                   float bodyLength,
+                   float tipLength,
+                   float bodyRadius,
+                   float tipRadius,
+                   int resolution,
+                   bool hasDirectionArrows) : base(worldOrigin, worldOrientation, GenerateStructure(resolution, bodyLength, tipLength, bodyRadius, tipRadius), hasDirectionArrows)
     {
         this.length = bodyLength + tipLength;
         this.tipPosition = worldOrigin + worldOrientation.DirectionForward * this.length;
@@ -177,10 +176,6 @@ public sealed class Arrow : Mesh
         this.bodyRadius = bodyRadius;
         this.tipRadius = tipRadius;
         this.resolution = resolution;
-
-        GenerateVertices();
-        GenerateEdges();
-        GenerateFaces();
     }
 
     public Arrow(Vector3D worldOrigin,
@@ -207,7 +202,16 @@ public sealed class Arrow : Mesh
 
     #region Methods
 
-    protected override IList<Vertex> GenerateVertices(MeshData<Vertex> vertexData)
+    private static MeshStructure GenerateStructure(int resolution, float bodyLength, float tipLength, float bodyRadius, float tipRadius)
+    {
+        IList<Vertex> vertices = GenerateVertices(resolution, bodyLength, tipLength, bodyRadius, tipRadius);
+        IList<Edge> edges = GenerateEdges(vertices, resolution);
+        IList<Face> faces = GenerateFaces(vertices, resolution);
+
+        return new MeshStructure(Dimension.Three, vertices, edges, faces);
+    }
+
+    private static IList<Vertex> GenerateVertices(int resolution, float bodyLength, float tipLength, float bodyRadius, float tipRadius)
     {
         IList<Vertex> vertices = new Vertex[3 * resolution + 3];
         vertices[0] = new(new Vector4D(0, 0, 0, 1));
@@ -226,9 +230,8 @@ public sealed class Arrow : Mesh
         return vertices;
     }
 
-    protected override IList<Edge> GenerateEdges(MeshData<Edge> edgeData)
+    private static IList<Edge> GenerateEdges(IList<Vertex> vertices, int resolution)
     {
-        IList<Vertex> vertices = Structure.Vertices;
         IList<Edge> edges = new Edge[5 * resolution];
 
         for (int i = 0; i < resolution - 1; i++)
@@ -252,9 +255,8 @@ public sealed class Arrow : Mesh
         return edges;
     }
 
-    protected override IList<Face> GenerateFaces(MeshData<Face> faceData)
+    private static IList<Face> GenerateFaces(IList<Vertex> vertices, int resolution)
     {
-        IList<Vertex> vertices = Structure.Vertices;
         IList<Face> faces = new Face[2 * resolution + 2];
 
         Triangles = new SolidTriangle[6 * resolution];
