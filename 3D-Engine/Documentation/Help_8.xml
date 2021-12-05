@@ -888,11 +888,9 @@
             <param name="m1">The first <see cref="T:_3D_Engine.Mesh"/> to be joined.</param>
             <param name="m2">The second <see cref="T:_3D_Engine.Mesh"/> to be joined.</param>
         </member>
-        <member name="T:_3D_Engine.Mesh">
-            <summary>
-            Encapsulates creation of a <see cref="T:_3D_Engine.Mesh" />.
-            </summary>
-        </member>
+        
+            
+        
         <member name="M:_3D_Engine.Mesh.Scale_X(System.Single)">
             <summary>
             Scales a <see cref="T:_3D_Engine.Mesh"/> in the x-direction.

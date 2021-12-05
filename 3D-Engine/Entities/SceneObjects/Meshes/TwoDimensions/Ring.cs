@@ -13,6 +13,7 @@
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                 innerRadius = value;
                 RequestNewRenders();
 
-                GenerateVertices();
+                Structure.Vertices = GenerateVertices(resolution, innerRadius, outerRadius);
             }
         }
         /// <summary>
@@ -57,7 +58,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                 outerRadius = value;
                 RequestNewRenders();
 
-                GenerateVertices();
+                Structure.Vertices = GenerateVertices(resolution, innerRadius, outerRadius);
             }
         }
         /// <summary>
@@ -72,9 +73,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                 resolution = value;
                 RequestNewRenders();
 
-                GenerateVertices();
-                GenerateEdges();
-                GenerateFaces();
+                Structure = GenerateStructure(resolution, innerRadius, outerRadius);
             }
         }
 
@@ -94,7 +93,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                     Orientation worldOrientation,
                     float innerRadius,
                     float outerRadius,
-                    int resolution) : base(worldOrigin, worldOrientation, 2)
+                    int resolution) : base(worldOrigin, worldOrientation, GenerateStructure(resolution, innerRadius, outerRadius))
         {
             this.innerRadius = innerRadius;
             this.outerRadius = outerRadius;
@@ -105,7 +104,16 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        private static MeshStructure GenerateStructure(int resolution, float innerRadius, float outerRadius)
+        {
+            IList<Vertex> vertices = GenerateVertices(resolution, innerRadius, outerRadius);
+            IList<Edge> edges = GenerateEdges(vertices, resolution);
+            IList<Face> faces = GenerateFaces(vertices, resolution);
+
+            return new MeshStructure(Dimension.Two, vertices, edges, faces);
+        }
+
+        private static IList<Vertex> GenerateVertices(int resolution, float innerRadius, float outerRadius)
         {
             // Vertices are defined in anti-clockwise order.
             IList<Vertex> vertices = new Vertex[2 * resolution + 1];
@@ -120,9 +128,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             return vertices;
         }
 
-        protected override IList<Edge> GenerateEdges()
+        private static IList<Edge> GenerateEdges(IList<Vertex> vertices, int resolution)
         {
-            IList<Vertex> vertices = Structure.Vertices;
             IList<Edge> edges = new Edge[2 * resolution];
 
             for (int i = 0; i < resolution - 1; i++)
@@ -136,9 +143,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             return edges;
         }
 
-        protected override IList<Face> GenerateFaces()
+        private static IList<Face> GenerateFaces(IList<Vertex> vertices, int resolution)
         {
-            IList<Vertex> vertices = Structure.Vertices;
             IList<Face> faces = new Face[1];
 
             faces[0].Triangles = new SolidTriangle[2 * resolution];

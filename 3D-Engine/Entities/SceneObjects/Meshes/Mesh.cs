@@ -23,7 +23,9 @@ using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes;
 
-/// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Mesh']/*"/>
+/// <summary>
+/// Encapsulates creation of a <see cref="Mesh"/>.
+/// </summary>
 public abstract partial class Mesh : SceneObject
 {
     #region Fields and Properties

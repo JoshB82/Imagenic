@@ -8,5 +8,10 @@ namespace _3D_Engine.Entities;
 
 public abstract class Entity
 {
-
+    // Id
+    private static int nextId;
+    /// <summary>
+    /// The identification number.
+    /// </summary>
+    public int Id { get; } = nextId++;
 }

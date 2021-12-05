@@ -28,7 +28,7 @@ namespace _3D_Engine.Entities.SceneObjects;
 /// <summary>
 /// An abstract base class that defines objects of type <see cref="SceneObject"/>.
 /// </summary>
-public abstract partial class SceneObject : IList<SceneObject>
+public abstract partial class SceneObject : Entity, IList<SceneObject>
 {
     #region Fields and Properties
 
@@ -64,12 +64,7 @@ public abstract partial class SceneObject : IList<SceneObject>
     }
     internal bool HasDirectionArrows { get; set; }
 
-    // Id
-    private static int nextId;
-    /// <summary>
-    /// The identification number.
-    /// </summary>
-    public int Id { get; } = nextId++;
+    
 
     // Matrices
     public Matrix4x4 ModelToWorld { get; internal set; }

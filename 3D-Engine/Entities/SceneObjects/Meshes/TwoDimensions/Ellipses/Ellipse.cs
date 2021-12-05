@@ -12,6 +12,7 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                 resolution = value;
                 RequestNewRenders();
 
-                GenerateVertices();
+                Structure.Vertices = GenerateVertices();
             }
         }
 
@@ -67,7 +68,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                        Orientation worldOrientation,
                        float majorAxis,
                        float minorAxis,
-                       int resolution) : base(worldOrigin, worldOrientation, 2)
+                       int resolution) : base(worldOrigin, worldOrientation, GenerateStructure())
         {
             MajorAxis = majorAxis;
             MinorAxis = minorAxis;
@@ -84,17 +85,26 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         #region Methods
 
-        protected override IList<Vertex> GenerateVertices()
+        private static MeshStructure GenerateStructure()
+        {
+            IList<Vertex> vertices = GenerateVertices();
+            IList<Edge> edges = GenerateEdges();
+            IList<Face> faces = GenerateFaces();
+
+            return new MeshStructure(Dimension.Two, vertices, edges, faces);
+        }
+
+        private static IList<Vertex> GenerateVertices()
         {
 
         }
 
-        protected override IList<Edge> GenerateEdges()
+        private static IList<Edge> GenerateEdges()
         {
 
         }
 
-        protected override IList<Face> GenerateFaces()
+        private static IList<Face> GenerateFaces()
         {
 
         }
