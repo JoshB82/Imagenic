@@ -17,22 +17,28 @@ using System.Diagnostics;
 
 namespace _3D_Engine.Utilities
 {
-    internal static class DisplayMessage<T> where T : IVerbose, new()
+    internal class MessageBuilder<T> where T : IVerbose, new()
     {
         private const string projectName = "3D-Engine";
         private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
 
-        internal static void WithParameters(params string[] parameters)
-        {
-            if (Properties.Settings.Default.Verbosity == Verbosity.None)
-            {
-                return;
-            }
+        private string Message { get; set; }
 
-            Trace.WriteLine($"[{GetTime()}] [{projectName}] {GetMessageWithParameters(parameters)}");
+        internal MessageBuilder(bool includeTime = true)
+        {
+            if (includeTime)
+            {
+                Message = $"[{GetTime()}]";
+            }
         }
 
-        internal static void WithType<U>()
+        internal MessageBuilder<T> AddType(Type type)
+        {
+            Message = $"[{type}] {Message}";
+            return this;
+        }
+
+        internal MessageBuilder<T> AddType<U>()
         {
             if (Properties.Settings.Default.Verbosity == Verbosity.None)
             {
@@ -40,7 +46,23 @@ namespace _3D_Engine.Utilities
             }
 
             Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {GetMessage()}");
+
+            return this;
         }
+
+        internal MessageBuilder<T> AddParameters(params string[] parameters)
+        {
+            if (Properties.Settings.Default.Verbosity == Verbosity.None)
+            {
+                return;
+            }
+
+            Trace.WriteLine($"[{GetTime()}] [{projectName}] {GetMessageWithParameters(parameters)}");
+
+            return this;
+        }
+
+        
 
         internal static void WithTypeAndParameters<U>(params string[] parameters)
         {
@@ -67,6 +89,11 @@ namespace _3D_Engine.Utilities
         private static string GetMessageWithParameters(string[] parameters)
         {
             return string.Format(GetMessage(), parameters);
+        }
+
+        internal string Build()
+        {
+            return Message;
         }
     }
 

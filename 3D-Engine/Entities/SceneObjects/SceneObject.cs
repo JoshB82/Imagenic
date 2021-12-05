@@ -184,7 +184,7 @@ public abstract partial class SceneObject : IList<SceneObject>
 
         #if DEBUG
 
-        DisplayMessage<EntityCreatedMessage>.WithTypeAndParameters<SceneObject>(worldOrigin.ToString());
+        MessageBuilder<EntityCreatedMessage>.WithTypeAndParameters<SceneObject>(worldOrigin.ToString());
 
         #endif
     }

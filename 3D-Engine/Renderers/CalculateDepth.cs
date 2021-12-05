@@ -41,7 +41,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
         internal void CalculateDepth(SceneObject sceneObject)
         {
-            DisplayMessage<GeneratingDepthValuesMessage>.WithType<SceneObject>();
+            MessageBuilder<GeneratingDepthValuesMessage>.WithType<SceneObject>();
 
             ResetBuffers();
 
@@ -140,7 +140,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
             #if DEBUG
 
-            DisplayMessage<GeneratedDepthValuesMessage>.WithType<SceneObject>();
+            MessageBuilder<GeneratedDepthValuesMessage>.WithType<SceneObject>();
 
             #endif
         }
