@@ -22,28 +22,38 @@ namespace _3D_Engine.Utilities
         private const string projectName = "3D-Engine";
         private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
 
-        private string Message { get; set; }
+        private string message;
 
-        internal MessageBuilder(bool includeTime = true)
+        private void AddToMessage(string value)
+        {
+            if (message is not null)
+            {
+                message += " ";
+            }
+            message += value;
+        }
+
+        internal MessageBuilder(bool includeTime = true, bool includeProjectName = true)
         {
             if (includeTime)
             {
-                Message = $"[{GetTime()}]";
+                AddToMessage($"[{GetTime()}]");
+            }
+            if (includeProjectName)
+            {
+                AddToMessage($"[{projectName}]");
             }
         }
 
         internal MessageBuilder<T> AddType(Type type)
         {
-            Message = $"[{type}] {Message}";
+            AddToMessage($"[{type}]");
             return this;
         }
 
         internal MessageBuilder<T> AddType<U>()
         {
-            if (Properties.Settings.Default.Verbosity == Verbosity.None)
-            {
-                return;
-            }
+            Message = $"[{type}] {Message}";
 
             Trace.WriteLine($"[{GetTime()}] [{projectName}] [{typeof(U)}] {GetMessage()}");
 
@@ -52,10 +62,7 @@ namespace _3D_Engine.Utilities
 
         internal MessageBuilder<T> AddParameters(params string[] parameters)
         {
-            if (Properties.Settings.Default.Verbosity == Verbosity.None)
-            {
-                return;
-            }
+            
 
             Trace.WriteLine($"[{GetTime()}] [{projectName}] {GetMessageWithParameters(parameters)}");
 
@@ -93,8 +100,20 @@ namespace _3D_Engine.Utilities
 
         internal string Build()
         {
-            return Message;
+            if (Properties.Settings.Default.Verbosity == Verbosity.None)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return message;
+            }
         }
+    }
+
+    internal static class MessageHelper
+    {
+        internal static void DisplayInConsole(this string message) => Trace.WriteLine(message);
     }
 
     #region Messages
