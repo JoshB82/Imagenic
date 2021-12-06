@@ -24,13 +24,15 @@ namespace _3D_Engine.Utilities
 
         private string message;
 
-        private void AddToMessage(string value)
+        private string[] parameters;
+
+        private string AddToMessage(string value)
         {
             if (message is not null)
             {
                 message += " ";
             }
-            message += value;
+            return message += value;
         }
 
         internal MessageBuilder(bool includeTime = true, bool includeProjectName = true)
@@ -62,7 +64,7 @@ namespace _3D_Engine.Utilities
 
         internal MessageBuilder<T> AddParameters(params string[] parameters)
         {
-            
+            this.parameters = parameters;
 
             Trace.WriteLine($"[{GetTime()}] [{projectName}] {GetMessageWithParameters(parameters)}");
 
@@ -93,27 +95,34 @@ namespace _3D_Engine.Utilities
             };
         }
 
-        private static string GetMessageWithParameters(string[] parameters)
-        {
-            return string.Format(GetMessage(), parameters);
-        }
-
         internal string Build()
         {
             if (Properties.Settings.Default.Verbosity == Verbosity.None)
             {
                 return string.Empty;
             }
+            else if (parameters is null)
+            {
+                return AddToMessage(GetMessage());
+            }
             else
             {
-                return message;
+                return AddToMessage(string.Format(GetMessage(), parameters));
             }
         }
     }
 
     internal static class MessageHelper
     {
-        internal static void DisplayInConsole(this string message) => Trace.WriteLine(message);
+        internal static void DisplayInConsole(this string message)
+        {
+            if (message == string.Empty)
+            {
+                return;
+            }
+
+            Trace.WriteLine(message);
+        }
     }
 
     #region Messages
