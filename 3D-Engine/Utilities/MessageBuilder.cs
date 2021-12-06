@@ -39,7 +39,7 @@ namespace _3D_Engine.Utilities
         {
             if (includeTime)
             {
-                AddToMessage($"[{GetTime()}]");
+                message = $"[{GetTime()}]";
             }
             if (includeProjectName)
             {
