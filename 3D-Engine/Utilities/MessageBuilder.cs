@@ -87,6 +87,11 @@ internal class MessageBuilder<T> where T : IVerbose, new()
             return AddToMessage(string.Format(GetMessage(), parameters));
         }
     }
+
+    internal U BuildIntoException<U>() where U : Exception
+    {
+        return Activator.CreateInstance(typeof(U), Build()) as U;
+    }
 }
 
 internal static class MessageHelper
