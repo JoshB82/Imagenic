@@ -179,7 +179,7 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
 
         #if DEBUG
 
-        MessageBuilder<EntityCreatedMessage>.WithTypeAndParameters<SceneObject>(worldOrigin.ToString());
+        new MessageBuilder<EntityCreatedMessage>().AddType(this.GetType()).AddParameters(worldOrigin.ToString()).Build().DisplayInConsole();
 
         #endif
     }
