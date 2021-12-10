@@ -161,7 +161,7 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
 
     #region Constructors
 
-    internal SceneObject(Vector3D worldOrigin,
+    protected SceneObject(Vector3D worldOrigin,
                             Orientation worldOrientation,
                             bool hasDirectionArrows = true)
     {
@@ -179,7 +179,11 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
 
         #if DEBUG
 
-        new MessageBuilder<EntityCreatedMessage>().AddType(this.GetType()).AddParameters(worldOrigin.ToString()).Build().DisplayInConsole();
+        new MessageBuilder<EntityCreatedMessage>()
+            .AddType(this.GetType())
+            .AddParameters(worldOrigin.ToString())
+            .Build()
+            .DisplayInConsole();
 
         #endif
     }
