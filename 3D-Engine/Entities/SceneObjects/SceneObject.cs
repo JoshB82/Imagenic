@@ -138,9 +138,7 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
     public void RemoveAt(int index)
     {
         Children.RemoveAt(index);
-    }
-
-        
+    }   
 
     public bool Contains(SceneObject item)
     {
@@ -205,7 +203,7 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
         return copy;
     }
 
-    internal virtual void CalculateModelToWorldMatrix()
+    protected virtual void CalculateModelToWorldMatrix()
     {
         Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(Orientation.ModelDirectionForward, worldOrientation.DirectionForward);
         Matrix4x4 directionUpRotation = Transform.RotateBetweenVectors((Vector3D)(directionForwardRotation * Orientation.ModelDirectionUp), worldOrientation.DirectionUp);
