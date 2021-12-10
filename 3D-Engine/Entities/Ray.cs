@@ -1,8 +1,8 @@
-﻿using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace _3D_Engine.Entities;
@@ -25,9 +25,19 @@ public class Ray : Entity
         Direction = direction;
     }
 
+    public Ray(Vector3D point1, Vector3D point2)
+    {
+
+    }
+
     #endregion
 
     #region Methods
+
+    public bool DoesIntersect(Triangle triangle)
+    {
+
+    }
 
     #endregion
 }

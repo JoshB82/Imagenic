@@ -1,5 +1,6 @@
 ﻿using _3D_Engine.Entities;
 using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths.Vectors;
 using System;
@@ -12,7 +13,7 @@ namespace _3D_Engine.Renderers.RayTracing
 {
     public partial class RayTracer
     {
-        internal static async Task<Bitmap> CastRays(SceneObject sceneObject, Camera camera)
+        internal static async Task<Image> CastRays(IEnumerable<Triangle> triangles, Camera camera)
         {
             SceneObject scene = sceneObject.DeepCopy(); // ??
             sceneObject.RemoveChildren(x => !x.Visible || x is Camera); // ??
