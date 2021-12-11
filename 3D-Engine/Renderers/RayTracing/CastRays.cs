@@ -3,6 +3,7 @@ using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths.Vectors;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,32 +35,46 @@ namespace _3D_Engine.Renderers.RayTracing
             }
         }
 
-        internal static void CastRay(IEnumerable<Triangle> triangles, Vector3D startPosition, Vector3D direction, out int rayCount)
+        internal static void CastRay(IEnumerable<Triangle> triangles, Vector3D point1, Vector3D point2, out int rayCount)
         {
             rayCount = 0;
 
-            Ray ray = new Ray(startPosition, direction);
+            Ray ray = new Ray(point1, point2);
 
             int numTasks = 4; // Make configurable.
-            IEnumerable<Triangle[]> triangleBatches = triangles.Chunk(triangles.Count() / numTasks);
-
-
             Task[] tasks = new Task[numTasks];
+            List<Triangle[]> triangleBatches = triangles.Chunk(triangles.Count() / numTasks).ToList();
 
-            foreach (Triangle[] triangleBatch in triangleBatches)
+            for (int i = 0; i < triangleBatches.Count; i++)
             {
                 tasks[i] = Task.Factory.StartNew(() =>
                 {
-                    if (ray.DoesIntersect())
+                    foreach (Triangle triangle in triangleBatches[i])
                     {
-                        return new Ray(,, out rayCount++);
+                        Vector3D? closestIntersection = null;
+                        float smallestDistance = 100; // ??
+
+                        if (ray.DoesIntersect(triangle, out Vector3D intersection))
+                        {
+                            float distance = intersection.DistanceFrom(point1);
+                            if (distance < smallestDistance)
+                            {
+                                smallestDistance = distance;
+                                closestIntersection = intersection;
+                            }
+
+                            rayCount++;
+                            
+                        }
+
+                        return closestIntersection;
                     }
                 });
-            }
 
-            for (int i = 0; i < numTasks - 1; i++)
-            {
-                
+                tasks[i].ContinueWith(task =>
+                {
+                    CastRay(task.Result, out rayCount);
+                });
             }
 
             Task.WaitAll(tasks);

@@ -193,6 +193,8 @@ namespace _3D_Engine.Maths.Vectors
 
         public static float PointDistanceFromPlane(Vector3D point, Vector3D planePoint, Vector3D planeNormal) => point * planeNormal - planePoint * planeNormal;
 
+        public float DistanceFrom(Vector3D point) => (this - point).Magnitude();
+
         #endregion
 
         #region Operator Overloading
