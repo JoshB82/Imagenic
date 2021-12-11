@@ -34,17 +34,19 @@ namespace _3D_Engine.Renderers.RayTracing
             }
         }
 
-        internal static void CastRay(Vector3D startPosition, Vector3D direction, out int rayCount)
+        internal static void CastRay(IEnumerable<Triangle> triangles, Vector3D startPosition, Vector3D direction, out int rayCount)
         {
             rayCount = 0;
 
             Ray ray = new Ray(startPosition, direction);
 
             int numTasks = 4; // Make configurable.
+            IEnumerable<Triangle[]> triangleBatches = triangles.Chunk(triangles.Count() / numTasks);
+
 
             Task[] tasks = new Task[numTasks];
 
-            for (int i = 0; i < numTasks - 1; i++)
+            foreach (Triangle[] triangleBatch in triangleBatches)
             {
                 tasks[i] = Task.Factory.StartNew(() =>
                 {
@@ -53,6 +55,11 @@ namespace _3D_Engine.Renderers.RayTracing
                         return new Ray(,, out rayCount++);
                     }
                 });
+            }
+
+            for (int i = 0; i < numTasks - 1; i++)
+            {
+                
             }
 
             Task.WaitAll(tasks);
