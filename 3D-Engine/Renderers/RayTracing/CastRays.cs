@@ -29,14 +29,33 @@ namespace _3D_Engine.Renderers.RayTracing
             {
                 for (int j = 0; j < camera.RenderHeight; j++)
                 {
-                    CastRay(camera.WorldOrigin, );
+                    //CastRay(camera.WorldOrigin, );
                 }
             }
         }
 
-        internal static void CastRay(Vector3D startPosition, Vector3D direction)
+        internal static void CastRay(Vector3D startPosition, Vector3D direction, out int rayCount)
         {
+            rayCount = 0;
+
             Ray ray = new Ray(startPosition, direction);
+
+            int numTasks = 4; // Make configurable.
+
+            Task[] tasks = new Task[numTasks];
+
+            for (int i = 0; i < numTasks - 1; i++)
+            {
+                tasks[i] = Task.Factory.StartNew(() =>
+                {
+                    if (ray.DoesIntersect())
+                    {
+                        return new Ray(,, out rayCount++);
+                    }
+                });
+            }
+
+            Task.WaitAll(tasks);
         }
     }
 }
