@@ -10,6 +10,8 @@
  * Defines a two-dimensional buffer called Buffer2D that holds values of type T.
  */
 
+using System;
+
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
 {
     public class Buffer2D<T>
@@ -76,6 +78,17 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
         }
 
         public void SetAllToDefault() => SetAllToValue(default);
+
+        public void ForEach(Action<T> action)
+        {
+            for (int i = 0; i < firstDimensionSize; i++)
+            {
+                for (int j = 0; j < secondDimensionSize; j++)
+                {
+                    action(Values[i][j]);
+                }
+            }
+        }
 
         #endregion
     }
