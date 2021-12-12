@@ -15,25 +15,25 @@ namespace _3D_Engine.Renderers.RayTracing
 {
     public partial class RayTracer
     {
+        internal const int maxRayCount = 5;
+
         internal static async Task<Image> CastRays(IEnumerable<Triangle> triangles, Camera camera)
         {
             SceneObject scene = sceneObject.DeepCopy(); // ??
             sceneObject.RemoveChildren(x => !x.Visible || x is Camera); // ??
 
-            foreach (SceneObject child in sceneObject.GetAllChildren())
-            {
-                
-                
-
-                
-            }
-
             Buffer2D<Task<bool>> taskBuffer = new Buffer2D<Task<bool>>(camera.RenderWidth, camera.RenderHeight);
+
 
             taskBuffer.ForEach(task =>
             {
-
+                task = Task.Factory.StartNew(() =>
+                {
+                    return CastRay();
+                });
             });
+
+            Task.WaitAll((Task<bool>[])taskBuffer);
 
             for (int i = 0; i < camera.RenderWidth; i++)
             {
@@ -89,11 +89,10 @@ namespace _3D_Engine.Renderers.RayTracing
 
             Task.WaitAll(tasks);
 
-            if (closestIntersection is not null)
+            if (closestIntersection is not null && rayCount < maxRayCount)
             {
                 rayCount++;
-                CastRay(closestIntersection, out rayCount);
-                return true;
+                return CastRay(triangles, closestIntersection, out rayCount);
             }
             else
             {

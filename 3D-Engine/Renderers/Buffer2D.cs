@@ -90,6 +90,28 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
             }
         }
 
+        public void ForEach(Action<T, int, int> action)
+        {
+            for (int i = 0; i < firstDimensionSize; i++)
+            {
+                for (int j = 0; j < secondDimensionSize; j++)
+                {
+                    action(Values[i][j], i, j);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Casting
+
+        public static explicit operator T[](Buffer2D<T> buffer)
+        {
+            T[] array = new T[buffer.firstDimensionSize * buffer.secondDimensionSize];
+            buffer.ForEach((t, i, j) => array[i * buffer.firstDimensionSize + j] = buffer.Values[i][j]);
+            return array;
+        }
+
         #endregion
     }
 }
