@@ -3,6 +3,7 @@ using _3D_Engine.Images.ImageOptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _3D_Engine.Renderers
@@ -17,7 +18,7 @@ namespace _3D_Engine.Renderers
 
         #region Methods
 
-        public async override Task<T> Render<T>(IImageOptions<T> imageOptions, RenderingOptions options)
+        public async override Task<T> Render<T>(IImageOptions<T> imageOptions, RenderingOptions options, CancellationToken token)
         {
 
         }

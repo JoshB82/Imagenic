@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _3D_Engine.Renderers.RayTracing
@@ -17,7 +18,7 @@ namespace _3D_Engine.Renderers.RayTracing
     {
         internal const int maxRayCount = 5;
 
-        internal static async Task<Buffer2D<Color>> CastRays(IEnumerable<Triangle> triangles, IEnumerable<Light> lights, Camera camera)
+        internal static async Task<Buffer2D<Color>> CastRays(IEnumerable<Triangle> triangles, IEnumerable<Light> lights, Camera camera, CancellationToken token)
         {
             SceneObject scene = sceneObject.DeepCopy(); // ??
             sceneObject.RemoveChildren(x => !x.Visible || x is Camera); // ??
@@ -29,7 +30,7 @@ namespace _3D_Engine.Renderers.RayTracing
             {
                 task = Task.Factory.StartNew(() =>
                 {
-                    if (CastRay(triangles, ))
+                    if (CastRay(triangles, token))
                     {
                         colourBuffer.Values[][] = ;
                     }
@@ -41,8 +42,13 @@ namespace _3D_Engine.Renderers.RayTracing
             return colourBuffer;
         }
 
-        internal static bool CastRay(IEnumerable<Triangle> triangles, Vector3D point1, Vector3D point2, out int rayCount)
+        internal static bool? CastRay(IEnumerable<Triangle> triangles, Vector3D point1, Vector3D point2, out int rayCount, CancellationToken token)
         {
+            if (token.IsCancellationRequested)
+            {
+                return null;
+            }
+
             rayCount = 0;
 
             Ray ray = new Ray(point1, point2);
