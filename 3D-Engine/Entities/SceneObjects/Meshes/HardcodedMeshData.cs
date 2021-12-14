@@ -84,6 +84,18 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
             })
         };
 
+        // Line
+        internal static readonly IList<Vertex> LineVertices = new Vertex[2]
+        {
+            new Vertex(Vector4D.UnitW), // 0
+            new Vertex(Vector4D.One) // 1
+        };
+
+        internal static readonly IList<Edge> LineEdges = new Edge[1]
+        {
+            new SolidEdge(LineVertices[0], LineVertices[1]) // 0
+        };
+
         // Plane
         internal static readonly IList<Vertex> PlaneVertices = new Vertex[4]
         {

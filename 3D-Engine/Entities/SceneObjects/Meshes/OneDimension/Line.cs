@@ -12,6 +12,7 @@
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
@@ -58,24 +59,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         }
 
-        
-
-        
-
-        public Line(Vector3D start_position, Vector3D end_position) : base(start_position, Vector3D.UnitZ, Vector3D.UnitY)
+        public Line(Vector3D startPosition, Vector3D endPosition, Orientation worldOrientation) : base(startPosition, worldOrientation, GenerateStructure())
         {
-            Dimension = 2;
-
-            StartPosition = start_position;
-            EndPosition = end_position;
-
-            Vertices = new Vertex[2]
-            {
-                new Vertex(new Vector4D(0, 0, 0, 1)), // 0
-                new Vertex(new Vector4D(1, 1, 1, 1)) // 1
-            };
-
-            Edges = new Edge[1] { new Edge(Vertices[0], Vertices[1]) };
+            StartPosition = startPosition;
+            EndPosition = endPosition;
 
             DrawFaces = false;
         }
@@ -100,11 +87,12 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         private static IList<Vertex> GenerateVertices()
         {
+            return HardcodedMeshData.LineVertices;
         }
 
         private static IList<Edge> GenerateEdges()
         {
-
+            return HardcodedMeshData.LineEdges;
         }
 
         #endregion

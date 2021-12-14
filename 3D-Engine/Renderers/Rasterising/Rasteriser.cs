@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace _3D_Engine.Renderers
 {
-    public class Rasteriser : Renderer
+    public class Rasteriser<T> : Renderer<T> where T : Image
     {
         #region Fields and Properties
         

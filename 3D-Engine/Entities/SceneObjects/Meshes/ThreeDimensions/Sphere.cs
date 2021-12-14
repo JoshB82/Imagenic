@@ -1,6 +1,9 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Enums;
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using System.Collections.Generic;
 using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
@@ -16,13 +19,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         //public int Res_Lat { get; set; }
         //public int Res_Long { get; set; }
 
+        public SphereConstruction Construction { get; set; }
+
         #endregion
 
         #region Constructors
 
-        public Sphere(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float radius) : base(origin, directionForward, directionUp)
+        public Sphere(Vector3D worldOrigin, Orientation worldOrientation, float radius) : base(worldOrigin, worldOrientation)
         {
-            Dimension = 3;
             Radius = radius;
         }
 
@@ -55,6 +59,34 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             //Faces = new Face[];
 
         }*/
+
+        #endregion
+
+        #region Methods
+
+        private static MeshStructure GenerateStructure()
+        {
+            IList<Vertex> vertices = GenerateVertices();
+            IList<Edge> edges = GenerateEdges();
+            IList<Face> faces = GenerateFaces();
+
+            return new MeshStructure(Dimension.Three, vertices, edges, faces);
+        }
+
+        private static IList<Vertex> GenerateVertices()
+        {
+            return null; // TODO: Finish
+        }
+
+        private static IList<Edge> GenerateEdges()
+        {
+            return null; // TODO: Finish
+        }
+
+        private static IList<Face> GenerateFaces()
+        {
+            return null; // TODO: Finish
+        }
 
         #endregion
     }

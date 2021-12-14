@@ -1,9 +1,8 @@
-﻿namespace _3D_Engine.Enums
+﻿namespace _3D_Engine.Enums;
+
+public enum SphereConstruction
 {
-    public enum SphereConstruction
-    {
-        SectorsAndStacks,
-        Icosahedron,
-        Cube
-    }
+    SectorsAndStacks,
+    Icosahedron,
+    Cube
 }
