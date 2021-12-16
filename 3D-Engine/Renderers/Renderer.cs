@@ -1,9 +1,11 @@
-﻿using _3D_Engine.Entities.SceneObjects;
+﻿using _3D_Engine.Constants;
+using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
+using _3D_Engine.Utilities;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +26,13 @@ public abstract class Renderer<T> where T : Image
         get => sceneObjectsToRender;
         set
         {
+            if (value == sceneObjectsToRender) return;
+            if (value is null)
+            {
+                throw new MessageBuilder<ParameterCannotBeNullException>()
+                    .AddParameters(nameof(value))
+                    .BuildIntoException<ParameterCannotBeNullException>();
+            }
             sceneObjectsToRender = value;
 
             TriangleBuffer.Clear();

@@ -77,7 +77,7 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
             if (value == worldOrientation) return;
             if (value is null)
             {
-                new MessageBuilder<ParameterCannotBeNullException>()
+                throw new MessageBuilder<ParameterCannotBeNullException>()
                     .AddParameters(nameof(value))
                     .BuildIntoException<ParameterCannotBeNullException>();
             }
