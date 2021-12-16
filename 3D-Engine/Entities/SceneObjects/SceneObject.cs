@@ -64,8 +64,6 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
     }
     internal bool HasDirectionArrows { get; set; }
 
-    
-
     // Matrices
     public Matrix4x4 ModelToWorld { get; internal set; }
 
@@ -79,7 +77,9 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
             if (value == worldOrientation) return;
             if (value is null)
             {
-                throw GenerateException<ParameterCannotBeNullException>.WithParameters(nameof(value));
+                new MessageBuilder<ParameterCannotBeNullException>()
+                    .AddParameters(nameof(value))
+                    .BuildIntoException<ParameterCannotBeNullException>();
             }
             worldOrientation = value;
             CalculateModelToWorldMatrix();
@@ -115,20 +115,9 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
         }
     }
 
-    public IEnumerator<SceneObject> GetEnumerator()
-    {
-        return Children.GetEnumerator();
-    }
+    
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    public int IndexOf(SceneObject item)
-    {
-        return Children.IndexOf(item);
-    }
+    
 
     public void Insert(int index, SceneObject item)
     {
@@ -140,15 +129,9 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
         Children.RemoveAt(index);
     }   
 
-    public bool Contains(SceneObject item)
-    {
-        return Children.Contains(item);
-    }
+    
 
-    public void CopyTo(SceneObject[] array, int arrayIndex)
-    {
-        Children.CopyTo(array, arrayIndex);
-    }
+    
 
     public bool Remove(SceneObject item)
     {
@@ -160,8 +143,8 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
     #region Constructors
 
     protected SceneObject(Vector3D worldOrigin,
-                            Orientation worldOrientation,
-                            bool hasDirectionArrows = true)
+                          Orientation worldOrientation,
+                          bool hasDirectionArrows = true)
     {
         if (HasDirectionArrows = hasDirectionArrows)
         {
@@ -189,6 +172,31 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
     #endregion
 
     #region Methods
+
+    public bool Contains(SceneObject item)
+    {
+        return Children.Contains(item);
+    }
+
+    public void CopyTo(SceneObject[] array, int arrayIndex)
+    {
+        Children.CopyTo(array, arrayIndex);
+    }
+
+    public int IndexOf(SceneObject item)
+    {
+        return Children.IndexOf(item);
+    }
+
+    public IEnumerator<SceneObject> GetEnumerator()
+    {
+        return Children.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     public SceneObject ShallowCopy()
     {

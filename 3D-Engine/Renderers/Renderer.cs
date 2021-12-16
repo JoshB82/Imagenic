@@ -1,4 +1,6 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Entities.SceneObjects.Meshes;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
@@ -14,11 +16,37 @@ public abstract class Renderer<T> where T : Image
 
     internal bool NewRenderNeeded { get; set; }
 
-    internal IEnumerable<Triangle> TriangleBuffer { get; set; }
+    internal List<Triangle> TriangleBuffer { get; set; }
 
-    public SceneObject SceneObjectsToRender { get; set; }
+    private SceneObject sceneObjectsToRender;
+    public SceneObject SceneObjectsToRender
+    {
+        get => sceneObjectsToRender;
+        set
+        {
+            sceneObjectsToRender = value;
+
+            TriangleBuffer.Clear();
+            foreach (Mesh child in sceneObjectsToRender.GetAllChildrenAndSelf<Mesh>(x => x.Visible))
+            {
+                foreach (Face face in child.Structure.Faces)
+                {
+                    TriangleBuffer.AddRange(face.Triangles);
+                }
+            }
+        }
+    }
     public IImageOptions<T> ImageOptions { get; set; }
     public RenderingOptions RenderingOptions { get; set; }
+
+    #endregion
+
+    #region Constructors
+
+    public Renderer(SceneObject toRender)
+    {
+        SceneObjectsToRender = toRender;
+    }
 
     #endregion
 
