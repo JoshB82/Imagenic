@@ -109,6 +109,13 @@ internal static class MessageHelper
 
 #region Messages
 
+internal class ParameterNotSupportedMessage : IVerbose
+{
+    public string BriefVerbosityText { get; set; } = "Parameter not supported.";
+    public string DetailedVerbosityText { get; set; } = "{0} is not supported.";
+    public string AllVerbosityText { get; set; } = "The parameter {0} is not supported.";
+}
+
 internal class OrientationChangedMessage : IVerbose
 {
     public string BriefVerbosityText { get; set; } = "Changed orientation.";
