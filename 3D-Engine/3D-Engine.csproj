@@ -52,4 +52,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Loaders\Fonts\" />
+    <Folder Include="Loaders\Images\" />
+  </ItemGroup>
+
 </Project>

@@ -10,7 +10,7 @@ using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
-    public class Sphere : Mesh
+    public abstract class Sphere : Mesh
     {
         #region Fields and Properties
 
@@ -27,6 +27,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Constructors
 
+        protected Sphere(Vector3D worldOrigin, Orientation worldOrientation, MeshStructure structure, float radius) : base(worldOrigin, worldOrientation, structure)
+        {
+            Radius = radius;
+        }
+
         public Sphere(Vector3D worldOrigin, Orientation worldOrientation, float radius, SphereConstruction construction = SphereConstruction.SectorsAndStacks) : base(worldOrigin, worldOrientation, GenerateStructure(construction))
         {
             Radius = radius;
@@ -38,55 +43,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         #region Methods
 
-        private static MeshStructure GenerateStructure(SphereConstruction construction)
-        {
-            IList<Vertex> vertices = GenerateVertices(construction);
-            IList<Edge> edges = GenerateEdges();
-            IList<Face> faces = GenerateFaces();
-
-            return new MeshStructure(Dimension.Three, vertices, edges, faces);
-        }
-
-        private static IList<Vertex> GenerateVertices(SphereConstruction construction, int latResolution, int longResolution)
-        {
-            switch (construction)
-            {
-                case SphereConstruction.SectorsAndStacks:
-                    IList<Vertex> vertices = new Vertex[latResolution * longResolution];
-
-                    float latAngleStep = 2 * PI / latResolution;
-                    float longAngleStep = PI / longResolution;
-
-                    for (int i = 0; i < longResolution; i++)
-                    {
-                        float longAngle = longAngleStep * i - PI / 2;
-
-                        for (int j = 0; j < latResolution; j++)
-                        {
-                            float latAngle = latAngleStep * j;
-
-                            float x = Cos(latAngle) * Cos(longAngle);
-                            float y = Sin(latAngle) * Cos(longAngle);
-                            float z = Sin(longAngle);
-
-                            vertices[i * longResolution + j] = new Vertex(new Vector4D(x, y, z, 1));
-                        }
-                    }
-
-                    break;
-                case SphereConstruction.Icosahedron:
-                    break;
-                case SphereConstruction.Cube:
-                    break;
-                default:
-                    throw new MessageBuilder<ParameterNotSupportedMessage>()
-                        .AddParameters(nameof(construction))
-                        .BuildIntoException<ArgumentException>();
-                        
-            }
-
-            return null; // TODO: Finish
-        }
+        
 
         private static IList<Edge> GenerateEdges()
         {
