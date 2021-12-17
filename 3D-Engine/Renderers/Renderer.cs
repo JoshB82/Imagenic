@@ -12,11 +12,14 @@ using System.Threading.Tasks;
 
 namespace _3D_Engine.Renderers;
 
-public abstract class Renderer<T> where T : Image
+public abstract class Renderer
+{
+    internal bool NewRenderNeeded { get; set; }
+}
+
+public abstract class Renderer<T> : Renderer where T : Image
 {
     #region Fields and Properties
-
-    internal bool NewRenderNeeded { get; set; }
 
     internal List<Triangle> TriangleBuffer { get; set; }
 

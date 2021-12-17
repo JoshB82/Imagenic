@@ -93,7 +93,7 @@ public abstract partial class Mesh : SceneObject
 
         foreach (RenderingObject renderingObject in HeadedRenderingObjects)
         {
-            foreach (Camera camera in renderingObject.RenderCameras)
+            foreach (Camera camera in renderingObject.Renderers)
             {
                 camera.NewRenderNeeded = true;
             }

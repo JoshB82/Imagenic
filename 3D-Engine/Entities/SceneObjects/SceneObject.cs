@@ -17,6 +17,7 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Renderers;
 using _3D_Engine.Utilities;
 using System.Collections;
 using System.Collections.Generic;
@@ -106,18 +107,14 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
     }
 
     // Render Camera
-    internal List<Camera> RenderCameras { get; set; } = new();
+    internal List<Renderer> Renderers { get; set; } = new();
     internal virtual void RequestNewRenders()
     {
-        foreach (Camera camera in RenderCameras)
+        foreach (Renderer renderer in Renderers)
         {
-            camera.NewRenderNeeded = true;
+            renderer.NewRenderNeeded = true;
         }
     }
-
-    
-
-    
 
     public void Insert(int index, SceneObject item)
     {
@@ -127,12 +124,8 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
     public void RemoveAt(int index)
     {
         Children.RemoveAt(index);
-    }   
-
+    }
     
-
-    
-
     public bool Remove(SceneObject item)
     {
         return Children.Remove(item);
@@ -206,8 +199,8 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
     public SceneObject DeepCopy()
     {
         SceneObject copy = ShallowCopy();
-        copy.RenderCameras = new List<Camera>();
-        copy.RenderCameras.AddRange(this.RenderCameras);
+        copy.Renderers = new List<Camera>();
+        copy.Renderers.AddRange(this.Renderers);
         return copy;
     }
 
