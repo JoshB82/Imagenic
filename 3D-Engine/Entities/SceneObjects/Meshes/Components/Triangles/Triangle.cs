@@ -13,13 +13,17 @@
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Renderers;
 using System;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
 {
-    public abstract class Triangle
+    public abstract class Triangle : Entity
     {
         #region Fields and Properties
+
+        internal List<RendererBase> Renderers { get; set; }
 
         // Appearance
         public bool DrawOutline { get; set; } = false;

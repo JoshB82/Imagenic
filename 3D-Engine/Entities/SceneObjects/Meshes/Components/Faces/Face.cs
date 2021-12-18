@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
 
-public class Face
+public sealed class Face : Entity
 {
     #region Fields and Properties
 

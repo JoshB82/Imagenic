@@ -107,10 +107,10 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
     }
 
     // Render Camera
-    internal List<Renderer> Renderers { get; set; } = new();
+    internal List<RendererBase> Renderers { get; set; } = new();
     internal virtual void RequestNewRenders()
     {
-        foreach (Renderer renderer in Renderers)
+        foreach (RendererBase renderer in Renderers)
         {
             renderer.NewRenderNeeded = true;
         }

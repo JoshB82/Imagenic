@@ -17,7 +17,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
 /// <summary>
 /// Encapsulates creation of an <see cref="Vertex"/>.
 /// </summary>
-public sealed class Vertex
+public sealed class Vertex : Entity
 {
     #region Fields and Properties
 
