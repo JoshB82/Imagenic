@@ -24,6 +24,16 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
+        public override Orientation WorldOrientation
+        {
+            get => base.WorldOrientation;
+            set
+            {
+                base.WorldOrientation = value;
+                EndPosition = value.DirectionForward * Length + StartPosition;
+            }
+        }
+
         private Vector3D startPosition, endPosition;
 
         public Vector3D StartPosition
@@ -31,7 +41,10 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             get => startPosition;
             set
             {
+                if (value == startPosition) return;
                 startPosition = value;
+                RequestNewRenders();
+
                 Vector3D line_vector = endPosition - startPosition;
                 Scaling = new Vector3D(line_vector.x, line_vector.y, line_vector.z);
             }
@@ -48,7 +61,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
         }
 
         public float Length { get; set; } //ss
-        public Vector3D Unit_Vector { get; set; } //s
+        
 
         #endregion
 

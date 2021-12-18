@@ -1,25 +1,4 @@
-﻿/*
- *       -3D-Engine-
- *     (c) Josh Bryant
- * https://joshdbryant.com
- *
- * Full license is available in the GitHub repository:
- * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
- *
- * Code description for this file:
- * Defines a collection of SceneObjects called a Group.
- */
-
-using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Entities.SceneObjects.Meshes;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace _3D_Engine.Entities.Groups
+﻿namespace _3D_Engine.Entities.Groups
 {
     //^^ encapsulates above? And everywhere else?
 
