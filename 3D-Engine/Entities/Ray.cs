@@ -34,9 +34,17 @@ public class Ray : Entity
 
     #region Methods
 
-    public bool DoesIntersect(Triangle triangle)
+    public bool DoesIntersect(Triangle triangle, out Vector3D? intersection)
     {
-
+        Vector3D normal = Vector3D.NormalFromPlane(triangle.P1, triangle.P2, triangle.P3);
+        if ((Direction * normal).ApproxEquals(0))
+        {
+            intersection = null;
+            return false;
+        }
+        float d = ((triangle.P1 - StartPosition) * normal) / (Direction * normal);
+        intersection = d * Direction + StartPosition;
+        return true;
     }
 
     #endregion
