@@ -24,13 +24,23 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
     {
         #region Fields and Properties
 
+        public override Vector3D WorldOrigin
+        {
+            get => base.WorldOrigin;
+            set
+            {
+                base.WorldOrigin = value;
+                Scaling = endPosition - value;
+            }
+        }
+
         public override Orientation WorldOrientation
         {
             get => base.WorldOrientation;
             set
             {
                 base.WorldOrientation = value;
-                EndPosition = value.DirectionForward * Length + StartPosition;
+                endPosition = value.DirectionForward * Length + StartPosition;
             }
         }
 
@@ -49,6 +59,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                 Scaling = new Vector3D(line_vector.x, line_vector.y, line_vector.z);
             }
         }
+
         public Vector3D EndPosition
         {
             get => endPosition;
@@ -60,7 +71,17 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             }
         }
 
-        public float Length { get; set; } //ss
+        private float length;
+
+        public float Length
+        {
+            get => length;
+            set
+            {
+                length = value;
+                endPosition = WorldOrientation.DirectionForward * length + WorldOrigin;
+            }
+        }
         
 
         #endregion
@@ -69,7 +90,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         public Line(Vector3D worldOrigin, Orientation worldOrientation, float length) : base(worldOrigin, worldOrientation, GenerateStructure())
         {
-
+            Length = length;
         }
 
         public Line(Vector3D startPosition, Vector3D endPosition, Orientation worldOrientation) : base(startPosition, worldOrientation, GenerateStructure())
