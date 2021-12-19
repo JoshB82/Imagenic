@@ -82,7 +82,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                 endPosition = WorldOrientation.DirectionForward * length + WorldOrigin;
             }
         }
-        
 
         #endregion
 
@@ -99,12 +98,6 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             EndPosition = endPosition;
 
             DrawFaces = false;
-        }
-
-        public Line(Vector3D start_position, Vector3D unit_vector, float length) : this(start_position, start_position + unit_vector * length)
-        {
-            Length = length;
-            Unit_Vector = unit_vector;
         }
 
         #endregion
