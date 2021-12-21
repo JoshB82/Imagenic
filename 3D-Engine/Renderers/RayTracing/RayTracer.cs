@@ -1,4 +1,5 @@
-﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
+﻿using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
 using System;
@@ -16,7 +17,13 @@ namespace _3D_Engine.Renderers.RayTracing
 
         internal bool NewShadowMapNeeded { get; set; }
 
+        #endregion
 
+        #region Constructors
+
+        public RayTracer(SceneObject toRender, RenderingOptions renderingOptions) : this(toRender, renderingOptions, null) { }
+
+        public RayTracer(SceneObject toRender, RenderingOptions renderingOptions, IImageOptions<T> imageOptions) : base(toRender, renderingOptions, imageOptions) { }
 
         #endregion
 
@@ -25,11 +32,6 @@ namespace _3D_Engine.Renderers.RayTracing
         public async override Task<T> RenderAsync(CancellationToken token)
         {
             return await GenerateImage();
-        }
-
-        public async override Task<T> Render<T>(IImageOptions<T> imageOptions, RenderingOptions options, CancellationToken token)
-        {
-            
         }
 
         private async static Task<T> GenerateImage()

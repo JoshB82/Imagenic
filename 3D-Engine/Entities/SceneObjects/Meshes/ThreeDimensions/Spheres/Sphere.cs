@@ -1,12 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
-using _3D_Engine.Utilities;
-using System;
 using System.Collections.Generic;
-using static System.MathF;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 {
@@ -16,12 +11,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
 
         public float Radius { get; set; }
 
-        //public SphereConstruction Construction { get; }
-
         //public int Res_Lat { get; set; }
         //public int Res_Long { get; set; }
-
-        public SphereConstruction Construction { get; set; }
 
         #endregion
 
@@ -32,28 +23,9 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
             Radius = radius;
         }
 
-        public Sphere(Vector3D worldOrigin, Orientation worldOrientation, float radius, SphereConstruction construction = SphereConstruction.SectorsAndStacks) : base(worldOrigin, worldOrientation, GenerateStructure(construction))
-        {
-            Radius = radius;
-        }
-
-        
-
         #endregion
 
         #region Methods
-
-        
-
-        private static IList<Edge> GenerateEdges()
-        {
-            return null; // TODO: Finish
-        }
-
-        private static IList<Face> GenerateFaces()
-        {
-            return null; // TODO: Finish
-        }
 
         #endregion
     }
