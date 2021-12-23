@@ -192,5 +192,18 @@ public abstract partial class SceneObject
         return this.GetAllChildrenAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
     }
 
+    public void ForEach(Action<SceneObject> action, Predicate<SceneObject> predicate = null)
+    {
+        foreach (SceneObject child in this.GetAllChildrenAndSelf(predicate))
+        {
+            action(child);
+        }
+    }
+
+    public void ForEach<T>(Action<T> action, Predicate<T> predicate = null)
+    {
+        this.ForEach(action, x => x is T t && predicate(t));
+    }
+
     #endregion
 }

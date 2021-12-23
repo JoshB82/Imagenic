@@ -14,4 +14,20 @@ public abstract class Entity
     /// The identification number.
     /// </summary>
     public int Id { get; } = nextId++;
+
+    // Rendering events
+    internal event Action RenderAlteringPropertyChanged;
+    internal event Action ShadowMapAlteringPropertyChanged;
+
+    internal void InvokeRenderingEvents(bool renderEvent = true, bool shadowMapEvent = true)
+    {
+        if (renderEvent)
+        {
+            RenderAlteringPropertyChanged?.Invoke();
+        }
+        if (shadowMapEvent)
+        {
+            ShadowMapAlteringPropertyChanged?.Invoke();
+        }
+    }
 }

@@ -18,6 +18,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
 using _3D_Engine.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,10 +34,12 @@ public abstract class Renderer<T> : RendererBase where T : Image
 {
     #region Fields and Properties
 
+    private Action newRenderDelegate;
+
     internal List<Triangle> TriangleBuffer { get; set; }
 
     private SceneObject sceneObjectsToRender;
-    public SceneObject SceneObjectsToRender
+    public virtual SceneObject SceneObjectsToRender
     {
         get => sceneObjectsToRender;
         set
@@ -48,14 +51,35 @@ public abstract class Renderer<T> : RendererBase where T : Image
                     .AddParameters(nameof(value))
                     .BuildIntoException<ParameterCannotBeNullException>();
             }
+
+            sceneObjectsToRender.ForEach(s =>
+            {
+                s.RenderAlteringPropertyChanged -= newRenderDelegate;
+            });
+
             sceneObjectsToRender = value;
 
+            sceneObjectsToRender.ForEach(s =>
+            {
+                s.RenderAlteringPropertyChanged += newRenderDelegate;
+            });
+
+            foreach (Triangle triangle in TriangleBuffer)
+            {
+                triangle.RenderAlteringPropertyChanged -= newRenderDelegate;
+            }
+
             TriangleBuffer.Clear();
+
             foreach (Mesh child in sceneObjectsToRender.GetAllChildrenAndSelf<Mesh>(x => x.Visible))
             {
                 foreach (Face face in child.Structure.Faces)
                 {
                     TriangleBuffer.AddRange(face.Triangles);
+                    foreach (Triangle triangle in face.Triangles)
+                    {
+                        triangle.RenderAlteringPropertyChanged += newRenderDelegate;
+                    }
                 }
             }
         }
@@ -87,6 +111,9 @@ public abstract class Renderer<T> : RendererBase where T : Image
         SceneObjectsToRender = toRender;
         RenderingOptions = renderingOptions;
         ImageOptions = imageOptions;
+
+        newRenderDelegate = () => NewRenderNeeded = true;
+
     }
 
     #endregion
