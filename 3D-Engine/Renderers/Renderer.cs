@@ -11,9 +11,11 @@
  */
 
 using _3D_Engine.Constants;
+using _3D_Engine.Entities;
 using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
@@ -52,17 +54,11 @@ public abstract class Renderer<T> : RendererBase where T : Image
                     .BuildIntoException<ParameterCannotBeNullException>();
             }
 
-            sceneObjectsToRender.ForEach(s =>
-            {
-                s.RenderAlteringPropertyChanged -= newRenderDelegate;
-            });
+            UpdateSubscribers(sceneObjectsToRender, false);
 
             sceneObjectsToRender = value;
 
-            sceneObjectsToRender.ForEach(s =>
-            {
-                s.RenderAlteringPropertyChanged += newRenderDelegate;
-            });
+            UpdateSubscribers(sceneObjectsToRender, true);
 
             foreach (Triangle triangle in TriangleBuffer)
             {
@@ -119,6 +115,30 @@ public abstract class Renderer<T> : RendererBase where T : Image
     #endregion
 
     #region Methods
+
+    private void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
+    {
+        Action<Entity> updater = addSubscription
+            ? s => s.RenderAlteringPropertyChanged += newRenderDelegate
+            : s => s.RenderAlteringPropertyChanged -= newRenderDelegate;
+
+        sceneObject.ForEach(s => updater(s));
+        sceneObject.ForEach<Mesh>(m =>
+        {
+            foreach (Vertex vertex in m.Structure.Vertices)
+            {
+                updater(vertex);
+            }
+            foreach (Edge edge in m.Structure.Edges)
+            {
+                updater(edge);
+            }
+            foreach (Face face in m.Structure.Faces)
+            {
+                updater(face);
+            }
+        });
+    }
 
     public abstract Task<T> RenderAsync(CancellationToken token);
 
