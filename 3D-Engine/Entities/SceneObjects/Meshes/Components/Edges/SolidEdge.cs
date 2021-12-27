@@ -18,13 +18,28 @@ public class SolidEdge : Edge
 {
     #region Fields and Properties
 
-    public Color Colour { get; set; } = Properties.Settings.Default.EdgeColour;
+    private Color colour = Properties.Settings.Default.EdgeColour;
+    public Color Colour
+    {
+        get => colour;
+        set
+        {
+            if (value == colour) return;
+            colour = value;
+            InvokeRenderingEvents(true, false);
+        }
+    }
 
     #endregion
 
     #region Constructors
 
     public SolidEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
+
+    public SolidEdge(Vertex modelP1, Vertex modelP2, Color colour) : base(modelP1, modelP2)
+    {
+        Colour = colour;
+    }
 
     #endregion
 }

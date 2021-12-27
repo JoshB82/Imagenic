@@ -45,11 +45,11 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
         {
             if (value == visible) return;
             visible = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
         }
     }
 
-    private bool displayDirectionArrows = false;
+    private bool displayDirectionArrows;
     /// <summary>
     /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
     /// </summary>
@@ -60,7 +60,7 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
         {
             if (value == displayDirectionArrows) return;
             displayDirectionArrows = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
         }
     }
     internal bool HasDirectionArrows { get; set; }
@@ -84,7 +84,7 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
             }
             worldOrientation = value;
             CalculateModelToWorldMatrix();
-            RequestNewRenders();
+            InvokeRenderingEvents();
         }
     }
 
@@ -102,7 +102,7 @@ public abstract partial class SceneObject : Entity, IList<SceneObject>
             if (value == worldOrigin) return;
             worldOrigin = value;
             CalculateModelToWorldMatrix();
-            RequestNewRenders();
+            InvokeRenderingEvents();
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using _3D_Engine.Entities.SceneObjects;
+﻿using _3D_Engine.Entities;
+using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
@@ -17,34 +18,17 @@ namespace _3D_Engine.Renderers
         private Action shadowMapDelegate;
 
         internal bool NewShadowMapNeeded { get; set; }
-
         
         public override SceneObject SceneObjectsToRender
         {
             get => base.SceneObjectsToRender;
             set
             {
-                foreach (Triangle triangle in TriangleBuffer)
-                {
-                    triangle.ShadowMapAlteringPropertyChanged -= shadowMapDelegate;
-                }
-
-                base.SceneObjectsToRender.ForEach(s =>
-                {
-                    s.ShadowMapAlteringPropertyChanged -= shadowMapDelegate;
-                });
+                UpdateSubscribers(base.SceneObjectsToRender, false);
 
                 base.SceneObjectsToRender = value;
 
-                base.SceneObjectsToRender.ForEach(s =>
-                {
-                    s.ShadowMapAlteringPropertyChanged += shadowMapDelegate;
-                });
-
-                foreach (Triangle triangle in TriangleBuffer)
-                {
-                    triangle.ShadowMapAlteringPropertyChanged += shadowMapDelegate;
-                }
+                UpdateSubscribers(base.SceneObjectsToRender, true);
             }
         }
 
@@ -61,10 +45,26 @@ namespace _3D_Engine.Renderers
 
         #region Methods
 
+        private void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
+        {
+            Action<Entity> updater = addSubscription
+            ? e => e.ShadowMapAlteringPropertyChanged += shadowMapDelegate
+            : e => e.ShadowMapAlteringPropertyChanged -= shadowMapDelegate;
+
+            foreach (Triangle triangle in TriangleBuffer)
+            {
+                updater(triangle);
+            }
+
+            sceneObject.ForEach(s => updater(s));
+        }
+
         public async override Task<T> Render<T>(IImageOptions<T> imageOptions, RenderingOptions options, CancellationToken token)
         {
 
         }
+
+
 
         #endregion
     }
