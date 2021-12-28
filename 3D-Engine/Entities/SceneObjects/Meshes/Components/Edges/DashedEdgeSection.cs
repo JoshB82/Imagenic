@@ -14,13 +14,50 @@ using System.Drawing;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 
-public class DashedEdgeSection
+public class DashedEdgeSection : Entity
 {
     #region Fields and Properties
 
-    public bool IsTransparent { get; set; } = false;
-    public Color? Colour { get; set; }
-    public float Percentage { get; set; }
+    private bool isTransparent;
+    public bool IsTransparent
+    {
+        get => isTransparent;
+        set
+        {
+            if (value == isTransparent) return;
+            isTransparent = value;
+            if (isTransparent)
+            {
+                colour = null;
+            }
+            InvokeRenderingEvents(true, false);
+        }
+    }
+
+    private Color? colour;
+    public Color? Colour
+    {
+        get => colour;
+        set
+        {
+            if (value == colour) return;
+            colour = value;
+            isTransparent = colour == null;
+            InvokeRenderingEvents(true, false);
+        }
+    }
+
+    private float percentage;
+    public float Percentage
+    {
+        get => percentage;
+        set
+        {
+            if (value == percentage) return;
+            percentage = value;
+            InvokeRenderingEvents(true, false);
+        }
+    }
 
     #endregion
 

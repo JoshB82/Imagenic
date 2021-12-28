@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3D-Engine", "3D-Engine\3D-Engine.csproj", "{DCF14E26-3F6C-4448-A529-955DCE58645A}"
 EndProject
@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{73DB7BB9-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F3D3426D-DDA9-434B-9856-C0301D2F21EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarking", "Benchmarking\Benchmarking.csproj", "{FA8E1FA2-1263-41C9-9792-5385158C507C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarking", "Benchmarking\Benchmarking.csproj", "{FA8E1FA2-1263-41C9-9792-5385158C507C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imagenic.WinForms", "Imagenic.WinForms\Imagenic.WinForms.csproj", "{EE7AD247-655E-4578-81C4-D37E6E06A188}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{FA8E1FA2-1263-41C9-9792-5385158C507C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA8E1FA2-1263-41C9-9792-5385158C507C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA8E1FA2-1263-41C9-9792-5385158C507C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE7AD247-655E-4578-81C4-D37E6E06A188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE7AD247-655E-4578-81C4-D37E6E06A188}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE7AD247-655E-4578-81C4-D37E6E06A188}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE7AD247-655E-4578-81C4-D37E6E06A188}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{6A16A564-68A2-4E56-B7F4-EFC6A0A8A0C0} = {F3D3426D-DDA9-434B-9856-C0301D2F21EE}
 		{B48FF987-9396-4A12-81D5-A71E2EEF44AF} = {D9095A4C-E515-4C94-8351-A5AB724C8AA2}
 		{FA8E1FA2-1263-41C9-9792-5385158C507C} = {F3D3426D-DDA9-434B-9856-C0301D2F21EE}
+		{EE7AD247-655E-4578-81C4-D37E6E06A188} = {73DB7BB9-FCEB-412F-A99C-86BC58D557CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D38BCF8-EE33-4180-B06D-A1C7398F7CC0}

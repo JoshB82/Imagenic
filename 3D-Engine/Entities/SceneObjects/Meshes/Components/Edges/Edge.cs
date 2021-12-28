@@ -23,8 +23,27 @@ public abstract class Edge : Entity
     public bool Visible { get; set; } = true;
 
     // Vertices
-    internal Vertex P1 { get; set; }
-    internal Vertex P2 { get; set; }
+    private Vertex p1, p2;
+    internal Vertex P1
+    {
+        get => p1;
+        set
+        {
+            if (value == p1) return;
+            p1 = value;
+            InvokeRenderingEvents();
+        }
+    }
+    internal Vertex P2
+    {
+        get => p2;
+        set
+        {
+            if (value == p2) return;
+            p2 = value;
+            InvokeRenderingEvents();
+        }
+    }
 
     #endregion
 

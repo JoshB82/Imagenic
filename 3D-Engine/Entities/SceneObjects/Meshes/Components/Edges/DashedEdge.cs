@@ -34,6 +34,22 @@ public class DashedEdge : Edge
         }
     }
 
+    private float patternPercentage = 100;
+    public float PatternPercentage
+    {
+        get => patternPercentage;
+        set
+        {
+            if (value == patternPercentage) return;
+            if (patternPercentage.ApproxLessThan(0) || patternPercentage.ApproxMoreThan(100))
+            {
+                // throw exception
+            }
+            patternPercentage = value;
+            InvokeRenderingEvents(true, false);
+        }
+    }
+
     #endregion
 
     #region Constructors

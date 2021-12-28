@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines a Vertex, representing a point in 3D space.
  */
 
 using _3D_Engine.Maths.Vectors;
@@ -22,13 +22,13 @@ public sealed class Vertex : Entity
     #region Fields and Properties
 
     public Vector3D? Normal { get; set; }
-    public Vector4D Point { get; set; }
+    public Vector3D Point { get; set; }
 
     #endregion
 
     #region Constructors
 
-    public Vertex(Vector4D point, Vector3D? normal = null)
+    public Vertex(Vector3D point, Vector3D? normal = null)
     {
         Point = point;
         Normal = normal;
