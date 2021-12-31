@@ -1,9 +1,5 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace _3D_Engine.Entities;
 
@@ -13,7 +9,15 @@ public class Ray : Entity
 
     public Vector3D StartPosition { get; set; }
 
-    public Vector3D Direction { get; set; }
+    private Vector3D direction;
+    public Vector3D Direction
+    {
+        get => direction;
+        set
+        {
+            direction = value.Normalise();
+        }
+    }
 
     #endregion
 
@@ -25,9 +29,9 @@ public class Ray : Entity
         Direction = direction;
     }
 
-    public Ray(Vector3D point1, Vector3D point2)
+    public static Ray CreateRayFromPoints(Vector3D point1, Vector3D point2)
     {
-
+        return new Ray(point1, point2 - point1);
     }
 
     #endregion

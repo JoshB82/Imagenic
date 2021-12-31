@@ -22,7 +22,18 @@ public sealed class Vertex : Entity
     #region Fields and Properties
 
     public Vector3D? Normal { get; set; }
-    public Vector3D Point { get; set; }
+
+    private Vector3D point;
+    public Vector3D Point
+    {
+        get => point;
+        set
+        {
+            if (value == point) return;
+            point = value;
+            InvokeRenderingEvents();
+        }
+    }
 
     #endregion
 

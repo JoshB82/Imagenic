@@ -44,21 +44,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             }
         }
 
-        private Vector3D startPosition, endPosition;
-
-        public Vector3D StartPosition
-        {
-            get => startPosition;
-            set
-            {
-                if (value == startPosition) return;
-                startPosition = value;
-                RequestNewRenders();
-
-                Vector3D line_vector = endPosition - startPosition;
-                Scaling = new Vector3D(line_vector.x, line_vector.y, line_vector.z);
-            }
-        }
+        private Vector3D endPosition;
 
         public Vector3D EndPosition
         {

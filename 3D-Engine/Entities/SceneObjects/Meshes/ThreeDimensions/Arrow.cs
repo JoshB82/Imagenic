@@ -64,7 +64,7 @@ public sealed class Arrow : Mesh
         {
             if (value == tipPosition) return;
             tipPosition = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
 
             length = (tipPosition - WorldOrigin).Magnitude();
             bodyLength = length - tipLength;
@@ -78,7 +78,7 @@ public sealed class Arrow : Mesh
         {
             if (value == length) return;
             length = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
 
             tipPosition = WorldOrientation.DirectionForward * length;
             bodyLength = length = tipLength;
@@ -92,7 +92,7 @@ public sealed class Arrow : Mesh
         {
             if (value == bodyLength) return;
             bodyLength = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
 
             length = bodyLength + tipLength;
             tipPosition = WorldOrigin + WorldOrientation.DirectionForward * length;
@@ -108,7 +108,7 @@ public sealed class Arrow : Mesh
         {
             if (value == tipLength) return;
             tipLength = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
 
             length = bodyLength + tipLength;
             tipPosition = WorldOrigin + WorldOrientation.DirectionForward * length;
@@ -124,7 +124,7 @@ public sealed class Arrow : Mesh
         {
             if (value == bodyRadius) return;
             bodyRadius = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
 
             Structure.Vertices = GenerateVertices(Resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
@@ -137,7 +137,7 @@ public sealed class Arrow : Mesh
         {
             if (value == tipRadius) return;
             tipRadius = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
 
             Structure.Vertices = GenerateVertices(Resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
@@ -150,7 +150,7 @@ public sealed class Arrow : Mesh
         {
             if (value == resolution) return;
             resolution = value;
-            RequestNewRenders();
+            InvokeRenderingEvents();
 
             Structure = GenerateStructure(resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }

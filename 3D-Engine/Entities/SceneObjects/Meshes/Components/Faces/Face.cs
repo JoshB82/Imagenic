@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Utilities;
 using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
@@ -10,7 +11,17 @@ public sealed class Face : Entity
     #region Fields and Properties
 
     // Appearance
-    public float Opacity { get; set; } = 1f;
+    private float opacity = 1f;
+    public float Opacity
+    {
+        get => opacity;
+        set
+        {
+            if (value == opacity) return;
+            opacity = value;
+            InvokeRenderingEvents();
+        }
+    }
 
     private bool visible = true;
     public bool Visible
@@ -18,14 +29,47 @@ public sealed class Face : Entity
         get => visible;
         set
         {
+            if (value == visible) return;
             visible = value;
+            InvokeRenderingEvents();
         }
     }
 
     // Structure
-    public IList<Vertex> Vertices { get; set; }
-    public IList<Edge> Edges { get; set; }
-    public IList<Triangle> Triangles { get; set; }
+    private EventList<Vertex> vertices;
+    private EventList<Edge> edges;
+    private EventList<Triangle> triangles;
+
+    public EventList<Vertex> Vertices
+    {
+        get => vertices;
+        set
+        {
+            if (value == vertices) return;
+            vertices = value;
+            InvokeRenderingEvents();
+        }
+    }
+    public EventList<Edge> Edges
+    {
+        get => edges;
+        set
+        {
+            if (value == edges) return;
+            edges = value;
+            InvokeRenderingEvents();
+        }
+    }
+    public EventList<Triangle> Triangles
+    {
+        get => triangles;
+        set
+        {
+            if (value == triangles) return;
+            triangles = value;
+            InvokeRenderingEvents();
+        }
+    }
 
     #endregion
 

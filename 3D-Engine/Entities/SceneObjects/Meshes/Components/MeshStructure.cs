@@ -1,25 +1,46 @@
 ﻿using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Enums;
+using _3D_Engine.Utilities;
 using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
 
-public class MeshStructure
+public class MeshStructure : Entity
 {
     #region Fields and Properties
 
-    private IList<Vertex> vertices;
-    public IList<Vertex> Vertices
+    private EventList<Vertex> vertices;
+    private EventList<Edge> edges;
+    private EventList<Face> faces;
+
+    public EventList<Vertex> Vertices
     {
         get => vertices;
         set
         {
             vertices = value ?? throw new ParameterCannotBeNullException();
+            InvokeRenderingEvents();
         }
     }
-    public IList<Edge> Edges { get; set; }
-    public IList<Face> Faces { get; set; }
+    public EventList<Edge> Edges
+    {
+        get => edges;
+        set
+        {
+            edges = value;
+            InvokeRenderingEvents(true, false);
+        }
+    }
+    public EventList<Face> Faces
+    {
+        get => faces;
+        set
+        {
+            faces = value;
+            InvokeRenderingEvents();
+        }
+    }
 
     public IEnumerable<Texture> Textures { get; set; }
 

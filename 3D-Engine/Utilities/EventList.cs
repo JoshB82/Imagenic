@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Entities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,6 +7,8 @@ namespace _3D_Engine.Utilities;
 
 public class EventList<T> : Entity, IList<T>
 {
+    #region Fields and Properties
+
     private IList<T> internalList = new List<T>();
     public bool ActivateRenderingEvent { get; set; } = true;
     public bool ActivateShadowMapEvent { get; set; } = true;
@@ -23,6 +26,42 @@ public class EventList<T> : Entity, IList<T>
     public int Count => internalList.Count;
 
     public bool IsReadOnly => internalList.IsReadOnly;
+
+    #endregion
+
+    #region Constructors
+
+    public EventList() { }
+
+    public EventList(IList<T> list)
+    {
+        internalList = list;
+    }
+
+    #endregion
+
+    #region Methods
+
+    public void AddRange(IEnumerable<T> range)
+    {
+        (internalList as List<T>).AddRange(range);
+    }
+
+    public void For(Action<T, int> action)
+    {
+        for (int i = 0; i < internalList.Count; i++)
+        {
+            action(internalList[i], i);
+        }
+    }
+
+    public void ForEach(Action<T> action)
+    {
+        foreach (T item in internalList)
+        {
+            action(item);
+        }
+    }
 
     public void Add(T item)
     {
@@ -78,4 +117,6 @@ public class EventList<T> : Entity, IList<T>
     {
         return ((IEnumerable)internalList).GetEnumerator();
     }
+
+    #endregion
 }
