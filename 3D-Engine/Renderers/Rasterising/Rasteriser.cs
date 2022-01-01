@@ -47,16 +47,14 @@ namespace _3D_Engine.Renderers
 
         private void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
         {
-            Action<Entity> updater += addSubscription
+            Action<Entity> updater = addSubscription
             ? e => e.ShadowMapAlteringPropertyChanged += shadowMapDelegate
             : e => e.ShadowMapAlteringPropertyChanged -= shadowMapDelegate;
 
-            ApplyUpdater(updater);
-
-            
+            ApplyUpdater(updater, sceneObject);
         }
 
-        protected override void ApplyUpdater(Action<Entity> updater)
+        /*protected override void ApplyUpdater(Action<Entity> updater)
         {
             foreach (Triangle triangle in TriangleBuffer)
             {
@@ -64,7 +62,7 @@ namespace _3D_Engine.Renderers
             }
 
             sceneObject.ForEach(s => updater(s));
-        }
+        }*/
 
         public async override Task<T> Render<T>(IImageOptions<T> imageOptions, RenderingOptions options, CancellationToken token)
         {

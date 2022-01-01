@@ -38,8 +38,6 @@ public abstract class Renderer<T> : RendererBase where T : Image
 
     private Action newRenderDelegate;
 
-    protected Action<Entity> updater;
-
     internal List<Triangle> TriangleBuffer { get; set; }
 
     private SceneObject sceneObjectsToRender;
@@ -118,12 +116,17 @@ public abstract class Renderer<T> : RendererBase where T : Image
 
     #region Methods
 
-    protected virtual void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
+    private void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
     {
         Action<Entity> updater = addSubscription
             ? s => s.RenderAlteringPropertyChanged += newRenderDelegate
             : s => s.RenderAlteringPropertyChanged -= newRenderDelegate;
 
+        ApplyUpdater(updater, sceneObject);
+    }
+
+    protected void ApplyUpdater(Action<Entity> updater, SceneObject sceneObject)
+    {
         sceneObject.ForEach(s => updater(s));
         sceneObject.ForEach<Mesh>(m =>
         {
