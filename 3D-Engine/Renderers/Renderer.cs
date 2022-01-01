@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- *
+ * Defines a Renderer<T>, representing a renderer that outputs an Image.
  */
 
 using _3D_Engine.Constants;
@@ -37,6 +37,8 @@ public abstract class Renderer<T> : RendererBase where T : Image
     #region Fields and Properties
 
     private Action newRenderDelegate;
+
+    protected Action<Entity> updater;
 
     internal List<Triangle> TriangleBuffer { get; set; }
 
@@ -116,7 +118,7 @@ public abstract class Renderer<T> : RendererBase where T : Image
 
     #region Methods
 
-    private void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
+    protected virtual void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
     {
         Action<Entity> updater = addSubscription
             ? s => s.RenderAlteringPropertyChanged += newRenderDelegate
@@ -125,6 +127,10 @@ public abstract class Renderer<T> : RendererBase where T : Image
         sceneObject.ForEach(s => updater(s));
         sceneObject.ForEach<Mesh>(m =>
         {
+            updater(m.Structure.Vertices);
+            updater(m.Structure.Edges);
+            updater(m.Structure.Faces);
+
             foreach (Vertex vertex in m.Structure.Vertices)
             {
                 updater(vertex);
