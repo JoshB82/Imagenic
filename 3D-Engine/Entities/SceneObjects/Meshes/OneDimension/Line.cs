@@ -52,8 +52,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             set
             {
                 endPosition = value;
-                Vector3D line_vector = endPosition - startPosition;
-                Scaling = new Vector3D(line_vector.x, line_vector.y, line_vector.z);
+                Scaling = endPosition - WorldOrigin;
             }
         }
 
