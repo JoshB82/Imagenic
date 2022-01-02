@@ -40,7 +40,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             set
             {
                 base.WorldOrientation = value;
-                endPosition = value.DirectionForward * Length + StartPosition;
+                endPosition = value.DirectionForward * Length + WorldOrigin;
             }
         }
 
@@ -77,11 +77,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             Length = length;
         }
 
-        public Line(Vector3D startPosition, Vector3D endPosition, Orientation worldOrientation) : base(startPosition, worldOrientation, GenerateStructure())
+        public Line(Vector3D worldOrigin, Vector3D endPosition) : this(worldOrigin, Orientation.OrientationZY, (endPosition - worldOrigin).Magnitude())
         {
-            StartPosition = startPosition;
-            EndPosition = endPosition;
-
             DrawFaces = false;
         }
 
