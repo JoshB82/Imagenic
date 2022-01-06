@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Entities;
 using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
 using System;
@@ -15,10 +16,19 @@ namespace _3D_Engine.Renderers
     {
         #region Fields and Properties
 
-        private Action shadowMapDelegate;
-
         internal bool NewShadowMapNeeded { get; set; }
+        private readonly Action shadowMapDelegate;
         
+        public override Camera RenderCamera
+        {
+            get => base.RenderCamera;
+            set
+            {
+                base.RenderCamera = value;
+                NewShadowMapNeeded = true;
+            }
+        }
+
         public override SceneObject SceneObjectsToRender
         {
             get => base.SceneObjectsToRender;

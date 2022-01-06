@@ -117,14 +117,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
         private static IList<Vertex> GenerateVertices(int resolution)
         {
             IList<Vertex> vertices = new Vertex[2 * resolution + 2];
-            vertices[0] = new Vertex(new Vector4D(0, 0, 0, 1));
-            vertices[1] = new Vertex(new Vector4D(0, 1, 0, 1));
+            vertices[0] = new Vertex(Vector3D.Zero);
+            vertices[1] = new Vertex(Vector3D.UnitY);
 
             float angle = Tau / resolution;
             for (int i = 0; i < resolution; i++)
             {
-                vertices[i + 2] = new Vertex(new Vector4D(Cos(angle * i), 0, Sin(angle * i), 1));
-                vertices[i + resolution + 2] = new Vertex(new Vector4D(Cos(angle * i), 1, Sin(angle * i), 1));
+                vertices[i + 2] = new Vertex(new Vector3D(Cos(angle * i), 0, Sin(angle * i)));
+                vertices[i + resolution + 2] = new Vertex(new Vector3D(Cos(angle * i), 1, Sin(angle * i)));
             }
 
             return vertices;

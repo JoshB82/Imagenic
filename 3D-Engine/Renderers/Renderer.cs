@@ -17,6 +17,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
 using _3D_Engine.Utilities;
@@ -27,16 +28,23 @@ using System.Threading.Tasks;
 
 namespace _3D_Engine.Renderers;
 
-public abstract class RendererBase
-{
-    internal bool NewRenderNeeded { get; set; }
-}
-
-public abstract class Renderer<T> : RendererBase where T : Image
+public abstract class Renderer<T> where T : Image
 {
     #region Fields and Properties
 
-    private Action newRenderDelegate;
+    internal bool NewRenderNeeded { get; set; }
+    private readonly Action newRenderDelegate;
+
+    private Camera renderCamera;
+    public virtual Camera RenderCamera
+    {
+        get => renderCamera;
+        set
+        {
+            renderCamera = value;
+            NewRenderNeeded = true;
+        }
+    }
 
     internal List<Triangle> TriangleBuffer { get; set; }
 
