@@ -42,7 +42,7 @@ public class MeshStructure : Entity
         }
     }
 
-    public IEnumerable<Texture> Textures { get; set; }
+    public IList<Texture> Textures { get; }
 
     public Dimension DimensionCount { get; }
 
@@ -57,9 +57,9 @@ public class MeshStructure : Entity
     {
         DimensionCount = dimensionCount;    
         
-        Vertices = vertices;
-        Edges = edges;
-        Faces = faces;
+        Vertices = new EventList<Vertex>(vertices);
+        Edges = new EventList<Edge>(edges);
+        Faces = new EventList<Face>(faces);
     }
 
     #endregion

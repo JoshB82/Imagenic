@@ -10,8 +10,6 @@ public sealed class RenderingOptions
 {
     #region Fields and Properties
 
-    public Camera RenderingCamera { get; set; }
-
     public int RenderWidth { get; set; }
     public int RenderHeight { get; set; }
 

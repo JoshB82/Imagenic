@@ -10,6 +10,7 @@
  * Defines a MessageBuilder<T> which creates customisable messages.
  */
 
+using _3D_Engine.Constants;
 using _3D_Engine.Enums;
 using System;
 using System.Diagnostics;
@@ -104,6 +105,19 @@ internal static class MessageHelper
         }
 
         Trace.WriteLine(message);
+    }
+}
+
+internal static class ExceptionHelper
+{
+    internal static void ThrowIfParameterIsNull<T>(T parameter, string parameterName)
+    {
+        if (parameter is null)
+        {
+            throw new MessageBuilder<ParameterCannotBeNullException>()
+                    .AddParameters(parameterName)
+                    .BuildIntoException<ParameterCannotBeNullException>();
+        }
     }
 }
 

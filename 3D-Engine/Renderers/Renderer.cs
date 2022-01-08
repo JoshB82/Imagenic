@@ -95,29 +95,21 @@ public abstract class Renderer<T> where T : Image
 
     #region Constructors
 
-    public Renderer(SceneObject toRender, RenderingOptions renderingOptions) : this(toRender, renderingOptions, null) { }
+    public Renderer(SceneObject toRender, Camera renderCamera, RenderingOptions renderingOptions) : this(toRender, renderCamera, renderingOptions, null) { }
 
-    public Renderer(SceneObject toRender, RenderingOptions renderingOptions, IImageOptions<T> imageOptions)
+    public Renderer(SceneObject toRender, Camera renderCamera, RenderingOptions renderingOptions, IImageOptions<T> imageOptions)
     {
-        if (toRender is null)
-        {
-            throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(nameof(toRender))
-                    .BuildIntoException<ParameterCannotBeNullException>();
-        }
-        if (renderingOptions is null)
-        {
-            throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(nameof(renderingOptions))
-                    .BuildIntoException<ParameterCannotBeNullException>();
-        }
+        ExceptionHelper.ThrowIfParameterIsNull(toRender, nameof(toRender));
+        ExceptionHelper.ThrowIfParameterIsNull(renderCamera, nameof(renderCamera));
+        ExceptionHelper.ThrowIfParameterIsNull(renderingOptions, nameof(renderingOptions));
+        ExceptionHelper.ThrowIfParameterIsNull(imageOptions, nameof(imageOptions));
 
         SceneObjectsToRender = toRender;
+        RenderCamera = renderCamera;
         RenderingOptions = renderingOptions;
         ImageOptions = imageOptions;
 
         newRenderDelegate = () => NewRenderNeeded = true;
-
     }
 
     #endregion

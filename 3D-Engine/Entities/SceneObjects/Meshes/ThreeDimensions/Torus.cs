@@ -139,7 +139,7 @@ public sealed class Torus : Mesh
     private static IList<Vertex> GenerateVertices(int innerResolution, int outerResolution, float innerRadius, float outerRadius)
     {
         IList<Vertex> vertices = new Vertex[innerResolution * outerResolution];
-        vertices[0] = new Vertex(Vector4D.Zero);
+        vertices[0] = new Vertex(Vector3D.Zero);
 
         float interiorRadius = (outerRadius - innerRadius) / 2, exteriorRadius = innerRadius + interiorRadius;
         float innerAngle = Tau / innerResolution, outerAngle = Tau / outerResolution;
@@ -147,10 +147,9 @@ public sealed class Torus : Mesh
         {
             for (int j = 0; j < innerResolution; j++)
             {
-                vertices[innerResolution * i + j + 1] = new Vertex(new Vector4D(Cos(innerAngle * i) * interiorRadius * Cos(outerAngle * i) * exteriorRadius,
+                vertices[innerResolution * i + j + 1] = new Vertex(new Vector3D(Cos(innerAngle * i) * interiorRadius * Cos(outerAngle * i) * exteriorRadius,
                                                                                         Sin(innerAngle * i) * interiorRadius,
-                                                                                        Sin(outerAngle * i) * exteriorRadius,
-                                                                                        1));
+                                                                                        Sin(outerAngle * i) * exteriorRadius));
             }
         }
 
