@@ -14,6 +14,7 @@ using _3D_Engine.Constants;
 using _3D_Engine.Enums;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace _3D_Engine.Utilities;
 
@@ -119,9 +120,26 @@ internal static class ExceptionHelper
                     .BuildIntoException<ParameterCannotBeNullException>();
         }
     }
+
+    internal static void ThrowIfFileNotFound(string filePath)
+    {
+        if (!File.Exists(filePath))
+        {
+            throw new MessageBuilder<FileNotFoundMessage>()
+                .AddParameters(filePath)
+                .BuildIntoException<FileNotFoundException>();
+        }
+    }
 }
 
 #region Messages
+
+internal class FileNotFoundMessage : IVerbose
+{
+    public string BriefVerbosityText { get; set; } = "File not found.";
+    public string DetailedVerbosityText { get; set; } = "{0} was not found.";
+    public string AllVerbosityText { get; set; } = "The file {0} was not found.";
+}
 
 internal class ParameterNotSupportedMessage : IVerbose
 {
