@@ -14,6 +14,7 @@ using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Enums;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
@@ -87,7 +88,7 @@ namespace _3D_Engine.Loaders
 
         public async override Task<MeshStructure> Parse()
         {
-            MeshStructure meshContent = null;
+            MeshStructure meshStructure = null;
 
             await Task.Run(() =>
             {
@@ -137,15 +138,20 @@ namespace _3D_Engine.Loaders
                     }
                 }
 
-                meshContent = new MeshContent
+                Dimension dimension = Dimension.Zero;
+                if (vertices.Count > 1)
                 {
+                    dimension = Dimension.One;
+                }
+
+                meshStructure = new MeshStructure(dimension,
                     Vertices = vertices,
                     Edges = edges,
                     Faces = faces
-                };
+                );
             });
 
-            return meshContent;
+            return meshStructure;
         }
 
         #endregion
