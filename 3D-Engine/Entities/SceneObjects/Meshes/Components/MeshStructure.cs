@@ -62,5 +62,11 @@ public class MeshStructure : Entity
         Faces = new EventList<Face>(faces);
     }
 
+    public MeshStructure(IList<Vertex> vertices,
+                         IList<Edge> edges = null,
+                         IList<Face> faces = null)
+        : this(DimensionHelper.DetermineDimension(vertices), vertices, edges, faces)
+    { }
+
     #endregion
 }
