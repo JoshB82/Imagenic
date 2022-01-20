@@ -123,7 +123,7 @@ namespace _3D_Engine.Loaders
                             {
                                 p1 = int.Parse(data[noEndPoints]) - 1;
                                 p2 = int.Parse(data[noEndPoints - 1]) - 1;
-                                edges.Add(new Edge(vertices[p1 - 1], vertices[p2 - 1]));
+                                edges.Add(new SolidEdge(vertices[p1 - 1], vertices[p2 - 1]));
                                 noEndPoints--;
                             }
                             while (noEndPoints > 1);
@@ -138,17 +138,7 @@ namespace _3D_Engine.Loaders
                     }
                 }
 
-                Dimension dimension = Dimension.Zero;
-                if (vertices.Count > 1)
-                {
-                    dimension = Dimension.One;
-                }
-
-                meshStructure = new MeshStructure(dimension,
-                    Vertices = vertices,
-                    Edges = edges,
-                    Faces = faces
-                );
+                meshStructure = new MeshStructure(vertices, edges, faces);
             });
 
             return meshStructure;

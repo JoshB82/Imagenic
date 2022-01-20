@@ -10,10 +10,8 @@
  * Defines a base class for loaders.
  */
 
-using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Utilities;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace _3D_Engine.Loaders;

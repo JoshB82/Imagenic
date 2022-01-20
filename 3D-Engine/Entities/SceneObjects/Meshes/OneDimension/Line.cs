@@ -53,6 +53,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
             {
                 endPosition = value;
                 Scaling = endPosition - WorldOrigin;
+                length = (endPosition - WorldOrigin).Magnitude();
             }
         }
 

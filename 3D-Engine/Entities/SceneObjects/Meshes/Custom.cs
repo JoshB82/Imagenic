@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using _3D_Engine.Maths;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
 {
@@ -19,6 +20,11 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         #endregion
 
         #region Constructors
+
+        public Custom(Vector3D worldOrigin, Orientation worldOrientation, MeshStructure meshStructure) : base(worldOrigin, worldOrientation, meshStructure)
+        {
+
+        }
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
         public Custom(Vector3D origin,
