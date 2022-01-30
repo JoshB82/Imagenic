@@ -73,10 +73,26 @@ namespace _3D_Engine.Loaders
             return vertices;
         }
 
-        public IList<Face> GetFaces()
+        public async Task<IList<Face>> GetFaces()
         {
+            IList<Vertex> vertices = await GetVertices();
             List<Face> faces = new();
+            int p1, p2, p3;
 
+            await Task.Run(() =>
+            {
+                foreach (string line in Lines)
+                {
+                    string[] data = line.Split();
+
+                    p1 = int.Parse(data[1]);
+                    p2 = int.Parse(data[2]);
+                    p3 = int.Parse(data[3]);
+                    faces.Add(new Face(new SolidTriangle(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1])));
+                }
+            });
+
+            return faces;
         }
 
         public Custom GenerateCustomMesh()
