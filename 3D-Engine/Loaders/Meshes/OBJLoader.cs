@@ -19,6 +19,7 @@ using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _3D_Engine.Loaders
@@ -49,7 +50,7 @@ namespace _3D_Engine.Loaders
 
         #endregion
 
-        public async Task<IList<Vertex>> GetVertices()
+        public async override Task<IList<Vertex>> GetVerticesAsync(CancellationToken ct = default)
         {
             List<Vertex> vertices = new();
             float x, y, z, w;
@@ -73,9 +74,9 @@ namespace _3D_Engine.Loaders
             return vertices;
         }
 
-        public async Task<IList<Face>> GetFaces()
+        public async override Task<IList<Face>> GetFacesAsync(CancellationToken ct = default)
         {
-            IList<Vertex> vertices = await GetVertices();
+            IList<Vertex> vertices = await GetVerticesAsync();
             List<Face> faces = new();
             int p1, p2, p3;
 
@@ -102,7 +103,7 @@ namespace _3D_Engine.Loaders
 
         #region Methods
 
-        public async override Task<MeshStructure> Parse()
+        public async override Task<MeshStructure> ParseAsync(CancellationToken ct = default)
         {
             MeshStructure meshStructure = null;
 

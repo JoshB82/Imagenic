@@ -11,7 +11,10 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Utilities;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _3D_Engine.Loaders;
@@ -36,7 +39,10 @@ public abstract class Loader
 
     #region Methods
 
-    public abstract Task<MeshStructure> Parse();
+    public abstract Task<IList<Vertex>> GetVerticesAsync(CancellationToken ct);
+    public abstract Task<IList<Edge>> GetEdgesAsync(CancellationToken ct);
+    public abstract Task<IList<Face>> GetFacesAsync(CancellationToken ct);
+    public abstract Task<MeshStructure> ParseAsync(CancellationToken ct);
 
     #endregion
 }
