@@ -55,7 +55,11 @@ namespace _3D_Engine.Loaders
             {
                 foreach (string line in Lines)
                 {
-                    if (!ct.IsCancellationRequested)
+                    if (ct.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    else
                     {
                         string[] data = line.Split();
                         if (data[0] == "v")
@@ -64,7 +68,7 @@ namespace _3D_Engine.Loaders
                         }
                     }
                 }
-            });
+            }, ct);
 
             return vertices;
         }

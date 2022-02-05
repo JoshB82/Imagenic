@@ -21,6 +21,8 @@ public sealed class Vertex : Entity
 {
     #region Fields and Properties
 
+    public float w;
+
     public Vector3D? Normal { get; set; }
 
     private Vector3D point;
@@ -43,6 +45,12 @@ public sealed class Vertex : Entity
     {
         Point = point;
         Normal = normal;
+    }
+
+    public Vertex(Vector3D point, float w)
+    {
+        Point = point;
+        this.w = w;
     }
 
     #endregion
