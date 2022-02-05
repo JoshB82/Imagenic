@@ -14,7 +14,6 @@ using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
-using _3D_Engine.Enums;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
@@ -44,8 +43,6 @@ namespace _3D_Engine.Loaders
             {
                 // Throw exception
             }
-
-            Task.Run(() => Parse());
         }
 
         #endregion
@@ -53,20 +50,18 @@ namespace _3D_Engine.Loaders
         public async override Task<IList<Vertex>> GetVerticesAsync(CancellationToken ct = default)
         {
             List<Vertex> vertices = new();
-            float x, y, z, w;
 
             await Task.Run(() =>
             {
                 foreach (string line in Lines)
                 {
-                    string[] data = line.Split();
-                    if (data[0] == "v")
+                    if (!ct.IsCancellationRequested)
                     {
-                        x = float.Parse(data[1]);
-                        y = float.Parse(data[2]);
-                        z = float.Parse(data[3]);
-                        w = (data.Length == 5) ? float.Parse(data[4]) : 1;
-                        vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
+                        string[] data = line.Split();
+                        if (data[0] == "v")
+                        {
+                            vertices.Add(ParseVertex(data));
+                        }
                     }
                 }
             });
@@ -74,9 +69,40 @@ namespace _3D_Engine.Loaders
             return vertices;
         }
 
+        public async override Task<IList<Edge>> GetEdgesAsync(CancellationToken ct = default)
+        {
+            IList<Vertex> vertices = await GetVerticesAsync(ct);
+            List<Edge> edges = new();
+
+            await Task.Run(() =>
+            {
+                foreach (string line in Lines)
+                {
+                    string[] data = line.Split();
+
+                    int noEndPoints = data.Length - 1;
+                    do
+                    {
+                        if (ct.IsCancellationRequested)
+                        {
+                            //break; ??
+                        }
+                        else
+                        {
+                            edges.Add(ParseEdge(data, noEndPoints, vertices));
+                            noEndPoints--;
+                        }
+                    }
+                    while (noEndPoints > 1);
+                }
+            });
+
+            return edges;
+        }
+
         public async override Task<IList<Face>> GetFacesAsync(CancellationToken ct = default)
         {
-            IList<Vertex> vertices = await GetVerticesAsync();
+            IList<Vertex> vertices = await GetVerticesAsync(ct);
             List<Face> faces = new();
             int p1, p2, p3;
 
@@ -114,7 +140,7 @@ namespace _3D_Engine.Loaders
                 List<Triangle> triangles = new();
                 List<Face> faces = new();
 
-                foreach (string line in lines)
+                foreach (string line in Lines)
                 {
                     string[] data = line.Split();
                     int p1, p2, p3;
@@ -159,6 +185,29 @@ namespace _3D_Engine.Loaders
             });
 
             return meshStructure;
+        }
+
+        private static Vertex ParseVertex(string[] data)
+        {
+            float x = float.Parse(data[1]);
+            float y = float.Parse(data[2]);
+            float z = float.Parse(data[3]);
+            float w = (data.Length == 5) ? float.Parse(data[4]) : 1;
+
+            return new Vertex(new Vector4D(x, y, z, w));
+        }
+
+        private static Edge ParseEdge(string[] data, int noEndPoints, IList<Vertex> vertices)
+        {
+            int p1 = int.Parse(data[noEndPoints]) - 1;
+            int p2 = int.Parse(data[noEndPoints - 1]) - 1;
+
+            return new SolidEdge(vertices[p1 - 1], vertices[p2 - 1]);
+        }
+
+        private static Triangle ParseTriangle()
+        {
+
         }
 
         #endregion
