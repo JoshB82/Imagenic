@@ -99,7 +99,7 @@ namespace _3D_Engine.Loaders
                     }
                     while (noEndPoints > 1);
                 }
-            });
+            }, ct);
 
             return edges;
         }
@@ -108,20 +108,14 @@ namespace _3D_Engine.Loaders
         {
             IList<Vertex> vertices = await GetVerticesAsync(ct);
             List<Face> faces = new();
-            int p1, p2, p3;
 
             await Task.Run(() =>
             {
                 foreach (string line in Lines)
                 {
-                    string[] data = line.Split();
-
-                    p1 = int.Parse(data[1]);
-                    p2 = int.Parse(data[2]);
-                    p3 = int.Parse(data[3]);
-                    faces.Add(new Face(new SolidTriangle(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1])));
+                    faces.Add(new Face(ParseTriangle(line.Split(), vertices)));
                 }
-            });
+            }, ct);
 
             return faces;
         }
@@ -209,9 +203,14 @@ namespace _3D_Engine.Loaders
             return new SolidEdge(vertices[p1 - 1], vertices[p2 - 1]);
         }
 
-        private static Triangle ParseTriangle()
+        private static Triangle ParseTriangle(string[] data, IList<Vertex> vertices)
         {
+            int p1, p2, p3;
+            p1 = int.Parse(data[1]);
+            p2 = int.Parse(data[2]);
+            p3 = int.Parse(data[3]);
 
+            return new SolidTriangle(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]);
         }
 
         #endregion

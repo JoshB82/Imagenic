@@ -1,12 +1,35 @@
-﻿using System;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+using _3D_Engine.Loaders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Imagenic.Core.Loaders.Meshes
 {
-    internal class _3DSLoader
+    public class _3DSLoader : Loader
     {
+        public async override Task<IList<Edge>> GetEdgesAsync(CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async override Task<IList<Face>> GetFacesAsync(CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async override Task<IList<Vertex>> GetVerticesAsync(CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async override Task<MeshStructure> ParseAsync(CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
