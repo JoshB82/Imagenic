@@ -10,6 +10,7 @@
  * Encapsulates creation of a light.
  */
 
+using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
 using System;
@@ -36,8 +37,9 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
             get => colour;
             set
             {
+                if (value == colour) return;
                 colour = value;
-                RequestNewRenders();
+                InvokeRenderingEvents(true, false);
             }
         }
 
@@ -47,19 +49,28 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
             get => strength;
             set
             {
+                if (value < 0)
+                {
+                    // throw exception
+                }
+                if (value == strength) return;
                 strength = value;
-                RequestNewRenders();
+                InvokeRenderingEvents(true, false);
             }
         }
-
-        // COME BACK TO
-        internal bool ShadowMapNeedsUpdating { get; set; } = true;
 
         #endregion
 
         #region Constructors
 
-        internal Light(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
+        internal Light(Vector3D worldOrigin,
+                       Orientation worldOrientation,
+                       float viewWidth,
+                       float viewHeight,
+                       float zNear,
+                       float zFar,
+                       int renderWidth,
+                       int renderHeight) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
         #endregion
 
