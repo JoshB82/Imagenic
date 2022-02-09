@@ -17,6 +17,8 @@ using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using System.Collections.Generic;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;

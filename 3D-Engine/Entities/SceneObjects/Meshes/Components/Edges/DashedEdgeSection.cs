@@ -10,9 +10,10 @@
  * Defines a dashed edge section.
  */
 
+using _3D_Engine.Entities;
 using System.Drawing;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 
 public class DashedEdgeSection : Entity
 {

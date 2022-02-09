@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
+using Imagenic.Core.Renderers;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {

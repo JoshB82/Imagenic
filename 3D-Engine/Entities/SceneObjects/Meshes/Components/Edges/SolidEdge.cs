@@ -10,9 +10,10 @@
  * Defines a SolidEdge, representing a single-coloured edge with no pattern.
  */
 
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using System.Drawing;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 
 public class SolidEdge : Edge
 {

@@ -10,11 +10,13 @@
  * Defines a dashed edge.
  */
 
+using _3D_Engine;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 
 public class DashedEdge : Edge
 {

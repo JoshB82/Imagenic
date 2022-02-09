@@ -2,8 +2,8 @@
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

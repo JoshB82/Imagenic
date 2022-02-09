@@ -11,13 +11,14 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Loaders;
+namespace Imagenic.Core.Loaders;
 
 public abstract class Loader
 {

@@ -1,9 +1,9 @@
 ﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Renderers.Rasterising;
 using System;
 using System.Collections.Generic;
 using System.Linq;

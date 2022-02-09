@@ -4,6 +4,8 @@ using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using System;
 using System.Collections.Generic;
 using static System.MathF;

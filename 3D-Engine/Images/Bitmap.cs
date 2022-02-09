@@ -1,4 +1,4 @@
-﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
+﻿using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -11,11 +11,12 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Maths.Vectors;
 using System.Collections.Generic;
 using static _3D_Engine.Maths.Vectors.Vector3D;
 
-namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering
+namespace Imagenic.Core.Renderers.Rasterising
 {
     internal static class Clipping
     {

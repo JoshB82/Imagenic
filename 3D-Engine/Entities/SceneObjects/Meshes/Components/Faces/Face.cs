@@ -1,10 +1,14 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+﻿using _3D_Engine.Entities;
+using _3D_Engine.Entities.SceneObjects.Meshes;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 
 public sealed class Face : Entity
 {
