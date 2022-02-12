@@ -10,11 +10,12 @@
  * Encapsulates creation of a 4x4 square matrix and provides methods to extract common information and for operator overloading. Each instance of a Matrix4x4 has a size of 64 bytes, so, where possible, a Matrix4x4 should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine;
 using _3D_Engine.Constants;
 using _3D_Engine.Maths.Vectors;
 using System;
 
-namespace _3D_Engine.Maths
+namespace Imagenic.Core.Maths
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Matrix4x4"/> (square matrix with four rows and four columns).
@@ -210,7 +211,7 @@ namespace _3D_Engine.Maths
             float d13 = m20 * m31 - m21 * m30, d14 = m20 * m32 - m22 * m30, d15 = m20 * m33 - m23 * m30;
             float d16 = m21 * m32 - m22 * m31, d17 = m21 * m33 - m23 * m31, d18 = m22 * m33 - m23 * m32;
 
-            float det =   m00 * (m11 * d18 - m12 * d17 + m13 * d16)
+            float det = m00 * (m11 * d18 - m12 * d17 + m13 * d16)
                         - m01 * (m10 * d18 - m12 * d15 + m13 * d14)
                         + m02 * (m10 * d17 - m11 * d15 + m13 * d13)
                         - m03 * (m10 * d16 - m11 * d14 + m12 * d13);
@@ -262,22 +263,22 @@ namespace _3D_Engine.Maths
         public readonly bool Equals(Matrix4x4 m) => this == m;
 
         public readonly bool ApproxEquals(Matrix4x4 m, float epsilon = float.Epsilon) =>
-            this.m00.ApproxEquals(m.m00, epsilon) &&
-            this.m01.ApproxEquals(m.m01, epsilon) &&
-            this.m02.ApproxEquals(m.m02, epsilon) &&
-            this.m03.ApproxEquals(m.m03, epsilon) &&
-            this.m10.ApproxEquals(m.m10, epsilon) &&
-            this.m11.ApproxEquals(m.m11, epsilon) &&
-            this.m12.ApproxEquals(m.m12, epsilon) &&
-            this.m13.ApproxEquals(m.m13, epsilon) &&
-            this.m20.ApproxEquals(m.m20, epsilon) &&
-            this.m21.ApproxEquals(m.m21, epsilon) &&
-            this.m22.ApproxEquals(m.m22, epsilon) &&
-            this.m23.ApproxEquals(m.m23, epsilon) &&
-            this.m30.ApproxEquals(m.m30, epsilon) &&
-            this.m31.ApproxEquals(m.m31, epsilon) &&
-            this.m32.ApproxEquals(m.m32, epsilon) &&
-            this.m33.ApproxEquals(m.m33, epsilon);
+            m00.ApproxEquals(m.m00, epsilon) &&
+            m01.ApproxEquals(m.m01, epsilon) &&
+            m02.ApproxEquals(m.m02, epsilon) &&
+            m03.ApproxEquals(m.m03, epsilon) &&
+            m10.ApproxEquals(m.m10, epsilon) &&
+            m11.ApproxEquals(m.m11, epsilon) &&
+            m12.ApproxEquals(m.m12, epsilon) &&
+            m13.ApproxEquals(m.m13, epsilon) &&
+            m20.ApproxEquals(m.m20, epsilon) &&
+            m21.ApproxEquals(m.m21, epsilon) &&
+            m22.ApproxEquals(m.m22, epsilon) &&
+            m23.ApproxEquals(m.m23, epsilon) &&
+            m30.ApproxEquals(m.m30, epsilon) &&
+            m31.ApproxEquals(m.m31, epsilon) &&
+            m32.ApproxEquals(m.m32, epsilon) &&
+            m33.ApproxEquals(m.m33, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Matrix4x4)obj;
 
@@ -298,20 +299,44 @@ namespace _3D_Engine.Maths
         public static Matrix4x4 operator +(Matrix4x4 m1, Matrix4x4 m2) =>
             new()
             {
-                m00 = m1.m00 + m2.m00, m01 = m1.m01 + m2.m01, m02 = m1.m02 + m2.m02, m03 = m1.m03 + m2.m03,
-                m10 = m1.m10 + m2.m10, m11 = m1.m11 + m2.m11, m12 = m1.m12 + m2.m12, m13 = m1.m13 + m2.m13,
-                m20 = m1.m20 + m2.m20, m21 = m1.m21 + m2.m21, m22 = m1.m22 + m2.m22, m23 = m1.m23 + m2.m23,
-                m30 = m1.m30 + m2.m30, m31 = m1.m31 + m2.m31, m32 = m1.m32 + m2.m32, m33 = m1.m33 + m2.m33
+                m00 = m1.m00 + m2.m00,
+                m01 = m1.m01 + m2.m01,
+                m02 = m1.m02 + m2.m02,
+                m03 = m1.m03 + m2.m03,
+                m10 = m1.m10 + m2.m10,
+                m11 = m1.m11 + m2.m11,
+                m12 = m1.m12 + m2.m12,
+                m13 = m1.m13 + m2.m13,
+                m20 = m1.m20 + m2.m20,
+                m21 = m1.m21 + m2.m21,
+                m22 = m1.m22 + m2.m22,
+                m23 = m1.m23 + m2.m23,
+                m30 = m1.m30 + m2.m30,
+                m31 = m1.m31 + m2.m31,
+                m32 = m1.m32 + m2.m32,
+                m33 = m1.m33 + m2.m33
             };
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
         public static Matrix4x4 operator -(Matrix4x4 m1, Matrix4x4 m2) =>
             new()
             {
-                m00 = m1.m00 - m2.m00, m01 = m1.m01 - m2.m01, m02 = m1.m02 - m2.m02, m03 = m1.m03 - m2.m03,
-                m10 = m1.m10 - m2.m10, m11 = m1.m11 - m2.m11, m12 = m1.m12 - m2.m12, m13 = m1.m13 - m2.m13,
-                m20 = m1.m20 - m2.m20, m21 = m1.m21 - m2.m21, m22 = m1.m22 - m2.m22, m23 = m1.m23 - m2.m23,
-                m30 = m1.m30 - m2.m30, m31 = m1.m31 - m2.m31, m32 = m1.m32 - m2.m32, m33 = m1.m33 - m2.m33
+                m00 = m1.m00 - m2.m00,
+                m01 = m1.m01 - m2.m01,
+                m02 = m1.m02 - m2.m02,
+                m03 = m1.m03 - m2.m03,
+                m10 = m1.m10 - m2.m10,
+                m11 = m1.m11 - m2.m11,
+                m12 = m1.m12 - m2.m12,
+                m13 = m1.m13 - m2.m13,
+                m20 = m1.m20 - m2.m20,
+                m21 = m1.m21 - m2.m21,
+                m22 = m1.m22 - m2.m22,
+                m23 = m1.m23 - m2.m23,
+                m30 = m1.m30 - m2.m30,
+                m31 = m1.m31 - m2.m31,
+                m32 = m1.m32 - m2.m32,
+                m33 = m1.m33 - m2.m33
             };
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
@@ -349,10 +374,22 @@ namespace _3D_Engine.Maths
         public static Matrix4x4 operator *(Matrix4x4 m, float scalar) =>
             new()
             {
-                m00 = m.m00 * scalar, m01 = m.m01 * scalar, m02 = m.m02 * scalar, m03 = m.m03 * scalar,
-                m10 = m.m10 * scalar, m11 = m.m11 * scalar, m12 = m.m12 * scalar, m13 = m.m13 * scalar,
-                m20 = m.m20 * scalar, m21 = m.m21 * scalar, m22 = m.m22 * scalar, m23 = m.m23 * scalar,
-                m30 = m.m30 * scalar, m31 = m.m31 * scalar, m32 = m.m32 * scalar, m33 = m.m33 * scalar
+                m00 = m.m00 * scalar,
+                m01 = m.m01 * scalar,
+                m02 = m.m02 * scalar,
+                m03 = m.m03 * scalar,
+                m10 = m.m10 * scalar,
+                m11 = m.m11 * scalar,
+                m12 = m.m12 * scalar,
+                m13 = m.m13 * scalar,
+                m20 = m.m20 * scalar,
+                m21 = m.m21 * scalar,
+                m22 = m.m22 * scalar,
+                m23 = m.m23 * scalar,
+                m30 = m.m30 * scalar,
+                m31 = m.m31 * scalar,
+                m32 = m.m32 * scalar,
+                m33 = m.m33 * scalar
             };
 
         /// <summary>
@@ -367,10 +404,22 @@ namespace _3D_Engine.Maths
         public static Matrix4x4 operator /(Matrix4x4 m, float scalar) =>
             new()
             {
-                m00 = m.m00 / scalar, m01 = m.m01 / scalar, m02 = m.m02 / scalar, m03 = m.m03 / scalar,
-                m10 = m.m10 / scalar, m11 = m.m11 / scalar, m12 = m.m12 / scalar, m13 = m.m13 / scalar,
-                m20 = m.m20 / scalar, m21 = m.m21 / scalar, m22 = m.m22 / scalar, m23 = m.m23 / scalar,
-                m30 = m.m30 / scalar, m31 = m.m31 / scalar, m32 = m.m32 / scalar, m33 = m.m33 / scalar
+                m00 = m.m00 / scalar,
+                m01 = m.m01 / scalar,
+                m02 = m.m02 / scalar,
+                m03 = m.m03 / scalar,
+                m10 = m.m10 / scalar,
+                m11 = m.m11 / scalar,
+                m12 = m.m12 / scalar,
+                m13 = m.m13 / scalar,
+                m20 = m.m20 / scalar,
+                m21 = m.m21 / scalar,
+                m22 = m.m22 / scalar,
+                m23 = m.m23 / scalar,
+                m30 = m.m30 / scalar,
+                m31 = m.m31 / scalar,
+                m32 = m.m32 / scalar,
+                m33 = m.m33 / scalar
             };
 
         #endregion

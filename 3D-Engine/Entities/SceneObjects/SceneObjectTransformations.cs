@@ -18,6 +18,7 @@ using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
+using Imagenic.Core.Maths;
 using System;
 
 namespace _3D_Engine.Entities.SceneObjects

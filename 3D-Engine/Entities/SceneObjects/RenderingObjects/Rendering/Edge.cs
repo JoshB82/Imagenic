@@ -10,11 +10,11 @@
  * Provides methods for generating data required to draw edges.
  */
 
-using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using System.Drawing;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Renderers.Rasterising;
+using Imagenic.Core.Maths;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {

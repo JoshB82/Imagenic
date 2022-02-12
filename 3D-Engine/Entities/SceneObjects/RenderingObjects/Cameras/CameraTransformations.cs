@@ -1,6 +1,6 @@
-﻿using _3D_Engine.Maths;
-using _3D_Engine.Maths.Transformations;
+﻿using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Maths;
 using System;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras

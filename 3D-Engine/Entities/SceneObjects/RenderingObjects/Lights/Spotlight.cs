@@ -10,17 +10,18 @@
  * Encapsulates creation of a spotlight.
  */
 
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using static _3D_Engine.Properties.Settings;
 
-namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
+namespace Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights
 {
     public sealed class Spotlight : Light
     {
         #region Constructors
 
-        public Spotlight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
+        public Spotlight(Vector3D worldOrigin, Orientation worldOrientation, float strength, float viewWidth, float viewHeight, float zNear, float zFar) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar)
         {
             Strength = strength;
         }

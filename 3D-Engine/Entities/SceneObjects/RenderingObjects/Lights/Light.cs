@@ -68,9 +68,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
                        float viewWidth,
                        float viewHeight,
                        float zNear,
-                       float zFar,
-                       int renderWidth,
-                       int renderHeight) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
+                       float zFar) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar) { }
 
         #endregion
 

@@ -3,6 +3,7 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Renderers.Rasterising;
 using System;
 using System.Collections.Generic;

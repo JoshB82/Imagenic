@@ -10,8 +10,8 @@
  * Defines static methods for calculating matrices representing scaling.
  */
 
-using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Maths;
 
 namespace _3D_Engine.Maths.Transformations
 {

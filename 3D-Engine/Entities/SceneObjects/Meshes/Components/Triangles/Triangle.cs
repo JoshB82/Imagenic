@@ -11,9 +11,9 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
-using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Renderers;
+using Imagenic.Core.Maths;
 using System;
 using System.Collections.Generic;
 

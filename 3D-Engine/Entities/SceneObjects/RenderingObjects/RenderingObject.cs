@@ -20,6 +20,8 @@ using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
+using Imagenic.Core.Maths;
 using Imagenic.Core.Renderers;
 using System.Collections.Generic;
 
@@ -304,9 +306,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                                  float viewWidth,
                                  float viewHeight,
                                  float zNear,
-                                 float zFar,
-                                 int renderWidth,
-                                 int renderHeight) : base(worldOrigin, worldOrientation)
+                                 float zFar) : base(worldOrigin, worldOrientation)
         {
             // Construct view-space clipping planes and matrix
             float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;
