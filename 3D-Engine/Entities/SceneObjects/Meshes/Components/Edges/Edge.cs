@@ -10,8 +10,6 @@
  * Defines an edge.
  */
 
-using _3D_Engine.Entities;
-
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 
 /// <summary>

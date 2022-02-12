@@ -11,12 +11,12 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities;
 using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;

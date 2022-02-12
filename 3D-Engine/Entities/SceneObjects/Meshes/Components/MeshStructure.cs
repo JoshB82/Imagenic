@@ -1,5 +1,4 @@
 ﻿using _3D_Engine.Constants;
-using _3D_Engine.Entities;
 using _3D_Engine.Enums;
 using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;

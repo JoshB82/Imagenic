@@ -39,7 +39,8 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.OneDimension
             set
             {
                 base.WorldOrientation = value;
-                endPosition = value.DirectionForward * Length + WorldOrigin;
+                Scaling = value.DirectionForward * Length;
+                endPosition = Scaling + WorldOrigin;
             }
         }
 
@@ -52,7 +53,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.OneDimension
             {
                 endPosition = value;
                 Scaling = endPosition - WorldOrigin;
-                length = (endPosition - WorldOrigin).Magnitude();
+                length = Scaling.Magnitude();
             }
         }
 
@@ -64,7 +65,8 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.OneDimension
             set
             {
                 length = value;
-                endPosition = WorldOrientation.DirectionForward * length + WorldOrigin;
+                Scaling = WorldOrientation.DirectionForward * length;
+                endPosition = Scaling + WorldOrigin;
             }
         }
 

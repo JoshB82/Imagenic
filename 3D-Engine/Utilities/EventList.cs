@@ -1,4 +1,4 @@
-﻿using _3D_Engine.Entities;
+﻿using Imagenic.Core.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;

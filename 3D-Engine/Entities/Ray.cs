@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 
 namespace _3D_Engine.Entities;

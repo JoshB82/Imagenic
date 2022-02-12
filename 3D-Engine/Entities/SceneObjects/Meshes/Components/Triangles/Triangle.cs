@@ -10,7 +10,6 @@
  *
  */
 
-using _3D_Engine.Entities;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;

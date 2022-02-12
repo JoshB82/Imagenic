@@ -68,15 +68,5 @@ public sealed class Path : Mesh
         internal IEnumerable<Vector3D> Points { get; set; }
     }
 
-    private class PathEdgeData : MeshData<Edge>
-    {
-
-    }
-
-    private class PathFaceData : MeshData<Face>
-    {
-
-    }
-
     #endregion
 }

@@ -19,6 +19,7 @@ using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Renderers;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Entities;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
