@@ -10,18 +10,20 @@
  * Defines creation of a Cuboid Mesh.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
+using _3D_Engine.Entities.SceneObjects.Meshes;
+using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
 {
     /// <summary>
     /// A mesh of a cuboid.

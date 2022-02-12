@@ -1,6 +1,4 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
-using _3D_Engine.Maths.Vectors;
+﻿using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +8,8 @@ using System.Linq;
 using _3D_Engine.Maths;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes
 {

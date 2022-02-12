@@ -1,16 +1,16 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using System;
 using System.Collections.Generic;
 using static System.MathF;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Spheres;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions.Spheres;
 
 public sealed class LatLongSphere : Sphere
 {
@@ -62,7 +62,7 @@ public sealed class LatLongSphere : Sphere
     }
 
     private static IList<Vertex> GenerateVertices(int latResolution, int longResolution)
-    {    
+    {
         IList<Vertex> vertices = new Vertex[latResolution * longResolution];
 
         float latAngleStep = Tau / latResolution;
@@ -87,8 +87,8 @@ public sealed class LatLongSphere : Sphere
         return vertices;
 
         //throw new MessageBuilder<ParameterNotSupportedMessage>()
-            //.AddParameters(nameof(construction))
-            //.BuildIntoException<ArgumentException>();
+        //.AddParameters(nameof(construction))
+        //.BuildIntoException<ArgumentException>();
     }
 
     private static IList<Edge> GenerateEdges(IList<Vertex> vertices, int latResolution, int longResolution)

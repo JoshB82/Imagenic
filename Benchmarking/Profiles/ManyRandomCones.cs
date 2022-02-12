@@ -1,9 +1,9 @@
 ﻿using _3D_Engine.Maths.Vectors;
 using System;
 using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.Groups;
+using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 
 namespace Benchmarking.Profiles
 {

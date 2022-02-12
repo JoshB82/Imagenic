@@ -10,6 +10,7 @@
  *
  */
 
+using _3D_Engine.Entities;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
@@ -17,7 +18,7 @@ using _3D_Engine.Renderers;
 using System;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 {
     public abstract class Triangle : Entity
     {

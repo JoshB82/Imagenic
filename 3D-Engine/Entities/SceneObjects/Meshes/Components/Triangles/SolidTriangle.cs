@@ -15,8 +15,9 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Drawing;
+using _3D_Engine;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="SolidTriangle"/>.

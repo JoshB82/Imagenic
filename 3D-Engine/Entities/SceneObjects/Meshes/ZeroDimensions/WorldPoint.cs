@@ -10,10 +10,10 @@
  * Defines a point Mesh called a WorldPoint which consists of a single Vertex.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes.Components;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;

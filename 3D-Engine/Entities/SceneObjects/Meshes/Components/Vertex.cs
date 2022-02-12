@@ -10,9 +10,10 @@
  * Defines a Vertex, representing a point in 3D space.
  */
 
+using _3D_Engine.Entities;
 using _3D_Engine.Maths.Vectors;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 
 /// <summary>
 /// Encapsulates creation of an <see cref="Vertex"/>.

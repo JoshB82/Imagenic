@@ -14,7 +14,7 @@ using _3D_Engine.Maths.Vectors;
 using System;
 using System.Drawing;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components
 {
     public sealed class Texture : IDisposable
     {
@@ -37,7 +37,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.Components
         #endregion
 
         #region Constructors
-        
+
         public Texture(Texture texture1, Texture texture2)
         {
 

@@ -10,21 +10,22 @@
  * Defines an arrow mesh.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
 using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using System.Collections.Generic;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 
 public sealed class Arrow : Mesh
 {
@@ -171,8 +172,8 @@ public sealed class Arrow : Mesh
                    int resolution,
                    bool hasDirectionArrows) : base(worldOrigin, worldOrientation, GenerateStructure(resolution, bodyLength, tipLength, bodyRadius, tipRadius), hasDirectionArrows)
     {
-        this.length = bodyLength + tipLength;
-        this.tipPosition = worldOrigin + worldOrientation.DirectionForward * this.length;
+        length = bodyLength + tipLength;
+        tipPosition = worldOrigin + worldOrientation.DirectionForward * length;
         this.bodyLength = bodyLength;
         this.tipLength = tipLength;
         this.bodyRadius = bodyRadius;

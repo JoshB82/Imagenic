@@ -1,12 +1,14 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Entities.SceneObjects.Meshes.OneDimension;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 
 public sealed class Path : Mesh
 {
@@ -21,7 +23,7 @@ public sealed class Path : Mesh
 
     }
 
-    public Path(Vector3D worldOrigin, Orientation worldOrientation, IEnumerable<Vertex> vertices) : base(worldOrigin, worldOrientation, 2, new PathVertexData { Points = vertices.Select(x => (Vector3D)x.Point) })
+    public Path(Vector3D worldOrigin, Orientation worldOrientation, IEnumerable<Vertex> vertices) : base(worldOrigin, worldOrientation, 2, new PathVertexData { Points = vertices.Select(x => x.Point) })
     {
 
     }

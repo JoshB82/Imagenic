@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
+namespace Imagenic.Core.Utilities.Helpers
 {
-    class CheckeredTriangle
+    internal class SortingHelper
     {
     }
 }

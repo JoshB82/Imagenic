@@ -12,12 +12,12 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.Meshes;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components;
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 using System;
 
 namespace _3D_Engine.Entities.SceneObjects

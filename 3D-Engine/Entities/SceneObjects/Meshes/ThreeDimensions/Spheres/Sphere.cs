@@ -1,9 +1,10 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components;
+﻿using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions.Spheres
 {
     public abstract class Sphere : Mesh
     {

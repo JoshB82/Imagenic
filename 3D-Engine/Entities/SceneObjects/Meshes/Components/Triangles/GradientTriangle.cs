@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 {
     public sealed class GradientTriangle : Triangle
     {

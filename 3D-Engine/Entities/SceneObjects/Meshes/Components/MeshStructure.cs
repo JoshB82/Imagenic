@@ -1,11 +1,12 @@
 ﻿using _3D_Engine.Constants;
+using _3D_Engine.Entities;
 using _3D_Engine.Enums;
 using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.Components;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 
 public class MeshStructure : Entity
 {
@@ -56,8 +57,8 @@ public class MeshStructure : Entity
                          IList<Edge> edges = null,
                          IList<Face> faces = null)
     {
-        DimensionCount = dimensionCount;    
-        
+        DimensionCount = dimensionCount;
+
         Vertices = new EventList<Vertex>(vertices);
         Edges = new EventList<Edge>(edges);
         Faces = new EventList<Face>(faces);

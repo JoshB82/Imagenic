@@ -11,8 +11,6 @@
  */
 
 using _3D_Engine.Entities.Groups;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
@@ -23,6 +21,8 @@ using _3D_Engine.Utilities;
 using System;
 using System.Collections.Generic;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 {
