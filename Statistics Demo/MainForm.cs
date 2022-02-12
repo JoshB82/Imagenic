@@ -5,13 +5,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
-using _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
+using Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Ellipses;
+using Imagenic.Core.Entities.SceneObjects.Meshes.ZeroDimensions;
 
 namespace Statistics_Demo
 {

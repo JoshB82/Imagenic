@@ -19,7 +19,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using System;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids
+namespace Imagenic.Core.Entities.SceneObjects.Meshes
 {
     internal static class HardcodedMeshData
     {

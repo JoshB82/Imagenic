@@ -18,10 +18,11 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Ellipses;
 using System.Collections.Generic;
 using static System.MathF;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="Ring"/> mesh.

@@ -10,7 +10,6 @@
  * Defines a torus mesh.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;

@@ -19,7 +19,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using System.Collections.Generic;
 using static System.MathF;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Ellipses
 {
     public sealed class Ellipse : Mesh
     {

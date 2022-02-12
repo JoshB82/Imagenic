@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Constants;
+using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
@@ -21,7 +22,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes;
 
 /// <summary>
 /// Encapsulates creation of a <see cref="Mesh"/>.
@@ -40,7 +41,7 @@ public abstract partial class Mesh : SceneObject
             structure = value ?? throw new ParameterCannotBeNullException();
         }
     }
-    
+
     /// <summary>
     /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.
     /// </summary>

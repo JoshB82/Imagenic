@@ -10,9 +10,7 @@
  * Defines a cone mesh.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
@@ -20,6 +18,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Ellipses;
 using System.Collections.Generic;
 using static System.MathF;
 

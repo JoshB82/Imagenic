@@ -10,7 +10,6 @@
  * Defines a three-dimensional text mesh.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;

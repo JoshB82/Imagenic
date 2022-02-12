@@ -11,7 +11,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes
+namespace Imagenic.Core.Entities.SceneObjects.Meshes
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Custom']/*"/>
     public sealed class Custom : Mesh
@@ -101,7 +101,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
         {
 
         }
-//b
+        //b
         /// <summary>
         /// Creates a textured <see cref="Custom"/> mesh from an OBJ file.
         /// </summary>
@@ -142,14 +142,14 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes
                             x = float.Parse(data[1]);
                             y = float.Parse(data[2]);
                             z = float.Parse(data[3]);
-                            w = (data.Length == 5) ? float.Parse(data[4]) : 1;
+                            w = data.Length == 5 ? float.Parse(data[4]) : 1;
                             vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
                             break;
                         case "vt":
                             // Texture vertex
                             u = float.Parse(data[1]);
-                            v = (data.Length > 2) ? float.Parse(data[2]) : 0;
-                            w = (data.Length == 4) ? float.Parse(data[3]) : 0;
+                            v = data.Length > 2 ? float.Parse(data[2]) : 0;
+                            w = data.Length == 4 ? float.Parse(data[3]) : 0;
                             textureVertices.Add(new Vector3D(u, v, w));
                             break;
                         case "l":

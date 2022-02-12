@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using static System.MathF;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Ellipses
 {
     /// <summary>
     /// A sealed class representing a two-dimensional circle mesh. It inherits from<br/>

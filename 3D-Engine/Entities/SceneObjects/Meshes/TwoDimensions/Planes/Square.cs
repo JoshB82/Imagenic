@@ -10,7 +10,6 @@
  * Defines a class for square meshes which are composed of two identical triangular faces.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
@@ -18,7 +17,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Planes
 {
     /// <summary>
     /// A sealed class representing a two-dimensional square mesh. It inherits from
@@ -65,8 +64,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       Orientation worldOrientation,
                       float sideLength) : base(worldOrigin, worldOrientation, 2)
         {
-            
-            
+
+
             Faces = HardcodedMeshData.PlaneSolidFaces;
 
             SideLength = sideLength;
@@ -84,8 +83,8 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
                       float sideLength,
                       Texture texture) : base(worldOrigin, worldOrientation, 2, new Texture[] { texture })
         {
-            
-            
+
+
             Faces = HardcodedMeshData.GeneratePlaneTextureFace(texture);
 
             SideLength = sideLength;
@@ -126,7 +125,7 @@ namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
 
         }
 
-        
+
 
         #endregion
     }

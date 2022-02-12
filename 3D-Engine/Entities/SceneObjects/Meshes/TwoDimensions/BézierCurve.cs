@@ -17,7 +17,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.TwoDimensions
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions
 {
     public sealed class BézierCurve : Mesh
     {

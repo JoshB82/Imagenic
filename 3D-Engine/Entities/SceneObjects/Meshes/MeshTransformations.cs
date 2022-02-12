@@ -16,7 +16,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using System;
 using System.Drawing;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes
+namespace Imagenic.Core.Entities.SceneObjects.Meshes
 {
     public static class MeshExtensions
     {

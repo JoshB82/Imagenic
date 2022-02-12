@@ -16,7 +16,7 @@ using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.Meshes.OneDimension;
+namespace Imagenic.Core.Entities.SceneObjects.Meshes.ZeroDimensions;
 
 /// <summary>
 /// Encapsulates creation of a <see cref="WorldPoint"/> mesh.

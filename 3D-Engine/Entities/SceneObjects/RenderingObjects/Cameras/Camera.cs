@@ -12,12 +12,12 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.Groups;
-using _3D_Engine.Entities.SceneObjects.Meshes;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Enums;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
+using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
