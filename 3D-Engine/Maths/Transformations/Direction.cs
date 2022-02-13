@@ -10,8 +10,6 @@
  * Defines static methods for calculating direction vectors.
  */
 
-using _3D_Engine.Maths.Vectors;
-
 namespace _3D_Engine.Maths.Transformations
 {
     /// <summary>

@@ -1,6 +1,4 @@
-﻿using _3D_Engine.Maths.Vectors;
-
-namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
+﻿namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 {
     internal sealed class ClippingPlane
     {

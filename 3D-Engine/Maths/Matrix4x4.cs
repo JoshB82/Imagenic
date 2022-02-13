@@ -12,7 +12,6 @@
 
 using _3D_Engine;
 using _3D_Engine.Constants;
-using _3D_Engine.Maths.Vectors;
 using System;
 
 namespace Imagenic.Core.Maths

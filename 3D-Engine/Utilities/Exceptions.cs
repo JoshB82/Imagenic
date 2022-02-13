@@ -10,7 +10,7 @@
  * Defines exceptions and their messages.
  */
 
-using _3D_Engine.Enums;
+using Imagenic.Core.Enums;
 using System;
 
 namespace _3D_Engine.Constants

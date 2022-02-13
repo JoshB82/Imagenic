@@ -1,8 +1,8 @@
 ﻿using _3D_Engine.Constants;
 using _3D_Engine.Enums;
-using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components;

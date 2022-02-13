@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
@@ -132,14 +131,14 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes
             float radical = MathF.Sqrt(3) / 3;
             return new List<Vertex>
             {
-                new Vertex(new Vector4D(0, 0, 0, 1), new Vector3D(-radical, -radical, -radical)), // 0 [Back-bottom-left]
-                new Vertex(new Vector4D(1, 0, 0, 1), new Vector3D(radical, -radical, -radical)), // 1 [Back-bottom-right]
-                new Vertex(new Vector4D(1, 1, 0, 1), new Vector3D(radical, radical, -radical)), // 2 [Back-top-right]
-                new Vertex(new Vector4D(0, 1, 0, 1), new Vector3D(-radical, radical, -radical)), // 3 [Back-top-left]
-                new Vertex(new Vector4D(0, 0, 1, 1), new Vector3D(-radical, -radical, radical)), // 4 [Front-bottom-left]
-                new Vertex(new Vector4D(1, 0, 1, 1), new Vector3D(radical, -radical, radical)), // 5 [Front-bottom-right]
-                new Vertex(new Vector4D(1, 1, 1, 1), new Vector3D(radical, radical, radical)), // 6 [Front-top-right]
-                new Vertex(new Vector4D(0, 1, 1, 1), new Vector3D(-radical, radical, radical)) // 7 [Front-top-left]
+                new Vertex(Vector3D.Zero, new Vector3D(-radical, -radical, -radical)), // 0 [Back-bottom-left]
+                new Vertex(Vector3D.UnitX, new Vector3D(radical, -radical, -radical)), // 1 [Back-bottom-right]
+                new Vertex(new Vector3D(1, 1, 0), new Vector3D(radical, radical, -radical)), // 2 [Back-top-right]
+                new Vertex(Vector3D.UnitY, new Vector3D(-radical, radical, -radical)), // 3 [Back-top-left]
+                new Vertex(Vector3D.UnitZ, new Vector3D(-radical, -radical, radical)), // 4 [Front-bottom-left]
+                new Vertex(new Vector3D(1, 0, 1), new Vector3D(radical, -radical, radical)), // 5 [Front-bottom-right]
+                new Vertex(Vector3D.One, new Vector3D(radical, radical, radical)), // 6 [Front-top-right]
+                new Vertex(new Vector3D(0, 1, 1), new Vector3D(-radical, radical, radical)) // 7 [Front-top-left]
             };
         }
 

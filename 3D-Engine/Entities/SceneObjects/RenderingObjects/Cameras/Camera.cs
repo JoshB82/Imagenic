@@ -14,7 +14,7 @@ using _3D_Engine.Constants;
 using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Enums;
-using _3D_Engine.Maths.Vectors;
+using _3D_Engine.Maths;
 using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
@@ -197,18 +197,15 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 
         #region Constructors
 
-        internal Camera(Vector3D origin,
-                        Vector3D directionForward,
-                        Vector3D directionUp,
+        internal Camera(Vector3D worldOrigin,
+                        Orientation worldOrientation,
                         float viewWidth,
                         float viewHeight,
                         float zNear,
-                        float zFar,
-                        int renderWidth,
-                        int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
+                        float zFar) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar)
         {
             string[] iconObjData = Properties.Resources.Camera.Split(Environment.NewLine);
-            Icon = new Custom(origin, directionForward, directionUp, iconObjData) { Dimension = 3 };
+            Icon = new Custom(worldOrigin, directionForward, directionUp, iconObjData) { Dimension = 3 };
             Icon.ColourAllSolidFaces(Color.DarkCyan);
             Icon.Scale(5);
         }

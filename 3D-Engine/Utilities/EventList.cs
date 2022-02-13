@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Utilities;
+namespace Imagenic.Core.Utilities;
 
 public class EventList<T> : Entity, IList<T>
 {

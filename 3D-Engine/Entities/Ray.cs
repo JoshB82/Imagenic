@@ -1,8 +1,7 @@
-﻿using _3D_Engine.Maths.Vectors;
-using Imagenic.Core.Entities;
+﻿using _3D_Engine;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 
-namespace _3D_Engine.Entities;
+namespace Imagenic.Core.Entities;
 
 public class Ray : Entity
 {
@@ -47,7 +46,7 @@ public class Ray : Entity
             intersection = null;
             return false;
         }
-        float d = ((triangle.P1 - StartPosition) * normal) / (Direction * normal);
+        float d = (triangle.P1 - StartPosition) * normal / (Direction * normal);
         intersection = d * Direction + StartPosition;
         return true;
     }

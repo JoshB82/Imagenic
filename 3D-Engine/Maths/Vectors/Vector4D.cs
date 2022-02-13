@@ -10,11 +10,12 @@
  * Encapsulates creation of a four-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector4D has a size of 16 bytes, so, where possible, a Vector4D should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine;
 using _3D_Engine.Constants;
 using System;
 using static System.MathF;
 
-namespace _3D_Engine.Maths.Vectors
+namespace Imagenic.Core.Maths.Vectors
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector4D']/*"/>
     public struct Vector4D : IEquatable<Vector4D>
@@ -157,8 +158,8 @@ namespace _3D_Engine.Maths.Vectors
         // Common
         public readonly float Angle(Vector4D v)
         {
-            if (this == Vector4D.Zero || v == Vector4D.Zero) throw Exceptions.Angle;
-            float quotient = this * v / (this.Magnitude() * v.Magnitude());
+            if (this == Zero || v == Zero) throw Exceptions.Angle;
+            float quotient = this * v / (Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return Acos(quotient);
         }
@@ -180,7 +181,7 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         /// <returns>A normalised <see cref="Vector4D"/>.</returns>
         public readonly Vector4D Normalise() =>
-            this.Approx_Equals(Zero, 1E-6f)
+            Approx_Equals(Zero, 1E-6f)
             ? throw Exceptions.Normalise
             : this / Magnitude();
 
@@ -192,10 +193,10 @@ namespace _3D_Engine.Maths.Vectors
         public readonly bool Equals(Vector4D v) => this == v;
 
         public readonly bool Approx_Equals(Vector4D v, float epsilon = float.Epsilon) =>
-            this.x.ApproxEquals(v.x, epsilon) &&
-            this.y.ApproxEquals(v.y, epsilon) &&
-            this.z.ApproxEquals(v.z, epsilon) &&
-            this.w.ApproxEquals(v.w, epsilon);
+            x.ApproxEquals(v.x, epsilon) &&
+            y.ApproxEquals(v.y, epsilon) &&
+            z.ApproxEquals(v.z, epsilon) &&
+            w.ApproxEquals(v.w, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Vector4D)obj;
 

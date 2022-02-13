@@ -1,6 +1,4 @@
-﻿using _3D_Engine.Enums;
-using _3D_Engine.Maths.Vectors;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -10,6 +8,8 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Entities.Groups;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ZeroDimensions;
+using Imagenic.Core.Maths.Vectors;
+using Imagenic.Core.Enums;
 
 namespace Interactive_Demo
 {

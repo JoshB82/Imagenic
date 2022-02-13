@@ -10,10 +10,10 @@
  * Defines a base class for loaders.
  */
 
-using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

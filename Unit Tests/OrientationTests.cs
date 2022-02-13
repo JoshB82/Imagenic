@@ -1,5 +1,5 @@
 ﻿using _3D_Engine.Maths;
-using _3D_Engine.Maths.Vectors;
+using Imagenic.Core.Maths.Vectors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Unit_Tests

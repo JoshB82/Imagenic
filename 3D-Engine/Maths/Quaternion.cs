@@ -10,13 +10,13 @@
  * Encapsulates creation of a quaternion and provides methods to extract common information and for operator overloading. Each instance of a Quaternion has a size of 16 bytes, so, where possible, a Quaternion should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine;
 using _3D_Engine.Constants;
-using _3D_Engine.Maths.Vectors;
 using System;
 
 using static System.MathF;
 
-namespace _3D_Engine.Maths
+namespace Imagenic.Core.Maths
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Quaternion']/*"/>
     public struct Quaternion : IEquatable<Quaternion>
@@ -88,7 +88,7 @@ namespace _3D_Engine.Maths
 
         /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Quaternion.Normalise']/*"/>
         public readonly Quaternion Normalise() =>
-            this.Approx_Equals(Zero, 1E-6f)
+            Approx_Equals(Zero, 1E-6f)
                 ? throw Exceptions.QuaternionNormalise
                 : this / Magnitude();
 
@@ -100,10 +100,10 @@ namespace _3D_Engine.Maths
         public readonly bool Equals(Quaternion q) => this == q;
 
         public readonly bool Approx_Equals(Quaternion q, float epsilon = float.Epsilon) =>
-            this.q1.ApproxEquals(q.q1, epsilon) &&
-            this.q2.ApproxEquals(q.q2, epsilon) &&
-            this.q3.ApproxEquals(q.q3, epsilon) &&
-            this.q4.ApproxEquals(q.q4, epsilon);
+            q1.ApproxEquals(q.q1, epsilon) &&
+            q2.ApproxEquals(q.q2, epsilon) &&
+            q3.ApproxEquals(q.q3, epsilon) &&
+            q4.ApproxEquals(q.q4, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Quaternion)obj;
 

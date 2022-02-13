@@ -1,5 +1,4 @@
 ﻿using _3D_Engine.Maths.Transformations;
-using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Maths;
 using System;
 

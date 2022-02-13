@@ -11,12 +11,12 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Enums;
+using Imagenic.Core.Enums;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace _3D_Engine.Utilities;
+namespace Imagenic.Core.Utilities;
 
 internal class MessageBuilder<T> where T : IVerbose, new()
 {

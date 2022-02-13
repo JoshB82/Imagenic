@@ -12,7 +12,6 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Maths.Transformations;
-using _3D_Engine.Maths.Vectors;
 using System;
 
 namespace _3D_Engine.Maths

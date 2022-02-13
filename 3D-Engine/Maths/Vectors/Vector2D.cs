@@ -10,11 +10,12 @@
  * Encapsulates creation of a two-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector2D has a size of 8 bytes, so, where possible, a Vector2D should be passed by reference to reduce unnecessary copying (depending on the architecture of the machine).
  */
 
+using _3D_Engine;
 using _3D_Engine.Constants;
 using System;
 using static System.MathF;
 
-namespace _3D_Engine.Maths.Vectors
+namespace Imagenic.Core.Maths.Vectors
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector2D']/*"/>
     public struct Vector2D : IEquatable<Vector2D>
@@ -84,8 +85,8 @@ namespace _3D_Engine.Maths.Vectors
         // Common
         public readonly float Angle(Vector2D v)
         {
-            if (this == Vector2D.Zero || v == Vector2D.Zero) throw Exceptions.Angle;
-            float quotient = this * v / (this.Magnitude() * v.Magnitude());
+            if (this == Zero || v == Zero) throw Exceptions.Angle;
+            float quotient = this * v / (Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return Acos(quotient);
         }
@@ -107,7 +108,7 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         /// <returns>A normalised <see cref="Vector2D"/>.</returns>
         public readonly Vector2D Normalise() =>
-            this.ApproxEquals(Zero, 1E-6f)
+            ApproxEquals(Zero, 1E-6f)
             ? throw Exceptions.Normalise
             : this / Magnitude();
 
@@ -118,7 +119,7 @@ namespace _3D_Engine.Maths.Vectors
 
         public readonly bool Equals(Vector2D v) => this == v;
 
-        public readonly bool ApproxEquals(Vector2D v, float epsilon = float.Epsilon) => this.x.ApproxEquals(v.x, epsilon) && this.y.ApproxEquals(v.y, epsilon);
+        public readonly bool ApproxEquals(Vector2D v, float epsilon = float.Epsilon) => x.ApproxEquals(v.x, epsilon) && y.ApproxEquals(v.y, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Vector2D)obj;
 

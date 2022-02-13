@@ -12,7 +12,6 @@
 
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Maths;
-using _3D_Engine.Maths.Vectors;
 using static _3D_Engine.Properties.Settings;
 
 namespace Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights

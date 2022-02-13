@@ -10,8 +10,6 @@
  * Defines frequently used constants.
  */
 
-using _3D_Engine.Maths.Vectors;
-
 namespace _3D_Engine.Constants
 {
     /// <summary>

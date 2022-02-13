@@ -1,5 +1,4 @@
-﻿using _3D_Engine.Maths.Vectors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,6 +11,7 @@ using _3D_Engine.Entities.SceneObjects;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 using Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Ellipses;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ZeroDimensions;
+using Imagenic.Core.Maths.Vectors;
 
 namespace Statistics_Demo
 {

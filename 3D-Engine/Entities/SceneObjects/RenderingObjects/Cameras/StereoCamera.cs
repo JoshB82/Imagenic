@@ -1,8 +1,9 @@
-﻿using _3D_Engine.Maths.Vectors;
-using static _3D_Engine.Properties.Settings;
+﻿using static _3D_Engine.Properties.Settings;
 using _3D_Engine.Entities.Groups;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Maths;
 
-namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
+namespace Imagenic.Core.Entities.SceneObjects.RenderingObjects.Cameras
 {
     /// <summary>
     /// Encapsulates creation of a <see cref="StereoCamera"/>.
@@ -11,7 +12,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
     {
         #region Constructors
 
-        public StereoCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
+        public StereoCamera(Vector3D worldOrigin, Orientation worldOrientation, float viewWidth, float viewHeight, float zNear, float zFar) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar) { }
 
         #endregion
 

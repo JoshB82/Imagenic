@@ -10,11 +10,12 @@
  * Encapsulates creation of a three-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector3D has a size of 12 bytes, so, where possible, a Vector3D should be passed by reference to reduce unnecessary copying.
  */
 
+using _3D_Engine;
 using _3D_Engine.Constants;
 using System;
 using static System.MathF;
 
-namespace _3D_Engine.Maths.Vectors
+namespace Imagenic.Core.Maths.Vectors
 {
     /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector3D']/*"/>
     public struct Vector3D : IEquatable<Vector3D>
@@ -117,8 +118,8 @@ namespace _3D_Engine.Maths.Vectors
         /// <returns>The angle between two <see cref="Vector3D">Vector3Ds</see>.</returns>
         public readonly float Angle(Vector3D v)
         {
-            if (this == Vector3D.Zero || v == Vector3D.Zero) throw Exceptions.Angle;
-            float quotient = this * v / (this.Magnitude() * v.Magnitude());
+            if (this == Zero || v == Zero) throw Exceptions.Angle;
+            float quotient = this * v / (Magnitude() * v.Magnitude());
             if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
             return Acos(quotient);
         }
@@ -128,7 +129,7 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         /// <param name="v">A <see cref="Vector3D"/> used in calculating the cross product with the current <see cref="Vector3D"/> instance.</param>
         /// <returns>The cross product of two <see cref="Vector3D">Vector3Ds</see>.</returns>
-        public readonly Vector3D CrossProduct(Vector3D v) => new Vector3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
+        public readonly Vector3D CrossProduct(Vector3D v) => new Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 
         /// <summary>
         /// Finds the magnitude of a <see cref="Vector3D"/>.
@@ -147,7 +148,7 @@ namespace _3D_Engine.Maths.Vectors
         /// </summary>
         /// <returns>A normalised <see cref="Vector3D"/>.</returns>
         public readonly Vector3D Normalise() =>
-            this.ApproxEquals(Zero, 1E-6f)
+            ApproxEquals(Zero, 1E-6f)
             ? throw Exceptions.Normalise
             : this / Magnitude();
 
@@ -158,7 +159,7 @@ namespace _3D_Engine.Maths.Vectors
 
         public readonly bool Equals(Vector3D v) => this == v;
 
-        public readonly bool ApproxEquals(Vector3D v, float epsilon = float.Epsilon) => this.x.ApproxEquals(v.x, epsilon) && this.y.ApproxEquals(v.y, epsilon) && this.z.ApproxEquals(v.z, epsilon);
+        public readonly bool ApproxEquals(Vector3D v, float epsilon = float.Epsilon) => x.ApproxEquals(v.x, epsilon) && y.ApproxEquals(v.y, epsilon) && z.ApproxEquals(v.z, epsilon);
 
         public override readonly bool Equals(object obj) => this == (Vector3D)obj;
 
@@ -177,7 +178,7 @@ namespace _3D_Engine.Maths.Vectors
             //if (denominator == 0) throw new ArgumentException("Line does not intersect plane or exists entirely on plane.");
 
             // d = new length / old length
-            d = (planePoint - lineStart) * planeNormal / (denominator);
+            d = (planePoint - lineStart) * planeNormal / denominator;
             // Round in direction of normal!?
             return line * d + lineStart;
         }

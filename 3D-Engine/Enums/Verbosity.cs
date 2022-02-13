@@ -10,7 +10,7 @@
  * Defines an enum for options describing the verbosity of output.
  */
 
-namespace _3D_Engine.Enums
+namespace Imagenic.Core.Enums
 {
     /// <summary>
     /// Options describing the verbosity of output.

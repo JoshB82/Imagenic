@@ -1,5 +1,4 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Maths.Vectors;
 
 namespace _3D_Engine.Entities.Groups
 {

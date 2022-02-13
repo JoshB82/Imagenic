@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Maths;
-using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
 using System;
 using System.Drawing;

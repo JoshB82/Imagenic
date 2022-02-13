@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Maths;
-using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using System;
 using System.Drawing;

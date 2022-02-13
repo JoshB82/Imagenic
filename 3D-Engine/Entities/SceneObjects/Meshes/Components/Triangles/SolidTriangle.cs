@@ -12,7 +12,6 @@
 
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
-using _3D_Engine.Maths.Vectors;
 using System;
 using System.Drawing;
 using _3D_Engine;

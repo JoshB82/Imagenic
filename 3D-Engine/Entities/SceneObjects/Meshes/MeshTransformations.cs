@@ -10,7 +10,6 @@
  * Defines methods for scaling Meshes and other functionality.
  */
 
-using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using System;
