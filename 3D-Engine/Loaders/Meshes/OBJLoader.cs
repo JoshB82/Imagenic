@@ -10,14 +10,13 @@
  * Defines static methods for loading and processing data from .OBJ files.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Loaders;
+using Imagenic.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -123,11 +122,6 @@ namespace _3D_Engine.Loaders
             return faces;
         }
 
-        public Custom GenerateCustomMesh()
-        {
-
-        }
-
         #region Methods
 
         public async override Task<MeshStructure> ParseAsync(CancellationToken ct = default)
@@ -190,12 +184,22 @@ namespace _3D_Engine.Loaders
 
         private static Vertex ParseVertex(string[] data)
         {
-            float x = float.Parse(data[1]);
-            float y = float.Parse(data[2]);
-            float z = float.Parse(data[3]);
-            float w = (data.Length == 5) ? float.Parse(data[4]) : 1;
-
-            return new Vertex(new Vector4D(x, y, z, w));
+            if (!float.TryParse(data[1], out float x) ||
+                !float.TryParse(data[2], out float y) ||
+                !float.TryParse(data[3], out float z) ||
+                (data.Length == 5 && !float.TryParse(data[4], out float w)))
+            {
+                throw new MessageBuilder<InvalidFileContentMessage>()
+                    .AddParameters(data)
+                    .AddType<OBJLoader>()
+                    .BuildIntoException<InvalidDataException>();
+            }
+            else
+            {
+                w = 1;
+            }
+            
+            return new Vertex(new Vector3D(x, y, z), w);
         }
 
         private static Edge ParseEdge(string[] data, int noEndPoints, IList<Vertex> vertices)

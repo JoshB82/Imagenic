@@ -849,11 +849,9 @@
             Encapsulates creation of a <see cref="T:_3D_Engine.Custom" /> mesh.
             </summary>
         </member>
-        <member name="M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])">
-            <summary>
-            Creates a <see cref="T:_3D_Engine.Custom" /> mesh.
-            </summary><param name="origin">The position of the <see cref="T:_3D_Engine.Custom" /> mesh.</param><param name="direction_forward">The direction the <see cref="T:_3D_Engine.Custom" /> mesh faces.</param><param name="direction_up">The upward orientation of the <see cref="T:_3D_Engine.Custom" /> mesh.</param><param name="vertices">The vertices that make up the <see cref="T:_3D_Engine.Custom" /> mesh.</param><param name="edges">The <see cref="T:_3D_Engine.Edge" />s that make up the <see cref="T:_3D_Engine.Custom" /> mesh.</param><param name="faces">The <see cref="T:_3D_Engine.Face" />s that make up the <see cref="T:_3D_Engine.Custom" /> mesh.</param>
-        </member>
+        
+            
+        
         <member name="M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])">
             <summary>
             Creates a textured <see cref="T:_3D_Engine.Custom" /> mesh.

@@ -1,8 +1,6 @@
-﻿using _3D_Engine.Maths.Vectors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using _3D_Engine.Maths;
@@ -27,74 +25,68 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes
 
         }
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[])']/*"/>
-        public Custom(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
-                      Vertex[] vertices,
-                      Edge[] edges,
-                      Triangle[] faces) : base(origin, directionForward, directionUp)
-        {
-            Vertices = vertices;
-            Edges = edges;
-            Triangles = faces;
-        }
+        ///<summary>
+            ///Creates a<see cref= "T:_3D_Engine.Custom" /> mesh.
+            ///</ summary >
+            ///< param name= "origin" > The position of the<see cref="T:_3D_Engine.Custom" /> mesh.</param>
+            ///<param name = "direction_forward" > The direction the <see cref = "T:_3D_Engine.Custom" /> mesh faces.</param>
+            ///<param name = "direction_up" > The upward orientation of the <see cref = "T:_3D_Engine.Custom" /> mesh.</ param >
+            ///< param name= "vertices" > The vertices that make up the<see cref="T:_3D_Engine.Custom" /> mesh.</param><param name = "edges" > The < see cref= "T:_3D_Engine.Edge" /> s that make up the <see cref = "T:_3D_Engine.Custom" /> mesh.</ param >
+            ///< param name= "faces" > The < see cref= "T:_3D_Engine.Face" /> s that make up the <see cref = "T:_3D_Engine.Custom" /> mesh.</ param >
 
-        /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
-        public Custom(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
-                      Vertex[] vertices,
-                      Edge[] edges,
-                      Triangle[] faces,
-                      Texture[] textures) : base(origin, directionForward, directionUp)
-        {
-            Vertices = vertices;
-            Edges = edges;
-            Triangles = faces;
+    /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Custom.#ctor(_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vector3D,_3D_Engine.Vertex[],_3D_Engine.Edge[],_3D_Engine.Face[],_3D_Engine.Texture[])']/*"/>
+    public Custom(Vector3D origin,
+    Vector3D directionForward,
+    Vector3D directionUp,
+    Vertex[] vertices,
+    Edge[] edges,
+    Triangle[] faces,
+    Texture[] textures) : base(origin, directionForward, directionUp)
+    {
+    Vertices = vertices;
+    Edges = edges;
+    Triangles = faces;
+    HasTexture = true;
+    Textures = textures;
+    }
 
-            HasTexture = true;
-            Textures = textures;
-        }
+    /// <summary>
+    /// Creates a <see cref="Custom"/> mesh from an OBJ file.
+    /// </summary>
+    /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
+    /// <param name="directionForward">The direction the <see cref="Custom"/> mesh faces.</param>
+    /// <param name="directionUp">The upward orientation of the <see cref="Custom"/> mesh.</param>
+    /// <param name="filePath">The path of the OBJ file.</param>
+    public Custom(Vector3D origin,
+    Vector3D directionForward,
+    Vector3D directionUp,
+    string filePath) : base(origin, directionForward, directionUp)
+    {
+    // Check if the file exists
+    if (!File.Exists(filePath))
+    {
+    Trace.WriteLine($"Error generating Custom mesh: The file {filePath} was not found.");
+    return;
+    }
 
-        /// <summary>
-        /// Creates a <see cref="Custom"/> mesh from an OBJ file.
-        /// </summary>
-        /// <param name="origin">The position of the <see cref="Custom"/> mesh.</param>
-        /// <param name="directionForward">The direction the <see cref="Custom"/> mesh faces.</param>
-        /// <param name="directionUp">The upward orientation of the <see cref="Custom"/> mesh.</param>
-        /// <param name="filePath">The path of the OBJ file.</param>
-        public Custom(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
-                      string filePath) : base(origin, directionForward, directionUp)
-        {
-            // Check if the file exists
-            if (!File.Exists(filePath))
-            {
-                Trace.WriteLine($"Error generating Custom mesh: The file {filePath} was not found.");
-                return;
-            }
+    // Obtain data from file
+    string[] lines;
+    try
+    {
+    lines = File.ReadAllLines(filePath);
+    }
+    catch (Exception error)
+    {
+    Trace.WriteLine($"Error generating Custom mesh: {error.Message}");
+    return;
+    }
 
-            // Obtain data from file
-            string[] lines;
-            try
-            {
-                lines = File.ReadAllLines(filePath);
-            }
-            catch (Exception error)
-            {
-                Trace.WriteLine($"Error generating Custom mesh: {error.Message}");
-                return;
-            }
-
-            // Create the mesh
-            GenerateCustomFromOBJ(lines);
-        }
-
-        public Custom(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
+    // Create the mesh
+    GenerateCustomFromOBJ(lines);
+    }
+    public Custom(Vector3D origin,
+                    Vector3D directionForward,
+                    Vector3D directionUp,
                       string[] lines) : base(origin, directionForward, directionUp) => GenerateCustomFromOBJ(lines);
 
         private void GenerateCustomFromOBJ(string[] lines)

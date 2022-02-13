@@ -134,6 +134,13 @@ internal static class ExceptionHelper
 
 #region Messages
 
+internal class InvalidFileContentMessage : IVerbose
+{
+    public string BriefVerbosityText { get; set; } = "Invalid file.";
+    public string DetailedVerbosityText { get; set; } = "The file contained content that could not be parsed.";
+    public string AllVerbosityText { get; set; } = "The file contained the following content that could not be parsed: {0}";
+}
+
 internal class FileNotFoundMessage : IVerbose
 {
     public string BriefVerbosityText { get; set; } = "File not found.";
