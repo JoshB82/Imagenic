@@ -1,6 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Images;
 using _3D_Engine.Images.ImageOptions;
+using Imagenic.Core.Images;
 using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;

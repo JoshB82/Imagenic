@@ -1,11 +1,13 @@
-﻿using Imagenic.Core.Renderers;
+﻿using _3D_Engine.Images;
+using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Images;
+namespace Imagenic.Core.Images;
 
 public class Bitmap : Image
 {

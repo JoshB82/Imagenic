@@ -1,10 +1,13 @@
-﻿namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
+﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
+using _3D_Engine.Maths;
+
+namespace Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights
 {
-    public sealed class AmbientLight// : Light
+    public sealed class AmbientLight : Light
     {
         #region Constructors
 
-        public AmbientLight(Vector3D origin, Vector3D directionForward, Vector3D directionUp)// : base(origin, directionForward, directionUp)
+        public AmbientLight(Vector3D worldOrigin, Orientation worldOrientation) : base(worldOrigin, worldOrientation)
         {
 
         }
