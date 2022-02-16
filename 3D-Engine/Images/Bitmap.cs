@@ -1,5 +1,4 @@
-﻿using _3D_Engine.Images;
-using Imagenic.Core.Renderers;
+﻿using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,7 +15,7 @@ public class Bitmap : Image
 
     }
 
-    public Bitmap(Buffer2D<Color> buffer)
+    public Bitmap(Buffer2D<Color> buffer) : base(buffer.FirstDimensionSize, buffer.SecondDimensionSize)
     {
 
     }

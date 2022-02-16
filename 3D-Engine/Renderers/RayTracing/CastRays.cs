@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Renderers.RayTracing
+namespace Imagenic.Core.Renderers.RayTracing
 {
     public partial class RayTracer
     {
@@ -81,7 +81,7 @@ namespace _3D_Engine.Renderers.RayTracing
                     }
                 });
 
-                
+
             }
 
             Task.WaitAll(tasks);

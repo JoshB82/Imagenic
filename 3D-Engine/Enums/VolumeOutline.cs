@@ -12,7 +12,7 @@
 
 using System;
 
-namespace _3D_Engine.Enums;
+namespace Imagenic.Core.Enums;
 
 /// <summary>
 /// Options describing how view volume outlines are drawn.

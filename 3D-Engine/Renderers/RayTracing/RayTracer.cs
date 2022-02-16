@@ -1,7 +1,7 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Images;
-using _3D_Engine.Images.ImageOptions;
+using _3D_Engine.Renderers;
 using Imagenic.Core.Images;
+using Imagenic.Core.Images.ImageOptions;
 using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Renderers.RayTracing
+namespace Imagenic.Core.Renderers.RayTracing
 {
     public partial class RayTracer<T> : Renderer<T> where T : Image
     {

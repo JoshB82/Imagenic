@@ -10,7 +10,7 @@
  * Defines an enum for options describing how the viewport is constructed.
  */
 
-namespace _3D_Engine.Enums;
+namespace Imagenic.Core.Enums;
 
 /// <summary>
 /// Options describing how the viewport is constructed.

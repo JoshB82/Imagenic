@@ -1,4 +1,4 @@
-﻿namespace _3D_Engine.Enums
+﻿namespace Imagenic.Core.Enums
 {
     public enum OutsideTextureBehaviour
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Images.ImageOptions;
+namespace Imagenic.Core.Images.ImageOptions;
 
 internal class BitmapOptions : IImageOptions<Bitmap>
 {

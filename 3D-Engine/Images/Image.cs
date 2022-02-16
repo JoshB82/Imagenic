@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Images;
+namespace Imagenic.Core.Images;
 
 public abstract class Image
 {
