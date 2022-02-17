@@ -100,7 +100,7 @@ internal class MessageBuilder<T> where T : IVerbose, new()
         }
         else
         {
-            return AddToMessage(string.Format(GetMessage(), parameters)).ToString();
+            return AddToMessage(string.Format(GetMessage(), parameters.ToArray())).ToString();
         }
     }
 
