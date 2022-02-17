@@ -13,40 +13,49 @@
 using _3D_Engine.Constants;
 using Imagenic.Core.Enums;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace Imagenic.Core.Utilities;
 
 internal class MessageBuilder<T> where T : IVerbose, new()
 {
-    private const string projectName = "3D-Engine";
+    
     private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
 
-    private string message;
+    
+    private readonly StringBuilder sb = new();
 
-    private string[] parameters;
+    private List<string> parameters;
 
-    private string AddToMessage(string value)
+    private StringBuilder AddToMessage(string value)
     {
-        if (message is not null)
+        if (sb.Length > 0)
         {
-            message += " ";
+            sb.Append(' ');
         }
-        return message += value;
+        
+        return sb.Append(value);
     }
+
+    #region Constructors
 
     internal MessageBuilder(bool includeTime = true, bool includeProjectName = true)
     {
         if (includeTime)
         {
-            message = $"[{GetTime()}]";
+            sb.Append($"[{GetTime()}]");
         }
         if (includeProjectName)
         {
-            AddToMessage($"[{projectName}]");
+            AddToMessage($"[{Constants.ProjectName}]");
         }
     }
+
+    #endregion
 
     internal MessageBuilder<T> AddType(Type type)
     {
@@ -55,12 +64,14 @@ internal class MessageBuilder<T> where T : IVerbose, new()
     }
 
     internal MessageBuilder<T> AddType<U>() => AddType(typeof(U));
-
-    internal MessageBuilder<T> AddParameters(params string[] parameters)
+    
+    internal MessageBuilder<T> AddParameters(IEnumerable<string> parameters)
     {
-        this.parameters = parameters;
+        this.parameters = parameters.ToList();
         return this;
     }
+
+    internal MessageBuilder<T> AddParameters(params string[] parameters) => AddParameters(parameters);
 
     private static string GetMessage()
     {
@@ -82,17 +93,23 @@ internal class MessageBuilder<T> where T : IVerbose, new()
         }
         else if (parameters is null)
         {
-            return AddToMessage(GetMessage());
+            return AddToMessage(GetMessage()).ToString();
         }
         else
         {
-            return AddToMessage(string.Format(GetMessage(), parameters));
+            return AddToMessage(string.Format(GetMessage(), parameters)).ToString();
         }
     }
 
-    internal U BuildIntoException<U>() where U : Exception
+    internal U BuildIntoException<U>(Exception innerException = null) where U : Exception
     {
-        return Activator.CreateInstance(typeof(U), Build()) as U;
+        var args = new List<object> { Build() };
+        if (innerException is not null)
+        {
+            args.Add(innerException);
+        }
+
+        return Activator.CreateInstance(typeof(U), args.ToArray()) as U;
     }
 }
 

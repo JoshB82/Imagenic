@@ -10,13 +10,15 @@
  * Defines frequently used constants.
  */
 
-namespace _3D_Engine.Constants
+namespace Imagenic.Core.Utilities
 {
     /// <summary>
     /// Encapsulates frequently used <see cref="Constants"/>.
     /// </summary>
     public static class Constants
     {
+        public const string ProjectName = "Imagenic.Core";
+
         #region Physics
 
         // Gravitational Acceleration
