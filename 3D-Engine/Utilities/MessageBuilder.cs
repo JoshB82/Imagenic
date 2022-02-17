@@ -93,7 +93,7 @@ internal class MessageBuilder<T> where T : IVerbose, new()
         {
             return string.Empty;
         }
-        else if (parameters is null)
+        else if (parameters.Count == 0)
         {
             return AddToMessage(GetMessage()).ToString();
         }
