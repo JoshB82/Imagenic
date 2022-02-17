@@ -16,30 +16,18 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Imagenic.Core.Utilities;
 
 internal class MessageBuilder<T> where T : IVerbose, new()
 {
-    
-    private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
+    #region Fields and Properties
 
-    
     private readonly StringBuilder sb = new();
+    private readonly List<string> parameters = new();
 
-    private List<string> parameters;
-
-    private StringBuilder AddToMessage(string value)
-    {
-        if (sb.Length > 0)
-        {
-            sb.Append(' ');
-        }
-        
-        return sb.Append(value);
-    }
+    #endregion
 
     #region Constructors
 
@@ -57,6 +45,20 @@ internal class MessageBuilder<T> where T : IVerbose, new()
 
     #endregion
 
+    #region Methods
+
+    private StringBuilder AddToMessage(string value)
+    {
+        if (sb.Length > 0)
+        {
+            sb.Append(' ');
+        }
+
+        return sb.Append(value);
+    }
+
+    private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
+
     internal MessageBuilder<T> AddType(Type type)
     {
         AddToMessage($"[{type}]");
@@ -67,7 +69,7 @@ internal class MessageBuilder<T> where T : IVerbose, new()
     
     internal MessageBuilder<T> AddParameters(IEnumerable<string> parameters)
     {
-        this.parameters = parameters.ToList();
+        this.parameters.AddRange(parameters);
         return this;
     }
 
@@ -111,6 +113,8 @@ internal class MessageBuilder<T> where T : IVerbose, new()
 
         return Activator.CreateInstance(typeof(U), args.ToArray()) as U;
     }
+
+    #endregion
 }
 
 internal static class MessageHelper
