@@ -12,7 +12,10 @@
 
 using _3D_Engine;
 using _3D_Engine.Constants;
+using Imagenic.Core.Utilities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using static System.MathF;
 
 namespace Imagenic.Core.Maths.Vectors
@@ -149,6 +152,20 @@ namespace Imagenic.Core.Maths.Vectors
             y = elements[1];
             z = elements[2];
             w = elements[3];
+        }
+
+        public Vector4D(IEnumerable<float> elements)
+        {
+            ExceptionHelper.ThrowIfParameterIsNull(elements, nameof(elements));
+            var elementsArray = elements.ToArray();
+            if (elementsArray.Length < 4)
+            {
+                // throw exception
+            }
+            x = elementsArray[0];
+            y = elementsArray[1];
+            z = elementsArray[2];
+            w = elementsArray[3];
         }
 
         #endregion

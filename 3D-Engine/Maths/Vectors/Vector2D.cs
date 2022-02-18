@@ -12,7 +12,10 @@
 
 using _3D_Engine;
 using _3D_Engine.Constants;
+using Imagenic.Core.Utilities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using static System.MathF;
 
 namespace Imagenic.Core.Maths.Vectors
@@ -76,6 +79,18 @@ namespace Imagenic.Core.Maths.Vectors
             if (elements.Length < 2) throw new ArgumentException(Exceptions.Vector2DParameterLength, nameof(elements));
             x = elements[0];
             y = elements[1];
+        }
+
+        public Vector2D(IEnumerable<float> elements)
+        {
+            ExceptionHelper.ThrowIfParameterIsNull(elements, nameof(elements));
+            var elementsArray = elements.ToArray();
+            if (elementsArray.Length < 2)
+            {
+                // throw exception
+            }
+            x = elementsArray[0];
+            y = elementsArray[1];
         }
 
         #endregion

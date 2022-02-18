@@ -188,7 +188,7 @@ namespace _3D_Engine.Loaders
             try
             {
                 IEnumerable<float> args = data.Skip(1).Select(x => float.Parse(x));
-                return new Vertex(new Vector3D(args.SkipLast(1)), data.Length == 5 ? args.Last() : 1);
+                return new Vertex(new Vector3D(args), data.Length == 5 ? args.Last() : 1);
             }
             catch (Exception ex)
             {
@@ -209,10 +209,9 @@ namespace _3D_Engine.Loaders
 
         private static Triangle ParseTriangle(string[] data, IList<Vertex> vertices)
         {
-            int p1, p2, p3;
-            p1 = int.Parse(data[1]);
-            p2 = int.Parse(data[2]);
-            p3 = int.Parse(data[3]);
+            int p1 = int.Parse(data[1]);
+            int p2 = int.Parse(data[2]);
+            int p3 = int.Parse(data[3]);
 
             return new SolidTriangle(vertices[p1 - 1], vertices[p2 - 1], vertices[p3 - 1]);
         }
