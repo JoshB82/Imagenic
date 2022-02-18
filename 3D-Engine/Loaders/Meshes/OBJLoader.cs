@@ -20,6 +20,7 @@ using Imagenic.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -184,22 +185,18 @@ namespace _3D_Engine.Loaders
 
         private static Vertex ParseVertex(string[] data)
         {
-            if (!float.TryParse(data[1], out float x) ||
-                !float.TryParse(data[2], out float y) ||
-                !float.TryParse(data[3], out float z) ||
-                (data.Length == 5 && !float.TryParse(data[4], out float w)))
+            try
+            {
+                IEnumerable<float> args = data.Skip(1).Select(x => float.Parse(x));
+                return new Vertex(new Vector3D(args.SkipLast(1)), data.Length == 5 ? args.Last() : 1);
+            }
+            catch (Exception ex)
             {
                 throw new MessageBuilder<InvalidFileContentMessage>()
                     .AddParameters(data)
                     .AddType<OBJLoader>()
-                    .BuildIntoException<InvalidDataException>();
+                    .BuildIntoException<InvalidDataException>(ex);
             }
-            else
-            {
-                w = 1;
-            }
-            
-            return new Vertex(new Vector3D(x, y, z), w);
         }
 
         private static Edge ParseEdge(string[] data, int noEndPoints, IList<Vertex> vertices)
