@@ -20,14 +20,6 @@ public abstract partial class SceneObject
 {
     #region Fields and Properties
 
-    
-
-    
-
-    public int Count => children.Count;
-
-    public bool IsReadOnly => children.IsReadOnly;
-
     public SceneObject this[int index]
     {
         get => children[index];
@@ -51,25 +43,11 @@ public abstract partial class SceneObject
         }
     }
 
-    public void AddChildren(IEnumerable<SceneObject> children)
-    {
-        foreach (SceneObject child in children)
-        {
-            Children.Add(child);
-            child.Parent = this;
-        }
-    }
-    public void AddChildren(params SceneObject[] children) => AddChildren(children);
+    
+    
 
-    public void RemoveChildren(IEnumerable<SceneObject> children)
-    {
-        foreach (SceneObject child in children)
-        {
-            Children.Remove(child);
-            child.Parent = null;
-        }
-    }
-    public void RemoveChildren(params SceneObject[] children) => RemoveChildren(children);
+    
+    
 
     public void RemoveChildren(Predicate<SceneObject> predicate)
     {

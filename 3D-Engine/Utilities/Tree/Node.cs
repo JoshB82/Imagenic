@@ -13,6 +13,10 @@ public class Node<T> : Node
 {
     #region Fields and Properties
 
+    public bool IsReadOnly => children.IsReadOnly;
+
+    public int Count => children.Count;
+
     public T Content { get; set; }
 
     private Node parent;
@@ -52,6 +56,28 @@ public class Node<T> : Node
     #endregion
 
     #region Methods
+
+    public void AddChildren(params Node[] children)
+    {
+        foreach (Node child in children)
+        {
+            Children.Add(child);
+            child.Parent = this;
+        }
+    }
+
+    public void AddChildren(IEnumerable<Node> children) => AddChildren(children.ToArray());
+
+    public void RemoveChildren(params Node[] children)
+    {
+        foreach (Node child in children)
+        {
+            Children.Remove(child);
+            child.Parent = null;
+        }
+    }
+
+    public void RemoveChildren(IEnumerable<Node> children) => RemoveChildren(children.ToArray());
 
     #endregion
 }
