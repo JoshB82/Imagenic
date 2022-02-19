@@ -20,35 +20,9 @@ public abstract partial class SceneObject
 {
     #region Fields and Properties
 
-    private SceneObject parent;
-    public SceneObject Parent
-    {
-        get => parent;
-        set
-        {
-            parent.RemoveChildren(this);
-            parent = value;
-            parent.AddChildren(this);
-        }
-    }
+    
 
-    private IList<SceneObject> children = new List<SceneObject>();
-    public IList<SceneObject> Children
-    {
-        get => children;
-        set
-        {
-            foreach (SceneObject child in children)
-            {
-                child.Parent = null;
-            }
-            children = value;
-            foreach (SceneObject child in children)
-            {
-                child.Parent = this;
-            }
-        }
-    }
+    
 
     public int Count => children.Count;
 
