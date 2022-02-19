@@ -49,16 +49,7 @@ public abstract partial class SceneObject
     
     
 
-    public void RemoveChildren(Predicate<SceneObject> predicate)
-    {
-        foreach (SceneObject child in Children)
-        {
-            if (predicate(child))
-            {
-                Children.Remove(child);
-            }
-        }
-    }
+    
 
     public void RemoveChildren<T>(Predicate<T> predicate = null)
     {

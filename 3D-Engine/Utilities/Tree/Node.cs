@@ -79,5 +79,27 @@ public class Node<T> : Node
 
     public void RemoveChildren(IEnumerable<Node> children) => RemoveChildren(children.ToArray());
 
+    public void RemoveChildren(Predicate<Node> predicate)
+    {
+        foreach (Node child in Children)
+        {
+            if (predicate(child))
+            {
+                Children.Remove(child);
+            }
+        }
+    }
+
+    public void RemoveChildren(Predicate<T> predicate)
+    {
+        foreach (Node child in Children)
+        {
+            if (predicate(((Node<T>)child).Content))
+            {
+                Children.Remove(child);
+            }
+        }
+    }
+
     #endregion
 }
