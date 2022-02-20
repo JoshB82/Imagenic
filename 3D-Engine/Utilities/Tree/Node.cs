@@ -57,7 +57,7 @@ public class Node<T> : Node
 
     #region Methods
 
-    public void AddChildren(params Node[] children)
+    public void AddChildren(IEnumerable<Node> children)
     {
         foreach (Node child in children)
         {
@@ -66,9 +66,9 @@ public class Node<T> : Node
         }
     }
 
-    public void AddChildren(IEnumerable<Node> children) => AddChildren(children.ToArray());
+    public void AddChildren(params Node[] children) => AddChildren((IEnumerable<Node>)children);
 
-    public void RemoveChildren(params Node[] children)
+    public void RemoveChildren(IEnumerable<Node> children)
     {
         foreach (Node child in children)
         {
@@ -77,7 +77,7 @@ public class Node<T> : Node
         }
     }
 
-    public void RemoveChildren(IEnumerable<Node> children) => RemoveChildren(children.ToArray());
+    public void RemoveChildren(params Node[] children) => RemoveChildren((IEnumerable<Node>)children);
 
     public void RemoveChildren(Predicate<Node> predicate)
     {

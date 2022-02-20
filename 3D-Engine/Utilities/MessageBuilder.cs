@@ -68,13 +68,13 @@ internal class MessageBuilder<T> where T : IVerbose, new()
 
     internal MessageBuilder<T> AddType<U>() => AddType(typeof(U));
     
-    internal MessageBuilder<T> AddParameters(params string[] parameters)
+    internal MessageBuilder<T> AddParameters(IEnumerable<string> parameters)
     {
         this.parameters.AddRange(parameters);
         return this;
     }
 
-    internal MessageBuilder<T> AddParameters(IEnumerable<string> parameters) => AddParameters(parameters.ToArray());
+    internal MessageBuilder<T> AddParameters(params string[] parameters) => AddParameters((IEnumerable<string>)parameters);
 
     private static string GetMessage()
     {
