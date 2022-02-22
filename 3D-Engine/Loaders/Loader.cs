@@ -24,6 +24,8 @@ public abstract class Loader
 {
     #region Fields and Properties
 
+    public bool SkipMalformedData { get; set; }
+
     public string FilePath { get; set; }
 
     #endregion

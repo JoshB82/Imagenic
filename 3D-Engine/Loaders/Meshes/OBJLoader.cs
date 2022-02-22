@@ -10,7 +10,6 @@
  * Defines static methods for loading and processing data from .OBJ files.
  */
 
-using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
@@ -67,7 +66,11 @@ namespace _3D_Engine.Loaders
                         string[] data = line.Split();
                         if (data[0] == "v")
                         {
-                            vertices.Add(ParseVertex(data));
+                            var vertex = ParseVertex(data);
+                            if (vertex != null)
+                            {
+                                vertices.Add(vertex);
+                            }
                         }
                     }
                 }
@@ -183,7 +186,7 @@ namespace _3D_Engine.Loaders
             return meshStructure;
         }
 
-        private static Vertex ParseVertex(string[] data)
+        private Vertex ParseVertex(string[] data)
         {
             try
             {
@@ -192,10 +195,17 @@ namespace _3D_Engine.Loaders
             }
             catch (Exception ex)
             {
-                throw new MessageBuilder<InvalidFileContentMessage>()
-                    .AddParameters(data)
-                    .AddType<OBJLoader>()
-                    .BuildIntoException<InvalidDataException>(ex);
+                if (SkipMalformedData)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new MessageBuilder<InvalidFileContentMessage>()
+                        .AddParameters(data)
+                        .AddType<OBJLoader>()
+                        .BuildIntoException<InvalidDataException>(ex);
+                }
             }
         }
 
