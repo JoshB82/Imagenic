@@ -1,5 +1,4 @@
-﻿using _3D_Engine.Entities.SceneObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -72,8 +71,10 @@ public class Node<T> : Node
     {
         foreach (Node child in children)
         {
-            Children.Remove(child);
-            child.Parent = null;
+            if (Children.Remove(child))
+            {
+                child.Parent = null;
+            }
         }
     }
 
@@ -83,9 +84,9 @@ public class Node<T> : Node
     {
         foreach (Node child in Children)
         {
-            if (predicate(child))
+            if (predicate(child) && Children.Remove(child))
             {
-                Children.Remove(child);
+                child.Parent = null;
             }
         }
     }
@@ -94,9 +95,11 @@ public class Node<T> : Node
     {
         foreach (Node child in Children)
         {
-            if (predicate(((Node<T>)child).Content))
+            if (child is Node<T> node &&
+                predicate(node.Content) &&
+                Children.Remove(child))
             {
-                Children.Remove(child);
+                child.Parent = null;
             }
         }
     }
