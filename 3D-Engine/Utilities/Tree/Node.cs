@@ -54,7 +54,7 @@ public abstract class Node
     {
         foreach (object child in children)
         {
-            var nodeChild = new Node<object>() { Content = child, Parent = this };
+            var nodeChild = new Node<object> { Content = child, Parent = this };
             this.children.Add(nodeChild);
         }
     }
@@ -76,7 +76,17 @@ public abstract class Node
 
     #region Remove
 
-    public void RemoveChildren(IEnumerable<Node> children)
+    public bool RemoveChildren(IEnumerable<object> children)
+    {
+        foreach (object child in children)
+        {
+            //Children.FirstOrDefault(x => x.GetType().GetProperty("Content").GetValue() == child);
+        }
+
+        return Children.Count == 0;
+    }
+
+    public bool RemoveChildren(IEnumerable<Node> children)
     {
         foreach (Node child in children)
         {
@@ -85,9 +95,11 @@ public abstract class Node
                 child.Parent = null;
             }
         }
+
+        return Children.Count == 0;
     }
 
-    public void RemoveChildren(params Node[] children) => RemoveChildren((IEnumerable<Node>)children);
+    public bool RemoveChildren(params Node[] children) => RemoveChildren((IEnumerable<Node>)children);
 
     #endregion
 
