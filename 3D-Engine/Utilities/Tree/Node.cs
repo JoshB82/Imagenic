@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _3D_Engine.Entities.SceneObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,16 @@ public abstract class Node
 
     #region Add
 
+    public void Add(Node item)
+    {
+        Children.Add(item);
+    }
+
+    public void Add<T>(T item)
+    {
+        Children.Add(new Node<T> { Content = item });
+    }
+
     public void AddChildren(IEnumerable<object> children)
     {
         foreach (object child in children)
@@ -100,6 +111,14 @@ public abstract class Node
     }
 
     public bool RemoveChildren(params Node[] children) => RemoveChildren((IEnumerable<Node>)children);
+
+    public void Clear()
+    {
+        foreach (Node child in children)
+        {
+            this.RemoveChildren(child);
+        }
+    }
 
     #endregion
 

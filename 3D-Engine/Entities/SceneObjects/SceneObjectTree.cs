@@ -30,27 +30,6 @@ public abstract partial class SceneObject
 
     #region Methods
 
-    public void Add(SceneObject item)
-    {
-        Children.Add(item);
-    }
-
-    public void Clear()
-    {
-        foreach (SceneObject child in children)
-        {
-            this.RemoveChildren(child);
-        }
-    }
-
-    
-    
-
-    
-    
-
-    
-
     public void RemoveChildren<T>(Predicate<T> predicate = null)
     {
         foreach (SceneObject child in Children)
