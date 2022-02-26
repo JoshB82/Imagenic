@@ -6,31 +6,14 @@ using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities.Tree;
 
-public abstract class Node { }
-
-public class Node<T> : Node
+public abstract class Node
 {
     #region Fields and Properties
 
+    private IList<Node> children = new List<Node>();
     public bool IsReadOnly => children.IsReadOnly;
-
     public int Count => children.Count;
 
-    public T Content { get; set; }
-
-    private Node parent;
-    public Node Parent
-    {
-        get => parent;
-        set
-        {
-            parent.RemoveChildren(this);
-            parent = value;
-            parent.AddChildren(this);
-        }
-    }
-
-    private IList<Node> children = new List<Node>();
     public IList<Node> Children
     {
         get => children;
@@ -48,24 +31,50 @@ public class Node<T> : Node
         }
     }
 
-    #endregion
+    private Node parent;
 
-    #region Constructors
+    public Node Parent
+    {
+        get => parent;
+        set
+        {
+            parent.RemoveChildren(this);
+            parent = value;
+            parent.AddChildren(this);
+        }
+    }
 
     #endregion
 
     #region Methods
 
+    #region Add
+
+    public void AddChildren(IEnumerable<object> children)
+    {
+        foreach (object child in children)
+        {
+            var nodeChild = new Node<object>() { Content = child, Parent = this };
+            this.children.Add(nodeChild);
+        }
+    }
+
+    public void AddChildren(params object[] children) => AddChildren((IEnumerable<object>)children);
+
     public void AddChildren(IEnumerable<Node> children)
     {
         foreach (Node child in children)
         {
-            Children.Add(child);
+            this.children.Add(child);
             child.Parent = this;
         }
     }
 
     public void AddChildren(params Node[] children) => AddChildren((IEnumerable<Node>)children);
+
+    #endregion
+
+    #region Remove
 
     public void RemoveChildren(IEnumerable<Node> children)
     {
@@ -79,6 +88,45 @@ public class Node<T> : Node
     }
 
     public void RemoveChildren(params Node[] children) => RemoveChildren((IEnumerable<Node>)children);
+
+    #endregion
+
+    #endregion
+}
+
+public class Node<T> : Node
+{
+    #region Fields and Properties
+
+    public T Content { get; set; }
+
+    #endregion
+
+    #region Constructors
+
+    #endregion
+
+    #region Methods
+
+    #region Add
+
+    public void AddChildren(IEnumerable<T> children)
+    {
+
+    }
+
+    public void AddChildren(params T[] children) => AddChildren((IEnumerable<T>)children);
+    
+
+    
+
+    #endregion
+
+
+
+
+
+
 
     public void RemoveChildren(Predicate<Node> predicate)
     {
