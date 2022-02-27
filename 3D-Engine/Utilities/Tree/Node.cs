@@ -99,15 +99,20 @@ public abstract class Node
 
     public bool RemoveChildren(IEnumerable<Node> children)
     {
+        bool removeFlag = true;
         foreach (Node child in children)
         {
             if (Children.Remove(child))
             {
                 child.Parent = null;
             }
+            else
+            {
+                removeFlag = false;
+            }
         }
 
-        return Children.Count == 0;
+        return removeFlag;
     }
 
     public bool RemoveChildren(params Node[] children) => RemoveChildren((IEnumerable<Node>)children);
@@ -135,6 +140,11 @@ public class Node<T> : Node
 
     #region Constructors
 
+    public Node(T content)
+    {
+        Content = content;
+    }
+
     #endregion
 
     #region Methods
@@ -143,21 +153,24 @@ public class Node<T> : Node
 
     public void AddChildren(IEnumerable<T> children)
     {
-
+        foreach (T child in children)
+        {
+            Children.Add(new Node<T> { Content = child });
+        }
     }
 
     public void AddChildren(params T[] children) => AddChildren((IEnumerable<T>)children);
-    
-
-    
 
     #endregion
 
+    #region Remove
 
+    public bool RemoveChildren(IEnumerable<T> children)
+    {
 
+    }
 
-
-
+    public bool RemoveChildren(params T[] children) => RemoveChildren((IEnumerable<T>)children);
 
     public void RemoveChildren(Predicate<Node> predicate)
     {
@@ -182,6 +195,8 @@ public class Node<T> : Node
             }
         }
     }
+
+    #endregion
 
     #endregion
 }
