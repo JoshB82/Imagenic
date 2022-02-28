@@ -87,6 +87,17 @@ public abstract class Node
 
     #region Remove
 
+    public void RemoveChildren<T>(Predicate<T> predicate = null)
+    {
+        foreach (Node child in Children)
+        {
+            if (child is T t && ((predicate is not null && predicate(t)) || predicate is null))
+            {
+                Children.Remove(child);
+            }
+        }
+    }
+
     public bool RemoveChildren(IEnumerable<object> children)
     {
         foreach (object child in children)

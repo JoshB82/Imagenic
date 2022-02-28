@@ -30,16 +30,7 @@ public abstract partial class SceneObject
 
     #region Methods
 
-    public void RemoveChildren<T>(Predicate<T> predicate = null)
-    {
-        foreach (SceneObject child in Children)
-        {
-            if (child is T t && ((predicate is not null && predicate(t)) || predicate is null))
-            {
-                Children.Remove(child);
-            }
-        }
-    }
+    
 
     public IEnumerable<SceneObject> GetAllParents(Predicate<SceneObject> predicate = null)
     {

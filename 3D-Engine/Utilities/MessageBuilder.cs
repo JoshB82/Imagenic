@@ -21,7 +21,7 @@ using System.Text;
 
 namespace Imagenic.Core.Utilities;
 
-internal class MessageBuilder<T> where T : IVerbose, new()
+public class MessageBuilder<T> where T : IVerbose, new()
 {
     #region Fields and Properties
 
@@ -32,7 +32,7 @@ internal class MessageBuilder<T> where T : IVerbose, new()
 
     #region Constructors
 
-    internal MessageBuilder(bool includeTime = true, bool includeProjectName = true)
+    public MessageBuilder(bool includeTime = true, bool includeProjectName = true)
     {
         if (includeTime)
         {
@@ -60,21 +60,21 @@ internal class MessageBuilder<T> where T : IVerbose, new()
 
     private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
 
-    internal MessageBuilder<T> AddType(Type type)
+    public MessageBuilder<T> AddType(Type type)
     {
         AddToMessage($"[{type}]");
         return this;
     }
 
-    internal MessageBuilder<T> AddType<U>() => AddType(typeof(U));
+    public MessageBuilder<T> AddType<U>() => AddType(typeof(U));
     
-    internal MessageBuilder<T> AddParameters(IEnumerable<string> parameters)
+    public MessageBuilder<T> AddParameters(IEnumerable<string> parameters)
     {
         this.parameters.AddRange(parameters);
         return this;
     }
 
-    internal MessageBuilder<T> AddParameters(params string[] parameters) => AddParameters((IEnumerable<string>)parameters);
+    public MessageBuilder<T> AddParameters(params string[] parameters) => AddParameters((IEnumerable<string>)parameters);
 
     private static string GetMessage()
     {
@@ -88,7 +88,7 @@ internal class MessageBuilder<T> where T : IVerbose, new()
         };
     }
 
-    internal string Build()
+    public string Build()
     {
         if (Properties.Settings.Default.Verbosity == Verbosity.None)
         {
@@ -104,7 +104,7 @@ internal class MessageBuilder<T> where T : IVerbose, new()
         }
     }
 
-    internal U BuildIntoException<U>(Exception innerException = null) where U : Exception
+    public U BuildIntoException<U>(Exception innerException = null) where U : Exception
     {
         var args = new List<object> { Build() };
         if (innerException is not null)
@@ -118,9 +118,9 @@ internal class MessageBuilder<T> where T : IVerbose, new()
     #endregion
 }
 
-internal static class MessageHelper
+public static class MessageHelper
 {
-    internal static void DisplayInConsole(this string message)
+    public static void DisplayInConsole(this string message)
     {
         if (message == string.Empty)
         {
