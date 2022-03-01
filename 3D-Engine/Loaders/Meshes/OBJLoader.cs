@@ -14,7 +14,6 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
-using Imagenic.Core.Loaders;
 using Imagenic.Core.Utilities;
 using System;
 using System.Collections.Generic;
@@ -23,9 +22,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Loaders
+namespace Imagenic.Core.Loaders.Meshes
 {
-    public class OBJLoader : Loader
+    public class OBJLoader : MeshLoader
     {
         #region Fields and Properties
 
@@ -155,7 +154,7 @@ namespace _3D_Engine.Loaders
                             x = float.Parse(data[1]);
                             y = float.Parse(data[2]);
                             z = float.Parse(data[3]);
-                            w = (data.Length == 5) ? float.Parse(data[4]) : 1;
+                            w = data.Length == 5 ? float.Parse(data[4]) : 1;
                             vertices.Add(new Vertex(new Vector4D(x, y, z, w)));
                             break;
                         case "l":

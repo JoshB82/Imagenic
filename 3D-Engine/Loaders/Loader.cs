@@ -13,6 +13,7 @@
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Threading;
@@ -26,15 +27,33 @@ public abstract class Loader
 
     public bool SkipMalformedData { get; set; }
 
-    public string FilePath { get; set; }
+    internal FileType fileType;
+
+    private string filePath;
+    public string FilePath
+    {
+        get => filePath;
+        set
+        {
+            switch (fileType)
+            {
+                case FileType.Binary:
+
+                    break;
+            }
+
+            filePath = value;
+        }
+    }
 
     #endregion
 
     #region Constructors
 
-    public Loader(string filePath)
+    public Loader(string filePath, FileType fileType)
     {
         ExceptionHelper.ThrowIfFileNotFound(filePath);
+        this.fileType = fileType;
         FilePath = filePath;
     }
 
