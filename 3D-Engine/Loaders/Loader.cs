@@ -10,20 +10,17 @@
  * Defines a base class for loaders.
  */
 
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Imagenic.Core.Loaders;
 
 public abstract class Loader
 {
     #region Fields and Properties
+
+    public int NumberToSkip { get; set; }
+    public int? NumberToTake { get; set; }
 
     public bool SkipMalformedData { get; set; }
 
@@ -60,11 +57,6 @@ public abstract class Loader
     #endregion
 
     #region Methods
-
-    public abstract Task<IList<Vertex>> GetVerticesAsync(CancellationToken ct);
-    public abstract Task<IList<Edge>> GetEdgesAsync(CancellationToken ct);
-    public abstract Task<IList<Face>> GetFacesAsync(CancellationToken ct);
-    public abstract Task<MeshStructure> ParseAsync(CancellationToken ct);
 
     #endregion
 }
