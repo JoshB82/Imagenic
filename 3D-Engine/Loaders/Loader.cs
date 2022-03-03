@@ -12,10 +12,12 @@
 
 using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
+using System;
+using System.IO;
 
 namespace Imagenic.Core.Loaders;
 
-public abstract class Loader
+public abstract class Loader : IDisposable
 {
     #region Fields and Properties
 
@@ -25,6 +27,9 @@ public abstract class Loader
     public bool SkipMalformedData { get; set; }
 
     internal FileType fileType;
+    internal FileStream fileStream;
+    internal BinaryReader binaryReader;
+    internal BinaryWriter binaryWriter;
 
     private string filePath;
     public string FilePath
