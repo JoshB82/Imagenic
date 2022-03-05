@@ -14,6 +14,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
 using System;
 using System.Collections.Generic;
@@ -34,17 +35,19 @@ namespace Imagenic.Core.Loaders.Meshes
 
         #region Constructors
 
-        public OBJLoader(string filePath) : base(filePath)
+        public OBJLoader(IEnumerable<string> filePaths) : base(filePaths, FileType.Text)
         {
             try
             {
-                Lines = File.ReadAllLines(filePath);
+                Lines = File.ReadAllLines(filePaths);
             }
             catch (Exception ex)
             {
                 // Throw exception
             }
         }
+
+        public OBJLoader(params string[] filePaths) : this((IEnumerable<string>)filePaths) { }
 
         #endregion
 

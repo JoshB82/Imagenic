@@ -1,6 +1,7 @@
 ﻿using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ public abstract class MeshLoader : Loader
 {
     #region Constuctors
 
-    public MeshLoader(string filePath) : base(filePath)
+    protected MeshLoader(IEnumerable<string> filePaths, FileType fileType) : base(filePaths, fileType)
     {
 
     }

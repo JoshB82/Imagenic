@@ -13,6 +13,7 @@
 using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Imagenic.Core.Loaders;
@@ -31,10 +32,10 @@ public abstract class Loader : IDisposable
     internal BinaryReader binaryReader;
     internal BinaryWriter binaryWriter;
 
-    private string filePath;
-    public string FilePath
+    private IEnumerable<string> filePaths;
+    public IEnumerable<string> FilePaths
     {
-        get => filePath;
+        get => filePaths;
         set
         {
             switch (fileType)
@@ -42,9 +43,11 @@ public abstract class Loader : IDisposable
                 case FileType.Binary:
 
                     break;
+                case FileType.Text:
+                    break;
             }
 
-            filePath = value;
+            filePaths = value;
         }
     }
 
@@ -52,11 +55,14 @@ public abstract class Loader : IDisposable
 
     #region Constructors
 
-    public Loader(string filePath, FileType fileType)
+    protected Loader(IEnumerable<string> filePaths, FileType fileType)
     {
-        ExceptionHelper.ThrowIfFileNotFound(filePath);
+        foreach (string filePath in filePaths)
+        {
+            ExceptionHelper.ThrowIfFileNotFound(filePath);
+        }
         this.fileType = fileType;
-        FilePath = filePath;
+        FilePaths = filePaths;
     }
 
     #endregion

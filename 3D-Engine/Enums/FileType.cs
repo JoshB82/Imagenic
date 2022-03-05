@@ -8,5 +8,6 @@ namespace Imagenic.Core.Enums;
 
 public enum FileType
 {
-    Binary
+    Binary,
+    Text
 }
