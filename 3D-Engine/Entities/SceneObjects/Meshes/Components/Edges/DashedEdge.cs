@@ -10,7 +10,7 @@
  * Defines a dashed edge.
  */
 
-using _3D_Engine;
+using Imagenic.Core.Maths;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;

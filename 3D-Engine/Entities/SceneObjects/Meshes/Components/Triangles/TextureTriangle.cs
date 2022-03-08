@@ -14,7 +14,7 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using System;
-using _3D_Engine;
+using Imagenic.Core.Maths;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 {

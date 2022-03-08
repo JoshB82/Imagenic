@@ -10,7 +10,6 @@
  * Encapsulates creation of a three-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector3D has a size of 12 bytes, so, where possible, a Vector3D should be passed by reference to reduce unnecessary copying.
  */
 
-using _3D_Engine;
 using _3D_Engine.Constants;
 using Imagenic.Core.Utilities;
 using System;

@@ -10,7 +10,6 @@
  * Encapsulates creation of a two-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector2D has a size of 8 bytes, so, where possible, a Vector2D should be passed by reference to reduce unnecessary copying (depending on the architecture of the machine).
  */
 
-using _3D_Engine;
 using _3D_Engine.Constants;
 using Imagenic.Core.Utilities;
 using System;
@@ -124,7 +123,9 @@ namespace Imagenic.Core.Maths.Vectors
         /// <returns>A normalised <see cref="Vector2D"/>.</returns>
         public readonly Vector2D Normalise() =>
             ApproxEquals(Zero, 1E-6f)
-            ? throw Exceptions.Normalise
+            ? throw new MessageBuilder<VectorCannotBeNormalisedMessage>()
+            .AddParameters(this.ToString())
+            .BuildIntoException<InvalidOperationException>()
             : this / Magnitude();
 
         // Equality and miscellaneous

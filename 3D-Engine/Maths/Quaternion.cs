@@ -10,7 +10,6 @@
  * Encapsulates creation of a quaternion and provides methods to extract common information and for operator overloading. Each instance of a Quaternion has a size of 16 bytes, so, where possible, a Quaternion should be passed by reference to reduce unnecessary copying.
  */
 
-using _3D_Engine;
 using _3D_Engine.Constants;
 using System;
 

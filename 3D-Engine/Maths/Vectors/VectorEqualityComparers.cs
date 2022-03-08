@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Imagenic.Core.Maths.Vectors;
+
 public class Vector2DApproximateEqualityComparer : IEqualityComparer<Vector2D>
 {
     public bool Equals(Vector2D x, Vector2D y)

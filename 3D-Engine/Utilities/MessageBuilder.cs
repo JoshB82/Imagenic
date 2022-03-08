@@ -156,6 +156,13 @@ internal static class ExceptionHelper
 
 #region Messages
 
+internal class VectorCannotBeNormalisedMessage : IVerbose
+{
+    public string BriefVerbosityText { get; set; } = "A vector could not be normalised.";
+    public string DetailedVerbosityText { get; set; } = "A vector could not be normalised.";
+    public string AllVerbosityText { get; set; } = "The following vector could not be normalised: {0}";
+}
+
 internal class InvalidFileContentMessage : IVerbose
 {
     public string BriefVerbosityText { get; set; } = "Invalid file.";

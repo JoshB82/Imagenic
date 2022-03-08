@@ -1,9 +1,7 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes;
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Faces;
-using System;
+﻿using System;
 using System.Drawing;
 
-namespace _3D_Engine
+namespace Imagenic.Core.Maths
 {
     public static class Extensions
     {
@@ -12,10 +10,10 @@ namespace _3D_Engine
         {
             fraction++;
 
-            byte newA = RoundToByte(colour.A * fraction);
-            byte newR = RoundToByte(colour.R * fraction);
-            byte newG = RoundToByte(colour.G * fraction);
-            byte newB = RoundToByte(colour.B * fraction);
+            byte newA = (colour.A * fraction).RoundToByte();
+            byte newR = (colour.R * fraction).RoundToByte();
+            byte newG = (colour.G * fraction).RoundToByte();
+            byte newB = (colour.B * fraction).RoundToByte();
 
             newA = newA > 255 ? (byte)255 : newA;
             newR = newR > 255 ? (byte)255 : newR;
@@ -25,18 +23,18 @@ namespace _3D_Engine
             return Color.FromArgb(newA, newR, newG, newB);
         }
 
-        public static Color BrightenPercentage(this Color colour, float percentage) => Brighten(colour, percentage / 100);
-        public static Color Darken(this Color colour, float fraction) => Brighten(colour, fraction - 1);
-        public static Color DarkenPercentage(this Color colour, float percentage) => Darken(colour, percentage / 100);
+        public static Color BrightenPercentage(this Color colour, float percentage) => colour.Brighten(percentage / 100);
+        public static Color Darken(this Color colour, float fraction) => colour.Brighten(fraction - 1);
+        public static Color DarkenPercentage(this Color colour, float percentage) => colour.Darken(percentage / 100);
 
         public static Color Mix(this Color colour, Color mixingColour)
         {
-            byte new_a = RoundToByte(0.5f * (colour.A + mixingColour.A));
-            byte new_r = RoundToByte(0.5f * (colour.R + mixingColour.R));
-            byte new_g = RoundToByte(0.5f * (colour.G + mixingColour.G));
-            byte new_b = RoundToByte(0.5f * (colour.B + mixingColour.B));
+            byte newA = (0.5f * (colour.A + mixingColour.A)).RoundToByte();
+            byte newR = (0.5f * (colour.R + mixingColour.R)).RoundToByte();
+            byte newG = (0.5f * (colour.G + mixingColour.G)).RoundToByte();
+            byte newB = (0.5f * (colour.B + mixingColour.B)).RoundToByte();
 
-            return Color.FromArgb(new_a, new_r, new_g, new_b);
+            return Color.FromArgb(newA, newR, newG, newB);
         }
 
         // Float extensions

@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Maths;
+using Imagenic.Core.Maths;
 using System;
 using System.Drawing;
 using System.IO;

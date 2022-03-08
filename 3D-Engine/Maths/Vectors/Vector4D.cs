@@ -10,7 +10,6 @@
  * Encapsulates creation of a four-dimensional vector and provides methods to extract common information and for operator overloading. Each instance of a Vector4D has a size of 16 bytes, so, where possible, a Vector4D should be passed by reference to reduce unnecessary copying.
  */
 
-using _3D_Engine;
 using _3D_Engine.Constants;
 using Imagenic.Core.Utilities;
 using System;
@@ -198,7 +197,7 @@ namespace Imagenic.Core.Maths.Vectors
         /// </summary>
         /// <returns>A normalised <see cref="Vector4D"/>.</returns>
         public readonly Vector4D Normalise() =>
-            Approx_Equals(Zero, 1E-6f)
+            ApproxEquals(Zero, 1E-6f)
             ? throw Exceptions.Normalise
             : this / Magnitude();
 
@@ -209,7 +208,7 @@ namespace Imagenic.Core.Maths.Vectors
 
         public readonly bool Equals(Vector4D v) => this == v;
 
-        public readonly bool Approx_Equals(Vector4D v, float epsilon = float.Epsilon) =>
+        public readonly bool ApproxEquals(Vector4D v, float epsilon = float.Epsilon) =>
             x.ApproxEquals(v.x, epsilon) &&
             y.ApproxEquals(v.y, epsilon) &&
             z.ApproxEquals(v.z, epsilon) &&
