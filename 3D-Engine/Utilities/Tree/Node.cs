@@ -138,6 +138,21 @@ public abstract class Node
 
     #endregion
 
+    #region Get
+
+    public IEnumerable<Node> GetAllParents(Predicate<Node> predicate = null)
+    {
+        List<Node> parents = new();
+        if (Parent is not null && ((predicate is not null && predicate(Parent)) || predicate is null))
+        {
+            parents.Add(Parent);
+            parents.AddRange(Parent.GetAllParents(predicate));
+        }
+        return parents;
+    }
+
+    #endregion
+
     #endregion
 }
 

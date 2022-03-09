@@ -32,16 +32,7 @@ public abstract partial class SceneObject
 
     
 
-    public IEnumerable<SceneObject> GetAllParents(Predicate<SceneObject> predicate = null)
-    {
-        List<SceneObject> parents = new();
-        if (Parent is not null && ((predicate is not null && predicate(Parent)) || predicate is null))
-        {
-            parents.Add(Parent);
-            parents.AddRange(Parent.GetAllParents(predicate));
-        }
-        return parents;
-    }
+    
 
     public IEnumerable<T> GetAllParents<T>(Predicate<T> predicate = null) where T : SceneObject
     {
