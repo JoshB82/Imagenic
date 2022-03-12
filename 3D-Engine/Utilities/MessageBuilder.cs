@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Imagenic.Core.Utilities;
@@ -59,6 +58,12 @@ public class MessageBuilder<T> where T : IVerbose, new()
     }
 
     private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
+
+    public MessageBuilder<T> AddMessageType(MessageType messageType)
+    {
+        AddToMessage($"[{messageType}]");
+        return this;
+    }
 
     public MessageBuilder<T> AddType(Type type)
     {
