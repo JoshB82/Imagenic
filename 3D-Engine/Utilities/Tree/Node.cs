@@ -11,6 +11,87 @@ public abstract class Node
 {
     #region Fields and Properties
 
+    private int minNumberOfParents, minNumberOfChildren;
+    private int? maxNumberOfParents, maxNumberOfChildren;
+
+    /// <summary>
+    /// The minimum number of parent nodes this <see cref="Node"/> can have.
+    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfParents"/>.</remarks>
+    /// </summary>
+    public int MinNumberOfParents
+    {
+        get => minNumberOfParents;
+        set
+        {
+            if (value >= 0 && value <= maxNumberOfParents.Value)
+            {
+                minNumberOfParents = value;
+            }
+            else
+            {
+                // throw exception
+            }
+        }
+    }
+    /// <summary>
+    /// The minimum number of child nodes this <see cref="Node"/> can have.
+    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfChildren"/>.</remarks>
+    /// </summary>
+    public int MinNumberOfChildren
+    {
+        get => minNumberOfChildren;
+        set
+        {
+            if (value >= 0 && value <= maxNumberOfChildren.Value)
+            {
+                minNumberOfChildren = value;
+            }
+            else
+            {
+                // throw exception
+            }
+        }
+    }
+
+    /// <summary>
+    /// The maximum number of parent nodes this <see cref="Node"/> can have.
+    /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfParents"/>.</remarks>
+    /// </summary>
+    public int? MaxNumberOfParents
+    {
+        get => maxNumberOfParents;
+        set
+        {
+            if (value is null || (value >= 0 && value >= minNumberOfParents))
+            {
+                maxNumberOfParents = value.Value;
+            }
+            else
+            {
+                // throw exception
+            }
+        }
+    }
+    /// <summary>
+    /// The maximum number of child nodes this <see cref="Node"/> can have.
+    /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfChildren"/>.</remarks>
+    /// </summary>
+    public int? MaxNumberOfChildren
+    {
+        get => maxNumberOfChildren;
+        set
+        {
+            if (value is null || (value >= 0 && value >= minNumberOfChildren))
+            {
+                maxNumberOfChildren = value.Value;
+            }
+            else
+            {
+                // throw exception
+            }
+        }
+    }
+
     private IList<Node> children = new List<Node>();
     public bool IsReadOnly => children.IsReadOnly;
     public int Count => children.Count;
