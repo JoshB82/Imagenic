@@ -16,14 +16,14 @@ public abstract class Node
 
     /// <summary>
     /// The minimum number of parent nodes this <see cref="Node"/> can have.
-    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfParents"/>.</remarks>
+    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfParents"/> if it is not null.</remarks>
     /// </summary>
     public int MinNumberOfParents
     {
         get => minNumberOfParents;
         set
         {
-            if (value >= 0 && value <= maxNumberOfParents.Value)
+            if (value >= 0 && (maxNumberOfParents is null || value <= maxNumberOfParents.Value))
             {
                 minNumberOfParents = value;
             }
@@ -35,14 +35,14 @@ public abstract class Node
     }
     /// <summary>
     /// The minimum number of child nodes this <see cref="Node"/> can have.
-    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfChildren"/>.</remarks>
+    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfChildren"/> if it is not null.</remarks>
     /// </summary>
     public int MinNumberOfChildren
     {
         get => minNumberOfChildren;
         set
         {
-            if (value >= 0 && value <= maxNumberOfChildren.Value)
+            if (value >= 0 && (maxNumberOfChildren is null || value <= maxNumberOfChildren.Value))
             {
                 minNumberOfChildren = value;
             }
