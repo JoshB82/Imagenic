@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple Demo", "Demo\Simple 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interactive Demo", "Interactive Demo\Interactive Demo.csproj", "{121724D6-E1CD-48E9-B756-55B8BE9BBCA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unit Tests", "Unit Tests\Unit Tests.csproj", "{6A16A564-68A2-4E56-B7F4-EFC6A0A8A0C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.UnitTests", "Unit Tests\Imagenic.UnitTests.csproj", "{6A16A564-68A2-4E56-B7F4-EFC6A0A8A0C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Statistics Demo", "Statistics Demo\Statistics Demo.csproj", "{B48FF987-9396-4A12-81D5-A71E2EEF44AF}"
 EndProject
