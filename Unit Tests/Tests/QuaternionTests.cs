@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unit_Tests
+namespace Imagenic.UnitTests.Tests;
+
+class QuaternionTests
 {
-    class QuaternionTests
-    {
-    }
 }

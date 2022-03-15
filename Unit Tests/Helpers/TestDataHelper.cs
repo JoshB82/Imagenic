@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Unit_Tests;
+namespace Imagenic.UnitTests.Helpers;
 
 internal static class TestDataHelper
 {
