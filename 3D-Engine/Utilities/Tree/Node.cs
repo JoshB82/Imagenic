@@ -92,15 +92,22 @@ public abstract class Node
         }
     }
 
-    private IList<Node> children = new List<Node>();
+    private IEnumerable<Node> parents, children;
+    //private IList<Node> children = new List<Node>();
     public bool IsReadOnly => children.IsReadOnly;
     public int Count => children.Count;
 
-    public IList<Node> Children
+    public IEnumerable<Node> Children
     {
         get => children;
         set
         {
+            int count = value.Count();
+            if (count < minNumberOfChildren || count > maxNumberOfChildren)
+            {
+                // throw exception
+            }
+
             foreach (Node child in children)
             {
                 child.Parent = null;

@@ -157,9 +157,40 @@ internal static class ExceptionHelper
                 .BuildIntoException<FileNotFoundException>();
         }
     }
+
+    internal static void ThrowIfValueOutsideOfInclusiveRange(float rangeLowest, float rangeHighest, float value)
+    {
+        
+        if (value < rangeLowest || value > rangeHighest)
+        {
+            new NumberOfItemsOutOfRangeMessage
+            {
+                ContainerName = "",
+                ItemsName = ""
+            };
+        }
+    }
 }
 
 #region Messages
+
+internal enum RangeBoundary
+{
+    Maximum,
+    Minimum
+}
+
+internal class NumberOfItemsOutOfRangeMessage : IVerbose
+{
+    internal string ItemsName { get; set; }
+    internal string ContainerName { get; set; }
+    internal RangeBoundary ClosestBoundary { get; set; }
+    internal float BoundaryValue { get; set; }
+
+    public string BriefVerbosityText => $"The number of {ItemsName} is invalid.";
+    public string DetailedVerbosityText => $"The number of {ItemsName} is {(ClosestBoundary == RangeBoundary.Maximum ? "greater" : "less")} than the {ClosestBoundary} number allowed ({BoundaryValue}).";
+    public string AllVerbosityText => $"The number of {ItemsName} in {ContainerName} is {(ClosestBoundary == RangeBoundary.Maximum ? "greater" : "less")} than the {ClosestBoundary} number allowed ({BoundaryValue}).";
+}
 
 internal class VectorCannotBeNormalisedMessage : IVerbose
 {
