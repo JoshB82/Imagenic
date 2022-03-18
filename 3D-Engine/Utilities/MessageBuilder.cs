@@ -170,26 +170,51 @@ internal static class ExceptionHelper
             };
         }
     }
+
+    internal static void ThrowIfOutsideExclusiveRange(this float value, float rangeLowest, float rangeHighest)
+    {
+        if (value <= rangeLowest)
+        {
+            ThrowException(RangeViolationType.TooLow);
+        }
+        if (value >= rangeHighest)
+        {
+            ThrowException(RangeViolationType.TooHigh);
+        }
+        
+        void ThrowException(RangeViolationType rangeViolationType)
+        {
+
+        }
+    }
+}
+
+internal enum RangeType
+{
+    InclusiveStartInclusiveFinish,
+    InclusiveStartExclusiveFinish,
+    ExclusiveStartInclusiveFinish,
+    ExclusiveStartExclusiveFinish
 }
 
 #region Messages
 
-internal enum RangeBoundary
+internal enum RangeViolationType
 {
-    Maximum,
-    Minimum
+    TooHigh,
+    TooLow
 }
 
 internal class NumberOfItemsOutOfRangeMessage : IVerbose
 {
     internal string ItemsName { get; set; }
     internal string ContainerName { get; set; }
-    internal RangeBoundary ClosestBoundary { get; set; }
+    internal RangeViolationType ClosestBoundary { get; set; }
     internal float BoundaryValue { get; set; }
 
     public string BriefVerbosityText => $"The number of {ItemsName} is invalid.";
-    public string DetailedVerbosityText => $"The number of {ItemsName} is {(ClosestBoundary == RangeBoundary.Maximum ? "greater" : "less")} than the {ClosestBoundary} number allowed ({BoundaryValue}).";
-    public string AllVerbosityText => $"The number of {ItemsName} in {ContainerName} is {(ClosestBoundary == RangeBoundary.Maximum ? "greater" : "less")} than the {ClosestBoundary} number allowed ({BoundaryValue}).";
+    public string DetailedVerbosityText => $"The number of {ItemsName} is {(ClosestBoundary == RangeViolationType.Maximum ? "greater" : "less")} than the {ClosestBoundary} number allowed ({BoundaryValue}).";
+    public string AllVerbosityText => $"The number of {ItemsName} in {ContainerName} is {(ClosestBoundary == RangeViolationType.Maximum ? "greater" : "less")} than the {ClosestBoundary} number allowed ({BoundaryValue}).";
 }
 
 internal class VectorCannotBeNormalisedMessage : IVerbose
