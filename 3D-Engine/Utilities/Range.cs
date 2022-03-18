@@ -6,35 +6,45 @@ using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities;
 
-internal enum BoundaryType
+public class Range
 {
-    Inclusive,
-    Exclusive,
-    Infinite
-}
+    private int minimum;
+    private int? maximum;
 
-internal struct Range
-{
-    private float start, end;
-    internal float Start
+    public int Minimum
     {
-        get => start;
+        get => minimum;
         set
         {
-            if (start > end)
+            if (value > maximum)
             {
                 // throw exception
             }
-            start = value;
+            minimum = value;
         }
     }
-    internal BoundaryType StartBoundaryType { get; set; } = BoundaryType.Inclusive;
-    internal float End { get; set; }
-    internal BoundaryType EndBoundaryType { get; set; } = BoundaryType.Inclusive;
-
-    public Range(float start, float end)
+    
+    public int? Maximum
     {
-        Start = start;
-        End = end;
+        get => maximum;
+        set
+        {
+            if (value < minimum)
+            {
+                // throw exception
+            }
+            maximum = value;
+        }
+    }
+
+    public Range()
+    {
+
+    }
+
+    public Range(int minimum, int maximum)
+    {
+        Minimum = minimum;
+        Maximum = maximum;
     }
 }
