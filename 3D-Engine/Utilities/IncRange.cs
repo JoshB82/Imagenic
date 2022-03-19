@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities;
 
-public class Range
+public class IncRange
 {
     private int minimum;
     private int? maximum;
@@ -37,12 +37,12 @@ public class Range
         }
     }
 
-    public Range()
+    public IncRange()
     {
 
     }
 
-    public Range(int minimum, int maximum)
+    public IncRange(int minimum, int maximum)
     {
         Minimum = minimum;
         Maximum = maximum;

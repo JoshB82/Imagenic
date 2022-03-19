@@ -1,6 +1,5 @@
 using Imagenic.Core.Maths.Vectors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static System.MathF;
 
 namespace Imagenic.UnitTests.Tests;
 
