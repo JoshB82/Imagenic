@@ -54,36 +54,14 @@ public abstract partial class SceneObject
         return this.GetAllParentsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
     }
 
-    public IEnumerable<SceneObject> GetAllChildren(Predicate<SceneObject> predicate = null)
-    {
-        List<SceneObject> children = new();
-        foreach (SceneObject child in Children)
-        {
-            if (predicate is not null && !predicate(child))
-            {
-                continue;
-            }
-
-            children.Add(child);
-            children.AddRange(child.GetAllChildren(predicate));
-        }
-        return children;
-    }
+    
 
     public IEnumerable<T> GetAllChildren<T>(Predicate<T> predicate = null) where T : SceneObject
     {
         return this.GetAllChildren(x => x is T t && predicate(t)) as IEnumerable<T>;
     }
 
-    public IEnumerable<SceneObject> GetAllChildrenAndSelf(Predicate<SceneObject> predicate = null)
-    {
-        List<SceneObject> sceneObjects = this.GetAllChildren(predicate).ToList();
-        if ((predicate is not null && predicate(this)) || predicate is null)
-        {
-            sceneObjects.Add(this);
-        }
-        return sceneObjects;
-    }
+    
 
     /// <summary>
     /// Gets all children and this that are of type <typeparamref name="T"/> and an optional predicate.

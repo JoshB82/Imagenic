@@ -239,6 +239,32 @@ public abstract class Node
         return parents;
     }
 
+    public IEnumerable<SceneObject> GetDescendantsAndSelf(Predicate<SceneObject> predicate = null)
+    {
+        List<SceneObject> sceneObjects = this.GetDescendants(predicate).ToList();
+        if ((predicate is not null && predicate(this)) || predicate is null)
+        {
+            sceneObjects.Add(this);
+        }
+        return sceneObjects;
+    }
+
+    public IEnumerable<SceneObject> GetDescendants(Predicate<SceneObject> predicate = null)
+    {
+        List<SceneObject> children = new();
+        foreach (SceneObject child in Children)
+        {
+            if (predicate is not null && !predicate(child))
+            {
+                continue;
+            }
+
+            children.Add(child);
+            children.AddRange(child.GetAllChildren(predicate));
+        }
+        return children;
+    }
+
     #endregion
 
     #endregion
