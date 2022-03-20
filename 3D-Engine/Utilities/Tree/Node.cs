@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities.Tree;
 
@@ -92,12 +90,12 @@ public abstract class Node
         }
     }
 
-    private IEnumerable<Node> parents, children;
+    private IList<Node> parents = new List<Node>(), children = new List<Node>();
     //private IList<Node> children = new List<Node>();
     public bool IsReadOnly => children.IsReadOnly;
     public int Count => children.Count;
 
-    public IEnumerable<Node> Children
+    public IList<Node> Children
     {
         get => children;
         set
@@ -239,14 +237,14 @@ public abstract class Node
         return parents;
     }
 
-    public IEnumerable<SceneObject> GetDescendantsAndSelf(Predicate<SceneObject> predicate = null)
+    public IEnumerable<Node> GetDescendantsAndSelf(Predicate<Node> predicate = null)
     {
-        List<SceneObject> sceneObjects = this.GetDescendants(predicate).ToList();
-        if ((predicate is not null && predicate(this)) || predicate is null)
+        List<Node> nodes = this.GetDescendants(predicate).ToList();
+        if (predicate is null || predicate(this))
         {
-            sceneObjects.Add(this);
+            nodes.Add(this);
         }
-        return sceneObjects;
+        return nodes;
     }
 
     public IEnumerable<SceneObject> GetDescendants(Predicate<SceneObject> predicate = null)
