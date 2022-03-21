@@ -47,4 +47,24 @@ public static class NodeExtensions
     {
 
     }
+
+    public static IEnumerable<Node> GetAllLinkedNodes(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    {
+
+    }
+
+    public static IEnumerable<Node> GetAllLinkedNodesAndSelf(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    {
+
+    }
+
+    public static IEnumerable<Node<T>> GetAllLinkedNodes<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    {
+
+    }
+
+    public static IEnumerable<Node<T>> GetAllLinkedNodesAndSelf<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    {
+
+    }
 }

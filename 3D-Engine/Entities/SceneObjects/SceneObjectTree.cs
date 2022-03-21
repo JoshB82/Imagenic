@@ -56,10 +56,7 @@ public abstract partial class SceneObject
 
     
 
-    public IEnumerable<T> GetAllChildren<T>(Predicate<T> predicate = null) where T : SceneObject
-    {
-        return this.GetAllChildren(x => x is T t && predicate(t)) as IEnumerable<T>;
-    }
+    
 
     
 

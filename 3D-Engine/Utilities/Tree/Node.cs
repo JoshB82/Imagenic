@@ -263,6 +263,11 @@ public abstract class Node
         return children;
     }
 
+    public IEnumerable<Node<T>> GetDescendants<T>(Predicate<T> predicate = null)
+    {
+        return this.GetDescendants(x => x is T t && predicate(t)) as IEnumerable<Node<T>>;
+    }
+
     #endregion
 
     #endregion
