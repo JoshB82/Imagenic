@@ -9,14 +9,14 @@ public abstract class Node
 {
     #region Fields and Properties
 
-    private int minNumberOfParents, minNumberOfChildren;
-    private int? maxNumberOfParents, maxNumberOfChildren;
+    private int minNumberOfChildren;
+    private int? maxNumberOfChildren;
 
     /// <summary>
     /// The minimum number of parent nodes this <see cref="Node"/> can have.
     /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfParents"/> if it is not null.</remarks>
     /// </summary>
-    public int MinNumberOfParents
+    /*public int MinNumberOfParents
     {
         get => minNumberOfParents;
         set
@@ -30,7 +30,7 @@ public abstract class Node
                 // throw exception
             }
         }
-    }
+    }*/
     /// <summary>
     /// The minimum number of child nodes this <see cref="Node"/> can have.
     /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfChildren"/> if it is not null.</remarks>
@@ -55,7 +55,7 @@ public abstract class Node
     /// The maximum number of parent nodes this <see cref="Node"/> can have.
     /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfParents"/>.</remarks>
     /// </summary>
-    public int? MaxNumberOfParents
+    /*public int? MaxNumberOfParents
     {
         get => maxNumberOfParents;
         set
@@ -69,7 +69,7 @@ public abstract class Node
                 // throw exception
             }
         }
-    }
+    }*/
     /// <summary>
     /// The maximum number of child nodes this <see cref="Node"/> can have.
     /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfChildren"/>.</remarks>
@@ -90,8 +90,8 @@ public abstract class Node
         }
     }
 
-    private IList<Node> parents = new List<Node>(), children = new List<Node>();
-    //private IList<Node> children = new List<Node>();
+    private IList<Node> children = new List<Node>();
+
     public bool IsReadOnly => children.IsReadOnly;
     public int Count => children.Count;
 
@@ -173,7 +173,7 @@ public abstract class Node
 
     #region Remove
 
-    public void RemoveChildren<T>(Predicate<T> predicate = null)
+    public bool RemoveChildrenOfType<T>(Predicate<T> predicate = null)
     {
         foreach (Node child in Children)
         {
@@ -196,7 +196,8 @@ public abstract class Node
 
     public bool RemoveChildren(IEnumerable<Node> children)
     {
-        bool removeFlag = true;
+        bool noRemovalFailures = true;
+
         foreach (Node child in children)
         {
             if (Children.Remove(child))
@@ -205,11 +206,11 @@ public abstract class Node
             }
             else
             {
-                removeFlag = false;
+                noRemovalFailures = false;
             }
         }
 
-        return removeFlag;
+        return noRemovalFailures;
     }
 
     public bool RemoveChildren(params Node[] children) => RemoveChildren((IEnumerable<Node>)children);
@@ -226,28 +227,23 @@ public abstract class Node
 
     #region Get
 
-    public IEnumerable<Node> GetAllParents(Predicate<Node> predicate = null)
+    public IEnumerable<Node> GetAncestors(Predicate<Node> predicate = null)
     {
         List<Node> parents = new();
         if (Parent is not null && ((predicate is not null && predicate(Parent)) || predicate is null))
         {
             parents.Add(Parent);
-            parents.AddRange(Parent.GetAllParents(predicate));
+            parents.AddRange(Parent.GetAncestors(predicate));
         }
         return parents;
     }
 
-    public IEnumerable<Node> GetDescendantsAndSelf(Predicate<Node> predicate = null)
+    public IEnumerable<Node<T>> GetAncestorsOfType<T>(Predicate<T> predicate = null)
     {
-        List<Node> nodes = this.GetDescendants(predicate).ToList();
-        if (predicate is null || predicate(this))
-        {
-            nodes.Add(this);
-        }
-        return nodes;
+        return this.GetAncestors(x => x is T t && predicate(t)) as IEnumerable<Node<T>>;
     }
 
-    public IEnumerable<SceneObject> GetDescendants(Predicate<SceneObject> predicate = null)
+    public IEnumerable<Node> GetDescendants(Predicate<Node> predicate = null)
     {
         List<SceneObject> children = new();
         foreach (SceneObject child in Children)
@@ -258,12 +254,22 @@ public abstract class Node
             }
 
             children.Add(child);
-            children.AddRange(child.GetAllChildren(predicate));
+            children.AddRange(child.GetDescendants(predicate));
         }
         return children;
     }
 
-    public IEnumerable<Node<T>> GetDescendants<T>(Predicate<T> predicate = null)
+    public IEnumerable<Node> GetDescendantsAndSelf(Predicate<Node> predicate = null)
+    {
+        List<Node> nodes = this.GetDescendantsOfType(predicate).ToList();
+        if (predicate is null || predicate(this))
+        {
+            nodes.Add(this);
+        }
+        return nodes;
+    }
+
+    public IEnumerable<Node<T>> GetDescendantsOfType<T>(Predicate<T> predicate = null)
     {
         return this.GetDescendants(x => x is T t && predicate(t)) as IEnumerable<Node<T>>;
     }

@@ -34,10 +34,7 @@ public abstract partial class SceneObject
 
     
 
-    public IEnumerable<T> GetAllParents<T>(Predicate<T> predicate = null) where T : SceneObject
-    {
-        return this.GetAllParents(x => x is T t && predicate(t)) as IEnumerable<T>;
-    }
+    
 
     public IEnumerable<SceneObject> GetAllParentsAndSelf(Predicate<SceneObject> predicate = null)
     {
