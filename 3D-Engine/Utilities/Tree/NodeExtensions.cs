@@ -10,20 +10,31 @@ public static class NodeExtensions
 {
     public static IEnumerable<Node> GetAncestors(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
-
+        
     }
 
     public static IEnumerable<Node> GetAncestorsAndSelf(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
+        var uniqueNodes = nodes.ToList();
+        foreach (Node node in nodes)
+        {
+            yield return node;
 
+            var newAncestors = node.GetAncestors(x => !uniqueNodes.Contains(x) && predicate(x));
+            uniqueNodes.AddRange(newAncestors);
+            foreach (Node newAncestor in newAncestors)
+            {
+                yield return newAncestor;
+            }
+        }
     }
 
-    public static IEnumerable<Node<T>> GetAncestors<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    public static IEnumerable<Node<T>> GetAncestorsOfType<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
 
     }
 
-    public static IEnumerable<Node<T>> GetAncestorsAndSelf<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    public static IEnumerable<Node<T>> GetAncestorsAndSelfOfType<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
 
     }
@@ -38,12 +49,12 @@ public static class NodeExtensions
 
     }
 
-    public static IEnumerable<Node<T>> GetDescendants<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    public static IEnumerable<Node<T>> GetDescendantsOfType<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
 
     }
 
-    public static IEnumerable<Node<T>> GetDescendantsAndSelf<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    public static IEnumerable<Node<T>> GetDescendantsAndSelfOfType<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
 
     }
@@ -58,12 +69,12 @@ public static class NodeExtensions
 
     }
 
-    public static IEnumerable<Node<T>> GetAllLinkedNodes<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    public static IEnumerable<Node<T>> GetAllLinkedNodesOfType<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
 
     }
 
-    public static IEnumerable<Node<T>> GetAllLinkedNodesAndSelf<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    public static IEnumerable<Node<T>> GetAllLinkedNodesAndSelfOfType<T>(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
 
     }
