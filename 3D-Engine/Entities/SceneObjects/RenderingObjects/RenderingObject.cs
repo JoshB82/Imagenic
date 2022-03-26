@@ -15,7 +15,6 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
-using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;

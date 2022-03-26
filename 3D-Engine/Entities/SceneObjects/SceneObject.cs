@@ -30,7 +30,7 @@ namespace _3D_Engine.Entities.SceneObjects;
 /// <summary>
 /// An abstract base class that defines objects of type <see cref="SceneObject"/>.
 /// </summary>
-public abstract partial class SceneObject : Entity, IList<SceneObject>
+public abstract partial class SceneObject : PhysicalEntity
 {
     #region Fields and Properties
 

@@ -13,10 +13,7 @@ public class Ray : Entity
     public Vector3D Direction
     {
         get => direction;
-        set
-        {
-            direction = value.Normalise();
-        }
+        set => direction = value.Normalise();
     }
 
     #endregion
@@ -38,16 +35,25 @@ public class Ray : Entity
 
     #region Methods
 
+    public bool DoesIntersectWith<T>(T physicalEntity, out Vector3D? intersection) where T : PhysicalEntity 
+    {
+        return physicalEntity switch
+        {
+            Triangle triangle => DoesIntersect(triangle, out intersection),
+            _ => throw new System.Exception()
+        };
+    }
+
     public bool DoesIntersect(Triangle triangle, out Vector3D? intersection)
     {
         Vector3D normal = Vector3D.NormalFromPlane(triangle.P1, triangle.P2, triangle.P3);
-        if ((Direction * normal).ApproxEquals(0))
+        if ((direction * normal).ApproxEquals(0))
         {
             intersection = null;
             return false;
         }
-        float d = (triangle.P1 - StartPosition) * normal / (Direction * normal);
-        intersection = d * Direction + StartPosition;
+        float d = (triangle.P1 - StartPosition) * normal / (direction * normal);
+        intersection = d * direction + StartPosition;
         return true;
     }
 
