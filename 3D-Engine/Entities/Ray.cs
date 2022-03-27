@@ -4,6 +4,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Utilities.Tree;
 using Microsoft.VisualBasic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Imagenic.Core.Entities;
@@ -40,25 +41,64 @@ public class Ray : Entity
 
     #region Methods
 
+    public bool DoesIntersect(Mesh mesh, out float? intersectionDistance)
+    {
+        mesh.CalculateModelToWorldMatrix();
+        intersectionDistance = mesh.Structure.Faces.SelectMany(face => face.Triangles.Select(triangle =>
+        {
+            Vector3D p1 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP1.Point, 1));
+            Vector3D p2 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP2.Point, 1));
+            Vector3D p3 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP3.Point, 1));
+            PlanePoints planePoints = new(p1, p2, p3);
+
+            DoesIntersect(planePoints, out float? distance);
+            return distance;
+        })).Min();
+        return intersectionDistance is not null;
+    }
+
+    public bool DoesIntersect(Mesh mesh, out Vector3D? intersection)
+    {
+        bool doesIntersect = DoesIntersect(mesh, out float? intersectionDistance);
+        intersection = intersectionDistance * direction + StartPosition;
+        return doesIntersect;
+    }
+
+    public bool DoesIntersect(Node<Mesh> meshNode, out float? intersectionDistance)
+    {
+        intersectionDistance = meshNode.GetDescendantsAndSelfOfType<Mesh>().GetAllContents<Mesh>().Select(mesh =>
+        {
+            DoesIntersect(mesh, out float? intersectionDistance);
+            return intersectionDistance;
+        }).Min();
+        return intersectionDistance is not null;
+    }
+
+    public bool DoesIntersect(Node<Mesh> meshNode, out Vector3D? intersection)
+    {
+        bool doesIntersect = DoesIntersect(meshNode, out float? intersectionDistance);
+        intersection = intersectionDistance * direction + StartPosition;
+        return doesIntersect;
+    }
+
+    public bool DoesIntersect(IEnumerable<Node<Mesh>> meshNodes, out float? intersectionDistance)
+    {
+
+    }
+
+    public bool DoesIntersect(IEnumerable<Node<Mesh>> meshNodes, out Vector3D? intersection)
+    {
+
+    }
+
     public bool DoesIntersectWith<T>(T physicalEntity, out Vector3D? intersection) where T : PhysicalEntity
     {
         switch (physicalEntity)
         {
             case Mesh mesh:
-                mesh.CalculateModelToWorldMatrix();
-                intersection = mesh.Structure.Faces.SelectMany(face => face.Triangles.Select(triangle =>
-                {
-                    Vector3D p1 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP1.Point, 1));
-                    Vector3D p2 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP2.Point, 1));
-                    Vector3D p3 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP3.Point, 1));
-                    PlanePoints planePoints = new(p1, p2, p3);
-
-                    DoesIntersect(planePoints, out float? distance);
-                    return distance;
-                })).Min() * direction + StartPosition;
-                return intersection is not null;
+                
             case Node<Mesh> meshNode:
-                meshNode.GetDescendantsAndSelfOfType<Mesh>().
+                
             default:
                 throw new System.Exception();
 

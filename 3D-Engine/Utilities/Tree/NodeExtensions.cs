@@ -19,7 +19,7 @@ public static class NodeExtensions
         }
     }
 
-    public static IEnumerable<T> GetAllContents<T>(this IEnumerable<Node<T>> nodes, Predicate<Node<T>> predicate)
+    public static IEnumerable<T> GetAllContents<T>(this IEnumerable<Node<T>> nodes, Predicate<Node<T>> predicate = null)
     {
         return nodes.Select(node => node.Content);
     }
