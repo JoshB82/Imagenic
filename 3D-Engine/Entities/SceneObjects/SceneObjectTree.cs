@@ -57,16 +57,7 @@ public abstract partial class SceneObject
 
     
 
-    /// <summary>
-    /// Gets all children and this that are of type <typeparamref name="T"/> and an optional predicate.
-    /// </summary>
-    /// <typeparam name="T">The type of all the returned <see cref="SceneObject">SceneObjects</see>.</typeparam>
-    /// <param name="predicate">A <see cref="Predicate{T}"/> that all returned <see cref="SceneObject">SceneObjects</see> must satisfy.</param>
-    /// <returns></returns>
-    public IEnumerable<T> GetAllChildrenAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
-    {
-        return this.GetAllChildrenAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
-    }
+    
 
     public void ForEach(Action<SceneObject> action, Predicate<SceneObject> predicate = null)
     {

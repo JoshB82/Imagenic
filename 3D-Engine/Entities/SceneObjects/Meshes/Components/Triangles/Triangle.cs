@@ -48,4 +48,32 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 
         #endregion
     }
+
+    public struct PlanePoints
+    {
+        public Vector3D P1 { get; private set; }
+        public Vector3D P2 { get; private set; }
+        public Vector3D P3 { get; private set; }
+
+        public PlanePoints()
+        {
+            P1 = Vector3D.Zero;
+            P2 = Vector3D.One;
+            P3 = Vector3D.UnitX;
+        }
+
+        public PlanePoints(Vector3D p1, Vector3D p2, Vector3D p3)
+        {
+            if (p1 == p2 || p2 == p3 || p1 == p3)
+            {
+                // Cannot define plane, therefore throw exception
+            }
+
+            P1 = p1;
+            P2 = p2;
+            P3 = p3;
+        }
+
+        //internal void ApplyMatrix(Matrix4x4 matrix) => (P1, P2, P3) = (matrix * P1, matrix * P2, matrix * P3);
+    }
 }

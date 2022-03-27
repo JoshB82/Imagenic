@@ -8,6 +8,22 @@ namespace Imagenic.Core.Utilities.Tree;
 
 public static class NodeExtensions
 {
+    public static IEnumerable<object> GetAllContents(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    {
+        foreach (Node node in nodes)
+        {
+            if (predicate is null || predicate(node))
+            {
+                yield return ((dynamic)node).Content;
+            }
+        }
+    }
+
+    public static IEnumerable<T> GetAllContents<T>(this IEnumerable<Node<T>> nodes, Predicate<Node<T>> predicate)
+    {
+        return nodes.Select(node => node.Content);
+    }
+
     public static IEnumerable<Node> GetAncestors(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
         
