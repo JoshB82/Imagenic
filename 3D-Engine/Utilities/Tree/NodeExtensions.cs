@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities.Tree;
 
 public static class NodeExtensions
 {
+    public static IEnumerable<Node<T>> GetAllNodesOfType<T>(this IEnumerable<Node> nodes, Predicate<Node<T>> predicate = null)
+    {
+        foreach (Node<T> node in nodes.Where(x => x is Node<T>))
+        {
+            if (predicate is null || predicate(node))
+            {
+                yield return node;
+            }
+        }
+    }
+
     public static IEnumerable<object> GetAllContents(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
         foreach (Node node in nodes)

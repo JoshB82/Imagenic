@@ -13,25 +13,6 @@ public abstract class Node
     private int? maxNumberOfChildren;
 
     /// <summary>
-    /// The minimum number of parent nodes this <see cref="Node"/> can have.
-    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfParents"/> if it is not null.</remarks>
-    /// </summary>
-    /*public int MinNumberOfParents
-    {
-        get => minNumberOfParents;
-        set
-        {
-            if (value >= 0 && (maxNumberOfParents is null || value <= maxNumberOfParents.Value))
-            {
-                minNumberOfParents = value;
-            }
-            else
-            {
-                // throw exception
-            }
-        }
-    }*/
-    /// <summary>
     /// The minimum number of child nodes this <see cref="Node"/> can have.
     /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfChildren"/> if it is not null.</remarks>
     /// </summary>
@@ -92,9 +73,6 @@ public abstract class Node
 
     private IList<Node> children = new List<Node>();
 
-    public bool IsReadOnly => children.IsReadOnly;
-    public int Count => children.Count;
-
     public IList<Node> Children
     {
         get => children;
@@ -139,7 +117,7 @@ public abstract class Node
 
     public void Add(Node item)
     {
-        Children.Add(item);
+        children.Add(item);
     }
 
     public void Add<T>(T item)
@@ -302,6 +280,8 @@ public class Node<T> : Node
 
     #region Constructors
 
+    public Node() { }
+
     public Node(T content)
     {
         Content = content;
@@ -317,7 +297,7 @@ public class Node<T> : Node
     {
         foreach (T child in children)
         {
-            Children.Add(new Node<T> { Content = child });
+            Children.Add(new Node<T>(child));
         }
     }
 
@@ -329,20 +309,46 @@ public class Node<T> : Node
 
     public bool RemoveChildren(IEnumerable<T> children)
     {
+        bool removalSuccess = true;
 
+        var validTypeNodes = Children.GetAllNodesOfType<T>();
+
+        foreach (T child in children)
+        {
+            var nodeToRemove = validTypeNodes.FirstOrDefault(x => EqualityComparer<T>.Default.Equals(x.Content, child));
+
+            if (nodeToRemove is not null && Children.Remove(nodeToRemove))
+            {
+                nodeToRemove.Parent = null;
+            }
+            else
+            {
+                removalSuccess = false;
+            }
+        }
+
+        return removalSuccess;
     }
 
     public bool RemoveChildren(params T[] children) => RemoveChildren((IEnumerable<T>)children);
 
-    public void RemoveChildren(Predicate<Node> predicate)
+    public bool RemoveChildren(Predicate<Node> predicate)
     {
+        bool removalSuccess = true;
+
         foreach (Node child in Children)
         {
             if (predicate(child) && Children.Remove(child))
             {
                 child.Parent = null;
             }
+            else
+            {
+                removalSuccess = false;
+            }
         }
+
+        return removalSuccess;
     }
 
     public void RemoveChildren(Predicate<T> predicate)
