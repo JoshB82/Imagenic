@@ -151,15 +151,42 @@ public abstract class Node
 
     #region Remove
 
-    public bool RemoveChildrenOfType<T>(Predicate<T> predicate = null)
+    public bool RemoveChildren(Predicate<Node> predicate)
     {
-        foreach (Node child in Children)
+        bool removalSuccess = true;
+
+        foreach (Node child in children)
         {
-            if (child is T t && ((predicate is not null && predicate(t)) || predicate is null))
+            if (predicate(child) && children.Remove(child))
             {
-                Children.Remove(child);
+                child.Parent = null;
+            }
+            else
+            {
+                removalSuccess = false;
             }
         }
+
+        return removalSuccess;
+    }
+
+    public bool RemoveChildrenOfType<T>(Predicate<T> predicate = null)
+    {
+        bool removalSuccess = true;
+
+        foreach (Node child in children)
+        {
+            if (child is T t && (predicate is null || predicate(t)) && children.Remove(child))
+            {
+                child.parent = null;
+            }
+            else
+            {
+                removalSuccess = false;
+            }
+        }
+
+        return removalSuccess;
     }
 
     public bool RemoveChildren(IEnumerable<object> children)
@@ -215,7 +242,7 @@ public abstract class Node
     /// <returns></returns>
     public IEnumerable<Node<T>> GetDescendantsAndSelfOfType<T>(Predicate<T> predicate = null)
     {
-        return this.GetAllChildrenAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
+        return this.GetDescendantsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
     }
 
     public IEnumerable<Node> GetAncestors(Predicate<Node> predicate = null)
@@ -332,13 +359,15 @@ public class Node<T> : Node
 
     public bool RemoveChildren(params T[] children) => RemoveChildren((IEnumerable<T>)children);
 
-    public bool RemoveChildren(Predicate<Node> predicate)
+    public bool RemoveChildren(Predicate<T> predicate)
     {
         bool removalSuccess = true;
 
         foreach (Node child in Children)
         {
-            if (predicate(child) && Children.Remove(child))
+            if (child is Node<T> node &&
+                predicate(node.Content) &&
+                Children.Remove(child))
             {
                 child.Parent = null;
             }
@@ -349,19 +378,6 @@ public class Node<T> : Node
         }
 
         return removalSuccess;
-    }
-
-    public void RemoveChildren(Predicate<T> predicate)
-    {
-        foreach (Node child in Children)
-        {
-            if (child is Node<T> node &&
-                predicate(node.Content) &&
-                Children.Remove(child))
-            {
-                child.Parent = null;
-            }
-        }
     }
 
     #endregion

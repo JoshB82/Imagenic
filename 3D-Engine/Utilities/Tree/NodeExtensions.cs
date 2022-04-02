@@ -35,7 +35,16 @@ public static class NodeExtensions
 
     public static IEnumerable<Node> GetAncestors(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
-        
+        var uniqueNodes = new List<Node>();
+        foreach (Node node in nodes)
+        {
+            var newAncestors = node.GetAncestors(x => !uniqueNodes.Contains(x) && (predicate is null || predicate(x)));
+            foreach (Node newAncestor in newAncestors)
+            {
+                yield return newAncestor;
+            }
+            uniqueNodes.AddRange(newAncestors);
+        }
     }
 
     public static IEnumerable<Node> GetAncestorsAndSelf(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
