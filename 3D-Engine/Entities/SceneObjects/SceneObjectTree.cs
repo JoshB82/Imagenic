@@ -36,20 +36,7 @@ public abstract partial class SceneObject
 
     
 
-    public IEnumerable<SceneObject> GetAllParentsAndSelf(Predicate<SceneObject> predicate = null)
-    {
-        List<SceneObject> sceneObjects = this.GetAllParents(predicate).ToList();
-        if ((predicate is not null && predicate(this)) || predicate is null)
-        {
-            sceneObjects.Add(this);
-        }
-        return sceneObjects;
-    }
-
-    public IEnumerable<T> GetAllParentsAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
-    {
-        return this.GetAllParentsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
-    }
+    
 
     
 

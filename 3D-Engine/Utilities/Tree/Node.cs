@@ -32,25 +32,7 @@ public abstract class Node
         }
     }
 
-    /// <summary>
-    /// The maximum number of parent nodes this <see cref="Node"/> can have.
-    /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfParents"/>.</remarks>
-    /// </summary>
-    /*public int? MaxNumberOfParents
-    {
-        get => maxNumberOfParents;
-        set
-        {
-            if (value is null || (value >= 0 && value >= minNumberOfParents))
-            {
-                maxNumberOfParents = value.Value;
-            }
-            else
-            {
-                // throw exception
-            }
-        }
-    }*/
+    
     /// <summary>
     /// The maximum number of child nodes this <see cref="Node"/> can have.
     /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfChildren"/>.</remarks>
@@ -122,7 +104,7 @@ public abstract class Node
 
     public void Add<T>(T item)
     {
-        Children.Add(new Node<T> { Content = item });
+        children.Add(new Node<T>(item));
     }
 
     public void AddChildren(IEnumerable<object> children)
@@ -232,7 +214,23 @@ public abstract class Node
 
     #region Get
 
-    
+    public IEnumerable<Node> GetAncestorsAndSelf(Predicate<Node> predicate = null)
+    {
+        foreach (Node node in this.GetAncestors(predicate))
+        {
+            yield return node;
+        }
+
+        if (predicate is null || predicate(this))
+        {
+            yield return this;
+        }
+    }
+
+    public IEnumerable<T> GetAllParentsAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
+    {
+        return this.GetAncestorsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
+    }
 
     /// <summary>
     /// Gets all children and this that are of type <typeparamref name="T"/> and an optional predicate.
