@@ -17,11 +17,30 @@ public static class NodeExtensions
         }
     }
 
-    public static IEnumerable<object> GetAllContents(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
+    /// <summary>
+    /// Retrieves all contents from a sequence of <see cref="Node">Nodes</see>.
+    /// </summary>
+    /// <param name="nodes"></param>
+    /// <returns></returns>
+    public static IEnumerable<object> GetAllContents(this IEnumerable<Node> nodes)
     {
         foreach (Node node in nodes)
         {
-            if (predicate is null || predicate(node))
+            yield return ((dynamic)node).Content;
+        }
+    }
+
+    /// <summary>
+    /// Retrieves all contents from a sequence of <see cref="Node">Nodes</see> that satisfy a specified predicate.
+    /// </summary>
+    /// <param name="nodes"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static IEnumerable<object> GetAllContents(this IEnumerable<Node> nodes, Predicate<Node> predicate)
+    {
+        foreach (Node node in nodes)
+        {
+            if (predicate(node))
             {
                 yield return ((dynamic)node).Content;
             }
@@ -31,6 +50,26 @@ public static class NodeExtensions
     public static IEnumerable<T> GetAllContents<T>(this IEnumerable<Node<T>> nodes, Predicate<Node<T>> predicate = null)
     {
         return nodes.Select(node => node.Content);
+    }
+
+
+    /// <summary>
+    /// Retrieves all distinct ancestor <see cref="Node">Nodes</see> from a sequence of <see cref="Node">Nodes</see>.
+    /// </summary>
+    /// <param name="nodes">The sequence to retrieve ancestor <see cref="Node">Nodes</see> from.</param>
+    /// <returns>All distinct ancestor <see cref="Node">Nodes</see>.</returns>
+    public static IEnumerable<Node> GetAncestors(this IEnumerable<Node> nodes)
+    {
+        var uniqueNodes = new List<Node>();
+        foreach (Node node in nodes)
+        {
+            var newAncestors = node.GetAncestors(x => !uniqueNodes.Contains(x));
+            foreach (Node newAncestor in newAncestors)
+            {
+                yield return newAncestor;
+            }
+            uniqueNodes.AddRange(newAncestors);
+        }
     }
 
     public static IEnumerable<Node> GetAncestors(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
@@ -44,6 +83,30 @@ public static class NodeExtensions
                 yield return newAncestor;
             }
             uniqueNodes.AddRange(newAncestors);
+        }
+    }
+
+    /// <summary>
+    /// Retrieves all distinct ancestor <see cref="Node">Nodes</see> from a sequence of <see cref="Node">Nodes</see>, where the level difference between any two <see cref="Node">Nodes</see> cannot exceed a specified value.
+    /// </summary>
+    /// <param name="nodes">The sequence to retrieve ancestor <see cref="Node">Nodes</see> from.</param>
+    /// <param name="maxLevelDiff">The maximum difference in level between two <see cref="Node">Nodes</see>.</param>
+    /// <returns>All distinct ancestor <see cref="Node">Nodes</see>.</returns>
+    public static IEnumerable<Node> GetAncestors(this IEnumerable<Node> nodes, int maxLevelDiff)
+    {
+        var uniqueNodes = new List<Node>();
+        foreach (Node node in nodes)
+        {
+
+        }
+    }
+
+    public static IEnumerable<Node> GetAncestors(this IEnumerable<Node> nodes, int maxLevelDiff, Predicate<Node> predicate)
+    {
+        var uniqueNodes = new List<Node>();
+        foreach (Node node in nodes)
+        {
+
         }
     }
 
@@ -112,4 +175,6 @@ public static class NodeExtensions
     {
 
     }
+
+    
 }
