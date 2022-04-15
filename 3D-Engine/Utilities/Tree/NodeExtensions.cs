@@ -6,6 +6,24 @@ namespace Imagenic.Core.Utilities.Tree;
 
 public static class NodeExtensions
 {
+    
+
+    public static Node<IEnumerable<object>> MergeWith(this IEnumerable<Node> nodes, Node newParent, IEnumerable<Node> otherNodes)
+    {
+        return new Node<IEnumerable<object>>(nodes.Select(node => node.Content).Concat(otherNodes.Select(node => node.Content)), newParent);
+    }
+
+    public static Node<IEnumerable<T>> MergeWith<T>(this IEnumerable<Node<T>> nodes, Node newParent, IEnumerable<Node<T>> otherNodes)
+    {
+        return new Node<IEnumerable<T>>(nodes.Select(node => node.Content).Concat(otherNodes.Select(node => node.Content)), newParent);
+    }
+
+    
+
+    public static Node<IEnumerable<object>> MergeWith(this IEnumerable<Node> nodes, Node newParent, params Node[] otherNodes) => nodes.MergeWith(newParent, (IEnumerable<Node>)otherNodes);
+
+    public static Node<IEnumerable<T>> MergeWith<T>(this IEnumerable<Node<T>> nodes, Node newParent, params Node<T>[] otherNodes) => nodes.MergeWith(newParent, (IEnumerable<Node<T>>)otherNodes);
+
     public static IEnumerable<Node<T>> GetAllNodesOfType<T>(this IEnumerable<Node> nodes, Predicate<Node<T>> predicate = null)
     {
         foreach (Node<T> node in nodes.Where(x => x is Node<T>))

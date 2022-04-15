@@ -9,53 +9,14 @@ public abstract class Node
 {
     #region Fields and Properties
 
-    private int minNumberOfChildren;
-    private int? maxNumberOfChildren;
-
-    /// <summary>
-    /// The minimum number of child nodes this <see cref="Node"/> can have.
-    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfChildren"/> if it is not null.</remarks>
-    /// </summary>
-    public int MinNumberOfChildren
+    public object Content
     {
-        get => minNumberOfChildren;
-        set
-        {
-            if (value >= 0 && (maxNumberOfChildren is null || value <= maxNumberOfChildren.Value))
-            {
-                minNumberOfChildren = value;
-            }
-            else
-            {
-                // throw exception
-            }
-        }
-    }
-
-    
-    /// <summary>
-    /// The maximum number of child nodes this <see cref="Node"/> can have.
-    /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfChildren"/>.</remarks>
-    /// </summary>
-    public int? MaxNumberOfChildren
-    {
-        get => maxNumberOfChildren;
-        set
-        {
-            if (value is null || (value >= 0 && value >= minNumberOfChildren))
-            {
-                maxNumberOfChildren = value.Value;
-            }
-            else
-            {
-                // throw exception
-            }
-        }
+        get => ((dynamic)this).Content;
+        set => ((dynamic)this).Content = value;
     }
 
     private IList<Node> children = new List<Node>();
-
-    public IList<Node> Children
+    public virtual IList<Node> Children
     {
         get => children;
         set
@@ -292,6 +253,13 @@ public abstract class Node
 
     #endregion
 
+    public Node<IEnumerable<object>> MergeWith(Node newParent, IEnumerable<Node> otherNodes)
+    {
+        return new Node<IEnumerable<object>>((new[] { this.Content }).Concat(otherNodes.Select(node => node.Content)), newParent);
+    }
+
+    public Node<IEnumerable<object>> MergeWith(Node newParent, params Node[] otherNodes) => this.MergeWith(newParent, (IEnumerable<Node>)otherNodes);
+
     #endregion
 }
 
@@ -299,7 +267,7 @@ public class Node<T> : Node
 {
     #region Fields and Properties
 
-    public T Content { get; set; }
+    public new T Content { get; set; }
 
     #endregion
 
@@ -307,10 +275,10 @@ public class Node<T> : Node
 
     public Node() { }
 
-    public Node(T content)
-    {
-        Content = content;
-    }
+    public Node(T content) => Content = content;
+    public Node(T content, Node parent) => (Content, Parent) = (content, parent);
+    public Node(T content, IList<Node> children) => (Content, Children) = (content, children);
+    public Node(T content, Node parent, IList<Node> children) => (Content, Parent, Children) = (content, parent, children);
 
     #endregion
 
@@ -380,5 +348,63 @@ public class Node<T> : Node
 
     #endregion
 
+    
+
+    public Node<IEnumerable<T>> MergeWith(Node newParent, IEnumerable<Node<T>> otherNodes)
+    {
+        return new Node<IEnumerable<T>>((new[] { this.Content }).Concat(otherNodes.Select(node => node.Content)), newParent);
+    }
+
+    
+
+    public Node<IEnumerable<T>> MergeWith(Node newParent, params Node<T>[] otherNodes) => this.MergeWith(newParent, (IEnumerable<Node<T>>)otherNodes);
+
     #endregion
+}
+
+public class ConstrainedNode<T> : Node<T>
+{
+    private int minNumberOfChildren;
+    private int? maxNumberOfChildren;
+
+    /// <summary>
+    /// The minimum number of child nodes this <see cref="Node"/> can have.
+    /// <remarks>The value of this property must be non-negative and less than or equal to <see cref="MaxNumberOfChildren"/> if it is not null.</remarks>
+    /// </summary>
+    public int MinNumberOfChildren
+    {
+        get => minNumberOfChildren;
+        set
+        {
+            if (value >= 0 && (maxNumberOfChildren is null || value <= maxNumberOfChildren.Value))
+            {
+                minNumberOfChildren = value;
+            }
+            else
+            {
+                // throw exception
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// The maximum number of child nodes this <see cref="Node"/> can have.
+    /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfChildren"/>.</remarks>
+    /// </summary>
+    public int? MaxNumberOfChildren
+    {
+        get => maxNumberOfChildren;
+        set
+        {
+            if (value is null || (value >= 0 && value >= minNumberOfChildren))
+            {
+                maxNumberOfChildren = value.Value;
+            }
+            else
+            {
+                // throw exception
+            }
+        }
+    }
 }
