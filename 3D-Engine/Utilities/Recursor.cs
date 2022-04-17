@@ -1,6 +1,7 @@
 ﻿using Imagenic.Core.Utilities.Tree;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities;
 
@@ -11,8 +12,60 @@ public interface IRecursiveParameters<TReturn>
 
 public class Recursor<TParams, TReturn> where TParams : IRecursiveParameters<TReturn>
 {
-    public int RunCount { get; private set; } = 1;
+    #region Fields and Properties
 
+    public int? MaxRunCount { get; set; }
+    public int RunCount { get; private set; }
+
+    public Func<TParams, TReturn> ReturnSelector { get; set; }
+    public Func<TParams, TParams> RepeatingFunction { get; set; }
+    public Predicate<TParams> StoppingPredicate { get; set; }
+
+    #endregion
+
+    #region Methods
+
+    public Recursor<TParams, TReturn> WithRepeatingFunction(Func<TParams, TParams> repeatingFunction)
+    {
+        RepeatingFunction = repeatingFunction;
+        return this;
+    }
+
+    public Recursor<TParams, TReturn> WithStoppingPredicate(Predicate<TParams> predicate)
+    {
+        StoppingPredicate = predicate;
+        return this;
+    }
+
+    public Recursor<TParams, TReturn> WithReturnSelector(Func<TParams, TReturn> returnSelector)
+    {
+        ReturnSelector = returnSelector;
+        return this;
+    }
+
+    private TReturn Repeat(TParams initialParams)
+    {
+        TParams persistingParameters = initialParams;
+
+        while (!StoppingPredicate(persistingParameters))
+        {
+            if (MaxRunCount == RunCount)
+            {
+                break;
+            }
+            persistingParameters = RepeatingFunction(persistingParameters);
+            RunCount++;
+        }
+
+        return ReturnSelector(persistingParameters);
+    }
+
+    public TReturn Run(TParams initialParams) => Repeat(initialParams);
+    public async Task<TReturn> RunAsync(TParams initialParams) => await Task.Run(() => Repeat(initialParams));
+
+    #endregion
+
+    /*
     private TReturn Repeat(TParams parameters, Func<TParams, RepeatingFunctionResult<TParams, TReturn>> repeatingFunction)
     {
         RunCount++;
@@ -22,22 +75,21 @@ public class Recursor<TParams, TReturn> where TParams : IRecursiveParameters<TRe
             return result.ReturnParameter;
         }
         return Repeat(result.NewParameters, repeatingFunction);
-    }
+    }*/
 
+    /*
     public TReturn Run(TParams parameters, Func<TParams, RepeatingFunctionResult<TParams, TReturn>> repeatingFunction)
     {
         return Repeat(parameters, repeatingFunction);
-    }
+    }*/
 }
 
-public class RepeatingFunctionResult<TParams, TReturn>
+public class RepeatingFunctionResult<TParams>
 {
-    public bool CeaseRecursion { get; set; }
-    public TReturn ReturnParameter { get; set; }
     public TParams NewParameters { get; set; }
 }
 
-public class NodeCycleCheck_RecursiveParameters : IRecursiveParameters<bool>
+public class NodeCycleCheckParams : IRecursiveParameters<bool>
 {
     public bool ReturnParameter { get; set; }
 

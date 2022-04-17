@@ -283,12 +283,41 @@ public abstract class Node
 
     public bool IsPartOfCycle()
     {
-        return new Recursor<NodeCycleCheck_RecursiveParameters, bool>().Run(new NodeCycleCheck_RecursiveParameters
+        return new Recursor<NodeCycleCheckParams, bool>()
+            .WithRepeatingFunction(parameters =>
+            {
+                parameters.NodeTrackerList.Add(parameters.TrackedNode);
+                return new NodeCycleCheckParams
+                {
+                    NodeTrackerList = parameters.NodeTrackerList,
+                    TrackedNode = parameters.TrackedNode.Parent
+                };
+                
+            })
+            .WithStoppingPredicate(parameters =>
+            {
+                if (parameters.TrackedNode is null)
+                {
+                    parameters.ReturnParameter = false;
+                    return true;
+                }
+
+                if (parameters.NodeTrackerList.Contains(parameters.TrackedNode))
+                {
+                    return parameters.ReturnParameter = true;
+                }
+
+                return false;
+            })
+            .WithReturnSelector(parameters => parameters.ReturnParameter)
+            .Run(new NodeCycleCheckParams
+            {
+                TrackedNode = this
+            });
+        
+        /*, parameters =>
         {
-            TrackedNode = this
-        }, parameters =>
-        {
-            if (parameters.NodeTrackerList.Contains(parameters.TrackedNode))
+            if ()
             {
                 return new RepeatingFunctionResult<NodeCycleCheck_RecursiveParameters, bool>
                 {
@@ -298,17 +327,9 @@ public abstract class Node
             }
             else
             {
-                parameters.NodeTrackerList.Add(parameters.TrackedNode);
-                return new RepeatingFunctionResult<NodeCycleCheck_RecursiveParameters, bool>
-                {
-                    NewParameters = new NodeCycleCheck_RecursiveParameters
-                    {
-                        NodeTrackerList = parameters.NodeTrackerList,
-                        TrackedNode = parameters.TrackedNode.Parent
-                    }
-                };
+                
             }
-        });
+        });*/
     }
 
     public (bool, List<Node>, Node) CycleRecursor(bool returnValue, List<Node> recursiveValue)
