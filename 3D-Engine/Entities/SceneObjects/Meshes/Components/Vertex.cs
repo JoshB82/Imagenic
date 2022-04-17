@@ -19,8 +19,6 @@ public sealed class Vertex : Entity
 {
     #region Fields and Properties
 
-    public float w;
-
     public Vector3D? Normal { get; set; }
 
     private Vector3D point;

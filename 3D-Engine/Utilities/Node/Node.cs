@@ -9,6 +9,9 @@ public abstract class Node
 {
     #region Fields and Properties
 
+    /// <summary>
+    /// The content of the <see cref="Node"/>. Use this property when the type of the <see cref="Node{T}"/> is unknown.
+    /// </summary>
     public object Content
     {
         get => ((dynamic)this).Content;
@@ -16,6 +19,9 @@ public abstract class Node
     }
 
     private IList<Node> children = new List<Node>();
+    /// <summary>
+    /// All child <see cref="Node">Nodes</see> linked to this <see cref="Node"/>.
+    /// </summary>
     public virtual IList<Node> Children
     {
         get => children;
@@ -40,15 +46,13 @@ public abstract class Node
     }
 
     private Node parent;
-
     public Node Parent
     {
         get => parent;
         set
         {
-            parent.RemoveChildren(this);
-            parent = value;
-            parent.AddChildren(this);
+            parent?.RemoveChildren(this);
+            (parent = value)?.AddChildren(this);
         }
     }
 
@@ -204,6 +208,17 @@ public abstract class Node
         return this.GetDescendantsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
     }
 
+    #region GetAncestors
+
+    public IEnumerable<Node> GetAncestors()
+    {
+        var uniqueNodes = new List<Node>();
+        if (parent is not null)
+        {
+
+        }
+    }
+
     public IEnumerable<Node> GetAncestors(Predicate<Node> predicate = null)
     {
         List<Node> parents = new();
@@ -214,6 +229,8 @@ public abstract class Node
         }
         return parents;
     }
+
+    #endregion
 
     public IEnumerable<Node<T>> GetAncestorsOfType<T>(Predicate<T> predicate = null)
     {
@@ -253,6 +270,8 @@ public abstract class Node
 
     #endregion
 
+    #region Merge
+
     public Node<IEnumerable<object>> MergeWith(Node newParent, IEnumerable<Node> otherNodes)
     {
         return new Node<IEnumerable<object>>((new[] { this.Content }).Concat(otherNodes.Select(node => node.Content)), newParent);
@@ -261,12 +280,52 @@ public abstract class Node
     public Node<IEnumerable<object>> MergeWith(Node newParent, params Node[] otherNodes) => this.MergeWith(newParent, (IEnumerable<Node>)otherNodes);
 
     #endregion
+
+    public bool IsPartOfCycle()
+    {
+        return new Recursor<NodeCycleCheck_RecursiveParameters, bool>().Run(new NodeCycleCheck_RecursiveParameters
+        {
+            TrackedNode = this
+        }, parameters =>
+        {
+            if (parameters.NodeTrackerList.Contains(parameters.TrackedNode))
+            {
+                return new RepeatingFunctionResult<NodeCycleCheck_RecursiveParameters, bool>
+                {
+                    CeaseRecursion = true,
+                    ReturnParameter = true
+                };
+            }
+            else
+            {
+                parameters.NodeTrackerList.Add(parameters.TrackedNode);
+                return new RepeatingFunctionResult<NodeCycleCheck_RecursiveParameters, bool>
+                {
+                    NewParameters = new NodeCycleCheck_RecursiveParameters
+                    {
+                        NodeTrackerList = parameters.NodeTrackerList,
+                        TrackedNode = parameters.TrackedNode.Parent
+                    }
+                };
+            }
+        });
+    }
+
+    public (bool, List<Node>, Node) CycleRecursor(bool returnValue, List<Node> recursiveValue)
+    {
+
+    }
+    
+    #endregion
 }
 
 public class Node<T> : Node
 {
     #region Fields and Properties
 
+    /// <summary>
+    /// The content of the <see cref="Node"/>.
+    /// </summary>
     public new T Content { get; set; }
 
     #endregion
@@ -348,16 +407,16 @@ public class Node<T> : Node
 
     #endregion
 
-    
+    #region Merge
 
     public Node<IEnumerable<T>> MergeWith(Node newParent, IEnumerable<Node<T>> otherNodes)
     {
         return new Node<IEnumerable<T>>((new[] { this.Content }).Concat(otherNodes.Select(node => node.Content)), newParent);
     }
 
-    
-
     public Node<IEnumerable<T>> MergeWith(Node newParent, params Node<T>[] otherNodes) => this.MergeWith(newParent, (IEnumerable<Node<T>>)otherNodes);
+
+    #endregion
 
     #endregion
 }
@@ -387,7 +446,6 @@ public class ConstrainedNode<T> : Node<T>
         }
     }
 
-
     /// <summary>
     /// The maximum number of child nodes this <see cref="Node"/> can have.
     /// <remarks>If this property is null, this limit is removed, otherwise the value of this property must be non-negative and more than or equal to <see cref="MinNumberOfChildren"/>.</remarks>
@@ -407,4 +465,6 @@ public class ConstrainedNode<T> : Node<T>
             }
         }
     }
+
+    public override IList<Node> Children { get => base.Children; set => base.Children = value; }
 }

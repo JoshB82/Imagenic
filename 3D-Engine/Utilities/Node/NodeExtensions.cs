@@ -6,7 +6,7 @@ namespace Imagenic.Core.Utilities.Tree;
 
 public static class NodeExtensions
 {
-    
+    #region Merge
 
     public static Node<IEnumerable<object>> MergeWith(this IEnumerable<Node> nodes, Node newParent, IEnumerable<Node> otherNodes)
     {
@@ -18,11 +18,11 @@ public static class NodeExtensions
         return new Node<IEnumerable<T>>(nodes.Select(node => node.Content).Concat(otherNodes.Select(node => node.Content)), newParent);
     }
 
-    
-
     public static Node<IEnumerable<object>> MergeWith(this IEnumerable<Node> nodes, Node newParent, params Node[] otherNodes) => nodes.MergeWith(newParent, (IEnumerable<Node>)otherNodes);
 
     public static Node<IEnumerable<T>> MergeWith<T>(this IEnumerable<Node<T>> nodes, Node newParent, params Node<T>[] otherNodes) => nodes.MergeWith(newParent, (IEnumerable<Node<T>>)otherNodes);
+
+    #endregion
 
     public static IEnumerable<Node<T>> GetAllNodesOfType<T>(this IEnumerable<Node> nodes, Predicate<Node<T>> predicate = null)
     {
@@ -70,6 +70,7 @@ public static class NodeExtensions
         return nodes.Select(node => node.Content);
     }
 
+    #region GetAncestors
 
     /// <summary>
     /// Retrieves all distinct ancestor <see cref="Node">Nodes</see> from a sequence of <see cref="Node">Nodes</see>.
@@ -127,6 +128,8 @@ public static class NodeExtensions
 
         }
     }
+
+    #endregion
 
     public static IEnumerable<Node> GetAncestorsAndSelf(this IEnumerable<Node> nodes, Predicate<Node> predicate = null)
     {
