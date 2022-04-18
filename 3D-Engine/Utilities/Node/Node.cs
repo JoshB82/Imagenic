@@ -27,12 +27,6 @@ public abstract class Node
         get => children;
         set
         {
-            int count = value.Count();
-            if (count < minNumberOfChildren || count > maxNumberOfChildren)
-            {
-                // throw exception
-            }
-
             foreach (Node child in children)
             {
                 child.Parent = null;
@@ -62,11 +56,20 @@ public abstract class Node
 
     #region Add
 
+    /// <summary>
+    /// Links a child <see cref="Node"/> to this <see cref="Node"/>.
+    /// </summary>
+    /// <param name="item">The child <see cref="Node"/> to be linked.</param>
     public void Add(Node item)
     {
         children.Add(item);
     }
 
+    /// <summary>
+    /// Links a child <see cref="Node"/> to this <see cref="Node"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the content the <see cref="Node"/> to be added contains.</typeparam>
+    /// <param name="item">The content of the child <see cref="Node"/> to be linked.</param>
     public void Add<T>(T item)
     {
         children.Add(new Node<T>(item));
@@ -76,7 +79,7 @@ public abstract class Node
     {
         foreach (object child in children)
         {
-            var nodeChild = new Node<object> { Content = child, Parent = this };
+            var nodeChild = new Node<object>(child, this);
             this.children.Add(nodeChild);
         }
     }
@@ -292,7 +295,7 @@ public abstract class Node
                     NodeTrackerList = parameters.NodeTrackerList,
                     TrackedNode = parameters.TrackedNode.Parent
                 };
-                
+
             })
             .WithStoppingPredicate(parameters =>
             {
@@ -310,31 +313,7 @@ public abstract class Node
                 return false;
             })
             .WithReturnSelector(parameters => parameters.ReturnParameter)
-            .Run(new NodeCycleCheckParams
-            {
-                TrackedNode = this
-            });
-        
-        /*, parameters =>
-        {
-            if ()
-            {
-                return new RepeatingFunctionResult<NodeCycleCheck_RecursiveParameters, bool>
-                {
-                    CeaseRecursion = true,
-                    ReturnParameter = true
-                };
-            }
-            else
-            {
-                
-            }
-        });*/
-    }
-
-    public (bool, List<Node>, Node) CycleRecursor(bool returnValue, List<Node> recursiveValue)
-    {
-
+            .Run(new NodeCycleCheckParams { TrackedNode = this });
     }
     
     #endregion
@@ -444,6 +423,8 @@ public class Node<T> : Node
 
 public class ConstrainedNode<T> : Node<T>
 {
+    #region Fields and Parameters
+
     private int minNumberOfChildren;
     private int? maxNumberOfChildren;
 
@@ -487,5 +468,18 @@ public class ConstrainedNode<T> : Node<T>
         }
     }
 
-    public override IList<Node> Children { get => base.Children; set => base.Children = value; }
+    public override IList<Node> Children
+    {
+        get => base.Children;
+        set
+        {
+            if (value.Count < minNumberOfChildren || value.Count > maxNumberOfChildren)
+            {
+                // throw exception
+            }
+            base.Children = value;
+        }
+    }
+
+    #endregion
 }

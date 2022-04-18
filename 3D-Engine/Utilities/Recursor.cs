@@ -60,8 +60,25 @@ public class Recursor<TParams, TReturn> where TParams : IRecursiveParameters<TRe
         return ReturnSelector(persistingParameters);
     }
 
+    private IEnumerable<TReturn> YieldRepeat(TParams initialParams)
+    {
+        TParams persistingParameters = initialParams;
+
+        while (!StoppingPredicate(persistingParameters))
+        {
+            if (MaxRunCount == RunCount)
+            {
+                break;
+            }
+            persistingParameters = RepeatingFunction(persistingParameters);
+            RunCount++;
+            yield return ReturnSelector(persistingParameters);
+        }
+    }
+
     public TReturn Run(TParams initialParams) => Repeat(initialParams);
     public async Task<TReturn> RunAsync(TParams initialParams) => await Task.Run(() => Repeat(initialParams));
+    public IEnumerable<TReturn> YieldRun(TParams initialParams) => YieldRepeat(initialParams);
 
     #endregion
 
