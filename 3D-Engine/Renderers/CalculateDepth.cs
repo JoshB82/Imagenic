@@ -26,7 +26,7 @@ using Imagenic.Core.Utilities;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 {
-    public abstract partial class RenderingObject : SceneObject
+    public abstract partial class RenderingObject : SceneEntity
     {
         #region Fields and Properties
 
@@ -39,9 +39,9 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
         internal abstract void ResetBuffers();
         internal abstract void AddPointToBuffers<T>(T data, int x, int y, float z);
 
-        internal void CalculateDepth(SceneObject sceneObject)
+        internal void CalculateDepth(SceneEntity sceneObject)
         {
-            MessageBuilder<GeneratingDepthValuesMessage>.WithType<SceneObject>();
+            MessageBuilder<GeneratingDepthValuesMessage>.WithType<SceneEntity>();
 
             ResetBuffers();
 
@@ -111,7 +111,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
                 }
             }
 
-            foreach (SceneObject sceneObject in scene.SceneObjects)
+            foreach (SceneEntity sceneObject in scene.SceneObjects)
             {
                 if (sceneObject.HasDirectionArrows && sceneObject.DisplayDirectionArrows)
                 {
@@ -140,7 +140,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 
             #if DEBUG
 
-            MessageBuilder<GeneratedDepthValuesMessage>.WithType<SceneObject>();
+            MessageBuilder<GeneratedDepthValuesMessage>.WithType<SceneEntity>();
 
             #endif
         }

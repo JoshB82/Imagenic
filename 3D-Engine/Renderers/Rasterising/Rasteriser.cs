@@ -26,7 +26,7 @@ public class Rasteriser<T> : Renderer<T> where T : Image
         }
     }
 
-    public override SceneObject SceneObjectsToRender
+    public override SceneEntity SceneObjectsToRender
     {
         get => base.SceneObjectsToRender;
         set
@@ -52,7 +52,7 @@ public class Rasteriser<T> : Renderer<T> where T : Image
 
     #region Methods
 
-    private void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
+    private void UpdateSubscribers(SceneEntity sceneObject, bool addSubscription)
     {
         Action<Entity> updater = addSubscription
         ? e => e.ShadowMapAlteringPropertyChanged += shadowMapDelegate

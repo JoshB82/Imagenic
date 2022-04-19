@@ -195,7 +195,7 @@ public abstract class Node
         }
     }
 
-    public IEnumerable<T> GetAllParentsAndSelf<T>(Predicate<T> predicate = null) where T : SceneObject
+    public IEnumerable<T> GetAllParentsAndSelf<T>(Predicate<T> predicate = null) where T : SceneEntity
     {
         return this.GetAncestorsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
     }
@@ -203,8 +203,8 @@ public abstract class Node
     /// <summary>
     /// Gets all children and this that are of type <typeparamref name="T"/> and an optional predicate.
     /// </summary>
-    /// <typeparam name="T">The type of all the returned <see cref="SceneObject">SceneObjects</see>.</typeparam>
-    /// <param name="predicate">A <see cref="Predicate{T}"/> that all returned <see cref="SceneObject">SceneObjects</see> must satisfy.</param>
+    /// <typeparam name="T">The type of all the returned <see cref="SceneEntity">SceneObjects</see>.</typeparam>
+    /// <param name="predicate">A <see cref="Predicate{T}"/> that all returned <see cref="SceneEntity">SceneObjects</see> must satisfy.</param>
     /// <returns></returns>
     public IEnumerable<Node<T>> GetDescendantsAndSelfOfType<T>(Predicate<T> predicate = null)
     {
@@ -242,8 +242,8 @@ public abstract class Node
 
     public IEnumerable<Node> GetDescendants(Predicate<Node> predicate = null)
     {
-        List<SceneObject> children = new();
-        foreach (SceneObject child in Children)
+        List<SceneEntity> children = new();
+        foreach (SceneEntity child in Children)
         {
             if (predicate is not null && !predicate(child))
             {
@@ -284,9 +284,7 @@ public abstract class Node
 
     #endregion
 
-    public bool IsPartOfCycle()
-    {
-        return new Recursor<NodeCycleCheckParams, bool>()
+    private static readonly Recursor<NodeCycleCheckParams, bool> cycleRecursor = new Recursor<NodeCycleCheckParams, bool>()
             .WithRepeatingFunction(parameters =>
             {
                 parameters.NodeTrackerList.Add(parameters.TrackedNode);
@@ -312,8 +310,11 @@ public abstract class Node
 
                 return false;
             })
-            .WithReturnSelector(parameters => parameters.ReturnParameter)
-            .Run(new NodeCycleCheckParams { TrackedNode = this });
+            .WithReturnSelector(parameters => parameters.ReturnParameter);
+
+    public bool IsPartOfCycle()
+    {
+        return cycleRecursor.Reset().Run(new NodeCycleCheckParams { TrackedNode = this });
     }
     
     #endregion

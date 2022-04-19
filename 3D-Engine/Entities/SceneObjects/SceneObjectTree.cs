@@ -16,11 +16,11 @@ using System.Linq;
 
 namespace _3D_Engine.Entities.SceneObjects;
 
-public abstract partial class SceneObject
+public abstract partial class SceneEntity
 {
     #region Fields and Properties
 
-    public SceneObject this[int index]
+    public SceneEntity this[int index]
     {
         get => children[index];
         set => children[index] = value;
@@ -46,9 +46,9 @@ public abstract partial class SceneObject
 
     
 
-    public void ForEach(Action<SceneObject> action, Predicate<SceneObject> predicate = null)
+    public void ForEach(Action<SceneEntity> action, Predicate<SceneEntity> predicate = null)
     {
-        foreach (SceneObject child in this.GetAllChildrenAndSelf(predicate))
+        foreach (SceneEntity child in this.GetAllChildrenAndSelf(predicate))
         {
             action(child);
         }

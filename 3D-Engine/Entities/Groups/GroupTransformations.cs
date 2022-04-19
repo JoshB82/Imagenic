@@ -8,7 +8,7 @@ namespace _3D_Engine.Entities.Groups
 
         public Group SetDirection1(Vector3D newWorldDirectionForward, Vector3D newWorldDirectionUp)
         {
-            foreach (SceneObject sceneObject in SceneObjects)
+            foreach (SceneEntity sceneObject in SceneObjects)
             {
                 sceneObject.SetDirection1(newWorldDirectionForward, newWorldDirectionUp);
             }
@@ -18,7 +18,7 @@ namespace _3D_Engine.Entities.Groups
 
         public Group SetDirection2(Vector3D newWorldDirectionUp, Vector3D newWorldDirectionRight)
         {
-            foreach (SceneObject sceneObject in SceneObjects)
+            foreach (SceneEntity sceneObject in SceneObjects)
             {
                 sceneObject.SetDirection2(newWorldDirectionUp, newWorldDirectionRight);
             }
@@ -28,7 +28,7 @@ namespace _3D_Engine.Entities.Groups
 
         public Group SetDirection3(Vector3D newWorldDirectionRight, Vector3D newWorldDirectionForward)
         {
-            foreach (SceneObject sceneObject in SceneObjects)
+            foreach (SceneEntity sceneObject in SceneObjects)
             {
                 sceneObject.SetDirection3(newWorldDirectionRight, newWorldDirectionForward);
             }
@@ -40,7 +40,7 @@ namespace _3D_Engine.Entities.Groups
         {
             this.Rotate<Group>(axis, angle);
 
-            foreach (SceneObject sceneObject in SceneObjects)
+            foreach (SceneEntity sceneObject in SceneObjects)
             {
                 sceneObject.Rotate(axis, angle);
             }
@@ -52,7 +52,7 @@ namespace _3D_Engine.Entities.Groups
         {
             //base.RotateBetweenVectors(v1, v2, axis);
 
-            foreach (SceneObject sceneObject in SceneObjects)
+            foreach (SceneEntity sceneObject in SceneObjects)
             {
                 sceneObject.RotateBetweenVectors(v1, v2, axis);
             }

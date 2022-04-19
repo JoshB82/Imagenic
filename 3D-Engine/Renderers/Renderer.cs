@@ -49,8 +49,8 @@ public abstract class Renderer<T> where T : Image
 
     internal List<Triangle> TriangleBuffer { get; set; }
 
-    private SceneObject sceneObjectsToRender;
-    public virtual SceneObject SceneObjectsToRender
+    private SceneEntity sceneObjectsToRender;
+    public virtual SceneEntity SceneObjectsToRender
     {
         get => sceneObjectsToRender;
         set
@@ -96,9 +96,9 @@ public abstract class Renderer<T> where T : Image
 
     #region Constructors
 
-    public Renderer(SceneObject toRender, Camera renderCamera, RenderingOptions renderingOptions) : this(toRender, renderCamera, renderingOptions, null) { }
+    public Renderer(SceneEntity toRender, Camera renderCamera, RenderingOptions renderingOptions) : this(toRender, renderCamera, renderingOptions, null) { }
 
-    public Renderer(SceneObject toRender, Camera renderCamera, RenderingOptions renderingOptions, IImageOptions<T> imageOptions)
+    public Renderer(SceneEntity toRender, Camera renderCamera, RenderingOptions renderingOptions, IImageOptions<T> imageOptions)
     {
         ExceptionHelper.ThrowIfParameterIsNull(toRender, nameof(toRender));
         ExceptionHelper.ThrowIfParameterIsNull(renderCamera, nameof(renderCamera));
@@ -117,7 +117,7 @@ public abstract class Renderer<T> where T : Image
 
     #region Methods
 
-    private void UpdateSubscribers(SceneObject sceneObject, bool addSubscription)
+    private void UpdateSubscribers(SceneEntity sceneObject, bool addSubscription)
     {
         Action<Entity> updater = addSubscription
             ? s => s.RenderAlteringPropertyChanged += newRenderDelegate
@@ -126,7 +126,7 @@ public abstract class Renderer<T> where T : Image
         ApplyUpdater(updater, sceneObject);
     }
 
-    protected void ApplyUpdater(Action<Entity> updater, SceneObject sceneObject)
+    protected void ApplyUpdater(Action<Entity> updater, SceneEntity sceneObject)
     {
         sceneObject.ForEach(s => updater(s));
         sceneObject.ForEach<Mesh>(m =>

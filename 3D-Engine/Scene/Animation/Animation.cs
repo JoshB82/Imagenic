@@ -17,7 +17,7 @@ namespace _3D_Engine
         {
             foreach (Change<object> change in Changes)
             {
-                SceneObject sceneObject = change.SceneObject;
+                SceneEntity sceneObject = change.SceneObject;
                 PropertyInfo test = sceneObject.GetType().GetProperty(change.Property);
                 test.SetValue(sceneObject, change.Start);
             }

@@ -214,9 +214,9 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 
         #region Methods
 
-        public async Task<Bitmap> Render(SceneObject sceneToRender, int renderWidth, int renderHeight, PixelFormat renderPixelFormat, bool includeChildren = true)
+        public async Task<Bitmap> Render(SceneEntity sceneToRender, int renderWidth, int renderHeight, PixelFormat renderPixelFormat, bool includeChildren = true)
         {
-            List<SceneObject> sceneObjectsToRender = new() { sceneToRender };
+            List<SceneEntity> sceneObjectsToRender = new() { sceneToRender };
             if (includeChildren)
             {
                 sceneObjectsToRender.AddRange(sceneToRender.GetAllChildren());
@@ -225,7 +225,7 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
             return await Render(sceneObjectsToRender, renderWidth, renderHeight, renderPixelFormat);
         }
 
-        public async Task<Bitmap> Render(IEnumerable<SceneObject> sceneToRender,
+        public async Task<Bitmap> Render(IEnumerable<SceneEntity> sceneToRender,
                                          int renderWidth,
                                          int renderHeight,
                                          PixelFormat renderPixelFormat)
@@ -234,12 +234,12 @@ namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
         }
 
         //
-        public async Task<Bitmap> Render(IEnumerable<SceneObject> sceneObjects)
+        public async Task<Bitmap> Render(IEnumerable<SceneEntity> sceneObjects)
         {
 
         }
 
-        public async Task<Bitmap> Render(params SceneObject[] sceneObjects)
+        public async Task<Bitmap> Render(params SceneEntity[] sceneObjects)
         {
 
         }

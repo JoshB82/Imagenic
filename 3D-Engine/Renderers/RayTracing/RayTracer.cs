@@ -22,9 +22,9 @@ namespace Imagenic.Core.Renderers.RayTracing
 
         #region Constructors
 
-        public RayTracer(SceneObject toRender, RenderingOptions renderingOptions) : this(toRender, renderingOptions, null) { }
+        public RayTracer(SceneEntity toRender, RenderingOptions renderingOptions) : this(toRender, renderingOptions, null) { }
 
-        public RayTracer(SceneObject toRender, RenderingOptions renderingOptions, IImageOptions<T> imageOptions) : base(toRender, renderingOptions, imageOptions) { }
+        public RayTracer(SceneEntity toRender, RenderingOptions renderingOptions, IImageOptions<T> imageOptions) : base(toRender, renderingOptions, imageOptions) { }
 
         #endregion
 

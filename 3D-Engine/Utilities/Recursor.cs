@@ -1,16 +1,15 @@
 ﻿using Imagenic.Core.Utilities.Tree;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities;
 
-public interface IRecursiveParameters<TReturn>
-{
-    TReturn ReturnParameter { get; set; }
-}
 
-public class Recursor<TParams, TReturn> where TParams : IRecursiveParameters<TReturn>
+
+public class Recursor<TParams, TReturn>
 {
     #region Fields and Properties
 
@@ -60,7 +59,7 @@ public class Recursor<TParams, TReturn> where TParams : IRecursiveParameters<TRe
         return ReturnSelector(persistingParameters);
     }
 
-    private IEnumerable<TReturn> YieldRepeat(TParams initialParams)
+    public IEnumerable<TReturn> YieldRepeat(TParams initialParams)
     {
         TParams persistingParameters = initialParams;
 
@@ -76,9 +75,37 @@ public class Recursor<TParams, TReturn> where TParams : IRecursiveParameters<TRe
         }
     }
 
+    public async IAsyncEnumerable<TReturn> YieldRepeatAsync(TParams initialParams, [EnumeratorCancellation] CancellationToken ct)
+    {
+        TParams persistingParameters = initialParams;
+
+        while (await Task.Run(() => !StoppingPredicate(persistingParameters), ct))
+        {
+            if (MaxRunCount == RunCount)
+            {
+                break;
+            }
+
+            yield return await Task.Run(() =>
+            {
+                persistingParameters = RepeatingFunction(persistingParameters);
+                RunCount++;
+                return ReturnSelector(persistingParameters);
+            }, ct);
+        }
+    }
+
     public TReturn Run(TParams initialParams) => Repeat(initialParams);
-    public async Task<TReturn> RunAsync(TParams initialParams) => await Task.Run(() => Repeat(initialParams));
-    public IEnumerable<TReturn> YieldRun(TParams initialParams) => YieldRepeat(initialParams);
+    public async Task<TReturn> RunAsync(TParams initialParams, CancellationToken ct = default) => await Task.Run(() => Repeat(initialParams), ct);
+
+    public Recursor<TParams, TReturn> Reset()
+    {
+        RunCount = 0;
+        return this;
+    }
+
+    //public IEnumerable<TReturn> YieldRun(TParams initialParams) => YieldRepeat(initialParams);
+    //public async IAsyncEnumerable<TReturn> YieldRunAsync(TParams initialParams, CancellationToken ct = default) => YieldRepeatAsync(initialParams, ct);
 
     #endregion
 
@@ -106,7 +133,7 @@ public class RepeatingFunctionResult<TParams>
     public TParams NewParameters { get; set; }
 }
 
-public class NodeCycleCheckParams : IRecursiveParameters<bool>
+public class NodeCycleCheckParams
 {
     public bool ReturnParameter { get; set; }
 

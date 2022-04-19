@@ -15,7 +15,7 @@ namespace _3D_Engine
 
     class Change<T>
     {
-        public SceneObject SceneObject { get; set; }
+        public SceneEntity SceneObject { get; set; }
         public string Property { get; set; }
 
         public T Start { get; set; }
@@ -23,7 +23,7 @@ namespace _3D_Engine
 
         public float Duration { get; set; }
 
-        public Change(SceneObject scene_object, string property, T start_value, T finish_value, float duration)
+        public Change(SceneEntity scene_object, string property, T start_value, T finish_value, float duration)
         {
             SceneObject = scene_object;
             Property = property;

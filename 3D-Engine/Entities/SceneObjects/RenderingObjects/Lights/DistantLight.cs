@@ -42,13 +42,13 @@ public sealed class DistantLight : Light
 
     public static DistantLight DistantLightAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => new DistantLight(origin, directionForward, directionUp, strength, (Tan(fovX / 2) * zNear * 2), (Tan(fovY / 2) * zNear * 2), zNear, zFar, renderWidth, renderHeight);
 
-    public DistantLight(Vector3D origin, SceneObject pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp) { }
+    public DistantLight(Vector3D origin, SceneEntity pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp) { }
 
-    public DistantLight(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float strength) : this(origin, pointedAt.WorldOrigin - origin, directionUp, strength) { }
+    public DistantLight(Vector3D origin, SceneEntity pointedAt, Vector3D directionUp, float strength) : this(origin, pointedAt.WorldOrigin - origin, directionUp, strength) { }
 
-    public DistantLight(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, strength, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
+    public DistantLight(Vector3D origin, SceneEntity pointedAt, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, strength, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
 
-    public static DistantLight DistantLightAngle(Vector3D origin, SceneObject pointedAt, Vector3D directionUp, float strength, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => DistantLightAngle(origin, pointedAt.WorldOrigin - origin, directionUp, strength, fovX, fovY, zNear, zFar, renderWidth, renderHeight);
+    public static DistantLight DistantLightAngle(Vector3D origin, SceneEntity pointedAt, Vector3D directionUp, float strength, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => DistantLightAngle(origin, pointedAt.WorldOrigin - origin, directionUp, strength, fovX, fovY, zNear, zFar, renderWidth, renderHeight);
 
     #endregion
 }

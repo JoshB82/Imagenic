@@ -4,7 +4,7 @@ using Imagenic.Core.Maths;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 {
-    public abstract partial class RenderingObject : SceneObject
+    public abstract partial class RenderingObject : SceneEntity
     {
         // Interpolation (source!)
         internal static void InterpolateSolidTriangle(

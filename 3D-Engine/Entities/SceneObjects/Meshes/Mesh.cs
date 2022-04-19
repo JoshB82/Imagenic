@@ -26,7 +26,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes;
 /// <summary>
 /// Encapsulates creation of a <see cref="Mesh"/>.
 /// </summary>
-public abstract partial class Mesh : SceneObject
+public abstract partial class Mesh : SceneEntity
 {
     #region Fields and Properties
 

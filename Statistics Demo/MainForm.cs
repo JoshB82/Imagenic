@@ -198,7 +198,7 @@ namespace Statistics_Demo
         {
             allStatisticsForm.listView.Items.Clear();
 
-            foreach (SceneObject sceneObject in sceneToRender.SceneObjects)
+            foreach (SceneEntity sceneObject in sceneToRender.SceneObjects)
             {
                 var sceneObjectData = new string[]
                 {

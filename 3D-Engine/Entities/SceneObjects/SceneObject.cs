@@ -11,12 +11,9 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects.Meshes;
-using _3D_Engine.Entities.SceneObjects.Meshes.ThreeDimensions;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
-using _3D_Engine.Renderers;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Utilities;
@@ -28,16 +25,16 @@ using static _3D_Engine.Properties.Settings;
 namespace _3D_Engine.Entities.SceneObjects;
 
 /// <summary>
-/// An abstract base class that defines objects of type <see cref="SceneObject"/>.
+/// An abstract base class that defines objects of type <see cref="SceneEntity"/>.
 /// </summary>
-public abstract partial class SceneObject : PhysicalEntity
+public abstract partial class SceneEntity : Entity
 {
     #region Fields and Properties
 
     // Appearance
     private bool visible = true;
     /// <summary>
-    /// Determines whether the <see cref="SceneObject"/> is visible or not.
+    /// Determines whether the <see cref="SceneEntity"/> is visible or not.
     /// </summary>
     public bool Visible
     {
@@ -52,7 +49,7 @@ public abstract partial class SceneObject : PhysicalEntity
 
     private bool displayDirectionArrows;
     /// <summary>
-    /// Determines whether the <see cref="SceneObject"/> direction arrows are shown or not.
+    /// Determines whether the <see cref="SceneEntity"/> direction arrows are shown or not.
     /// </summary>
     public bool DisplayDirectionArrows
     {
@@ -93,7 +90,7 @@ public abstract partial class SceneObject : PhysicalEntity
     internal static readonly Vector4D ModelOrigin = Vector4D.UnitW;
     private Vector3D worldOrigin;
     /// <summary>
-    /// The position of the <see cref="SceneObject"/> in world space.
+    /// The position of the <see cref="SceneEntity"/> in world space.
     /// </summary>
     public virtual Vector3D WorldOrigin
     {
@@ -117,7 +114,7 @@ public abstract partial class SceneObject : PhysicalEntity
         }
     }
 
-    public void Insert(int index, SceneObject item)
+    public void Insert(int index, SceneEntity item)
     {
         Children.Insert(index, item);
     }
@@ -127,7 +124,7 @@ public abstract partial class SceneObject : PhysicalEntity
         Children.RemoveAt(index);
     }
     
-    public bool Remove(SceneObject item)
+    public bool Remove(SceneEntity item)
     {
         return Children.Remove(item);
     }
@@ -136,7 +133,7 @@ public abstract partial class SceneObject : PhysicalEntity
 
     #region Constructors
 
-    protected SceneObject(Vector3D worldOrigin,
+    protected SceneEntity(Vector3D worldOrigin,
                           Orientation worldOrientation,
                           bool hasDirectionArrows = true)
     {
@@ -167,22 +164,22 @@ public abstract partial class SceneObject : PhysicalEntity
 
     #region Methods
 
-    public bool Contains(SceneObject item)
+    public bool Contains(SceneEntity item)
     {
         return Children.Contains(item);
     }
 
-    public void CopyTo(SceneObject[] array, int arrayIndex)
+    public void CopyTo(SceneEntity[] array, int arrayIndex)
     {
         Children.CopyTo(array, arrayIndex);
     }
 
-    public int IndexOf(SceneObject item)
+    public int IndexOf(SceneEntity item)
     {
         return Children.IndexOf(item);
     }
 
-    public IEnumerator<SceneObject> GetEnumerator()
+    public IEnumerator<SceneEntity> GetEnumerator()
     {
         return Children.GetEnumerator();
     }
@@ -192,14 +189,14 @@ public abstract partial class SceneObject : PhysicalEntity
         return GetEnumerator();
     }
 
-    public SceneObject ShallowCopy()
+    public SceneEntity ShallowCopy()
     {
-        return this.MemberwiseClone() as SceneObject;
+        return this.MemberwiseClone() as SceneEntity;
     }
 
-    public SceneObject DeepCopy()
+    public SceneEntity DeepCopy()
     {
-        SceneObject copy = ShallowCopy();
+        SceneEntity copy = ShallowCopy();
         copy.Renderers = new List<Camera>();
         copy.Renderers.AddRange(this.Renderers);
         return copy;
