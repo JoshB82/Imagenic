@@ -6,6 +6,11 @@ namespace Imagenic.Core.Utilities.Tree;
 
 public static class NodeExtensions
 {
+    public static bool IsPartOfCycle(this IEnumerable<Node> nodes)
+    {
+
+    }
+
     #region Merge
 
     public static Node<IEnumerable<object>> MergeWith(this IEnumerable<Node> nodes, Node newParent, IEnumerable<Node> otherNodes)

@@ -23,7 +23,7 @@ using System;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
-    public static class SceneObjectTransformations
+    public static class SceneEntityTransformations
     {
         #region Fields and Properties
 

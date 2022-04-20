@@ -1,4 +1,5 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
+using Imagenic.Core.Utilities.Recursive;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -284,37 +285,11 @@ public abstract class Node
 
     #endregion
 
-    private static readonly Recursor<NodeCycleCheckParams, bool> cycleRecursor = new Recursor<NodeCycleCheckParams, bool>()
-            .WithRepeatingFunction(parameters =>
-            {
-                parameters.NodeTrackerList.Add(parameters.TrackedNode);
-                return new NodeCycleCheckParams
-                {
-                    NodeTrackerList = parameters.NodeTrackerList,
-                    TrackedNode = parameters.TrackedNode.Parent
-                };
-
-            })
-            .WithStoppingPredicate(parameters =>
-            {
-                if (parameters.TrackedNode is null)
-                {
-                    parameters.ReturnParameter = false;
-                    return true;
-                }
-
-                if (parameters.NodeTrackerList.Contains(parameters.TrackedNode))
-                {
-                    return parameters.ReturnParameter = true;
-                }
-
-                return false;
-            })
-            .WithReturnSelector(parameters => parameters.ReturnParameter);
+    
 
     public bool IsPartOfCycle()
     {
-        return cycleRecursor.Reset().Run(new NodeCycleCheckParams { TrackedNode = this });
+        return RecursorCatalogue.cycleRecursor.Reset().Run(new NodeCycleCheckParams { TrackedNode = this });
     }
     
     #endregion

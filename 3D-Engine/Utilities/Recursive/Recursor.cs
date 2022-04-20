@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities;
 
-
-
 public class Recursor<TParams, TReturn>
 {
     #region Fields and Properties
@@ -104,9 +102,6 @@ public class Recursor<TParams, TReturn>
         return this;
     }
 
-    //public IEnumerable<TReturn> YieldRun(TParams initialParams) => YieldRepeat(initialParams);
-    //public async IAsyncEnumerable<TReturn> YieldRunAsync(TParams initialParams, CancellationToken ct = default) => YieldRepeatAsync(initialParams, ct);
-
     #endregion
 
     /*
@@ -128,18 +123,7 @@ public class Recursor<TParams, TReturn>
     }*/
 }
 
-public class RepeatingFunctionResult<TParams>
-{
-    public TParams NewParameters { get; set; }
-}
 
-public class NodeCycleCheckParams
-{
-    public bool ReturnParameter { get; set; }
-
-    public List<Node> NodeTrackerList { get; set; } = new List<Node>();
-    public Node TrackedNode { get; set; }
-}
 
 /*
 public class NodeCycleCheck_Recursor : Recursor<NodeCycleCheck_RecursiveParameters, bool>
