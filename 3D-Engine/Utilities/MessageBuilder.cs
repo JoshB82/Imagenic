@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Imagenic.Core.Utilities;
@@ -138,7 +139,7 @@ public static class MessageHelper
 
 internal static class ExceptionHelper
 {
-    internal static void ThrowIfParameterIsNull<T>(T parameter, string parameterName)
+    internal static void ThrowIfParameterIsNull<T>(T parameter, [CallerArgumentExpression("parameter")] string parameterName = null)
     {
         if (parameter is null)
         {

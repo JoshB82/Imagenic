@@ -19,7 +19,10 @@ using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 using Imagenic.Core.Maths;
+using Imagenic.Core.Utilities;
+using Imagenic.Core.Utilities.Tree;
 using System;
+using System.Collections.Generic;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
@@ -34,6 +37,21 @@ namespace _3D_Engine.Entities.SceneObjects
         #region Methods
 
         // Rotations
+
+        public static T SetOrientation<T>(this T sceneEntity, Orientation orientation) where T : SceneEntity
+        {
+            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+        }
+
+        public static Node<T> SetOrientation<T>(this Node<T> sceneEntityNode, Orientation orientation) where T : SceneEntity
+        {
+            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+        }
+
+        public static IEnumerable<Node<T>> SetOrientation<T>(this IEnumerable<Node<T>> sceneEntityNodes, Orientation orientation) where T : SceneEntity
+        {
+            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+        }
 
         /// <summary>
         /// Sets the <see cref="Orientation"/> to the passed argument.

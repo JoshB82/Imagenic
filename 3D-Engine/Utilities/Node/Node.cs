@@ -28,6 +28,16 @@ public abstract class Node
         get => children;
         set
         {
+            if (this.GetAncestorsAndSelf(node => node == value).Any())
+            {
+                // throw exception
+            }
+            children?.ForEach(child => child.parent = null);
+            (children = value)?.ForEach(child => child.parent = this);
+
+            //
+
+            /*
             foreach (Node child in children)
             {
                 child.Parent = null;
@@ -36,7 +46,7 @@ public abstract class Node
             foreach (Node child in children)
             {
                 child.Parent = this;
-            }
+            }*/
         }
     }
 
@@ -46,6 +56,10 @@ public abstract class Node
         get => parent;
         set
         {
+            if (this.GetDescendants(node => node == value).Any() || parent.children.Contains(value))
+            {
+                // throw exception
+            }
             parent?.RemoveChildren(this);
             (parent = value)?.AddChildren(this);
         }
@@ -60,10 +74,12 @@ public abstract class Node
     /// <summary>
     /// Links a child <see cref="Node"/> to this <see cref="Node"/>.
     /// </summary>
-    /// <param name="item">The child <see cref="Node"/> to be linked.</param>
-    public void Add(Node item)
+    /// <param name="child">The child <see cref="Node"/> to be linked.</param>
+    public void Add(Node child)
     {
-        children.Add(item);
+        ExceptionHelper.ThrowIfParameterIsNull(child);
+        (children ?? new List<Node>()).Add(child);
+        child.parent = this;
     }
 
     /// <summary>
