@@ -23,6 +23,7 @@ using Imagenic.Core.Utilities;
 using Imagenic.Core.Utilities.Tree;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
@@ -41,11 +42,46 @@ namespace _3D_Engine.Entities.SceneObjects
         public static T SetOrientation<T>(this T sceneEntity, Orientation orientation) where T : SceneEntity
         {
             ExceptionHelper.ThrowIfParameterIsNull(orientation);
+
+            sceneEntity.WorldOrientation = orientation;
+
+            return sceneEntity;
+        }
+
+        public static IEnumerable<T> SetOrientation<T>(this IEnumerable<T> sceneEntities, Orientation orientation) where T : SceneEntity
+        {
+            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+
+            foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrientation = orientation;
+            }
+
+            return sceneEntities;
+        }
+
+        public static IEnumerable<T> SetOrientation<T>(this IEnumerable<T> sceneEntities, Orientation orientation, Func<T, bool> predicate) where T : SceneEntity
+        {
+            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+
+            foreach (T sceneEntity in sceneEntities.Where(predicate))
+            {
+                sceneEntity.WorldOrientation = orientation;
+            }
+
+            return sceneEntities;
         }
 
         public static Node<T> SetOrientation<T>(this Node<T> sceneEntityNode, Orientation orientation) where T : SceneEntity
         {
             ExceptionHelper.ThrowIfParameterIsNull(orientation);
+
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>())
+            {
+                node.Content.WorldOrientation = orientation;
+            }
+
+            return sceneEntityNode;
         }
 
         public static IEnumerable<Node<T>> SetOrientation<T>(this IEnumerable<Node<T>> sceneEntityNodes, Orientation orientation) where T : SceneEntity
