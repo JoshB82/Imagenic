@@ -148,6 +148,16 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
+        public static IEnumerable<T> TranslateX<T>(this IEnumerable<T> sceneEntities, float distance, Func<T, bool> predicate) where T : SceneEntity
+        {
+            var displacement = new Vector3D(distance, 0, 0);
+            foreach (T sceneEntity in sceneEntities.Where(predicate))
+            {
+                sceneEntity.WorldOrigin += displacement;
+                yield return sceneEntity;
+            }
+        }
+
         #endregion
 
         #region TranslateY method
@@ -163,6 +173,16 @@ namespace _3D_Engine.Entities.SceneObjects
         {
             var displacement = new Vector3D(0, distance, 0);
             foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrigin += displacement;
+                yield return sceneEntity;
+            }
+        }
+
+        public static IEnumerable<T> TranslateY<T>(this IEnumerable<T> sceneEntities, float distance, Func<T, bool> predicate) where T : SceneEntity
+        {
+            var displacement = new Vector3D(0, distance, 0);
+            foreach (T sceneEntity in sceneEntities.Where(predicate))
             {
                 sceneEntity.WorldOrigin += displacement;
                 yield return sceneEntity;
@@ -190,6 +210,16 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
+        public static IEnumerable<T> TranslateZ<T>(this IEnumerable<T> sceneEntities, float distance, Func<T, bool> predicate) where T : SceneEntity
+        {
+            var displacement = new Vector3D(0, 0, distance);
+            foreach (T sceneEntity in sceneEntities.Where(predicate))
+            {
+                sceneEntity.WorldOrigin += displacement;
+                yield return sceneEntity;
+            }
+        }
+
         #endregion
 
         #region Translate method
@@ -210,11 +240,156 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
+        public static IEnumerable<T> Translate<T>(this IEnumerable<T> sceneEntities, Vector3D displacement, Func<T, bool> predicate) where T : SceneEntity
+        {
+            foreach (T sceneEntity in sceneEntities.Where(predicate))
+            {
+                sceneEntity.WorldOrigin += displacement;
+                yield return sceneEntity;
+            }
+        }
+
         #endregion
 
+        #region RotateAboutAxis method
 
+        public static T RotateAboutAxis<T>(this T sceneEntity, Vector3D axis, float angle) where T : SceneEntity
+        {
+            if (axis.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                // throw exception
+            }
 
+            Matrix4x4 rotation = Transform.Rotate(axis, angle);
+            sceneEntity.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrigin, 1));
+            sceneEntity.WorldOrientation = Orientation.CreateOrientationForwardUp(
+                (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrientation.DirectionForward, 1)),
+                (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrientation.DirectionUp, 1))
+            );
 
+            return sceneEntity;
+        }
+
+        public static IEnumerable<T> RotateAboutAxis<T>(this IEnumerable<T> sceneEntities, Vector3D axis, float angle) where T : SceneEntity
+        {
+            if (axis.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                // throw exception
+            }
+
+            Matrix4x4 rotation = Transform.Rotate(axis, angle);
+
+            foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrigin, 1));
+                sceneEntity.WorldOrientation = Orientation.CreateOrientationForwardUp(
+                    (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrientation.DirectionForward, 1)),
+                    (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrientation.DirectionUp, 1))
+                );
+                yield return sceneEntity;
+            }
+        }
+
+        public static IEnumerable<T> RotateAboutAxis<T>(this IEnumerable<T> sceneEntities, Vector3D axis, float angle, Func<T, bool> predicate) where T : SceneEntity
+        {
+            if (axis.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                // throw exception
+            }
+
+            Matrix4x4 rotation = Transform.Rotate(axis, angle);
+
+            foreach (T sceneEntity in sceneEntities.Where(predicate))
+            {
+                sceneEntity.WorldOrigin = (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrigin, 1));
+                sceneEntity.WorldOrientation = Orientation.CreateOrientationForwardUp(
+                    (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrientation.DirectionForward, 1)),
+                    (Vector3D)(rotation * new Vector4D(sceneEntity.WorldOrientation.DirectionUp, 1))
+                );
+                yield return sceneEntity;
+            }
+        }
+
+        #endregion
+
+        #region ApplyMatrixOnWorldOrigin method
+
+        public static T ApplyMatrixOnWorldOrigin<T>(this T sceneEntity, Matrix4x4 matrix) where T : SceneEntity
+        {
+            sceneEntity.WorldOrigin = (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrigin, 1));
+
+            return sceneEntity;
+        }
+
+        public static IEnumerable<T> ApplyMatrixOnWorldOrigin<T>(this IEnumerable<T> sceneEntities, Matrix4x4 matrix) where T : SceneEntity
+        {
+            foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrigin = (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrigin, 1));
+                yield return sceneEntity;
+            }
+        }
+
+        public static IEnumerable<T> ApplyMatrixOnWorldOrigin<T>(this IEnumerable<T> sceneEntities, Matrix4x4 matrix, Func<T, bool> predicate) where T : SceneEntity
+        {
+            foreach (T sceneEntity in sceneEntities.Where(predicate))
+            {
+                sceneEntity.WorldOrigin = (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrigin, 1));
+                yield return sceneEntity;
+            }
+        }
+
+        #endregion
+
+        #region ApplyMatrixOnWorldOrientation method
+
+        public static T ApplyMatrixOnWorldOrientation<T>(this T sceneEntity, Matrix4x4 matrix) where T : SceneEntity
+        {
+            sceneEntity.WorldOrientation = Orientation.CreateOrientationForwardUp(
+                    (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrientation.DirectionForward, 1)),
+                    (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrientation.DirectionUp, 1))
+                );
+
+            return sceneEntity;
+        }
+
+        public static IEnumerable<T> ApplyMatrixOnWorldOrientation<T>(this IEnumerable<T> sceneEntities, Matrix4x4 matrix) where T : SceneEntity
+        {
+            foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrientation = Orientation.CreateOrientationForwardUp(
+                    (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrientation.DirectionForward, 1)),
+                    (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrientation.DirectionUp, 1))
+                );
+                yield return sceneEntity;
+            }
+        }
+
+        public static IEnumerable<T> ApplyMatrixOnWorldOrientation<T>(this IEnumerable<T> sceneEntities, Matrix4x4 matrix, Func<T, bool> predicate) where T : SceneEntity
+        {
+            foreach (T sceneEntity in sceneEntities.Where(predicate))
+            {
+                sceneEntity.WorldOrientation = Orientation.CreateOrientationForwardUp(
+                    (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrientation.DirectionForward, 1)),
+                    (Vector3D)(matrix * new Vector4D(sceneEntity.WorldOrientation.DirectionUp, 1))
+                );
+                yield return sceneEntity;
+            }
+        }
+
+        #endregion
+
+        
+
+        
+        
+            
+            
+
+            
+        
+
+        
 
         /// <summary>
         /// Sets the <see cref="Orientation"/> to the passed argument.
