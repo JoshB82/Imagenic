@@ -13,7 +13,6 @@
 using _3D_Engine.Constants;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
-using _3D_Engine.Maths.Vectors;
 using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
@@ -39,9 +38,11 @@ namespace _3D_Engine.Entities.SceneObjects
 
         // Rotations
 
+        #region SetOrientation method
+
         public static T SetOrientation<T>(this T sceneEntity, Orientation orientation) where T : SceneEntity
         {
-            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+            ThrowIfParameterIsNull(orientation);
 
             sceneEntity.WorldOrientation = orientation;
 
@@ -50,31 +51,29 @@ namespace _3D_Engine.Entities.SceneObjects
 
         public static IEnumerable<T> SetOrientation<T>(this IEnumerable<T> sceneEntities, Orientation orientation) where T : SceneEntity
         {
-            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+            ThrowIfParameterIsNull(orientation);
 
             foreach (T sceneEntity in sceneEntities)
             {
                 sceneEntity.WorldOrientation = orientation;
+                yield return sceneEntity;
             }
-
-            return sceneEntities;
         }
 
         public static IEnumerable<T> SetOrientation<T>(this IEnumerable<T> sceneEntities, Orientation orientation, Func<T, bool> predicate) where T : SceneEntity
         {
-            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+            ThrowIfParameterIsNull(orientation);
 
             foreach (T sceneEntity in sceneEntities.Where(predicate))
             {
                 sceneEntity.WorldOrientation = orientation;
+                yield return sceneEntity;
             }
-
-            return sceneEntities;
         }
 
         public static Node<T> SetOrientation<T>(this Node<T> sceneEntityNode, Orientation orientation) where T : SceneEntity
         {
-            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+            ThrowIfParameterIsNull(orientation);
 
             foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>())
             {
@@ -84,10 +83,138 @@ namespace _3D_Engine.Entities.SceneObjects
             return sceneEntityNode;
         }
 
+        public static Node<T> SetOrientation<T>(this Node<T> sceneEntityNode, Orientation orientation, Func<T, bool> predicate) where T : SceneEntity
+        {
+            ThrowIfParameterIsNull(orientation);
+
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>(predicate))
+            {
+                node.Content.WorldOrientation = orientation;
+            }
+
+            return sceneEntityNode;
+        }
+
         public static IEnumerable<Node<T>> SetOrientation<T>(this IEnumerable<Node<T>> sceneEntityNodes, Orientation orientation) where T : SceneEntity
         {
-            ExceptionHelper.ThrowIfParameterIsNull(orientation);
+            ThrowIfParameterIsNull(orientation);
+
+            foreach (Node<SceneEntity> node in sceneEntityNodes.GetDescendantsOfType<SceneEntity>())
+            {
+                node.Content.WorldOrientation = orientation;
+            }
+
+            foreach (Node<T> node in sceneEntityNodes)
+            {
+                node.Content.WorldOrientation = orientation;
+                yield return node;
+            }
         }
+
+        public static IEnumerable<Node<T>> SetOrientation<T>(this IEnumerable<Node<T>> sceneEntityNodes, Orientation orientation, Func<Node<T>, bool> predicate) where T : SceneEntity
+        {
+            ThrowIfParameterIsNull(orientation);
+
+            foreach (Node<SceneEntity> node in sceneEntityNodes.GetDescendantsOfType<SceneEntity>(predicate))
+            {
+                node.Content.WorldOrientation = orientation;
+            }
+
+            foreach (Node<T> node in sceneEntityNodes.Where(predicate))
+            {
+                node.Content.WorldOrientation = orientation;
+                yield return node;
+            }
+        }
+
+        #endregion
+
+        #region TranslateX method
+
+        public static T TranslateX<T>(this T sceneEntity, float distance) where T : SceneEntity
+        {
+            sceneEntity.WorldOrigin += new Vector3D(distance, 0, 0);
+
+            return sceneEntity;
+        }
+
+        public static IEnumerable<T> TranslateX<T>(this IEnumerable<T> sceneEntities, float distance) where T : SceneEntity
+        {
+            var displacement = new Vector3D(distance, 0, 0);
+            foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrigin += displacement;
+                yield return sceneEntity;
+            }
+        }
+
+        #endregion
+
+        #region TranslateY method
+
+        public static T TranslateY<T>(this T sceneEntity, float distance) where T : SceneEntity
+        {
+            sceneEntity.WorldOrigin += new Vector3D(0, distance, 0);
+
+            return sceneEntity;
+        }
+
+        public static IEnumerable<T> TranslateY<T>(this IEnumerable<T> sceneEntities, float distance) where T : SceneEntity
+        {
+            var displacement = new Vector3D(0, distance, 0);
+            foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrigin += displacement;
+                yield return sceneEntity;
+            }
+        }
+
+        #endregion
+
+        #region TranslateZ method
+
+        public static T TranslateZ<T>(this T sceneEntity, float distance) where T : SceneEntity
+        {
+            sceneEntity.WorldOrigin += new Vector3D(0, 0, distance);
+
+            return sceneEntity;
+        }
+
+        public static IEnumerable<T> TranslateZ<T>(this IEnumerable<T> sceneEntities, float distance) where T : SceneEntity
+        {
+            var displacement = new Vector3D(0, 0, distance);
+            foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrigin += displacement;
+                yield return sceneEntity;
+            }
+        }
+
+        #endregion
+
+        #region Translate method
+
+        public static T Translate<T>(this T sceneEntity, Vector3D displacement) where T : SceneEntity
+        {
+            sceneEntity.WorldOrigin += displacement;
+
+            return sceneEntity;
+        }
+
+        public static IEnumerable<T> Translate<T>(this IEnumerable<T> sceneEntities, Vector3D displacement) where T : SceneEntity
+        {
+            foreach (T sceneEntity in sceneEntities)
+            {
+                sceneEntity.WorldOrigin += displacement;
+                yield return sceneEntity;
+            }
+        }
+
+        #endregion
+
+
+
+
 
         /// <summary>
         /// Sets the <see cref="Orientation"/> to the passed argument.
