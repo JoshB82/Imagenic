@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+	<EnablePreviewFeatures>true</EnablePreviewFeatures>
+	<LangVersion>preview</LangVersion>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Imagenic.Core</RootNamespace>
 	<RepositoryUrl>https://github.com/JoshB82/3D-Engine</RepositoryUrl>
 	<Authors>Josh Bryant</Authors>
@@ -20,6 +22,10 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
+    <ItemGroup>
+	    <PackageReference Include="System.Runtime.Experimental" Version="6.0.2" />
+    </ItemGroup>
+	
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

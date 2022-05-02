@@ -158,6 +158,28 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
+        public static Node<T> TranslateX<T>(this Node<T> sceneEntityNode, float distance) where T : SceneEntity
+        {
+            var displacement = new Vector3D(distance, 0, 0);
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>())
+            {
+                node.Content.WorldOrigin += displacement;
+            }
+
+            return sceneEntityNode;
+        }
+        
+        public static Node<T> TranslateX<T>(this Node<T> sceneEntityNode, float distance, Func<T, bool> predicate) where T : SceneEntity
+        {
+            var displacement = new Vector3D(distance, 0, 0);
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>(predicate))
+            {
+                node.Content.WorldOrigin += displacement;
+            }
+
+            return sceneEntityNode;
+        }
+
         #endregion
 
         #region TranslateY method
@@ -312,6 +334,12 @@ namespace _3D_Engine.Entities.SceneObjects
 
         #endregion
 
+        #region RotateBetweenVectors method
+
+        //public static T RotateBetweenVectors<T>(this T sceneEntity, )
+
+        #endregion
+
         #region ApplyMatrixOnWorldOrigin method
 
         public static T ApplyMatrixOnWorldOrigin<T>(this T sceneEntity, Matrix4x4 matrix) where T : SceneEntity
@@ -381,15 +409,15 @@ namespace _3D_Engine.Entities.SceneObjects
 
         
 
-        
-        
-            
-            
 
-            
-        
 
-        
+
+
+
+
+
+
+
 
         /// <summary>
         /// Sets the <see cref="Orientation"/> to the passed argument.

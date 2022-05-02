@@ -17,6 +17,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Planes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,12 +30,12 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 /// Composition<br/>
 /// It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
 /// </remarks>
-public sealed class Cube : Mesh
+public sealed class Cube<T> : PhysicalEntity where T : INumber<T>
 {
     #region Fields and Properties
 
     // Structure
-    private float sideLength;
+    private T sideLength;
 
     /// <summary>
     /// The length of each side.
