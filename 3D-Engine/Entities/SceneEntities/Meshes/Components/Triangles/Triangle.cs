@@ -10,6 +10,7 @@
  *
  */
 
+using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Renderers;
 using Imagenic.Core.Maths;
@@ -18,7 +19,7 @@ using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 {
-    public abstract class Triangle : Entity
+    public abstract class Triangle : SceneEntity
     {
         #region Fields and Properties
 

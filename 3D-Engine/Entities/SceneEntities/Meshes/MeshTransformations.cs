@@ -51,6 +51,48 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes
 
         #region Scaling
 
+        public static T ScaleX<T>(this T physicalEntity, float scaleFactor) where T : PhysicalEntity
+        {
+
+        }
+
+        public static IEnumerable<T> ScaleX<T>(this IEnumerable<T> physicalEntities, float scaleFactor) where T : PhysicalEntity
+        {
+
+        }
+
+        public static IEnumerable<T> ScaleX<T>(this IEnumerable<T> physicalEntities, float scaleFactor, Func<T, bool> predicate) where T : PhysicalEntity
+        {
+
+        }
+
+        public static Node<T> ScaleX<T>(this Node<T> physicalEntityNode, float scaleFactor) where T : PhysicalEntity
+        {
+
+        }
+
+        public static Node<T> ScaleX<T>(this Node<T> physicalEntityNode, float scaleFactor, Func<T, bool> predicate) where T : PhysicalEntity
+        {
+
+        }
+
+        public static IEnumerable<Node<T>> ScaleX<T>(this IEnumerable<Node<T>> physicalEntityNodes, float scaleFactor) where T : PhysicalEntity
+        {
+
+        }
+
+        public static IEnumerable<Node<T>> ScaleX<T>(this IEnumerable<Node<T>> physicalEntityNodes, float scaleFactor, Func<Node<T>, bool> predicate) where T : PhysicalEntity
+        {
+
+        }
+
+
+
+
+
+
+
+
         /// <summary>
         /// Scales a <see cref="Mesh"/> in the x-direction.
         /// </summary>

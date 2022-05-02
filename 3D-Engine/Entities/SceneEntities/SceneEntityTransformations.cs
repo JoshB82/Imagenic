@@ -13,16 +13,15 @@
 using _3D_Engine.Constants;
 using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
-using _3D_Engine.Utilities;
+using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 using Imagenic.Core.Maths;
-using Imagenic.Core.Utilities;
 using Imagenic.Core.Utilities.Tree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace _3D_Engine.Entities.SceneObjects
 {
@@ -40,12 +39,22 @@ namespace _3D_Engine.Entities.SceneObjects
 
         #region SetOrientation method
 
+        private static void SetOrientationUpdater(SceneEntity sceneEntity, Orientation orientation)
+        {
+            sceneEntity.WorldOrientation = orientation;
+
+            if (sceneEntity is Vertex vertex)
+            {
+                Matrix4x4 rotation = Transform.RotateBetweenVectors(sceneEntity.WorldOrientation.DirectionForward, orientation.DirectionForward);
+                vertex.Normal = (Vector3D)(rotation * new Vector4D(vertex.Normal, 1));
+            }
+        }
+
         public static T SetOrientation<T>(this T sceneEntity, Orientation orientation) where T : SceneEntity
         {
             ThrowIfParameterIsNull(orientation);
 
-            sceneEntity.WorldOrientation = orientation;
-
+            SetOrientationUpdater(sceneEntity, orientation);
             return sceneEntity;
         }
 
@@ -55,7 +64,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
             foreach (T sceneEntity in sceneEntities)
             {
-                sceneEntity.WorldOrientation = orientation;
+                SetOrientationUpdater(sceneEntity, orientation);
                 yield return sceneEntity;
             }
         }
@@ -66,7 +75,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
             foreach (T sceneEntity in sceneEntities.Where(predicate))
             {
-                sceneEntity.WorldOrientation = orientation;
+                SetOrientationUpdater(sceneEntity, orientation);
                 yield return sceneEntity;
             }
         }
@@ -77,7 +86,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
             foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>())
             {
-                node.Content.WorldOrientation = orientation;
+                SetOrientationUpdater(node.Content, orientation);
             }
 
             return sceneEntityNode;
@@ -89,7 +98,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
             foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>(predicate))
             {
-                node.Content.WorldOrientation = orientation;
+                SetOrientationUpdater(node.Content, orientation);
             }
 
             return sceneEntityNode;
@@ -211,6 +220,28 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
+        public static Node<T> TranslateY<T>(this Node<T> sceneEntityNode, float distance) where T : SceneEntity
+        {
+            var displacement = new Vector3D(0, distance, 0);
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>())
+            {
+                node.Content.WorldOrigin += displacement;
+            }
+
+            return sceneEntityNode;
+        }
+
+        public static Node<T> TranslateY<T>(this Node<T> sceneEntityNode, float distance, Func<T, bool> predicate) where T : SceneEntity
+        {
+            var displacement = new Vector3D(0, distance, 0);
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>(predicate))
+            {
+                node.Content.WorldOrigin += displacement;
+            }
+
+            return sceneEntityNode;
+        }
+
         #endregion
 
         #region TranslateZ method
@@ -242,6 +273,28 @@ namespace _3D_Engine.Entities.SceneObjects
             }
         }
 
+        public static Node<T> TranslateZ<T>(this Node<T> sceneEntityNode, float distance) where T : SceneEntity
+        {
+            var displacement = new Vector3D(0, 0, distance);
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>())
+            {
+                node.Content.WorldOrigin += displacement;
+            }
+
+            return sceneEntityNode;
+        }
+
+        public static Node<T> TranslateZ<T>(this Node<T> sceneEntityNode, float distance, Func<T, bool> predicate) where T : SceneEntity
+        {
+            var displacement = new Vector3D(0, 0, distance);
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>(predicate))
+            {
+                node.Content.WorldOrigin += displacement;
+            }
+
+            return sceneEntityNode;
+        }
+
         #endregion
 
         #region Translate method
@@ -269,6 +322,26 @@ namespace _3D_Engine.Entities.SceneObjects
                 sceneEntity.WorldOrigin += displacement;
                 yield return sceneEntity;
             }
+        }
+
+        public static Node<T> Translate<T>(this Node<T> sceneEntityNode, Vector3D displacement) where T : SceneEntity
+        {
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>())
+            {
+                node.Content.WorldOrigin += displacement;
+            }
+
+            return sceneEntityNode;
+        }
+
+        public static Node<T> Translate<T>(this Node<T> sceneEntityNode, Vector3D displacement, Func<T, bool> predicate) where T : SceneEntity
+        {
+            foreach (Node<SceneEntity> node in sceneEntityNode.GetDescendantsAndSelfOfType<SceneEntity>(predicate))
+            {
+                node.Content.WorldOrigin += displacement;
+            }
+
+            return sceneEntityNode;
         }
 
         #endregion

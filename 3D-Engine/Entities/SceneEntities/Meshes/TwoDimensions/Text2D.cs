@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions
 {
-    public sealed class Text2D : Mesh
+    public sealed class Text2D : PhysicalEntity
     {
         #region Fields and Properties
 
