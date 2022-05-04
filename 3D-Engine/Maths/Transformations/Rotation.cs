@@ -10,10 +10,7 @@
  * Defines static methods for calculating matrices and quaternions representing rotations.
  */
 
-using Imagenic.Core.Maths;
-using static System.MathF;
-
-namespace _3D_Engine.Maths.Transformations
+namespace Imagenic.Core.Maths.Transformations
 {
     public static partial class Transform
     {
