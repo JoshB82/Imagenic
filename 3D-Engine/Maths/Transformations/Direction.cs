@@ -10,7 +10,7 @@
  * Defines static methods for calculating direction vectors.
  */
 
-namespace _3D_Engine.Maths.Transformations
+namespace Imagenic.Core.Maths.Transformations
 {
     /// <summary>
     /// Provides static methods for calculating notable vectors, matrices and quaternions.
