@@ -21,6 +21,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 using Imagenic.Core.Maths;
+using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Utilities.Tree;
 
 namespace _3D_Engine.Entities.SceneObjects
@@ -480,7 +481,21 @@ namespace _3D_Engine.Entities.SceneObjects
 
         #endregion
 
-        
+        #region ReflectAboutPlane method
+
+        public static T ReflectAboutPlane<T>(this T sceneEntity, Vector3D axis) where T : SceneEntity
+        {
+            if (axis.ApproxEquals(Vector3D.Zero, epsilon))
+            {
+                // throw exception
+            }
+
+            var rotation = Transform.ReflectAboutPlane(axis);
+
+            return sceneEntity;
+        }
+
+        #endregion
 
 
 
