@@ -12,7 +12,7 @@
 
 using Imagenic.Core.Maths;
 
-namespace _3D_Engine.Maths.Transformations
+namespace Imagenic.Core.Maths.Transformations
 {
     public static partial class Transform
     {
