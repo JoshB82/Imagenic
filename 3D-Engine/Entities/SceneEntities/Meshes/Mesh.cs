@@ -122,18 +122,7 @@ public abstract partial class Mesh : SceneEntity
         ModelToWorld *= Transform.Scale(Scaling);
     }
 
-    private Vector3D scaling = Vector3D.One;
-    public Vector3D Scaling
-    {
-        get => scaling;
-        set
-        {
-            if (value == scaling) return;
-            scaling = value;
-            CalculateModelToWorldMatrix();
-            RequestNewRenders();
-        }
-    }
+    
 
     #endregion
 

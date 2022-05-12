@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 
-public sealed class Face : Entity
+public sealed class Face : PhysicalEntity
 {
     #region Fields and Properties
 

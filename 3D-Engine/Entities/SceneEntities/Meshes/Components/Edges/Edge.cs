@@ -15,7 +15,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 /// <summary>
 /// Encapsulates creation of an <see cref="Edge"/>.
 /// </summary>
-public abstract class Edge : Entity
+public abstract class Edge : PhysicalEntity
 {
     #region Fields and Properties
 

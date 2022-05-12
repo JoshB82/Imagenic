@@ -13,7 +13,6 @@
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Maths;
-using _3D_Engine.Maths.Transformations;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Utilities;
@@ -32,20 +31,7 @@ public abstract partial class SceneEntity : Entity
     #region Fields and Properties
 
     // Appearance
-    private bool visible = true;
-    /// <summary>
-    /// Determines whether the <see cref="SceneEntity"/> is visible or not.
-    /// </summary>
-    public bool Visible
-    {
-        get => visible;
-        set
-        {
-            if (value == visible) return;
-            visible = value;
-            InvokeRenderingEvents();
-        }
-    }
+    
 
     private bool displayDirectionArrows;
     /// <summary>
@@ -64,45 +50,11 @@ public abstract partial class SceneEntity : Entity
     internal bool HasDirectionArrows { get; set; }
 
     // Matrices
-    public Matrix4x4 ModelToWorld { get; internal set; }
+    
 
-    // Orientation
-    private Orientation worldOrientation;
-    public virtual Orientation WorldOrientation
-    {
-        get => worldOrientation;
-        set
-        {
-            if (value == worldOrientation) return;
-            if (value is null)
-            {
-                throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(nameof(value))
-                    .BuildIntoException<ParameterCannotBeNullException>();
-            }
-            worldOrientation = value;
-            CalculateModelToWorldMatrix();
-            InvokeRenderingEvents();
-        }
-    }
+    
 
-    // Origins
-    internal static readonly Vector4D ModelOrigin = Vector4D.UnitW;
-    private Vector3D worldOrigin;
-    /// <summary>
-    /// The position of the <see cref="SceneEntity"/> in world space.
-    /// </summary>
-    public virtual Vector3D WorldOrigin
-    {
-        get => worldOrigin;
-        set
-        {
-            if (value == worldOrigin) return;
-            worldOrigin = value;
-            CalculateModelToWorldMatrix();
-            InvokeRenderingEvents();
-        }
-    }
+    
 
     // Render Camera
     internal List<RendererBase> Renderers { get; set; } = new();
