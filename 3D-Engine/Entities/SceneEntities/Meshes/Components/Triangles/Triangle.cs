@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 {
-    public abstract class Triangle : SceneEntity
+    public abstract class Triangle : PhysicalEntity
     {
         #region Fields and Properties
 

@@ -24,13 +24,13 @@ using Imagenic.Core.Maths;
 using Imagenic.Core.Renderers;
 using System.Collections.Generic;
 
-namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
+namespace Imagenic.Core.Entities
 {
     /// <summary>
     /// An abstract base class that defines objects of type <see cref="RenderingObject"/>. Any object which inherits from this class provides rendering functionality.
     /// </summary>
     /// <remarks>This class inherits from the <see cref="SceneEntity"/> class.</remarks>
-    public abstract partial class RenderingObject : SceneEntity
+    public abstract partial class RenderingObject : OrientatedEntity
     {
         #region Fields and Properties
 
