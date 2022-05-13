@@ -12,9 +12,7 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.Maths;
 using Imagenic.Core.Entities;
-using Imagenic.Core.Maths;
 using Imagenic.Core.Utilities;
 using System.Collections;
 using System.Collections.Generic;

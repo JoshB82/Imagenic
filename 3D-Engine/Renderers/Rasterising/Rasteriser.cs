@@ -1,6 +1,5 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using _3D_Engine.Renderers;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Images;
 using System;

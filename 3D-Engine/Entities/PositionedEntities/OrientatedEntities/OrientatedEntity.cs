@@ -1,5 +1,4 @@
 ﻿using _3D_Engine.Constants;
-using _3D_Engine.Maths;
 using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Utilities;
 

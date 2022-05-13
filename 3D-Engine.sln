@@ -5,13 +5,13 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.Core", "3D-Engine\Imagenic.Core.csproj", "{DCF14E26-3F6C-4448-A529-955DCE58645A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple Demo", "Demo\Simple Demo.csproj", "{04218791-4EF6-4A14-B268-55BE33C20658}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.Demos.Simple", "Demo\Imagenic.Demos.Simple.csproj", "{04218791-4EF6-4A14-B268-55BE33C20658}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interactive Demo", "Interactive Demo\Interactive Demo.csproj", "{121724D6-E1CD-48E9-B756-55B8BE9BBCA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.Demos.Interactive", "Interactive Demo\Imagenic.Demos.Interactive.csproj", "{121724D6-E1CD-48E9-B756-55B8BE9BBCA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.UnitTests", "Unit Tests\Imagenic.UnitTests.csproj", "{6A16A564-68A2-4E56-B7F4-EFC6A0A8A0C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Statistics Demo", "Statistics Demo\Statistics Demo.csproj", "{B48FF987-9396-4A12-81D5-A71E2EEF44AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.Demos.Statistics", "Statistics Demo\Imagenic.Demos.Statistics.csproj", "{B48FF987-9396-4A12-81D5-A71E2EEF44AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{D9095A4C-E515-4C94-8351-A5AB724C8AA2}"
 EndProject
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarking", "Benchmarkin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.WinForms", "Imagenic.WinForms\Imagenic.WinForms.csproj", "{EE7AD247-655E-4578-81C4-D37E6E06A188}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imagenic.Benchmarking", "Imagenic.Benchmarking\Imagenic.Benchmarking.csproj", "{816C0A57-CA2A-41B3-B4A6-87CB70356FAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.Benchmarking", "Imagenic.Benchmarking\Imagenic.Benchmarking.csproj", "{816C0A57-CA2A-41B3-B4A6-87CB70356FAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

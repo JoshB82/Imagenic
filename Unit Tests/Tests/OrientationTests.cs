@@ -1,4 +1,4 @@
-﻿using _3D_Engine.Maths;
+﻿using Imagenic.Core.Maths;
 using Imagenic.Core.Maths.Vectors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

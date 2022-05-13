@@ -13,6 +13,7 @@
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using _3D_Engine.Renderers;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
@@ -27,7 +28,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Renderers;
+namespace Imagenic.Core.Renderers;
 
 public abstract class Renderer<T> where T : Image
 {
@@ -100,10 +101,10 @@ public abstract class Renderer<T> where T : Image
 
     public Renderer(SceneEntity toRender, Camera renderCamera, RenderingOptions renderingOptions, IImageOptions<T> imageOptions)
     {
-        ExceptionHelper.ThrowIfParameterIsNull(toRender, nameof(toRender));
-        ExceptionHelper.ThrowIfParameterIsNull(renderCamera, nameof(renderCamera));
-        ExceptionHelper.ThrowIfParameterIsNull(renderingOptions, nameof(renderingOptions));
-        ExceptionHelper.ThrowIfParameterIsNull(imageOptions, nameof(imageOptions));
+        ThrowIfParameterIsNull(toRender, nameof(toRender));
+        ThrowIfParameterIsNull(renderCamera, nameof(renderCamera));
+        ThrowIfParameterIsNull(renderingOptions, nameof(renderingOptions));
+        ThrowIfParameterIsNull(imageOptions, nameof(imageOptions));
 
         SceneObjectsToRender = toRender;
         RenderCamera = renderCamera;

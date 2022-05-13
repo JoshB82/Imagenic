@@ -1,5 +1,4 @@
-﻿using _3D_Engine.Maths;
-using Imagenic.Core.Entities;
+﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using System;

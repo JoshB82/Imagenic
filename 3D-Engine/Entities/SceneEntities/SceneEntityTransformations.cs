@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Maths;
 using _3D_Engine.Maths.Transformations;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
@@ -20,7 +19,6 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
-using Imagenic.Core.Maths;
 using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Utilities.Tree;
 

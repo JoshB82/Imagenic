@@ -2,7 +2,6 @@
 using _3D_Engine.Renderers;
 using Imagenic.Core.Images;
 using Imagenic.Core.Images.ImageOptions;
-using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
