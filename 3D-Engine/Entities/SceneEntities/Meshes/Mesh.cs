@@ -86,12 +86,12 @@ public abstract partial class Mesh : SceneEntity
     }
 
     // Headed Rendering Object
-    internal List<RenderingObject> HeadedRenderingObjects { get; set; } = new();
+    internal List<RenderingEntity> HeadedRenderingObjects { get; set; } = new();
     internal override void RequestNewRenders()
     {
         base.RequestNewRenders();
 
-        foreach (RenderingObject renderingObject in HeadedRenderingObjects)
+        foreach (RenderingEntity renderingObject in HeadedRenderingObjects)
         {
             foreach (Camera camera in renderingObject.Renderers)
             {

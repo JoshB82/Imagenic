@@ -44,7 +44,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
         #region Methods
 
         internal void ApplyMatrix(Matrix4x4 matrix) => (P1, P2, P3) = (matrix * P1, matrix * P2, matrix * P3);
-        internal abstract void Interpolator(RenderingObject renderingObject, Action<object, int, int, float> bufferAction);
+        internal abstract void Interpolator(RenderingEntity renderingObject, Action<object, int, int, float> bufferAction);
         internal abstract void ResetVertices();
 
         #endregion

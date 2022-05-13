@@ -75,7 +75,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
             (T1, T2, T3) = (TextureT1, TextureT2, TextureT3);
         }
 
-        internal override void Interpolator(RenderingObject renderingObject, Action<object, int, int, float> bufferAction)
+        internal override void Interpolator(RenderingEntity renderingObject, Action<object, int, int, float> bufferAction)
         {
             // Round the vertices
             int x1 = P1.x.RoundToInt();

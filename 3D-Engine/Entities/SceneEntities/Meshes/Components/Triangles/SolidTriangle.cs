@@ -44,7 +44,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 
         #region Methods
 
-        internal override void Interpolator(RenderingObject renderingObject, Action<object, int, int, float> bufferAction)
+        internal override void Interpolator(RenderingEntity renderingObject, Action<object, int, int, float> bufferAction)
         {
             // Round the vertices
             int x1 = P1.x.RoundToInt();
@@ -66,7 +66,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
             );
 
             // Interpolate each point in the triangle
-            RenderingObject.InterpolateSolidTriangle
+            RenderingEntity.InterpolateSolidTriangle
             (
                 bufferAction, Colour,
                 x1, y1, z1,

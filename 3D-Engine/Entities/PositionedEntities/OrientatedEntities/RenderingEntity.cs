@@ -27,10 +27,10 @@ using System.Collections.Generic;
 namespace Imagenic.Core.Entities
 {
     /// <summary>
-    /// An abstract base class that defines objects of type <see cref="RenderingObject"/>. Any object which inherits from this class provides rendering functionality.
+    /// An abstract base class that defines objects of type <see cref="RenderingEntity"/>. Any object which inherits from this class provides rendering functionality.
     /// </summary>
     /// <remarks>This class inherits from the <see cref="SceneEntity"/> class.</remarks>
-    public abstract partial class RenderingObject : OrientatedEntity
+    public abstract partial class RenderingEntity : OrientatedEntity
     {
         #region Fields and Properties
 
@@ -92,7 +92,7 @@ namespace Imagenic.Core.Entities
         private int renderWidth, renderHeight;
 
         /// <summary>
-        /// The width of the <see cref="RenderingObject">RenderingObject's</see> view/near plane.
+        /// The width of the <see cref="RenderingEntity">RenderingObject's</see> view/near plane.
         /// </summary>
         public virtual float ViewWidth
         {
@@ -119,7 +119,7 @@ namespace Imagenic.Core.Entities
             }
         }
         /// <summary>
-        /// The height of the <see cref="RenderingObject">RenderingObject's</see> view/near plane.
+        /// The height of the <see cref="RenderingEntity">RenderingObject's</see> view/near plane.
         /// </summary>
         public virtual float ViewHeight
         {
@@ -146,7 +146,7 @@ namespace Imagenic.Core.Entities
             }
         }
         /// <summary>
-        /// The depth of the <see cref="RenderingObject">RenderingObject's</see> view to the near plane.
+        /// The depth of the <see cref="RenderingEntity">RenderingObject's</see> view to the near plane.
         /// </summary>
         public virtual float ZNear
         {
@@ -173,7 +173,7 @@ namespace Imagenic.Core.Entities
             }
         }
         /// <summary>
-        /// The depth of the <see cref="RenderingObject">RenderingObject's</see> view to the far plane.
+        /// The depth of the <see cref="RenderingEntity">RenderingObject's</see> view to the far plane.
         /// </summary>
         public virtual float ZFar
         {
@@ -235,7 +235,7 @@ namespace Imagenic.Core.Entities
         private VolumeOutline volumeStyle = VolumeOutline.None;
 
         /// <summary>
-        /// Determines how the <see cref="RenderingObject">RenderingObject's</see> view volume outline is drawn.
+        /// Determines how the <see cref="RenderingEntity">RenderingObject's</see> view volume outline is drawn.
         /// </summary>
         public VolumeOutline VolumeStyle
         {
@@ -300,7 +300,7 @@ namespace Imagenic.Core.Entities
 
         #region Constructors
 
-        internal RenderingObject(Vector3D worldOrigin,
+        internal RenderingEntity(Vector3D worldOrigin,
                                  Orientation worldOrientation,
                                  float viewWidth,
                                  float viewHeight,

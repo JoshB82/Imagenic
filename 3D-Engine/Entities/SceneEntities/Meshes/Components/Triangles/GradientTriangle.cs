@@ -33,7 +33,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
 
         #region Methods
 
-        internal override void Interpolator(RenderingObject renderingObject, Action<object, int, int, float> bufferAction)
+        internal override void Interpolator(RenderingEntity renderingObject, Action<object, int, int, float> bufferAction)
         {
 
         }

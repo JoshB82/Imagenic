@@ -6,6 +6,11 @@ namespace Imagenic.Core.Utilities.Tree;
 
 public static class NodeExtensions
 {
+    public static IEnumerable<Node<T>> ToNodes<T>(this IEnumerable<T> elements)
+    {
+        return elements.Select(element => new Node<T>(element));
+    }
+
     public static bool IsPartOfCycle(this IEnumerable<Node> nodes)
     {
 

@@ -3,7 +3,7 @@
   <PropertyGroup>
 	<EnablePreviewFeatures>true</EnablePreviewFeatures>
 	<LangVersion>preview</LangVersion>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Imagenic.Core</RootNamespace>
 	<RepositoryUrl>https://github.com/JoshB82/3D-Engine</RepositoryUrl>
 	<Authors>Josh Bryant</Authors>
