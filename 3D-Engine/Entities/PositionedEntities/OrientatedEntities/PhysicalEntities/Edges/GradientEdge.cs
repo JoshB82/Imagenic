@@ -10,6 +10,8 @@
  * Defines a GradientEdge, representing a edge with a gradient colour.
  */
 
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 
 public class GradientEdge : Edge

@@ -12,7 +12,7 @@
 
 using System.Drawing;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 
 public class DashedEdgeSection : Entity
 {

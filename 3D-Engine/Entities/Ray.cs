@@ -1,8 +1,9 @@
-﻿using Imagenic.Core.Entities.SceneObjects.Meshes;
+﻿using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
+using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Maths;
-using Imagenic.Core.Utilities.Tree;
+using Imagenic.Core.Utilities.Node;
 using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.Linq;

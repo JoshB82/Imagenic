@@ -11,16 +11,18 @@
  */
 
 using _3D_Engine.Enums;
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
+using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Planes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
+namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
 
 /// <summary>
 /// A mesh of a cube.
@@ -29,12 +31,12 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions.Cuboids;
 /// Composition<br/>
 /// It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
 /// </remarks>
-public sealed class Cube<T> : PhysicalEntity where T : INumber<T>
+public sealed class Cube : PhysicalEntity
 {
     #region Fields and Properties
 
     // Structure
-    private T sideLength;
+    private float sideLength;
 
     /// <summary>
     /// The length of each side.

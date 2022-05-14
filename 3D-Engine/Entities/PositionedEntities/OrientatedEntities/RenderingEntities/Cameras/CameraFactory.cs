@@ -1,9 +1,9 @@
 ﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Enums;
-using Imagenic.Core.Utilities.Tree;
+using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -21,12 +21,7 @@ public struct RenderVolumeParams
     public RenderVolumeParams() { }
 }
 
-public struct CameraExtras
-{
-    public bool IncludeRenderVolumeOutline { get; set; }
-    public bool IncludeOrientationArcs { get; set; }
-    public bool IncludeOrientationArrows { get; set; }
-}
+
 
 public static class OrthogonalCameraFactory
 {

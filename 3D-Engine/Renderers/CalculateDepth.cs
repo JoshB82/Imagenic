@@ -17,12 +17,12 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using _3D_Engine.Maths.Vectors;
 using System;
 using System.Collections.Generic;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Utilities;
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
 {

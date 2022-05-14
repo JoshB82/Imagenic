@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Imagenic.Core.Utilities.Tree;
+namespace Imagenic.Core.Utilities.Node;
 
 public static class NodeExtensions
 {
@@ -207,5 +207,5 @@ public static class NodeExtensions
 
     }
 
-    
+
 }

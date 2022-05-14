@@ -1,10 +1,11 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
 using Imagenic.Core.Utilities.Recursive;
+using Imagenic.Core.Utilities.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Imagenic.Core.Utilities.Tree;
+namespace Imagenic.Core.Utilities.Node;
 
 public abstract class Node
 {
@@ -28,7 +29,7 @@ public abstract class Node
         get => children;
         set
         {
-            if (this.GetAncestorsAndSelf(node => node == value).Any())
+            if (GetAncestorsAndSelf(node => node == value).Any())
             {
                 // throw exception
             }
@@ -56,7 +57,7 @@ public abstract class Node
         get => parent;
         set
         {
-            if (this.GetDescendants(node => node == value).Any() || parent.children.Contains(value))
+            if (GetDescendants(node => node == value).Any() || parent.children.Contains(value))
             {
                 // throw exception
             }
@@ -77,7 +78,7 @@ public abstract class Node
     /// <param name="child">The child <see cref="Node"/> to be linked.</param>
     public void Add(Node child)
     {
-        ExceptionHelper.ThrowIfParameterIsNull(child);
+        ThrowIfParameterIsNull(child);
         (children ?? new List<Node>()).Add(child);
         child.parent = this;
     }
@@ -191,7 +192,7 @@ public abstract class Node
     {
         foreach (Node child in children)
         {
-            this.RemoveChildren(child);
+            RemoveChildren(child);
         }
     }
 
@@ -201,7 +202,7 @@ public abstract class Node
 
     public IEnumerable<Node> GetAncestorsAndSelf(Predicate<Node> predicate = null)
     {
-        foreach (Node node in this.GetAncestors(predicate))
+        foreach (Node node in GetAncestors(predicate))
         {
             yield return node;
         }
@@ -214,7 +215,7 @@ public abstract class Node
 
     public IEnumerable<T> GetAllParentsAndSelf<T>(Predicate<T> predicate = null) where T : SceneEntity
     {
-        return this.GetAncestorsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
+        return GetAncestorsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
     }
 
     /// <summary>
@@ -225,7 +226,7 @@ public abstract class Node
     /// <returns></returns>
     public IEnumerable<Node<T>> GetDescendantsAndSelfOfType<T>(Predicate<T> predicate = null)
     {
-        return this.GetDescendantsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
+        return GetDescendantsAndSelf(x => x is T t && predicate(t)) as IEnumerable<T>;
     }
 
     #region GetAncestors
@@ -242,7 +243,7 @@ public abstract class Node
     public IEnumerable<Node> GetAncestors(Predicate<Node> predicate = null)
     {
         List<Node> parents = new();
-        if (Parent is not null && ((predicate is not null && predicate(Parent)) || predicate is null))
+        if (Parent is not null && (predicate is not null && predicate(Parent) || predicate is null))
         {
             parents.Add(Parent);
             parents.AddRange(Parent.GetAncestors(predicate));
@@ -254,7 +255,7 @@ public abstract class Node
 
     public IEnumerable<Node<T>> GetAncestorsOfType<T>(Predicate<T> predicate = null)
     {
-        return this.GetAncestors(x => x is T t && predicate(t)) as IEnumerable<Node<T>>;
+        return GetAncestors(x => x is T t && predicate(t)) as IEnumerable<Node<T>>;
     }
 
     public IEnumerable<Node> GetDescendants(Predicate<Node> predicate = null)
@@ -275,7 +276,7 @@ public abstract class Node
 
     public IEnumerable<Node> GetDescendantsAndSelf(Predicate<Node> predicate = null)
     {
-        List<Node> nodes = this.GetDescendantsOfType(predicate).ToList();
+        List<Node> nodes = GetDescendantsOfType(predicate).ToList();
         if (predicate is null || predicate(this))
         {
             nodes.Add(this);
@@ -285,7 +286,7 @@ public abstract class Node
 
     public IEnumerable<Node<T>> GetDescendantsOfType<T>(Predicate<T> predicate = null)
     {
-        return this.GetDescendants(x => x is T t && predicate(t)) as IEnumerable<Node<T>>;
+        return GetDescendants(x => x is T t && predicate(t)) as IEnumerable<Node<T>>;
     }
 
     #endregion
@@ -294,20 +295,20 @@ public abstract class Node
 
     public Node<IEnumerable<object>> MergeWith(Node newParent, IEnumerable<Node> otherNodes)
     {
-        return new Node<IEnumerable<object>>((new[] { this.Content }).Concat(otherNodes.Select(node => node.Content)), newParent);
+        return new Node<IEnumerable<object>>((new[] { Content }).Concat(otherNodes.Select(node => node.Content)), newParent);
     }
 
-    public Node<IEnumerable<object>> MergeWith(Node newParent, params Node[] otherNodes) => this.MergeWith(newParent, (IEnumerable<Node>)otherNodes);
+    public Node<IEnumerable<object>> MergeWith(Node newParent, params Node[] otherNodes) => MergeWith(newParent, (IEnumerable<Node>)otherNodes);
 
     #endregion
 
-    
+
 
     public bool IsPartOfCycle()
     {
         return RecursorCatalogue.cycleRecursor.Reset().Run(new NodeCycleCheckParams { TrackedNode = this });
     }
-    
+
     #endregion
 }
 
@@ -403,10 +404,10 @@ public class Node<T> : Node
 
     public Node<IEnumerable<T>> MergeWith(Node newParent, IEnumerable<Node<T>> otherNodes)
     {
-        return new Node<IEnumerable<T>>((new[] { this.Content }).Concat(otherNodes.Select(node => node.Content)), newParent);
+        return new Node<IEnumerable<T>>((new[] { Content }).Concat(otherNodes.Select(node => node.Content)), newParent);
     }
 
-    public Node<IEnumerable<T>> MergeWith(Node newParent, params Node<T>[] otherNodes) => this.MergeWith(newParent, (IEnumerable<Node<T>>)otherNodes);
+    public Node<IEnumerable<T>> MergeWith(Node newParent, params Node<T>[] otherNodes) => MergeWith(newParent, (IEnumerable<Node<T>>)otherNodes);
 
     #endregion
 
@@ -449,7 +450,7 @@ public class ConstrainedNode<T> : Node<T>
         get => maxNumberOfChildren;
         set
         {
-            if (value is null || (value >= 0 && value >= minNumberOfChildren))
+            if (value is null || value >= 0 && value >= minNumberOfChildren)
             {
                 maxNumberOfChildren = value.Value;
             }

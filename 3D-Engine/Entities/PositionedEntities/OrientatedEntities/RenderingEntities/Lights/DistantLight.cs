@@ -10,13 +10,14 @@
  * Encapsulates creation of a distant light.
  */
 
+using _3D_Engine.Entities.SceneObjects;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using System;
 using System.Drawing;
-using static _3D_Engine.Properties.Settings;
 using static System.MathF;
 
-namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
+namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.RenderingEntities.Lights;
 
 /// <summary>
 /// Encapsulates creation of a <see cref="DistantLight"/>.
@@ -39,7 +40,7 @@ public sealed class DistantLight : Light
         Icon.Scale(5);
     }
 
-    public static DistantLight DistantLightAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => new DistantLight(origin, directionForward, directionUp, strength, (Tan(fovX / 2) * zNear * 2), (Tan(fovY / 2) * zNear * 2), zNear, zFar, renderWidth, renderHeight);
+    public static DistantLight DistantLightAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => new DistantLight(origin, directionForward, directionUp, strength, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar, renderWidth, renderHeight);
 
     public DistantLight(Vector3D origin, SceneEntity pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp) { }
 

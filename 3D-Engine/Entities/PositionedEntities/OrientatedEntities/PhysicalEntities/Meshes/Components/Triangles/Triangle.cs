@@ -13,6 +13,7 @@
 using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Renderers;
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Maths;
 using System;
 using System.Collections.Generic;

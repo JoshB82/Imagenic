@@ -10,6 +10,8 @@
  * Defines a Vertex, representing a point in 3D space.
  */
 
+using Imagenic.Core.Entities.PositionedEntities;
+
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 
 /// <summary>

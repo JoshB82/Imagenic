@@ -1,10 +1,12 @@
-﻿using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
+﻿using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+using Imagenic.Core.Entities.SceneObjects.Meshes;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
+namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 
 public sealed class Face : PhysicalEntity
 {

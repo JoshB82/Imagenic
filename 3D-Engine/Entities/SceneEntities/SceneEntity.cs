@@ -89,11 +89,7 @@ public abstract partial class SceneEntity : Entity
     {
         if (HasDirectionArrows = hasDirectionArrows)
         {
-            this.AddChildren(
-                new Arrow(worldOrigin, worldOrientation, Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Blue),
-                new Arrow(worldOrigin, Orientation.CreateOrientationForwardUp(worldOrientation.DirectionUp, -worldOrientation.DirectionForward), Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Green),
-                new Arrow(worldOrigin, Orientation.CreateOrientationForwardUp(Transform.CalculateDirectionRight(worldOrientation.DirectionForward, worldOrientation.DirectionUp), worldOrientation.DirectionUp), Default.DirectionArrowBodyLength, Default.DirectionArrowTipLength, Default.DirectionArrowBodyRadius, Default.DirectionArrowTipRadius, Default.DirectionArrowResolution, false).ColourAllSolidFaces(Color.Red)
-            );
+            
         }
 
         this.SetOrientation(worldOrientation);

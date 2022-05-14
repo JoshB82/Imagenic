@@ -10,7 +10,9 @@
  * Defines an edge.
  */
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+
+namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 
 /// <summary>
 /// Encapsulates creation of an <see cref="Edge"/>.

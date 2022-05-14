@@ -10,6 +10,7 @@
  * Defines a SolidEdge, representing a single-coloured edge with no pattern.
  */
 
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using System.Drawing;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;

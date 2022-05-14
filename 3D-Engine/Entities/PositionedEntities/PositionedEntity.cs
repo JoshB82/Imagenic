@@ -1,6 +1,6 @@
 ﻿using Imagenic.Core.Maths.Transformations;
 
-namespace Imagenic.Core.Entities;
+namespace Imagenic.Core.Entities.PositionedEntities;
 
 public abstract class PositionedEntity : Entity
 {
@@ -8,7 +8,7 @@ public abstract class PositionedEntity : Entity
 
     // Matrices
     private Matrix4x4 translationMatrix;
-    public Matrix4x4 ModelToWorld { get; internal set; }
+    public Matrix4x4 ModelToWorld { get; protected set; }
 
     // Origins
     internal static readonly Vector4D ModelOrigin = Vector4D.UnitW;
@@ -23,7 +23,7 @@ public abstract class PositionedEntity : Entity
         {
             if (value == worldOrigin) return;
             worldOrigin = value;
-            CalculateModelToWorldMatrix();
+            RegenerateTranslationMatrix();
             InvokeRenderingEvents();
         }
     }

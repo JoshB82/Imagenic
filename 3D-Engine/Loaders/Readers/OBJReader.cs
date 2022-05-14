@@ -4,5 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Imagenic.Core.Utilities;
+namespace Imagenic.Core.Loaders.Readers;
 
+public sealed class OBJReader : ImagenicReader
+{
+}
