@@ -12,7 +12,7 @@ public static class ProcessedResources
         get
         {
             var objData = Resources.Camera.Split(Environment.NewLine);
-            return new Custom(PositionedEntity.ModelOrigin, Orientation.ModelOrientation, objData);
+            return new Custom(TranslatableEntity.ModelOrigin, Orientation.ModelOrientation, objData);
         }
     }
 }

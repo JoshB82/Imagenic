@@ -17,7 +17,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 /// <summary>
 /// Encapsulates creation of an <see cref="Vertex"/>.
 /// </summary>
-public sealed class Vertex : PositionedEntity
+public sealed class Vertex : TranslatableEntity
 {
     #region Fields and Properties
 

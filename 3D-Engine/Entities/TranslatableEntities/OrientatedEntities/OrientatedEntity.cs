@@ -5,7 +5,7 @@ using Imagenic.Core.Utilities;
 
 namespace Imagenic.Core.Entities;
 
-public abstract class OrientatedEntity : PositionedEntity
+public abstract class OrientatedEntity : TranslatableEntity
 {
     #region Fields and Properties
 

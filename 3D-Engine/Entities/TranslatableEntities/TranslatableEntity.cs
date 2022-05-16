@@ -2,7 +2,7 @@
 
 namespace Imagenic.Core.Entities.PositionedEntities;
 
-public abstract class PositionedEntity : Entity
+public abstract class TranslatableEntity : Entity
 {
     #region Fields and Properties
 
@@ -32,7 +32,7 @@ public abstract class PositionedEntity : Entity
 
     #region Constructors
 
-    protected PositionedEntity(Vector3D worldOrigin)
+    protected TranslatableEntity(Vector3D worldOrigin)
     {
         this.worldOrigin = worldOrigin;
         RegenerateTranslationMatrix();
