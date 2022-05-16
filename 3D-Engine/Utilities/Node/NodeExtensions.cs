@@ -6,6 +6,14 @@ namespace Imagenic.Core.Utilities.Node;
 
 public static class NodeExtensions
 {
+    public static void ForEach<T>(this IEnumerable<Node<T>> nodes, Action<Node<T>> action)
+    {
+        foreach (Node<T> node in nodes)
+        {
+            action(node);
+        }
+    }
+
     public static IEnumerable<Node<T>> ToNodes<T>(this IEnumerable<T> elements)
     {
         return elements.Select(element => new Node<T>(element));

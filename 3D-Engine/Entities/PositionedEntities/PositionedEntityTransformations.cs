@@ -1,28 +1,46 @@
-﻿using Imagenic.Core.Utilities.Node;
+﻿/*
+ *       -3D-Engine-
+ *     (c) Josh Bryant
+ * https://joshdbryant.com
+ * 
+ * File desc.: Defines a class that provides extension methods for transforming positioned entities.
+ */
+
+using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Imagenic.Core.Entities.PositionedEntities;
 
+/// <summary>
+/// Provides extension methods for transforming positioned entities.
+/// </summary>
 public static class PositionedEntityTransformations
 {
     #region TranslateX method
 
-    public static T TranslateX<T>(this T positionedEntity, float distance) where T : PositionedEntity
+    /// <summary>
+    /// Translates a <typeparamref name="TPositionedEntity"/> in the X direction by the specified value.
+    /// </summary>
+    /// <typeparam name="TPositionedEntity">The type of the object to be translated.</typeparam>
+    /// <param name="positionedEntity">The <typeparamref name="TPositionedEntity"/> being translated.</param>
+    /// <param name="distance">The amount by which to move the <typeparamref name="TPositionedEntity"/>.</param>
+    /// <returns>The translated <typeparamref name="TPositionedEntity"/>.</returns>
+    public static TPositionedEntity TranslateX<TPositionedEntity>(this TPositionedEntity positionedEntity, float distance) where TPositionedEntity : PositionedEntity
     {
         positionedEntity.WorldOrigin += new Vector3D(distance, 0, 0);
         return positionedEntity;
     }
 
-    public static IEnumerable<T> TranslateX<T>(this IEnumerable<T> positionedEntities, float distance) where T : PositionedEntity
+    public static IEnumerable<TPositionedEntity> TranslateX<TPositionedEntity>(this IEnumerable<TPositionedEntity> positionedEntities, float distance) where TPositionedEntity : PositionedEntity
     {
         var displacement = new Vector3D(distance, 0, 0);
-        foreach (T positionedEntity in positionedEntities)
+        return positionedEntities.Select(positionedEntity =>
         {
             positionedEntity.WorldOrigin += displacement;
-            yield return positionedEntity;
-        }
+            return positionedEntity;
+        });
     }
 
     public static IEnumerable<T> TranslateX<T>(this IEnumerable<T> positionedEntities, float distance, Func<T, bool> predicate) where T : PositionedEntity
@@ -57,24 +75,45 @@ public static class PositionedEntityTransformations
         return positionedEntityNode;
     }
 
+    public static IEnumerable<Node<T>> TranslateX<T>(this IEnumerable<Node<T>> positionedEntityNodes, float distance) where T : PositionedEntity
+    {
+        var displacement = new Vector3D(distance, 0, 0);
+        return positionedEntityNodes.Select(positionedEntityNode =>
+        {
+            positionedEntityNode.Content.WorldOrigin += displacement;
+            foreach (Node<PositionedEntity> childPositionedEntityNode in positionedEntityNode.GetDescendants())
+            {
+                childPositionedEntityNode.Content.WorldOrigin += displacement;
+            }
+            return positionedEntityNode;
+        });
+    }
+
     #endregion
 
     #region TranslateY method
 
-    public static T TranslateY<T>(this T positionedEntity, float distance) where T : PositionedEntity
+    /// <summary>
+    /// Translates a <typeparamref name="TPositionedEntity"/> in the Y direction by the specified value.
+    /// </summary>
+    /// <typeparam name="TPositionedEntity">The type of the object to be translated.</typeparam>
+    /// <param name="positionedEntity">The <typeparamref name="TPositionedEntity"/> being translated.</param>
+    /// <param name="distance">The amount by which to move the <typeparamref name="TPositionedEntity"/>.</param>
+    /// <returns>The translated <typeparamref name="TPositionedEntity"/>.</returns>
+    public static TPositionedEntity TranslateY<TPositionedEntity>(this TPositionedEntity positionedEntity, float distance) where TPositionedEntity : PositionedEntity
     {
         positionedEntity.WorldOrigin += new Vector3D(0, distance, 0);
         return positionedEntity;
     }
 
-    public static IEnumerable<T> TranslateY<T>(this IEnumerable<T> positionedEntities, float distance) where T : PositionedEntity
+    public static IEnumerable<TPositionedEntity> TranslateY<TPositionedEntity>(this IEnumerable<TPositionedEntity> positionedEntities, float distance) where TPositionedEntity : PositionedEntity
     {
         var displacement = new Vector3D(0, distance, 0);
-        foreach (T positionedEntity in positionedEntities)
+        return positionedEntities.Select(positionedEntity =>
         {
             positionedEntity.WorldOrigin += displacement;
-            yield return positionedEntity;
-        }
+            return positionedEntity;
+        });
     }
 
     public static IEnumerable<T> TranslateY<T>(this IEnumerable<T> positionedEntities, float distance, Func<T, bool> predicate) where T : PositionedEntity
@@ -109,24 +148,45 @@ public static class PositionedEntityTransformations
         return positionedEntityNode;
     }
 
+    public static IEnumerable<Node<T>> TranslateY<T>(this IEnumerable<Node<T>> positionedEntityNodes, float distance) where T : PositionedEntity
+    {
+        var displacement = new Vector3D(0, distance, 0);
+        return positionedEntityNodes.Select(positionedEntityNode =>
+        {
+            positionedEntityNode.Content.WorldOrigin += displacement;
+            foreach (Node<PositionedEntity> childPositionedEntityNode in positionedEntityNode.GetDescendants())
+            {
+                childPositionedEntityNode.Content.WorldOrigin += displacement;
+            }
+            return positionedEntityNode;
+        });
+    }
+
     #endregion
 
     #region TranslateZ method
 
-    public static T TranslateZ<T>(this T positionedEntity, float distance) where T : PositionedEntity
+    /// <summary>
+    /// Translates a <typeparamref name="TPositionedEntity"/> in the Z direction by the specified value.
+    /// </summary>
+    /// <typeparam name="TPositionedEntity">The type of the object to be translated.</typeparam>
+    /// <param name="positionedEntity">The <typeparamref name="TPositionedEntity"/> being translated.</param>
+    /// <param name="distance">The amount by which to move the <typeparamref name="TPositionedEntity"/>.</param>
+    /// <returns>The translated <typeparamref name="TPositionedEntity"/>.</returns>
+    public static TPositionedEntity TranslateZ<TPositionedEntity>(this TPositionedEntity positionedEntity, float distance) where TPositionedEntity : PositionedEntity
     {
         positionedEntity.WorldOrigin += new Vector3D(0, 0, distance);
         return positionedEntity;
     }
 
-    public static IEnumerable<T> TranslateZ<T>(this IEnumerable<T> positionedEntities, float distance) where T : PositionedEntity
+    public static IEnumerable<TPositionedEntity> TranslateZ<TPositionedEntity>(this IEnumerable<TPositionedEntity> positionedEntities, float distance) where TPositionedEntity : PositionedEntity
     {
         var displacement = new Vector3D(0, 0, distance);
-        foreach (T positionedEntity in positionedEntities)
+        return positionedEntities.Select(positionedEntity =>
         {
             positionedEntity.WorldOrigin += displacement;
-            yield return positionedEntity;
-        }
+            return positionedEntity;
+        });
     }
 
     public static IEnumerable<T> TranslateZ<T>(this IEnumerable<T> positionedEntities, float distance, Func<T, bool> predicate) where T : PositionedEntity
@@ -161,23 +221,44 @@ public static class PositionedEntityTransformations
         return positionedEntityNode;
     }
 
+    public static IEnumerable<Node<T>> TranslateZ<T>(this IEnumerable<Node<T>> positionedEntityNodes, float distance) where T : PositionedEntity
+    {
+        var displacement = new Vector3D(0, 0, distance);
+        return positionedEntityNodes.Select(positionedEntityNode =>
+        {
+            positionedEntityNode.Content.WorldOrigin += displacement;
+            foreach (Node<PositionedEntity> childPositionedEntityNode in positionedEntityNode.GetDescendants())
+            {
+                childPositionedEntityNode.Content.WorldOrigin += displacement;
+            }
+            return positionedEntityNode;
+        });
+    }
+
     #endregion
 
     #region Translate method
 
-    public static T Translate<T>(this T positionedEntity, Vector3D displacement) where T : PositionedEntity
+    /// <summary>
+    /// Translates a <typeparamref name="TPositionedEntity"/> by the specified value.
+    /// </summary>
+    /// <typeparam name="TPositionedEntity">The type of the object to be translated.</typeparam>
+    /// <param name="positionedEntity">The <typeparamref name="TPositionedEntity"/> being translated.</param>
+    /// <param name="displacement">A <see cref="Vector3D"/> representing the amounts by which to move the <typeparamref name="TPositionedEntity"/>.</param>
+    /// <returns>The translated <typeparamref name="TPositionedEntity"/>.</returns>
+    public static TPositionedEntity Translate<TPositionedEntity>(this TPositionedEntity positionedEntity, Vector3D displacement) where TPositionedEntity : PositionedEntity
     {
         positionedEntity.WorldOrigin += displacement;
         return positionedEntity;
     }
 
-    public static IEnumerable<T> Translate<T>(this IEnumerable<T> positionedEntities, Vector3D displacement) where T : PositionedEntity
+    public static IEnumerable<TPositionedEntity> Translate<TPositionedEntity>(this IEnumerable<TPositionedEntity> positionedEntities, Vector3D displacement) where TPositionedEntity : PositionedEntity
     {
-        foreach (T positionedEntity in positionedEntities)
+        return positionedEntities.Select(positionedEntity =>
         {
             positionedEntity.WorldOrigin += displacement;
-            yield return positionedEntity;
-        }
+            return positionedEntity;
+        });
     }
 
     public static IEnumerable<T> Translate<T>(this IEnumerable<T> positionedEntities, Vector3D displacement, Func<T, bool> predicate) where T : PositionedEntity
@@ -207,6 +288,19 @@ public static class PositionedEntityTransformations
         }
 
         return positionedEntityNode;
+    }
+
+    public static IEnumerable<Node<T>> Translate<T>(this IEnumerable<Node<T>> positionedEntityNodes, Vector3D displacement) where T : PositionedEntity
+    {
+        return positionedEntityNodes.Select(positionedEntityNode =>
+        {
+            positionedEntityNode.Content.WorldOrigin += displacement;
+            foreach (Node<PositionedEntity> childPositionedEntityNode in positionedEntityNode.GetDescendants())
+            {
+                childPositionedEntityNode.Content.WorldOrigin += displacement;
+            }
+            return positionedEntityNode;
+        });
     }
 
     #endregion
