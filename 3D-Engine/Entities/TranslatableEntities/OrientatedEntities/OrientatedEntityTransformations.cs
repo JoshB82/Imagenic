@@ -1,9 +1,8 @@
-﻿using Imagenic.Core.Maths;
-using Imagenic.Core.Utilities.Node;
+﻿using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities;
 
@@ -12,18 +11,33 @@ public static class OrientatedEntityTransformations
     /// <summary>
     /// Orientates a <typeparamref name="TOrientatedEntity"/> to the specified <see cref="Orientation"/>.
     /// </summary>
-    /// <typeparam name="TOrientatedEntity">The type of the object to be orientated.</typeparam>
+    /// <typeparam name="TOrientatedEntity">The type of the object being orientated.</typeparam>
     /// <param name="orientatedEntity">The <typeparamref name="TOrientatedEntity"/> being orientated.</param>
     /// <param name="orientation">The new <see cref="Orientation"/> of the <typeparamref name="TOrientatedEntity"/>.</param>
     /// <returns>The <typeparamref name="TOrientatedEntity"/> with the new <see cref="Orientation"/>.</returns>
-    public static TOrientatedEntity Orientate<TOrientatedEntity>(this TOrientatedEntity orientatedEntity, Orientation orientation) where TOrientatedEntity : OrientatedEntity
+    [return: NotNull]
+    public static TOrientatedEntity Orientate<TOrientatedEntity>([DisallowNull] this TOrientatedEntity orientatedEntity, [DisallowNull] Orientation orientation) where TOrientatedEntity : OrientatedEntity
     {
+        ThrowIfParameterIsNull(orientatedEntity);
+        ThrowIfParameterIsNull(orientation);
+
         orientatedEntity.WorldOrientation = orientation;
         return orientatedEntity;
     }
 
-    public static IEnumerable<TOrientatedEntity> Orientate<TOrientatedEntity>(this IEnumerable<TOrientatedEntity> orientatedEntities, Orientation orientation) where TOrientatedEntity : OrientatedEntity
+    /// <summary>
+    /// Orientates each element of a <typeparamref name="TOrientatedEntity"/> sequence to the specified <see cref="Orientation"/>.
+    /// </summary>
+    /// <typeparam name="TOrientatedEntity">The type of the elements being orientated.</typeparam>
+    /// <param name="orientatedEntities">The <typeparamref name="TOrientatedEntity"/> sequence containing elements being orientated.</param>
+    /// <param name="orientation">The new <see cref="Orientation"/> of each element of the <typeparamref name="TOrientatedEntity"/> sequence.</param>
+    /// <returns>The <typeparamref name="TOrientatedEntity"/> sequence with each element having the new <see cref="Orientation"/>.</returns>
+    [return: NotNull]
+    public static IEnumerable<TOrientatedEntity> Orientate<TOrientatedEntity>([DisallowNull] this IEnumerable<TOrientatedEntity> orientatedEntities, [DisallowNull] Orientation orientation) where TOrientatedEntity : OrientatedEntity
     {
+        ThrowIfParameterIsNull(orientatedEntities);
+        ThrowIfParameterIsNull(orientation);
+
         return orientatedEntities.Select(orientatedEntity =>
         {
             orientatedEntity.WorldOrientation = orientation;
@@ -31,8 +45,21 @@ public static class OrientatedEntityTransformations
         });
     }
 
-    public static IEnumerable<TOrientatedEntity> Orientate<TOrientatedEntity>(this IEnumerable<TOrientatedEntity> orientatedEntities, Orientation orientation, Func<TOrientatedEntity, bool> predicate) where TOrientatedEntity : OrientatedEntity
+    /// <summary>
+    /// Orientates each element of a <typeparamref name="TOrientatedEntity"/> sequence that satisfies a specified predicate to the specified <see cref="Orientation"/>.
+    /// </summary>
+    /// <typeparam name="TOrientatedEntity">The type of the elements being orientated.</typeparam>
+    /// <param name="orientatedEntities">The <typeparamref name="TOrientatedEntity"/> sequence containing elements being orientated.</param>
+    /// <param name="orientation">The new <see cref="Orientation"/> of each element of the <typeparamref name="TOrientatedEntity"/> sequence.</param>
+    /// <param name="predicate">The predicate which determines which elements of the <typeparamref name="TOrientatedEntity"/> sequence are orientated.</param>
+    /// <returns>The <typeparamref name="TOrientatedEntity"/> sequence with each element that satisified the predicate having the new <see cref="Orientation"/>.</returns>
+    [return: NotNull]
+    public static IEnumerable<TOrientatedEntity> Orientate<TOrientatedEntity>([DisallowNull] this IEnumerable<TOrientatedEntity> orientatedEntities, [DisallowNull] Orientation orientation, [DisallowNull] Func<TOrientatedEntity, bool> predicate) where TOrientatedEntity : OrientatedEntity
     {
+        ThrowIfParameterIsNull(orientatedEntities);
+        ThrowIfParameterIsNull(orientation);
+        ThrowIfParameterIsNull(predicate);
+
         return orientatedEntities.Select(orientatedEntity =>
         {
             if (predicate(orientatedEntity))
