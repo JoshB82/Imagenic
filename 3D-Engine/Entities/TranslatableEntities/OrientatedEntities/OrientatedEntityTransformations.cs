@@ -10,11 +10,27 @@ public static class OrientatedEntityTransformations
 {
     /// <summary>
     /// Orientates a <typeparamref name="TOrientatedEntity"/> to the specified <see cref="Orientation"/>.
+    /// <remarks>The specified orientation and the <typeparamref name="TOrientatedEntity"/> cannot be <see langword="null"/>.</remarks>
+    /// <para><example>
+    /// Example: Using call chaining, a cube is subjected to multiple transformations, including an orientation change.
+    /// <code>
+    /// var cube = new Cube(Vector3D.Zero, Orientation.OrientationXY, 10);
+    /// 
+    /// var displacement = new Vector3D(10, 20, 30);
+    /// var orientation = Orientation.OrientationYZ;
+    /// var scaleFactor = new Vector3D(2, 2, 2);
+    /// 
+    /// cube = cube.Translate(displacement)
+    ///            <strong>.Orientate(orientation)</strong><br/>
+    ///            .Scale(scaleFactor);
+    /// </code>
+    /// </example></para>
     /// </summary>
     /// <typeparam name="TOrientatedEntity">The type of the object being orientated.</typeparam>
     /// <param name="orientatedEntity">The <typeparamref name="TOrientatedEntity"/> being orientated.</param>
     /// <param name="orientation">The new <see cref="Orientation"/> of the <typeparamref name="TOrientatedEntity"/>.</param>
     /// <returns>The <typeparamref name="TOrientatedEntity"/> with the new <see cref="Orientation"/>.</returns>
+    /// <exception cref="ArgumentNullException">None of this method's parameters can be null.</exception>
     [return: NotNull]
     public static TOrientatedEntity Orientate<TOrientatedEntity>([DisallowNull] this TOrientatedEntity orientatedEntity, [DisallowNull] Orientation orientation) where TOrientatedEntity : OrientatedEntity
     {
