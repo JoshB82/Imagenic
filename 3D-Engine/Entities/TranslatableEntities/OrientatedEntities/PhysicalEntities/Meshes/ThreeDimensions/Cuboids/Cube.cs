@@ -31,7 +31,7 @@ namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalE
 /// Composition<br/>
 /// It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
 /// </remarks>
-public sealed class Cube : PhysicalEntity
+public class Cube : Mesh
 {
     #region Fields and Properties
 

@@ -2,6 +2,7 @@
 using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Utilities;
+using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities;
 
@@ -29,6 +30,12 @@ public abstract class OrientatedEntity : TranslatableEntity
             RegenerateRotationMatrix();
             InvokeRenderingEvents();
         }
+    }
+
+    public IEnumerable<Frame<Orientation>> WorldOrientationFrames
+    {
+        get;
+        set;
     }
 
     #endregion

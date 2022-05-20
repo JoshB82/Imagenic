@@ -142,4 +142,16 @@ public static class OrientatedEntityTransformations
     {
 
     }
+
+    /*public static TOrientatedEntity Orientate<TOrientatedEntity>([DisallowNull] this TOrientatedEntity orientatedEntity, [DisallowNull] IEnumerable<Frame<Orientation>> frames) where TOrientatedEntity : IAnimatable
+    {
+        orientatedEntity.WorldOrientation = frames;
+        return orientatedEntity;
+    }*/
+
+    public static TOrientatedEntity Orientate<TOrientatedEntity>([DisallowNull] this TOrientatedEntity orientatedEntity, [DisallowNull] IEnumerable<Frame<Orientation>> frames) where TOrientatedEntity : OrientatedEntity
+    {
+        orientatedEntity.WorldOrientationFrames = frames;
+        return orientatedEntity;
+    }
 }

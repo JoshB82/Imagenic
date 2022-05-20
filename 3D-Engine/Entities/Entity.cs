@@ -31,3 +31,16 @@ public abstract class Entity
         }
     }
 }
+
+public static class TransformationBuilder
+{
+    public static TEntity StartTransformation<TEntity>(this TEntity entity) where TEntity : Entity
+    {
+
+    }
+
+    public static Matrix4x4 EndTransformation<TEntity>(this TEntity entity) where TEntity : Entity
+    {
+
+    }
+}
