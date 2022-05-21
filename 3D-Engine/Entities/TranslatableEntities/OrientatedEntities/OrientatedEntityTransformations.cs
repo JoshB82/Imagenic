@@ -155,4 +155,11 @@ public static class OrientatedEntityTransformations
         orientatedEntity.WorldOrientationFrames = frames;
         return orientatedEntity;
     }
+
+    public static TOrientatedEntity Orientate<TOrientatedEntity>([DisallowNull] this TOrientatedEntity orientatedEntity, [DisallowNull] Transition<Orientation> transition) where TOrientatedEntity : OrientatedEntity
+    {
+        transition.PropertySelector = entity => ((TOrientatedEntity)entity).WorldOrientation;
+        orientatedEntity.Transitions.Add(transition);
+        return orientatedEntity;
+    }
 }

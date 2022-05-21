@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Imagenic.Core.Entities;
 
 public abstract class Entity
 {
+    public List<Transition> Transitions { get; set; }
+
     // Id
     private static int nextId;
     /// <summary>

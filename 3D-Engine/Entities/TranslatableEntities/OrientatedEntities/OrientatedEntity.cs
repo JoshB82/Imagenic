@@ -33,7 +33,7 @@ public abstract class OrientatedEntity : TranslatableEntity
         }
     }
 
-    public IEnumerable<Frame<Orientation>> WorldOrientationFrames
+    public IEnumerable<Transition<Orientation>> WorldOrientationTransitions
     {
         get;
         set;
