@@ -20,6 +20,7 @@ using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntit
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Renderers.Animations;
 using Imagenic.Core.Images;
 using Imagenic.Core.Images.ImageOptions;
 using Imagenic.Core.Utilities;
@@ -27,6 +28,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Imagenic.Core.Utilities.Node;
+using Imagenic.Core.Entities.PositionedEntities;
+using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
 
 namespace Imagenic.Core.Renderers;
 
@@ -152,6 +156,11 @@ public abstract class Renderer<T> where T : Image
     }
 
     public abstract Task<T> RenderAsync(CancellationToken token);
+
+    public abstract IAsyncEnumerable<T> RenderAsync(PhysicalEntity physicalEntity, Animation animation, CancellationToken token);
+    public abstract IAsyncEnumerable<T> RenderAsync(IEnumerable<PhysicalEntity> physicalEntities, Animation animation, CancellationToken token);
+    public abstract IAsyncEnumerable<T> RenderAsync(Node<PhysicalEntity> physicalEntityNode, Animation animation, CancellationToken token);
+    public abstract IAsyncEnumerable<T> RenderAsync(IEnumerable<Node<PhysicalEntity>> physicalEntityNodes, Animation animation, CancellationToken token);
 
     #endregion
 }

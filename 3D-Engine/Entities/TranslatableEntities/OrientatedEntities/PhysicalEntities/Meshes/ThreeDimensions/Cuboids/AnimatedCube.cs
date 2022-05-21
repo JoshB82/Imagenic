@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
+using Imagenic.Core.Renderers.Animations;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
