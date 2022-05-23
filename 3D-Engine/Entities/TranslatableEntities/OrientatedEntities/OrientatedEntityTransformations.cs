@@ -158,7 +158,7 @@ public static class OrientatedEntityTransformations
 
     public static TOrientatedEntity Orientate<TOrientatedEntity>([DisallowNull] this TOrientatedEntity orientatedEntity, [DisallowNull] Transition<Orientation> transition) where TOrientatedEntity : OrientatedEntity
     {
-        transition.PropertySelector = entity => ((TOrientatedEntity)entity).WorldOrientation;
+        transition.Transformation = entity => ((TOrientatedEntity)entity).WorldOrientation;
         orientatedEntity.Transitions.Add(transition);
         return orientatedEntity;
     }
