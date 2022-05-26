@@ -28,10 +28,16 @@ public static class TranslatableEntityTransformations
     /// <param name="translatableEntity">The <typeparamref name="TTranslatableEntity"/> being translated.</param>
     /// <param name="distance">The amount by which to move the <typeparamref name="TTranslatableEntity"/>.</param>
     /// <returns>The translated <typeparamref name="TTranslatableEntity"/>.</returns>
-    public static TTranslatableEntity TranslateX<TTranslatableEntity>(this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
+    public static TTranslatableEntity TranslateX<TTranslatableEntity>(
+        this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        translatableEntity.WorldOrigin += new Vector3D(distance, 0, 0);
-        return translatableEntity;
+        return EntityTransformations.Transform(translatableEntity, e => { e.WorldOrigin += new Vector3D(distance, 0, 0); });
+    }
+
+    public static CascadeBuffer<TTranslatableEntity, float> TranslateX<TTranslatableEntity>(
+        this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
+    {
+        return EntityTransformations.Transform(translatableEntity, e => { e.WorldOrigin += new Vector3D(distance, 0, 0); return distance; });
     }
 
     public static IEnumerable<TTranslatableEntity> TranslateX<TTranslatableEntity>(this IEnumerable<TTranslatableEntity> translatableEntities, float distance) where TTranslatableEntity : TranslatableEntity

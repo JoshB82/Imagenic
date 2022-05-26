@@ -7,6 +7,7 @@ namespace Imagenic.Core.Entities;
 public static class EntityTransformations
 {
     #region Entity
+
     public static TEntity Transform<TEntity>(this TEntity entity, Action<TEntity> transformation) where TEntity : Entity
     {
         transformation(entity);
