@@ -1,6 +1,7 @@
 ﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
+using Imagenic.Core.Entities.TranslatableEntities;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Maths.Vectors;
 
@@ -47,5 +48,8 @@ internal class Program
         // both cubes have their side lengths increased by one and their opacities set to 3.5
         cubes.Transform(e => { e.SideLength++; })
              .Transform((e, i) => { e.Opacity = 0.5f + i; }, new int[] { 3, 3 });
+
+        cube.TranslateX(3)
+            .TranslateXCascade(2);
     }
 }

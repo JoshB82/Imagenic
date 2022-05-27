@@ -36,7 +36,8 @@ public static class EntityTransformations
 
     #region Entity enumerable
 
-    public static IEnumerable<TEntity> Transform<TEntity>(this IEnumerable<TEntity> entities, Action<TEntity> transformation) where TEntity : Entity
+    public static IEnumerable<TEntity> Transform<TEntity>(
+        this IEnumerable<TEntity> entities, Action<TEntity> transformation) where TEntity : Entity
     {
         return entities.Select(entity =>
         {

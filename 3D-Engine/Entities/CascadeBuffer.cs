@@ -1,4 +1,5 @@
-﻿using Imagenic.Core.Utilities.Node;
+﻿using Imagenic.Core.Entities.PositionedEntities;
+using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
 using System.Linq;
