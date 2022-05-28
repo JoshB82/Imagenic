@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.Entities;
+using Imagenic.Core.Entities.CascadeBuffers;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
 using Imagenic.Core.Entities.TranslatableEntities;
@@ -51,5 +52,8 @@ internal class Program
 
         cube.TranslateX(3)
             .TranslateXCascade(2);
+
+        cube.TranslateXCascade(42)
+            .Translate();
     }
 }

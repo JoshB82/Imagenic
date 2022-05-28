@@ -4,43 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Imagenic.Core.Entities;
+namespace Imagenic.Core.Entities.CascadeBuffers;
 
-public sealed class CascadeBuffer<TEntity, TValue>
-{
-    #region Fields and Properties
 
-    public TEntity Entity { get; set; }
-    public TValue Value { get; set; }
-
-    #endregion
-
-    #region Constructors
-
-    public CascadeBuffer(TEntity entity, TValue value)
-    {
-        Entity = entity;
-        Value = value;
-    }
-
-    #endregion
-
-    #region Methods
-
-    public TEntity Transform(Action<TEntity, TValue> transformation)
-    {
-        transformation(Entity, Value);
-        return Entity;
-    }
-
-    public CascadeBuffer<TEntity, TOutput> Transform<TOutput>(Func<TEntity, TValue, TOutput> transformation)
-    {
-        var output = transformation(Entity, Value);
-        return new CascadeBuffer<TEntity, TOutput>(Entity, output);
-    }
-
-    #endregion
-}
 
 public sealed class CascadeBufferEnumerable<TEntity, TValue>
 {
@@ -181,6 +147,6 @@ internal static class CascadeBufferHelper
 
     internal static IEnumerable<TOutput> ApplyTransformationToComplexObject<TInspect, TEntity, TValue, TOutput>(TInspect tobeInspected, Func<TEntity, TValue, TOutput> transformation, IEnumerable<TValue> values, IEnumerable<TOutput> outputs)
     {
-        
-    }    
+
+    }
 }

@@ -6,6 +6,7 @@
  * File desc.: Defines a class that provides extension methods for transforming translatable entities.
  */
 
+using Imagenic.Core.Entities.CascadeBuffers;
 using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Utilities.Node;
 using System;
@@ -37,7 +38,7 @@ public static class TranslatableEntityTransformations
         return ET.Transform(translatableEntity, e => { e.WorldOrigin += new Vector3D(distance, 0, 0); });
     }
 
-    public static CascadeBuffer<TTranslatableEntity, float> TranslateXCascade<TTranslatableEntity>(
+    public static CascadeBufferValueValue<TTranslatableEntity, float> TranslateXCascade<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfParameterIsNull(translatableEntity);

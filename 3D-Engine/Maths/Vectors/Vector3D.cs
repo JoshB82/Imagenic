@@ -23,7 +23,7 @@ namespace Imagenic.Core.Maths.Vectors;
 public struct Vector3D : IEquatable<Vector3D>
 {
     #region Fields and Properties
-
+    
     // Common Vectors
     /// <summary>
     /// A <see cref="Vector3D"/> equal to (0, 0, 0).

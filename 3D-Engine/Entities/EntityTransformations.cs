@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Imagenic.Core.Entities.CascadeBuffers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,10 +15,10 @@ public static class EntityTransformations
         return entity;
     }
 
-    public static CascadeBuffer<TEntity, TOutput> Transform<TEntity, TOutput>(this TEntity entity, Func<TEntity, TOutput> transformation) where TEntity : Entity
+    public static CascadeBufferValueValue<TEntity, TOutput> Transform<TEntity, TOutput>(this TEntity entity, Func<TEntity, TOutput> transformation) where TEntity : Entity
     {
         var output = transformation(entity);
-        return new CascadeBuffer<TEntity, TOutput>(entity, output);
+        return new CascadeBufferValueValue<TEntity, TOutput>(entity, output);
     }
 
     public static TEntity Transform<TEntity, TInput>(this TEntity entity, Action<TEntity, TInput> transformation, TInput transformationInput) where TEntity : Entity
@@ -26,10 +27,10 @@ public static class EntityTransformations
         return entity;
     }
 
-    public static CascadeBuffer<TEntity, TOutput> Transform<TEntity, TInput, TOutput>(this TEntity entity, Func<TEntity, TInput, TOutput> transformation, TInput transformationInput) where TEntity : Entity
+    public static CascadeBufferValueValue<TEntity, TOutput> Transform<TEntity, TInput, TOutput>(this TEntity entity, Func<TEntity, TInput, TOutput> transformation, TInput transformationInput) where TEntity : Entity
     {
         var output = transformation(entity, transformationInput);
-        return new CascadeBuffer<TEntity, TOutput>(entity, output);
+        return new CascadeBufferValueValue<TEntity, TOutput>(entity, output);
     }
 
     #endregion
