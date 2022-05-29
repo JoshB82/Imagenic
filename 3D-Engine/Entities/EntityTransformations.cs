@@ -47,14 +47,14 @@ public static class EntityTransformations
         });
     }
 
-    public static CascadeBufferEnumerable<TEntity, TOutput> Transform<TEntity, TOutput>(this IEnumerable<TEntity> entities, Func<TEntity, TOutput> transformation) where TEntity : Entity
+    public static CascadeBufferEnumerableEnumerable<TEntity, TOutput> Transform<TEntity, TOutput>(this IEnumerable<TEntity> entities, Func<TEntity, TOutput> transformation) where TEntity : Entity
     {
         var outputs = entities.Select(entity =>
         {
             var output = transformation(entity);
             return output;
         });
-        return new CascadeBufferEnumerable<TEntity, TOutput>(entities, outputs);
+        return new CascadeBufferEnumerableEnumerable<TEntity, TOutput>(entities, outputs);
     }
 
     public static IEnumerable<TEntity> Transform<TEntity, TInput>(this IEnumerable<TEntity> entities, Action<TEntity, TInput> transformation, TInput transformationInput) where TEntity : Entity
@@ -66,14 +66,14 @@ public static class EntityTransformations
         });
     }
 
-    public static CascadeBufferEnumerable<TEntity, TOutput> Transform<TEntity, TInput, TOutput>(this IEnumerable<TEntity> entities, Func<TEntity, TInput, TOutput> transformation, TInput transformationInput) where TEntity : Entity
+    public static CascadeBufferEnumerableEnumerable<TEntity, TOutput> Transform<TEntity, TInput, TOutput>(this IEnumerable<TEntity> entities, Func<TEntity, TInput, TOutput> transformation, TInput transformationInput) where TEntity : Entity
     {
         var outputs = entities.Select(entity =>
         {
             var output = transformation(entity, transformationInput);
             return output;
         });
-        return new CascadeBufferEnumerable<TEntity, TOutput>(entities, outputs);
+        return new CascadeBufferEnumerableEnumerable<TEntity, TOutput>(entities, outputs);
     }
 
     public static IEnumerable<TEntity> Transform<TEntity, TInput>(this IEnumerable<TEntity> entities, Action<TEntity, TInput> transformation, IEnumerable<TInput> transformationInputs) where TEntity : Entity
@@ -85,14 +85,14 @@ public static class EntityTransformations
         });
     }
 
-    public static CascadeBufferEnumerable<TEntity, TOutput> Transform<TEntity, TInput, TOutput>(this IEnumerable<TEntity> entities, Func<TEntity, TInput, TOutput> transformation, IEnumerable<TInput> transformationInputs) where TEntity : Entity
+    public static CascadeBufferEnumerableEnumerable<TEntity, TOutput> Transform<TEntity, TInput, TOutput>(this IEnumerable<TEntity> entities, Func<TEntity, TInput, TOutput> transformation, IEnumerable<TInput> transformationInputs) where TEntity : Entity
     {
         var outputs = entities.Zip(transformationInputs, (entity, input) =>
         {
             var output = transformation(entity, input);
             return output;
         });
-        return new CascadeBufferEnumerable<TEntity, TOutput>(entities, outputs);
+        return new CascadeBufferEnumerableEnumerable<TEntity, TOutput>(entities, outputs);
     }
 
     #endregion

@@ -65,7 +65,7 @@ public static class TranslatableEntityTransformations
         return new CascadeBufferEnumerable1<TTranslatableEntity, float>(translatableEntities, distance);
     }
 
-    public static CascadeBufferEnumerable<TTranslateEntity, float> TranslateXCascade<TTranslateEntity>(
+    public static CascadeBufferEnumerableEnumerable<TTranslateEntity, float> TranslateXCascade<TTranslateEntity>(
         [DisallowNull] this IEnumerable<TTranslateEntity> translatableEntities, IEnumerable<float> distances) where TTranslateEntity : TranslatableEntity
     {
         var displacement = new Vector3D(distance, 0, 0);

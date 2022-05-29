@@ -12,8 +12,6 @@ internal class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
-
         Vector3D test = new(1, 2, 3);
 
         var cube = new Cube(worldOrigin: test,
@@ -55,5 +53,23 @@ internal class Program
 
         cube.TranslateXCascade(42)
             .Translate();
+
+        cube.TranslateXCascade(2)
+            .TranslateX();
+
+        cube.TranslateXCascade(4)
+            .TranslateYC(5)
+            .TranslateY();
+
+        Console.ReadLine();
+
+        cube.Transform((e, i) => e.CastsShadows = i, Console.ReadLine() == "yes")
+            .Transform((e, i) => e.DrawFaces = i)
+            .Transform((e, i) => { e.DrawEdges = i; })
+            .TranslateX(3);
+
+        cubes.Transform((e, i) => { e.Opacity = i; }, float.Parse(Console.ReadLine() ?? string.Empty))
+             .Transform((e, i) => e.DrawOutline = i, bool.Parse(Console.ReadLine() ?? string.Empty))
+             .Transform((e, i) => { e.DrawEdges = i; });
     }
 }
