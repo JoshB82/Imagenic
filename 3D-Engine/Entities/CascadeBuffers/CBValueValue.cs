@@ -8,14 +8,14 @@ public sealed class CascadeBufferValueValue<TEntity, TValue>
 {
     #region Fields and Properties
 
-    public TEntity Entity { get; set; }
-    public TValue Value { get; set; }
+    public TEntity Entity { get; }
+    public TValue Value { get; }
 
     #endregion
 
     #region Constructors
 
-    public CascadeBufferValueValue(TEntity entity, TValue value)
+    internal CascadeBufferValueValue(TEntity entity, TValue value)
     {
         Entity = entity;
         Value = value;
@@ -31,9 +31,21 @@ public sealed class CascadeBufferValueValue<TEntity, TValue>
         return Entity;
     }
 
+    public TEntity Transform<TInput>(Action<TEntity, TValue, TInput> transformation, TInput transformationInput)
+    {
+        transformation(Entity, Value, transformationInput);
+        return Entity;
+    }
+
     public CascadeBufferValueValue<TEntity, TOutput> Transform<TOutput>(Func<TEntity, TValue, TOutput> transformation)
     {
         var output = transformation(Entity, Value);
+        return new CascadeBufferValueValue<TEntity, TOutput>(Entity, output);
+    }
+
+    public CascadeBufferValueValue<TEntity, TOutput> Transform<TInput, TOutput>(Func<TEntity, TValue, TInput, TOutput> transformation, TInput transformationInput)
+    {
+        var output = transformation(Entity, Value, transformationInput);
         return new CascadeBufferValueValue<TEntity, TOutput>(Entity, output);
     }
 
