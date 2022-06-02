@@ -1,6 +1,7 @@
 ﻿using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Entities.CascadeBuffers;
 
@@ -9,7 +10,7 @@ public sealed class CascadeBufferValueValue<TEntity, TValue>
     #region Fields and Properties
 
     public TEntity Entity { get; }
-    public TValue Value { get; }
+    public TValue? Value { get; }
 
     #endregion
 
@@ -25,28 +26,32 @@ public sealed class CascadeBufferValueValue<TEntity, TValue>
 
     #region Methods
 
-    public TEntity Transform(Action<TEntity, TValue> transformation)
+    public TEntity Transform([DisallowNull] Action<TEntity, TValue?> transformation)
     {
+        ThrowIfParameterIsNull(transformation);
         transformation(Entity, Value);
         return Entity;
     }
 
-    public TEntity Transform<TInput>(Action<TEntity, TValue, TInput> transformation, TInput transformationInput)
+    public TEntity Transform<TInput>([DisallowNull] Action<TEntity, TValue?, TInput?> transformation, TInput? transformationInput)
     {
+        ThrowIfParameterIsNull(transformation);
         transformation(Entity, Value, transformationInput);
         return Entity;
     }
 
-    public CascadeBufferValueValue<TEntity, TOutput> Transform<TOutput>(Func<TEntity, TValue, TOutput> transformation)
+    public CascadeBufferValueValue<TEntity, TOutput?> Transform<TOutput>([DisallowNull] Func<TEntity, TValue?, TOutput?> transformation)
     {
+        ThrowIfParameterIsNull(transformation);
         var output = transformation(Entity, Value);
-        return new CascadeBufferValueValue<TEntity, TOutput>(Entity, output);
+        return new CascadeBufferValueValue<TEntity, TOutput?>(Entity, output);
     }
 
-    public CascadeBufferValueValue<TEntity, TOutput> Transform<TInput, TOutput>(Func<TEntity, TValue, TInput, TOutput> transformation, TInput transformationInput)
+    public CascadeBufferValueValue<TEntity, TOutput?> Transform<TInput, TOutput>([DisallowNull] Func<TEntity, TValue?, TInput?, TOutput?> transformation, TInput? transformationInput)
     {
+        ThrowIfParameterIsNull(transformation);
         var output = transformation(Entity, Value, transformationInput);
-        return new CascadeBufferValueValue<TEntity, TOutput>(Entity, output);
+        return new CascadeBufferValueValue<TEntity, TOutput?>(Entity, output);
     }
 
     #endregion
