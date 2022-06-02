@@ -1,8 +1,9 @@
-﻿using Imagenic.Core.Maths.Transformations;
+﻿using Imagenic.Core.Entities.TransformableEntities;
+using Imagenic.Core.Maths.Transformations;
 
 namespace Imagenic.Core.Entities.PositionedEntities;
 
-public abstract class TranslatableEntity : Entity
+public abstract class TranslatableEntity : TransformableEntity
 {
     #region Fields and Properties
 

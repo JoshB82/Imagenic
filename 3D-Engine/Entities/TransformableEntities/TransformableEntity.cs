@@ -1,5 +1,16 @@
-﻿namespace Imagenic.Core.Entities.TransformableEntities;
+﻿using Imagenic.Core.Utilities;
+using System.Collections.Generic;
+using System;
 
-public abstract class TransformableEntity
+namespace Imagenic.Core.Entities.TransformableEntities;
+
+public abstract class TransformableEntity : Entity
 {
+    public EventList<Transition> Transitions { get; set; } = new();
+    public List<Delegate> Transformations { get; set; } = new();
+
+    
+    
+
+    
 }
