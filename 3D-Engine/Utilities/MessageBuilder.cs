@@ -139,12 +139,37 @@ public static class MessageHelper
 
 internal static class ExceptionHelper
 {
-    internal static void ThrowIfParameterIsNull<T>(T parameter, [CallerArgumentExpression("parameter")] string parameterName = null)
+    internal static void ThrowIfParameterIsNull(object? param, [CallerArgumentExpression("param")] string? paramName = null)
     {
-        if (parameter is null)
+        if (param is null)
         {
             throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(parameterName)
+                    .AddParameters(paramName)
+                    .BuildIntoException<ParameterCannotBeNullException>();
+        }
+    }
+
+    internal static void ThrowIfParameterIsNull(object? param1, object? param2,
+        [CallerArgumentExpression("param1")] string? param1Name = null,
+        [CallerArgumentExpression("param2")] string? param2Name = null)
+    {
+        if (param1 is null || param2 is null)
+        {
+            throw new MessageBuilder<ParameterCannotBeNullException>()
+                    .AddParameters(param1Name)
+                    .BuildIntoException<ParameterCannotBeNullException>();
+        }
+    }
+
+    internal static void ThrowIfParameterIsNull(object? param1, object? param2, object? param3,
+        [CallerArgumentExpression("param1")] string? param1Name = null,
+        [CallerArgumentExpression("param2")] string? param2Name = null,
+        [CallerArgumentExpression("param3")] string? param3Name = null)
+    {
+        if (param1 is null || param2 is null || param3 is null)
+        {
+            throw new MessageBuilder<ParameterCannotBeNullException>()
+                    .AddParameters(param1Name)
                     .BuildIntoException<ParameterCannotBeNullException>();
         }
     }
