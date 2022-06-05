@@ -9,26 +9,6 @@ using Imagenic.Core.Entities.TransformableEntities;
 
 namespace Imagenic.Core.Entities.CascadeBuffers;
 
-public sealed class TransformableEntityValuePair<TTransformableEntity, TValue> where TTransformableEntity : TransformableEntity
-{
-    #region Fields and Properties
-
-    public TTransformableEntity TransformableEntity { get; set; }
-    public TValue? Value { get; set; }
-
-    #endregion
-
-    #region Constructors
-
-    public TransformableEntityValuePair(TTransformableEntity transformableEntity, TValue value)
-    {
-        TransformableEntity = transformableEntity;
-        Value = value;
-    }
-
-    #endregion
-}
-
 public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TValue> : IEnumerable<TransformableEntityValuePair<TTransformableEntity, TValue?>>
     where TTransformableEntity : TransformableEntity
 {

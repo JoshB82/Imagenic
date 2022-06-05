@@ -169,6 +169,14 @@ public struct Vector4D : IEquatable<Vector4D>
 
     #endregion
 
+    public void Deconstruct(out float x, out float y, out float z, out float w)
+    {
+        x = this.x;
+        y = this.y;
+        z = this.z;
+        w = this.w;
+    }
+
     #region Vector Operations
 
     // Common

@@ -123,6 +123,13 @@ public struct Vector3D : IEquatable<Vector3D>
 
     #endregion
 
+    public void Deconstruct(out float x, out float y, out float z)
+    {
+        x = this.x;
+        y = this.y;
+        z = this.z;
+    }
+
     #region Vector Operations
 
     // Common

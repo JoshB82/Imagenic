@@ -94,6 +94,12 @@ public struct Vector2D : IEquatable<Vector2D>
 
     #endregion
 
+    public void Deconstruct(out float x, out float y)
+    {
+        x = this.x;
+        y = this.y;
+    }
+
     #region Vector Operations
 
     // Common
