@@ -9,7 +9,8 @@ using Imagenic.Core.Entities.TransformableEntities;
 
 namespace Imagenic.Core.Entities.CascadeBuffers;
 
-public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TValue> : IEnumerable<TransformableEntityValuePair<TTransformableEntity, TValue?>>
+public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TValue> :
+    IEnumerable<TransformableEntityValuePair<TTransformableEntity, TValue?>>
     where TTransformableEntity : TransformableEntity
 {
     #region Fields and Properties
