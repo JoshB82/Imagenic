@@ -80,13 +80,10 @@ public sealed class CascadeBufferEnumerableValue<TTransformableEntity, TValue> :
 
     public IEnumerator<TransformableEntityValuePair<TTransformableEntity, TValue?>> GetEnumerator()
     {
-        throw new NotImplementedException();
+        return TransformableEntities.Select(transformableEntity => new TransformableEntityValuePair<TTransformableEntity, TValue?>(transformableEntity, Value)).GetEnumerator();
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     #endregion
 }

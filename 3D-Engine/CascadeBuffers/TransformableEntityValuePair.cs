@@ -13,7 +13,7 @@ public sealed class TransformableEntityValuePair<TTransformableEntity, TValue> w
 
     #region Constructors
 
-    public TransformableEntityValuePair(TTransformableEntity transformableEntity, TValue value)
+    public TransformableEntityValuePair(TTransformableEntity transformableEntity, TValue? value)
     {
         TransformableEntity = transformableEntity;
         Value = value;

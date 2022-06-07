@@ -22,7 +22,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
 
     #region Constructors
 
-    internal CascadeBufferEnumerableEnumerable(IEnumerable<TTransformableEntity> transformableEntities, IEnumerable<TValue> values)
+    internal CascadeBufferEnumerableEnumerable(IEnumerable<TTransformableEntity> transformableEntities, IEnumerable<TValue?> values)
     {
         TransformableEntities = transformableEntities;
         Values = values;
@@ -41,6 +41,20 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
             //entity.Transitions.Add(new Transition<TTransformableEntity, TValue>()
             transformation(entity, value);
             return entity;
+        });
+    }
+
+    public IEnumerable<TTransformableEntity> Transform([DisallowNull] Action<TTransformableEntity, TValue?> transformation,
+                                                       [DisallowNull] Func<TTransformableEntity, TValue?, bool> predicate)
+    {
+        ThrowIfParameterIsNull(transformation, predicate);
+        return TransformableEntities.Zip(Values, (transformableEntity, value) =>
+        {
+            if (predicate(transformableEntity, value))
+            {
+                transformation(transformableEntity, value);
+            }
+            return transformableEntity;
         });
     }
 
