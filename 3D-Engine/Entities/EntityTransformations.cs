@@ -1,4 +1,5 @@
-﻿using Imagenic.Core.Entities.CascadeBuffers;
+﻿using Imagenic.Core.CascadeBuffers;
+using Imagenic.Core.Entities.CascadeBuffers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

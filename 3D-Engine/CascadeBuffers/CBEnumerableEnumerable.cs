@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Imagenic.Core.Entities;
+using Imagenic.Core.Entities.CascadeBuffers;
 using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Entities.TransformableEntities;
 
-namespace Imagenic.Core.Entities.CascadeBuffers;
+namespace Imagenic.Core.CascadeBuffers;
 
 public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TValue> :
     IEnumerable<TransformableEntityValuePair<TTransformableEntity, TValue?>>
@@ -69,6 +71,19 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
         });
     }
 
+    public IEnumerable<TTransformableEntity> Transform<TInput>([DisallowNull] Action<TTransformableEntity, TValue?, TInput?> transformation, TInput? transformationInput, [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
+    {
+        ThrowIfParameterIsNull(transformation, predicate);
+        return TransformableEntities.Zip(Values, (transformableEntity, value) =>
+        {
+            if (predicate(transformableEntity, value, transformationInput))
+            {
+                transformation(transformableEntity, value, transformationInput);
+            }
+            return transformableEntity;
+        });
+    }
+
     [return: NotNull]
     public IEnumerable<TTransformableEntity> Transform<TInput>(
         [DisallowNull] Action<TTransformableEntity, TValue?, TInput?> transformation, [DisallowNull] IEnumerable<TInput?> transformationInputs)
@@ -81,6 +96,21 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
         });
     }
 
+    public IEnumerable<TTransformableEntity> Transform<TInput>([DisallowNull] Action<TTransformableEntity, TValue?, TInput?> transformation,
+                                                               [DisallowNull] IEnumerable<TInput?> transformationInputs,
+                                                               [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
+    {
+        ThrowIfParameterIsNull(transformation, transformationInputs, predicate);
+        return TransformableEntities.Zip(Values, transformationInputs).Select(tuple =>
+        {
+            if (predicate(tuple.First, tuple.Second, tuple.Third))
+            {
+                transformation(tuple.First, tuple.Second, tuple.Third);
+            }
+            return tuple.First;
+        });
+    }
+
     public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TOutput>([DisallowNull] Func<TTransformableEntity, TValue?, TOutput?> transformation)
     {
         ThrowIfParameterIsNull(transformation);
@@ -88,6 +118,20 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
         {
             var output = transformation(entity, value);
             return output;
+        });
+        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+    }
+
+    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TOutput>(
+        [DisallowNull] Func<TTransformableEntity, TValue?, TOutput?> transformation,
+        [DisallowNull] Func<TTransformableEntity, TValue?, bool> predicate)
+    {
+        ThrowIfParameterIsNull(transformation, predicate);
+        var outputs = TransformableEntities.Zip(Values, (transformableEntity, value) =>
+        {
+            return predicate(transformableEntity, value)
+            ? transformation(transformableEntity, value)
+            : default;
         });
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
     }
@@ -105,13 +149,44 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
     }
 
     public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
-        [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation, IEnumerable<TInput?> transformationInputs)
+        [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation,
+        TInput? transformationInput,
+        [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
+    {
+        ThrowIfParameterIsNull(transformation, predicate);
+        var outputs = TransformableEntities.Zip(Values, (transformableEntity, value) =>
+        {
+            return predicate(transformableEntity, value, transformationInput)
+            ? transformation(transformableEntity, value, transformationInput)
+            : default;
+        });
+        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+    }
+
+    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
+        [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation,
+        [DisallowNull] IEnumerable<TInput?> transformationInputs)
     {
         ThrowIfParameterIsNull(transformation, transformationInputs);
         var outputs = TransformableEntities.Zip(Values, transformationInputs).Select(tuple =>
         {
             var output = transformation(tuple.First, tuple.Second, tuple.Third);
             return output;
+        });
+        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+    }
+
+    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
+        [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation,
+        [DisallowNull] IEnumerable<TInput?> transformationInputs,
+        [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
+    {
+        ThrowIfParameterIsNull(transformation, transformationInputs, predicate);
+        var outputs = TransformableEntities.Zip(Values, transformationInputs).Select(tuple =>
+        {
+            return predicate(tuple.First, tuple.Second, tuple.Third)
+            ? transformation(tuple.First, tuple.Second, tuple.Third)
+            : default;
         });
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
     }

@@ -6,6 +6,7 @@
  * File desc.: Defines a class that provides extension methods for transforming translatable entities.
  */
 
+using Imagenic.Core.CascadeBuffers;
 using Imagenic.Core.Entities.CascadeBuffers;
 using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Utilities.Node;
