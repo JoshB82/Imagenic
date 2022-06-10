@@ -1,7 +1,8 @@
-﻿using Imagenic.Core.Entities;
-using Imagenic.Core.Entities.CascadeBuffers;
+﻿using Imagenic.Core.CascadeBuffers;
+using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
+using Imagenic.Core.Entities.TransformableEntities;
 using Imagenic.Core.Entities.TranslatableEntities;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Maths.Vectors;
@@ -71,5 +72,11 @@ internal class Program
         cubes.Transform((e, i) => { e.Opacity = i; }, float.Parse(Console.ReadLine() ?? string.Empty))
              .Transform((e, i) => e.DrawOutline = i, bool.Parse(Console.ReadLine() ?? string.Empty))
              .Transform((e, i) => { e.DrawEdges = i; });
+
+        cubes.Transform(x => x.Opacity = 0.5f, x => x.Opacity > 0.5)
+             .Transform((e, v) => e.SideLength = v)
+             .Transform((e, v) => { e.DrawEdges = true; return v; })
+             .Sum(e => e.Value)
+             .TranslateX(10);
     }
 }

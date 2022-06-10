@@ -174,6 +174,20 @@ internal static class ExceptionHelper
         }
     }
 
+    internal static void ThrowIfParameterIsNull(object? param1, object? param2, object? param3, object? param4,
+        [CallerArgumentExpression("param1")] string? param1Name = null,
+        [CallerArgumentExpression("param2")] string? param2Name = null,
+        [CallerArgumentExpression("param3")] string? param3Name = null,
+        [CallerArgumentExpression("param4")] string? param4Name = null)
+    {
+        if (param1 is null || param2 is null || param3 is null || param4 is null)
+        {
+            throw new MessageBuilder<ParameterCannotBeNullException>()
+                    .AddParameters(param1Name)
+                    .BuildIntoException<ParameterCannotBeNullException>();
+        }
+    }
+
     internal static void ThrowIfFileNotFound(string filePath)
     {
         if (!File.Exists(filePath))

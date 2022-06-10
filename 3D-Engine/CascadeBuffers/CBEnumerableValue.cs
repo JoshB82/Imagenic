@@ -5,8 +5,9 @@ using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Entities.TransformableEntities;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using Imagenic.Core.Entities.CascadeBuffers;
 
-namespace Imagenic.Core.Entities.CascadeBuffers;
+namespace Imagenic.Core.CascadeBuffers;
 
 public sealed class CascadeBufferEnumerableValue<TTransformableEntity, TValue> :
     IEnumerable<TransformableEntityValuePair<TTransformableEntity, TValue?>>

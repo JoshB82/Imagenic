@@ -7,7 +7,6 @@
  */
 
 using Imagenic.Core.CascadeBuffers;
-using Imagenic.Core.Entities.CascadeBuffers;
 using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Utilities.Node;
 using System;

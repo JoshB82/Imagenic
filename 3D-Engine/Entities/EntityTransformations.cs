@@ -1,5 +1,4 @@
 ﻿using Imagenic.Core.CascadeBuffers;
-using Imagenic.Core.Entities.CascadeBuffers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,7 @@ namespace Imagenic.Core.Entities;
 
 public static class EntityTransformations
 {
+    /*
     #region Entity
 
     public static TEntity Transform<TEntity>(this TEntity entity, Action<TEntity> transformation) where TEntity : Entity
@@ -98,6 +98,8 @@ public static class EntityTransformations
 
     #endregion
 
+    */
+    
     #region Object enumerable
 
     #endregion
@@ -118,10 +120,11 @@ public static class EntityTransformations
 
 
 
-
+    /*
     public static TEntity Transform<TEntity, TInput>(this TEntity entity, Action<TEntity, TInput> transformation, TInput startValue, TInput endValue, float timeStart, float timeEnd) where TEntity : Entity
     {
         entity.Transitions.Add(new Transition<TInput>(startValue, endValue, timeStart, timeEnd) { Transformation = transformation });
         return entity;
     }
+    */
 }

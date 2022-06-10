@@ -1,9 +1,10 @@
-﻿using Imagenic.Core.Entities.PositionedEntities;
+﻿using Imagenic.Core.Entities;
+using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Imagenic.Core.Entities.CascadeBuffers;
+namespace Imagenic.Core.CascadeBuffers;
 
 public sealed class CascadeBufferValueValue<TEntity, TValue>
 {
@@ -158,7 +159,7 @@ public static class CascadeBufferValueValueExtensions
             physicalEntity.Scaling = new Vector3D(physicalEntity.Scaling.x * value * scaleFactor, physicalEntity.Scaling.y, physicalEntity.Scaling.z);
             return value * scaleFactor;
         });
-    } 
+    }
 
     #endregion
 
