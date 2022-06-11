@@ -1,5 +1,5 @@
 ﻿using _3D_Engine.Constants;
-using Imagenic.Core.Entities.PositionedEntities;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Renderers.Animations;
 using Imagenic.Core.Utilities;

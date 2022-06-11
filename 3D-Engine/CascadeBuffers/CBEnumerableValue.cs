@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
-using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Entities.TransformableEntities;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using Imagenic.Core.Entities.CascadeBuffers;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 
 namespace Imagenic.Core.CascadeBuffers;
 

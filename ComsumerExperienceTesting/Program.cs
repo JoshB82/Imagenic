@@ -3,7 +3,7 @@ using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
 using Imagenic.Core.Entities.TransformableEntities;
-using Imagenic.Core.Entities.TranslatableEntities;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Maths.Vectors;
 

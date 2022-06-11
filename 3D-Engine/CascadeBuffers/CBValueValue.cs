@@ -1,6 +1,6 @@
 ﻿using Imagenic.Core.Entities;
-using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using System;
 using System.Diagnostics.CodeAnalysis;
 

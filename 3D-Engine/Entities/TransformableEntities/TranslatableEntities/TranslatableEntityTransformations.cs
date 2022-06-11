@@ -7,15 +7,13 @@
  */
 
 using Imagenic.Core.CascadeBuffers;
-using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using ET = Imagenic.Core.Entities.EntityTransformations;
 
-namespace Imagenic.Core.Entities.TranslatableEntities;
+namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 
 /// <summary>
 /// Provides extension methods for transforming translatable entities.
@@ -35,14 +33,21 @@ public static class TranslatableEntityTransformations
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfParameterIsNull(translatableEntity);
-        return ET.Transform(translatableEntity, e => { e.WorldOrigin += new Vector3D(distance, 0, 0); });
+        return translatableEntity.Transform(e => { e.WorldOrigin += new Vector3D(distance, 0, 0); });
     }
 
-    public static CascadeBufferValueValue<TTranslatableEntity, float> TranslateXCascade<TTranslatableEntity>(
+    /// <summary>
+    /// Translates a <typeparamref name="TTranslatableEntity"/> in the X direction by the specified value.
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntity"></param>
+    /// <param name="distance"></param>
+    /// <returns>The new position of the <typeparamref name="TTranslatableEntity"/> for cascading.</returns>
+    public static CascadeBufferValueValue<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfParameterIsNull(translatableEntity);
-        return ET.Transform(translatableEntity, e => { e.WorldOrigin += new Vector3D(distance, 0, 0); return distance; });
+        return translatableEntity.Transform(e => e.WorldOrigin += new Vector3D(distance, 0, 0));
     }
 
     public static IEnumerable<TTranslatableEntity> TranslateX<TTranslatableEntity>(
@@ -56,23 +61,37 @@ public static class TranslatableEntityTransformations
         });
     }
 
-    public static CascadeBufferEnumerable1<TTranslatableEntity, float> TranslateXCascade<TTranslatableEntity>(
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntities"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
+    public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
         [DisallowNull] this IEnumerable<TTranslatableEntity> translatableEntities, float distance) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfParameterIsNull(translatableEntities);
         var displacement = new Vector3D(distance, 0, 0);
-        ET.Transform(translatableEntities, e => { e.WorldOrigin += displacement; });
-        return new CascadeBufferEnumerable1<TTranslatableEntity, float>(translatableEntities, distance);
+        return translatableEntities.Transform(e => e.WorldOrigin += displacement);
     }
 
-    public static CascadeBufferEnumerableEnumerable<TTranslateEntity, float> TranslateXCascade<TTranslateEntity>(
-        [DisallowNull] this IEnumerable<TTranslateEntity> translatableEntities, IEnumerable<float> distances) where TTranslateEntity : TranslatableEntity
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntities"></param>
+    /// <param name="distances"></param>
+    /// <returns></returns>
+    public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
+        [DisallowNull] this IEnumerable<TTranslatableEntity> translatableEntities,
+        [DisallowNull] IEnumerable<float> distances) where TTranslatableEntity : TranslatableEntity
     {
-        var displacement = new Vector3D(distance, 0, 0);
-
+        ThrowIfParameterIsNull(translatableEntities, distances);
+        return translatableEntities.Transform((e, i) => e.WorldOrigin += new Vector3D(i, 0, 0), distances);
     }
 
-    
+
 
     public static IEnumerable<T> TranslateX<T>(this IEnumerable<T> translatableEntities, float distance, Func<T, bool> predicate) where T : TranslatableEntity
     {

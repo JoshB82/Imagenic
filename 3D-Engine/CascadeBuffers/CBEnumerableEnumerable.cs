@@ -5,9 +5,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.CascadeBuffers;
-using Imagenic.Core.Entities.PositionedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Entities.TransformableEntities;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 
 namespace Imagenic.Core.CascadeBuffers;
 

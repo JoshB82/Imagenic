@@ -1,7 +1,6 @@
-﻿using Imagenic.Core.Entities.TransformableEntities;
-using Imagenic.Core.Maths.Transformations;
+﻿using Imagenic.Core.Maths.Transformations;
 
-namespace Imagenic.Core.Entities.PositionedEntities;
+namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 
 public abstract class TranslatableEntity : TransformableEntity
 {

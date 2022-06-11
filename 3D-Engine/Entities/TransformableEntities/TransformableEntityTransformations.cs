@@ -8,6 +8,13 @@ namespace Imagenic.Core.Entities.TransformableEntities;
 
 public static class TransformableEntityTransformations
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transformation"></param>
+    /// <returns></returns>
     public static TTransformableEntity Transform<TTransformableEntity>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
@@ -17,6 +24,15 @@ public static class TransformableEntityTransformations
         return transformableEntity;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transformation"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
     public static TTransformableEntity Transform<TTransformableEntity, TInput>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
@@ -27,6 +43,14 @@ public static class TransformableEntityTransformations
         return transformableEntity;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transformation"></param>
+    /// <returns></returns>
     public static CascadeBufferValueValue<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation) where TTransformableEntity : TransformableEntity
@@ -36,6 +60,16 @@ public static class TransformableEntityTransformations
         return new CascadeBufferValueValue<TTransformableEntity, TOutput?>(transformableEntity, output);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transformation"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
     public static CascadeBufferValueValue<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
@@ -46,6 +80,13 @@ public static class TransformableEntityTransformations
         return new CascadeBufferValueValue<TTransformableEntity, TOutput?>(transformableEntity, output);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <returns></returns>
     public static IEnumerable<TTransformableEntity> Transform<TTransformableEntity>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
@@ -58,6 +99,14 @@ public static class TransformableEntityTransformations
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public static IEnumerable<TTransformableEntity> Transform<TTransformableEntity>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Action<TTransformableEntity> transformation,
@@ -74,6 +123,15 @@ public static class TransformableEntityTransformations
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="transformationInput"></param>
+    /// <returns></returns>
     public static IEnumerable<TTransformableEntity> Transform<TTransformableEntity, TInput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
@@ -87,6 +145,16 @@ public static class TransformableEntityTransformations
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="transformationInput"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public static IEnumerable<TTransformableEntity> Transform<TTransformableEntity, TInput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
@@ -104,6 +172,15 @@ public static class TransformableEntityTransformations
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="transformationInputs"></param>
+    /// <returns></returns>
     public static IEnumerable<TTransformableEntity> Transform<TTransformableEntity, TInput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
@@ -117,6 +194,16 @@ public static class TransformableEntityTransformations
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="transformationInputs"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public static IEnumerable<TTransformableEntity> Transform<TTransformableEntity, TInput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
@@ -134,6 +221,14 @@ public static class TransformableEntityTransformations
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <returns></returns>
     public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation) where TTransformableEntity : TransformableEntity
@@ -143,6 +238,15 @@ public static class TransformableEntityTransformations
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation,
@@ -158,6 +262,16 @@ public static class TransformableEntityTransformations
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="transformationInput"></param>
+    /// <returns></returns>
     public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
@@ -168,6 +282,17 @@ public static class TransformableEntityTransformations
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="transformationInput"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
@@ -184,6 +309,16 @@ public static class TransformableEntityTransformations
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="transformationInputs"></param>
+    /// <returns></returns>
     public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
@@ -197,6 +332,17 @@ public static class TransformableEntityTransformations
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntities"></param>
+    /// <param name="transformation"></param>
+    /// <param name="transformationInputs"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,

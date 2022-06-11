@@ -1,6 +1,6 @@
-﻿using Imagenic.Core.Entities.PositionedEntities;
-using Imagenic.Core.Entities.SceneObjects.Meshes;
+﻿using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using System;
 
 namespace Imagenic.Core.Properties;
