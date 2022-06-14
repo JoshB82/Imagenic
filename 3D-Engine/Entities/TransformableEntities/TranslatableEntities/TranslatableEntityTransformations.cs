@@ -150,10 +150,25 @@ public static class TranslatableEntityTransformations
     /// <param name="translatableEntity">The <typeparamref name="TTranslatableEntity"/> being translated.</param>
     /// <param name="distance">The amount by which to move the <typeparamref name="TTranslatableEntity"/>.</param>
     /// <returns>The translated <typeparamref name="TTranslatableEntity"/>.</returns>
-    public static TTranslatableEntity TranslateY<TTranslatableEntity>(this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
+    public static TTranslatableEntity TranslateY<TTranslatableEntity>(
+        [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        translatableEntity.WorldOrigin += new Vector3D(0, distance, 0);
-        return translatableEntity;
+        ThrowIfParameterIsNull(translatableEntity);
+        return translatableEntity.Transform(e => { e.WorldOrigin += new Vector3D(0, distance, 0); });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntity"></param>
+    /// <param name="distance"></param>
+    /// <returns>The position in world space of the <typeparamref name="TTranslatableEntity"/> post translation.</returns>
+    public static CascadeBufferValueValue<TTranslatableEntity, Vector3D> TranslateYC<TTranslatableEntity>(
+        [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
+    {
+        ThrowIfParameterIsNull(translatableEntity);
+        return translatableEntity.Transform(e => e.WorldOrigin += new Vector3D(0, distance, 0));
     }
 
     public static IEnumerable<TTranslatableEntity> TranslateY<TTranslatableEntity>(this IEnumerable<TTranslatableEntity> translatableEntities, float distance) where TTranslatableEntity : TranslatableEntity
@@ -223,10 +238,25 @@ public static class TranslatableEntityTransformations
     /// <param name="translatableEntity">The <typeparamref name="TTranslatableEntity"/> being translated.</param>
     /// <param name="distance">The amount by which to move the <typeparamref name="TTranslatableEntity"/>.</param>
     /// <returns>The translated <typeparamref name="TTranslatableEntity"/>.</returns>
-    public static TTranslatableEntity TranslateZ<TTranslatableEntity>(this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
+    public static TTranslatableEntity TranslateZ<TTranslatableEntity>(
+        [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        translatableEntity.WorldOrigin += new Vector3D(0, 0, distance);
-        return translatableEntity;
+        ThrowIfParameterIsNull(translatableEntity);
+        return translatableEntity.Transform(e => { e.WorldOrigin += new Vector3D(0, 0, distance); });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntity"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
+    public static CascadeBufferValueValue<TTranslatableEntity, Vector3D> TranslateZC<TTranslatableEntity>(
+        [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
+    {
+        ThrowIfParameterIsNull(translatableEntity);
+        return translatableEntity.Transform(e => e.WorldOrigin += new Vector3D(0, 0, distance));
     }
 
     public static IEnumerable<TTranslatableEntity> TranslateZ<TTranslatableEntity>(this IEnumerable<TTranslatableEntity> translatableEntities, float distance) where TTranslatableEntity : TranslatableEntity
@@ -296,10 +326,25 @@ public static class TranslatableEntityTransformations
     /// <param name="translatableEntity">The <typeparamref name="TTranslatableEntity"/> being translated.</param>
     /// <param name="displacement">A <see cref="Vector3D"/> representing the amounts by which to move the <typeparamref name="TTranslatableEntity"/>.</param>
     /// <returns>The translated <typeparamref name="TTranslatableEntity"/>.</returns>
-    public static TTranslatableEntity Translate<TTranslatableEntity>(this TTranslatableEntity translatableEntity, Vector3D displacement) where TTranslatableEntity : TranslatableEntity
+    public static TTranslatableEntity Translate<TTranslatableEntity>(
+        [DisallowNull] this TTranslatableEntity translatableEntity, Vector3D displacement) where TTranslatableEntity : TranslatableEntity
     {
-        translatableEntity.WorldOrigin += displacement;
-        return translatableEntity;
+        ThrowIfParameterIsNull(translatableEntity);
+        return translatableEntity.Transform(e => { e.WorldOrigin += displacement; });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntity"></param>
+    /// <param name="displacement"></param>
+    /// <returns></returns>
+    public static CascadeBufferValueValue<TTranslatableEntity, Vector3D> TranslateC<TTranslatableEntity>(
+        [DisallowNull] TTranslatableEntity translatableEntity, Vector3D displacement) where TTranslatableEntity : TranslatableEntity
+    {
+        ThrowIfParameterIsNull(translatableEntity);
+        return translatableEntity.Transform(e => e.WorldOrigin += displacement);
     }
 
     public static IEnumerable<TTranslatableEntity> Translate<TTranslatableEntity>(this IEnumerable<TTranslatableEntity> translatableEntities, Vector3D displacement) where TTranslatableEntity : TranslatableEntity
