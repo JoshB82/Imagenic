@@ -28,6 +28,27 @@ public static class TransformableEntityTransformations
     /// 
     /// </summary>
     /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transformation"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static TTransformableEntity Transform<TTransformableEntity>(
+        [DisallowNull] this TTransformableEntity transformableEntity,
+        [DisallowNull] Action<TTransformableEntity> transformation,
+        [DisallowNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntity, transformation, predicate);
+        if (predicate(transformableEntity))
+        {
+            transformation(transformableEntity);
+        }
+        return transformableEntity;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
     /// <typeparam name="TInput"></typeparam>
     /// <param name="transformableEntity"></param>
     /// <param name="transformation"></param>
@@ -36,10 +57,34 @@ public static class TransformableEntityTransformations
     public static TTransformableEntity Transform<TTransformableEntity, TInput>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
-        TInput? input)
+        TInput? input) where TTransformableEntity : TransformableEntity
     {
         ThrowIfParameterIsNull(transformableEntity, transformation);
         transformation(transformableEntity, input);
+        return transformableEntity;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transformation"></param>
+    /// <param name="input"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static TTransformableEntity Transform<TTransformableEntity, TInput>(
+        [DisallowNull] this TTransformableEntity transformableEntity,
+        [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
+        TInput? input,
+        [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntity, transformation, predicate);
+        if (predicate(transformableEntity, input))
+        {
+            transformation(transformableEntity, input);
+        }
         return transformableEntity;
     }
 
@@ -64,6 +109,27 @@ public static class TransformableEntityTransformations
     /// 
     /// </summary>
     /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transformation"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static CascadeBufferValueValue<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
+        [DisallowNull] this TTransformableEntity transformableEntity,
+        [DisallowNull] Func<TTransformableEntity, TOutput?> transformation,
+        [DisallowNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntity, transformation, predicate);
+        var output = predicate(transformableEntity)
+            ? transformation(transformableEntity)
+            : default;
+        return new CascadeBufferValueValue<TTransformableEntity, TOutput?>(transformableEntity, output);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
     /// <typeparam name="TInput"></typeparam>
     /// <typeparam name="TOutput"></typeparam>
     /// <param name="transformableEntity"></param>
@@ -77,6 +143,30 @@ public static class TransformableEntityTransformations
     {
         ThrowIfParameterIsNull(transformation);
         var output = transformation(transformableEntity, input);
+        return new CascadeBufferValueValue<TTransformableEntity, TOutput?>(transformableEntity, output);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <typeparam name="TInput"></typeparam>
+    /// <typeparam name="TOutput"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transformation"></param>
+    /// <param name="input"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static CascadeBufferValueValue<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
+        [DisallowNull] this TTransformableEntity transformableEntity,
+        [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
+        TInput? input,
+        [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntity, transformation, predicate);
+        var output = predicate(transformableEntity, input)
+            ? transformation(transformableEntity, input)
+            : default;
         return new CascadeBufferValueValue<TTransformableEntity, TOutput?>(transformableEntity, output);
     }
 

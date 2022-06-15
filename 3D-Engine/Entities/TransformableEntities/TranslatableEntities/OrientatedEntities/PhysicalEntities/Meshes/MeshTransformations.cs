@@ -10,9 +10,9 @@
  * Defines methods for scaling Meshes and other functionality.
  */
 
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 using System;
 using System.Drawing;
 

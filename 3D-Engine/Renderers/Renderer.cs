@@ -30,7 +30,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Imagenic.Core.Utilities.Node;
 using Imagenic.Core.Entities.PositionedEntities;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 
 namespace Imagenic.Core.Renderers;
 

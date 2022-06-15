@@ -11,6 +11,7 @@
  */
 
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 
 namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 

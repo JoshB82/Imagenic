@@ -1,6 +1,6 @@
 ﻿using Imagenic.Core.Maths.Transformations;
 
-namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
+namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 
 public abstract class PhysicalEntity : OrientatedEntity
 {

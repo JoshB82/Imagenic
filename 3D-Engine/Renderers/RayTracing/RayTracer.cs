@@ -1,6 +1,6 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Renderers;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Images;
 using Imagenic.Core.Images.ImageOptions;
 using Imagenic.Core.Renderers.Animations;

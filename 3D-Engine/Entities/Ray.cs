@@ -1,7 +1,7 @@
-﻿using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
-using Imagenic.Core.Entities.SceneObjects.Meshes;
+﻿using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Utilities.Node;
 using Microsoft.VisualBasic;
