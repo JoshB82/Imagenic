@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.CascadeBuffers;
+using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -6,8 +7,13 @@ using System.Linq;
 
 namespace Imagenic.Core.Entities.TransformableEntities;
 
+/// <summary>
+/// Provides extension methods for transforming transformable entities.
+/// </summary>
 public static class TransformableEntityTransformations
 {
+    #region TTransformableEntity
+
     /// <summary>
     /// 
     /// </summary>
@@ -169,6 +175,10 @@ public static class TransformableEntityTransformations
             : default;
         return new CascadeBufferValueValue<TTransformableEntity, TOutput?>(transformableEntity, output);
     }
+
+    #endregion
+
+    #region IEnumerable<TTransformableEntity>
 
     /// <summary>
     /// 
@@ -448,4 +458,146 @@ public static class TransformableEntityTransformations
         });
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
+
+    #endregion
+
+    #region Node<TTransformableEntity>
+
+    public static Node<TTransformableEntity> Transform<TTransformableEntity>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Action<TransformableEntity> transformation) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
+        {
+            transformation(node.Content);
+        }
+        return transformableEntityNode;
+    }
+
+    public static Node<TTransformableEntity> Transform<TTransformableEntity>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Action<TransformableEntity> transformation,
+        [DisallowNull] Func<TransformableEntity, bool> transformationPredicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation, transformationPredicate);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
+        {
+            if (transformationPredicate(node.Content))
+            {
+                transformation(node.Content);
+            }
+        }
+        return transformableEntityNode;
+    }
+
+    public static Node<TTransformableEntity> Transform<TTransformableEntity>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Action<TransformableEntity> transformation,
+        [DisallowNull] Func<Node<TransformableEntity>, bool> nodeSelectionPredicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation, nodeSelectionPredicate);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>(nodeSelectionPredicate))
+        {
+            transformation(node.Content);
+        }
+        return transformableEntityNode;
+    }
+
+    public static Node<TTransformableEntity> Transform<TTransformableEntity>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Action<TransformableEntity> transformation,
+        [DisallowNull] Func<TransformableEntity, bool> transformationPredicate,
+        [DisallowNull] Func<Node<TransformableEntity>, bool> nodeSelectionPredicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation, transformationPredicate, nodeSelectionPredicate);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>(nodeSelectionPredicate))
+        {
+            if (transformationPredicate(node.Content))
+            {
+                transformation(node.Content);
+            }
+        }
+        return transformableEntityNode;
+    }
+
+    public static Node<TTransformableEntity> Transform<TTransformableEntity, TInput>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Action<TransformableEntity, TInput?> transformation,
+        TInput? input) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
+        {
+            transformation(node.Content, input);
+        }
+        return transformableEntityNode;
+    }
+
+    public static Node<TTransformableEntity> Transform<TTransformableEntity, TInput>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Action<TransformableEntity, TInput?> transformation,
+        TInput? input,
+        [DisallowNull] Func<TransformableEntity, TInput?, bool> transformationPredicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation, transformationPredicate);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
+        {
+            if (transformationPredicate(node.Content, input))
+            {
+                transformation(node.Content, input);
+            }
+        }
+        return transformableEntityNode;
+    }
+
+    public static Node<TTransformableEntity> Transform<TTransformableEntity, TInput>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Action<TransformableEntity, TInput?> transformation,
+        TInput? input,
+        [DisallowNull] Func<Node<TransformableEntity>, bool> nodeSelectionPredicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation, nodeSelectionPredicate);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>(nodeSelectionPredicate))
+        {
+            transformation(node.Content, input);
+        }
+        return transformableEntityNode;
+    }
+
+    public static Node<TTransformableEntity> Transform<TTransformableEntity, TInput>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Action<TransformableEntity, TInput?> transformation,
+        TInput? input,
+        [DisallowNull] Func<TransformableEntity, TInput?, bool> transformationPredicate,
+        [DisallowNull] Func<Node<TransformableEntity>, bool> nodeSelectionPredicate) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation, transformationPredicate, nodeSelectionPredicate);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>(nodeSelectionPredicate))
+        {
+            if (transformationPredicate(node.Content, input))
+            {
+                transformation(node.Content, input);
+            }
+        }
+        return transformableEntityNode;
+    }
+
+    public static CascadeBufferNodeNode<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
+        [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
+        [DisallowNull] Func<TransformableEntity, TOutput?> transformation) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfParameterIsNull(transformableEntityNode, transformation);
+        foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
+        {
+            var output = transformation(node.Content);
+        }
+
+    }
+
+    #endregion
+
+    #region IEnumerable<Node<TTransformableEntity>>
+
+    #endregion
 }
