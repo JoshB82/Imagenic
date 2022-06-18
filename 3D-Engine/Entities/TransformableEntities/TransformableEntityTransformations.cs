@@ -15,7 +15,7 @@ public static class TransformableEntityTransformations
     #region TTransformableEntity
 
     /// <summary>
-    /// 
+    /// Applies a transformation, in this case an <see cref=""/>
     /// </summary>
     /// <typeparam name="TTransformableEntity"></typeparam>
     /// <param name="transformableEntity"></param>

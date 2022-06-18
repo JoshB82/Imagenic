@@ -3,7 +3,7 @@ using System;
 
 namespace Imagenic.Core.Entities.CascadeBuffers;
 
-public sealed class CascadeBufferNode<TEntity, TValue>
+public sealed class CascadeBufferNodeNode<TEntity, TValue>
 {
     #region Fields and Properties
 
@@ -14,7 +14,7 @@ public sealed class CascadeBufferNode<TEntity, TValue>
 
     #region Constructors
 
-    public CascadeBufferNode(Node<TEntity> entityNode, Node<TValue> valueNode)
+    public CascadeBufferNodeNode(Node<TEntity> entityNode, Node<TValue> valueNode)
     {
         EntityNode = entityNode;
         ValueNode = valueNode;
