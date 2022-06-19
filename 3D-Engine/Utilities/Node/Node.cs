@@ -14,17 +14,17 @@ public abstract class Node
     /// <summary>
     /// The content of the <see cref="Node"/>. Use this property when the type of the <see cref="Node{T}"/> is unknown.
     /// </summary>
-    public object Content
+    public object? Content
     {
         get => ((dynamic)this).Content;
         set => ((dynamic)this).Content = value;
     }
 
-    private IList<Node> children = new List<Node>();
+    private IEnumerable<Node>? children;
     /// <summary>
     /// All child <see cref="Node">Nodes</see> linked to this <see cref="Node"/>.
     /// </summary>
-    public virtual IList<Node> Children
+    public virtual IEnumerable<Node>? Children
     {
         get => children;
         set
@@ -51,8 +51,8 @@ public abstract class Node
         }
     }
 
-    private Node parent;
-    public Node Parent
+    private Node? parent;
+    public Node? Parent
     {
         get => parent;
         set
@@ -319,18 +319,24 @@ public class Node<T> : Node
     /// <summary>
     /// The content of the <see cref="Node"/>.
     /// </summary>
-    public new T Content { get; set; }
+    public new T? Content { get; set; }
 
     #endregion
 
     #region Constructors
 
-    public Node() { }
+    public Node()
+    {
+        if (typeof(T) == typeof(Node) || typeof(T).IsSubclassOf(typeof(Node)))
+        {
+            // throw exception
+        }
+    }
 
-    public Node(T content) => Content = content;
-    public Node(T content, Node parent) => (Content, Parent) = (content, parent);
-    public Node(T content, IList<Node> children) => (Content, Children) = (content, children);
-    public Node(T content, Node parent, IList<Node> children) => (Content, Parent, Children) = (content, parent, children);
+    public Node(T? content) : this() => Content = content;
+    public Node(T? content, Node parent) : this() => (Content, Parent) = (content, parent);
+    public Node(T? content, IEnumerable<Node> children) : this() => (Content, Children) = (content, children);
+    public Node(T? content, Node parent, IEnumerable<Node> children) : this() => (Content, Parent, Children) = (content, parent, children);
 
     #endregion
 

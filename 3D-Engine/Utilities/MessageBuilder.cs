@@ -285,6 +285,13 @@ internal class ParameterNotSupportedMessage : IVerbose
     public string AllVerbosityText { get; set; } = "The parameter {0} is not supported.";
 }
 
+internal class NodeContentTypeCannotBeNodeMessage : IVerbose
+{
+    public static string BriefVerbosityText { get; } = "Node content type cannot be Node.";
+    public static string DetailedVerbosityText { get; } = "Node content type cannot be Node.";
+    public static string AllVerbosityText { get; } = "Node content type cannot be Node.";
+}
+
 internal class OrientationChangedMessage : IVerbose
 {
     public string BriefVerbosityText { get; set; } = "Changed orientation.";
