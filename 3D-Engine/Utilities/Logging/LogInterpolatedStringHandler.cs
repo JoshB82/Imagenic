@@ -7,19 +7,14 @@ using System.Text;
 
 namespace Imagenic.Core.Utilities.Logging;
 
-public interface IMessage
+public interface IMessage<TMessage> where TMessage : IMessage<TMessage>
 {
-    static abstract string BriefText(List<string> l1, List<Func<string>> l2);
-    static abstract string DetailedText(List<string> l1, List<Func<string>> l2);
-    static abstract string AllText(List<string> l1, List<Func<string>> l2);
-
-    static abstract string Resolve(Verbosity verbosity,
-        List<string>? constantParameters,
-        List<Func<string>>? parametersToBeResolved,
-        MessageInterpolatedStringHandler builder);
+    static abstract string BriefText(MessageBuilder<TMessage> messageBuilder);
+    static abstract string DetailedText(MessageBuilder<TMessage> messageBuilder);
+    static abstract string AllText(MessageBuilder<TMessage> messageBuilder);
 }
 
-public sealed class MessageBuilder<T> where T : IMessage
+public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
 {
     private bool includeTime, includeProjectName;
 
@@ -32,13 +27,13 @@ public sealed class MessageBuilder<T> where T : IMessage
         this.includeProjectName = includeProjectName;
     }
 
-    public MessageBuilder<T> AddConstantParameter(string constantParameter)
+    public MessageBuilder<TMessage> AddConstantParameter(string constantParameter)
     {
         (ConstantParameters ??= new List<string>()).Add(constantParameter);
         return this;
     }
 
-    public MessageBuilder<T> AddConditionalParameter(Func<string> resolver)
+    public MessageBuilder<TMessage> AddConditionalParameter(Func<string> resolver)
     {
         (ParametersToBeResolved ??= new List<Func<string>>()).Add(resolver);
         return this;
@@ -48,12 +43,33 @@ public sealed class MessageBuilder<T> where T : IMessage
     {
         return testVerbosity switch
         {
-            Verbosity.Brief => T.BriefText(ConstantParameters, ParametersToBeResolved),
-            Verbosity.Detailed => T.DetailedText(ConstantParameters, ParametersToBeResolved),
-            Verbosity.All => T.AllText(ConstantParameters, ParametersToBeResolved),
-            _ => ""
+            Verbosity.Brief => TMessage.BriefText(this),
+            Verbosity.Detailed => TMessage.DetailedText(this),
+            Verbosity.All => TMessage.AllText(this),
+            _ => string.Empty
         };
     }
+
+    internal string Resolve([InterpolatedStringHandlerArgument("")] MessageInterpolatedStringHandler<TMessage> builder)
+    {
+        if (testVerbosity == Verbosity.None)
+        {
+            return string.Empty;
+        }
+
+        string message = builder.GetFormattedText();
+
+
+
+        if (includeTime)
+        {
+            message = $"[{GetTime()}] {message}";
+        }
+
+
+        return message;
+    }
+
 
 
 
@@ -94,78 +110,35 @@ public sealed class MessageBuilder<T> where T : IMessage
     }
 }
 
-
-
-public sealed class TestMessage : IMessage
+public sealed class TestMessage : IMessage<TestMessage>
 {
-    public static string BriefText(List<string> l1, List<Func<string>> l2) => Resolve(Verbosity.Brief, l1, l2, $"Brief text with difficult parameter {0}");
-    public static string DetailedText(List<string> l1, List<Func<string>> l2) => Resolve(Verbosity.Detailed, l1, l2, $"Detailed text with difficult parameters {0} and {1}");
-    public static string AllText(List<string> l1, List<Func<string>> l2) => Resolve(Verbosity.All, l1, l2, $"All text!!! {0}, {1}, {2}");
-
-    public static string Resolve(Verbosity verbosity,
-        List<string>? constantParameters,
-        List<Func<string>>? parametersToBeResolved,
-        [InterpolatedStringHandlerArgument("verbosity", "parametersToBeResolved")] MessageInterpolatedStringHandler builder)
-    {
-        if (verbosity == Verbosity.None)
-        {
-            return string.Empty;
-        }
-
-        string message = builder.GetFormattedText();
-
-
-
-        if (includeTime)
-        {
-            message = $"[{GetTime()}] {message}";
-        }
-
-
-        return message;
-    }
-
-
-    public static void LogBriefText()
-    {
-        new MessageBuilder<TestMessage>()
-            .Log(Verbosity.All, new List<Func<string>>(), $"This is my brief text with a difficult to calculate parameter: {0}");
-    }
+    public static string BriefText(MessageBuilder<TestMessage> mb) => mb.Resolve($"Brief text with difficult parameter {0}");
+    public static string DetailedText(MessageBuilder<TestMessage> mb) => mb.Resolve($"Detailed text with difficult parameters {0} and {1}");
+    public static string AllText(MessageBuilder<TestMessage> mb) => mb.Resolve($"All text!!! {0}, {1}, {2}");
 }
 
 [InterpolatedStringHandler]
-public ref struct MessageInterpolatedStringHandler
+public ref struct MessageInterpolatedStringHandler<TMessage> where TMessage : IMessage<TMessage>
 {
     private readonly StringBuilder builder;
-    private readonly Verbosity messageVerbosity;
-    private readonly List<Func<string>> parameterResolvers;
+    private readonly MessageBuilder<TMessage> messageBuilder;
 
-    internal MessageInterpolatedStringHandler(int literalLength, int formattedCount, Verbosity verbosity, List<Func<string>> parameters)
+    internal MessageInterpolatedStringHandler(int literalLength, int formattedCount, MessageBuilder<TMessage> messageBuilder)
     {
         builder = new StringBuilder(literalLength);
-        messageVerbosity = verbosity;
-        parameterResolvers = parameters;
+        this.messageBuilder = messageBuilder;
     }
 
     internal void AppendLiteral(string s)
     {
-        if (messageVerbosity == Verbosity.None)
-        {
-            return;
-        }
         builder.Append(s);
     }
 
     internal void AppendFormatted<T>(T t)
     {
-        if (messageVerbosity == Verbosity.None)
-        {
-            return;
-        }
-
         if (t is int paramNumber)
         {
-            builder.Append(parameterResolvers[paramNumber]());
+            builder.Append(messageBuilder.ParametersToBeResolved?[paramNumber]());
         }
         else
         {
