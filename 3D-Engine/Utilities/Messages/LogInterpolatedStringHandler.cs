@@ -5,27 +5,30 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Imagenic.Core.Utilities.Logging;
-
-public interface IMessage<TMessage> where TMessage : IMessage<TMessage>
-{
-    static abstract string BriefText(MessageBuilder<TMessage> messageBuilder);
-    static abstract string DetailedText(MessageBuilder<TMessage> messageBuilder);
-    static abstract string AllText(MessageBuilder<TMessage> messageBuilder);
-}
+namespace Imagenic.Core.Utilities.Messages;
 
 public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
 {
+    #region Fields and Properties
+
     private bool includeTime, includeProjectName;
 
     public List<string>? ConstantParameters { get; set; }
     public List<Func<string>>? ParametersToBeResolved { get; set; }
+
+    #endregion
+
+    #region Constructors
 
     public MessageBuilder(bool includeTime = true, bool includeProjectName = true)
     {
         this.includeTime = includeTime;
         this.includeProjectName = includeProjectName;
     }
+
+    #endregion
+
+    #region Methods
 
     public MessageBuilder<TMessage> AddConstantParameter(string constantParameter)
     {
@@ -41,7 +44,7 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
 
     public string Build()
     {
-        return testVerbosity switch
+        return Defaults.Default.OutputVerbosity switch
         {
             Verbosity.Brief => TMessage.BriefText(this),
             Verbosity.Detailed => TMessage.DetailedText(this),
@@ -70,7 +73,7 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
         return message;
     }
 
-
+    #endregion
 
 
 
@@ -110,12 +113,10 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
     }
 }
 
-public sealed class TestMessage : IMessage<TestMessage>
-{
-    public static string BriefText(MessageBuilder<TestMessage> mb) => mb.Resolve($"Brief text with difficult parameter {0}");
-    public static string DetailedText(MessageBuilder<TestMessage> mb) => mb.Resolve($"Detailed text with difficult parameters {0} and {1}");
-    public static string AllText(MessageBuilder<TestMessage> mb) => mb.Resolve($"All text!!! {0}, {1}, {2}");
-}
+internal enum ConstantParameter { }
+internal enum ResolvableParameter { }
+
+
 
 [InterpolatedStringHandler]
 public ref struct MessageInterpolatedStringHandler<TMessage> where TMessage : IMessage<TMessage>
