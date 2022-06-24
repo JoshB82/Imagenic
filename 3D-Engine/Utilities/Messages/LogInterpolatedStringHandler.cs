@@ -30,13 +30,32 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
 
     #region Methods
 
-    public MessageBuilder<TMessage> AddConstantParameter(string constantParameter)
+    public MessageBuilder<TMessage> AddParameter<TParam>(
+        TParam? param,
+        bool includeParamName = false,
+        [CallerArgumentExpression("param")] string? paramName = default)
+    {
+        ConstantParameters ??= new List<string>();
+        
+        if (includeParamName)
+        {
+            ConstantParameters.Add($"{paramName} : {param?.ToString()}");
+        }
+        else
+        {
+            ConstantParameters.Add(param?.ToString());
+        }
+        
+        return this;
+    }
+
+    public MessageBuilder<TMessage> AddParameter(string constantParameter)
     {
         (ConstantParameters ??= new List<string>()).Add(constantParameter);
         return this;
     }
 
-    public MessageBuilder<TMessage> AddConditionalParameter(Func<string> resolver)
+    public MessageBuilder<TMessage> AddParameter(Func<string> resolver)
     {
         (ParametersToBeResolved ??= new List<Func<string>>()).Add(resolver);
         return this;
@@ -51,6 +70,17 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
             Verbosity.All => TMessage.AllText(this),
             _ => string.Empty
         };
+    }
+
+    public U BuildIntoException<U>(Exception? innerException = null) where U : Exception
+    {
+        var args = new List<object> { Build() };
+        if (innerException is not null)
+        {
+            args.Add(innerException);
+        }
+
+        return (U)Activator.CreateInstance(typeof(U), args.ToArray())!;
     }
 
     internal string Resolve([InterpolatedStringHandlerArgument("")] MessageInterpolatedStringHandler<TMessage> builder)
@@ -137,9 +167,20 @@ public ref struct MessageInterpolatedStringHandler<TMessage> where TMessage : IM
 
     internal void AppendFormatted<T>(T t)
     {
+        builder.Append(t switch
+        {
+            int paramNum => messageBuilder.ParametersToBeResolved?[paramNum](),
+            null => "null",
+            _ => t.ToString()
+        });
+
         if (t is int paramNumber)
         {
             builder.Append(messageBuilder.ParametersToBeResolved?[paramNumber]());
+        }
+        else if (t is null)
+        {
+            builder.Append("null");
         }
         else
         {

@@ -110,16 +110,7 @@ public class MessageBuilder<T> where T : IVerbose, new()
         }
     }
 
-    public U BuildIntoException<U>(Exception innerException = null) where U : Exception
-    {
-        var args = new List<object> { Build() };
-        if (innerException is not null)
-        {
-            args.Add(innerException);
-        }
-
-        return Activator.CreateInstance(typeof(U), args.ToArray()) as U;
-    }
+    
 
     #endregion
 }
@@ -285,12 +276,7 @@ internal class ParameterNotSupportedMessage : IVerbose
     public string AllVerbosityText { get; set; } = "The parameter {0} is not supported.";
 }
 
-internal class NodeContentTypeCannotBeNodeMessage : IVerbose
-{
-    public static string BriefVerbosityText { get; } = "Node content type cannot be Node.";
-    public static string DetailedVerbosityText { get; } = "Node content type cannot be Node.";
-    public static string AllVerbosityText { get; } = "Node content type cannot be Node.";
-}
+
 
 internal class OrientationChangedMessage : IVerbose
 {
