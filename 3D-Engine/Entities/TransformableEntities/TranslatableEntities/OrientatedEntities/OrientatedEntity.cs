@@ -3,10 +3,12 @@ using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Renderers.Animations;
 using Imagenic.Core.Utilities;
+using System;
 using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities;
 
+[Serializable]
 public abstract class OrientatedEntity : TranslatableEntity
 {
     #region Fields and Properties

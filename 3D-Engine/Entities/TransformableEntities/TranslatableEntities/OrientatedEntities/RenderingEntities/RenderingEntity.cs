@@ -20,6 +20,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Enums;
 using Imagenic.Core.Renderers;
+using System;
 using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities;
@@ -28,6 +29,7 @@ namespace Imagenic.Core.Entities;
 /// An abstract base class that defines objects of type <see cref="RenderingEntity"/>. Any object which inherits from this class provides rendering functionality.
 /// </summary>
 /// <remarks>This class inherits from the <see cref="SceneEntity"/> class.</remarks>
+[Serializable]
 public abstract partial class RenderingEntity : OrientatedEntity
 {
     #region Fields and Properties

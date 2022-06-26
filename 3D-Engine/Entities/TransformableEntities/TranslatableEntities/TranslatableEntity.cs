@@ -1,7 +1,9 @@
 ﻿using Imagenic.Core.Maths.Transformations;
+using System;
 
 namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 
+[Serializable]
 public abstract class TranslatableEntity : TransformableEntity
 {
     #region Fields and Properties

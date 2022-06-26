@@ -1,7 +1,9 @@
 ﻿using Imagenic.Core.Maths.Transformations;
+using System;
 
 namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 
+[Serializable]
 public abstract class PhysicalEntity : OrientatedEntity
 {
     #region Fields and Properties

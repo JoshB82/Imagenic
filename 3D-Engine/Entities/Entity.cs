@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities;
 
+[Serializable]
 public abstract class Entity
 {
     public EventList<Transition> Transitions { get; set; }
