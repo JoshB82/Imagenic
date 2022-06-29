@@ -1,7 +1,19 @@
-﻿namespace Imagenic.Core.Utilities.Messages;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Imagenic.Core.Utilities.Messages;
 
 public sealed class ExampleMessage : IMessage<ExampleMessage>
 {
+    public static MessageInterpolatedStringHandler<ExampleMessage> BriefText => $"Brief text example; parameter: {ConstantParameters[0]}";
+    public static MessageInterpolatedStringHandler<ExampleMessage> DetailedText => $"Detailed text example; parameter: {ResolvableParameters[0]}";
+    public static MessageInterpolatedStringHandler<ExampleMessage> AllText => $"All text example; parameter: {ConstantParameters[1]}";
+
+    public static List<string>? ConstantParameters { get; set; }
+    public static List<Func<string?>>? ResolvableParameters { get; set; }
+
+    /*
+
     public static string BriefText(MessageBuilder<ExampleMessage> mb) => mb.Resolve(
         $"Brief text example, parameter: {ConstParams.CParam1}");
     public static string DetailedText(MessageBuilder<ExampleMessage> mb) => mb.Resolve(
@@ -22,4 +34,6 @@ public sealed class ExampleMessage : IMessage<ExampleMessage>
         RParam2,
         RParam3
     }
+
+    */
 }

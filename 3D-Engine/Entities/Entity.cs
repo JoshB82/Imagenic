@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.Utilities;
+using Imagenic.Core.Utilities.Messages;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +8,15 @@ namespace Imagenic.Core.Entities;
 [Serializable]
 public abstract class Entity
 {
-    public EventList<Transition> Transitions { get; set; }
+    public Entity()
+    {
+        MessageBuilder<EntityCreatedMessage>.Instance()
+            .AddParameter(nextId)
+            .Build()
+            .DisplayInConsole();
+    }
+
+    //public EventList<Transition> Transitions { get; set; }
 
     // Id
     private static int nextId;

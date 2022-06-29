@@ -21,6 +21,7 @@ using System.Text;
 
 namespace Imagenic.Core.Utilities;
 
+/*
 public class MessageBuilder<T> where T : IVerbose, new()
 {
     #region Fields and Properties
@@ -113,7 +114,7 @@ public class MessageBuilder<T> where T : IVerbose, new()
     
 
     #endregion
-}
+}*/
 
 public static class MessageHelper
 {
@@ -285,12 +286,7 @@ internal class OrientationChangedMessage : IVerbose
     public string AllVerbosityText { get; set; } = "Changed orientation to: Forward: {0}, Up: {1}, Right: {2}";
 }
 
-internal class EntityCreatedMessage : IVerbose
-{
-    public string BriefVerbosityText { get; set; } = "Created.";
-    public string DetailedVerbosityText { get; set; } = "Created at {0}.";
-    public string AllVerbosityText { get; set; } = "Entity created at {0}.";
-}
+
 
 internal class GeneratingDepthValuesMessage : IVerbose
 {

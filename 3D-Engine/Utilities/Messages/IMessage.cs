@@ -1,10 +1,14 @@
-﻿namespace Imagenic.Core.Utilities.Messages;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Imagenic.Core.Utilities.Messages;
 
 public interface IMessage<TMessage> where TMessage : IMessage<TMessage>
 {
-    static abstract string BriefText(MessageBuilder<TMessage> messageBuilder);
-    static abstract string DetailedText(MessageBuilder<TMessage> messageBuilder);
-    static abstract string AllText(MessageBuilder<TMessage> messageBuilder);
+    static abstract MessageInterpolatedStringHandler<TMessage> BriefText { get; }
+    static abstract MessageInterpolatedStringHandler<TMessage> DetailedText { get; }
+    static abstract MessageInterpolatedStringHandler<TMessage> AllText { get; }
 
-    //static MessageBuilder<TMessage> mb { get; }
+    static abstract List<string>? ConstantParameters { get; set; }
+    static abstract List<Func<string?>>? ResolvableParameters { get; set; }
 }
