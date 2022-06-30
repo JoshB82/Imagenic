@@ -1,9 +1,8 @@
 ﻿using Imagenic.Core.Enums;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Imagenic.Core.Utilities.Messages;
 
@@ -15,8 +14,7 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
 
     private bool includeTime, includeProjectName;
 
-    public List<string>? ConstantParameters { get; set; }
-    public List<Func<string>>? ParametersToBeResolved { get; set; }
+    public List<Type>? Types { get; set; }
 
     #endregion
 
@@ -40,6 +38,14 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
     #endregion
 
     #region Methods
+
+    public MessageBuilder<TMessage> AddType<TType>() => AddType(typeof(TType));
+
+    public MessageBuilder<TMessage> AddType([DisallowNull] Type type)
+    {
+        (Types ??= new List<Type>()).Add(type);
+        return this;
+    }
 
     public MessageBuilder<TMessage> WithVerbosity(Verbosity verbosity)
     {
@@ -69,7 +75,6 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
     public MessageBuilder<TMessage> AddParameter<TParam>(TParam? constantParameter)
     {
         (TMessage.ConstantParameters ??= new List<string>()).Add(constantParameter?.ToString() ?? "null");
-        //(ConstantParameters ??= new List<string>()).Add(constantParameter);
         return this;
     }
 
@@ -77,17 +82,45 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
     {
         ThrowIfParameterIsNull(resolvableParameter);
         (TMessage.ResolvableParameters ??= new List<Func<string?>>()).Add(resolvableParameter);
-        //(ParametersToBeResolved ??= new List<Func<string>>()).Add(resolvableParameter);
         return this;
     }
 
+    public MessageBuilder<TMessage> ClearParameters()
+    {
+        TMessage.ConstantParameters?.Clear();
+        TMessage.ResolvableParameters?.Clear();
+        return this;
+    }
+
+    private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
+
     public string Build()
     {
-        return Defaults.Default.OutputVerbosity switch
+        if (verbosity == Verbosity.None)
         {
-            Verbosity.Brief => TMessage.BriefText(this),
-            Verbosity.Detailed => TMessage.DetailedText(this),
-            Verbosity.All => TMessage.AllText(this),
+            return string.Empty;
+        }
+
+        string? result = null;
+
+        if (includeTime)
+        {
+            result = $"[{GetTime()}] ";
+        }
+        if (includeProjectName)
+        {
+            result += $"[{Constants.ProjectName}] ";
+        }
+        if (Types is not null)
+        {
+            result += $"[{string.Join(", ", Types)}] ";
+        }
+
+        return result + verbosity switch
+        {
+            Verbosity.Brief => TMessage.BriefText.Build(),
+            Verbosity.Detailed => TMessage.DetailedText.Build(),
+            Verbosity.All => TMessage.AllText.Build(),
             _ => string.Empty
         };
     }
@@ -103,62 +136,5 @@ public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
         return (U)Activator.CreateInstance(typeof(U), args.ToArray())!;
     }
 
-    internal string Resolve([InterpolatedStringHandlerArgument("")] MessageInterpolatedStringHandler<TMessage> builder)
-    {
-        if (testVerbosity == Verbosity.None)
-        {
-            return string.Empty;
-        }
-
-        string message = builder.GetFormattedText();
-
-
-
-        if (includeTime)
-        {
-            message = $"[{GetTime()}] {message}";
-        }
-
-
-        return message;
-    }
-
     #endregion
-
-
-
-    private string GetTime() => DateTime.Now.ToString();
-
-
-
-    
-
-
-
-    private static void Log(string s)
-    {
-        Trace.WriteLine(s);
-    }
-
-
-
-    public void Display()
-    {
-        //if (includeTime)
-        switch (testVerbosity)
-        {
-            case Verbosity.Brief:
-                Log($"{T.BriefText}");
-                break;
-        }
-
-        return testVerbosity switch
-        {
-            Verbosity.None => string.Empty,
-            Verbosity.Brief => T.BriefText,
-            Verbosity.Detailed => T.DetailedText,
-            Verbosity.All => T.AllText,
-            _ => ""
-        };
-    }
 }

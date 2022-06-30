@@ -59,7 +59,7 @@ public class MessageBuilder<T> where T : IVerbose, new()
         return sb.Append(value);
     }
 
-    private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
+    
 
     public MessageBuilder<T> AddMessageType(MessageType messageType)
     {
@@ -129,97 +129,7 @@ public static class MessageHelper
     }
 }
 
-internal static class ExceptionHelper
-{
-    internal static void ThrowIfParameterIsNull(object? param, [CallerArgumentExpression("param")] string? paramName = null)
-    {
-        if (param is null)
-        {
-            throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(paramName)
-                    .BuildIntoException<ParameterCannotBeNullException>();
-        }
-    }
 
-    internal static void ThrowIfParameterIsNull(object? param1, object? param2,
-        [CallerArgumentExpression("param1")] string? param1Name = null,
-        [CallerArgumentExpression("param2")] string? param2Name = null)
-    {
-        if (param1 is null || param2 is null)
-        {
-            throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(param1Name)
-                    .BuildIntoException<ParameterCannotBeNullException>();
-        }
-    }
-
-    internal static void ThrowIfParameterIsNull(object? param1, object? param2, object? param3,
-        [CallerArgumentExpression("param1")] string? param1Name = null,
-        [CallerArgumentExpression("param2")] string? param2Name = null,
-        [CallerArgumentExpression("param3")] string? param3Name = null)
-    {
-        if (param1 is null || param2 is null || param3 is null)
-        {
-            throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(param1Name)
-                    .BuildIntoException<ParameterCannotBeNullException>();
-        }
-    }
-
-    internal static void ThrowIfParameterIsNull(object? param1, object? param2, object? param3, object? param4,
-        [CallerArgumentExpression("param1")] string? param1Name = null,
-        [CallerArgumentExpression("param2")] string? param2Name = null,
-        [CallerArgumentExpression("param3")] string? param3Name = null,
-        [CallerArgumentExpression("param4")] string? param4Name = null)
-    {
-        if (param1 is null || param2 is null || param3 is null || param4 is null)
-        {
-            throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(param1Name)
-                    .BuildIntoException<ParameterCannotBeNullException>();
-        }
-    }
-
-    internal static void ThrowIfFileNotFound(string filePath)
-    {
-        if (!File.Exists(filePath))
-        {
-            throw new MessageBuilder<FileNotFoundMessage>()
-                .AddParameters(filePath)
-                .BuildIntoException<FileNotFoundException>();
-        }
-    }
-
-    internal static void ThrowIfValueOutsideOfInclusiveRange(float rangeLowest, float rangeHighest, float value)
-    {
-        
-        if (value < rangeLowest || value > rangeHighest)
-        {
-            new NumberOfItemsOutOfRangeMessage
-            {
-                ContainerName = "",
-                ItemsName = ""
-            };
-        }
-    }
-
-    internal static void ThrowIfOutsideExclusiveRange(this float value, float rangeLowest, float rangeHighest)
-    {
-        if (value <= rangeLowest)
-        {
-            ThrowException(RangeViolationType.TooLow);
-        }
-        if (value >= rangeHighest)
-        {
-            ThrowException(RangeViolationType.TooHigh);
-        }
-        
-        void ThrowException(RangeViolationType rangeViolationType)
-        {
-
-        }
-    }
-}
 
 internal enum RangeType
 {
@@ -263,12 +173,7 @@ internal class InvalidFileContentMessage : IVerbose
     public string AllVerbosityText { get; set; } = "The file contained the following content that could not be parsed: {0}";
 }
 
-internal class FileNotFoundMessage : IVerbose
-{
-    public string BriefVerbosityText { get; set; } = "File not found.";
-    public string DetailedVerbosityText { get; set; } = "{0} was not found.";
-    public string AllVerbosityText { get; set; } = "The file {0} was not found.";
-}
+
 
 internal class ParameterNotSupportedMessage : IVerbose
 {

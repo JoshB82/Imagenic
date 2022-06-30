@@ -35,8 +35,7 @@ public static class OrientatedEntityTransformations
     [return: NotNull]
     public static TOrientatedEntity Orientate<TOrientatedEntity>([DisallowNull] this TOrientatedEntity orientatedEntity, [DisallowNull] Orientation orientation) where TOrientatedEntity : OrientatedEntity
     {
-        ThrowIfParameterIsNull(orientatedEntity);
-        ThrowIfParameterIsNull(orientation);
+        ThrowIfNull(orientatedEntity, orientation);
 
         orientatedEntity.WorldOrientation = orientation;
         return orientatedEntity;
@@ -52,8 +51,7 @@ public static class OrientatedEntityTransformations
     [return: NotNull]
     public static IEnumerable<TOrientatedEntity> Orientate<TOrientatedEntity>([DisallowNull] this IEnumerable<TOrientatedEntity> orientatedEntities, [DisallowNull] Orientation orientation) where TOrientatedEntity : OrientatedEntity
     {
-        ThrowIfParameterIsNull(orientatedEntities);
-        ThrowIfParameterIsNull(orientation);
+        ThrowIfNull(orientatedEntities, orientation);
 
         return orientatedEntities.Select(orientatedEntity =>
         {
@@ -73,9 +71,7 @@ public static class OrientatedEntityTransformations
     [return: NotNull]
     public static IEnumerable<TOrientatedEntity> Orientate<TOrientatedEntity>([DisallowNull] this IEnumerable<TOrientatedEntity> orientatedEntities, [DisallowNull] Orientation orientation, [DisallowNull] Func<TOrientatedEntity, bool> predicate) where TOrientatedEntity : OrientatedEntity
     {
-        ThrowIfParameterIsNull(orientatedEntities);
-        ThrowIfParameterIsNull(orientation);
-        ThrowIfParameterIsNull(predicate);
+        ThrowIfNull(orientatedEntities, orientation, predicate);
 
         return orientatedEntities.Select(orientatedEntity =>
         {

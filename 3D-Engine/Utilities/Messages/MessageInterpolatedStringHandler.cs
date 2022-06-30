@@ -7,12 +7,11 @@ namespace Imagenic.Core.Utilities.Messages;
 public ref struct MessageInterpolatedStringHandler<TMessage> where TMessage : IMessage<TMessage>
 {
     private readonly StringBuilder builder;
-    private readonly MessageBuilder<TMessage> messageBuilder;
 
     internal MessageInterpolatedStringHandler(int literalLength, int formattedCount)
     {
         builder = new StringBuilder(literalLength);
-        //this.messageBuilder = messageBuilder;
+        
     }
 
     internal void AppendLiteral(string s)
@@ -43,5 +42,5 @@ public ref struct MessageInterpolatedStringHandler<TMessage> where TMessage : IM
         }
     }
 
-    internal string GetFormattedText() => builder.ToString();
+    internal string Build() => builder.ToString();
 }

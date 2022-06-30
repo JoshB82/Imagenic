@@ -32,7 +32,7 @@ public static class TranslatableEntityTransformations
     public static TTranslatableEntity TranslateX<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntity);
+        ThrowIfNull(translatableEntity);
         return translatableEntity.Transform(e => { e.WorldOrigin += new Vector3D(distance, 0, 0); });
     }
 
@@ -46,7 +46,7 @@ public static class TranslatableEntityTransformations
     public static CascadeBufferValueValue<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntity);
+        ThrowIfNull(translatableEntity);
         return translatableEntity.Transform(e => e.WorldOrigin += new Vector3D(distance, 0, 0));
     }
 
@@ -71,7 +71,7 @@ public static class TranslatableEntityTransformations
     public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
         [DisallowNull] this IEnumerable<TTranslatableEntity> translatableEntities, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntities);
+        ThrowIfNull(translatableEntities);
         var displacement = new Vector3D(distance, 0, 0);
         return translatableEntities.Transform(e => e.WorldOrigin += displacement);
     }
@@ -87,7 +87,7 @@ public static class TranslatableEntityTransformations
         [DisallowNull] this IEnumerable<TTranslatableEntity> translatableEntities,
         [DisallowNull] IEnumerable<float> distances) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntities, distances);
+        ThrowIfNull(translatableEntities, distances);
         return translatableEntities.Transform((e, i) => e.WorldOrigin += new Vector3D(i, 0, 0), distances);
     }
 
@@ -153,7 +153,7 @@ public static class TranslatableEntityTransformations
     public static TTranslatableEntity TranslateY<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntity);
+        ThrowIfNull(translatableEntity);
         return translatableEntity.Transform(e => { e.WorldOrigin += new Vector3D(0, distance, 0); });
     }
 
@@ -167,7 +167,7 @@ public static class TranslatableEntityTransformations
     public static CascadeBufferValueValue<TTranslatableEntity, Vector3D> TranslateYC<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntity);
+        ThrowIfNull(translatableEntity);
         return translatableEntity.Transform(e => e.WorldOrigin += new Vector3D(0, distance, 0));
     }
 
@@ -241,7 +241,7 @@ public static class TranslatableEntityTransformations
     public static TTranslatableEntity TranslateZ<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntity);
+        ThrowIfNull(translatableEntity);
         return translatableEntity.Transform(e => { e.WorldOrigin += new Vector3D(0, 0, distance); });
     }
 
@@ -255,7 +255,7 @@ public static class TranslatableEntityTransformations
     public static CascadeBufferValueValue<TTranslatableEntity, Vector3D> TranslateZC<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntity);
+        ThrowIfNull(translatableEntity);
         return translatableEntity.Transform(e => e.WorldOrigin += new Vector3D(0, 0, distance));
     }
 
@@ -329,7 +329,7 @@ public static class TranslatableEntityTransformations
     public static TTranslatableEntity Translate<TTranslatableEntity>(
         [DisallowNull] this TTranslatableEntity translatableEntity, Vector3D displacement) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntity);
+        ThrowIfNull(translatableEntity);
         return translatableEntity.Transform(e => { e.WorldOrigin += displacement; });
     }
 
@@ -343,7 +343,7 @@ public static class TranslatableEntityTransformations
     public static CascadeBufferValueValue<TTranslatableEntity, Vector3D> TranslateC<TTranslatableEntity>(
         [DisallowNull] TTranslatableEntity translatableEntity, Vector3D displacement) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(translatableEntity);
+        ThrowIfNull(translatableEntity);
         return translatableEntity.Transform(e => e.WorldOrigin += displacement);
     }
 

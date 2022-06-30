@@ -3,6 +3,7 @@ using Imagenic.Core.Utilities.Recursive;
 using Imagenic.Core.Utilities.Tree;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Imagenic.Core.Utilities.Node;
@@ -76,10 +77,10 @@ public abstract class Node
     /// Links a child <see cref="Node"/> to this <see cref="Node"/>.
     /// </summary>
     /// <param name="child">The child <see cref="Node"/> to be linked.</param>
-    public void Add(Node child)
+    public void Add([DisallowNull] Node child)
     {
-        ThrowIfParameterIsNull(child);
-        (children ?? new List<Node>()).Add(child);
+        ThrowIfNull(child);
+        children = (children ?? new List<Node>()).Append(child);
         child.parent = this;
     }
 
@@ -88,9 +89,10 @@ public abstract class Node
     /// </summary>
     /// <typeparam name="T">The type of the content the <see cref="Node"/> to be added contains.</typeparam>
     /// <param name="item">The content of the child <see cref="Node"/> to be linked.</param>
-    public void Add<T>(T item)
+    public void Add<T>(T? content)
     {
-        children.Add(new Node<T>(item));
+        var child = new Node<T?>(content, this);
+        children = (children ?? new List<Node>()).Append(child);
     }
 
     public void AddChildren(IEnumerable<object> children)

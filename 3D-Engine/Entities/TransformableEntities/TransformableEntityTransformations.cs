@@ -25,7 +25,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntity, transformation);
+        ThrowIfNull(transformableEntity, transformation);
         transformation(transformableEntity);
         return transformableEntity;
     }
@@ -43,7 +43,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TTransformableEntity> transformation,
         [DisallowNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntity, transformation, predicate);
+        ThrowIfNull(transformableEntity, transformation, predicate);
         if (predicate(transformableEntity))
         {
             transformation(transformableEntity);
@@ -65,7 +65,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
         TInput? input) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntity, transformation);
+        ThrowIfNull(transformableEntity, transformation);
         transformation(transformableEntity, input);
         return transformableEntity;
     }
@@ -86,7 +86,7 @@ public static class TransformableEntityTransformations
         TInput? input,
         [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntity, transformation, predicate);
+        ThrowIfNull(transformableEntity, transformation, predicate);
         if (predicate(transformableEntity, input))
         {
             transformation(transformableEntity, input);
@@ -106,7 +106,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntity, transformation);
+        ThrowIfNull(transformableEntity, transformation);
         var output = transformation(transformableEntity);
         return new CascadeBufferValueValue<TTransformableEntity, TOutput?>(transformableEntity, output);
     }
@@ -125,7 +125,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation,
         [DisallowNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntity, transformation, predicate);
+        ThrowIfNull(transformableEntity, transformation, predicate);
         var output = predicate(transformableEntity)
             ? transformation(transformableEntity)
             : default;
@@ -147,7 +147,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
         TInput? input) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         var output = transformation(transformableEntity, input);
         return new CascadeBufferValueValue<TTransformableEntity, TOutput?>(transformableEntity, output);
     }
@@ -169,7 +169,7 @@ public static class TransformableEntityTransformations
         TInput? input,
         [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntity, transformation, predicate);
+        ThrowIfNull(transformableEntity, transformation, predicate);
         var output = predicate(transformableEntity, input)
             ? transformation(transformableEntity, input)
             : default;
@@ -191,7 +191,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation);
+        ThrowIfNull(transformableEntities, transformation);
         return transformableEntities.Select(transformableEntity =>
         {
             transformation(transformableEntity);
@@ -212,7 +212,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TTransformableEntity> transformation,
         [DisallowNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation, predicate);
+        ThrowIfNull(transformableEntities, transformation, predicate);
         return transformableEntities.Select(transformableEntity =>
         {
             if (predicate(transformableEntity))
@@ -237,7 +237,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
         TInput? transformationInput) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation);
+        ThrowIfNull(transformableEntities, transformation);
         return transformableEntities.Select(transformableEntity =>
         {
             transformation(transformableEntity, transformationInput);
@@ -261,7 +261,7 @@ public static class TransformableEntityTransformations
         TInput? transformationInput,
         [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation, predicate);
+        ThrowIfNull(transformableEntities, transformation, predicate);
         return transformableEntities.Select(transformableEntity =>
         {
             if (predicate(transformableEntity, transformationInput))
@@ -286,7 +286,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
         [DisallowNull] IEnumerable<TInput?> transformationInputs) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation, transformationInputs);
+        ThrowIfNull(transformableEntities, transformation, transformationInputs);
         return transformableEntities.Zip(transformationInputs, (transformableEntity, transformationInput) =>
         {
             transformation(transformableEntity, transformationInput);
@@ -310,7 +310,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] IEnumerable<TInput?> transformationInputs,
         [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation, transformationInputs, predicate);
+        ThrowIfNull(transformableEntities, transformation, transformationInputs, predicate);
         return transformableEntities.Zip(transformationInputs, (transformableEntity, transformationInput) =>
         {
             if (predicate(transformableEntity, transformationInput))
@@ -333,7 +333,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation);
+        ThrowIfNull(transformableEntities, transformation);
         var outputs = transformableEntities.Select(transformableEntity => transformation(transformableEntity));
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
@@ -352,7 +352,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation,
         [DisallowNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation, predicate);
+        ThrowIfNull(transformableEntities, transformation, predicate);
         var outputs = transformableEntities.Select(transformableEntity =>
         {
             return predicate(transformableEntity)
@@ -377,7 +377,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
         TInput? transformationInput) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation);
+        ThrowIfNull(transformableEntities, transformation);
         var outputs = transformableEntities.Select(transformableEntity => transformation(transformableEntity, transformationInput));
         return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
@@ -399,7 +399,7 @@ public static class TransformableEntityTransformations
         TInput? transformationInput,
         [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation, predicate);
+        ThrowIfNull(transformableEntities, transformation, predicate);
         var outputs = transformableEntities.Select(transformableEntity =>
         {
             return predicate(transformableEntity, transformationInput)
@@ -424,7 +424,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
         [DisallowNull] IEnumerable<TInput?> transformationInputs) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation, transformationInputs);
+        ThrowIfNull(transformableEntities, transformation, transformationInputs);
         var outputs = transformableEntities.Zip(transformationInputs, (transformableEntity, transformationInput) =>
         {
             return transformation(transformableEntity, transformationInput);
@@ -449,7 +449,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] IEnumerable<TInput?> transformationInputs,
         [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntities, transformation, transformationInputs, predicate);
+        ThrowIfNull(transformableEntities, transformation, transformationInputs, predicate);
         var outputs = transformableEntities.Zip(transformationInputs, (transformableEntity, transformationInput) =>
         {
             return predicate(transformableEntity, transformationInput)
@@ -467,7 +467,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
         [DisallowNull] Action<TransformableEntity> transformation) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation);
+        ThrowIfNull(transformableEntityNode, transformation);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
         {
             transformation(node.Content);
@@ -480,7 +480,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TransformableEntity> transformation,
         [DisallowNull] Func<TransformableEntity, bool> transformationPredicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation, transformationPredicate);
+        ThrowIfNull(transformableEntityNode, transformation, transformationPredicate);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
         {
             if (transformationPredicate(node.Content))
@@ -496,7 +496,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TransformableEntity> transformation,
         [DisallowNull] Func<Node<TransformableEntity>, bool> nodeSelectionPredicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation, nodeSelectionPredicate);
+        ThrowIfNull(transformableEntityNode, transformation, nodeSelectionPredicate);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>(nodeSelectionPredicate))
         {
             transformation(node.Content);
@@ -510,7 +510,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Func<TransformableEntity, bool> transformationPredicate,
         [DisallowNull] Func<Node<TransformableEntity>, bool> nodeSelectionPredicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation, transformationPredicate, nodeSelectionPredicate);
+        ThrowIfNull(transformableEntityNode, transformation, transformationPredicate, nodeSelectionPredicate);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>(nodeSelectionPredicate))
         {
             if (transformationPredicate(node.Content))
@@ -526,7 +526,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TransformableEntity, TInput?> transformation,
         TInput? input) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation);
+        ThrowIfNull(transformableEntityNode, transformation);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
         {
             transformation(node.Content, input);
@@ -540,7 +540,7 @@ public static class TransformableEntityTransformations
         TInput? input,
         [DisallowNull] Func<TransformableEntity, TInput?, bool> transformationPredicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation, transformationPredicate);
+        ThrowIfNull(transformableEntityNode, transformation, transformationPredicate);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
         {
             if (transformationPredicate(node.Content, input))
@@ -557,7 +557,7 @@ public static class TransformableEntityTransformations
         TInput? input,
         [DisallowNull] Func<Node<TransformableEntity>, bool> nodeSelectionPredicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation, nodeSelectionPredicate);
+        ThrowIfNull(transformableEntityNode, transformation, nodeSelectionPredicate);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>(nodeSelectionPredicate))
         {
             transformation(node.Content, input);
@@ -572,7 +572,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] Func<TransformableEntity, TInput?, bool> transformationPredicate,
         [DisallowNull] Func<Node<TransformableEntity>, bool> nodeSelectionPredicate) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation, transformationPredicate, nodeSelectionPredicate);
+        ThrowIfNull(transformableEntityNode, transformation, transformationPredicate, nodeSelectionPredicate);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>(nodeSelectionPredicate))
         {
             if (transformationPredicate(node.Content, input))
@@ -587,7 +587,7 @@ public static class TransformableEntityTransformations
         [DisallowNull] this Node<TTransformableEntity> transformableEntityNode,
         [DisallowNull] Func<TransformableEntity, TOutput?> transformation) where TTransformableEntity : TransformableEntity
     {
-        ThrowIfParameterIsNull(transformableEntityNode, transformation);
+        ThrowIfNull(transformableEntityNode, transformation);
         foreach (Node<TransformableEntity> node in transformableEntityNode.GetDescendantsAndSelfOfType<TransformableEntity>())
         {
             var output = transformation(node.Content);
