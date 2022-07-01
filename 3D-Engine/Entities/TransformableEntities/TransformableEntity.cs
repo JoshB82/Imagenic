@@ -6,6 +6,18 @@ namespace Imagenic.Core.Entities.TransformableEntities;
 [Serializable]
 public abstract class TransformableEntity : Entity
 {
+    #region Methods
+
+    public override TransformableEntity ShallowCopy() => (TransformableEntity)MemberwiseClone();
+    public override TransformableEntity DeepCopy()
+    {
+        var transformableEntity = (TransformableEntity)base.DeepCopy();
+        return transformableEntity;
+    }
+
+    #endregion
+
+
     //public EventList<Transition> Transitions { get; set; } = new();
     internal Queue<Transition> Transformations { get; set; } = new();
 

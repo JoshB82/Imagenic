@@ -8,6 +8,19 @@ namespace Imagenic.Core.Entities;
 [Serializable]
 public abstract class Entity
 {
+    #region Methods
+
+    public virtual Entity ShallowCopy() => (Entity)MemberwiseClone();
+    public virtual Entity DeepCopy()
+    {
+        var entity = ShallowCopy();
+        entity.RenderAlteringPropertyChanged = RenderAlteringPropertyChanged;
+        return entity;
+    }
+
+    #endregion
+
+
     public Entity()
     {
         MessageBuilder<EntityCreatedMessage>.Instance()
@@ -26,8 +39,10 @@ public abstract class Entity
     public int Id { get; } = nextId++;
 
     // Rendering events
-    internal event Action RenderAlteringPropertyChanged;
-    internal event Action ShadowMapAlteringPropertyChanged;
+    internal event Action<RenderUpdateArgs> RenderAlteringPropertyChanged;
+
+    //internal event Action RenderAlteringPropertyChanged;
+    //internal event Action ShadowMapAlteringPropertyChanged;
 
     internal void InvokeRenderingEvents(bool renderEvent = true, bool shadowMapEvent = true)
     {

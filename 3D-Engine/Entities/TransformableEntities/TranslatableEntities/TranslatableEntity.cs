@@ -44,6 +44,16 @@ public abstract class TranslatableEntity : TransformableEntity
 
     #region Methods
 
+    public override TranslatableEntity ShallowCopy() => (TranslatableEntity)MemberwiseClone();
+    public override TranslatableEntity DeepCopy()
+    {
+        var translatableEntity = (TranslatableEntity)base.DeepCopy();
+        translatableEntity.translationMatrix = translationMatrix;
+        translatableEntity.ModelToWorld = ModelToWorld;
+        translatableEntity.worldOrigin = worldOrigin;
+        return translatableEntity;
+    }
+
     private void RegenerateTranslationMatrix()
     {
         translationMatrix = Transform.Translate(worldOrigin);

@@ -54,6 +54,15 @@ public abstract class OrientatedEntity : TranslatableEntity
 
     #region Methods
 
+    public override OrientatedEntity ShallowCopy() => (OrientatedEntity)MemberwiseClone();
+    public override OrientatedEntity DeepCopy()
+    {
+        var orientatedEntity = (OrientatedEntity)base.DeepCopy();
+        orientatedEntity.rotationMatrix = rotationMatrix;
+        orientatedEntity.worldOrientation = worldOrientation;
+        return orientatedEntity;
+    }
+
     private void RegenerateRotationMatrix()
     {
         Matrix4x4 directionForwardRotation = Transform.RotateBetweenVectors(Orientation.ModelDirectionForward, worldOrientation.DirectionForward);
