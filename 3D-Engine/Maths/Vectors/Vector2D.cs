@@ -15,12 +15,14 @@ using Imagenic.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.MathF;
+using System.Numerics;
 
 namespace Imagenic.Core.Maths.Vectors;
 
 /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector2D']/*"/>
-public struct Vector2D : IEquatable<Vector2D>
+public struct Vector2D : IApproximatelyEquatable<Vector2D>,
+    IAdditionOperators<Vector2D, Vector2D, Vector2D>,
+    IEqualityOperators<Vector2D, Vector2D>
 {
     #region Fields and Properties
 
@@ -94,11 +96,15 @@ public struct Vector2D : IEquatable<Vector2D>
 
     #endregion
 
+    #region Methods
+
     public void Deconstruct(out float x, out float y)
     {
         x = this.x;
         y = this.y;
     }
+
+    #endregion
 
     #region Vector Operations
 
@@ -152,6 +158,14 @@ public struct Vector2D : IEquatable<Vector2D>
     #endregion
 
     #region Operator Overloading
+
+    /*public static Vector2D operator checked +(Vector2D v1, Vector2D v2)
+    {
+        checked
+        {
+            return new(v1.x + v2.x, v1.y + v2.y);
+        }
+    }*/
 
     public static Vector2D operator +(Vector2D v1, Vector2D v2) => new(v1.x + v2.x, v1.y + v2.y);
 

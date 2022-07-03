@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Maths.Vectors;
 
-public class Vector2DApproximateEqualityComparer : IEqualityComparer<Vector2D>
+public class Vector2DApproximateEqualityComparer : IApproximateEqualityComparer<Vector2D>
 {
     #region Fields and Properties
 
@@ -36,7 +36,7 @@ public class Vector2DApproximateEqualityComparer : IEqualityComparer<Vector2D>
     #endregion
 }
 
-public class Vector3DApproximateEqualityComparer : IEqualityComparer<Vector3D>
+public class Vector3DApproximateEqualityComparer : IApproximateEqualityComparer<Vector3D>
 {
     #region Fields and Properties
 
@@ -68,7 +68,7 @@ public class Vector3DApproximateEqualityComparer : IEqualityComparer<Vector3D>
     #endregion
 }
 
-public class Vector4DApproximateEqualityComparer : IEqualityComparer<Vector4D>
+public class Vector4DApproximateEqualityComparer : IApproximateEqualityComparer<Vector4D>
 {
     #region Fields and Properties
 
