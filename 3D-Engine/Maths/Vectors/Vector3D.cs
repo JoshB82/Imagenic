@@ -20,6 +20,7 @@ using static System.MathF;
 namespace Imagenic.Core.Maths.Vectors;
 
 /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector3D']/*"/>
+[Serializable]
 public struct Vector3D : IEquatable<Vector3D>
 {
     #region Fields and Properties

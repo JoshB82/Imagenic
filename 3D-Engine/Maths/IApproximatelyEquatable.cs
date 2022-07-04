@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Imagenic.Core.Maths.Vectors;
+namespace Imagenic.Core.Maths;
 
 public interface IApproximatelyEquatable<T> : IEquatable<T>
 {
