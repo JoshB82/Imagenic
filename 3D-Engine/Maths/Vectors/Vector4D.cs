@@ -11,17 +11,16 @@
  */
 
 using _3D_Engine.Constants;
-using Imagenic.Core.Utilities;
+using Imagenic.Core.Utilities.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.MathF;
 
 namespace Imagenic.Core.Maths.Vectors;
 
 /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector4D']/*"/>
 [Serializable]
-public struct Vector4D : IEquatable<Vector4D>
+public struct Vector4D : IVector<Vector4D>, IEquatable<Vector4D>
 {
     #region Fields and Properties
 
@@ -84,6 +83,18 @@ public struct Vector4D : IEquatable<Vector4D>
     /// Fourth component of the <see cref="Vector4D"/>, equivalent to the q4 component of a <see cref="Quaternion"/>.
     /// </summary>
     public float w;
+
+    Vector4D IVector<Vector4D>.Zero => throw new NotImplementedException();
+
+    Vector4D IVector<Vector4D>.One => throw new NotImplementedException();
+
+    public static Vector4D NegativeOne => throw new NotImplementedException();
+
+    public int Radix => throw new NotImplementedException();
+
+    public static Vector4D AdditiveIdentity => throw new NotImplementedException();
+
+    public static Vector4D MultiplicativeIdentity => throw new NotImplementedException();
 
     #endregion
 
@@ -190,15 +201,15 @@ public struct Vector4D : IEquatable<Vector4D>
     }
 
     /// <summary>
-    /// Finds the magnitude of a <see cref="Vector4D"/>.
+    /// Calculates the magnitude of this <see cref="Vector4D"/>.
     /// </summary>
-    /// <returns>The magnitude of a <see cref="Vector4D"/>.</returns>
+    /// <returns>The magnitude of this <see cref="Vector4D"/>.</returns>
     public readonly float Magnitude() => Sqrt(SquaredMagnitude());
 
     /// <summary>
-    /// Finds the squared magnitude of a <see cref="Vector4D"/>.
+    /// Calculates the squared magnitude of this <see cref="Vector4D"/>.
     /// </summary>
-    /// <returns>The squared magnitude of a <see cref="Vector4D"/>.</returns>
+    /// <returns>The squared magnitude of this <see cref="Vector4D"/>.</returns>
     public readonly float SquaredMagnitude() => x * x + y * y + z * z + w * w;
 
     /// <summary>
@@ -228,6 +239,74 @@ public struct Vector4D : IEquatable<Vector4D>
     public override int GetHashCode() => (x, y, z, w).GetHashCode();
 
     public override readonly string ToString() => $"({x}, {y}, {z}, {w})";
+
+    public bool IsZero()
+    {
+        throw new NotImplementedException();
+    }
+
+    public readonly Vector4D Normalise(float epsilon = float.Epsilon)
+    {
+        if (ApproxEquals(Zero, epsilon))
+        {
+            throw MessageBuilder<VectorCannotBeNormalisedMessage>.Instance()
+                .AddParameter(this)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        return this / Magnitude();
+    }
+
+    public readonly float Angle(Vector4D v, float epsilon = float.Epsilon)
+    {
+        if (ApproxEquals(Zero))
+        {
+            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
+                .AddParameter(this)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        if (v.ApproxEquals(Zero))
+        {
+            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
+                .AddParameter(v)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        // ...
+    }
+
+    public static Vector4D op_CheckedAddition(Vector4D left, Vector4D right)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static Vector4D op_CheckedSubtraction(Vector4D left, Vector4D right)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static float op_CheckedMultiply(Vector4D left, Vector4D right)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static Vector4D op_CheckedDivision(Vector4D left, float right)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static Vector4D op_CheckedUnaryNegation(Vector4D value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string ToString(string? format, IFormatProvider? formatProvider)
+    {
+        throw new NotImplementedException();
+    }
 
     #endregion
 

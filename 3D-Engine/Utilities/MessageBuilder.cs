@@ -159,13 +159,6 @@ internal class NumberOfItemsOutOfRangeMessage : IVerbose
     public string AllVerbosityText => $"The number of {ItemsName} in {ContainerName} is {(ClosestBoundary == RangeViolationType.Maximum ? "greater" : "less")} than the {ClosestBoundary} number allowed ({BoundaryValue}).";
 }
 
-internal class VectorCannotBeNormalisedMessage : IVerbose
-{
-    public string BriefVerbosityText { get; set; } = "A vector could not be normalised.";
-    public string DetailedVerbosityText { get; set; } = "A vector could not be normalised.";
-    public string AllVerbosityText { get; set; } = "The following vector could not be normalised: {0}";
-}
-
 internal class InvalidFileContentMessage : IVerbose
 {
     public string BriefVerbosityText { get; set; } = "Invalid file.";

@@ -119,15 +119,15 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     }
 
     /// <summary>
-    /// Finds the magnitude of a <see cref="Vector2D"/>.
+    /// Calculates the magnitude of this <see cref="Vector2D"/>.
     /// </summary>
-    /// <returns>The magnitude of a <see cref="Vector2D"/>.</returns>
+    /// <returns>The magnitude of this <see cref="Vector2D"/>.</returns>
     public readonly float Magnitude() => Sqrt(SquaredMagnitude());
 
     /// <summary>
-    /// Finds the squared magnitude of a <see cref="Vector2D"/>.
+    /// Calculates the squared magnitude of this <see cref="Vector2D"/>.
     /// </summary>
-    /// <returns>The squared magnitude of a <see cref="Vector2D"/>.</returns>
+    /// <returns>The squared magnitude of this <see cref="Vector2D"/>.</returns>
     public readonly float SquaredMagnitude() => x * x + y * y;
 
     /// <summary>

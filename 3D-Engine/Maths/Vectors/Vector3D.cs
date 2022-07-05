@@ -155,15 +155,15 @@ public struct Vector3D : IEquatable<Vector3D>
     public readonly Vector3D CrossProduct(Vector3D v) => new Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 
     /// <summary>
-    /// Finds the magnitude of a <see cref="Vector3D"/>.
+    /// Calculates the magnitude of this <see cref="Vector3D"/>.
     /// </summary>
-    /// <returns>The magnitude of a <see cref="Vector3D"/>.</returns>
+    /// <returns>The magnitude of this <see cref="Vector3D"/>.</returns>
     public readonly float Magnitude() => Sqrt(SquaredMagnitude());
 
     /// <summary>
-    /// Finds the squared magnitude of a <see cref="Vector3D"/>.
+    /// Calculates the squared magnitude of this <see cref="Vector3D"/>.
     /// </summary>
-    /// <returns>The squared magnitude of a <see cref="Vector3D"/>.</returns>
+    /// <returns>The squared magnitude of this <see cref="Vector3D"/>.</returns>
     public readonly float SquaredMagnitude() => x * x + y * y + z * z;
 
     /// <summary>
