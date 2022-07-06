@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Imagenic.Core.Utilities;
 
-internal static class ListExtensions
+internal static class EnumerableExtensions
 {
-    internal static void ForEach<T>(this IList<T> list, Action<T> action)
+    internal static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
     {
-        foreach (T item in list)
+        foreach (T item in enumerable)
         {
             action(item);
         }

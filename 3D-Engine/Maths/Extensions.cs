@@ -5,6 +5,22 @@ namespace Imagenic.Core.Maths
 {
     public static class Extensions
     {
+        public static TComparable Clamp<TComparable>(this TComparable comparable, TComparable min, TComparable max) where TComparable : IComparable<TComparable>
+        {
+            if (comparable.CompareTo(min) < 0)
+            {
+                return min;
+            }
+            else if (comparable.CompareTo(max) > 0)
+            {
+                return max;
+            }
+            else
+            {
+                return comparable;
+            }
+        }
+
         // Color extensions
         public static Color Brighten(this Color colour, float fraction)
         {

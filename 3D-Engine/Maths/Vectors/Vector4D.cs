@@ -20,7 +20,7 @@ namespace Imagenic.Core.Maths.Vectors;
 
 /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector4D']/*"/>
 [Serializable]
-public struct Vector4D : IVector<Vector4D>, IEquatable<Vector4D>
+public struct Vector4D : IVector<Vector4D>
 {
     #region Fields and Properties
 
@@ -33,6 +33,10 @@ public struct Vector4D : IVector<Vector4D>, IEquatable<Vector4D>
     /// A <see cref="Vector4D"/> equal to (1, 1, 1, 1).
     /// </summary>
     public static readonly Vector4D One = new(1, 1, 1, 1);
+    /// <summary>
+    /// A <see cref="Vector4D"/> equal to (-1, -1, -1, -1).
+    /// </summary>
+    public static readonly Vector4D NegativeOne = new(-1, -1, -1, -1);
     /// <summary>
     /// A <see cref="Vector4D"/> equal to (1, 0, 0, 0).
     /// </summary>
@@ -92,9 +96,9 @@ public struct Vector4D : IVector<Vector4D>, IEquatable<Vector4D>
 
     public int Radix => throw new NotImplementedException();
 
-    public static Vector4D AdditiveIdentity => throw new NotImplementedException();
+    public static Vector4D AdditiveIdentity => Zero;
 
-    public static Vector4D MultiplicativeIdentity => throw new NotImplementedException();
+    public static Vector4D MultiplicativeIdentity => One;
 
     #endregion
 
@@ -181,23 +185,72 @@ public struct Vector4D : IVector<Vector4D>, IEquatable<Vector4D>
 
     #endregion
 
-    public void Deconstruct(out float x, out float y, out float z, out float w)
+    #region Methods
+
+    public readonly bool IsZero(float epsilon = float.Epsilon) => ApproxEquals(Zero, epsilon);
+
+    public readonly float Angle(Vector4D v, float epsilon = float.Epsilon)
     {
-        x = this.x;
-        y = this.y;
-        z = this.z;
-        w = this.w;
+        if (ApproxEquals(Zero, epsilon))
+        {
+            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
+                .AddParameter(this)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        if (v.ApproxEquals(Zero, epsilon))
+        {
+            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
+                .AddParameter(v)
+                .BuildIntoException<InvalidOperationException>();
+        }
+
+        float quotient = this * v / Sqrt(SquaredMagnitude() * v.SquaredMagnitude());
+        return Acos(quotient.Clamp(-1, 1));
     }
 
-    #region Vector Operations
-
-    // Common
-    public readonly float Angle(Vector4D v)
+    public readonly bool TryGetAngle(Vector4D v, out float angle, float epsilon = float.Epsilon)
     {
-        if (this == Zero || v == Zero) throw Exceptions.Angle;
-        float quotient = this * v / (Magnitude() * v.Magnitude());
-        if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
-        return Acos(quotient);
+        angle = 0;
+        if (ApproxEquals(Zero, epsilon) || v.ApproxEquals(Zero, epsilon))
+        {
+            return false;
+        }
+        float quotient = this * v / Sqrt(SquaredMagnitude() * v.SquaredMagnitude());
+        angle = Acos(quotient.Clamp(-1, 1));
+        return true;
+    }
+
+    /// <summary>
+    /// Normalises this <see cref="Vector4D"/>.
+    /// </summary>
+    /// <param name="epsilon"></param>
+    /// <returns>A normalised <see cref="Vector4D"/>.</returns>
+    public readonly Vector4D Normalise(float epsilon = float.Epsilon)
+    {
+        if (ApproxEquals(Zero, epsilon))
+        {
+            throw MessageBuilder<VectorCannotBeNormalisedMessage>.Instance()
+                .AddParameter(this)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        return this / Magnitude();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="v"></param>
+    /// <param name="epsilon"></param>
+    /// <returns></returns>
+    public readonly bool TryNormalise(out Vector4D v, float epsilon = float.Epsilon)
+    {
+        v = Zero;
+        if (ApproxEquals(Zero, epsilon))
+        {
+            return false;
+        }
+        v = this / Magnitude();
+        return true;
     }
 
     /// <summary>
@@ -212,14 +265,19 @@ public struct Vector4D : IVector<Vector4D>, IEquatable<Vector4D>
     /// <returns>The squared magnitude of this <see cref="Vector4D"/>.</returns>
     public readonly float SquaredMagnitude() => x * x + y * y + z * z + w * w;
 
-    /// <summary>
-    /// Normalises a <see cref="Vector4D"/>.
-    /// </summary>
-    /// <returns>A normalised <see cref="Vector4D"/>.</returns>
-    public readonly Vector4D Normalise() =>
-        ApproxEquals(Zero, 1E-6f)
-        ? throw Exceptions.Normalise
-        : this / Magnitude();
+    public void Deconstruct(out float x, out float y, out float z, out float w)
+    {
+        x = this.x;
+        y = this.y;
+        z = this.z;
+        w = this.w;
+    }
+    public override int GetHashCode() => (x, y, z, w).GetHashCode();
+    public override readonly string ToString() => $"({x}, {y}, {z}, {w})";
+
+    #endregion
+
+    #region Vector Operations    
 
     // Equality and miscellaneous
     public static bool operator ==(Vector4D v1, Vector4D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z && v1.w == v2.w;
@@ -236,42 +294,15 @@ public struct Vector4D : IVector<Vector4D>, IEquatable<Vector4D>
 
     public override readonly bool Equals(object obj) => this == (Vector4D)obj;
 
-    public override int GetHashCode() => (x, y, z, w).GetHashCode();
+    
 
-    public override readonly string ToString() => $"({x}, {y}, {z}, {w})";
+    
 
-    public bool IsZero()
-    {
-        throw new NotImplementedException();
-    }
+    
 
-    public readonly Vector4D Normalise(float epsilon = float.Epsilon)
-    {
-        if (ApproxEquals(Zero, epsilon))
-        {
-            throw MessageBuilder<VectorCannotBeNormalisedMessage>.Instance()
-                .AddParameter(this)
-                .BuildIntoException<InvalidOperationException>();
-        }
-        return this / Magnitude();
-    }
+    
 
-    public readonly float Angle(Vector4D v, float epsilon = float.Epsilon)
-    {
-        if (ApproxEquals(Zero))
-        {
-            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
-                .AddParameter(this)
-                .BuildIntoException<InvalidOperationException>();
-        }
-        if (v.ApproxEquals(Zero))
-        {
-            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
-                .AddParameter(v)
-                .BuildIntoException<InvalidOperationException>();
-        }
-        // ...
-    }
+    
 
     public static Vector4D op_CheckedAddition(Vector4D left, Vector4D right)
     {

@@ -1,6 +1,5 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
 using Imagenic.Core.Utilities.Recursive;
-using Imagenic.Core.Utilities.Tree;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -8,6 +7,10 @@ using System.Linq;
 
 namespace Imagenic.Core.Utilities.Node;
 
+/// <summary>
+/// 
+/// </summary>
+[Serializable]
 public abstract class Node
 {
     #region Fields and Properties
@@ -36,23 +39,13 @@ public abstract class Node
             }
             children?.ForEach(child => child.parent = null);
             (children = value)?.ForEach(child => child.parent = this);
-
-            //
-
-            /*
-            foreach (Node child in children)
-            {
-                child.Parent = null;
-            }
-            children = value;
-            foreach (Node child in children)
-            {
-                child.Parent = this;
-            }*/
         }
     }
 
     private Node? parent;
+    /// <summary>
+    /// The parent <see cref="Node"/> linked to this <see cref="Node"/>.
+    /// </summary>
     public Node? Parent
     {
         get => parent;
@@ -314,6 +307,11 @@ public abstract class Node
     #endregion
 }
 
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T">The type of the content of this <see cref="Node"/>.</typeparam>
+[Serializable]
 public class Node<T> : Node
 {
     #region Fields and Properties

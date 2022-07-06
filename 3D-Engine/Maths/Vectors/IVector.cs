@@ -24,10 +24,12 @@ public interface IVector<TVector> :
     public static abstract TVector NegativeOne { get; }
     public int Radix { get; }
 
-    public bool IsZero();
+    public bool IsZero(float epsilon);
 
     public float Magnitude();
     public float SquaredMagnitude();
     public TVector Normalise(float epsilon);
+    public bool TryNormalise(out TVector v, float epsilon);
     public float Angle(TVector v, float epsilon);
+    public bool TryGetAngle(TVector v, out float angle, float epsilon);
 }
