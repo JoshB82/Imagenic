@@ -275,6 +275,17 @@ public struct Vector4D : IVector<Vector4D>
     public override int GetHashCode() => (x, y, z, w).GetHashCode();
     public override readonly string ToString() => $"({x}, {y}, {z}, {w})";
 
+    // Operators
+    public static Vector4D operator checked +(Vector4D v1, Vector4D v2) => checked(new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w));
+    public static Vector4D operator +(Vector4D v1, Vector4D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
+
+    public static Vector4D operator checked +(Vector4D v1, Vector3D v2) => checked(new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w));
+    public static Vector4D operator +(Vector4D v1, Vector3D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
+
+    public static Vector4D operator checked -(Vector4D v1, Vector4D v2) => checked(new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w));
+    public static Vector4D operator -(Vector4D v1, Vector4D v2) => new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
+    // ...
+
     #endregion
 
     #region Vector Operations    
@@ -304,15 +315,9 @@ public struct Vector4D : IVector<Vector4D>
 
     
 
-    public static Vector4D op_CheckedAddition(Vector4D left, Vector4D right)
-    {
-        throw new NotImplementedException();
-    }
+    
 
-    public static Vector4D op_CheckedSubtraction(Vector4D left, Vector4D right)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public static float op_CheckedMultiply(Vector4D left, Vector4D right)
     {
@@ -343,11 +348,9 @@ public struct Vector4D : IVector<Vector4D>
 
     #region Operator Overloading
 
-    public static Vector4D operator +(Vector4D v1, Vector4D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
+    
 
-    public static Vector4D operator +(Vector4D v1, Vector3D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w);
-
-    public static Vector4D operator -(Vector4D v1, Vector4D v2) => new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w);
+    
 
     public static float operator *(Vector4D v1, Vector4D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 
