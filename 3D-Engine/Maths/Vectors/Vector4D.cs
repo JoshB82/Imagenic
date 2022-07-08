@@ -274,6 +274,11 @@ public struct Vector4D : IVector<Vector4D>
     }
     public override int GetHashCode() => (x, y, z, w).GetHashCode();
     public override readonly string ToString() => $"({x}, {y}, {z}, {w})";
+    public readonly string ToString(string? format, IFormatProvider? formatProvider) => $"({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        throw new NotImplementedException();
+    }
 
     // Operators
     public static Vector4D operator checked +(Vector4D v1, Vector4D v2) => checked(new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w));
@@ -284,84 +289,34 @@ public struct Vector4D : IVector<Vector4D>
 
     public static Vector4D operator checked -(Vector4D v1, Vector4D v2) => checked(new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w));
     public static Vector4D operator -(Vector4D v1, Vector4D v2) => new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
-    // ...
 
-    #endregion
+    public static float operator checked *(Vector4D v1, Vector4D v2) => checked(v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w);
+    public static float operator *(Vector4D v1, Vector4D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 
-    #region Vector Operations    
+    public static Vector4D operator checked *(Vector4D v, float scalar) => checked(new(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar));
+    public static Vector4D operator *(Vector4D v, float scalar) => new(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar);
 
-    // Equality and miscellaneous
+    public static Vector4D operator checked *(float scalar, Vector4D v) => checked(v * scalar);
+    public static Vector4D operator *(float scalar, Vector4D v) => v * scalar;
+
+    public static Vector4D operator checked /(Vector4D v, float scalar) => checked(new(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar));
+    public static Vector4D operator /(Vector4D v, float scalar) => new(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar);
+
+    public static Vector4D operator checked -(Vector4D v) => checked(new(-v.x, -v.y, -v.z, -v.w));
+    public static Vector4D operator -(Vector4D v) => new(-v.x, -v.y, -v.z, -v.w);
+
     public static bool operator ==(Vector4D v1, Vector4D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z && v1.w == v2.w;
-
     public static bool operator !=(Vector4D v1, Vector4D v2) => !(v1 == v2);
-
     public readonly bool Equals(Vector4D v) => this == v;
-
-    public readonly bool ApproxEquals(Vector4D v, float epsilon = float.Epsilon) =>
-        x.ApproxEquals(v.x, epsilon) &&
-        y.ApproxEquals(v.y, epsilon) &&
-        z.ApproxEquals(v.z, epsilon) &&
-        w.ApproxEquals(v.w, epsilon);
-
     public override readonly bool Equals(object obj) => this == (Vector4D)obj;
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    public static float op_CheckedMultiply(Vector4D left, Vector4D right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Vector4D op_CheckedDivision(Vector4D left, float right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Vector4D op_CheckedUnaryNegation(Vector4D value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string ToString(string? format, IFormatProvider? formatProvider)
-    {
-        throw new NotImplementedException();
-    }
+    public readonly bool ApproxEquals(Vector4D v, float epsilon = float.Epsilon) =>
+        x.ApproxEquals(v.x, epsilon) && y.ApproxEquals(v.y, epsilon) &&
+        z.ApproxEquals(v.z, epsilon) && w.ApproxEquals(v.w, epsilon);
 
     #endregion
 
     #region Operator Overloading
-
     
-
-    
-
-    public static float operator *(Vector4D v1, Vector4D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
-
-    public static Vector4D operator *(Vector4D v, float scalar) => new(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar);
-
-    public static Vector4D operator *(float scalar, Vector4D v) => v * scalar;
-
-    public static Vector4D operator /(Vector4D v, float scalar) => new(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar);
-
-    public static Vector4D operator -(Vector4D v) => new(-v.x, -v.y, -v.z, -v.w);
-
     #endregion
 
     #region Casting

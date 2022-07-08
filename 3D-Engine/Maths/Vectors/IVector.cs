@@ -16,8 +16,10 @@ public interface IVector<TVector> :
     ISpanFormattable
     where TVector : IVector<TVector>
 {
-    public static abstract TVector operator *(TVector v, float f); // Scalar multiplication
-    public static abstract TVector operator *(float f, TVector v); // Scalar multiplication
+    public static abstract TVector operator checked *(TVector v, float f); // Checked scalar multiplication
+    public static abstract TVector operator *(TVector v, float f); // Unchecked scalar multiplication
+    public static abstract TVector operator checked *(float f, TVector v); // Checked scalar multiplication
+    public static abstract TVector operator *(float f, TVector v); // Unchecked scalar multiplication
 
     public static abstract TVector Zero { get; }
     public static abstract TVector One { get; }
