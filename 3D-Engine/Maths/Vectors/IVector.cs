@@ -12,14 +12,14 @@ public interface IVector<TVector> :
     IMultiplyOperators<TVector, TVector, float>, // Dot product
     IMultiplicativeIdentity<TVector, TVector>,
     IDivisionOperators<TVector, float, TVector>, // Scalar division
-    IUnaryNegationOperators<TVector, TVector>,
+    IUnaryNegationOperators<TVector, TVector>, // Element unary negation
     ISpanFormattable
     where TVector : IVector<TVector>
 {
-    public static abstract TVector operator checked *(TVector v, float f); // Checked scalar multiplication
-    public static abstract TVector operator *(TVector v, float f); // Unchecked scalar multiplication
-    public static abstract TVector operator checked *(float f, TVector v); // Checked scalar multiplication
-    public static abstract TVector operator *(float f, TVector v); // Unchecked scalar multiplication
+    public static abstract TVector operator checked *(TVector v, float scalar); // Checked scalar multiplication
+    public static abstract TVector operator *(TVector v, float scalar); // Unchecked scalar multiplication
+    public static abstract TVector operator checked *(float scalar, TVector v); // Checked scalar multiplication
+    public static abstract TVector operator *(float scalar, TVector v); // Unchecked scalar multiplication
 
     public static abstract TVector Zero { get; }
     public static abstract TVector One { get; }

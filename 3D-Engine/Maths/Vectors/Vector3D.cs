@@ -11,17 +11,16 @@
  */
 
 using _3D_Engine.Constants;
-using Imagenic.Core.Utilities;
+using Imagenic.Core.Utilities.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.MathF;
 
 namespace Imagenic.Core.Maths.Vectors;
 
 /// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector3D']/*"/>
 [Serializable]
-public struct Vector3D : IEquatable<Vector3D>
+public struct Vector3D : IVector<Vector3D>, IEquatable<Vector3D>
 {
     #region Fields and Properties
     
@@ -34,6 +33,10 @@ public struct Vector3D : IEquatable<Vector3D>
     /// A <see cref="Vector3D"/> equal to (1, 1, 1).
     /// </summary>
     public static readonly Vector3D One = new(1, 1, 1);
+    /// <summary>
+    /// A <see cref="Vector3D"/> equal to (-1, -1, -1).
+    /// </summary>
+    public static readonly Vector3D NegativeOne = new(-1, -1, -1);
     /// <summary>
     /// A <see cref="Vector3D"/> equal to (1, 0, 0).
     /// </summary>
@@ -63,6 +66,18 @@ public struct Vector3D : IEquatable<Vector3D>
     public float x;
     public float y;
     public float z;
+
+    Vector3D IVector<Vector3D>.Zero => throw new NotImplementedException();
+
+    Vector3D IVector<Vector3D>.One => throw new NotImplementedException();
+
+    public static Vector3D NegativeOne => throw new NotImplementedException();
+
+    public int Radix => throw new NotImplementedException();
+
+    public static Vector3D AdditiveIdentity => Zero;
+
+    public static Vector3D MultiplicativeIdentity => throw new NotImplementedException();
 
     #endregion
 
@@ -124,35 +139,80 @@ public struct Vector3D : IEquatable<Vector3D>
 
     #endregion
 
-    public void Deconstruct(out float x, out float y, out float z)
-    {
-        x = this.x;
-        y = this.y;
-        z = this.z;
-    }
+    #region Methods
 
-    #region Vector Operations
+    public readonly bool IsZero(float epsilon = float.Epsilon) => ApproxEquals(Zero, epsilon);
 
-    // Common
     /// <summary>
-    /// Finds the smallest angle between two <see cref="Vector3D">Vector3Ds</see>.
+    /// Calculates the smallest angle between two <see cref="Vector3D">Vector3Ds</see>.
     /// </summary>
     /// <param name="v">A <see cref="Vector3D"/> creating an angle from the current <see cref="Vector3D"/> instance.</param>
-    /// <returns>The angle between two <see cref="Vector3D">Vector3Ds</see>.</returns>
-    public readonly float Angle(Vector3D v)
+    /// <param name="epsilon"></param>
+    /// <returns>The smallest angle between two <see cref="Vector3D">Vector3Ds</see>.</returns>
+    public readonly float Angle(Vector3D v, float epsilon = float.Epsilon)
     {
-        if (this == Zero || v == Zero) throw Exceptions.Angle;
-        float quotient = this * v / (Magnitude() * v.Magnitude());
-        if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
-        return Acos(quotient);
+        if (IsZero(epsilon))
+        {
+            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
+                .AddParameter(this)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        if (v.IsZero(epsilon))
+        {
+            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
+                .AddParameter(v)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        float quotient = this * v / Sqrt(SquaredMagnitude() * v.SquaredMagnitude());
+        return Acos(quotient.Clamp(-1, 1));
+    }
+
+    public readonly bool TryGetAngle(Vector3D v, out float angle, float epsilon = float.Epsilon)
+    {
+        angle = 0;
+        if (IsZero(epsilon) || v.IsZero(epsilon))
+        {
+            return false;
+        }
+        float quotient = this * v / Sqrt(SquaredMagnitude() * v.SquaredMagnitude());
+        angle = Acos(quotient.Clamp(-1, 1));
+        return true;
     }
 
     /// <summary>
-    /// Finds the cross product of two <see cref="Vector3D">Vector3Ds</see>.
+    /// Normalises this <see cref="Vector3D"/>.
     /// </summary>
-    /// <param name="v">A <see cref="Vector3D"/> used in calculating the cross product with the current <see cref="Vector3D"/> instance.</param>
-    /// <returns>The cross product of two <see cref="Vector3D">Vector3Ds</see>.</returns>
-    public readonly Vector3D CrossProduct(Vector3D v) => new Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
+    /// <param name="epsilon">The acceptable magnitude of error in any equality comparison.</param>
+    /// <returns>A normalised <see cref="Vector3D"/>.</returns>
+    public readonly Vector3D Normalise(float epsilon = float.Epsilon)
+    {
+        if (IsZero(epsilon))
+        {
+            throw MessageBuilder<VectorCannotBeNormalisedMessage>.Instance()
+                .AddParameter(this)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        return this / Magnitude();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="v"></param>
+    /// <param name="epsilon"></param>
+    /// <returns></returns>
+    public bool TryNormalise(out Vector3D v, float epsilon = float.Epsilon)
+    {
+        v = Zero;
+        if (IsZero(epsilon))
+        {
+            return false;
+        }
+        v = this / Magnitude();
+        return true;
+    }
+
+    public readonly float DistanceFrom(Vector3D point) => (this - point).Magnitude();
 
     /// <summary>
     /// Calculates the magnitude of this <see cref="Vector3D"/>.
@@ -166,14 +226,58 @@ public struct Vector3D : IEquatable<Vector3D>
     /// <returns>The squared magnitude of this <see cref="Vector3D"/>.</returns>
     public readonly float SquaredMagnitude() => x * x + y * y + z * z;
 
+    public void Deconstruct(out float x, out float y, out float z)
+    {
+        x = this.x;
+        y = this.y;
+        z = this.z;
+    }
+    public override readonly string ToString() => $"({x}, {y}, {z})";
+    public readonly string ToString(string? format, IFormatProvider? formatProvider) => $"({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)})";
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        throw new NotImplementedException();
+    }
+
+    // Operators
+    public static Vector3D operator checked +(Vector3D v1, Vector3D v2) => checked(new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z));
+    public static Vector3D operator +(Vector3D v1, Vector3D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+
+    public static Vector3D operator checked *(Vector3D v, float scalar) => checked(new(v.x * scalar, v.y * scalar, v.z * scalar));
+    public static Vector3D operator *(Vector3D v, float scalar) => new(v.x * scalar, v.y * scalar, v.z * scalar);
+
+    public static Vector3D operator checked *(float scalar, Vector3D v) => checked(v * scalar);
+    public static Vector3D operator *(float scalar, Vector3D v) => v * scalar;
+
+    public static Vector3D operator checked -(Vector3D v1, Vector3D v2) => checked(new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z));
+    public static Vector3D operator -(Vector3D v1, Vector3D v2) => new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+
+    public static float operator checked *(Vector3D v1, Vector3D v2) => checked(v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+    public static float operator *(Vector3D v1, Vector3D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+
+    public static Vector3D operator checked /(Vector3D v, float scalar) => checked(new(v.x / scalar, v.y / scalar, v.z / scalar));
+    public static Vector3D operator /(Vector3D v, float scalar) => new(v.x / scalar, v.y / scalar, v.z / scalar);
+
+    public static Vector3D operator checked -(Vector3D v) => checked(new(-v.x, -v.y, -v.z));
+    public static Vector3D operator -(Vector3D v) => new(-v.x, -v.y, -v.z);
+
+    #endregion
+
+    #region Vector Operations
+
+    // Common
+    
+
     /// <summary>
-    /// Normalises a <see cref="Vector3D"/>.
+    /// Finds the cross product of two <see cref="Vector3D">Vector3Ds</see>.
     /// </summary>
-    /// <returns>A normalised <see cref="Vector3D"/>.</returns>
-    public readonly Vector3D Normalise() =>
-        ApproxEquals(Zero, 1E-6f)
-        ? throw Exceptions.Normalise
-        : this / Magnitude();
+    /// <param name="v">A <see cref="Vector3D"/> used in calculating the cross product with the current <see cref="Vector3D"/> instance.</param>
+    /// <returns>The cross product of two <see cref="Vector3D">Vector3Ds</see>.</returns>
+    public readonly Vector3D CrossProduct(Vector3D v) => new Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
+
+    
+
+    
 
     // Equality and miscellaneous
     public static bool operator ==(Vector3D v1, Vector3D v2) => v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
@@ -188,7 +292,7 @@ public struct Vector3D : IEquatable<Vector3D>
 
     public override int GetHashCode() => (x, y, z).GetHashCode();
 
-    public override readonly string ToString() => $"({x}, {y}, {z})";
+    
 
     #endregion
 
@@ -217,25 +321,21 @@ public struct Vector3D : IEquatable<Vector3D>
 
     public static float PointDistanceFromPlane(Vector3D point, Vector3D planePoint, Vector3D planeNormal) => point * planeNormal - planePoint * planeNormal;
 
-    public float DistanceFrom(Vector3D point) => (this - point).Magnitude();
+    
 
-    #endregion
+    
 
-    #region Operator Overloading
+    
 
-    public static Vector3D operator +(Vector3D v1, Vector3D v2) => new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+    
 
-    public static Vector3D operator -(Vector3D v1, Vector3D v2) => new(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+    
 
-    public static float operator *(Vector3D v1, Vector3D v2) => v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+    
 
-    public static Vector3D operator *(Vector3D v, float scalar) => new(v.x * scalar, v.y * scalar, v.z * scalar);
+    
 
-    public static Vector3D operator *(float scalar, Vector3D v) => v * scalar;
-
-    public static Vector3D operator /(Vector3D v, float scalar) => new(v.x / scalar, v.y / scalar, v.z / scalar);
-
-    public static Vector3D operator -(Vector3D v) => new(-v.x, -v.y, -v.z);
+    
 
     #endregion
 
