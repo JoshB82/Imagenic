@@ -13,6 +13,7 @@ public interface IVector<TVector> :
     IMultiplicativeIdentity<TVector, TVector>,
     IDivisionOperators<TVector, float, TVector>, // Scalar division
     IUnaryNegationOperators<TVector, TVector>, // Element unary negation
+    IParsable<TVector>,
     ISpanFormattable
     where TVector : IVector<TVector>
 {

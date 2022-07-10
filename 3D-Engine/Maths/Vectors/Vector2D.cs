@@ -11,9 +11,10 @@
  */
 
 using _3D_Engine.Constants;
-using Imagenic.Core.Utilities;
+using Imagenic.Core.Utilities.Messages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 
@@ -23,7 +24,8 @@ namespace Imagenic.Core.Maths.Vectors;
 [Serializable]
 public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     IAdditionOperators<Vector2D, Vector2D, Vector2D>,
-    IEqualityOperators<Vector2D, Vector2D>
+    IEqualityOperators<Vector2D, Vector2D>,
+    IVector<Vector2D>
 {
     #region Fields and Properties
 
@@ -56,6 +58,22 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     // Vector Contents
     public float x;
     public float y;
+
+    Vector2D IVector<Vector2D>.Zero => throw new NotImplementedException();
+
+    Vector2D IVector<Vector2D>.One => throw new NotImplementedException();
+
+    public static Vector2D NegativeOne => throw new NotImplementedException();
+
+    public int Radix => throw new NotImplementedException();
+
+    public static Vector2D AdditiveIdentity => throw new NotImplementedException();
+
+    public static Vector2D MultiplicativeIdentity => throw new NotImplementedException();
+
+    Vector2D IVector<Vector2D>.Zero => throw new NotImplementedException();
+
+    Vector2D IVector<Vector2D>.One => throw new NotImplementedException();
 
     #endregion
 
@@ -99,23 +117,82 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
 
     #region Methods
 
-    public void Deconstruct(out float x, out float y)
+    public readonly bool IsZero(float epsilon = float.Epsilon) => ApproxEquals(Zero, epsilon);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="v"></param>
+    /// <param name="epsilon"></param>
+    /// <returns></returns>
+    public readonly float Angle(Vector2D v, float epsilon = float.Epsilon)
     {
-        x = this.x;
-        y = this.y;
+        if (IsZero(epsilon))
+        {
+            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
+                .AddParameter(this)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        if (v.IsZero(epsilon))
+        {
+            throw MessageBuilder<CannotCalculateAngleBetweenTwoVectorsMessage>.Instance()
+                .AddParameter(v)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        float quotient = this * v / Sqrt(SquaredMagnitude() * v.SquaredMagnitude());
+        return Acos(quotient.Clamp(-1, 1));
     }
 
-    #endregion
-
-    #region Vector Operations
-
-    // Common
-    public readonly float Angle(Vector2D v)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="v"></param>
+    /// <param name="angle"></param>
+    /// <param name="epsilon"></param>
+    /// <returns></returns>
+    public readonly bool TryGetAngle(Vector2D v, out float angle, float epsilon = float.Epsilon)
     {
-        if (this == Zero || v == Zero) throw Exceptions.Angle;
-        float quotient = this * v / (Magnitude() * v.Magnitude());
-        if (quotient < -1) quotient = -1; if (quotient > 1) quotient = 1;
-        return Acos(quotient);
+        angle = 0;
+        if (IsZero(epsilon) || v.IsZero(epsilon))
+        {
+            return false;
+        }
+        float quotient = this * v / Sqrt(SquaredMagnitude() * v.SquaredMagnitude());
+        angle = Acos(quotient.Clamp(-1, 1));
+        return true;
+    }
+
+    /// <summary>
+    /// Normalises this <see cref="Vector2D"/>.
+    /// </summary>
+    /// <param name="epsilon"></param>
+    /// <returns>A normalised <see cref="Vector2D"/>.</returns>
+    public readonly Vector2D Normalise(float epsilon = float.Epsilon)
+    {
+        if (IsZero(epsilon))
+        {
+            throw MessageBuilder<VectorCannotBeNormalisedMessage>.Instance()
+                .AddParameter(this)
+                .BuildIntoException<InvalidOperationException>();
+        }
+        return this / Magnitude();
+    }    
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="v"></param>
+    /// <param name="epsilon"></param>
+    /// <returns></returns>
+    public bool TryNormalise(out Vector2D v, float epsilon = float.Epsilon)
+    {
+        v = Zero;
+        if (IsZero(epsilon))
+        {
+            return false;
+        }
+        v = this / Magnitude();
+        return true;
     }
 
     /// <summary>
@@ -130,16 +207,50 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     /// <returns>The squared magnitude of this <see cref="Vector2D"/>.</returns>
     public readonly float SquaredMagnitude() => x * x + y * y;
 
-    /// <summary>
-    /// Normalises a <see cref="Vector2D"/>.
-    /// </summary>
-    /// <returns>A normalised <see cref="Vector2D"/>.</returns>
-    public readonly Vector2D Normalise() =>
-        ApproxEquals(Zero, 1E-6f)
-        ? throw new MessageBuilder<VectorCannotBeNormalisedMessage>()
-        .AddParameters(this.ToString())
-        .BuildIntoException<InvalidOperationException>()
-        : this / Magnitude();
+    public void Deconstruct(out float x, out float y)
+    {
+        x = this.x;
+        y = this.y;
+    }
+    public override readonly string ToString() => $"({x}, {y})";
+    public string ToString(string? format, IFormatProvider? formatProvider) => $"({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        throw new NotImplementedException();
+    }
+
+    // Operators
+    public static Vector2D operator checked *(Vector2D v, float scalar) => checked(new(v.x * scalar, v.y * scalar));
+    public static Vector2D operator *(Vector2D v, float scalar) => new(v.x * scalar, v.y * scalar);
+
+    public static Vector2D operator checked *(float scalar, Vector2D v) => checked(v * scalar);
+    public static Vector2D operator *(float scalar, Vector2D v) => v * scalar;
+
+    public static Vector2D operator checked +(Vector2D v1, Vector2D v2) => checked(new(v1.x + v2.x, v1.y + v2.y));
+    public static Vector2D operator +(Vector2D v1, Vector2D v2) => new(v1.x + v2.x, v1.y + v2.y);
+
+    public static Vector2D operator checked -(Vector2D v1, Vector2D v2) => checked(new(v1.x - v2.x, v1.y - v2.y));
+    public static Vector2D operator -(Vector2D v1, Vector2D v2) => new(v1.x - v2.x, v1.y - v2.y);
+
+    public static float operator checked *(Vector2D v1, Vector2D v2) => checked(v1.x * v2.x + v1.y * v2.y);
+    public static float operator *(Vector2D v1, Vector2D v2) => v1.x * v2.x + v1.y * v2.y;
+
+    public static Vector2D operator checked /(Vector2D v, float scalar) => checked(new(v.x / scalar, v.y / scalar));
+    public static Vector2D operator /(Vector2D v, float scalar) => new(v.x / scalar, v.y / scalar);
+
+    public static Vector2D operator checked -(Vector2D v) => checked(new(-v.x, -v.y));
+    public static Vector2D operator -(Vector2D v) => new(-v.x, -v.y);
+
+    #endregion
+
+    #region Vector Operations
+
+    // Common
+
+
+
+
+
 
     // Equality and miscellaneous
     public static bool operator ==(Vector2D v1, Vector2D v2) => v1.x == v2.x && v1.y == v2.y;
@@ -154,33 +265,47 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
 
     public override int GetHashCode() => (x, y).GetHashCode();
 
-    public override readonly string ToString() => $"({x}, {y})";
+    public static Vector2D Parse(string s, IFormatProvider? provider) => new(s.Split(',').Select(e => float.Parse(e, provider)));
+    
+        
+    
+
+    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out Vector2D result)
+    {
+        throw new NotImplementedException();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     #endregion
 
     #region Operator Overloading
 
-    /*public static Vector2D operator checked +(Vector2D v1, Vector2D v2)
-    {
-        checked
-        {
-            return new(v1.x + v2.x, v1.y + v2.y);
-        }
-    }*/
 
-    public static Vector2D operator +(Vector2D v1, Vector2D v2) => new(v1.x + v2.x, v1.y + v2.y);
 
-    public static Vector2D operator -(Vector2D v1, Vector2D v2) => new(v1.x - v2.x, v1.y - v2.y);
 
-    public static float operator *(Vector2D v1, Vector2D v2) => v1.x * v2.x + v1.y * v2.y;
 
-    public static Vector2D operator *(Vector2D v, float scalar) => new(v.x * scalar, v.y * scalar);
 
-    public static Vector2D operator *(float scalar, Vector2D v) => v * scalar;
 
-    public static Vector2D operator /(Vector2D v, float scalar) => new(v.x / scalar, v.y / scalar);
 
-    public static Vector2D operator -(Vector2D v) => new(-v.x, -v.y);
+
+
+
+
+
+
+
+
 
     #endregion
 

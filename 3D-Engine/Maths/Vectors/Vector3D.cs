@@ -14,6 +14,7 @@ using _3D_Engine.Constants;
 using Imagenic.Core.Utilities.Messages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Imagenic.Core.Maths.Vectors;
@@ -124,9 +125,36 @@ public struct Vector3D : IVector<Vector3D>, IEquatable<Vector3D>
         z = elements[2];
     }
 
-    public Vector3D(IEnumerable<float> elements)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="elements"></param>
+    public Vector3D([DisallowNull] IEnumerable<float> elements)
     {
-        ExceptionHelper.ThrowIfParameterIsNull(elements, nameof(elements));
+        ThrowIfNull(elements);
+
+        using var enumerator = elements.GetEnumerator();
+        enumerator.Reset();
+
+        if (!enumerator.MoveNext()) ThrowTooSmallError();
+        x = enumerator.Current;
+
+        if (!enumerator.MoveNext()) ThrowTooSmallError();
+        y = enumerator.Current;
+
+        if (!enumerator.MoveNext()) ThrowTooSmallError();
+        z = enumerator.Current;
+
+        void ThrowTooSmallError()
+        {
+            throw MessageBuilder<ElementInputTooSmallMessage>.Instance()
+                .AddParameter(elements)
+                .BuildIntoException<InvalidOperationException>();
+        }
+
+        //-----
+
+        /*
         var elementsArray = elements.ToArray();
         if (elementsArray.Length < 3)
         {
@@ -135,12 +163,19 @@ public struct Vector3D : IVector<Vector3D>, IEquatable<Vector3D>
         x = elementsArray[0];
         y = elementsArray[1];
         z = elementsArray[2];
+
+        */
     }
 
     #endregion
 
     #region Methods
 
+    /// <summary>
+    /// Indicates whether or not this <see cref="Vector3D"/> is equal to (0, 0, 0) (<see cref="Vector3D.Zero"/>).
+    /// </summary>
+    /// <param name="epsilon"></param>
+    /// <returns></returns>
     public readonly bool IsZero(float epsilon = float.Epsilon) => ApproxEquals(Zero, epsilon);
 
     /// <summary>
