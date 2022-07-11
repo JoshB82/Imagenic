@@ -184,7 +184,7 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     /// <param name="v"></param>
     /// <param name="epsilon"></param>
     /// <returns></returns>
-    public bool TryNormalise(out Vector2D v, float epsilon = float.Epsilon)
+    public readonly bool TryNormalise(out Vector2D v, float epsilon = float.Epsilon)
     {
         v = Zero;
         if (IsZero(epsilon))
@@ -207,12 +207,14 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     /// <returns>The squared magnitude of this <see cref="Vector2D"/>.</returns>
     public readonly float SquaredMagnitude() => x * x + y * y;
 
+    public readonly float Gradient(Vector2D other) => (other.y - y) / (other.x - x);
+
     public void Deconstruct(out float x, out float y)
     {
         x = this.x;
         y = this.y;
     }
-    public override readonly string ToString() => $"({x}, {y})";
+    public readonly override string ToString() => $"({x}, {y})";
     public string ToString(string? format, IFormatProvider? formatProvider) => $"({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
     public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
     {
@@ -274,26 +276,6 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     {
         throw new NotImplementedException();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #endregion
-
-    #region Operator Overloading
-
-
-
-
 
 
 

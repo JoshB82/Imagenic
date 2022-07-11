@@ -4,6 +4,74 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Maths.Vectors;
 
+public class ApproximateEqualityComparer<T> : EqualityComparer<T>, IApproximateEqualityComparer<T> where T : IApproximatelyEquatable<T>
+{
+    public static new ApproximateEqualityComparer<T> Default => new();
+
+    public float Epsilon { get; set; }
+
+    public override bool Equals(T? x, T? y)
+    {
+        if (x is null && y is null)
+        {
+            return true;
+        }
+        else if (x is null && y is not null)
+        {
+            return false;
+        }
+        else
+        {
+            return x!.ApproxEquals(y, Epsilon);
+        }
+    }
+
+    public bool ApproxEquals(T? x, T? y, float epsilon = float.Epsilon)
+    {
+        if (x is null && y is null)
+        {
+            return true;
+        }
+        else if (x is null && y is not null)
+        {
+            return false;
+        }
+        else
+        {
+            return x!.ApproxEquals(y, epsilon);
+        }
+    }
+
+    public int GetHashCode([DisallowNull] T obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool Equals(T? x, T? y) where T : default
+    {
+        throw new NotImplementedException();
+    }
+
+    public override int GetHashCode([DisallowNull] T obj)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public sealed class FloatApproximateEqualityComparer : IApproximateEqualityComparer<float>
+{
+    public float Epsilon { get; set; }
+
+    public bool ApproxEquals(float x, float y, float epsilon = float.Epsilon) => x.ApproxEquals(y, epsilon);
+
+    public bool Equals(float x, float y) => x.ApproxEquals(y, Epsilon);
+
+    public int GetHashCode([DisallowNull] float obj)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 public class Vector2DApproximateEqualityComparer : IApproximateEqualityComparer<Vector2D>
 {
     #region Fields and Properties

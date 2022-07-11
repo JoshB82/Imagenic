@@ -2,7 +2,8 @@
 
 namespace Imagenic.Core.Maths;
 
-public interface IApproximateEqualityComparer<T> : IEqualityComparer<T>
+public interface IApproximateEqualityComparer<in T> : IEqualityComparer<T>
 {
+    public bool ApproxEquals(T? x, T? y, float epsilon);
     public float Epsilon { get; set; }
 }

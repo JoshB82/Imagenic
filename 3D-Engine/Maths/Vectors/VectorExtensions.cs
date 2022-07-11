@@ -1,23 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Imagenic.Core.Maths.Vectors;
 
-internal static class VectorExtensions
+/// <summary>
+/// 
+/// </summary>
+public static class VectorExtensions
 {
-    private readonly static Vector3DApproximateEqualityComparer comparer = new Vector3DApproximateEqualityComparer();
+    private static readonly FloatApproximateEqualityComparer floatComparer = new();
+    private static readonly ApproximateEqualityComparer<Vector3D> _3DVectorComparer = new();
 
-    public static bool AreCollinear(this IEnumerable<Vector3D> points)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="points"></param>
+    /// <returns></returns>
+    public static bool AreCollinear([DisallowNull] this IEnumerable<Vector2D> points, float epsilon = float.Epsilon)
     {
-        return points.Zip(points.Skip(1), (a, b) => (b - a).Normalise())
-            .Distinct(comparer).Count() == 1;
+        ThrowIfNull(points);
+        floatComparer.Epsilon = epsilon;
+        return points.Zip(points.Skip(1), (a, b) => a.Gradient(b)).Distinct(floatComparer).Count() == 1;
     }
 
-    public static float CalculateGradient(Vector2D point1, Vector2D point2)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="points"></param>
+    /// <returns></returns>
+    public static bool AreCollinear([DisallowNull] this IEnumerable<Vector3D> points, float epsilon = float.Epsilon)
     {
-        return (point2.y - point1.y) / (point2.x - point1.x);
+        ThrowIfNull(points);
+        _3DVectorComparer.Epsilon = epsilon;
+        return points.Zip(points.Skip(1), (a, b) => (b - a).Normalise()).Distinct(_3DVectorComparer).Count() == 1;
     }
 }
