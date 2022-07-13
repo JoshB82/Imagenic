@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using Imagenic.Core.Entities;
+﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.CascadeBuffers;
 using Imagenic.Core.Entities.TransformableEntities;
 using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Imagenic.Core.CascadeBuffers;
 
@@ -37,7 +37,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
     [return: NotNull]
     public IEnumerable<TTransformableEntity> Transform([DisallowNull] Action<TTransformableEntity, TValue?> transformation)
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         return TransformableEntities.Zip(Values, (entity, value) =>
         {
             //entity.Transitions.Add(new Transition<TTransformableEntity, TValue>()
@@ -49,7 +49,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
     public IEnumerable<TTransformableEntity> Transform([DisallowNull] Action<TTransformableEntity, TValue?> transformation,
                                                        [DisallowNull] Func<TTransformableEntity, TValue?, bool> predicate)
     {
-        ThrowIfParameterIsNull(transformation, predicate);
+        ThrowIfNull(transformation, predicate);
         return TransformableEntities.Zip(Values, (transformableEntity, value) =>
         {
             if (predicate(transformableEntity, value))
@@ -63,7 +63,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
     [return: NotNull]
     public IEnumerable<TTransformableEntity> Transform<TInput>([DisallowNull] Action<TTransformableEntity, TValue?, TInput?> transformation, TInput? transformationInput)
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         return TransformableEntities.Zip(Values, (entity, value) =>
         {
             transformation(entity, value, transformationInput);
@@ -73,7 +73,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
 
     public IEnumerable<TTransformableEntity> Transform<TInput>([DisallowNull] Action<TTransformableEntity, TValue?, TInput?> transformation, TInput? transformationInput, [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
     {
-        ThrowIfParameterIsNull(transformation, predicate);
+        ThrowIfNull(transformation, predicate);
         return TransformableEntities.Zip(Values, (transformableEntity, value) =>
         {
             if (predicate(transformableEntity, value, transformationInput))
@@ -88,7 +88,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
     public IEnumerable<TTransformableEntity> Transform<TInput>(
         [DisallowNull] Action<TTransformableEntity, TValue?, TInput?> transformation, [DisallowNull] IEnumerable<TInput?> transformationInputs)
     {
-        ThrowIfParameterIsNull(transformation, transformationInputs);
+        ThrowIfNull(transformation, transformationInputs);
         return TransformableEntities.Zip(Values, transformationInputs).Select(tuple =>
         {
             transformation(tuple.First, tuple.Second, tuple.Third);
@@ -100,7 +100,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
                                                                [DisallowNull] IEnumerable<TInput?> transformationInputs,
                                                                [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
     {
-        ThrowIfParameterIsNull(transformation, transformationInputs, predicate);
+        ThrowIfNull(transformation, transformationInputs, predicate);
         return TransformableEntities.Zip(Values, transformationInputs).Select(tuple =>
         {
             if (predicate(tuple.First, tuple.Second, tuple.Third))
@@ -113,7 +113,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
 
     public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TOutput>([DisallowNull] Func<TTransformableEntity, TValue?, TOutput?> transformation)
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         var outputs = TransformableEntities.Zip(Values, (entity, value) =>
         {
             var output = transformation(entity, value);
@@ -126,7 +126,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
         [DisallowNull] Func<TTransformableEntity, TValue?, TOutput?> transformation,
         [DisallowNull] Func<TTransformableEntity, TValue?, bool> predicate)
     {
-        ThrowIfParameterIsNull(transformation, predicate);
+        ThrowIfNull(transformation, predicate);
         var outputs = TransformableEntities.Zip(Values, (transformableEntity, value) =>
         {
             return predicate(transformableEntity, value)
@@ -139,7 +139,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
     public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation, TInput? transformationInput)
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         var outputs = TransformableEntities.Zip(Values, (entity, value) =>
         {
             var output = transformation(entity, value, transformationInput);
@@ -153,7 +153,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
         TInput? transformationInput,
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
     {
-        ThrowIfParameterIsNull(transformation, predicate);
+        ThrowIfNull(transformation, predicate);
         var outputs = TransformableEntities.Zip(Values, (transformableEntity, value) =>
         {
             return predicate(transformableEntity, value, transformationInput)
@@ -167,7 +167,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation,
         [DisallowNull] IEnumerable<TInput?> transformationInputs)
     {
-        ThrowIfParameterIsNull(transformation, transformationInputs);
+        ThrowIfNull(transformation, transformationInputs);
         var outputs = TransformableEntities.Zip(Values, transformationInputs).Select(tuple =>
         {
             var output = transformation(tuple.First, tuple.Second, tuple.Third);
@@ -181,7 +181,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
         [DisallowNull] IEnumerable<TInput?> transformationInputs,
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
     {
-        ThrowIfParameterIsNull(transformation, transformationInputs, predicate);
+        ThrowIfNull(transformation, transformationInputs, predicate);
         var outputs = TransformableEntities.Zip(Values, transformationInputs).Select(tuple =>
         {
             return predicate(tuple.First, tuple.Second, tuple.Third)
@@ -208,14 +208,14 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     public static IEnumerable<TTranslatableEntity> TranslateX<TTranslatableEntity>(
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(value + distance, 0, 0); });
     }
 
     public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateXC<TTranslatableEntity>(
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(value + distance, 0, 0); return value + distance; });
     }
 
@@ -226,14 +226,14 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     public static IEnumerable<TTranslatableEntity> TranslateY<TTranslatableEntity>(
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(0, value + distance, 0); });
     }
 
     public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateYC<TTranslatableEntity>(
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(0, value + distance, 0); return value + distance; });
     }
 
@@ -244,14 +244,14 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     public static IEnumerable<TTranslatableEntity> TranslateZ<TTranslatableEntity>(
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(0, 0, value + distance); });
     }
 
     public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateZC<TTranslatableEntity>(
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(0, 0, value + distance); return value + distance; });
     }
 
@@ -263,7 +263,7 @@ public static class CascadeBufferEnumerableEnumerableExtensions
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> cascadeBuffer, Vector3D displacement = new())
         where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += value + displacement; });
     }
 
@@ -271,7 +271,7 @@ public static class CascadeBufferEnumerableEnumerableExtensions
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> cascadeBuffer, Vector3D displacement = new())
         where TTranslatableEntity : TranslatableEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => translatableEntity.WorldOrigin += value + displacement);
     }
 
@@ -282,7 +282,7 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     public static IEnumerable<TOrientatedEntity> Orientate<TOrientatedEntity>(
         [DisallowNull] this CascadeBufferEnumerableEnumerable<TOrientatedEntity, Orientation> cascadeBuffer) where TOrientatedEntity : OrientatedEntity
     {
-        ThrowIfParameterIsNull(cascadeBuffer);
+        ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((orientatedEntity, value) => { if (value is not null) orientatedEntity.WorldOrientation = value; });
     }
 

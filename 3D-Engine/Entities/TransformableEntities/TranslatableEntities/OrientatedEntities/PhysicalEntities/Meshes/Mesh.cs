@@ -11,8 +11,6 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
