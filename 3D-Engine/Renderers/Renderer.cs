@@ -34,6 +34,10 @@ using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.Orientat
 
 namespace Imagenic.Core.Renderers;
 
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public abstract class Renderer<T> where T : Image
 {
     #region Fields and Properties

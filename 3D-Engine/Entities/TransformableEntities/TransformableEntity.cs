@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Imagenic.Core.Entities.TransformableEntities;
 
+/// <summary>
+/// An <see cref="Entity"/> that can be transformed.
+/// </summary>
 [Serializable]
 public abstract class TransformableEntity : Entity
 {
@@ -15,6 +19,30 @@ public abstract class TransformableEntity : Entity
         return transformableEntity;
     }
 
+    public void Compress()
+    {
+        var newQueue = new Queue<Transition>();
+        Transformations.Zip(Transformations.Skip(1), (a, b) =>
+        {
+            if (a.TransformationType == b.TransformationType)
+            {
+                switch (a.TransformationType)
+                {
+                    case TransformationType.Translation:
+                        newQueue.Enqueue(new Transition(a.Transformation, a.Input) { TransformationType = TransformationType.Translation });
+                        break;
+                }
+            }
+        });
+        foreach (Transition transition in Transformations.Skip(1))
+        {
+            if (transition.Transformation == transition[])
+            {
+
+            }
+        }
+    }
+
     #endregion
 
 
@@ -25,10 +53,7 @@ public abstract class TransformableEntity : Entity
 
     #region Methods
 
-    public void Compress()
-    {
-
-    }
+    
 
     public void Resolve() => Resolve<object>(null);
 
@@ -72,6 +97,34 @@ public abstract class Transition
 {
     public Delegate Transformation => ((dynamic)this).Transformation;
     public object? Input => ((dynamic)this).Input;
+
+    public TransformationType TransformationType { get; }
+
+    public static Transition<TDelegate, TInput> Combine<TDelegate, TInput>(Transition<TDelegate, TInput> transition) where TDelegate : Delegate
+    {
+
+    }
+
+    public bool PassOn { get; }
+}
+
+public sealed class Translation : Transition
+{
+    public Vector3D Displacement { get; set; }
+
+    public Translation(Vector3D displacement)
+    {
+        Displacement = displacement;
+    }
+}
+
+public sealed class Scaling : Transition
+{
+    public Vector3D ScaleFactor { get; set; }
+    public Scaling(Vector3D scaling)
+    {
+        ScaleFactor = scaling;
+    }
 }
 
 public sealed class Transition<TDelegate, TInput> : Transition where TDelegate : Delegate
