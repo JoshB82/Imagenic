@@ -26,9 +26,32 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
     {
         ThrowIfNull(transformableEntity, transformation);
-        transformation(transformableEntity);
+        //transformation(transformableEntity);
+        if (transformableEntity.TransformationsNode is null)
+        {
+            transformableEntity.TransformationsNode = new TransformationNoInputNoOutputNode<TTransformableEntity>(transformation);
+        }
+        else
+        {
+            transformableEntity.TransformationsNode.Add(transformation);
+        }
         return transformableEntity;
     }
+
+    /*public static TTransformableEntity Transform<TTransformableEntity, TData>(
+        [DisallowNull] this TTransformableEntity transformableEntity,
+        TransformationType transformationType,
+        TData data) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfNull(transformableEntity);
+        switch (transformationType)
+        {
+            case TransformationType.Orientation when typeof(TTransformableEntity) == typeof(OrientatedEntity):
+                transformableEntity.TransformationsNode.Add(new OrientationNode<TTransformableEntity>((Orientation)data));
+                break;
+        }
+        return transformableEntity;
+    }*/
 
     /// <summary>
     /// 

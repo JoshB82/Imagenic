@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
+using Imagenic.Core.Utilities.Node;
 
 namespace Imagenic.Core.Entities.TransformableEntities;
 
@@ -10,6 +11,12 @@ namespace Imagenic.Core.Entities.TransformableEntities;
 [Serializable]
 public abstract class TransformableEntity : Entity
 {
+    #region Fields and Properties
+
+    public Node TransformationsNode { get; set; }
+
+    #endregion
+
     #region Methods
 
     public override TransformableEntity ShallowCopy() => (TransformableEntity)MemberwiseClone();
@@ -17,6 +24,14 @@ public abstract class TransformableEntity : Entity
     {
         var transformableEntity = (TransformableEntity)base.DeepCopy();
         return transformableEntity;
+    }
+
+    public void ResolveNodes()
+    {
+        foreach (Node node in TransformationsNode.GetDescendantsAndSelf())
+        {
+            if (node is Action)
+        }
     }
 
     public void Compress()
