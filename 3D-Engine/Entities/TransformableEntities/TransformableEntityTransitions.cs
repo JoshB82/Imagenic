@@ -17,30 +17,13 @@ public sealed class TransitionLock // Just use Transition?
 
 public static class TransformableEntityTransitions
 {
-    #region Fields and Properties
-
-    private static readonly List<TransitionLock> activeTransitionLocks = new();
-
-    #endregion
+    
 
     #region TTransformableEntity
 
-    private static void AddTransitionToTransformableEntity(TransformableEntity transformableEntity, TransitionLock transitionLock)
-    {
-        //transformableEntity.Transitions...
-    }
+    
 
-    public static TTransformableEntity Start<TTransformableEntity>(
-        [DisallowNull] this TTransformableEntity transformableEntity,
-        float startTime,
-        float endTime,
-        out TransitionLock transitionLock) where TTransformableEntity : TransformableEntity
-    {
-        ThrowIfNull(transformableEntity);
-        transitionLock = new(startTime, endTime);
-        activeTransitionLocks.Add(transitionLock);
-        return transformableEntity;
-    }
+    
 
     public static TTransformableEntity End<TTransformableEntity>(
         [DisallowNull] this TTransformableEntity transformableEntity,
