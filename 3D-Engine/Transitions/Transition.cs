@@ -6,11 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Transitions;
 
-public abstract class Transition : Entity
+public class Transition : Entity
 {
     #region Fields and Properties
 
-    internal TransformationNode TransformationNodes { get; }
+    internal List<TransformationNode> TransformationNodes { get; } = new();
 
     /// <summary>
     /// Indicates if the current <see cref="Transition"/> instance is occurs at a single time. If <see langword="true"/>, <see cref="TimeEnd"/> - <see cref="TimeStart"/> = 0.
@@ -55,46 +55,78 @@ public abstract class Transition : Entity
 
     #region Constructors
 
-    protected Transition(float timeStart, float timeEnd)
+    private Transition(float timeStart, float timeEnd, TransformationNode transformationNode)
     {
         IsInstantaneous = timeEnd - timeStart == 0;
-        
+
         TimeStart = timeStart;
         TimeEnd = timeEnd;
+
+        TransformationNodes = transformationNode;
+    }
+
+    #endregion
+
+    #region Methods
+
+    // Input: None
+    // Output: None
+    protected void Append<TEntity>(Action<TEntity> transformation) where TEntity : Entity
+    {
+        TransformationNodes.Add(new TransformationNode<TEntity>(transformation));
+    }
+
+    // Input: Non-output value
+    // Output: None
+    protected void Append<TEntity, TInput>(Action<TEntity, TInput> transformation, TInput input) where TEntity : Entity
+    {
+        var valueNode = new TransformationInputNode<TInput>(input);
+        var transformationNode = new TransformationNode<TEntity, TInput>(transformation) { Parent = valueNode };
+        TransformationNodes.Add(transformationNode);
+    }
+
+    // Input: Output value
+    // Output: None
+    protected void Append<TEntity, TInput, TOutput>(Action<TEntity, TInput> transformation, TransformationCNode<TEntity, TOutput> inputNode) where TEntity : Entity
+    {
+        var transformationNode = new TransformationNode<TEntity, TInput>(transformation) { Parent = inputNode };
+        TransformationNodes.Add(transformationNode);
+    }
+
+    // Input: Output value
+    // Output: None
+    protected void Append<TEntity, TInput1, TInput2, TOutput>(Action<TEntity, TInput1> transformation, TransformationCNode<TEntity, TInput2, TOutput> inputNode) where TEntity : Entity
+    {
+        var transformationNode = new TransformationNode<TEntity, TInput1>(transformation) { Parent = inputNode };
+        TransformationNodes.Add(transformationNode);
+    }
+
+    //...
+
+
+    protected void Append<TEntity, TOutput>(Func<TEntity, TOutput> transformation) where TEntity : Entity
+    {
+        var transformationNode = new TransformationCNode<TEntity, TOutput>(transformation);
+        
+    }
+
+    protected void Append<TEntity, TInput, TOutput>(Func<TEntity, TInput, TOutput> transformation) where TEntity : Entity
+    {
+        var transformationNode = new TransformationCNode<TEntity, TInput, TOutput>(transformation);
+        
     }
 
     #endregion
 }
 
-// Transformation nodes
 
-public abstract class TransformationNode
-{
 
-}
 
-public class TransformationNode<TEntity> : TransformationNode where TEntity : Entity
-{
-    public Action<TEntity> Transformation { get; }
-}
 
-public class TransformationNode<TEntity, TInput> : TransformationNode where TEntity : Entity
-{
-    public Action<TEntity, TInput> Transformation { get; }
-}
 
-public class TransformationCNode<TEntity, TOutput> : TransformationNode where TEntity : Entity
-{
-    public Func<TEntity, TOutput> Transformation { get; }
-}
 
-public class TransformationCNode<TEntity, TInput, TOutput> : TransformationNode where TEntity : Entity
-{
-    public Func<TEntity, TInput, TOutput> Transformation { get; }
-}
 
-// --
-
+/*
 public class Transition<TEntity> : Transition where TEntity : Entity
 {
     #region Fields and Properties
@@ -112,7 +144,9 @@ public class Transition<TEntity> : Transition where TEntity : Entity
 
     #endregion
 }
+*/
 
+/*
 public class Transition<TEntity, TValue> : Transition where TEntity : Entity
 {
     #region Fields and Parameters
@@ -140,6 +174,7 @@ public class Transition<TEntity, TValue> : Transition where TEntity : Entity
 
     #endregion
 }
+*/
 
 /// <summary>
 /// Provides extension methods for deriving Transitions from transformations.
@@ -162,12 +197,13 @@ public static class TransitionExtensions
     public static TTransformableEntity Start<TTransformableEntity>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         float startTime,
-        float endTime,
-        out Transition<TTransformableEntity, > transition) where TTransformableEntity : TransformableEntity
+        out Transition transition) where TTransformableEntity : TransformableEntity
     {
         ThrowIfNull(transformableEntity);
+
         transition = new(startTime, endTime);
         activeTransitions.Add(transition);
+
         return transformableEntity;
     }
 
