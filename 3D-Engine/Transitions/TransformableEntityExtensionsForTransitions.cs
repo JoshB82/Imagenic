@@ -1,0 +1,87 @@
+﻿using Imagenic.Core.Entities;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System;
+
+namespace Imagenic.Core.Transitions;
+
+/// <summary>
+/// Provides extension methods for deriving Transitions from transformations.
+/// </summary>
+public static class TransformableEntityExtensionsForTransitions
+{
+    #region Fields and Properties
+
+    private static readonly List<Transition> activeTransitions = new();
+
+    #endregion
+
+    #region Methods
+
+    private static void AddTransitionToTransformableEntity(TransformableEntity transformableEntity, Transition transition)
+    {
+        //transformableEntity.Transitions...
+    }
+
+    public static TTransformableEntity Start<TTransformableEntity>(
+        [DisallowNull] this TTransformableEntity transformableEntity,
+        float startTime,
+        out Transition transition) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfNull(transformableEntity);
+
+        transition = new(startTime, endTime);
+        activeTransitions.Add(transition);
+
+        return transformableEntity;
+    }
+
+    /// <summary>
+    /// Ends one or more <see cref="Transition">Transitions</see>.
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="transitions">The transitions to end.</param>
+    /// <returns></returns>
+    public static TTransformableEntity End<TTransformableEntity>(
+        [DisallowNull] this TTransformableEntity transformableEntity,
+        [DisallowNull] params Transition[] transitions) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfNull(transformableEntity, transitions);
+        if (transitions.Length == 0)
+        {
+            // throw exception?
+        }
+
+        foreach (Transition transition in transitions)
+        {
+            if (activeTransitions.Remove(transition))
+            {
+                AddTransitionToTransformableEntity(transformableEntity, transition);
+            }
+        }
+
+        return transformableEntity;
+    }
+
+    public static TTransformableEntity EndAll<TTransformableEntity>(
+        [DisallowNull] this TTransformableEntity transformableEntity) where TTransformableEntity : TransformableEntity
+    {
+        foreach (Transition transition in activeTransitions)
+        {
+            if (activeTransitions.Remove(transition))
+            {
+                AddTransitionToTransformableEntity(transformableEntity, transition);
+            }
+        }
+
+        return transformableEntity;
+    }
+
+    public static Transition<T, int> ToTransition<T>(this Range range, float timeStart, float timeEnd, Action<T, int> transformation) where T : Entity
+    {
+        return new(range.Start.Value, range.End.Value + 1, timeStart, timeEnd, transformation);
+    }
+
+    #endregion
+}

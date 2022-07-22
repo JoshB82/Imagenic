@@ -6,6 +6,7 @@ using Imagenic.Core.Entities.TransformableEntities;
 using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Maths.Vectors;
+using Imagenic.Core.Transitions;
 
 namespace Imagenic.ComsumerExperienceTesting;
 
@@ -13,11 +14,31 @@ internal class Program
 {
     public static void Main(string[] args)
     {
+        // ----
+
         Vector3D test = new(1, 2, 3);
 
         var cube = new Cube(worldOrigin: test,
                             worldOrientation: Orientation.OrientationNegativeYZ,
                             sideLength: 100);
+
+        // ----
+
+        cube.Start(0, out Core.Transitions.Transition t)
+            .Transform(e => { e.SideLength = 4; })
+            .Translate(new Vector3D(10, 40, 50))
+            .Orientate(Orientation.OrientationNegativeXY)
+            .End(t);
+
+        cube.TranslateX(4)
+            .Start(0, out var t1)
+            .TranslateY(5)
+            .Start(2, out var t2)
+            .TranslateZ(6)
+            .End(t1)
+            .Translate(new Vector3D(7, 8, 9))
+            .End(t2);
+
 
         cube.Orientate(Orientation.OrientationNegativeYX);
 

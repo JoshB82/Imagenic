@@ -25,40 +25,9 @@ public static class TransformableEntityTransitions
 
     
 
-    public static TTransformableEntity End<TTransformableEntity>(
-        [DisallowNull] this TTransformableEntity transformableEntity,
-        [DisallowNull] params TransitionLock[] transitionLocks) where TTransformableEntity : TransformableEntity
-    {
-        ThrowIfNull(transformableEntity, transitionLocks);
-        if (transitionLocks.Length == 0)
-        {
-            // throw exception?
-        }
+    
 
-        foreach (TransitionLock transitionLock in transitionLocks)
-        {
-            if (activeTransitionLocks.Remove(transitionLock))
-            {
-                AddTransitionToTransformableEntity(transformableEntity, transitionLock);
-            }
-        }
-        
-        return transformableEntity;
-    }
-
-    public static TTransformableEntity EndAll<TTransformableEntity>(
-        [DisallowNull] this TTransformableEntity transformableEntity) where TTransformableEntity : TransformableEntity
-    {
-        foreach (TransitionLock transitionLock in activeTransitionLocks)
-        {
-            if (activeTransitionLocks.Remove(transitionLock))
-            {
-                AddTransitionToTransformableEntity(transformableEntity, transitionLock);
-            }
-        }
-
-        return transformableEntity;
-    }
+    
 
     #endregion
 

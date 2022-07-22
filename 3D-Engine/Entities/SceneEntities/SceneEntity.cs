@@ -10,14 +10,8 @@
  * An abstract base class that defines objects of type SceneObject.
  */
 
-using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Utilities;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using static _3D_Engine.Properties.Settings;
 
 namespace _3D_Engine.Entities.SceneObjects;
 
@@ -26,74 +20,16 @@ namespace _3D_Engine.Entities.SceneObjects;
 /// </summary>
 public abstract partial class SceneEntity : Entity
 {
-    #region Fields and Properties
-
-    // Appearance
-    
-
-    private bool displayDirectionArrows;
-    /// <summary>
-    /// Determines whether the <see cref="SceneEntity"/> direction arrows are shown or not.
-    /// </summary>
-    public bool DisplayDirectionArrows
-    {
-        get => displayDirectionArrows;
-        set
-        {
-            if (value == displayDirectionArrows) return;
-            displayDirectionArrows = value;
-            InvokeRenderingEvents();
-        }
-    }
-    internal bool HasDirectionArrows { get; set; }
-
-    // Matrices
-    
-
-    
-
-    
-
-    // Render Camera
-    internal List<RendererBase> Renderers { get; set; } = new();
-    internal virtual void RequestNewRenders()
-    {
-        foreach (RendererBase renderer in Renderers)
-        {
-            renderer.NewRenderNeeded = true;
-        }
-    }
-
-    public void Insert(int index, SceneEntity item)
-    {
-        Children.Insert(index, item);
-    }
-
-    public void RemoveAt(int index)
-    {
-        Children.RemoveAt(index);
-    }
-    
-    public bool Remove(SceneEntity item)
-    {
-        return Children.Remove(item);
-    }
-
-    #endregion
-
     #region Constructors
 
     protected SceneEntity(Vector3D worldOrigin,
                           Orientation worldOrientation,
                           bool hasDirectionArrows = true)
     {
-        if (HasDirectionArrows = hasDirectionArrows)
-        {
-            
-        }
+        
 
-        this.SetOrientation(worldOrientation);
-        WorldOrigin = worldOrigin;
+        
+        
 
         #if DEBUG
 
@@ -109,44 +45,6 @@ public abstract partial class SceneEntity : Entity
     #endregion
 
     #region Methods
-
-    public bool Contains(SceneEntity item)
-    {
-        return Children.Contains(item);
-    }
-
-    public void CopyTo(SceneEntity[] array, int arrayIndex)
-    {
-        Children.CopyTo(array, arrayIndex);
-    }
-
-    public int IndexOf(SceneEntity item)
-    {
-        return Children.IndexOf(item);
-    }
-
-    public IEnumerator<SceneEntity> GetEnumerator()
-    {
-        return Children.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    public SceneEntity ShallowCopy()
-    {
-        return this.MemberwiseClone() as SceneEntity;
-    }
-
-    public SceneEntity DeepCopy()
-    {
-        SceneEntity copy = ShallowCopy();
-        copy.Renderers = new List<Camera>();
-        copy.Renderers.AddRange(this.Renderers);
-        return copy;
-    }
 
     protected virtual void CalculateModelToWorldMatrix()
     {

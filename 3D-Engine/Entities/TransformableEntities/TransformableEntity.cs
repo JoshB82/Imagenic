@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using Imagenic.Core.Utilities.Node;
 
-namespace Imagenic.Core.Entities.TransformableEntities;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// An <see cref="Entity"/> that can be transformed.
@@ -13,12 +13,13 @@ public abstract class TransformableEntity : Entity
 {
     #region Fields and Properties
 
-    public Node TransformationsNode { get; set; }
+    public List<Transition> Transitions { get; set; } = new();
 
     #endregion
 
     #region Methods
 
+    // Copy
     public override TransformableEntity ShallowCopy() => (TransformableEntity)MemberwiseClone();
     public override TransformableEntity DeepCopy()
     {
