@@ -1,25 +1,51 @@
-﻿namespace Imagenic.Benchmarking;
+﻿using BenchmarkDotNet.Running;
+using System.Reflection;
+
+namespace Imagenic.Benchmarking;
 
 public class Program
 {
     public static void Main(string[] args)
     {
         Introduction();
+        var selectedBenchmark = GetBenchmarkToRun();
+        RunBenchmark(selectedBenchmark);
     }
 
     private static void Introduction()
     {
         Console.WriteLine("Benchmarking");
         Console.WriteLine("============\n");
-
-        Console.WriteLine("Please select a benchmark to run:");
-        foreach (var benchmarkMethodInfo in GetBenchmarks())
-        {
-            Console.WriteLine($"- {benchmarkMethodInfo}");
-        }
     }
 
-    private static IEnumerable<BenchmarkMethodInfo> GetBenchmarks()
+    private static BenchmarkMethodInfo GetBenchmarkToRun()
+    {
+        Console.WriteLine("Please select a benchmark to run:\n");
+        var benchmarks = GetBenchmarks();
+        for (int i = 0; i < benchmarks.Count; i++)
+        {
+            Console.WriteLine($"[{i + 1}] - {benchmarks[i].Name}");
+        }
+        Console.WriteLine();
+        var input = Console.ReadLine();
+        Console.WriteLine();
+        return benchmarks[int.Parse(input) - 1];
+    }
+
+    private static void RunBenchmark(BenchmarkMethodInfo selectedBenchmark)
+    {
+        var results = BenchmarkRunner.Run<Benchmarks>();
+        var result = selectedBenchmark.Reference.Invoke(new Benchmarks(), selectedBenchmark.Reference.GetParameters());
+
+        /*if (selectedBenchmark.DisplayRender)
+        {
+            var path = "";
+            var image = ((Image)result).Save(path);
+            Process.Start(path);
+        }*/
+    }
+
+    private static List<BenchmarkMethodInfo> GetBenchmarks()
     {
         var methods = typeof(Benchmarks).GetMethods().Where(m =>
             m.GetCustomAttributes(typeof(BenchmarkToRunAttribute), false).Length > 0);
@@ -30,16 +56,31 @@ public class Program
         }
 
         var methodNames = methods.Select(m => m.Name);
-        return methods.Select(m => new BenchmarkMethodInfo
+        var benchmarkMethodInfos = new List<BenchmarkMethodInfo>();
+
+        foreach (var method in methods)
         {
-            Name = m.Name
-        });
+            var attributes = (BenchmarkToRunAttribute[])method.GetCustomAttributes(typeof(BenchmarkToRunAttribute), false);
+            foreach (var attribute in attributes)
+            {
+                benchmarkMethodInfos.Add(new BenchmarkMethodInfo
+                {
+                    Name = method.Name,
+                    DisplayRender = attribute.DisplayRender,
+                    Reference = method
+                });
+            }
+        }
+
+        return benchmarkMethodInfos;
     }
 }
 
 public class BenchmarkMethodInfo
 {
     public string Name { get; set; }
+    public bool DisplayRender { get; set; }
+    public MethodInfo Reference { get; set; }
 }
 
 public partial class Benchmarks { }

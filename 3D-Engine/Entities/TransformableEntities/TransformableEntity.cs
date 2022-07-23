@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Imagenic.Core.Utilities.Node;
+using Imagenic.Core.Transitions;
 
 namespace Imagenic.Core.Entities;
 
@@ -109,6 +110,7 @@ public abstract class TransformableEntity : Entity
     #endregion
 }
 
+/*
 public abstract class Transition
 {
     public Delegate Transformation => ((dynamic)this).Transformation;
@@ -122,8 +124,9 @@ public abstract class Transition
     }
 
     public bool PassOn { get; }
-}
+}*/
 
+/*
 public sealed class Translation : Transition
 {
     public Vector3D Displacement { get; set; }
@@ -132,8 +135,9 @@ public sealed class Translation : Transition
     {
         Displacement = displacement;
     }
-}
+}*/
 
+/*
 public sealed class Scaling : Transition
 {
     public Vector3D ScaleFactor { get; set; }
@@ -141,8 +145,9 @@ public sealed class Scaling : Transition
     {
         ScaleFactor = scaling;
     }
-}
+}*/
 
+/*
 public sealed class Transition<TDelegate, TInput> : Transition where TDelegate : Delegate
 {
     public new TDelegate Transformation { get; }
@@ -153,4 +158,4 @@ public sealed class Transition<TDelegate, TInput> : Transition where TDelegate :
         Transformation = transformation;
         Input = input;
     }
-}
+}*/

@@ -18,6 +18,19 @@ public static class TransformableEntityExtensionsForTransitions
 
     #region Methods
 
+    internal static bool AddToActiveTransitions<TEntity>(Action<TEntity> transformation) where TEntity : Entity
+    {
+        if (activeTransitions.Count > 0)
+        {
+            foreach (Transition activeTransition in activeTransitions)
+            {
+                activeTransition.Append(transformation);
+            }
+            return false;
+        }
+        return true;
+    }
+
     private static void AddTransitionToTransformableEntity(TransformableEntity transformableEntity, Transition transition)
     {
         //transformableEntity.Transitions...

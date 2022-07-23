@@ -1,11 +1,12 @@
 ﻿using Imagenic.Core.CascadeBuffers;
+using Imagenic.Core.Transitions;
 using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Imagenic.Core.Entities.TransformableEntities;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// Provides extension methods for transforming transformable entities.
@@ -26,15 +27,21 @@ public static class TransformableEntityTransformations
         [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
     {
         ThrowIfNull(transformableEntity, transformation);
-        //transformation(transformableEntity);
-        if (transformableEntity.TransformationsNode is null)
+
+        if (!TransformableEntityExtensionsForTransitions.AddToActiveTransitions(transformation))
+        {
+            // If no active transformations, run the transformation straight away with no transitions?
+            transformation(transformableEntity);
+        }
+
+        /*if (transformableEntity.TransformationsNode is null)
         {
             transformableEntity.TransformationsNode = new TransformationNoInputNoOutputNode<TTransformableEntity>(transformation);
         }
         else
         {
             transformableEntity.TransformationsNode.Add(transformation);
-        }
+        }*/
         return transformableEntity;
     }
 

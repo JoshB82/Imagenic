@@ -5,15 +5,15 @@ public class BenchmarkToRunAttribute : Attribute
 {
     #region Fields and Properties
 
-    public bool RendersImage { get; }
+    public bool DisplayRender { get; }
 
     #endregion
 
     #region Constructors
 
-    public BenchmarkToRunAttribute(bool rendersImage)
+    public BenchmarkToRunAttribute(bool displayRender)
     {
-        RendersImage = rendersImage;
+        DisplayRender = displayRender;
     }
 
     #endregion
