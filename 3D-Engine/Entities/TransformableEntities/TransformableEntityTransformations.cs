@@ -16,12 +16,27 @@ public static class TransformableEntityTransformations
     #region TTransformableEntity
 
     /// <summary>
-    /// Applies a transformation, in this case an <see cref=""/>
+    /// Applies a custom transformation, in this case an <see cref=""/>, that has no inputs and outputs.
+    /// <remarks>The specified transformation and <typeparamref name="TTransformableEntity"/> cannot be <see langword="null"/>.</remarks>
+    /// <para><example>
+    /// Using call chaining, a cube is subjected to multiple transformations, including a custom transformation.
+    /// <code>
+    /// var cube = new Cube(Vector3D.Zero, Orientation.OrientationXY, 10);
+    /// 
+    /// var displacement = new Vector3D(5, 10, 15);
+    /// var scaleFactor = Vector3D.One * 4.5f;
+    /// 
+    /// cube = cube.Translate(displacement)
+    ///            <strong>.Transform(e => { e.SideLength = 10; })</strong><br/>
+    ///            .Scale(scaleFactor);
+    /// </code>
+    /// </example></para>
     /// </summary>
     /// <typeparam name="TTransformableEntity"></typeparam>
-    /// <param name="transformableEntity"></param>
+    /// <param name="transformableEntity">The <typeparamref name="TTransformableEntity"/> being transformed.</param>
     /// <param name="transformation"></param>
     /// <returns></returns>
+    /// <exception cref="ArgumentNullException">None of this method's parameters can be null.</exception>
     public static TTransformableEntity Transform<TTransformableEntity>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
@@ -61,7 +76,22 @@ public static class TransformableEntityTransformations
     }*/
 
     /// <summary>
+    /// Applies a custom transformation, in this case a <see cref="Action{TTransformableEntity}"/>, that has no inputs and outputs. The transformation is only applied if a specified predicate is satisfied (returns <see langword="true"/>).
+    /// <remarks>The <typeparamref name="TTransformableEntity"/>, the transformation and predicate cannot be <see langword="null"/>.</remarks>
+    /// <para><example>
+    /// Using call chaining, a cube is subjected to multiple transformations, including a custom transformation that occurs only 50% of the time.
+    /// <code>
+    /// var cube = new Cube(Vector3D.Zero, Orientation.OrientationXY, 10);
     /// 
+    /// var displacement = new Vector3D(5, 10, 15);
+    /// var scaleFactor = Vector3D.One * 4.5f;
+    /// var random = new Random();
+    /// 
+    /// cube = cube.Translate(displacement)
+    ///            <strong>.Transform(e => { e.SideLength = 10; }, _ => random.NextInt64() % 2 == 0)</strong><br/>
+    ///            .Scale(scaleFactor);
+    /// </code>
+    /// </example></para>
     /// </summary>
     /// <typeparam name="TTransformableEntity"></typeparam>
     /// <param name="transformableEntity"></param>

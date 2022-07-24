@@ -1,7 +1,7 @@
 ﻿namespace Imagenic.Benchmarking;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class BenchmarkToRunAttribute : Attribute
+public sealed class PostBenchmarkAttribute : Attribute
 {
     #region Fields and Properties
 
@@ -11,7 +11,7 @@ public class BenchmarkToRunAttribute : Attribute
 
     #region Constructors
 
-    public BenchmarkToRunAttribute(bool displayRender)
+    public PostBenchmarkAttribute(bool displayRender)
     {
         DisplayRender = displayRender;
     }

@@ -48,7 +48,7 @@ public class Program
     private static List<BenchmarkMethodInfo> GetBenchmarks()
     {
         var methods = typeof(Benchmarks).GetMethods().Where(m =>
-            m.GetCustomAttributes(typeof(BenchmarkToRunAttribute), false).Length > 0);
+            m.GetCustomAttributes(typeof(PostBenchmarkAttribute), false).Length > 0);
 
         if (!methods.Any())
         {
@@ -60,7 +60,7 @@ public class Program
 
         foreach (var method in methods)
         {
-            var attributes = (BenchmarkToRunAttribute[])method.GetCustomAttributes(typeof(BenchmarkToRunAttribute), false);
+            var attributes = (PostBenchmarkAttribute[])method.GetCustomAttributes(typeof(PostBenchmarkAttribute), false);
             foreach (var attribute in attributes)
             {
                 benchmarkMethodInfos.Add(new BenchmarkMethodInfo

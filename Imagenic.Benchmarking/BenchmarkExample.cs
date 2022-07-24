@@ -4,7 +4,7 @@ namespace Imagenic.Benchmarking;
 
 public partial class Benchmarks
 {
-    [BenchmarkToRun(true)]
+    [PostBenchmark(true)]
     [Benchmark]
     public void Test()
     {
