@@ -1,5 +1,4 @@
 ﻿using Imagenic.Core.Entities;
-using Imagenic.Core.Entities.TransformableEntities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -58,19 +57,26 @@ public sealed class Transition : Entity
 
     #region Constructors
 
-    private Transition(float timeStart, float timeEnd, TransformationNode transformationNode)
+    internal Transition(float timeStart, float timeEnd)
     {
         IsInstantaneous = timeEnd - timeStart == 0;
 
         TimeStart = timeStart;
         TimeEnd = timeEnd;
-
-        TransformationNodes = transformationNode;
     }
 
     #endregion
 
     #region Methods
+
+    public void AddToTransformableEntity(TransformableEntity transformableEntity)
+    {
+        if (TransformationNodes.Count == 0)
+        {
+            // throw exception
+        }
+        transformableEntity.Transitions.Add(this);
+    }
 
     // Input: None
     // Output: None

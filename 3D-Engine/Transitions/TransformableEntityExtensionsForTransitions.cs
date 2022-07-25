@@ -31,19 +31,47 @@ public static class TransformableEntityExtensionsForTransitions
         return true;
     }
 
-    private static void AddTransitionToTransformableEntity(TransformableEntity transformableEntity, Transition transition)
-    {
-        //transformableEntity.Transitions...
-    }
-
+    /// <summary>
+    /// Starts a <see cref="Transition"/> at the specified time lasting until the specified end time.
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <param name="transformableEntity"></param>
+    /// <param name="startTime">The start time of the created <see cref="Transition"/>.</param>
+    /// <param name="endTime">The end time of the created <see cref="Transition"/>.</param>
+    /// <param name="transition">The created <see cref="Transition"/>. Terminate this transition with an End method.</param>
+    /// <returns></returns>
     public static TTransformableEntity Start<TTransformableEntity>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         float startTime,
+        float endTime,
         out Transition transition) where TTransformableEntity : TransformableEntity
     {
         ThrowIfNull(transformableEntity);
 
         transition = new(startTime, endTime);
+        activeTransitions.Add(transition);
+
+        return transformableEntity;
+    }
+
+    /// <summary>
+    /// Starts a <see cref="Transition"/> at the specified time lasting the specified <see cref="TimeSpan"/>.
+    /// </summary>
+    /// <typeparam name="TTransformableEntity"></typeparam>
+    /// <param name="transformableEntity">The <typeparamref name="TTransformableEntity"/> being transformed by the created <see cref="Transition"/>.</param>
+    /// <param name="startTime">The start time of the created <see cref="Transition"/>.</param>
+    /// <param name="timeSpan"></param>
+    /// <param name="transition">The created <see cref="Transition"/>. Terminate this transition with an End method.</param>
+    /// <returns></returns>
+    public static TTransformableEntity Start<TTransformableEntity>(
+        [DisallowNull] this TTransformableEntity transformableEntity,
+        float startTime,
+        TimeSpan timeSpan,
+        out Transition transition) where TTransformableEntity : TransformableEntity
+    {
+        ThrowIfNull(transformableEntity);
+
+        transition = new(startTime, startTime + (float)timeSpan.TotalSeconds);
         activeTransitions.Add(transition);
 
         return transformableEntity;
