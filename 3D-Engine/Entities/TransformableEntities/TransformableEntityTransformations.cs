@@ -389,13 +389,13 @@ public static class TransformableEntityTransformations
     /// <param name="transformableEntities"></param>
     /// <param name="transformation"></param>
     /// <returns></returns>
-    public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
+    public static TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation) where TTransformableEntity : TransformableEntity
     {
         ThrowIfNull(transformableEntities, transformation);
         var outputs = transformableEntities.Select(transformableEntity => transformation(transformableEntity));
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
     /// <summary>
@@ -407,7 +407,7 @@ public static class TransformableEntityTransformations
     /// <param name="transformation"></param>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
+    public static TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TOutput?> transformation,
         [DisallowNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity
@@ -419,7 +419,7 @@ public static class TransformableEntityTransformations
             ? transformation(transformableEntity)
             : default;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
     /// <summary>
@@ -432,14 +432,14 @@ public static class TransformableEntityTransformations
     /// <param name="transformation"></param>
     /// <param name="transformationInput"></param>
     /// <returns></returns>
-    public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
+    public static TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
         TInput? transformationInput) where TTransformableEntity : TransformableEntity
     {
         ThrowIfNull(transformableEntities, transformation);
         var outputs = transformableEntities.Select(transformableEntity => transformation(transformableEntity, transformationInput));
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
     /// <summary>
@@ -453,7 +453,7 @@ public static class TransformableEntityTransformations
     /// <param name="transformationInput"></param>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
+    public static TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
         TInput? transformationInput,
@@ -466,7 +466,7 @@ public static class TransformableEntityTransformations
             ? transformation(transformableEntity, transformationInput)
             : default;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ public static class TransformableEntityTransformations
     /// <param name="transformation"></param>
     /// <param name="transformationInputs"></param>
     /// <returns></returns>
-    public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
+    public static TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
         [DisallowNull] IEnumerable<TInput?> transformationInputs) where TTransformableEntity : TransformableEntity
@@ -489,7 +489,7 @@ public static class TransformableEntityTransformations
         {
             return transformation(transformableEntity, transformationInput);
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
     /// <summary>
@@ -503,7 +503,7 @@ public static class TransformableEntityTransformations
     /// <param name="transformationInputs"></param>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    public static CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
+    public static TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TTransformableEntity, TInput, TOutput>(
         [DisallowNull] this IEnumerable<TTransformableEntity> transformableEntities,
         [DisallowNull] Func<TTransformableEntity, TInput?, TOutput?> transformation,
         [DisallowNull] IEnumerable<TInput?> transformationInputs,
@@ -516,7 +516,7 @@ public static class TransformableEntityTransformations
             ? transformation(transformableEntity, transformationInput)
             : default;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(transformableEntities, outputs);
     }
 
     #endregion

@@ -1,6 +1,4 @@
-﻿using Imagenic.Core.Entities;
-using Imagenic.Core.Entities.CascadeBuffers;
-using Imagenic.Core.Entities.TransformableEntities;
+﻿using Imagenic.Core.Entities.CascadeBuffers;
 using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 using System;
@@ -9,22 +7,28 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Imagenic.Core.CascadeBuffers;
+namespace Imagenic.Core.Entities;
 
-public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TValue> :
+public sealed class TransformationBufferEnumerableEnumerable<TTransformableEntity, TValue> :
     IEnumerable<TransformableEntityValuePair<TTransformableEntity, TValue?>>
     where TTransformableEntity : TransformableEntity
 {
     #region Fields and Properties
 
+    /// <summary>
+    /// The transformable entities being transformed.
+    /// </summary>
     public IEnumerable<TTransformableEntity> TransformableEntities { get; }
-    public IEnumerable<TValue?> Values { get; }
+    /// <summary>
+    /// The values stored in this buffer that are available for use in transformations.
+    /// </summary>
+    public List<IEnumerable<TValue?>> Values { get; }
 
     #endregion
 
     #region Constructors
 
-    internal CascadeBufferEnumerableEnumerable(IEnumerable<TTransformableEntity> transformableEntities, IEnumerable<TValue?> values)
+    internal TransformationBufferEnumerableEnumerable(IEnumerable<TTransformableEntity> transformableEntities, List<IEnumerable<TValue?>> values)
     {
         TransformableEntities = transformableEntities;
         Values = values;
@@ -34,15 +38,100 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
 
     #region Methods
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="transformation"></param>
+    /// <returns></returns>
     [return: NotNull]
     public IEnumerable<TTransformableEntity> Transform([DisallowNull] Action<TTransformableEntity, TValue?> transformation)
     {
         ThrowIfNull(transformation);
-        return TransformableEntities.Zip(Values, (entity, value) =>
+        return TransformableEntities.Zip(Values.Last(), (entity, value) =>
         {
             //entity.Transitions.Add(new Transition<TTransformableEntity, TValue>()
             transformation(entity, value);
             return entity;
+        });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="transformation"></param>
+    /// <param name="bufferIndex"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public IEnumerable<TTransformableEntity> Transform([DisallowNull] Action<TTransformableEntity, TValue?> transformation, int bufferIndex)
+    {
+        ThrowIfNull(transformation);
+
+        IEnumerable<TValue?> selectedValue;
+
+        if (bufferIndex < Values.Count && bufferIndex >= 0)
+        {
+            selectedValue = Values[bufferIndex];
+        }
+        else
+        {
+            // Throw exception
+            throw new Exception();
+        }
+
+        return TransformableEntities.Zip(selectedValue, (transformableEntity, value) =>
+        {
+            transformation(transformableEntity, value);
+            return transformableEntity;
+        });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="transformation"></param>
+    /// <param name="bufferIndexRange"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public IEnumerable<TTransformableEntity> Transform([DisallowNull] Action<TTransformableEntity, IEnumerable<TValue?>> transformation, Range bufferIndexRange)
+    {
+        ThrowIfNull(transformation);
+
+        IEnumerable<IEnumerable<TValue?>> selectedValues;
+
+        if (bufferIndexRange.End.Value < Values.Count && bufferIndexRange.Start.Value >= 0)
+        {
+            selectedValues = Values.Take(bufferIndexRange);
+        }
+        else
+        {
+            // Throw exception
+            throw new Exception();
+        }
+
+        return TransformableEntities.Zip(selectedValues, (transformableEntity, value) =>
+        {
+            transformation(transformableEntity, value);
+            return transformableEntity;
+        });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="transformation"></param>
+    /// <param name="valueSelector"></param>
+    /// <returns></returns>
+    public IEnumerable<TTransformableEntity> Transform([DisallowNull] Action<TTransformableEntity, IEnumerable<TValue?>> transformation,
+                                                       [DisallowNull] Func<IEnumerable<TValue?>, IEnumerable<TValue?>> valueSelector)
+    {
+        ThrowIfNull(transformation);
+
+        IEnumerable<IEnumerable<TValue?>> selectedValues = Values.Select(valueSelector);
+
+        return TransformableEntities.Zip(selectedValues, (transformableEntity, value) =>
+        {
+            transformation(transformableEntity, value);
+            return transformableEntity;
         });
     }
 
@@ -111,7 +200,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
         });
     }
 
-    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TOutput>([DisallowNull] Func<TTransformableEntity, TValue?, TOutput?> transformation)
+    public TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TOutput>([DisallowNull] Func<TTransformableEntity, TValue?, TOutput?> transformation)
     {
         ThrowIfNull(transformation);
         var outputs = TransformableEntities.Zip(Values, (entity, value) =>
@@ -119,10 +208,10 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
             var output = transformation(entity, value);
             return output;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
     }
 
-    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TOutput>(
+    public TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TOutput>(
         [DisallowNull] Func<TTransformableEntity, TValue?, TOutput?> transformation,
         [DisallowNull] Func<TTransformableEntity, TValue?, bool> predicate)
     {
@@ -133,10 +222,10 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
             ? transformation(transformableEntity, value)
             : default;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
     }
 
-    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
+    public TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation, TInput? transformationInput)
     {
         ThrowIfNull(transformation);
@@ -145,10 +234,10 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
             var output = transformation(entity, value, transformationInput);
             return output;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
     }
 
-    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
+    public TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation,
         TInput? transformationInput,
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
@@ -160,10 +249,10 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
             ? transformation(transformableEntity, value, transformationInput)
             : default;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
     }
 
-    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
+    public TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation,
         [DisallowNull] IEnumerable<TInput?> transformationInputs)
     {
@@ -173,10 +262,10 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
             var output = transformation(tuple.First, tuple.Second, tuple.Third);
             return output;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
     }
 
-    public CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
+    public TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?> Transform<TInput, TOutput>(
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, TOutput?> transformation,
         [DisallowNull] IEnumerable<TInput?> transformationInputs,
         [DisallowNull] Func<TTransformableEntity, TValue?, TInput?, bool> predicate)
@@ -188,7 +277,7 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
             ? transformation(tuple.First, tuple.Second, tuple.Third)
             : default;
         });
-        return new CascadeBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
+        return new TransformationBufferEnumerableEnumerable<TTransformableEntity, TOutput?>(TransformableEntities, outputs);
     }
 
     public IEnumerator<TransformableEntityValuePair<TTransformableEntity, TValue?>> GetEnumerator()
@@ -201,19 +290,19 @@ public sealed class CascadeBufferEnumerableEnumerable<TTransformableEntity, TVal
     #endregion
 }
 
-public static class CascadeBufferEnumerableEnumerableExtensions
+public static class TransformationBufferEnumerableEnumerableExtensions
 {
     #region TranslateX method
 
     public static IEnumerable<TTranslatableEntity> TranslateX<TTranslatableEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(value + distance, 0, 0); });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateXC<TTranslatableEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
+    public static TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateXC<TTranslatableEntity>(
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(value + distance, 0, 0); return value + distance; });
@@ -224,14 +313,14 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     #region TranslateY method
 
     public static IEnumerable<TTranslatableEntity> TranslateY<TTranslatableEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(0, value + distance, 0); });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateYC<TTranslatableEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
+    public static TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateYC<TTranslatableEntity>(
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(0, value + distance, 0); return value + distance; });
@@ -242,14 +331,14 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     #region TranslateZ method
 
     public static IEnumerable<TTranslatableEntity> TranslateZ<TTranslatableEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(0, 0, value + distance); });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateZC<TTranslatableEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
+    public static TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> TranslateZC<TTranslatableEntity>(
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TTranslatableEntity, float> cascadeBuffer, float distance = 0) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(0, 0, value + distance); return value + distance; });
@@ -260,15 +349,15 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     #region Translate method
 
     public static IEnumerable<TTranslatableEntity> Translate<TTranslatableEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> cascadeBuffer, Vector3D displacement = new())
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> cascadeBuffer, Vector3D displacement = new())
         where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += value + displacement; });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateC<TTranslatableEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> cascadeBuffer, Vector3D displacement = new())
+    public static TransformationBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateC<TTranslatableEntity>(
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> cascadeBuffer, Vector3D displacement = new())
         where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(cascadeBuffer);
@@ -280,14 +369,14 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     #region Orientate method
 
     public static IEnumerable<TOrientatedEntity> Orientate<TOrientatedEntity>(
-        [DisallowNull] this CascadeBufferEnumerableEnumerable<TOrientatedEntity, Orientation> cascadeBuffer) where TOrientatedEntity : OrientatedEntity
+        [DisallowNull] this TransformationBufferEnumerableEnumerable<TOrientatedEntity, Orientation> cascadeBuffer) where TOrientatedEntity : OrientatedEntity
     {
         ThrowIfNull(cascadeBuffer);
         return cascadeBuffer.Transform((orientatedEntity, value) => { if (value is not null) orientatedEntity.WorldOrientation = value; });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TOrientatedEntity, Orientation> OrientateC<TOrientatedEntity>(
-        this CascadeBufferEnumerableEnumerable<TOrientatedEntity, Orientation> cascadeBuffer) where TOrientatedEntity : OrientatedEntity
+    public static TransformationBufferEnumerableEnumerable<TOrientatedEntity, Orientation> OrientateC<TOrientatedEntity>(
+        this TransformationBufferEnumerableEnumerable<TOrientatedEntity, Orientation> cascadeBuffer) where TOrientatedEntity : OrientatedEntity
     {
         return cascadeBuffer.Transform((orientatedEntity, value) => value is null ? orientatedEntity.WorldOrientation = value : orientatedEntity.WorldOrientation);
     }
@@ -297,7 +386,7 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     #region ScaleX method
 
     public static IEnumerable<TPhysicalEntity> ScaleX<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -305,8 +394,8 @@ public static class CascadeBufferEnumerableEnumerableExtensions
         });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> ScaleXC<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> ScaleXC<TPhysicalEntity>(
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -320,7 +409,7 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     #region ScaleY method
 
     public static IEnumerable<TPhysicalEntity> ScaleY<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -328,8 +417,8 @@ public static class CascadeBufferEnumerableEnumerableExtensions
         });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> ScaleYC<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> ScaleYC<TPhysicalEntity>(
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -343,7 +432,7 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     #region ScaleZ method
 
     public static IEnumerable<TPhysicalEntity> ScaleZ<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -351,8 +440,8 @@ public static class CascadeBufferEnumerableEnumerableExtensions
         });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> ScaleZC<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> ScaleZC<TPhysicalEntity>(
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, float> cascadeBuffer, float scaleFactor = 1) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -366,7 +455,7 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     #region Scale method
 
     public static IEnumerable<TPhysicalEntity> Scale<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> cascadeBuffer) where TPhysicalEntity : PhysicalEntity
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> cascadeBuffer) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -375,7 +464,7 @@ public static class CascadeBufferEnumerableEnumerableExtensions
     }
 
     public static IEnumerable<TPhysicalEntity> Scale<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> cascadeBuffer, Vector3D scaleFactor) where TPhysicalEntity : PhysicalEntity
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> cascadeBuffer, Vector3D scaleFactor) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -383,8 +472,8 @@ public static class CascadeBufferEnumerableEnumerableExtensions
         });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleC<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> cascadeBuffer) where TPhysicalEntity : PhysicalEntity
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleC<TPhysicalEntity>(
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> cascadeBuffer) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {
@@ -393,8 +482,8 @@ public static class CascadeBufferEnumerableEnumerableExtensions
         });
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleC<TPhysicalEntity>(
-        this CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> cascadeBuffer, Vector3D scaleFactor) where TPhysicalEntity : PhysicalEntity
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleC<TPhysicalEntity>(
+        this TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> cascadeBuffer, Vector3D scaleFactor) where TPhysicalEntity : PhysicalEntity
     {
         return cascadeBuffer.Transform((physicalEntity, value) =>
         {

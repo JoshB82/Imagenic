@@ -94,14 +94,14 @@ public static class PhysicalEntityTransformations
         return physicalEntities.Transform(e => { e.Scaling = new Vector3D(e.Scaling.x * scaleFactor, e.Scaling.y, e.Scaling.z); }, predicate);
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleXC<TPhysicalEntity>(
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleXC<TPhysicalEntity>(
         [DisallowNull] this IEnumerable<TPhysicalEntity> physicalEntities, float scaleFactor) where TPhysicalEntity : PhysicalEntity
     {
         ThrowIfNull(physicalEntities);
         return physicalEntities.Transform(e => e.Scaling = new Vector3D(e.Scaling.x * scaleFactor, e.Scaling.y, e.Scaling.z));
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleXC<TPhysicalEntity>(
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleXC<TPhysicalEntity>(
         [DisallowNull] this IEnumerable<TPhysicalEntity> physicalEntities,
         float scaleFactor,
         [DisallowNull] Func<TPhysicalEntity, bool> predicate) where TPhysicalEntity : PhysicalEntity
@@ -198,14 +198,14 @@ public static class PhysicalEntityTransformations
         return physicalEntities.Transform(e => { e.Scaling = new Vector3D(e.Scaling.x, e.Scaling.y * scaleFactor, e.Scaling.z); }, predicate);
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleYC<TPhysicalEntity>(
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleYC<TPhysicalEntity>(
         [DisallowNull] this IEnumerable<TPhysicalEntity> physicalEntities, float scaleFactor) where TPhysicalEntity : PhysicalEntity
     {
         ThrowIfNull(physicalEntities);
         return physicalEntities.Transform(e => e.Scaling = new Vector3D(e.Scaling.x, e.Scaling.y * scaleFactor, e.Scaling.z));
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleYC<TPhysicalEntity>(
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleYC<TPhysicalEntity>(
         [DisallowNull] this IEnumerable<TPhysicalEntity> physicalEntities,
         float scaleFactor,
         [DisallowNull] Func<TPhysicalEntity, bool> predicate) where TPhysicalEntity : PhysicalEntity
@@ -302,14 +302,14 @@ public static class PhysicalEntityTransformations
         return physicalEntities.Transform(e => { e.Scaling = new Vector3D(e.Scaling.x, e.Scaling.y, e.Scaling.z * scaleFactor); }, predicate);
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleZC<TPhysicalEntity>(
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleZC<TPhysicalEntity>(
         [DisallowNull] this IEnumerable<TPhysicalEntity> physicalEntities, float scaleFactor) where TPhysicalEntity : PhysicalEntity
     {
         ThrowIfNull(physicalEntities);
         return physicalEntities.Transform(e => e.Scaling = new Vector3D(e.Scaling.x, e.Scaling.y, e.Scaling.z * scaleFactor));
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleZC<TPhysicalEntity>(
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleZC<TPhysicalEntity>(
         [DisallowNull] this IEnumerable<TPhysicalEntity> physicalEntities,
         float scaleFactor,
         [DisallowNull] Func<TPhysicalEntity, bool> predicate) where TPhysicalEntity : PhysicalEntity
@@ -406,14 +406,14 @@ public static class PhysicalEntityTransformations
         return physicalEntities.Transform(e => { e.Scaling = new Vector3D(e.Scaling.x * scaleFactor.x, e.Scaling.y * scaleFactor.y, e.Scaling.z * scaleFactor.z); }, predicate);
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleC<TPhysicalEntity>(
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleC<TPhysicalEntity>(
         [DisallowNull] this IEnumerable<TPhysicalEntity> physicalEntities, Vector3D scaleFactor) where TPhysicalEntity : PhysicalEntity
     {
         ThrowIfNull(physicalEntities);
         return physicalEntities.Transform(e => e.Scaling = new Vector3D(e.Scaling.x * scaleFactor.x, e.Scaling.y * scaleFactor.y, e.Scaling.z * scaleFactor.z));
     }
 
-    public static CascadeBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleC<TPhysicalEntity>(
+    public static TransformationBufferEnumerableEnumerable<TPhysicalEntity, Vector3D> ScaleC<TPhysicalEntity>(
         [DisallowNull] this IEnumerable<TPhysicalEntity> physicalEntities,
         Vector3D scaleFactor,
         [DisallowNull] Func<TPhysicalEntity, bool> predicate) where TPhysicalEntity : PhysicalEntity

@@ -68,7 +68,7 @@ public static class TranslatableEntityTransformations
     /// <param name="translatableEntities"></param>
     /// <param name="distance"></param>
     /// <returns></returns>
-    public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
+    public static TransformationBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
         [DisallowNull] this IEnumerable<TTranslatableEntity> translatableEntities, float distance) where TTranslatableEntity : TranslatableEntity
     {
         ThrowIfNull(translatableEntities);
@@ -83,7 +83,7 @@ public static class TranslatableEntityTransformations
     /// <param name="translatableEntities"></param>
     /// <param name="distances"></param>
     /// <returns></returns>
-    public static CascadeBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
+    public static TransformationBufferEnumerableEnumerable<TTranslatableEntity, Vector3D> TranslateXC<TTranslatableEntity>(
         [DisallowNull] this IEnumerable<TTranslatableEntity> translatableEntities,
         [DisallowNull] IEnumerable<float> distances) where TTranslatableEntity : TranslatableEntity
     {
