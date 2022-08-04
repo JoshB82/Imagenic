@@ -1,4 +1,5 @@
-﻿using Imagenic.Core.CascadeBuffers;
+﻿using Imagenic.Core.Attributes;
+using Imagenic.Core.CascadeBuffers;
 using Imagenic.Core.Transitions;
 using Imagenic.Core.Utilities.Node;
 using System;
@@ -37,6 +38,7 @@ public static class TransformableEntityTransformations
     /// <param name="transformation"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">None of this method's parameters can be null.</exception>
+    [NullCheck(0, 1)]
     public static TTransformableEntity Transform<TTransformableEntity>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
