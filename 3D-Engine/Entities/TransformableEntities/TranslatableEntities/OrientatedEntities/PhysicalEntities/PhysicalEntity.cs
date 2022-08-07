@@ -1,8 +1,11 @@
 ﻿using Imagenic.Core.Maths.Transformations;
 using System;
 
-namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
+namespace Imagenic.Core.Entities;
 
+/// <summary>
+/// A <see cref="OrientatedEntity"/> that represents a physical object.
+/// </summary>
 [Serializable]
 public abstract class PhysicalEntity : OrientatedEntity
 {

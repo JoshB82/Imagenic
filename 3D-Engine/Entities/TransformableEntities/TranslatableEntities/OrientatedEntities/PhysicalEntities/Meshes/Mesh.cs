@@ -11,18 +11,18 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
-using System.Collections.Generic;
+using System;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes;
+namespace Imagenic.Core.Entities.Meshes;
 
 /// <summary>
 /// Encapsulates creation of a <see cref="Mesh"/>.
 /// </summary>
+[Serializable]
 public abstract partial class Mesh : PhysicalEntity
 {
     #region Fields and Properties
@@ -79,21 +79,6 @@ public abstract partial class Mesh : PhysicalEntity
             if (value == drawFaces) return;
             drawFaces = value;
             RequestNewRenders();
-        }
-    }
-
-    // Headed Rendering Object
-    internal List<RenderingEntity> HeadedRenderingObjects { get; set; } = new();
-    internal override void RequestNewRenders()
-    {
-        base.RequestNewRenders();
-
-        foreach (RenderingEntity renderingObject in HeadedRenderingObjects)
-        {
-            foreach (Camera camera in renderingObject.Renderers)
-            {
-                camera.NewRenderNeeded = true;
-            }
         }
     }
 

@@ -27,15 +27,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.Benchmarking", "Im
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.ComsumerExperienceTesting", "ComsumerExperienceTesting\Imagenic.ComsumerExperienceTesting.csproj", "{3224BAE0-CE87-4F33-996C-AFC8C1C91438}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imagenic.CodeAnalyser", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.csproj", "{EBC5746B-7408-4F72-A5FC-1129C4152462}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.CodeAnalyser", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.csproj", "{EBC5746B-7408-4F72-A5FC-1129C4152462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imagenic.CodeAnalyser.CodeFixes", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.CodeFixes\Imagenic.CodeAnalyser.CodeFixes.csproj", "{DE4ED03E-B621-44A2-9F49-165040CEA5E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.CodeAnalyser.CodeFixes", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.CodeFixes\Imagenic.CodeAnalyser.CodeFixes.csproj", "{DE4ED03E-B621-44A2-9F49-165040CEA5E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imagenic.CodeAnalyser.Package", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.Package\Imagenic.CodeAnalyser.Package.csproj", "{47BC1D6F-D19D-4E12-A3A5-9E5E36036DB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.CodeAnalyser.Package", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.Package\Imagenic.CodeAnalyser.Package.csproj", "{47BC1D6F-D19D-4E12-A3A5-9E5E36036DB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imagenic.CodeAnalyser.Test", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.Test\Imagenic.CodeAnalyser.Test.csproj", "{0083A026-D49F-4CF2-9167-E3EAD2385644}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.CodeAnalyser.Test", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.Test\Imagenic.CodeAnalyser.Test.csproj", "{0083A026-D49F-4CF2-9167-E3EAD2385644}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imagenic.CodeAnalyser.Vsix", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.Vsix\Imagenic.CodeAnalyser.Vsix.csproj", "{7C96AAE6-8BC3-4DAF-BB15-3A5B8E153E66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.CodeAnalyser.Vsix", "Imagenic.CodeAnalyser\Imagenic.CodeAnalyser.Vsix\Imagenic.CodeAnalyser.Vsix.csproj", "{7C96AAE6-8BC3-4DAF-BB15-3A5B8E153E66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CountableContextSourceGenerators", "CountableContextSourceGenerators", "{89A992FB-0521-4AAA-806A-389F1480052A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imagenic.SourceGenerators.Test", "Imagenic.SourceGenerators.Test\Imagenic.SourceGenerators.Test.csproj", "{9E05A80E-4A99-43FE-A06D-EFD25DA36602}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +103,10 @@ Global
 		{7C96AAE6-8BC3-4DAF-BB15-3A5B8E153E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C96AAE6-8BC3-4DAF-BB15-3A5B8E153E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C96AAE6-8BC3-4DAF-BB15-3A5B8E153E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E05A80E-4A99-43FE-A06D-EFD25DA36602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E05A80E-4A99-43FE-A06D-EFD25DA36602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E05A80E-4A99-43FE-A06D-EFD25DA36602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E05A80E-4A99-43FE-A06D-EFD25DA36602}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +126,8 @@ Global
 		{47BC1D6F-D19D-4E12-A3A5-9E5E36036DB6} = {73DB7BB9-FCEB-412F-A99C-86BC58D557CC}
 		{0083A026-D49F-4CF2-9167-E3EAD2385644} = {73DB7BB9-FCEB-412F-A99C-86BC58D557CC}
 		{7C96AAE6-8BC3-4DAF-BB15-3A5B8E153E66} = {73DB7BB9-FCEB-412F-A99C-86BC58D557CC}
+		{89A992FB-0521-4AAA-806A-389F1480052A} = {73DB7BB9-FCEB-412F-A99C-86BC58D557CC}
+		{9E05A80E-4A99-43FE-A06D-EFD25DA36602} = {89A992FB-0521-4AAA-806A-389F1480052A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D38BCF8-EE33-4180-B06D-A1C7398F7CC0}

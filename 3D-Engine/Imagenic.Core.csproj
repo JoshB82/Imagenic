@@ -23,6 +23,7 @@
   </PropertyGroup>
 
     <ItemGroup>
+	    <PackageReference Include="ClrHeapAllocationAnalyzer" Version="3.0.0" />
 	    <PackageReference Include="System.Collections" Version="4.3.0" />
 	    <PackageReference Include="System.Runtime.Experimental" Version="6.0.2" />
     </ItemGroup>

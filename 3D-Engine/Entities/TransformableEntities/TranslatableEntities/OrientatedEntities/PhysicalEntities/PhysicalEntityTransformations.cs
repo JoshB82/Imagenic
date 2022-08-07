@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// Provides extension methods for transforming physical entities.

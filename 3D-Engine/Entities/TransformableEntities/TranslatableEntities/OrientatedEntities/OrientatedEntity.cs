@@ -1,13 +1,11 @@
-﻿using _3D_Engine.Constants;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
-using Imagenic.Core.Maths.Transformations;
-using Imagenic.Core.Renderers.Animations;
-using Imagenic.Core.Utilities;
+﻿using Imagenic.Core.Maths.Transformations;
 using System;
-using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities;
 
+/// <summary>
+/// A <see cref="TranslatableEntity"/> that can be orientated.
+/// </summary>
 [Serializable]
 public abstract class OrientatedEntity : TranslatableEntity
 {
@@ -23,22 +21,19 @@ public abstract class OrientatedEntity : TranslatableEntity
         set
         {
             if (value == worldOrientation) return;
+            ThrowIfNull(value);
+            /*
             if (value is null)
             {
                 throw new MessageBuilder<ParameterCannotBeNullException>()
                     .AddParameters(nameof(value))
                     .BuildIntoException<ParameterCannotBeNullException>();
             }
+            */
             worldOrientation = value;
             RegenerateRotationMatrix();
             InvokeRenderingEvents();
         }
-    }
-
-    public IEnumerable<Transition<Orientation>> WorldOrientationTransitions
-    {
-        get;
-        set;
     }
 
     #endregion

@@ -1,8 +1,11 @@
 ﻿using Imagenic.Core.Maths.Transformations;
 using System;
 
-namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
+namespace Imagenic.Core.Entities;
 
+/// <summary>
+/// A <see cref="TransformableEntity"/> that can be translated.
+/// </summary>
 [Serializable]
 public abstract class TranslatableEntity : TransformableEntity
 {

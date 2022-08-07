@@ -19,6 +19,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Enums;
+using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
@@ -26,25 +27,13 @@ using System.Collections.Generic;
 namespace Imagenic.Core.Entities;
 
 /// <summary>
-/// An abstract base class that defines objects of type <see cref="RenderingEntity"/>. Any object which inherits from this class provides rendering functionality.
+/// A <see cref="OrientatedEntity"/> that utilises rendering mechanisms.
 /// </summary>
 /// <remarks>This class inherits from the <see cref="SceneEntity"/> class.</remarks>
 [Serializable]
 public abstract partial class RenderingEntity : OrientatedEntity
 {
     #region Fields and Properties
-
-    // Appearance
-    private Mesh icon;
-    public Mesh Icon
-    {
-        get => icon;
-        set
-        {
-            icon = value;
-
-        }
-    }
 
     // Buffers
     internal Buffer2D<float> zBuffer;
