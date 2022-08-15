@@ -12,7 +12,7 @@ namespace Imagenic.Core.Entities;
 /// <summary>
 /// Provides extension methods for transforming transformable entities.
 /// </summary>
-public static class TransformableEntityTransformations
+public static partial class TransformableEntityTransformations
 {
     #region TTransformableEntity
 
@@ -38,29 +38,14 @@ public static class TransformableEntityTransformations
     /// <param name="transformation"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">None of this method's parameters can be null.</exception>
-    [NullCheck(0, 1)]
-    public static TTransformableEntity Transform<TTransformableEntity>(
-        [DisallowNull] this TTransformableEntity transformableEntity,
-        [DisallowNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
-    {
-        ThrowIfNull(transformableEntity, transformation);
+    public static partial TTransformableEntity Transform<TTransformableEntity>(
+        [DisallowNull][ThrowIfNull] this TTransformableEntity transformableEntity,
+        [DisallowNull][ThrowIfNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity;
+    //{
+        //ThrowIfNull(transformableEntity, transformation);
 
-        if (!TransformableEntityExtensionsForTransitions.AddToActiveTransitions(transformation))
-        {
-            // If no active transformations, run the transformation straight away with no transitions?
-            transformation(transformableEntity);
-        }
-
-        /*if (transformableEntity.TransformationsNode is null)
-        {
-            transformableEntity.TransformationsNode = new TransformationNoInputNoOutputNode<TTransformableEntity>(transformation);
-        }
-        else
-        {
-            transformableEntity.TransformationsNode.Add(transformation);
-        }*/
-        return transformableEntity;
-    }
+        
+    //}
 
     /*public static TTransformableEntity Transform<TTransformableEntity, TData>(
         [DisallowNull] this TTransformableEntity transformableEntity,

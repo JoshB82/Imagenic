@@ -47,22 +47,38 @@ namespace NullCheckerSourceGenerator
                 }
             }
 
-            var sb = new StringBuilder();
+            // Begin namespace and class
+            var sb = new StringBuilder($@"namespace NullCheckerSourceGenerator
+                                          {{
+                                                public static partial class TransformableEntityTransformations
+                                                {{");
 
             foreach (var clientMethod in clientMethods)
             {
                 /* Example generated method:
-                 * public static void ThrowIfNull_ClientMethodName(string param1, string param2)
+                 * public static void ClientMethodName<TypeParameters>(string param1, string param2)
                  * {
                  *      ThrowIfNull(param1, param2);
                  * }
                  */
 
-                sb.AppendLine($@"public static void ThrowIfNull_{clientMethod.Name}({string.Join(", ", clientMethod.Parameters.Select(p => $"{p.Type.Name} {p.Name}"))})
+                var formattedTypeParameters = clientMethod.TypeParameters.Length > 0
+                                           ? $"<{string.Join(", ", clientMethod.TypeParameters)}>"
+                                           : string.Empty;
+
+                sb.AppendLine($@"public static void {clientMethod.Name}{formattedTypeParameters}({string.Join(", ", clientMethod.Parameters.Select(p => $"{p.Type.Name} {p.Name}"))})
                                 {{
                                     ThrowIfNull({string.Join(", ", $"{clientMethod.Parameters.Select(p => p.Name)}")});
                                 }}");
             }
+
+
+            // End class and namespace
+            sb.Append($@"      }}
+                         }}");
+                                                
+
+            
 
             foreach (var ies in iesList)
             {
