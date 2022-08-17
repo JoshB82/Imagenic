@@ -1,11 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.FindSymbols;
-using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NullCheckerSourceGenerator
@@ -27,58 +24,34 @@ namespace NullCheckerSourceGenerator
                 return;
             }
 
-            SourceText sourceText = SourceText.From($@"namespace NullCheckerSourceGenerator
-                                                       {{
-                                                            public static class
-                                                            {{
-                                                            }}
-                                                       }}");
-
-            var clientMethods = new List<IMethodSymbol>();
+            // Begin namespace and class
+            SourceBuilder.BeginNamepsaceAndClass();
 
             foreach (var mds in mdsList)
             {
                 var semanticModel = context.Compilation.GetSemanticModel(mds.SyntaxTree);
                 var methodSymbol = (IMethodSymbol)semanticModel.GetSymbolInfo(mds, context.CancellationToken).Symbol;
-                if (methodSymbol.Parameters.Any(p => p.GetAttributes().Any(a => Type.GetType(a.AttributeClass.Name) == typeof(ThrowIfNullAttribute))))
-                {
-                    // Method is a client for a null check.
-                    clientMethods.Add(methodSymbol);
-                }
-            }
 
-            // Begin namespace and class
-            var sb = new StringBuilder($@"namespace NullCheckerSourceGenerator
-                                          {{
-                                                public static partial class TransformableEntityTransformations
-                                                {{");
-
-            foreach (var clientMethod in clientMethods)
-            {
-                /* Example generated method:
-                 * public static void ClientMethodName<TypeParameters>(string param1, string param2)
-                 * {
-                 *      ThrowIfNull(param1, param2);
-                 * }
+                /* A null check is required on a method if:
+                 * - It contains one or more parameters decorated with the ThrowIfNull attribute;
+                 * - All call sites (including those in the consumer's code) have one or more of those parameters as possibly null.
                  */
 
-                var formattedTypeParameters = clientMethod.TypeParameters.Length > 0
-                                           ? $"<{string.Join(", ", clientMethod.TypeParameters)}>"
-                                           : string.Empty;
+                bool nullCheckRequired = methodSymbol.Parameters.Any(p => p.GetAttributes().Any(a => Type.GetType(a.AttributeClass.Name) == typeof(ThrowIfNullAttribute)));
 
-                sb.AppendLine($@"public static void {clientMethod.Name}{formattedTypeParameters}({string.Join(", ", clientMethod.Parameters.Select(p => $"{p.Type.Name} {p.Name}"))})
-                                {{
-                                    ThrowIfNull({string.Join(", ", $"{clientMethod.Parameters.Select(p => p.Name)}")});
-                                }}");
+                SourceBuilder.AddMethod(new ProcessedMethod
+                {
+                    MethodSymbol = methodSymbol,
+                    NullCheckRequired = nullCheckRequired
+                });
             }
 
-
             // End class and namespace
-            sb.Append($@"      }}
-                         }}");
-                                                
+            SourceBuilder.EndClassAndNamespaceClass();
 
-            
+            context.AddSource("NullChecks.generated.cs", SourceBuilder.sb.ToString());
+
+            // ---
 
             foreach (var ies in iesList)
             {
@@ -95,7 +68,7 @@ namespace NullCheckerSourceGenerator
 
             
 
-            context.AddSource();
+            
 
             // ---
 
@@ -157,3 +130,10 @@ namespace NullCheckerSourceGenerator
     [AttributeUsage(AttributeTargets.Parameter)]
     public sealed class ThrowIfNullAttribute : Attribute { }
 }
+
+/*SourceText sourceText = SourceText.From($@"namespace NullCheckerSourceGenerator
+                                                       {{
+                                                            public static class
+                                                            {{
+                                                            }}
+                                                       }}");*/
