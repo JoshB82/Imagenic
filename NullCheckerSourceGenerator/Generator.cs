@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace NullCheckerSourceGenerator
 {
@@ -24,25 +24,47 @@ namespace NullCheckerSourceGenerator
                 return;
             }
 
-            // Begin namespace and class
-            SourceBuilder.BeginNamepsaceAndClass();
+            var consumerMethods = new List<IMethodSymbol>();
+            var libraryMethods = new List<IMethodSymbol>();
+
+            /* A null check is required on a method if:
+             * - It contains one or more parameters decorated with the ThrowIfNull attribute;
+             * - All call sites (including those in the consumer's code) have one or more of those parameters as possibly null.
+             */
+
+            foreach (var ies in iesList)
+            {
+                var semanticModel = context.Compilation.GetSemanticModel(ies.SyntaxTree);
+                var methodSymbol = semanticModel.GetSymbolInfo(ies, context.CancellationToken).Symbol as IMethodSymbol;
+
+                if (ContainsAllNotNullArguments(semanticModel, ies, context.CancellationToken))
+                {
+                    consumerMethods.Add(methodSymbol);
+                }
+            }
 
             foreach (var mds in mdsList)
             {
                 var semanticModel = context.Compilation.GetSemanticModel(mds.SyntaxTree);
                 var methodSymbol = (IMethodSymbol)semanticModel.GetSymbolInfo(mds, context.CancellationToken).Symbol;
 
-                /* A null check is required on a method if:
-                 * - It contains one or more parameters decorated with the ThrowIfNull attribute;
-                 * - All call sites (including those in the consumer's code) have one or more of those parameters as possibly null.
-                 */
+                if (ContainsParametersWithThrowIfNullAttribute(methodSymbol))
+                {
+                    libraryMethods.Add(methodSymbol);
+                }
+            }
 
-                bool nullCheckRequired = methodSymbol.Parameters.Any(p => p.GetAttributes().Any(a => Type.GetType(a.AttributeClass.Name) == typeof(ThrowIfNullAttribute)));
+            // Begin namespace and class
+            SourceBuilder.BeginNamepsaceAndClass();
+
+            foreach (var libraryMethod in libraryMethods)
+            {
+                bool isNullCheckRequired = consumerMethods.Count(m => m == libraryMethod) > 0;
 
                 SourceBuilder.AddMethod(new ProcessedMethod
                 {
-                    MethodSymbol = methodSymbol,
-                    NullCheckRequired = nullCheckRequired
+                    MethodSymbol = libraryMethod,
+                    NullCheckRequired = isNullCheckRequired
                 });
             }
 
@@ -50,46 +72,6 @@ namespace NullCheckerSourceGenerator
             SourceBuilder.EndClassAndNamespaceClass();
 
             context.AddSource("NullChecks.generated.cs", SourceBuilder.sb.ToString());
-
-            // ---
-
-            foreach (var ies in iesList)
-            {
-                var arguments = ies.ArgumentList.Arguments;
-                var nullCheckMethodGenerationPossible = arguments.Any(a => !context.Compilation.GetSemanticModel(a.SyntaxTree)
-                                                                                               .GetNullableContext(0)
-                                                                                               .WarningsEnabled());
-                var semanticModel = context.Compilation.GetSemanticModel(ies.SyntaxTree);
-                if (semanticModel.GetSymbolInfo(ies, context.CancellationToken).Symbol.Name))
-                {
-
-                }
-            }
-
-            
-
-            
-
-            // ---
-
-            // Find methods that contain the ThrowIfNull attribute
-            var relevantMethods = context.Compilation.GlobalNamespace.GetTypeMembers()
-                .OfType<IMethodSymbol>()
-                .Where(m => m.Parameters.SelectMany(p => p.GetAttributes())
-                                        .Any(a => Type.GetType(a.AttributeClass.Name) == typeof(ThrowIfNullAttribute)));
-
-            // Identify call sites
-            Task.Run(async () =>
-            {
-                foreach (var method in relevantMethods)
-                {
-                    var workspace = Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.
-                    //var solution = Assembly.GetCallingAssembly().
-                    await SymbolFinder.FindCallersAsync(method, null, context.CancellationToken);
-                }
-            }, context.CancellationToken);
-            
-            context.Compilation.GlobalNamespace.
         }
 
         public void Initialize(GeneratorInitializationContext context)
@@ -97,38 +79,24 @@ namespace NullCheckerSourceGenerator
             context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
         }
 
-        #endregion
-    }
-
-    public class SyntaxReceiver : ISyntaxReceiver
-    {
-        #region Fields and Properties
-
-        public List<InvocationExpressionSyntax> InvocationSites { get; private set; } = new List<InvocationExpressionSyntax>();
-        public List<MethodDeclarationSyntax> CandidateMethods { get; private set; } = new List<MethodDeclarationSyntax>();
-
-        #endregion
-
-        #region Methods
-
-        public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
+        public static bool ContainsParametersWithThrowIfNullAttribute(IMethodSymbol methodSymbol)
         {
-            switch (syntaxNode)
-            {
-                case InvocationExpressionSyntax ies:
-                    InvocationSites.Add(ies);
-                    break;
-                case MethodDeclarationSyntax mds:
-                    CandidateMethods.Add(mds);
-                    break;
-            }
+            return methodSymbol.Parameters.Any(p => p.GetAttributes().Any(a => Type.GetType(a.AttributeClass.Name) == typeof(ThrowIfNullAttribute)));
+        }
+
+        public static bool ContainsAllNotNullArguments(SemanticModel semanticModel, InvocationExpressionSyntax ies, CancellationToken ct)
+        {
+            return !ies.ArgumentList.Arguments.Any(a => GetNullableFlowState(semanticModel, a, ct) != NullableFlowState.NotNull);
+        }
+
+        public static NullableFlowState GetNullableFlowState(SemanticModel semanticModel, ArgumentSyntax argumentSyntax, CancellationToken ct)
+        {
+            var info = semanticModel.GetTypeInfo(argumentSyntax, ct);
+            return info.Nullability.FlowState;
         }
 
         #endregion
     }
-
-    [AttributeUsage(AttributeTargets.Parameter)]
-    public sealed class ThrowIfNullAttribute : Attribute { }
 }
 
 /*SourceText sourceText = SourceText.From($@"namespace NullCheckerSourceGenerator
