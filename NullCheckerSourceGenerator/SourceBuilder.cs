@@ -16,9 +16,9 @@ namespace NullCheckerSourceGenerator
         internal static void BeginNamepsaceAndClass()
         {
             sb.AppendLine($@"namespace NullCheckerSourceGenerator
-                                          {{
-                                                public static partial class TransformableEntityTransformations
-                                                {{");
+                             {{
+                                 public static partial class TransformableEntityTransformations
+                                 {{");
         }
 
         internal static void AddMethod(ProcessedMethod processedMethod)

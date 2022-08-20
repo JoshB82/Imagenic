@@ -60,4 +60,8 @@
     <Folder Include="Utilities\Exceptions\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Imagenic.SourceGenerators.Test\Imagenic.SourceGenerators.CountableContexts.csproj" />
+  </ItemGroup>
+
 </Project>

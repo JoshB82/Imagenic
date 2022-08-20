@@ -1,17 +1,58 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Imagenic.SourceGenerators.Test;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
-namespace Imagenic.SourceGenerators.Test
+namespace Imagenic.SourceGenerators.CountableContexts
 {
     [Generator]
     public class CountableContextGenerator : ISourceGenerator
     {
         public void Execute(GeneratorExecutionContext context)
         {
-            Console.WriteLine("Source generator execution started.");
+            Trace.WriteLine("Execute method called.");
+
+            var syntaxReceiver = (SyntaxReceiver)context.SyntaxReceiver;
+
+            var cdsList = syntaxReceiver.CandidateClasses;
+
+            if (cdsList.Count == 0)
+            {
+                return;
+            }
+
+            var libraryTypes = new List<ITypeSymbol>();
+
+            bool ends = true;
+
+            foreach (var cds in cdsList)
+            {
+                var semanticModel = context.Compilation.GetSemanticModel(cds.SyntaxTree);
+                var typeSymbol = semanticModel.GetSymbolInfo(cds, context.CancellationToken).Symbol as ITypeSymbol;
+
+                if (ContainsCountableAttribute(typeSymbol))
+                {
+                    libraryTypes.Add(typeSymbol);
+                }
+            }
+
+            int max;
+
+            if (ends)
+            {
+                
+            }
+            else
+            {
+
+            }
+
+            
+
+            // -------------
 
             //var t = from context.Compilation.GlobalNamespace.GetMembers()
             //where
@@ -26,15 +67,21 @@ namespace Imagenic.SourceGenerators.Test
                 {
                     var relevantParameters = methodSymbol.Parameters.Where(p => p.GetAttributes()
                                                                     .Any(a => typeof(ThrowIfNullAttribute) == Type.GetType(a.AttributeClass.Name)));
-                    
+
                 }
             }
-                                               
+
+            Trace.WriteLine("Execute method finished.");
         }
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            throw new System.NotImplementedException();
+            context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
+        }
+
+        public static bool ContainsCountableAttribute(ITypeSymbol typeSymbol)
+        {
+            return typeSymbol.GetAttributes().Any(a => Type.GetType(a.AttributeClass.Name) == typeof(CountableAttribute));
         }
 
         internal static string GenerateThrowIfNullMethodParams() => "";

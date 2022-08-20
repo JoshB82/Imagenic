@@ -1,10 +1,12 @@
 ﻿using Imagenic.Core.Attributes;
 using Imagenic.Core.Entities;
+using Imagenic.SourceGenerators.Test;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Transitions;
 
+[Countable]
 public class TransitionContext<TTransformableEntity> where TTransformableEntity : TransformableEntity
 {
     #region Fields and Properties

@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -14,6 +15,8 @@ namespace NullCheckerSourceGenerator
 
         public void Execute(GeneratorExecutionContext context)
         {
+            Trace.WriteLine("Execute method called.");
+
             var syntaxReceiver = (SyntaxReceiver)context.SyntaxReceiver;
 
             var iesList = syntaxReceiver.InvocationSites;
@@ -72,6 +75,8 @@ namespace NullCheckerSourceGenerator
             SourceBuilder.EndClassAndNamespaceClass();
 
             context.AddSource("NullChecks.generated.cs", SourceBuilder.sb.ToString());
+
+            Trace.WriteLine("Execute method finished.");
         }
 
         public void Initialize(GeneratorInitializationContext context)

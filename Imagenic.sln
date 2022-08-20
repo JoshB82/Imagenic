@@ -39,13 +39,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.CodeAnalyser.Vsix"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CountableContextSourceGenerators", "CountableContextSourceGenerators", "{89A992FB-0521-4AAA-806A-389F1480052A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.SourceGenerators.Test", "Imagenic.SourceGenerators.Test\Imagenic.SourceGenerators.Test.csproj", "{9E05A80E-4A99-43FE-A06D-EFD25DA36602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.SourceGenerators.CountableContexts", "Imagenic.SourceGenerators.Test\Imagenic.SourceGenerators.CountableContexts.csproj", "{9E05A80E-4A99-43FE-A06D-EFD25DA36602}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGenerators", "SourceGenerators", "{869BAA72-6B61-4CD3-8AAF-218895319233}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NullCheckerSourceGenerator", "NullCheckerSourceGenerator\NullCheckerSourceGenerator.csproj", "{89065CDD-05A3-4D64-AE48-602572812C47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imagenic.SourceGenerators.NullCheckers", "NullCheckerSourceGenerator\Imagenic.SourceGenerators.NullCheckers.csproj", "{89065CDD-05A3-4D64-AE48-602572812C47}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analysers", "Analysers", "{4BB30E81-8F1C-471C-BE63-23D6B36D0AA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGeneratorTests", "SourceGeneratorTests", "{39021AE4-6CBA-42A5-B76F-7F3EF4CDDDB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnalyserTests", "AnalyserTests", "{DE65BE6B-4E3C-4340-B61E-1C530575E658}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +145,8 @@ Global
 		{869BAA72-6B61-4CD3-8AAF-218895319233} = {73DB7BB9-FCEB-412F-A99C-86BC58D557CC}
 		{89065CDD-05A3-4D64-AE48-602572812C47} = {869BAA72-6B61-4CD3-8AAF-218895319233}
 		{4BB30E81-8F1C-471C-BE63-23D6B36D0AA2} = {73DB7BB9-FCEB-412F-A99C-86BC58D557CC}
+		{39021AE4-6CBA-42A5-B76F-7F3EF4CDDDB1} = {F3D3426D-DDA9-434B-9856-C0301D2F21EE}
+		{DE65BE6B-4E3C-4340-B61E-1C530575E658} = {F3D3426D-DDA9-434B-9856-C0301D2F21EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D38BCF8-EE33-4180-B06D-A1C7398F7CC0}
