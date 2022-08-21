@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Imagenic.SourceGenerators.CountableContexts
 {
@@ -19,17 +20,60 @@ namespace Imagenic.SourceGenerators.CountableContexts
                                             public class GeneratedContext");
         }
 
-        internal static void AddContextClass(string contextName, int iteration)
+        internal static string GenerateContextTypeName(string contextGeneralName, int iteration)
         {
-            string numberName = iteration switch
+            return $"{iteration switch
             {
                 1 => string.Empty,
                 2 => "Double",
                 3 => "Triple",
                 _ => $"{iteration}_Iteration"
-            };
-            SourceBuilder.AppendLine($@"public class {numberName}{contextName}Context
+            }}{contextGeneralName}Context";
+        }
+
+        /*internal static string GenerateContextPropertyName(string propertyGeneralName, int iteration)
+        {
+            return $"{iteration switch
+            {
+                
+                _ => $"{iteration}_Iteration"
+            }}";
+        }*/
+
+        // New context class
+        internal static void BeginNewContextClass(string contextName, int iteration)
+        {
+            string contextTypeName = GenerateContextTypeName(contextName, iteration);
+
+            string inheritance = iteration > 1
+                               ? " : "
+                               : string.Empty;
+
+            SourceBuilder.AppendLine($@"public class {contextTypeName}
                                         {{");
+        }
+
+        internal static void EndNewContextClass()
+        {
+            SourceBuilder.AppendLine("}");
+        }
+
+        // Constructor
+        internal static void AddConstructor(string accessibilityModifier, string contextName, int iteration, List<string> constructorParameters, string listName)
+        {
+            string contextTypeName = GenerateContextTypeName(contextName, iteration);
+            string constructorParametersFormatted = string.Join(", ", constructorParameters);
+
+            /* Example:
+            * public DoubleTransitionContext(Transition secondTransition)
+            * {
+            *   SecondTransition = secondTransition;
+            * }
+            */
+            SourceBuilder.AppendLine($@"{accessibilityModifier} {contextTypeName}({constructorParametersFormatted})
+                                        {{
+                                            {listName}.Add({constructorParametersFormatted[0]});
+                                        }}");
         }
 
         #endregion
