@@ -8,7 +8,55 @@ namespace Imagenic.Core.Entities;
 [Serializable]
 public abstract class Entity
 {
+    #region Fields and Properties
+
+    // Id
+    private static int nextId;
+    /// <summary>
+    /// The identification number.
+    /// </summary>
+    public int Id { get; } = nextId++;
+
+    // Rendering events
+    internal event Action<RenderUpdateArgs>? RenderAlteringPropertyChanged;
+
+    //internal event Action RenderAlteringPropertyChanged;
+    //internal event Action ShadowMapAlteringPropertyChanged;
+
+    /*internal void InvokeRenderingEvents(bool renderEvent = true, bool shadowMapEvent = true)
+    {
+        if (renderEvent)
+        {
+            RenderAlteringPropertyChanged?.Invoke();
+        }
+        if (shadowMapEvent)
+        {
+            ShadowMapAlteringPropertyChanged?.Invoke();
+        }
+    }*/
+
+    internal virtual IMessageBuilder<EntityCreatedMessage> MessageBuilder { get; }
+
+    #endregion
+
+    #region Constructors
+
+    public Entity()
+    {
+        MessageBuilder = MessageBuilder<EntityCreatedMessage>.Instance()
+                                                             .AddParameter(nextId)
+                                                             .Build()
+                                                             .DisplayInConsole();
+    }
+
+    #endregion
+
     #region Methods
+
+    internal void InvokeRenderEvent(RenderUpdateArgs args)
+    {
+        RenderAlteringPropertyChanged?.Invoke(args);
+    }
 
     public virtual Entity ShallowCopy() => (Entity)MemberwiseClone();
     public virtual Entity DeepCopy()
@@ -20,41 +68,7 @@ public abstract class Entity
 
     #endregion
 
-
-    public Entity()
-    {
-        MessageBuilder<EntityCreatedMessage>.Instance()
-            .AddParameter(nextId)
-            .Build()
-            .DisplayInConsole();
-    }
-
     //public EventList<Transition> Transitions { get; set; }
-
-    // Id
-    private static int nextId;
-    /// <summary>
-    /// The identification number.
-    /// </summary>
-    public int Id { get; } = nextId++;
-
-    // Rendering events
-    internal event Action<RenderUpdateArgs> RenderAlteringPropertyChanged;
-
-    //internal event Action RenderAlteringPropertyChanged;
-    //internal event Action ShadowMapAlteringPropertyChanged;
-
-    internal void InvokeRenderingEvents(bool renderEvent = true, bool shadowMapEvent = true)
-    {
-        if (renderEvent)
-        {
-            RenderAlteringPropertyChanged?.Invoke();
-        }
-        if (shadowMapEvent)
-        {
-            ShadowMapAlteringPropertyChanged?.Invoke();
-        }
-    }
 }
 
 public static class TransformationBuilder

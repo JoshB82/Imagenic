@@ -6,7 +6,12 @@ using System.Runtime.CompilerServices;
 
 namespace Imagenic.Core.Utilities.Messages;
 
-public sealed class MessageBuilder<TMessage> where TMessage : IMessage<TMessage>
+public interface IMessageBuilder<out TMessage>
+{
+    //public static abstract IMessageBuilder<TMessage> Instance();
+}
+
+public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where TMessage : IMessage<TMessage>
 {
     #region Fields and Properties
 

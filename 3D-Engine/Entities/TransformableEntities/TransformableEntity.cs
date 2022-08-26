@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using Imagenic.Core.Utilities.Node;
 using Imagenic.Core.Transitions;
+using Imagenic.Core.Utilities.Messages;
 
 namespace Imagenic.Core.Entities;
 
@@ -14,7 +15,18 @@ public abstract class TransformableEntity : Entity
 {
     #region Fields and Properties
 
+    internal override IMessageBuilder<TransformableEntityCreatedMessage> MessageBuilder { get; }
+
     public List<Transition> Transitions { get; set; } = new();
+
+    #endregion
+
+    #region Constructors
+
+    public TransformableEntity() : base()
+    {
+        //MessageBuilder = MessageBuilder.;
+    }
 
     #endregion
 
