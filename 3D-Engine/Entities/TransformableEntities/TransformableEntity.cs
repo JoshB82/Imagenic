@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Imagenic.Core.Utilities.Node;
 using Imagenic.Core.Transitions;
@@ -25,7 +25,6 @@ public abstract class TransformableEntity : Entity
 
     public TransformableEntity() : base()
     {
-        //MessageBuilder = MessageBuilder.;
     }
 
     #endregion

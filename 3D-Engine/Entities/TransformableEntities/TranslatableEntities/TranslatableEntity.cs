@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.Maths.Transformations;
+using Imagenic.Core.Utilities.Messages;
 using System;
 
 namespace Imagenic.Core.Entities;
@@ -10,6 +11,8 @@ namespace Imagenic.Core.Entities;
 public abstract class TranslatableEntity : TransformableEntity
 {
     #region Fields and Properties
+
+    internal override IMessageBuilder<TranslatableEntityCreatedMessage> MessageBuilder { get; }
 
     // Matrices
     private Matrix4x4 translationMatrix;
@@ -37,10 +40,12 @@ public abstract class TranslatableEntity : TransformableEntity
 
     #region Constructors
 
-    protected TranslatableEntity(Vector3D worldOrigin)
+    protected TranslatableEntity(Vector3D worldOrigin) : base()
     {
         this.worldOrigin = worldOrigin;
         RegenerateTranslationMatrix();
+
+        MessageBuilder.AddParameter(worldOrigin);
     }
 
     #endregion

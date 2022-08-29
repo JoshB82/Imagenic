@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.Maths.Transformations;
+using Imagenic.Core.Utilities.Messages;
 using System;
 
 namespace Imagenic.Core.Entities;
@@ -11,6 +12,8 @@ public abstract class OrientatedEntity : TranslatableEntity
 {
     #region Fields and Properties
 
+    internal override IMessageBuilder<OrientatedEntityCreatedMessage> MessageBuilder { get; }
+
     private Matrix4x4 rotationMatrix;
 
     // Orientation
@@ -22,14 +25,6 @@ public abstract class OrientatedEntity : TranslatableEntity
         {
             if (value == worldOrientation) return;
             ThrowIfNull(value);
-            /*
-            if (value is null)
-            {
-                throw new MessageBuilder<ParameterCannotBeNullException>()
-                    .AddParameters(nameof(value))
-                    .BuildIntoException<ParameterCannotBeNullException>();
-            }
-            */
             worldOrientation = value;
             RegenerateRotationMatrix();
             InvokeRenderingEvents();
@@ -43,6 +38,8 @@ public abstract class OrientatedEntity : TranslatableEntity
     protected OrientatedEntity(Vector3D worldOrigin, Orientation worldOrientation) : base(worldOrigin)
     {
         this.worldOrientation = worldOrientation;
+
+        MessageBuilder!.AddParameter(worldOrientation);
     }
 
     #endregion

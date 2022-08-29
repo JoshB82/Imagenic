@@ -1,15 +1,11 @@
-﻿using Imagenic.Core.Enums;
+﻿using Imagenic.Core.Attributes;
+using Imagenic.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Imagenic.Core.Utilities.Messages;
-
-public interface IMessageBuilder<out TMessage>
-{
-    //public static abstract IMessageBuilder<TMessage> Instance();
-}
 
 public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where TMessage : IMessage<TMessage>
 {
@@ -19,7 +15,7 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
 
     private bool includeTime, includeProjectName;
 
-    public List<Type>? Types { get; set; }
+    public List<string>? TypeNames { get; set; }
 
     #endregion
 
@@ -44,44 +40,73 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
 
     #region Methods
 
-    public MessageBuilder<TMessage> AddType<TType>() => AddType(typeof(TType));
-
-    public MessageBuilder<TMessage> AddType([DisallowNull] Type type)
+    /// <summary>
+    /// Adds the specified parameter's value to the message being built.
+    /// </summary>
+    /// <typeparam name="TParam"></typeparam>
+    /// <param name="param">The parameter whose value is to be added.</param>
+    /// <param name="includeParamName">Indicates whether or not to display the expression passed to this method for the first parameter.</param>
+    /// <param name="paramName">The expression passed to this method for the first parameter.</param>
+    /// <returns>The current instance.</returns>
+    public IMessageBuilder<TMessage> AddParameter<TParam>(
+        TParam? param,
+        bool includeParamName = false,
+        [CallerArgumentExpression("param")] string? paramName = default)
     {
-        (Types ??= new List<Type>()).Add(type);
+        TMessage.ConstantParameters ??= new List<string>();
+        string paramFormatted = param?.ToString() ?? "null";
+
+        if (includeParamName)
+        {
+            TMessage.ConstantParameters.Add($"({paramName} : {paramFormatted})");
+        }
+        else
+        {
+            TMessage.ConstantParameters.Add(paramFormatted);
+        }
+
         return this;
     }
 
+    /*
+    public MessageBuilder<TMessage> AddParameter<TParam>(TParam? constantParameter)
+    {
+        (TMessage.ConstantParameters ??= new List<string>()).Add(constantParameter?.ToString() ?? "null");
+        return this;
+    }*/
+
+    /// <summary>
+    /// Adds the specified type name's to the message being built.
+    /// </summary>
+    /// <typeparam name="TType">The type whose name is to be added.</typeparam>
+    /// <returns>The current instance.</returns>
+    public MessageBuilder<TMessage> AddType<TType>() => AddType(typeof(TType));
+
+    /// <summary>
+    /// Adds the specified type name to the message being built.
+    /// </summary>
+    /// <param name="typeName">The type name to be added.</param>
+    /// <returns>The current instance.</returns>
+    public MessageBuilder<TMessage> AddTypeName([DisallowNull] [ThrowIfNull] string typeName)
+    {
+        (TypeNames ??= new List<string>()).Add(typeName);
+        return this;
+    }
+
+    /// <summary>
+    /// Adds the specified verbosity's name to the message being built.
+    /// </summary>
+    /// <param name="verbosity">The verbosity whose name is to be added.</param>
+    /// <returns>The current instance.</returns>
     public MessageBuilder<TMessage> WithVerbosity(Verbosity verbosity)
     {
         this.verbosity = verbosity;
         return this;
     }
 
-    public MessageBuilder<TMessage> AddParameter<TParam>(
-        TParam? param,
-        bool includeParamName = false,
-        [CallerArgumentExpression("param")] string? paramName = default)
-    {
-        ConstantParameters ??= new List<string>();
+    
 
-        if (includeParamName)
-        {
-            ConstantParameters.Add($"{paramName} : {param?.ToString()}");
-        }
-        else
-        {
-            ConstantParameters.Add(param?.ToString());
-        }
-
-        return this;
-    }
-
-    public MessageBuilder<TMessage> AddParameter<TParam>(TParam? constantParameter)
-    {
-        (TMessage.ConstantParameters ??= new List<string>()).Add(constantParameter?.ToString() ?? "null");
-        return this;
-    }
+    
 
     public MessageBuilder<TMessage> AddParameter([DisallowNull] Func<string?> resolvableParameter)
     {
@@ -99,6 +124,10 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
 
     private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
 
+    /// <summary>
+    /// Generates the message string with all added decorations.
+    /// </summary>
+    /// <returns>The built string.</returns>
     public string Build()
     {
         if (verbosity == Verbosity.None)
@@ -116,9 +145,9 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
         {
             result += $"[{Constants.ProjectName}] ";
         }
-        if (Types is not null)
+        if (TypeNames is not null)
         {
-            result += $"[{string.Join(", ", Types)}] ";
+            result += $"[{string.Join(", ", TypeNames)}] ";
         }
 
         return result + verbosity switch
