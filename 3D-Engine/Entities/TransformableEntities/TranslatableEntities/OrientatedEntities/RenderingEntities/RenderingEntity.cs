@@ -14,13 +14,12 @@ using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.RenderingEntities.Lights;
-using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Enums;
 using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Renderers;
+using Imagenic.Core.Utilities.Messages;
 using System;
 using System.Collections.Generic;
 
@@ -34,6 +33,8 @@ namespace Imagenic.Core.Entities;
 public abstract partial class RenderingEntity : OrientatedEntity
 {
     #region Fields and Properties
+
+    internal override IMessageBuilder<RenderingEntityCreatedMessage> MessageBuilder { get; }
 
     // Buffers
     internal Buffer2D<float> zBuffer;
@@ -296,6 +297,11 @@ public abstract partial class RenderingEntity : OrientatedEntity
                              float zNear,
                              float zFar) : base(worldOrigin, worldOrientation)
     {
+        MessageBuilder.AddParameter(viewWidth)
+                      .AddParameter(viewHeight)
+                      .AddParameter(zNear)
+                      .AddParameter(zFar);
+
         // Construct view-space clipping planes and matrix
         float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;
         Vector3D nearBottomLeftPoint = new(-semiViewWidth, -semiViewHeight, zNear);

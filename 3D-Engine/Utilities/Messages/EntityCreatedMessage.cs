@@ -13,6 +13,18 @@ internal class EntityCreatedMessage : IMessage<EntityCreatedMessage>
     public static List<Func<string?>>? ResolvableParameters { get; set; }
 }
 
+internal class TransformableEntityCreatedMessage : EntityCreatedMessage, IMessage<TransformableEntityCreatedMessage>
+{
+    public static MessageInterpolatedStringHandler<TransformableEntityCreatedMessage> BriefText => throw new NotImplementedException();
+
+    public static MessageInterpolatedStringHandler<TransformableEntityCreatedMessage> DetailedText => throw new NotImplementedException();
+
+    public static MessageInterpolatedStringHandler<TransformableEntityCreatedMessage> AllText => throw new NotImplementedException();
+
+    public static List<string>? ConstantParameters { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public static List<Func<string?>>? ResolvableParameters { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+}
+
 internal class TranslatableEntityCreatedMessage : TransformableEntityCreatedMessage, IMessage<TranslatableEntityCreatedMessage>
 {
     public static MessageInterpolatedStringHandler<TranslatableEntityCreatedMessage> BriefText => $"Position: {0}";
@@ -31,4 +43,23 @@ internal class OrientatedEntityCreatedMessage : TranslatableEntityCreatedMessage
 
     public static List<string>? ConstantParameters { get; set; }
     public static List<Func<string?>>? ResolvableParameters { get; set; }
+}
+
+internal class PhysicalEntityCreatedMessage : OrientatedEntityCreatedMessage, IMessage<PhysicalEntityCreatedMessage>
+{
+    public new static MessageInterpolatedStringHandler<PhysicalEntityCreatedMessage> BriefText => $"Parameters: {{{0}, {1}, {2}, {3}}}";
+
+    public new static MessageInterpolatedStringHandler<PhysicalEntityCreatedMessage> DetailedText => $"With parameters: {{{0}, {1}, {2}, {3}}}";
+
+    public new static MessageInterpolatedStringHandler<PhysicalEntityCreatedMessage> AllText => $"With parameters: {{{0}, {1}, {2}, {3}}}";
+}
+
+internal class RenderingEntityCreatedMessage : OrientatedEntityCreatedMessage, IMessage<RenderingEntityCreatedMessage>
+{
+
+}
+
+internal class MeshCreatedMessage : PhysicalEntityCreatedMessage, IMessage<MeshCreatedMessage>
+{
+
 }

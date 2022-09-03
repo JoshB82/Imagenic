@@ -14,10 +14,10 @@ using _3D_Engine.Constants;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
+using Imagenic.Core.Utilities.Messages;
 using System;
 
-namespace Imagenic.Core.Entities.Meshes;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// Encapsulates creation of a <see cref="Mesh"/>.
@@ -26,6 +26,8 @@ namespace Imagenic.Core.Entities.Meshes;
 public abstract partial class Mesh : PhysicalEntity
 {
     #region Fields and Properties
+
+    internal override IMessageBuilder<MeshCreatedMessage> MessageBuilder { get; }
 
     // Structure
     private MeshStructure structure;
@@ -112,9 +114,13 @@ public abstract partial class Mesh : PhysicalEntity
 
     protected Mesh(Vector3D worldOrigin,
                    Orientation worldOrientation,
-                   MeshStructure structure,
-                   bool hasDirectionArrows = true) : base(worldOrigin, worldOrientation, hasDirectionArrows)
+                   MeshStructure structure) : base(worldOrigin, worldOrientation)
     {
+        MessageBuilder.AddParameter(DrawEdges)
+                      .AddParameter(DrawFaces)
+                      .AddParameter(DrawOutline)
+                      .AddParameter(HasTexture);
+
         if (worldOrientation is null)
         {
             // throw exception

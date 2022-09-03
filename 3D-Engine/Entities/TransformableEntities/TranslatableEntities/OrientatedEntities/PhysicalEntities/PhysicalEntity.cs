@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.Maths.Transformations;
+using Imagenic.Core.Utilities.Messages;
 using System;
 
 namespace Imagenic.Core.Entities;
@@ -10,6 +11,8 @@ namespace Imagenic.Core.Entities;
 public abstract class PhysicalEntity : OrientatedEntity
 {
     #region Fields and Properties
+
+    internal override IMessageBuilder<PhysicalEntityCreatedMessage> MessageBuilder { get; }
 
     // Casts shadows
     private bool castsShadows = true;
@@ -85,7 +88,13 @@ public abstract class PhysicalEntity : OrientatedEntity
 
     #region Constructors
 
-    protected PhysicalEntity(Vector3D worldOrigin, Orientation worldOrientation) : base(worldOrigin, worldOrientation) { }
+    protected PhysicalEntity(Vector3D worldOrigin, Orientation worldOrientation) : base(worldOrigin, worldOrientation)
+    {
+        MessageBuilder.AddParameter(CastsShadows, true)
+                      .AddParameter(Opacity, true)
+                      .AddParameter(Visible, true)
+                      .AddParameter(Scaling, true);
+    }
 
     #endregion
 

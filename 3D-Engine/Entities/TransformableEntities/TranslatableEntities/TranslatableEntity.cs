@@ -32,7 +32,7 @@ public abstract class TranslatableEntity : TransformableEntity
             if (value == worldOrigin) return;
             worldOrigin = value;
             RegenerateTranslationMatrix();
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
 

@@ -27,7 +27,7 @@ public abstract class OrientatedEntity : TranslatableEntity
             ThrowIfNull(value);
             worldOrientation = value;
             RegenerateRotationMatrix();
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender | RenderUpdate.NewShadowMap);
         }
     }
 

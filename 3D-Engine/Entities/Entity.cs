@@ -18,7 +18,7 @@ public abstract class Entity
     public int Id { get; } = nextId++;
 
     // Rendering events
-    internal event Action<RenderUpdateArgs>? RenderAlteringPropertyChanged;
+    internal event Action<RenderUpdate>? RenderAlteringPropertyChanged;
 
     //internal event Action RenderAlteringPropertyChanged;
     //internal event Action ShadowMapAlteringPropertyChanged;
@@ -53,7 +53,7 @@ public abstract class Entity
 
     #region Methods
 
-    internal void InvokeRenderEvent(RenderUpdateArgs args)
+    internal void InvokeRenderEvent(RenderUpdate args)
     {
         RenderAlteringPropertyChanged?.Invoke(args);
     }

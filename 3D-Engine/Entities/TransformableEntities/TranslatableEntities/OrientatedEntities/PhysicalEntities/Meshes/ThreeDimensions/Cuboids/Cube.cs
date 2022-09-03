@@ -11,18 +11,16 @@
  */
 
 using _3D_Engine.Enums;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Planes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// A mesh of a cube.
@@ -65,6 +63,7 @@ public class Cube : Mesh
                 Orientation worldOrientation,
                 float sideLength) : base(worldOrigin, worldOrientation, GenerateStructure())
     {
+        MessageBuilder.AddParameter(sideLength);
         SideLength = sideLength;
     }
 
