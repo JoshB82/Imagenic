@@ -1,6 +1,7 @@
 ﻿using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Utilities.Messages;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Entities;
 
@@ -11,8 +12,6 @@ namespace Imagenic.Core.Entities;
 public abstract class OrientatedEntity : TranslatableEntity
 {
     #region Fields and Properties
-
-    internal override IMessageBuilder<OrientatedEntityCreatedMessage> MessageBuilder { get; }
 
     private Matrix4x4 rotationMatrix;
 
@@ -31,15 +30,38 @@ public abstract class OrientatedEntity : TranslatableEntity
         }
     }
 
+    #if DEBUG
+
+    private protected override IMessageBuilder<OrientatedEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<OrientatedEntityCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
     #endregion
 
     #region Constructors
 
+    #if DEBUG
+
+    private protected OrientatedEntity(Vector3D worldOrigin, Orientation worldOrientation, IMessageBuilder<OrientatedEntityCreatedMessage> mb) : base(worldOrigin, mb)
+    {
+        MessageBuilder!.AddParameter(worldOrientation);
+        NonDebugConstructorBody(worldOrientation);
+    }
+
+    #endif
+
+    #if !DEBUG
+
     protected OrientatedEntity(Vector3D worldOrigin, Orientation worldOrientation) : base(worldOrigin)
     {
-        this.worldOrientation = worldOrientation;
+        NonDebugConstructorBody(worldOrientation);
+    }
 
-        MessageBuilder!.AddParameter(worldOrientation);
+    #endif
+
+    public void NonDebugConstructorBody(Orientation worldOrientation)
+    {
+        this.worldOrientation = worldOrientation;
     }
 
     #endregion

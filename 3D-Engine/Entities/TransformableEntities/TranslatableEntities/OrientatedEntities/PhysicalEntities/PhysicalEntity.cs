@@ -12,8 +12,6 @@ public abstract class PhysicalEntity : OrientatedEntity
 {
     #region Fields and Properties
 
-    internal override IMessageBuilder<PhysicalEntityCreatedMessage> MessageBuilder { get; }
-
     // Casts shadows
     private bool castsShadows = true;
     /// <summary>
@@ -84,17 +82,35 @@ public abstract class PhysicalEntity : OrientatedEntity
         }
     }
 
+    #if DEBUG
+
+    private protected override IMessageBuilder<PhysicalEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<PhysicalEntityCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
     #endregion
 
     #region Constructors
 
+    #if DEBUG
+
+    private protected PhysicalEntity(Vector3D worldOrigin, Orientation worldOrientation, IMessageBuilder<PhysicalEntityCreatedMessage> mb) : base(worldOrigin, worldOrientation, mb)
+    {
+        MessageBuilder!.AddParameter(CastsShadows, true)
+                       .AddParameter(Opacity, true)
+                       .AddParameter(Visible, true)
+                       .AddParameter(Scaling, true);
+    }
+
+    #endif
+
+    #if !DEBUG
+
     protected PhysicalEntity(Vector3D worldOrigin, Orientation worldOrientation) : base(worldOrigin, worldOrientation)
     {
-        MessageBuilder.AddParameter(CastsShadows, true)
-                      .AddParameter(Opacity, true)
-                      .AddParameter(Visible, true)
-                      .AddParameter(Scaling, true);
     }
+
+    #endif
 
     #endregion
 

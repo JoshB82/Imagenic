@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Imagenic.Core.Transitions;
+using Imagenic.Core.Utilities.Messages;
+using Imagenic.Core.Utilities.Node;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Imagenic.Core.Utilities.Node;
-using Imagenic.Core.Transitions;
-using Imagenic.Core.Utilities.Messages;
 
 namespace Imagenic.Core.Entities;
 
@@ -15,17 +15,34 @@ public abstract class TransformableEntity : Entity
 {
     #region Fields and Properties
 
-    internal override IMessageBuilder<TransformableEntityCreatedMessage> MessageBuilder { get; }
-
     public List<Transition> Transitions { get; set; } = new();
+
+    #if DEBUG
+
+    private protected override IMessageBuilder<TransformableEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<TransformableEntityCreatedMessage>?)base.MessageBuilder;
+
+    #endif
 
     #endregion
 
     #region Constructors
 
+    #if DEBUG
+
+    private protected TransformableEntity(IMessageBuilder<TransformableEntityCreatedMessage> mb) : base(mb)
+    {
+
+    }
+
+    #endif
+
+    #if !DEBUG
+
     public TransformableEntity() : base()
     {
     }
+
+    #endif
 
     #endregion
 
@@ -71,7 +88,7 @@ public abstract class TransformableEntity : Entity
         }
     }
 
-    #endregion
+#endregion
 
 
     //public EventList<Transition> Transitions { get; set; } = new();
@@ -79,7 +96,7 @@ public abstract class TransformableEntity : Entity
 
     //ExpressionTree
 
-    #region Methods
+#region Methods
 
     
 
@@ -118,7 +135,7 @@ public abstract class TransformableEntity : Entity
         }
     }
 
-    #endregion
+#endregion
 }
 
 /*

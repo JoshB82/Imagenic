@@ -23,31 +23,48 @@ public abstract class Entity
     //internal event Action RenderAlteringPropertyChanged;
     //internal event Action ShadowMapAlteringPropertyChanged;
 
-    /*internal void InvokeRenderingEvents(bool renderEvent = true, bool shadowMapEvent = true)
+/*internal void InvokeRenderingEvents(bool renderEvent = true, bool shadowMapEvent = true)
+{
+    if (renderEvent)
     {
-        if (renderEvent)
-        {
-            RenderAlteringPropertyChanged?.Invoke();
-        }
-        if (shadowMapEvent)
-        {
-            ShadowMapAlteringPropertyChanged?.Invoke();
-        }
-    }*/
+        RenderAlteringPropertyChanged?.Invoke();
+    }
+    if (shadowMapEvent)
+    {
+        ShadowMapAlteringPropertyChanged?.Invoke();
+    }
+}*/
 
-    internal virtual IMessageBuilder<EntityCreatedMessage> MessageBuilder { get; }
+    #if DEBUG
+
+    private protected virtual IMessageBuilder<EntityCreatedMessage>? MessageBuilder { get; }
+
+    #endif
 
     #endregion
 
     #region Constructors
 
-    public Entity()
+    #if DEBUG
+
+    private protected Entity(IMessageBuilder<EntityCreatedMessage> mb)
     {
-        MessageBuilder = MessageBuilder<EntityCreatedMessage>.Instance()
+        MessageBuilder = mb.AddParameter(nextId);
+    }
+
+    #endif
+
+    #if !DEBUG
+
+    protected Entity()
+    {
+        /*MessageBuilder = MessageBuilder<EntityCreatedMessage>.Instance()
                                                              .AddParameter(nextId)
                                                              .Build()
-                                                             .DisplayInConsole();
+                                                             .DisplayInConsole();*/
     }
+
+    #endif
 
     #endregion
 

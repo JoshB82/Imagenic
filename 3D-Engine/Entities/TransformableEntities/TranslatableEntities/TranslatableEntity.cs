@@ -12,8 +12,6 @@ public abstract class TranslatableEntity : TransformableEntity
 {
     #region Fields and Properties
 
-    internal override IMessageBuilder<TranslatableEntityCreatedMessage> MessageBuilder { get; }
-
     // Matrices
     private Matrix4x4 translationMatrix;
     public Matrix4x4 ModelToWorld { get; protected set; }
@@ -36,16 +34,39 @@ public abstract class TranslatableEntity : TransformableEntity
         }
     }
 
+    #if DEBUG
+
+    private protected override IMessageBuilder<TranslatableEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<TranslatableEntityCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
     #endregion
 
     #region Constructors
 
+    #if DEBUG
+
+    private protected TranslatableEntity(Vector3D worldOrigin, IMessageBuilder<TranslatableEntityCreatedMessage> mb) : base(mb)
+    {
+        MessageBuilder!.AddParameter(worldOrigin);
+        NonDebugConstructorBody(worldOrigin);
+    }
+
+    #endif
+
+    #if !DEBUG
+
     protected TranslatableEntity(Vector3D worldOrigin) : base()
+    {
+        NonDebugConstructorBody(worldOrigin);
+    }
+
+    #endif
+
+    private void NonDebugConstructorBody(Vector3D worldOrigin)
     {
         this.worldOrigin = worldOrigin;
         RegenerateTranslationMatrix();
-
-        MessageBuilder.AddParameter(worldOrigin);
     }
 
     #endregion
@@ -73,5 +94,5 @@ public abstract class TranslatableEntity : TransformableEntity
         ModelToWorld = translationMatrix;
     }
 
-    #endregion
+#endregion
 }

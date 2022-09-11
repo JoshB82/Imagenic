@@ -27,7 +27,12 @@ public abstract partial class Mesh : PhysicalEntity
 {
     #region Fields and Properties
 
-    internal override IMessageBuilder<MeshCreatedMessage> MessageBuilder { get; }
+    #if DEBUG
+    
+    //[NonSerialized] - not available for properties? :(
+    private protected override IMessageBuilder<MeshCreatedMessage>? MessageBuilder => (IMessageBuilder<MeshCreatedMessage>?)base.MessageBuilder;
+
+    #endif
 
     // Structure
     private MeshStructure structure;

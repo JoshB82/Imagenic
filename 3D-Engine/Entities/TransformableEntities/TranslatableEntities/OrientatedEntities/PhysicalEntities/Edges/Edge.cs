@@ -12,6 +12,7 @@
 
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
+using Imagenic.Core.Utilities.Messages;
 
 namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 
@@ -33,6 +34,7 @@ public abstract class Edge : PhysicalEntity
         set
         {
             if (value == p1) return;
+            ThrowIfNull(value);
             p1 = value;
             InvokeRenderingEvents();
         }
@@ -43,23 +45,49 @@ public abstract class Edge : PhysicalEntity
         set
         {
             if (value == p2) return;
+            ThrowIfNull(value);
             p2 = value;
             InvokeRenderingEvents();
         }
     }
 
+    #if DEBUG
+
+    private protected override IMessageBuilder<EdgeCreatedMessage>? MessageBuilder => (IMessageBuilder<EdgeCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
     #endregion
 
     #region Constructors
+
+    #if DEBUG
+
+    private protected Edge(Vertex modelP1, Vertex modelP2, IMessageBuilder<EdgeCreatedMessage> mb) : base(modelP1.WorldOrigin, Orientation.OrientationXY, mb)
+    {
+        NonDebugConstructorBody(modelP1, modelP2);
+    }
+
+    #endif
+
+    #if !DEBUG
 
     /// <summary>
     /// Creates an <see cref="Edge"/>.
     /// </summary>
     /// <param name="modelP1">The position of the first point on the <see cref="Edge"/>.</param>
     /// <param name="modelP2">The position of the second point on the <see cref="Edge"/>.</param>
-    public Edge(Vertex modelP1, Vertex modelP2)
+    public Edge(Vertex modelP1, Vertex modelP2) : base(modelP1.WorldOrigin, Orientation.OrientationXY)
     {
-        P1 = modelP1; P2 = modelP2;
+        NonDebugConstructorBody(modelP1, modelP2);
+    }
+
+    #endif
+
+    private void NonDebugConstructorBody(Vertex modelP1, Vertex modelP2)
+    {
+        P1 = modelP1;
+        P2 = modelP2;
     }
 
     #endregion
