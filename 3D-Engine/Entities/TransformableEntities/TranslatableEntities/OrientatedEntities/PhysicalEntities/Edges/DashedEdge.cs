@@ -12,11 +12,12 @@
 
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Maths;
+using Imagenic.Core.Utilities.Messages;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+namespace Imagenic.Core.Entities;
 
 public class DashedEdge : Edge
 {
@@ -51,6 +52,12 @@ public class DashedEdge : Edge
             InvokeRenderingEvents(true, false);
         }
     }
+
+    #if DEBUG
+
+    private protected override IMessageBuilder<DashedEdgeCreatedMessage> MessageBuilder => (IMessageBuilder<DashedEdgeCreatedMessage>)base.MessageBuilder;
+
+    #endif
 
     #endregion
 
