@@ -10,12 +10,18 @@
  * Defines a SolidEdge, representing a single-coloured edge with no pattern.
  */
 
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+#if DEBUG
+
+using Imagenic.Core.Utilities.Messages;
+
+#endif
+
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using System.Drawing;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+namespace Imagenic.Core.Entities;
 
-public class SolidEdge : Edge
+public sealed class SolidEdge : Edge
 {
     #region Fields and Properties
 
@@ -31,13 +37,42 @@ public class SolidEdge : Edge
         }
     }
 
+    #if DEBUG
+
+    private protected override IMessageBuilder<SolidEdgeCreatedMessage>? MessageBuilder => (IMessageBuilder<SolidEdgeCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
     #endregion
 
     #region Constructors
 
+    #if DEBUG
+
+    public SolidEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2, MessageBuilder<SolidEdgeCreatedMessage>.Instance())
+    {
+
+    }
+
+    public SolidEdge(Vertex modelP1, Vertex modelP2, Color colour) : base(modelP1, modelP2, MessageBuilder<SolidEdgeCreatedMessage>.Instance())
+    {
+        NonDebugConstructorBody(colour);
+    }
+
+    #endif
+
+    #if !DEBUG
+
     public SolidEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
 
     public SolidEdge(Vertex modelP1, Vertex modelP2, Color colour) : base(modelP1, modelP2)
+    {
+        NonDebugConstructorBody(colour);
+    }
+
+    #endif
+
+    private void NonDebugConstructorBody(Color colour)
     {
         Colour = colour;
     }

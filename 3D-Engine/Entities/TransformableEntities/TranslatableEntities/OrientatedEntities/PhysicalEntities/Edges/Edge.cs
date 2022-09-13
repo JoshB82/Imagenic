@@ -11,10 +11,9 @@
  */
 
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Utilities.Messages;
 
-namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// Encapsulates creation of an <see cref="Edge"/>.
@@ -24,7 +23,7 @@ public abstract class Edge : PhysicalEntity
     #region Fields and Properties
 
     // Appearance
-    public bool Visible { get; set; } = true;
+    //public bool Visible { get; set; } = true;
 
     // Vertices
     private Vertex p1, p2;
@@ -36,7 +35,7 @@ public abstract class Edge : PhysicalEntity
             if (value == p1) return;
             ThrowIfNull(value);
             p1 = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender | RenderUpdate.NewShadowMap);
         }
     }
     internal Vertex P2
@@ -47,7 +46,7 @@ public abstract class Edge : PhysicalEntity
             if (value == p2) return;
             ThrowIfNull(value);
             p2 = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender | RenderUpdate.NewShadowMap);
         }
     }
 

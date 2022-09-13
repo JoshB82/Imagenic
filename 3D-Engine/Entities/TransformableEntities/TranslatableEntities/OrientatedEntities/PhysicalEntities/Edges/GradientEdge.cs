@@ -10,19 +10,49 @@
  * Defines a GradientEdge, representing a edge with a gradient colour.
  */
 
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Utilities.Messages;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
+namespace Imagenic.Core.Entities;
 
-public class GradientEdge : Edge
+public sealed class GradientEdge : Edge
 {
     #region Fields and Properties
+
+    // ...
+
+    #if DEBUG
+
+    private protected override IMessageBuilder<GradientEdgeCreatedMessage>? MessageBuilder => (IMessageBuilder<GradientEdgeCreatedMessage>?)base.MessageBuilder;
+
+    #endif
 
     #endregion
 
     #region Constructors
 
-    public GradientEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
+    #if DEBUG
+
+    public GradientEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2, MessageBuilder<GradientEdgeCreatedMessage>.Instance())
+    {
+        NonDebugConstructorBody();
+    }
+
+    #endif
+
+    #if !DEBUG
+
+    public GradientEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2)
+    {
+        NonDebugConstructorBody();
+    }
+
+    #endif
+
+    private void NonDebugConstructorBody()
+    {
+
+    }
 
     #endregion
 }
