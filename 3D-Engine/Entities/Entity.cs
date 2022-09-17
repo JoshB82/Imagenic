@@ -1,5 +1,4 @@
 ﻿using Imagenic.Core.Utilities;
-using Imagenic.Core.Utilities.Messages;
 using System;
 using System.Collections.Generic;
 
@@ -52,9 +51,7 @@ public abstract class Entity
         MessageBuilder = mb.AddParameter(nextId);
     }
 
-    #endif
-
-    #if !DEBUG
+    #else
 
     protected Entity()
     {

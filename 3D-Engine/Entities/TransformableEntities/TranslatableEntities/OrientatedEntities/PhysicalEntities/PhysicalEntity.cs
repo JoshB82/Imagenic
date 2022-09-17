@@ -25,7 +25,7 @@ public abstract class PhysicalEntity : OrientatedEntity
         {
             if (castsShadows == value) return;
             castsShadows = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
 
@@ -42,7 +42,7 @@ public abstract class PhysicalEntity : OrientatedEntity
         {
             if (opacity == value) return;
             opacity = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
 
@@ -59,7 +59,7 @@ public abstract class PhysicalEntity : OrientatedEntity
         {
             if (value == visible) return;
             visible = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
 
@@ -78,7 +78,7 @@ public abstract class PhysicalEntity : OrientatedEntity
             if (value == scaling) return;
             scaling = value;
             RegenerateScalingMatrix();
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
 
@@ -102,9 +102,7 @@ public abstract class PhysicalEntity : OrientatedEntity
                        .AddParameter(Scaling, true);
     }
 
-    #endif
-
-    #if !DEBUG
+    #else
 
     protected PhysicalEntity(Vector3D worldOrigin, Orientation worldOrientation) : base(worldOrigin, worldOrientation)
     {

@@ -20,7 +20,7 @@ public abstract class TranslatableEntity : TransformableEntity
     internal static readonly Vector4D ModelOrigin = Vector4D.UnitW;
     private Vector3D worldOrigin;
     /// <summary>
-    /// The position of the <see cref="SceneEntity"/> in world space.
+    /// The position of the <see cref="TranslatableEntity"/> in world space.
     /// </summary>
     public virtual Vector3D WorldOrigin
     {
@@ -52,9 +52,7 @@ public abstract class TranslatableEntity : TransformableEntity
         NonDebugConstructorBody(worldOrigin);
     }
 
-    #endif
-
-    #if !DEBUG
+    #else
 
     protected TranslatableEntity(Vector3D worldOrigin) : base()
     {
@@ -94,5 +92,5 @@ public abstract class TranslatableEntity : TransformableEntity
         ModelToWorld = translationMatrix;
     }
 
-#endregion
+    #endregion
 }

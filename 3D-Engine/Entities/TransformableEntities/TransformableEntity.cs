@@ -34,9 +34,7 @@ public abstract class TransformableEntity : Entity
 
     }
 
-    #endif
-
-    #if !DEBUG
+    #else
 
     public TransformableEntity() : base()
     {

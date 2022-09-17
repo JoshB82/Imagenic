@@ -1,11 +1,9 @@
-﻿using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
-using Imagenic.Core.Entities.SceneObjects.Meshes;
+﻿using Imagenic.Core.Attributes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 using Imagenic.Core.Utilities;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 
@@ -78,8 +76,13 @@ public sealed class Face : PhysicalEntity
 
     #region Constructors
 
-    public Face(IList<Vertex> vertices)
+    public Face([DisallowNull][ThrowIfNull] IList<Vertex> vertices) : base(vertices[0].WorldOrigin, Orientation.OrientationXY)
     {
+        if (vertices.Count < 3)
+        {
+            // Throw exception.
+        }
+
         Vertices = vertices;
 
         for (int i = 0; i < vertices.Count - 1; i++)
@@ -94,8 +97,13 @@ public sealed class Face : PhysicalEntity
         }
     }
 
-    public Face(IList<Edge> edges)
+    public Face([DisallowNull][ThrowIfNull] IList<Edge> edges) : base(edges[0].P1.WorldOrigin, Orientation.OrientationXY)
     {
+        if (edges.Count < 3)
+        {
+            // Throw exception.
+        }
+
         Edges = edges;
     }
 

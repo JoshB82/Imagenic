@@ -48,9 +48,7 @@ public abstract class OrientatedEntity : TranslatableEntity
         NonDebugConstructorBody(worldOrientation);
     }
 
-    #endif
-
-    #if !DEBUG
+    #else
 
     protected OrientatedEntity(Vector3D worldOrigin, Orientation worldOrientation) : base(worldOrigin)
     {

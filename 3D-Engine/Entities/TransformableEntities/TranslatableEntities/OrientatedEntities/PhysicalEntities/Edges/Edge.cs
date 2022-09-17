@@ -11,7 +11,6 @@
  */
 
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Utilities.Messages;
 
 namespace Imagenic.Core.Entities;
 
@@ -21,9 +20,6 @@ namespace Imagenic.Core.Entities;
 public abstract class Edge : PhysicalEntity
 {
     #region Fields and Properties
-
-    // Appearance
-    //public bool Visible { get; set; } = true;
 
     // Vertices
     private Vertex p1, p2;
@@ -67,9 +63,7 @@ public abstract class Edge : PhysicalEntity
         NonDebugConstructorBody(modelP1, modelP2);
     }
 
-    #endif
-
-    #if !DEBUG
+    #else
 
     /// <summary>
     /// Creates an <see cref="Edge"/>.

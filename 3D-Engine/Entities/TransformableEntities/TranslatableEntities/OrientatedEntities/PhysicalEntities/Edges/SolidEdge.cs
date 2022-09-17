@@ -59,9 +59,7 @@ public sealed class SolidEdge : Edge
         NonDebugConstructorBody(colour);
     }
 
-    #endif
-
-    #if !DEBUG
+    #else
 
     public SolidEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
 

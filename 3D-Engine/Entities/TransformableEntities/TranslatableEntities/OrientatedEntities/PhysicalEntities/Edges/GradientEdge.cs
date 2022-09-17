@@ -11,7 +11,6 @@
  */
 
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Utilities.Messages;
 
 namespace Imagenic.Core.Entities;
 
@@ -38,9 +37,7 @@ public sealed class GradientEdge : Edge
         NonDebugConstructorBody();
     }
 
-    #endif
-
-    #if !DEBUG
+    #else
 
     public GradientEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2)
     {
