@@ -64,9 +64,31 @@ public struct Vector3D : IVector<Vector3D>, IEquatable<Vector3D>
     public static readonly Vector3D UnitNegativeZ = new(0, 0, -1);
 
     // Vector Contents
+    /// <summary>
+    /// The x-component of this <see cref="Vector3D"/>.
+    /// </summary>
     public float x;
+    /// <summary>
+    /// The y-component of this <see cref="Vector3D"/>.
+    /// </summary>
     public float y;
+    /// <summary>
+    /// The z-component of this <see cref="Vector3D"/>.
+    /// </summary>
     public float z;
+
+    // Variations
+    public Vector2D XY => new(x, y);
+    public Vector2D YX => new(y, x);
+    public Vector2D XZ => new(x, z);
+    public Vector2D ZX => new(z, x);
+    public Vector2D YZ => new(y, z);
+    public Vector2D ZY => new(z, y);
+    public Vector3D XZY => new(x, z, y);
+    public Vector3D YXZ => new(y, x, z);
+    public Vector3D YZX => new(y, z, x);
+    public Vector3D ZXY => new(z, x, y);
+    public Vector3D ZYX => new(z, y, x);
 
     Vector3D IVector<Vector3D>.Zero => throw new NotImplementedException();
 

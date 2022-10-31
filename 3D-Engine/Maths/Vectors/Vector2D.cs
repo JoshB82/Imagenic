@@ -59,6 +59,9 @@ public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     public float x;
     public float y;
 
+    // Variations
+    public Vector2D YX => new(y, x);
+
     Vector2D IVector<Vector2D>.Zero => throw new NotImplementedException();
 
     Vector2D IVector<Vector2D>.One => throw new NotImplementedException();

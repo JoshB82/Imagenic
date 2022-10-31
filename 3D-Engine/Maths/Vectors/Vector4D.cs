@@ -88,6 +88,42 @@ public struct Vector4D : IVector<Vector4D>
     /// </summary>
     public float w;
 
+    // Variations
+    public Vector2D XY => new(x, y);
+    public Vector2D YX => new(y, x);
+    public Vector2D XZ => new(x, z);
+    public Vector2D ZX => new(z, x);
+    public Vector2D YZ => new(y, z);
+    public Vector2D ZY => new(z, y);
+    public Vector3D XZY => new(x, z, y);
+    public Vector3D YXZ => new(y, x, z);
+    public Vector3D YZX => new(y, z, x);
+    public Vector3D ZXY => new(z, x, y);
+    public Vector3D ZYX => new(z, y, x);
+    public Vector4D XYWZ => new(x, y, w, z);
+    public Vector4D XZWY => new(x, z, w, y);
+    public Vector4D XZYW => new(x, z, y, w);
+    public Vector4D XWYZ => new(x, w, y, z);
+    public Vector4D XWZY => new(x, w, z, y);
+    public Vector4D YWXZ => new(y, w, x, z);
+    public Vector4D YWZX => new(y, w, z, x);
+    public Vector4D YXWZ => new(y, x, w, z);
+    public Vector4D YXZW => new(y, x, z, w);
+    public Vector4D YZWX => new(y, z, w, x);
+    public Vector4D YZXW => new(y, z, x, w);
+    public Vector4D ZXYW => new(z, x, y, w);
+    public Vector4D ZXWY => new(z, x, w, y);
+    public Vector4D ZYWX => new(z, y, w, x);
+    public Vector4D ZYXW => new(z, y, x, w);
+    public Vector4D ZWXY => new(z, w, x, y);
+    public Vector4D ZWYX => new(z, w, y, x);
+    public Vector4D WXYZ => new(w, x, y, z);
+    public Vector4D WXZY => new(w, x, z, y);
+    public Vector4D WYXZ => new(w, y, x, z);
+    public Vector4D WYZX => new(w, y, z, x);
+    public Vector4D WZXY => new(w, z, x, y);
+    public Vector4D WZYX => new(w, z, y, x);
+
     Vector4D IVector<Vector4D>.Zero => throw new NotImplementedException();
 
     Vector4D IVector<Vector4D>.One => throw new NotImplementedException();
