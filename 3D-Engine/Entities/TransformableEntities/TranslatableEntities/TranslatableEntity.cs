@@ -1,5 +1,4 @@
 ﻿using Imagenic.Core.Maths.Transformations;
-using Imagenic.Core.Utilities.Messages;
 using System;
 
 namespace Imagenic.Core.Entities;

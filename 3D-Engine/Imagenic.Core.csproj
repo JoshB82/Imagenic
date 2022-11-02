@@ -62,6 +62,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Imagenic.SourceGenerators.Test\Imagenic.SourceGenerators.CountableContexts.csproj" />
+    <ProjectReference Include="..\NullCheckerSourceGenerator\Imagenic.SourceGenerators.NullCheckers.csproj" />
   </ItemGroup>
 
 </Project>

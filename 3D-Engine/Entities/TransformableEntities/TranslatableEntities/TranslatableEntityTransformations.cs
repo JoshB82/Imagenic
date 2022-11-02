@@ -6,6 +6,7 @@
  * File desc.: Defines a class that provides extension methods for transforming translatable entities.
  */
 
+using Imagenic.Core.Attributes;
 using Imagenic.Core.CascadeBuffers;
 using Imagenic.Core.Utilities.Node;
 using System;
@@ -13,28 +14,34 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// Provides extension methods for transforming translatable entities.
 /// </summary>
-public static class TranslatableEntityTransformations
+public static partial class TranslatableEntityTransformations
 {
     #region TranslateX method
 
     /// <summary>
     /// Translates a <typeparamref name="TTranslatableEntity"/> in the X direction by the specified value.
+    /// <para><example>
+    /// Example: Translate a cube by 10 units in the positive X direction.
+    /// <code>
+    /// var cube = new Cube();
+    /// cube.<strong>TranslateX(10)</strong>;
+    /// </code>
+    /// </example></para>
     /// </summary>
     /// <typeparam name="TTranslatableEntity">The type of the object to be translated.</typeparam>
     /// <param name="translatableEntity">The <typeparamref name="TTranslatableEntity"/> being translated.</param>
     /// <param name="distance">The amount by which to move the <typeparamref name="TTranslatableEntity"/>.</param>
     /// <returns>The translated <typeparamref name="TTranslatableEntity"/>.</returns>
-    public static TTranslatableEntity TranslateX<TTranslatableEntity>(
-        [DisallowNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity
-    {
-        ThrowIfNull(translatableEntity);
-        return translatableEntity.Transform(e => { e.WorldOrigin += new Vector3D(distance, 0, 0); });
-    }
+    public static partial TTranslatableEntity TranslateX<TTranslatableEntity>(
+        [DisallowNull][ThrowIfNull] this TTranslatableEntity translatableEntity, float distance) where TTranslatableEntity : TranslatableEntity;
+    
+        
+    
 
     /// <summary>
     /// Translates a <typeparamref name="TTranslatableEntity"/> in the X direction by the specified value.
