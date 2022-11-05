@@ -57,16 +57,25 @@ public static partial class TranslatableEntityTransformations
         return translatableEntity.Transform(e => e.WorldOrigin += new Vector3D(distance, 0, 0));
     }
 
-    public static IEnumerable<TTranslatableEntity> TranslateX<TTranslatableEntity>(
-        [DisallowNull] this IEnumerable<TTranslatableEntity> translatableEntities, float distance) where TTranslatableEntity : TranslatableEntity
-    {
-        var displacement = new Vector3D(distance, 0, 0);
-        return translatableEntities.Select(translatableEntity =>
-        {
-            translatableEntity.WorldOrigin += displacement;
-            return translatableEntity;
-        });
-    }
+    /// <summary>
+    /// Translates each element of a <typeparamref name="TTranslatableEntity"/> sequence in the X direction by the specified value.
+    /// <para><example>
+    /// Example: Translate an array of cubes by 5 units in the negative X direction.
+    /// <code>
+    /// var cubes = new Cube[] { cube1, cube2, cube3 };
+    /// cubes.<strong>TranslateX(-5)</strong>;
+    /// </code>
+    /// </example></para>
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntities"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
+    public static partial IEnumerable<TTranslatableEntity> TranslateX<TTranslatableEntity>(
+        [DisallowNull][ThrowIfNull] this IEnumerable<TTranslatableEntity> translatableEntities, float distance) where TTranslatableEntity : TranslatableEntity;
+    
+        
+    
 
     /// <summary>
     /// 
@@ -99,27 +108,44 @@ public static partial class TranslatableEntityTransformations
     }
 
 
+    /// <summary>
+    /// Translates each element of a <typeparamref name="TTranslatableEntity"/> sequence in the X direction by the specified value. Only those elements which satisfy a specified predicate are affected.
+    /// <para><example>
+    /// Example: Translate a random selection from an array of cubes by 100 units in the positive X direction.
+    /// <code>
+    /// var cubes = new Cube[] { cube1, cube2, cube3, cube4, cube5 };
+    /// var rnd = new Random();
+    /// cubes.<strong>TranslateX(100, _ => rnd.Next(1, 3) == 1)</strong>;
+    /// </code>
+    /// </example></para>
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntities"></param>
+    /// <param name="distance">The amount to translate by.</param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static partial IEnumerable<TTranslatableEntity> TranslateX<TTranslatableEntity>(
+        [DisallowNull][ThrowIfNull] this IEnumerable<TTranslatableEntity> translatableEntities,
+        float distance, Func<TTranslatableEntity, bool> predicate) where TTranslatableEntity : TranslatableEntity;
 
-    public static IEnumerable<T> TranslateX<T>(this IEnumerable<T> translatableEntities, float distance, Func<T, bool> predicate) where T : TranslatableEntity
-    {
-        var displacement = new Vector3D(distance, 0, 0);
-        foreach (T translatableEntity in translatableEntities.Where(predicate))
-        {
-            translatableEntity.WorldOrigin += displacement;
-            yield return translatableEntity;
-        }
-    }
-
-    public static Node<T> TranslateX<T>(this Node<T> translatableEntityNode, float distance) where T : TranslatableEntity
-    {
-        var displacement = new Vector3D(distance, 0, 0);
-        foreach (Node<TranslatableEntity> node in translatableEntityNode.GetDescendantsAndSelfOfType<TranslatableEntity>())
-        {
-            node.Content.WorldOrigin += displacement;
-        }
-
-        return translatableEntityNode;
-    }
+    /// <summary>
+    /// Translates a <typeparamref name="TTranslatableEntity"/> node and its descendants in the X direction by the specified value.
+    /// <para><example>
+    /// Example: Translate a collection of cubes by 50 units in the negative X direction.
+    /// <code>
+    /// var node = new Node&lt;Cube&gt;(cube1) { cube2, cube3, cube4 };
+    /// node.<strong>TranslateX(-50)</strong>;
+    /// </code>
+    /// </example></para>
+    /// </summary>
+    /// <typeparam name="TTranslatableEntity"></typeparam>
+    /// <param name="translatableEntityNode"></param>
+    /// <param name="distance">The amount to translate by.</param>
+    /// <returns></returns>
+    public static partial Node<TTranslatableEntity> TranslateX<TTranslatableEntity>(this Node<TTranslatableEntity> translatableEntityNode, float distance) where TTranslatableEntity : TranslatableEntity;
+    
+        
+    
 
     public static Node<T> TranslateX<T>(this Node<T> translatableEntityNode, float distance, Func<T, bool> predicate) where T : TranslatableEntity
     {

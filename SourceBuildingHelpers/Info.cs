@@ -4,7 +4,8 @@ namespace SourceBuildingHelpers;
 
 public class ClassInfo
 {
-    public required string Name { get; set; }
+    //public required string Name { get; set; }
+    public string Name { get; set; }
 
     public string AccessibilityModifier { get; set; } = "public";
     public string OtherModifier { get; set; }
@@ -18,9 +19,11 @@ public class ClassInfo
 
 public class MethodInfo
 {
-    public required string Name { get; set; }
+    //public required string Name { get; set; }
+    public string Name { get; set; }
 
-    public required string ReturnType { get; set; }
+    //public required string ReturnType { get; set; }
+    public string ReturnType { get; set; }
 
     public string AccessibilityModifier { get; set; } = "public";
     public IEnumerable<string> OtherModifiers { get; set; }
@@ -33,9 +36,11 @@ public class MethodInfo
 
 public class PropertyInfo
 {
-    public required string Name { get; set; }
+    //public required string Name { get; set; }
+    public string Name { get; set; }
 
-    public required string Type { get; set; }
+    //public required string Type { get; set; }
+    public string Type { get; set; }
 
     public string AccessibilityModifier { get; set; } = "public";
     public IEnumerable<string> OtherModifiers { get; set; }
