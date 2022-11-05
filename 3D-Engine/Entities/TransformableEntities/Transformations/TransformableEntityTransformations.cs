@@ -42,9 +42,9 @@ public static partial class TransformableEntityTransformations
         [DisallowNull][ThrowIfNull] this TTransformableEntity transformableEntity,
         [DisallowNull][ThrowIfNull] Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity;
     //{
-        //ThrowIfNull(transformableEntity, transformation);
+    //ThrowIfNull(transformableEntity, transformation);
 
-        
+
     //}
 
     /*public static TTransformableEntity Transform<TTransformableEntity, TData>(
@@ -66,7 +66,7 @@ public static partial class TransformableEntityTransformations
     /// Applies a custom transformation, in this case a <see cref="Action{TTransformableEntity}"/>, that has no inputs and outputs. The transformation is only applied if a specified predicate is satisfied (returns <see langword="true"/>).
     /// <remarks>The <typeparamref name="TTransformableEntity"/>, the transformation and predicate cannot be <see langword="null"/>.</remarks>
     /// <para><example>
-    /// Using call chaining, a cube is subjected to multiple transformations, including a custom transformation that occurs only 50% of the time.
+    /// <em>Example:</em> Using call chaining, a cube is subjected to multiple transformations, including a custom transformation that occurs only 50% of the time.
     /// <code>
     /// var cube = new Cube(Vector3D.Zero, Orientation.OrientationXY, 10);
     /// 
@@ -85,18 +85,11 @@ public static partial class TransformableEntityTransformations
     /// <param name="transformation"></param>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    public static TTransformableEntity Transform<TTransformableEntity>(
-        [DisallowNull] this TTransformableEntity transformableEntity,
-        [DisallowNull] Action<TTransformableEntity> transformation,
-        [DisallowNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity
-    {
-        ThrowIfNull(transformableEntity, transformation, predicate);
-        if (predicate(transformableEntity))
-        {
-            transformation(transformableEntity);
-        }
-        return transformableEntity;
-    }
+    /// <exception cref="ArgumentNullException"></exception>
+    public static partial TTransformableEntity Transform<TTransformableEntity>(
+        [DisallowNull][ThrowIfNull] this TTransformableEntity transformableEntity,
+        [DisallowNull][ThrowIfNull] Action<TTransformableEntity> transformation,
+        [DisallowNull][ThrowIfNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity;
 
     /// <summary>
     /// 
