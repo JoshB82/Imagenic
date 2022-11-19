@@ -3,7 +3,6 @@ using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
 using Imagenic.Core.Entities.TransformableEntities;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Maths.Vectors;
 using Imagenic.Core.Transitions;
@@ -14,6 +13,15 @@ internal class Program
 {
     public static void Main(string[] args)
     {
+        Cube cube = new Cube(Vector3D.Zero);
+
+        cube.Start(0, 1.5f, out Transition t1)
+            .Translate(new Vector3D(50, 100, 150))
+            .Start(2, 2.5f, out Transition t2)
+            .Scale(new Vector3D(3, 3, 3))
+            .End(t1)
+            .End(t2);
+
         // ----
 
         Vector3D test = new(1, 2, 3);

@@ -47,21 +47,6 @@ public static partial class TransformableEntityTransformations
 
     //}
 
-    /*public static TTransformableEntity Transform<TTransformableEntity, TData>(
-        [DisallowNull] this TTransformableEntity transformableEntity,
-        TransformationType transformationType,
-        TData data) where TTransformableEntity : TransformableEntity
-    {
-        ThrowIfNull(transformableEntity);
-        switch (transformationType)
-        {
-            case TransformationType.Orientation when typeof(TTransformableEntity) == typeof(OrientatedEntity):
-                transformableEntity.TransformationsNode.Add(new OrientationNode<TTransformableEntity>((Orientation)data));
-                break;
-        }
-        return transformableEntity;
-    }*/
-
     /// <summary>
     /// Applies a custom transformation, in this case a <see cref="Action{TTransformableEntity}"/>, that has no inputs and outputs. The transformation is only applied if a specified predicate is satisfied (returns <see langword="true"/>).
     /// <remarks>The <typeparamref name="TTransformableEntity"/>, the transformation and predicate cannot be <see langword="null"/>.</remarks>
@@ -92,47 +77,52 @@ public static partial class TransformableEntityTransformations
         [DisallowNull][ThrowIfNull] Func<TTransformableEntity, bool> predicate) where TTransformableEntity : TransformableEntity;
 
     /// <summary>
-    /// 
+    /// Starts a transition which tracks transformations until an "end" method is called.
     /// </summary>
-    /// <typeparam name="TTransformableEntity"></typeparam>
-    /// <typeparam name="TInput"></typeparam>
-    /// <param name="transformableEntity"></param>
-    /// <param name="transformation"></param>
-    /// <param name="input"></param>
+    /// <typeparam name="TTransformableEntity">The type of the <typeparamref name="TTransformableEntity"/> being transformed.</typeparam>
+    /// <param name="transformableEntity">The <typeparamref name="TTransformableEntity"/> being transformed.</param>
+    /// <param name="startTime">The time when the transition should begin.</param>
+    /// <param name="endTime">The time when the transition should end.</param>
+    /// <param name="transition">The created transition.</param>
     /// <returns></returns>
-    public static TTransformableEntity Transform<TTransformableEntity, TInput>(
-        [DisallowNull] this TTransformableEntity transformableEntity,
-        [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
-        TInput? input) where TTransformableEntity : TransformableEntity
-    {
-        ThrowIfNull(transformableEntity, transformation);
-        transformation(transformableEntity, input);
-        return transformableEntity;
-    }
+    /// <exception cref="ArgumentNullException"></exception>
+    public static partial TTransformableEntity Start<TTransformableEntity>(
+        [DisallowNull][ThrowIfNull] this TTransformableEntity transformableEntity,
+        float startTime,
+        float endTime,
+        out Transition transition) where TTransformableEntity : TransformableEntity;
 
     /// <summary>
-    /// 
+    /// Ends the specified transition.
     /// </summary>
-    /// <typeparam name="TTransformableEntity"></typeparam>
-    /// <typeparam name="TInput"></typeparam>
-    /// <param name="transformableEntity"></param>
-    /// <param name="transformation"></param>
-    /// <param name="input"></param>
-    /// <param name="predicate"></param>
+    /// <typeparam name="TTransformableEntity">The type of the <typeparamref name="TTransformableEntity"/> being transformed.</typeparam>
+    /// <param name="transformableEntity">The <typeparamref name="TTransformableEntity"/> being transformed.</param>
+    /// <param name="transition"></param>
     /// <returns></returns>
-    public static TTransformableEntity Transform<TTransformableEntity, TInput>(
-        [DisallowNull] this TTransformableEntity transformableEntity,
-        [DisallowNull] Action<TTransformableEntity, TInput?> transformation,
-        TInput? input,
-        [DisallowNull] Func<TTransformableEntity, TInput?, bool> predicate) where TTransformableEntity : TransformableEntity
-    {
-        ThrowIfNull(transformableEntity, transformation, predicate);
-        if (predicate(transformableEntity, input))
-        {
-            transformation(transformableEntity, input);
-        }
-        return transformableEntity;
-    }
+    /// <exception cref="ArgumentNullException"></exception>
+    public static partial TTransformableEntity End<TTransformableEntity>(
+        [DisallowNull][ThrowIfNull] this TTransformableEntity transformableEntity,
+        Transition transition) where TTransformableEntity : TransformableEntity;
+
+    /// <summary>
+    /// Ends the specified transitions.
+    /// </summary>
+    /// <typeparam name="TTransformableEntity">The type of the <typeparamref name="TTransformableEntity"/> being transformed.</typeparam>
+    /// <param name="transformableEntity">The <typeparamref name="TTransformableEntity"/> being transformed.</param>
+    /// <param name="transitions"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public static partial TTransformableEntity End<TTransformableEntity>(
+        [DisallowNull][ThrowIfNull] this TTransformableEntity transformableEntity,
+        params Transition[] transitions) where TTransformableEntity : TransformableEntity;
+
+    
+
+
+
+
+
+    
 
     /// <summary>
     /// 

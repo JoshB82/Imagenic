@@ -10,10 +10,10 @@
  * Defines a three-dimensional text mesh.
  */
 
-using _3D_Engine.Enums;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Enums;
 using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;

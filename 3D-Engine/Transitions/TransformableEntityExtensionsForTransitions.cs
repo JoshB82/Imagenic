@@ -40,7 +40,7 @@ public static class TransformableEntityExtensionsForTransitions
     /// <param name="endTime">The end time of the created <see cref="Transition"/>.</param>
     /// <param name="transition">The created <see cref="Transition"/>. Terminate this transition with an End method.</param>
     /// <returns></returns>
-    public static TTransformableEntity Start<TTransformableEntity>(
+    /*public static TTransformableEntity Start<TTransformableEntity>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         float startTime,
         float endTime,
@@ -52,7 +52,7 @@ public static class TransformableEntityExtensionsForTransitions
         activeTransitions.Add(transition);
 
         return transformableEntity;
-    }
+    }*/
 
     /// <summary>
     /// Starts a <see cref="Transition"/> at the specified time lasting the specified <see cref="TimeSpan"/>.

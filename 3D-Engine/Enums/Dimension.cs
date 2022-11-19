@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace _3D_Engine.Enums;
+namespace Imagenic.Core.Enums;
 
 public enum Dimension
 {

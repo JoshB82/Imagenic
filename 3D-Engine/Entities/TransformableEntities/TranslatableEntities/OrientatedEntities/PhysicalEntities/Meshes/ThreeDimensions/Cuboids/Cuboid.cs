@@ -10,12 +10,12 @@
  * Defines creation of a Cuboid Mesh.
  */
 
-using _3D_Engine.Enums;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

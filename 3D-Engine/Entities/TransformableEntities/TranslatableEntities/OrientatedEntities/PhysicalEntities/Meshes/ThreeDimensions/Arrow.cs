@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Enums;
 using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
@@ -19,6 +18,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.Meshes.ZeroDimensions;
+using Imagenic.Core.Enums;
 using System.Collections.Generic;
 using System.Drawing;
 using static _3D_Engine.Properties.Settings;

@@ -10,9 +10,9 @@
  * Defines a point Mesh called a WorldPoint which consists of a single Vertex.
  */
 
-using _3D_Engine.Enums;
 using _3D_Engine.Maths.Vectors;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Enums;
 using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities.SceneObjects.Meshes.ZeroDimensions;
