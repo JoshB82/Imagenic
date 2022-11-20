@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Defines a two-dimensional buffer called Buffer2D that holds values of type T.
+ * Defines a two-dimensional buffer called Buffer2D that holds values of type TImage.
  */
 
 using System;

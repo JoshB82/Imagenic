@@ -203,7 +203,7 @@ namespace _3D_Engine.Entities.SceneObjects
 
         #region RotateBetweenVectors method
 
-        //public static T RotateBetweenVectors<T>(this T sceneEntity, )
+        //public static TImage RotateBetweenVectors<TImage>(this TImage sceneEntity, )
 
         #endregion
 

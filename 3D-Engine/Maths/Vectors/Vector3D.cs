@@ -19,7 +19,7 @@ using System.Linq;
 
 namespace Imagenic.Core.Maths.Vectors;
 
-/// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector3D']/*"/>
+/// <include file="Help_8.xml" path="doc/members/member[@name='TImage:_3D_Engine.Vector3D']/*"/>
 [Serializable]
 public struct Vector3D : IVector<Vector3D>, IEquatable<Vector3D>
 {

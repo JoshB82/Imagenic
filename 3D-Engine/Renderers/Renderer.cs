@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Defines a Renderer<T>, representing a renderer that outputs an Image.
+ * Defines a Renderer<TImage>, representing a renderer that outputs an Image.
  */
 
 using _3D_Engine.Constants;
@@ -15,7 +15,6 @@ using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Renderers;
 using Imagenic.Core.Entities;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
@@ -29,16 +28,15 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Imagenic.Core.Utilities.Node;
-using Imagenic.Core.Entities.PositionedEntities;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Imagenic.Core.Renderers;
 
 /// <summary>
 /// 
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public abstract class Renderer<T> where T : Image
+/// <typeparam name="TImage"></typeparam>
+public abstract class Renderer<TImage> where TImage : Image
 {
     #region Fields and Properties
 
@@ -98,7 +96,7 @@ public abstract class Renderer<T> where T : Image
             }
         }
     }
-    public IImageOptions<T> ImageOptions { get; set; }
+    public IImageOptions<TImage> ImageOptions { get; set; }
     public RenderingOptions RenderingOptions { get; set; }
 
     #endregion
@@ -107,7 +105,7 @@ public abstract class Renderer<T> where T : Image
 
     public Renderer(SceneEntity toRender, Camera renderCamera, RenderingOptions renderingOptions) : this(toRender, renderCamera, renderingOptions, null) { }
 
-    public Renderer(SceneEntity toRender, Camera renderCamera, RenderingOptions renderingOptions, IImageOptions<T> imageOptions)
+    public Renderer(SceneEntity toRender, Camera renderCamera, RenderingOptions renderingOptions, IImageOptions<TImage> imageOptions)
     {
         ThrowIfParameterIsNull(toRender, nameof(toRender));
         ThrowIfParameterIsNull(renderCamera, nameof(renderCamera));
@@ -125,6 +123,14 @@ public abstract class Renderer<T> where T : Image
     #endregion
 
     #region Methods
+
+    /// <summary>
+    /// Renders a <see cref="PhysicalEntity"/> as a sequence of frames.
+    /// </summary>
+    /// <param name="physicalEntity">The physical entity being rendered.</param>
+    /// <param name="token">A <see cref="CancellationToken"/> that notifies the renderer to cease rendering.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{TImage}"/> for all frames.</returns>
+    public abstract IAsyncEnumerable<TImage> RenderAsync(PhysicalEntity physicalEntity, CancellationToken token);
 
     private void UpdateSubscribers(SceneEntity sceneObject, bool addSubscription)
     {
@@ -159,12 +165,12 @@ public abstract class Renderer<T> where T : Image
         });
     }
 
-    public abstract Task<T> RenderAsync(CancellationToken token);
+    public abstract Task<TImage> RenderAsync(CancellationToken token);
 
-    public abstract IAsyncEnumerable<T> RenderAsync(PhysicalEntity physicalEntity, Animation animation, CancellationToken token);
-    public abstract IAsyncEnumerable<T> RenderAsync(IEnumerable<PhysicalEntity> physicalEntities, Animation animation, CancellationToken token);
-    public abstract IAsyncEnumerable<T> RenderAsync(Node<PhysicalEntity> physicalEntityNode, Animation animation, CancellationToken token);
-    public abstract IAsyncEnumerable<T> RenderAsync(IEnumerable<Node<PhysicalEntity>> physicalEntityNodes, Animation animation, CancellationToken token);
+    public abstract IAsyncEnumerable<TImage> RenderAsync(PhysicalEntity physicalEntity, Animation animation, CancellationToken token);
+    public abstract IAsyncEnumerable<TImage> RenderAsync(IEnumerable<PhysicalEntity> physicalEntities, Animation animation, CancellationToken token);
+    public abstract IAsyncEnumerable<TImage> RenderAsync(Node<PhysicalEntity> physicalEntityNode, Animation animation, CancellationToken token);
+    public abstract IAsyncEnumerable<TImage> RenderAsync(IEnumerable<Node<PhysicalEntity>> physicalEntityNodes, Animation animation, CancellationToken token);
 
     #endregion
 }

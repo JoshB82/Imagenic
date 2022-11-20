@@ -18,7 +18,7 @@ using System.Linq;
 
 namespace Imagenic.Core.Maths.Vectors;
 
-/// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector4D']/*"/>
+/// <include file="Help_8.xml" path="doc/members/member[@name='TImage:_3D_Engine.Vector4D']/*"/>
 [Serializable]
 public struct Vector4D : IVector<Vector4D>
 {

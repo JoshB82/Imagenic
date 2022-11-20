@@ -5,7 +5,7 @@ using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
+namespace Imagenic.Core.Entities;
 
 public sealed class Face : PhysicalEntity
 {

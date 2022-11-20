@@ -168,10 +168,10 @@ namespace Imagenic.Core.Maths.Transformations
         #region Quaternion to Matrix Conversion
 
         /// <summary>
-        /// Creates the corresponding rotation <see cref="T:_3D_Engine.Matrix4x4" /> for the specified <see cref="T:_3D_Engine.Quaternion" />.
+        /// Creates the corresponding rotation <see cref="TImage:_3D_Engine.Matrix4x4" /> for the specified <see cref="TImage:_3D_Engine.Quaternion" />.
         /// </summary>
-        /// <param name="q">The <see cref="T:_3D_Engine.Quaternion" /> to convert.</param>
-        /// <returns>A rotation <see cref="T:_3D_Engine.Matrix4x4" />.</returns>
+        /// <param name="q">The <see cref="TImage:_3D_Engine.Quaternion" /> to convert.</param>
+        /// <returns>A rotation <see cref="TImage:_3D_Engine.Matrix4x4" />.</returns>
         /// <include file="Help_8.xml" path="doc/members/member[@name='']/*"/>cast!
         public static Matrix4x4 QuaternionToMatrix(Quaternion q) =>
             // RIGHT HANDED ROTATION

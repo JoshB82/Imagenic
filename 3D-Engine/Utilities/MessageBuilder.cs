@@ -7,7 +7,7 @@
  * https://github.com/JoshB82/3D-Engine/blob/master/LICENSE
  *
  * Code description for this file:
- * Defines a MessageBuilder<T> which creates customisable messages.
+ * Defines a MessageBuilder<TImage> which creates customisable messages.
  */
 
 using _3D_Engine.Constants;
@@ -22,7 +22,7 @@ using System.Text;
 namespace Imagenic.Core.Utilities;
 
 /*
-public class MessageBuilder<T> where T : IVerbose, new()
+public class MessageBuilder<TImage> where TImage : IVerbose, new()
 {
     #region Fields and Properties
 
@@ -61,31 +61,31 @@ public class MessageBuilder<T> where T : IVerbose, new()
 
     
 
-    public MessageBuilder<T> AddMessageType(MessageType messageType)
+    public MessageBuilder<TImage> AddMessageType(MessageType messageType)
     {
         AddToMessage($"[{messageType}]");
         return this;
     }
 
-    public MessageBuilder<T> AddType(Type type)
+    public MessageBuilder<TImage> AddType(Type type)
     {
         AddToMessage($"[{type}]");
         return this;
     }
 
-    public MessageBuilder<T> AddType<U>() => AddType(typeof(U));
+    public MessageBuilder<TImage> AddType<U>() => AddType(typeof(U));
     
-    public MessageBuilder<T> AddParameters(IEnumerable<string> parameters)
+    public MessageBuilder<TImage> AddParameters(IEnumerable<string> parameters)
     {
         this.parameters.AddRange(parameters);
         return this;
     }
 
-    public MessageBuilder<T> AddParameters(params string[] parameters) => AddParameters((IEnumerable<string>)parameters);
+    public MessageBuilder<TImage> AddParameters(params string[] parameters) => AddParameters((IEnumerable<string>)parameters);
 
     private static string GetMessage()
     {
-        T text = new();
+        TImage text = new();
         return Properties.Settings.Default.Verbosity switch
         {
             Verbosity.Brief => text.BriefVerbosityText,

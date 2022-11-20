@@ -18,7 +18,7 @@ using Imagenic.Core.Maths;
 using System;
 using System.Collections.Generic;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
+namespace Imagenic.Core.Entities
 {
     public abstract class Triangle : PhysicalEntity
     {
@@ -45,6 +45,12 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles
         #region Methods
 
         internal void ApplyMatrix(Matrix4x4 matrix) => (P1, P2, P3) = (matrix * P1, matrix * P2, matrix * P3);
+
+        internal static (Vector4D p1, Vector4D p2, Vector4D p3) ApplyMatrix(Matrix4x4 matrix, (Vector4D p1, Vector4D p2, Vector4D p3))
+        {
+            return (matrix * p1, matrix * p2, matrix * p3);
+        }
+
         internal abstract void Interpolator(RenderingEntity renderingObject, Action<object, int, int, float> bufferAction);
         internal abstract void ResetVertices();
 

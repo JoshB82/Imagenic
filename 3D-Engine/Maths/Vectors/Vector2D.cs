@@ -20,7 +20,7 @@ using System.Numerics;
 
 namespace Imagenic.Core.Maths.Vectors;
 
-/// <include file="Help_8.xml" path="doc/members/member[@name='T:_3D_Engine.Vector2D']/*"/>
+/// <include file="Help_8.xml" path="doc/members/member[@name='TImage:_3D_Engine.Vector2D']/*"/>
 [Serializable]
 public struct Vector2D : IApproximatelyEquatable<Vector2D>,
     IAdditionOperators<Vector2D, Vector2D, Vector2D>,

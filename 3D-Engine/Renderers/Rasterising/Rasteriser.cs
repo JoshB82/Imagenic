@@ -3,12 +3,14 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Images;
 using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Imagenic.Core.Renderers.Rasterising;
 
-public class Rasteriser<T> : Renderer<T> where T : Image
+public class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
 {
     #region Fields and Properties
 
@@ -51,6 +53,11 @@ public class Rasteriser<T> : Renderer<T> where T : Image
 
     #region Methods
 
+    public async override IAsyncEnumerable<TImage> RenderAsync(PhysicalEntity physicalEntity, CancellationToken token = default)
+    {
+        await DecomposePhysicalEntity.Decompose(physicalEntity, token);
+    }
+
     private void UpdateSubscribers(SceneEntity sceneObject, bool addSubscription)
     {
         Action<Entity> updater = addSubscription
@@ -70,7 +77,7 @@ public class Rasteriser<T> : Renderer<T> where T : Image
         sceneObject.ForEach(s => updater(s));
     }*/
 
-    public async override Task<T> RenderAsync(CancellationToken token = default)
+    public async override Task<TImage> RenderAsync(CancellationToken token = default)
     {
 
     }
