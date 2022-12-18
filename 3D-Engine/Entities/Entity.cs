@@ -1,4 +1,5 @@
-﻿using Imagenic.Core.Utilities;
+﻿using Imagenic.Core.Enums;
+using Imagenic.Core.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -83,17 +84,4 @@ public abstract class Entity
     #endregion
 
     //public EventList<Transition> Transitions { get; set; }
-}
-
-public static class TransformationBuilder
-{
-    public static TEntity StartTransformation<TEntity>(this TEntity entity) where TEntity : Entity
-    {
-
-    }
-
-    public static Matrix4x4 EndTransformation<TEntity>(this TEntity entity) where TEntity : Entity
-    {
-
-    }
 }

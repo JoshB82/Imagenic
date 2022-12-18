@@ -1,5 +1,6 @@
 ﻿using Imagenic.Core.Attributes;
 using Imagenic.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -12,7 +13,7 @@ public interface IMessageBuilder<out TMessage>
 
     #region Properties
 
-    public List<string> TypeNames { get; }
+    public List<string>? TypeNames { get; }
 
     #endregion
 
@@ -29,6 +30,8 @@ public interface IMessageBuilder<out TMessage>
     public IMessageBuilder<TMessage> WithVerbosity(Verbosity verbosity);
 
     public string Build();
+
+    public TException BuildIntoException<TException>(Exception? innerException = null) where TException : Exception;
 
     #endregion
 }

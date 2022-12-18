@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Constants;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Utilities.Messages;

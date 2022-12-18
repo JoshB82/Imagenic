@@ -1,6 +1,5 @@
 ﻿using Imagenic.Core.Attributes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

@@ -49,26 +49,8 @@ internal class ProcessTriangles
 
         
 
-        // Clip the face in screen space
-        if (!Clipping.ClipTriangles(triangleClip, ScreenClippingPlanes))
-        {
-            return;
-        } // anything outside cube?
+        
 
-        foreach (Triangle clippedFace in triangleClip)
-        {
-            // Skip the face if it is flat
-            if ((clippedFace.P1.x == clippedFace.P2.x && clippedFace.P2.x == clippedFace.P3.x) ||
-                (clippedFace.P1.y == clippedFace.P2.y && clippedFace.P2.y == clippedFace.P3.y))
-            {
-                continue;
-            }
-
-            // Move the face from screen space to window space
-            clippedFace.ApplyMatrix(ScreenToWindow);
-
-            // Call the required interpolator method
-            clippedFace.Interpolator(this, bufferAction);
-        }
+        
     }
 }

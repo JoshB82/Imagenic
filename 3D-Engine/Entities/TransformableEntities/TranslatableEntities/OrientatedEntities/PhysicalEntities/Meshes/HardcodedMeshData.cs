@@ -10,15 +10,12 @@
  * Provides hardcoded mesh data.
  */
 
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using System;
 using System.Collections.Generic;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes;
+namespace Imagenic.Core.Entities;
 
 internal static class HardcodedMeshData
 {

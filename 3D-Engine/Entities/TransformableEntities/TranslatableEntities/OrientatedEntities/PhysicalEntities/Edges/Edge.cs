@@ -11,6 +11,7 @@
  */
 
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Enums;
 
 namespace Imagenic.Core.Entities;
 

@@ -109,7 +109,12 @@ public class Orientation : IEquatable<Orientation>
         }
         if (!(directionForward * directionUp).ApproxEquals(0, epsilon))
         {
-            throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionForward), nameof(directionUp));
+            throw new MessageBuilder<VectorsAreNotOrthogonalMessage>()
+                  .AddParameter(directionForward)
+                  .AddParameter(directionUp)
+                  .BuildIntoException<ArgumentException>();
+
+            //throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionForward), nameof(directionUp));
         }
 
         DirectionForward = directionForward.Normalise();
@@ -129,7 +134,12 @@ public class Orientation : IEquatable<Orientation>
         }
         if (!(directionUp * directionRight).ApproxEquals(0, epsilon))
         {
-            throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionUp), nameof(directionRight));
+            throw new MessageBuilder<VectorsAreNotOrthogonalMessage>()
+                  .AddParameter(directionUp)
+                  .AddParameter(directionRight)
+                  .BuildIntoException<ArgumentException>();
+
+            //throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionUp), nameof(directionRight));
         }
 
         DirectionForward = Transform.CalculateDirectionForward(directionUp, directionRight).Normalise();
@@ -149,7 +159,12 @@ public class Orientation : IEquatable<Orientation>
         }
         if (!(directionRight * directionForward).ApproxEquals(0, epsilon))
         {
-            throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionRight), nameof(directionForward));
+            throw new MessageBuilder<VectorsAreNotOrthogonalMessage>()
+                  .AddParameter(directionRight)
+                  .AddParameter(directionForward)
+                  .BuildIntoException<ArgumentException>();
+
+            //throw GenerateException<VectorsAreNotOrthogonalException>.WithParameters(nameof(directionRight), nameof(directionForward));
         }
 
         DirectionForward = directionForward.Normalise();
@@ -169,6 +184,11 @@ public class Orientation : IEquatable<Orientation>
     public static bool operator ==(Orientation lhs, Orientation rhs) => lhs.Equals(rhs);
 
     public static bool operator !=(Orientation lhs, Orientation rhs) => !(lhs == rhs);
+
+    public override bool Equals(object? obj)
+    {
+        return this == (Orientation)obj;
+    }
 
     #endregion
 }

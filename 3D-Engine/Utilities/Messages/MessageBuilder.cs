@@ -24,10 +24,11 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
     private static MessageBuilder<TMessage>? instance;
     public static MessageBuilder<TMessage> Instance(bool includeTime = true, bool includeProjectName = true)
     {
-        instance ??= new MessageBuilder<TMessage>();
+        /*instance ??= new MessageBuilder<TMessage>();
         instance.includeTime = includeTime;
         instance.includeProjectName = includeProjectName;
-        return instance;
+        return instance;*/
+        return instance ??= new MessageBuilder<TMessage>(includeTime, includeProjectName);
     }
 
     public MessageBuilder(bool includeTime = true, bool includeProjectName = true)
@@ -76,18 +77,18 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
     }*/
 
     /// <summary>
-    /// Adds the specified type name's to the message being built.
+    /// Adds the specified type names to the message being built.
     /// </summary>
     /// <typeparam name="TType">The type whose name is to be added.</typeparam>
     /// <returns>The current instance.</returns>
-    public MessageBuilder<TMessage> AddType<TType>() => AddType(typeof(TType));
+    public IMessageBuilder<TMessage> AddTypeName<TType>() => AddTypeName(typeof(TType).Name);
 
     /// <summary>
     /// Adds the specified type name to the message being built.
     /// </summary>
     /// <param name="typeName">The type name to be added.</param>
     /// <returns>The current instance.</returns>
-    public MessageBuilder<TMessage> AddTypeName([DisallowNull] [ThrowIfNull] string typeName)
+    public IMessageBuilder<TMessage> AddTypeName([DisallowNull] [ThrowIfNull] string typeName)
     {
         (TypeNames ??= new List<string>()).Add(typeName);
         return this;
@@ -98,24 +99,19 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
     /// </summary>
     /// <param name="verbosity">The verbosity whose name is to be added.</param>
     /// <returns>The current instance.</returns>
-    public MessageBuilder<TMessage> WithVerbosity(Verbosity verbosity)
+    public IMessageBuilder<TMessage> WithVerbosity(Verbosity verbosity)
     {
         this.verbosity = verbosity;
         return this;
     }
 
-    
-
-    
-
-    public MessageBuilder<TMessage> AddParameter([DisallowNull] Func<string?> resolvableParameter)
+    public IMessageBuilder<TMessage> AddParameter([DisallowNull] [ThrowIfNull] Func<string?> resolvableParameter)
     {
-        ThrowIfParameterIsNull(resolvableParameter);
         (TMessage.ResolvableParameters ??= new List<Func<string?>>()).Add(resolvableParameter);
         return this;
     }
 
-    public MessageBuilder<TMessage> ClearParameters()
+    public IMessageBuilder<TMessage> ClearParameters()
     {
         TMessage.ConstantParameters?.Clear();
         TMessage.ResolvableParameters?.Clear();
@@ -159,7 +155,7 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
         };
     }
 
-    public U BuildIntoException<U>(Exception? innerException = null) where U : Exception
+    public TException BuildIntoException<TException>(Exception? innerException = null) where TException : Exception
     {
         var args = new List<object> { Build() };
         if (innerException is not null)
@@ -167,7 +163,7 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
             args.Add(innerException);
         }
 
-        return (U)Activator.CreateInstance(typeof(U), args.ToArray())!;
+        return (TException)Activator.CreateInstance(typeof(TException), args.ToArray())!;
     }
 
     #endregion

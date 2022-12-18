@@ -4,6 +4,7 @@ using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Enums;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,20 +63,24 @@ internal class DecomposePhysicalEntity
 
     private async static Task TransformTriangle(Triangle triangle, RenderingEntity renderingEntity, Dimension meshDimension, ref Matrix4x4 modelToView)
     {
-        var vertices4D = (triangle.P1, triangle.P2, triangle.P3);
+        //var vertices4D = (triangle.P1, triangle.P2, triangle.P3);
+        //var vertices4D = new VectorTriple<Vector4D>(triangle.P1, triangle.P2, triangle.P3);
+        var calcTriangle = triangle.DeepCopy();
 
         // Reset the vertices to model space values
         //triangle.ResetVertices();
 
         // Move the face from model space to view space
         //triangle.ApplyMatrix(modelToView);
-        vertices4D = Triangle.ApplyMatrix(modelToView, vertices4D);
+        //vertices4D = Triangle.ApplyMatrix(modelToView, vertices4D);
+        vertices4D.ApplyMatrix(modelToView);
 
         // Back-face culling if the mesh is three-dimensional
         if (meshDimension == Dimension.Three)
         {
             // Discard the face if it is not visible from the rendering object's point of view
-            var vertices3D = (p1: (Vector3D)triangle.P1, p2: (Vector3D)triangle.P2, p3: (Vector3D)triangle.P3);
+            //var vertices3D = (p1: (Vector3D)triangle.P1, p2: (Vector3D)triangle.P2, p3: (Vector3D)triangle.P3);
+            var vertices3D = new VectorTriple<Vector3D>((Vector3D)triangle.P1, (Vector3D)triangle.P2, (Vector3D)triangle.P3);
             if (vertices3D.p1 * Vector3D.NormalFromPlane(vertices3D.p1, vertices3D.p2, vertices3D.p3) >= 0)
             {
                 return;
@@ -83,35 +88,69 @@ internal class DecomposePhysicalEntity
         }
 
         // Clip the face in view space
-        Queue<Triangle> triangleClip = new(); triangleClip.Enqueue(triangle);
-        if (!Clipping.ClipTriangles(triangleClip, ViewClippingPlanes))
+        //Queue<Triangle> triangleClip = new();
+        var triangleClipQueue = new Queue<VectorTriple<Vector4D>>();
+        triangleClipQueue.Enqueue(vertices4D);
+        if (!Clipping.ClipTriangles(triangleClipQueue, ViewClippingPlanes))
+        {
+            return;
+        }
+
+        if (new TriangleClipper(vertices4D, ViewClippingPlanes).Clip().Count == 0)
         {
             return;
         }
 
         // Move the new triangles from view space to screen space, including a correction for perspective
-        foreach (Triangle clippedTriangle in triangleClip)
+        foreach (Triangle clippedTriangle in triangleClipQueue)
         {
             // Move the face from view space to screen space
             //clippedTriangle.ApplyMatrix(ViewToScreen);
-            vertices4D = Triangle.ApplyMatrix(ViewToScreen, vertices4D);
+            //vertices4D = Triangle.ApplyMatrix(ViewToScreen, vertices4D);
+            vertices4D = vertices4D.ApplyMatrix(ViewToScreen);
 
             if (renderingEntity is PerspectiveCamera or Spotlight)
             {
-                var clippedVertices4D = (p1: clippedTriangle.P1, p2: clippedTriangle.P2, p3: clippedTriangle.P3);
+                //var clippedVertices4D = (p1: clippedTriangle.P1, p2: clippedTriangle.P2, p3: clippedTriangle.P3);
+                var clippedVertices4D = new VectorTriple<Vector4D>(clippedTriangle.P1, clippedTriangle.P2, clippedTriangle.P3);
+
                 clippedVertices4D.p1 /= clippedVertices4D.p1.w;
                 clippedVertices4D.p2 /= clippedVertices4D.p2.w;
                 clippedVertices4D.p3 /= clippedVertices4D.p3.w;
 
                 if (renderingEntity is PerspectiveCamera && clippedTriangle is TextureTriangle clippedTextureFace)
                 {
-                    var clippedTextureVertices = (p1: clippedTextureFace.T1, p2: clippedTextureFace.T2, p3: clippedTextureFace.T3);
+                    //var clippedTextureVertices = (p1: clippedTextureFace.T1, p2: clippedTextureFace.T2, p3: clippedTextureFace.T3);
+                    var clippedTextureVertices = new VectorTriple<Vector3D>(clippedTextureFace.T1, clippedTextureFace.T2, clippedTextureFace.T3);
                     // ??
                     clippedTextureVertices.p1 /= clippedTriangle.P1.w;
                     clippedTextureVertices.p2 /= clippedTriangle.P2.w;
                     clippedTextureVertices.p3 /= clippedTriangle.P3.w;
                 }
             }
+        }
+
+        // Clip the face in screen space
+        if (!Clipping.ClipTriangles(triangleClip, ScreenClippingPlanes))
+        {
+            return;
+        } // anything outside cube?
+
+        foreach (Triangle clippedFace in triangleClip)
+        {
+            // Skip the face if it is flat
+            if ((clippedFace.P1.x == clippedFace.P2.x && clippedFace.P2.x == clippedFace.P3.x) ||
+                (clippedFace.P1.y == clippedFace.P2.y && clippedFace.P2.y == clippedFace.P3.y))
+            {
+                continue;
+            }
+
+            // Move the face from screen space to window space
+            clippedFace.ApplyMatrix(ScreenToWindow);
+            
+
+            // Call the required interpolator method
+            clippedFace.Interpolator(this, bufferAction);
         }
     }
 }

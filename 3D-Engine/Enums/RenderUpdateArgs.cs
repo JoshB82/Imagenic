@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Imagenic.Core.Entities;
+namespace Imagenic.Core.Enums;
 
 /*
 internal sealed class RenderUpdateArgs

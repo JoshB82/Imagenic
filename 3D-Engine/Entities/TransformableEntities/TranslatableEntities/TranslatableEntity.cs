@@ -1,4 +1,5 @@
-﻿using Imagenic.Core.Maths.Transformations;
+﻿using Imagenic.Core.Enums;
+using Imagenic.Core.Maths.Transformations;
 using System;
 
 namespace Imagenic.Core.Entities;
