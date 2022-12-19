@@ -10,45 +10,58 @@
  * Defines a Vertex, representing a point in 3D space.
  */
 
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
+using Imagenic.Core.Enums;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
-/// Encapsulates creation of an <see cref="Vertex"/>.
+/// A point typically used to form the corners of polygons and the starts and ends of edges.
 /// </summary>
 public sealed class Vertex : TranslatableEntity
 {
     #region Fields and Properties
 
-    public Vector3D? Normal { get; set; }
-
-    private Vector3D point;
-    public Vector3D Point
+    private Vector3D? normal;
+    public Vector3D? Normal
     {
-        get => point;
+        get => normal;
         set
         {
-            if (value == point) return;
-            point = value;
-            InvokeRenderingEvents();
+            if (value == normal) return;
+            normal = value;
+            InvokeRenderEvent(RenderUpdate.NewRender);
         }
     }
+
+    #if DEBUG
+
+    private protected override IMessageBuilder<VertexCreatedMessage>? MessageBuilder => (IMessageBuilder<VertexCreatedMessage>?)base.MessageBuilder; 
+
+    #endif
 
     #endregion
 
     #region Constructors
 
-    public Vertex(Vector3D point, Vector3D? normal = null)
+    #if DEBUG
+
+    public Vertex(Vector3D worldOrigin, Vector3D? normal = null) : base(worldOrigin, MessageBuilder<VertexCreatedMessage>.Instance())
     {
-        Point = point;
-        Normal = normal;
+        NonDebugConstructorBody(normal);
     }
 
-    public Vertex(Vector3D point, float w)
+    #else
+
+    public Vertex(Vector3D worldOrigin, Vector3D? normal = null) : base(worldOrigin)
     {
-        Point = point;
-        this.w = w;
+        NonDebugConstructorBody(normal);
+    }
+
+    #endif
+
+    private void NonDebugConstructorBody(Vector3D? normal)
+    {
+        Normal = normal;
     }
 
     #endregion

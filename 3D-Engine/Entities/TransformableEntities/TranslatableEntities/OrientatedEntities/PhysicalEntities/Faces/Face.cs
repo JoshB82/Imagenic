@@ -6,13 +6,13 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Entities;
 
-public sealed class Face : PhysicalEntity
+public abstract class Face : PhysicalEntity
 {
     #region Fields and Properties
 
     // Appearance
     private float opacity = 1f;
-    public float Opacity
+    /*public float Opacity
     {
         get => opacity;
         set
@@ -21,10 +21,10 @@ public sealed class Face : PhysicalEntity
             opacity = value;
             InvokeRenderingEvents();
         }
-    }
+    }*/
 
     private bool visible = true;
-    public bool Visible
+    /*public bool Visible
     {
         get => visible;
         set
@@ -33,7 +33,7 @@ public sealed class Face : PhysicalEntity
             visible = value;
             InvokeRenderingEvents();
         }
-    }
+    }*/
 
     // Structure
     private EventList<Vertex> vertices;
@@ -75,7 +75,7 @@ public sealed class Face : PhysicalEntity
 
     #region Constructors
 
-    public Face([DisallowNull][ThrowIfNull] IList<Vertex> vertices) : base(vertices[0].WorldOrigin, Orientation.OrientationXY)
+    public Face([DisallowNull, ThrowIfNull] IList<Vertex> vertices) : base(vertices[0].WorldOrigin, Orientation.OrientationXY)
     {
         if (vertices.Count < 3)
         {

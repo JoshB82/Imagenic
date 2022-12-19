@@ -54,6 +54,13 @@ internal class PhysicalEntityCreatedMessage : OrientatedEntityCreatedMessage, IM
     public new static MessageInterpolatedStringHandler<PhysicalEntityCreatedMessage> AllText => $"With parameters: {{{0}, {1}, {2}, {3}}}";
 }
 
+internal class VertexCreatedMessage : TranslatableEntityCreatedMessage, IMessage<VertexCreatedMessage>
+{
+    public new static MessageInterpolatedStringHandler<VertexCreatedMessage> BriefText => $"Parameters: {{{0}, {1}}}";
+    public new static MessageInterpolatedStringHandler<VertexCreatedMessage> DetailedText => $"With parameters: {{{0}, {1}}}";
+    public new static MessageInterpolatedStringHandler<VertexCreatedMessage> AllText => $"With parameters: {{{0}, {1}}}";
+}
+
 internal class RenderingEntityCreatedMessage : OrientatedEntityCreatedMessage, IMessage<RenderingEntityCreatedMessage>
 {
 

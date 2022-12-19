@@ -28,7 +28,7 @@ public abstract class Triangle : PhysicalEntity
 
     // Appearance
     public bool DrawOutline { get; set; } = false;
-    public bool Visible { get; set; } = true;
+    //public bool Visible { get; set; } = true;
 
     // Model space values
     public Vertex ModelP1 { get; set; }
