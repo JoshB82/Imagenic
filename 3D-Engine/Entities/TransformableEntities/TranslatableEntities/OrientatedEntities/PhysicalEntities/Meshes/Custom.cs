@@ -177,25 +177,7 @@ namespace Imagenic.Core.Entities.SceneObjects.Meshes
             Textures = new Texture[] { new Texture(texture, textureVertices.ToArray()) };
         }
 
-        /// <summary>
-        /// Creates a <see cref="Custom"/> mesh from joining two other meshes.
-        /// </summary>
-        /// <param name="origin">The position of the resultant <see cref="Custom"/> mesh.</param>
-        /// <param name="directionForward">The direction the resultant <see cref="Custom"/> mesh faces.</param>
-        /// <param name="directionUp">The upward orientation of the resultant <see cref="Custom"/> mesh.</param>
-        /// <param name="m1">The first <see cref="Mesh"/> to be joined.</param>
-        /// <param name="m2">The second <see cref="Mesh"/> to be joined.</param>
-        public Custom(Vector3D origin,
-                      Vector3D directionForward,
-                      Vector3D directionUp,
-                      Mesh m1,
-                      Mesh m2) : base(origin, directionForward, directionUp)
-        {
-            Vertices = m1.Vertices.Concat(m2.Vertices).ToArray(); // Not entirely sure how this works?
-            Edges = m1.Edges.Concat(m2.Edges).ToArray();
-            Triangles = m1.Triangles.Concat(m2.Triangles).ToArray();
-            Textures = m1.Textures.Concat(m2.Textures).ToArray();
-        }
+        
 
         #endregion
 

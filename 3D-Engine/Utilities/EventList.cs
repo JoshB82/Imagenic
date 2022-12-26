@@ -1,7 +1,9 @@
 ﻿using Imagenic.Core.Entities;
+using Imagenic.Core.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Imagenic.Core.Utilities;
 
@@ -10,8 +12,8 @@ public class EventList<T> : Entity, IList<T>
     #region Fields and Properties
 
     private IList<T> internalList = new List<T>();
-    public bool ActivateRenderingEvent { get; set; } = true;
-    public bool ActivateShadowMapEvent { get; set; } = true;
+
+    public RenderUpdate RenderUpdateStyle { get; set; } = RenderUpdate.NewRender & RenderUpdate.NewShadowMap;
 
     public T this[int index]
     {
@@ -19,7 +21,7 @@ public class EventList<T> : Entity, IList<T>
         set
         {
             internalList[index] = value;
-            InvokeRenderingEvents(ActivateRenderingEvent, ActivateShadowMapEvent);
+            InvokeRenderEvent(RenderUpdateStyle);
         }
     }
 
@@ -44,7 +46,7 @@ public class EventList<T> : Entity, IList<T>
 
     public void AddRange(IEnumerable<T> range)
     {
-        (internalList as List<T>).AddRange(range);
+        ((List<T>)internalList).AddRange(range);
     }
 
     public void For(Action<T, int> action)
@@ -66,13 +68,13 @@ public class EventList<T> : Entity, IList<T>
     public void Add(T item)
     {
         internalList.Add(item);
-        InvokeRenderingEvents(ActivateRenderingEvent, ActivateShadowMapEvent);
+        InvokeRenderEvent(RenderUpdateStyle);
     }
 
     public void Clear()
     {
         internalList.Clear();
-        InvokeRenderingEvents(ActivateRenderingEvent, ActivateShadowMapEvent);
+        InvokeRenderEvent(RenderUpdateStyle);
     }
 
     public bool Contains(T item)
@@ -98,19 +100,19 @@ public class EventList<T> : Entity, IList<T>
     public void Insert(int index, T item)
     {
         internalList.Insert(index, item);
-        InvokeRenderingEvents(ActivateRenderingEvent, ActivateShadowMapEvent);
+        InvokeRenderEvent(RenderUpdateStyle);
     }
 
     public bool Remove(T item)
     {
-        InvokeRenderingEvents(ActivateRenderingEvent, ActivateShadowMapEvent);
+        InvokeRenderEvent(RenderUpdateStyle);
         return internalList.Remove(item);
     }
 
     public void RemoveAt(int index)
     {
         internalList.RemoveAt(index);
-        InvokeRenderingEvents(ActivateRenderingEvent, ActivateShadowMapEvent);
+        InvokeRenderEvent(RenderUpdateStyle);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -119,4 +121,12 @@ public class EventList<T> : Entity, IList<T>
     }
 
     #endregion
+}
+
+public static class EventListExtensions
+{
+    public static EventList<T> ToEventList<T>(this IEnumerable<T> source)
+    {
+        return new EventList<T>(source.ToList());
+    }
 }

@@ -15,12 +15,12 @@ public static class PhysicalEntityTransformations
     #region TPhysicalEntity
 
     /// <summary>
-    /// 
+    /// Scales a <typeparamref name="TPhysicalEntity"/> in the x-direction.
     /// </summary>
     /// <typeparam name="TPhysicalEntity"></typeparam>
-    /// <param name="physicalEntity"></param>
-    /// <param name="scaleFactor"></param>
-    /// <returns></returns>
+    /// <param name="physicalEntity">The <typeparamref name="TPhysicalEntity"/> to be scaled.</param>
+    /// <param name="scaleFactor">The factor to scale by.</param>
+    /// <returns>The scaled <typeparamref name="TPhysicalEntity"/>.</returns>
     public static TPhysicalEntity ScaleX<TPhysicalEntity>(
         [DisallowNull] this TPhysicalEntity physicalEntity, float scaleFactor) where TPhysicalEntity : PhysicalEntity
     {

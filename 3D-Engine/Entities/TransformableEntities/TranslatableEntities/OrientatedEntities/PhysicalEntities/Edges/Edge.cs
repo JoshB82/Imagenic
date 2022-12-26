@@ -10,13 +10,12 @@
  * Defines an edge.
  */
 
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Enums;
 
 namespace Imagenic.Core.Entities;
 
 /// <summary>
-/// Encapsulates creation of an <see cref="Edge"/>.
+/// A line segment joining one <see cref="Vertex"/> to another.
 /// </summary>
 public abstract class Edge : PhysicalEntity
 {

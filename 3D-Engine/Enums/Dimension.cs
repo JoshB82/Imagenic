@@ -1,4 +1,4 @@
-﻿using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+﻿using Imagenic.Core.Entities;
 using System.Collections.Generic;
 using System.Linq;
 

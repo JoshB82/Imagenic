@@ -10,21 +10,12 @@
  * Defines an arrow mesh.
  */
 
-using _3D_Engine.Entities.SceneObjects.Meshes.Components.Edges;
-using _3D_Engine.Maths.Vectors;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
-using Imagenic.Core.Entities.SceneObjects.Meshes.ZeroDimensions;
 using Imagenic.Core.Enums;
 using System.Collections.Generic;
 using System.Drawing;
-using static _3D_Engine.Properties.Settings;
-using static System.MathF;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
+namespace Imagenic.Core.Entities;
 
 public sealed class Arrow : Mesh
 {
@@ -66,7 +57,7 @@ public sealed class Arrow : Mesh
         {
             if (value == tipPosition) return;
             tipPosition = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             length = (tipPosition - WorldOrigin).Magnitude();
             bodyLength = length - tipLength;
@@ -80,7 +71,7 @@ public sealed class Arrow : Mesh
         {
             if (value == length) return;
             length = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             tipPosition = WorldOrientation.DirectionForward * length;
             bodyLength = length = tipLength;
@@ -94,7 +85,7 @@ public sealed class Arrow : Mesh
         {
             if (value == bodyLength) return;
             bodyLength = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             length = bodyLength + tipLength;
             tipPosition = WorldOrigin + WorldOrientation.DirectionForward * length;
@@ -110,7 +101,7 @@ public sealed class Arrow : Mesh
         {
             if (value == tipLength) return;
             tipLength = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             length = bodyLength + tipLength;
             tipPosition = WorldOrigin + WorldOrientation.DirectionForward * length;
@@ -126,7 +117,7 @@ public sealed class Arrow : Mesh
         {
             if (value == bodyRadius) return;
             bodyRadius = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             Structure.Vertices = GenerateVertices(Resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
@@ -139,7 +130,7 @@ public sealed class Arrow : Mesh
         {
             if (value == tipRadius) return;
             tipRadius = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             Structure.Vertices = GenerateVertices(Resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
@@ -152,7 +143,7 @@ public sealed class Arrow : Mesh
         {
             if (value == resolution) return;
             resolution = value;
-            InvokeRenderingEvents();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             Structure = GenerateStructure(resolution, bodyLength, tipLength, bodyRadius, tipRadius);
         }
@@ -255,6 +246,11 @@ public sealed class Arrow : Mesh
         DrawEdges = false;
 
         return edges;
+    }
+
+    private static IList<Triangle> GenerateTriangles()
+    {
+
     }
 
     private static IList<Face> GenerateFaces(IList<Vertex> vertices, int resolution)

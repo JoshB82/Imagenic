@@ -10,8 +10,6 @@
  * Defines a torus mesh.
  */
 
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Enums;
 using System.Collections.Generic;
@@ -47,7 +45,7 @@ public sealed class Torus : Mesh
         {
             if (value == innerRadius) return;
             innerRadius = value;
-            RequestNewRenders();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             Structure.Vertices = GenerateVertices(innerResolution, outerResolution, innerRadius, outerRadius);
         }
@@ -63,7 +61,7 @@ public sealed class Torus : Mesh
         {
             if (value == outerRadius) return;
             outerRadius = value;
-            RequestNewRenders();
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
 
             Structure.Vertices = GenerateVertices(innerResolution, outerResolution, innerRadius, outerRadius);
         }
@@ -109,12 +107,33 @@ public sealed class Torus : Mesh
 
     #region Constructors
 
+    #if DEBUG
+
+    public Torus(Vector3D worldOrigin,
+                 Orientation worldOrientation,
+                 float innerRadius,
+                 float outerRadius,
+                 int innerResolution,
+                 int outerResolution) : base(worldOrigin, worldOrientation, GenerateStructure(innerResolution, outerResolution, innerRadius, outerRadius), MessageBuilder<TorusCreatedMessage>.Instance())
+    {
+        NonDebugConstructorBody(innerRadius, outerRadius, innerResolution, outerResolution);
+    }
+
+    #else
+
     public Torus(Vector3D worldOrigin,
                  Orientation worldOrientation,
                  float innerRadius,
                  float outerRadius,
                  int innerResolution,
                  int outerResolution) : base(worldOrigin, worldOrientation, GenerateStructure(innerResolution, outerResolution, innerRadius, outerRadius))
+    {
+        NonDebugConstructorBody(innerRadius, outerRadius, innerResolution, outerResolution);
+    }
+
+    #endif
+
+    private void NonDebugConstructorBody(float innerRadius, float outerRadius, int innerResolution, int outerResolution)
     {
         this.innerRadius = innerRadius;
         this.outerRadius = outerRadius;

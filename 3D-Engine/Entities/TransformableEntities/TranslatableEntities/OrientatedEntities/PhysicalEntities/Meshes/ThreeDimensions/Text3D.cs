@@ -10,13 +10,10 @@
  * Defines a three-dimensional text mesh.
  */
 
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Enums;
 using System.Collections.Generic;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.ThreeDimensions;
+namespace Imagenic.Core.Entities;
 
 public sealed class Text3D : Mesh
 {
@@ -31,13 +28,34 @@ public sealed class Text3D : Mesh
 
     #region Constructors
 
+    #if DEBUG
+
     public Text3D(Vector3D worldOrigin,
-                    Orientation worldOrientation,
-                    IEnumerable<string> fonts,
-                    float size,
-                    char style,
-                    float depth) : base(worldOrigin, worldOrientation, GenerateStructure())
+                  Orientation worldOrientation,
+                  IEnumerable<string> fonts,
+                  float size,
+                  char style,
+                  float depth) : base(worldOrigin, worldOrientation, GenerateStructure(), MessageBuilder<Text3DCreatedMessage>.Instance())
     {
+        NonDebugConstructorBody();
+    }
+
+    #else
+
+    public Text3D(Vector3D worldOrigin,
+                  Orientation worldOrientation,
+                  IEnumerable<string> fonts,
+                  float size,
+                  char style,
+                  float depth) : base(worldOrigin, worldOrientation, GenerateStructure())
+    {
+    }
+
+    #endif
+
+    private void NonDebugConstructorBody()
+    {
+
     }
 
     #endregion
@@ -48,9 +66,10 @@ public sealed class Text3D : Mesh
     {
         IList<Vertex> vertices = GenerateVertices();
         IList<Edge> edges = GenerateEdges();
+        IList<Triangle> triangles = GenerateTriangles();
         IList<Face> faces = GenerateFaces();
 
-        return new MeshStructure(Dimension.Three, vertices, edges, faces);
+        return new MeshStructure(Dimension.Three, vertices, edges, triangles, faces);
     }
 
     private static IList<Vertex> GenerateVertices()
@@ -63,10 +82,15 @@ public sealed class Text3D : Mesh
         return null; // TODO: Finish
     }
 
+    private static IList<Triangle> GenerateTriangles()
+    {
+        return null; // TODO: Finish
+    }
+
     private static IList<Face> GenerateFaces()
     {
         return null; // TODO: Finish
     }
 
-    #endregion
+#endregion
 }

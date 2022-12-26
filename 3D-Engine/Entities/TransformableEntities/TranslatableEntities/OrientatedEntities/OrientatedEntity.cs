@@ -60,6 +60,7 @@ public abstract class OrientatedEntity : TranslatableEntity
 
     public void NonDebugConstructorBody(Orientation worldOrientation)
     {
+        ThrowIfNull(worldOrientation);
         this.worldOrientation = worldOrientation;
     }
 

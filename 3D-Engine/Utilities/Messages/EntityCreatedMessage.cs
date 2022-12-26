@@ -66,7 +66,3 @@ internal class RenderingEntityCreatedMessage : OrientatedEntityCreatedMessage, I
 
 }
 
-internal class MeshCreatedMessage : PhysicalEntityCreatedMessage, IMessage<MeshCreatedMessage>
-{
-
-}

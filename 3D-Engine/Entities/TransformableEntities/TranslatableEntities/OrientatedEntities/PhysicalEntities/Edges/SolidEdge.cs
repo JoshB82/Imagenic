@@ -10,13 +10,7 @@
  * Defines a SolidEdge, representing a single-coloured edge with no pattern.
  */
 
-#if DEBUG
-
-using Imagenic.Core.Utilities.Messages;
-
-#endif
-
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Enums;
 using System.Drawing;
 
 namespace Imagenic.Core.Entities;
@@ -33,7 +27,7 @@ public sealed class SolidEdge : Edge
         {
             if (value == colour) return;
             colour = value;
-            InvokeRenderingEvents(true, false);
+            InvokeRenderEvent(RenderUpdate.NewRender);
         }
     }
 
@@ -54,7 +48,9 @@ public sealed class SolidEdge : Edge
 
     }
 
-    public SolidEdge(Vertex modelP1, Vertex modelP2, Color colour) : base(modelP1, modelP2, MessageBuilder<SolidEdgeCreatedMessage>.Instance())
+    public SolidEdge(Vertex modelP1,
+                     Vertex modelP2,
+                     Color colour) : base(modelP1, modelP2, MessageBuilder<SolidEdgeCreatedMessage>.Instance())
     {
         NonDebugConstructorBody(colour);
     }
@@ -63,7 +59,9 @@ public sealed class SolidEdge : Edge
 
     public SolidEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2) { }
 
-    public SolidEdge(Vertex modelP1, Vertex modelP2, Color colour) : base(modelP1, modelP2)
+    public SolidEdge(Vertex modelP1,
+                     Vertex modelP2,
+                     Color colour) : base(modelP1, modelP2)
     {
         NonDebugConstructorBody(colour);
     }

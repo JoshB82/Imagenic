@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Imagenic.Core.Loaders.Readers;
 
-public sealed class OBJReader : ImagenicReader
+public sealed class OBJReader : MeshReader
 {
 }

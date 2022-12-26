@@ -1,11 +1,7 @@
-﻿using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
+﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Enums;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,10 +20,7 @@ public abstract class MeshLoader : Loader
 
     #region Methods
 
-    public abstract Task<IList<Vertex>> GetVerticesAsync(CancellationToken ct);
-    public abstract Task<IList<Edge>> GetEdgesAsync(CancellationToken ct);
-    public abstract Task<IList<Face>> GetFacesAsync(CancellationToken ct);
-    public abstract Task<MeshStructure> ParseAsync(CancellationToken ct);
+    
 
     #endregion
 }

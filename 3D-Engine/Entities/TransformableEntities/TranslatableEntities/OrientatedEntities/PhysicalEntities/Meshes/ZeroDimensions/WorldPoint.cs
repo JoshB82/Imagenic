@@ -10,12 +10,10 @@
  * Defines a point Mesh called a WorldPoint which consists of a single Vertex.
  */
 
-using _3D_Engine.Maths.Vectors;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Enums;
 using System.Collections.Generic;
 
-namespace Imagenic.Core.Entities.SceneObjects.Meshes.ZeroDimensions;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// Encapsulates creation of a <see cref="WorldPoint"/> mesh.
@@ -24,11 +22,26 @@ public sealed class WorldPoint : Mesh
 {
     #region Fields and Properties
 
+    #if DEBUG
+
+    private protected override IMessageBuilder<WorldPointCreatedMessage>? MessageBuilder => (IMessageBuilder<WorldPointCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
     public static readonly WorldPoint ZeroOrigin = new(Vector3D.Zero);
 
     #endregion
 
     #region Constructors
+
+    #if DEBUG
+
+    public WorldPoint(Vector3D worldOrigin) : this(worldOrigin, Orientation.ModelOrientation) { }
+
+    public WorldPoint(Vector3D worldOrigin,
+                      Orientation worldOrientation) : base(worldOrigin, worldOrientation, GenerateStructure(), MessageBuilder<WorldPointCreatedMessage>.Instance()) { }
+
+    #else
 
     /// <summary>
     /// Creates a <see cref="WorldPoint"/> mesh.
@@ -42,7 +55,9 @@ public sealed class WorldPoint : Mesh
     /// <param name="worldOrigin"></param>
     /// <param name="worldOrientation"></param>
     public WorldPoint(Vector3D worldOrigin,
-                        Orientation worldOrientation) : base(worldOrigin, worldOrientation, GenerateStructure()) { }
+                      Orientation worldOrientation) : base(worldOrigin, worldOrientation, GenerateStructure()) { }
+
+    #endif
 
     #endregion
 
