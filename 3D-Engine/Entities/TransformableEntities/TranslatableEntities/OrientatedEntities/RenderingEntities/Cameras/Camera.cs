@@ -11,27 +11,30 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Enums;
-using _3D_Engine.Utilities;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Threading.Tasks;
 
-namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// An abstract base class that defines objects of type <see cref="Camera"/>. Any object which inherits from this class provides camera functionality.
 /// </summary>
-public abstract partial class Camera : RenderingObject
+public abstract partial class Camera : RenderingEntity
 {
     #region Fields and Properties
+
+    #if DEBUG
+
+    private protected override IMessageBuilder<CameraCreatedMessage>? MessageBuilder => (IMessageBuilder<CameraCreatedMessage>?)base.MessageBuilder;
+
+    #endif
 
     // Buffers
     protected Buffer2D<Color> colourBuffer;
@@ -200,7 +203,16 @@ public abstract partial class Camera : RenderingObject
                     float viewWidth,
                     float viewHeight,
                     float zNear,
-                    float zFar) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar)
+                    float zFar
+                    #if DEBUG
+                    , IMessageBuilder<CameraCreatedMessage> mb
+                    #endif
+                    )
+        : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar
+            #if DEBUG
+            , mb
+            #endif
+            )
     {
         string[] iconObjData = Properties.Resources.Camera.Split(Environment.NewLine);
         Icon = new Custom(worldOrigin, directionForward, directionUp, iconObjData) { Dimension = 3 };

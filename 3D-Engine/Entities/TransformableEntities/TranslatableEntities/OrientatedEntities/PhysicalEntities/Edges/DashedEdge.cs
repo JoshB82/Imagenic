@@ -10,9 +10,6 @@
  * Defines a dashed edge.
  */
 
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Maths;
-using Imagenic.Core.Utilities.Messages;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -63,7 +60,39 @@ public class DashedEdge : Edge
 
     #region Constructors
 
+    #if DEBUG
+
+    public DashedEdge(Vertex modelP1, Vertex modelP2) :
+        base(modelP1, modelP2, MessageBuilder<DashedEdgeCreatedMessage>.Instance())
+    {
+        NonDebugConstructorBody1();
+    }
+
+    public DashedEdge(Vertex modelP1,
+                      Vertex modelP2,
+                      IEnumerable<DashedEdgeSection> sections)
+        : base(modelP1, modelP2, MessageBuilder<DashedEdgeCreatedMessage>.Instance())
+    {
+        NonDebugConstructorBody2(sections);
+    }
+
+    #else
+
     public DashedEdge(Vertex modelP1, Vertex modelP2) : base(modelP1, modelP2)
+    {
+        NonDebugConstructorBody1();
+    }
+
+    public DashedEdge(Vertex modelP1,
+                      Vertex modelP2,
+                      IEnumerable<DashedEdgeSection> sections) : base(modelP1, modelP2)
+    {
+        NonDebugConstructorBody2(sections);
+    }
+
+    #endif
+
+    private void NonDebugConstructorBody1()
     {
         Sections = new DashedEdgeSection[]
         {
@@ -72,9 +101,7 @@ public class DashedEdge : Edge
         };
     }
 
-    public DashedEdge(Vertex modelP1,
-                        Vertex modelP2,
-                        IEnumerable<DashedEdgeSection> sections) : base(modelP1, modelP2)
+    private void NonDebugConstructorBody2(IEnumerable<DashedEdgeSection> sections)
     {
         Sections = sections;
     }

@@ -63,11 +63,16 @@ public class DashedEdgeSection : Entity
 
     #region Constructors
 
-    public DashedEdgeSection(float percentage, bool isTransparent = true, Color? colour = null)
+    public DashedEdgeSection(float percentage,
+                             bool isTransparent = true,
+                             Color? colour = null)
+    #if DEBUG
+        : base(MessageBuilder<DashedEdgeSectionCreatedMessage>.Instance())
+    #endif
     {
+        Percentage = percentage;
         IsTransparent = isTransparent;
         Colour = colour;
-        Percentage = percentage;
     }
 
     #endregion

@@ -1,17 +1,11 @@
-﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace _3D_Engine.Renderers;
+﻿namespace Imagenic.Core.Renderers;
 
 public sealed class RenderingOptions
 {
     #region Fields and Properties
 
-    public int RenderWidth { get; set; }
-    public int RenderHeight { get; set; }
+    public int RenderWidth { get; set; } = 1920;
+    public int RenderHeight { get; set; } = 1080;
 
     #endregion
 }

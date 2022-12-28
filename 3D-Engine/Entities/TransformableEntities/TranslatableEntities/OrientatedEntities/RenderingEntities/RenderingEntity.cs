@@ -16,6 +16,7 @@ using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntit
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.RenderingEntities.Lights;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.RenderingEntities.Cameras.OrthogonalCameras;
 using Imagenic.Core.Enums;
 using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Renderers;
@@ -34,7 +35,13 @@ public abstract partial class RenderingEntity : OrientatedEntity
 {
     #region Fields and Properties
 
-    internal override IMessageBuilder<RenderingEntityCreatedMessage> MessageBuilder { get; }
+    #if DEBUG
+
+    private protected override IMessageBuilder<RenderingEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<RenderingEntityCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
+    //internal override IMessageBuilder<RenderingEntityCreatedMessage> MessageBuilder { get; }
 
     // Buffers
     internal Buffer2D<float> zBuffer;
@@ -295,12 +302,24 @@ public abstract partial class RenderingEntity : OrientatedEntity
                              float viewWidth,
                              float viewHeight,
                              float zNear,
-                             float zFar) : base(worldOrigin, worldOrientation)
+                             float zFar
+        #if DEBUG
+        , IMessageBuilder<RenderingEntityCreatedMessage> mb
+        #endif
+        ) : base(worldOrigin, worldOrientation
+            #if DEBUG
+            , mb
+            #endif
+            )
     {
-        MessageBuilder.AddParameter(viewWidth)
-                      .AddParameter(viewHeight)
-                      .AddParameter(zNear)
-                      .AddParameter(zFar);
+        #if DEBUG
+        
+        MessageBuilder!.AddParameter(viewWidth)
+                       .AddParameter(viewHeight)
+                       .AddParameter(zNear)
+                       .AddParameter(zFar);
+
+        #endif
 
         // Construct view-space clipping planes and matrix
         float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;

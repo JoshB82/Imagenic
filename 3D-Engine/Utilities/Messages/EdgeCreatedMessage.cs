@@ -35,3 +35,10 @@ internal sealed class SolidEdgeCreatedMessage : EdgeCreatedMessage, IMessage<Sol
 
     public static new MessageInterpolatedStringHandler<SolidEdgeCreatedMessage> AllText => $"SolidEdge created with parameters {{{0}}}.";
 }
+
+internal sealed class DashedEdgeSectionCreatedMessage : EntityCreatedMessage, IMessage<DashedEdgeSectionCreatedMessage>
+{
+    public static new MessageInterpolatedStringHandler<DashedEdgeSectionCreatedMessage> BriefText => $"DashedEdgeSection created.";
+    public static new MessageInterpolatedStringHandler<DashedEdgeSectionCreatedMessage> DetailedText => $"DashedEdgeSection created with {{{0}}}.";
+    public static new MessageInterpolatedStringHandler<DashedEdgeSectionCreatedMessage> AllText => $"DashedEdgeSection created with {{{0}}}.";
+}

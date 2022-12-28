@@ -1,7 +1,7 @@
-﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+﻿using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.RenderingEntities.Cameras.OrthogonalCameras;
 using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities.Node;
 using System;
