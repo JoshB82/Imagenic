@@ -1,4 +1,7 @@
-﻿namespace Imagenic.Core.Entities;
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Imagenic.Core.Entities;
 
 public sealed class SolidFace : Face
 {
@@ -10,7 +13,12 @@ public sealed class SolidFace : Face
 
     #region Constructors
 
-    public SolidFace(params Triangle[] triangles) : base(triangles)
+    public SolidFace(params Triangle[] triangles) : this(triangles)
+    {
+
+    }
+
+    public SolidFace(IList<Triangle> triangles) : base(triangles)
     {
 
     }

@@ -16,8 +16,14 @@ using System.Collections.Generic;
 namespace Imagenic.Core.Entities;
 
 /// <summary>
-/// Encapsulates creation of a <see cref="WorldPoint"/> mesh.
+/// A zero-dimensional <see cref="Mesh"/>.
 /// </summary>
+/// <remarks>
+/// Composition:<br/>
+/// <list type="bullet">
+/// <item><description><strong>One</strong> vertex.</description></item>
+/// </list>
+/// </remarks>
 public sealed class WorldPoint : Mesh
 {
     #region Fields and Properties
@@ -34,30 +40,25 @@ public sealed class WorldPoint : Mesh
 
     #region Constructors
 
-    #if DEBUG
-
-    public WorldPoint(Vector3D worldOrigin) : this(worldOrigin, Orientation.ModelOrientation) { }
-
-    public WorldPoint(Vector3D worldOrigin,
-                      Orientation worldOrientation) : base(worldOrigin, worldOrientation, GenerateStructure(), MessageBuilder<WorldPointCreatedMessage>.Instance()) { }
-
-    #else
-
     /// <summary>
-    /// Creates a <see cref="WorldPoint"/> mesh.
+    /// Creates a <see cref="WorldPoint"/> mesh at the specified origin.
     /// </summary>
     /// <param name="worldOrigin">The position of the <see cref="WorldPoint"/> in world space.</param>
     public WorldPoint(Vector3D worldOrigin) : this(worldOrigin, Orientation.ModelOrientation) { }
 
     /// <summary>
-    /// 
+    /// Creates a <see cref="WorldPoint"/> mesh at the specified origin and with the specified orientation.
     /// </summary>
-    /// <param name="worldOrigin"></param>
-    /// <param name="worldOrientation"></param>
+    /// <param name="worldOrigin">The initial location of the <see cref="WorldPoint"/>.</param>
+    /// <param name="worldOrientation">The initial orientation of the <see cref="WorldPoint"/>.</param>
     public WorldPoint(Vector3D worldOrigin,
-                      Orientation worldOrientation) : base(worldOrigin, worldOrientation, GenerateStructure()) { }
-
-    #endif
+                      Orientation worldOrientation)
+        : base(worldOrigin, worldOrientation, GenerateStructure()
+        #if DEBUG
+        , MessageBuilder<WorldPointCreatedMessage>.Instance()
+        #endif
+        )
+    { }
 
     #endregion
 
@@ -67,12 +68,12 @@ public sealed class WorldPoint : Mesh
     {
         IList<Vertex> vertices = GenerateVertices();
 
-        return new MeshStructure(Dimension.Zero, vertices, null, null);
+        return new MeshStructure(Dimension.Zero, vertices, null, null, null);
     }
 
     private static IList<Vertex> GenerateVertices()
     {
-        return new Vertex[1] { new Vertex(new Vector4D(0, 0, 0, 1)) };
+        return new Vertex[1] { new Vertex(Vector3D.Zero) };
     }
 
     #endregion
