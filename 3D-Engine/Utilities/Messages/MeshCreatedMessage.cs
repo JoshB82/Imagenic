@@ -120,3 +120,10 @@ internal class WorldPointCreatedMessage : MeshCreatedMessage, IMessage<WorldPoin
     public static new MessageInterpolatedStringHandler<WorldPointCreatedMessage> DetailedText => $"WorldPoint created with parameters {{{0}}}.";
     public static new MessageInterpolatedStringHandler<WorldPointCreatedMessage> AllText => $"WorldPoint created with parameters {{{0}}}.";
 }
+
+internal class LineCreatedMessage : MeshCreatedMessage, IMessage<LineCreatedMessage>
+{
+    public static new MessageInterpolatedStringHandler<LineCreatedMessage> BriefText => $"Line created.";
+    public static new MessageInterpolatedStringHandler<LineCreatedMessage> DetailedText => $"Line created with parameters {{{0}}}.";
+    public static new MessageInterpolatedStringHandler<LineCreatedMessage> AllText => $"Line created with parameters {{{0}}}.";
+}

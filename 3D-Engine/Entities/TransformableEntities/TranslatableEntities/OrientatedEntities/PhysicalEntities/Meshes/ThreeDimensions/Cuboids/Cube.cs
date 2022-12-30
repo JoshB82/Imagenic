@@ -10,13 +10,8 @@
  * Defines creation of a Cube Mesh.
  */
 
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
-using Imagenic.Core.Entities.SceneObjects.Meshes;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
-using Imagenic.Core.Entities.SceneObjects.Meshes.TwoDimensions.Planes;
 using Imagenic.Core.Enums;
+using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,6 +43,12 @@ public class Cube : Mesh
             Scaling = new Vector3D(sideLength, sideLength, sideLength);
         }
     }
+
+    #if DEBUG
+
+    private protected override IMessageBuilder<CubeCreatedMessage>? MessageBuilder => (IMessageBuilder<CubeCreatedMessage>?)base.MessageBuilder;
+
+    #endif
 
     #endregion
 
@@ -118,23 +119,29 @@ public class Cube : Mesh
 
     #region Methods
 
-    private static MeshStructure GenerateStructure()
+    private static MeshStructure GenerateStructure(IList<Texture>? textures)
     {
-        IList<Vertex> vertices = GenerateVertices();
-        IList<Edge> edges = GenerateEdges();
-        IList<Face> faces = GenerateFaces();
+        EventList<Vertex> vertices = GenerateVertices();
+        EventList<Edge> edges = GenerateEdges();
+        EventList<Triangle> triangles = GenerateTriangles();
+        EventList<Face> faces = GenerateFaces();
 
-        return new MeshStructure(Dimension.Three, vertices, edges, faces);
+        return new MeshStructure(Dimension.Three, vertices, edges, triangles, faces, textures);
     }
 
-    private static IList<Vertex> GenerateVertices()
+    private static EventList<Vertex> GenerateVertices()
     {
-        return HardcodedMeshData.CuboidVertices;
+        return new EventList<Vertex>(HardcodedMeshData.CuboidVertices);
     }
 
-    private static IList<Edge> GenerateEdges()
+    private static EventList<Edge> GenerateEdges()
     {
-        return HardcodedMeshData.CuboidEdges;
+        return new EventList<Edge>(HardcodedMeshData.CuboidEdges);
+    }
+
+    private static EventList<Triangle> GenerateTriangles()
+    {
+
     }
 
     private static IList<Face> GenerateFaces()

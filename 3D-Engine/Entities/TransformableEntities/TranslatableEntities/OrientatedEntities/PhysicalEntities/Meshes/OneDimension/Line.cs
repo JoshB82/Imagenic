@@ -10,12 +10,21 @@
  * Defines a line mesh.
  */
 
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
 using Imagenic.Core.Enums;
-using System.Collections.Generic;
+using Imagenic.Core.Utilities;
 
 namespace Imagenic.Core.Entities;
 
+/// <summary>
+/// A one-dimensional mesh representing a line.
+/// </summary>
+/// <remarks>
+/// Composition:<br/>
+/// <list type="bullet">
+/// <item><description><strong>Two</strong> vertices;</description></item>
+/// <item><description><strong>One</strong> edge.</description></item>
+/// </list>
+/// </remarks>
 public sealed class Line : Mesh
 {
     #region Fields and Properties
@@ -43,6 +52,9 @@ public sealed class Line : Mesh
 
     private Vector3D endPosition;
 
+    /// <summary>
+    /// A point where the line terminates.
+    /// </summary>
     public Vector3D EndPosition
     {
         get => endPosition;
@@ -51,11 +63,15 @@ public sealed class Line : Mesh
             endPosition = value;
             Scaling = endPosition - WorldOrigin;
             length = Scaling.Magnitude();
+            InvokeRenderEvent(RenderUpdate.NewRender);
         }
     }
 
     private float length;
 
+    /// <summary>
+    /// The length of the line.
+    /// </summary>
     public float Length
     {
         get => length;
@@ -64,6 +80,7 @@ public sealed class Line : Mesh
             length = value;
             Scaling = WorldOrientation.DirectionForward * length;
             endPosition = Scaling + WorldOrigin;
+            InvokeRenderEvent(RenderUpdate.NewRender);
         }
     }
 
@@ -71,12 +88,32 @@ public sealed class Line : Mesh
 
     #region Constructors
 
-    public Line(Vector3D worldOrigin, Orientation worldOrientation, float length) : base(worldOrigin, worldOrientation, GenerateStructure())
+    /// <summary>
+    /// Creates a line.
+    /// </summary>
+    /// <param name="worldOrigin">The initial location of the <see cref="Line"/>; also one of two endpoints.</param>
+    /// <param name="worldOrientation">The initial orientation of the <see cref="Line"/>.</param>
+    /// <param name="length">The length of the <see cref="Line"/>.</param>
+    public Line(Vector3D worldOrigin,
+                Orientation worldOrientation,
+                float length)
+        : base(worldOrigin, worldOrientation, GenerateStructure()
+        #if DEBUG
+              , MessageBuilder<LineCreatedMessage>.Instance()
+        #endif
+              )
     {
         Length = length;
     }
 
-    public Line(Vector3D worldOrigin, Vector3D endPosition) : this(worldOrigin, Orientation.OrientationZY, (endPosition - worldOrigin).Magnitude())
+    /// <summary>
+    /// Creates a line.
+    /// </summary>
+    /// <param name="worldOrigin">The initial location of the <see cref="Line"/>; also one of two endpoints.</param>
+    /// <param name="endPosition">One of two endpoints.</param>
+    public Line(Vector3D worldOrigin,
+                Vector3D endPosition)
+        : this(worldOrigin, Orientation.OrientationZY, (endPosition - worldOrigin).Magnitude())
     {
         DrawFaces = false;
     }
@@ -87,20 +124,20 @@ public sealed class Line : Mesh
 
     private static MeshStructure GenerateStructure()
     {
-        IList<Vertex> vertices = GenerateVertices();
-        IList<Edge> edges = GenerateEdges();
+        EventList<Vertex> vertices = GenerateVertices();
+        EventList<Edge> edges = GenerateEdges();
 
-        return new MeshStructure(Dimension.One, vertices, edges, null);
+        return new MeshStructure(Dimension.One, vertices, edges, null, null, null);
     }
 
-    private static IList<Vertex> GenerateVertices()
+    private static EventList<Vertex> GenerateVertices()
     {
-        return HardcodedMeshData.LineVertices;
+        return new EventList<Vertex>(HardcodedMeshData.LineVertices);
     }
 
-    private static IList<Edge> GenerateEdges()
+    private static EventList<Edge> GenerateEdges()
     {
-        return HardcodedMeshData.LineEdges;
+        return new EventList<Edge>(HardcodedMeshData.LineEdges);
     }
 
     #endregion

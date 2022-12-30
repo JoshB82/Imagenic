@@ -57,6 +57,7 @@ public class MeshStructure : Entity
     }
 
     public IList<Texture>? Textures { get; }
+    public bool HasTextures => Textures is not null && Textures.Count > 0;
 
     public Dimension DimensionCount { get; }
 

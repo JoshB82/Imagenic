@@ -10,8 +10,6 @@
  * Provides hardcoded mesh data.
  */
 
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using System;
 using System.Collections.Generic;
 
@@ -48,45 +46,61 @@ internal static class HardcodedMeshData
         new SolidEdge(CuboidVertices[3], CuboidVertices[7]) // 11 [Middle-top-left]
     };
 
+    internal static IList<Triangle> CuboidSolidTriangles = new List<Triangle>
+    {
+        new SolidTriangle(CuboidVertices[0], CuboidVertices[1], CuboidVertices[2]), // 0
+        new SolidTriangle(CuboidVertices[0], CuboidVertices[2], CuboidVertices[3]), // 1
+        new SolidTriangle(CuboidVertices[1], CuboidVertices[5], CuboidVertices[6]), // 2
+        new SolidTriangle(CuboidVertices[1], CuboidVertices[6], CuboidVertices[2]), // 3
+        new SolidTriangle(CuboidVertices[5], CuboidVertices[4], CuboidVertices[7]), // 4
+        new SolidTriangle(CuboidVertices[5], CuboidVertices[7], CuboidVertices[6]), // 5
+        new SolidTriangle(CuboidVertices[4], CuboidVertices[0], CuboidVertices[3]), // 6
+        new SolidTriangle(CuboidVertices[4], CuboidVertices[3], CuboidVertices[7]), // 7
+        new SolidTriangle(CuboidVertices[3], CuboidVertices[2], CuboidVertices[6]), // 8
+        new SolidTriangle(CuboidVertices[3], CuboidVertices[6], CuboidVertices[7]), // 9
+        new SolidTriangle(CuboidVertices[1], CuboidVertices[0], CuboidVertices[4]), // 10
+        new SolidTriangle(CuboidVertices[1], CuboidVertices[4], CuboidVertices[5])  // 11
+    };
+
     internal static readonly IList<Face> CuboidSolidFaces = new List<Face>
     {
-        new Face(new List<Triangle> // 0 [Back]
+        new SolidFace(new List<Triangle> // 0 [Back]
         {
-            new SolidTriangle(CuboidVertices[0], CuboidVertices[1], CuboidVertices[2]),
-            new SolidTriangle(CuboidVertices[0], CuboidVertices[2], CuboidVertices[3])
+            CuboidSolidTriangles[0],
+            CuboidSolidTriangles[1]
         }),
-        new Face(new List<Triangle> // 1 [Right]
+        new SolidFace(new List<Triangle> // 1 [Right]
         {
-            new SolidTriangle(CuboidVertices[1], CuboidVertices[5], CuboidVertices[6]),
-            new SolidTriangle(CuboidVertices[1], CuboidVertices[6], CuboidVertices[2])
+            CuboidSolidTriangles[2],
+            CuboidSolidTriangles[3]
         }),
-        new Face(new List<Triangle> // 2 [Front]
+        new SolidFace(new List<Triangle> // 2 [Front]
         {
-            new SolidTriangle(CuboidVertices[5], CuboidVertices[4], CuboidVertices[7]),
-            new SolidTriangle(CuboidVertices[5], CuboidVertices[7], CuboidVertices[6])
+            CuboidSolidTriangles[4],
+            CuboidSolidTriangles[5]
         }),
-        new Face(new List<Triangle> // 3 [Left]
+        new SolidFace(new List<Triangle> // 3 [Left]
         {
-            new SolidTriangle(CuboidVertices[4], CuboidVertices[0], CuboidVertices[3]),
-            new SolidTriangle(CuboidVertices[4], CuboidVertices[3], CuboidVertices[7])
+            CuboidSolidTriangles[6],
+            CuboidSolidTriangles[7]
         }),
-        new Face(new List<Triangle> // 4 [Top]
+        new SolidFace(new List<Triangle> // 4 [Top]
         {
-            new SolidTriangle(CuboidVertices[3], CuboidVertices[2], CuboidVertices[6]),
-            new SolidTriangle(CuboidVertices[3], CuboidVertices[6], CuboidVertices[7])
+            CuboidSolidTriangles[8],
+            CuboidSolidTriangles[9]
         }),
-        new Face(new List<Triangle> // 5 [Bottom]
+        new SolidFace(new List<Triangle> // 5 [Bottom]
         {
-            new SolidTriangle(CuboidVertices[1], CuboidVertices[0], CuboidVertices[4]),
-            new SolidTriangle(CuboidVertices[1], CuboidVertices[4], CuboidVertices[5])
+            CuboidSolidTriangles[10],
+            CuboidSolidTriangles[11]
         })
     };
 
     // Line
     internal static readonly IList<Vertex> LineVertices = new Vertex[2]
     {
-        new Vertex(Vector4D.UnitW), // 0
-        new Vertex(Vector4D.One) // 1
+        new Vertex(Vector3D.Zero), // 0
+        new Vertex(Vector3D.One) // 1
     };
 
     internal static readonly IList<Edge> LineEdges = new Edge[1]
@@ -97,10 +111,10 @@ internal static class HardcodedMeshData
     // Plane
     internal static readonly IList<Vertex> PlaneVertices = new Vertex[4]
     {
-        new(new Vector4D(0, 0, 0, 1)), // 0 [Bottom-left]
-        new(new Vector4D(1, 0, 0, 1)), // 1 [Bottom-right]
-        new(new Vector4D(1, 0, 1, 1)), // 2 [Top-right]
-        new(new Vector4D(0, 0, 1, 1)) // 3 [Top-left]
+        new(new Vector3D(0, 0, 0)), // 0 [Bottom-left]
+        new(new Vector3D(1, 0, 0)), // 1 [Bottom-right]
+        new(new Vector3D(1, 0, 1)), // 2 [Top-right]
+        new(new Vector3D(0, 0, 1)) // 3 [Top-left]
     };
 
     internal static readonly IList<Edge> PlaneEdges = new Edge[4]
@@ -111,12 +125,15 @@ internal static class HardcodedMeshData
         new SolidEdge(PlaneVertices[0], PlaneVertices[3]) // 3 []
     };
 
+    internal static IList<Triangle> PlaneSolidTriangles = new Triangle[]
+    {
+        new SolidTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2]), // 0 []
+        new SolidTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3]) // 1 []
+    };
+
     internal static readonly IList<Face> PlaneSolidFaces = new Face[1]
     {
-        new Face(
-            new SolidTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2]), // 0 []
-            new SolidTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3]) // 1 []
-        )
+        new SolidFace(PlaneSolidTriangles[0], PlaneSolidTriangles[1])
     };
 
     #endregion
@@ -139,51 +156,76 @@ internal static class HardcodedMeshData
         };
     }
 
-    internal static IList<Face> GenerateCuboidTextureFaces(Texture[] textures)
+    internal static IList<Face> GenerateCuboidTextureFaces(IList<Triangle> triangles)
     {
         return new List<Face>
         {
-            new Face(new List<Triangle> // 0 [Back]
+            new SolidFace(new List<Triangle> // 0 [Back]
             {
-                new TextureTriangle(CuboidVertices[0], CuboidVertices[1], CuboidVertices[2], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[0]),
-                new TextureTriangle(CuboidVertices[0], CuboidVertices[2], CuboidVertices[3], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[0])
+                triangles[0],
+                triangles[1]
             }),
-            new Face(new List<Triangle> // 1 [Right]
+            new SolidFace(new List<Triangle> // 1 [Right]
             {
-                new TextureTriangle(CuboidVertices[1], CuboidVertices[5], CuboidVertices[6], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[1]),
-                new TextureTriangle(CuboidVertices[1], CuboidVertices[6], CuboidVertices[2], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[1])
+                triangles[2],
+                triangles[3]
             }),
-            new Face(new List<Triangle> // 2 [Front]
+            new SolidFace(new List<Triangle> // 2 [Front]
             {
-                new TextureTriangle(CuboidVertices[5], CuboidVertices[4], CuboidVertices[7], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[2]),
-                new TextureTriangle(CuboidVertices[5], CuboidVertices[7], CuboidVertices[6], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[2])
+                triangles[4],
+                triangles[5]
             }),
-            new Face(new List<Triangle> // 3 [Left]
+            new SolidFace(new List<Triangle> // 3 [Left]
             {
-                new TextureTriangle(CuboidVertices[4], CuboidVertices[0], CuboidVertices[3], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[3]),
-                new TextureTriangle(CuboidVertices[4], CuboidVertices[3], CuboidVertices[7], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[3])
+                triangles[6],
+                triangles[7]
             }),
-            new Face(new List<Triangle> // 4 [Top]
+            new SolidFace(new List<Triangle> // 4 [Top]
             {
-                new TextureTriangle(CuboidVertices[3], CuboidVertices[2], CuboidVertices[6], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[4]),
-                new TextureTriangle(CuboidVertices[3], CuboidVertices[6], CuboidVertices[7], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[4])
+                triangles[8],
+                triangles[9]
             }),
-            new Face(new List<Triangle> // 5 [Bottom]
+            new SolidFace(new List<Triangle> // 5 [Bottom]
             {
-                new TextureTriangle(CuboidVertices[1], CuboidVertices[0], CuboidVertices[4], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[5]),
-                new TextureTriangle(CuboidVertices[1], CuboidVertices[4], CuboidVertices[5], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[5])
+                triangles[10],
+                triangles[11]
             })
         };
     }
 
-    internal static IList<Face> GeneratePlaneTextureFace(Texture texture)
+    internal static IList<Triangle> GenerateCuboidTextureTriangles(Texture[] textures)
+    {
+        return new List<Triangle>
+        {
+            new TextureTriangle(CuboidVertices[0], CuboidVertices[1], CuboidVertices[2], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[0]), // 0
+            new TextureTriangle(CuboidVertices[0], CuboidVertices[2], CuboidVertices[3], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[0]), // 1
+            new TextureTriangle(CuboidVertices[1], CuboidVertices[5], CuboidVertices[6], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[1]), // 2
+            new TextureTriangle(CuboidVertices[1], CuboidVertices[6], CuboidVertices[2], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[1]), // 3
+            new TextureTriangle(CuboidVertices[5], CuboidVertices[4], CuboidVertices[7], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[2]), // 4
+            new TextureTriangle(CuboidVertices[5], CuboidVertices[7], CuboidVertices[6], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[2]), // 5
+            new TextureTriangle(CuboidVertices[4], CuboidVertices[0], CuboidVertices[3], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[3]), // 6
+            new TextureTriangle(CuboidVertices[4], CuboidVertices[3], CuboidVertices[7], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[3]), // 7
+            new TextureTriangle(CuboidVertices[3], CuboidVertices[2], CuboidVertices[6], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[4]), // 8
+            new TextureTriangle(CuboidVertices[3], CuboidVertices[6], CuboidVertices[7], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[4]), // 9
+            new TextureTriangle(CuboidVertices[1], CuboidVertices[0], CuboidVertices[4], TextureVertices[0], TextureVertices[1], TextureVertices[2], textures[5]), // 10
+            new TextureTriangle(CuboidVertices[1], CuboidVertices[4], CuboidVertices[5], TextureVertices[0], TextureVertices[2], TextureVertices[3], textures[5]) // 11
+        };
+    }
+
+    internal static IList<Triangle> GeneratePlaneTextureTriangles(Texture texture)
+    {
+        return new Triangle[2]
+        {
+            new TextureTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2], TextureVertices[0], TextureVertices[1], TextureVertices[2], texture), // 0 []
+            new TextureTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3], TextureVertices[0], TextureVertices[2], TextureVertices[3], texture) // 1 []
+        };
+    }
+
+    internal static IList<Face> GeneratePlaneTextureFace(IList<Triangle> triangles)
     {
         return new Face[1]
         {
-            new Face(
-                new TextureTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2], TextureVertices[0], TextureVertices[1], TextureVertices[2], texture), // 0 []
-                new TextureTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3], TextureVertices[0], TextureVertices[2], TextureVertices[3], texture) // 1 []
-            )
+            new SolidFace(triangles[0], triangles[1])
         };
     }
 
