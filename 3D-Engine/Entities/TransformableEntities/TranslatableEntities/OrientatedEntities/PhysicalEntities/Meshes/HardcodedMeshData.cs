@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Imagenic.Core.Entities;
 
@@ -140,6 +141,8 @@ internal static class HardcodedMeshData
 
     #region Methods
 
+    
+
     private static List<Vertex> GenerateCuboidVertices()
     {
         float radical = MathF.Sqrt(3) / 3;
@@ -212,12 +215,46 @@ internal static class HardcodedMeshData
         };
     }
 
+    internal static IList<Triangle> GeneratePlaneSolidTriangles(Color frontColour, Color backColour)
+    {
+        return new Triangle[2]
+        {
+            new SolidTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2], frontColour, backColour),
+            new SolidTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3], frontColour, backColour)
+        };
+    }
+
+    internal static IList<Triangle> GeneratePlaneGradientTriangles(Gradient frontGradient, Gradient backGradient)
+    {
+        return new Triangle[2]
+        {
+            new GradientTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2], frontGradient, backGradient),
+            new GradientTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3], frontGradient, backGradient)
+        };
+    }
+
     internal static IList<Triangle> GeneratePlaneTextureTriangles(Texture texture)
     {
         return new Triangle[2]
         {
             new TextureTriangle(PlaneVertices[0], PlaneVertices[1], PlaneVertices[2], TextureVertices[0], TextureVertices[1], TextureVertices[2], texture), // 0 []
             new TextureTriangle(PlaneVertices[0], PlaneVertices[2], PlaneVertices[3], TextureVertices[0], TextureVertices[2], TextureVertices[3], texture) // 1 []
+        };
+    }
+
+    internal static IList<Face> GeneratePlaneSolidFace(IList<SolidTriangle> triangles)
+    {
+        return new Face[1]
+        {
+            new SolidFace(triangles[0], triangles[1])
+        };
+    }
+
+    internal static IList<Face> GeneratePlaneGradientFace(IList<Triangle> triangles)
+    {
+        return new Face[1]
+        {
+            new GradientFace(triangles[0], triangles[1])
         };
     }
 

@@ -11,6 +11,25 @@ public abstract class Face : PhysicalEntity
     #region Fields and Properties
 
     // Appearance
+    private FaceStyle frontStyle, backStyle;
+    public FaceStyle FrontStyle
+    {
+        get => frontStyle;
+        set
+        {
+            frontStyle = value;
+        }
+    }
+    public FaceStyle BackStyle
+    {
+        get => backStyle;
+        set
+        {
+            backStyle = value;
+        }
+    }
+
+
     private float opacity = 1f;
     /*public float Opacity
     {

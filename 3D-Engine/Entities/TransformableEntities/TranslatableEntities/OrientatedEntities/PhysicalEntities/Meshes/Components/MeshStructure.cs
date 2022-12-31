@@ -59,6 +59,9 @@ public class MeshStructure : Entity
     public IList<Texture>? Textures { get; }
     public bool HasTextures => Textures is not null && Textures.Count > 0;
 
+    public IList<Gradient> Gradients { get; }
+    public bool HasGradients => Gradients is not null && Gradients.Count > 0;
+
     public Dimension DimensionCount { get; }
 
     #endregion

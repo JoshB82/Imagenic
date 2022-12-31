@@ -13,6 +13,7 @@
 using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Entities;
 
@@ -23,9 +24,9 @@ namespace Imagenic.Core.Entities;
 /// <remarks>
 /// Composition:<br/>
 /// <list type="bullet">
-/// <item><description><strong>4</strong> vertices</description></item>
-/// <item><description><strong>4</strong> edges</description></item>
-/// <item><description><strong>1</strong> face (made of <strong>2</strong> triangles)</description></item>
+/// <item><description><strong>4</strong> vertices;</description></item>
+/// <item><description><strong>4</strong> edges;</description></item>
+/// <item><description><strong>1</strong> face (made of <strong>2</strong> triangles).</description></item>
 /// </list>
 /// </remarks>
 public sealed class Plane : Mesh
@@ -59,6 +60,12 @@ public sealed class Plane : Mesh
         }
     }
 
+    #if DEBUG
+
+    private protected override IMessageBuilder<PlaneCreatedMessage>? MessageBuilder => (IMessageBuilder<PlaneCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
     #endregion
 
     #region Constructors
@@ -86,33 +93,84 @@ public sealed class Plane : Mesh
     /// <param name="width">The width of the <see cref="Plane"/>.</param>
     /// <param name="texture">The <see cref="Texture"/> that defines what to draw on each surface of the <see cref="Plane"/>.</param>
     public Plane(Vector3D worldOrigin,
-                 Orientation worldOrientation,
+                 [DisallowNull] Orientation worldOrientation,
                  float length,
                  float width,
-                 Texture texture)
-        : base(worldOrigin, worldOrientation, GenerateStructure(null)
+                 [DisallowNull] Texture texture)
+        : this(worldOrigin, worldOrientation, length, width, texture, texture)
+    { }
+
+    public Plane(Vector3D worldOrigin,
+                 [DisallowNull] Orientation worldOrientation,
+                 float length,
+                 float width,
+                 [DisallowNull] Texture frontTexture,
+                 [DisallowNull] Texture backTexture)
+        : base(worldOrigin, worldOrientation, GenerateStructure(frontTexture, backTexture)
               #if DEBUG
               , MessageBuilder<PlaneCreatedMessage>.Instance()
-              #endif
+                #endif
               )
     {
         Length = length;
         Width = width;
-        Textures = new Texture[1] { texture };
+        MessageBuilder.AddParameter(length)
+                      .AddParameter(width)
+                      .AddParameter(frontTexture)
+                      .AddParameter(backTexture);
     }
+
+    public Plane(Vector3D worldOrigin,
+                 [DisallowNull] Orientation worldOrientation,
+                 float length,
+                 float width,
+                 [DisallowNull] Gradient frontGradient,
+                 [DisallowNull] Gradient backGradient
+                 )
+        : base(worldOrigin, worldOrientation, GenerateStructure(frontGradient, backGradient)
+          #if DEBUG
+            , MessageBuilder<PlaneCreatedMessage>.Instance()
+          #endif
+            )
+    {
+        Length = length;
+        Width = width;
+        MessageBuilder.AddParameter(length)
+                      .AddParameter(width)
+                      .AddParameter(frontGradient)
+                      .AddParameter(backGradient);
+    }
+
+    public Plane(Vector3D worldOrigin,
+                 [DisallowNull] Orientation worldOrientation,
+                 float length,
+                 float width,
+                 [DisallowNull] Gradient gradient)
+        : this(worldOrigin, worldOrientation, length, width, gradient, gradient)
+    { }
 
     #endregion
 
     #region Methods
 
-    private static MeshStructure GenerateStructure(IList<Texture>? textures)
+    private static MeshStructure GenerateStructure(Gradient frontGradient, Gradient backGradient)
     {
         EventList<Vertex> vertices = GenerateVertices();
         EventList<Edge> edges = GenerateEdges();
-        EventList<Triangle> triangles = GenerateTriangles();
-        EventList<Face> faces = GenerateFaces(textures);
+        EventList<Triangle> triangles = GenerateTriangles(frontGradient, backGradient);
+        EventList<Face> faces = GenerateFaces(triangles);
 
-        return new MeshStructure(Dimension.Two, vertices, edges, triangles, faces, textures);
+        return new MeshStructure(Dimension.Two, vertices, edges, triangles, faces);
+    }
+
+    private static MeshStructure GenerateStructure(Texture frontTexture, Texture backTexture)
+    {
+        EventList<Vertex> vertices = GenerateVertices();
+        EventList<Edge> edges = GenerateEdges();
+        EventList<Triangle> triangles = GenerateTriangles(frontTexture, backTexture);
+        EventList<Face> faces = GenerateFaces(triangles);
+
+        return new MeshStructure(Dimension.Two, vertices, edges, triangles, faces, new Texture[] { frontTexture, backTexture });
     }
 
     private static EventList<Vertex> GenerateVertices()
@@ -125,16 +183,29 @@ public sealed class Plane : Mesh
         return new EventList<Edge>(HardcodedMeshData.PlaneEdges);
     }
 
-    private static EventList<Triangle> GenerateTriangles()
+    private static EventList<Triangle> GenerateTriangles(Gradient frontGradient, Gradient backGradient)
     {
-        return new EventList<Triangle>();
+        return new EventList<Triangle>(HardcodedMeshData.GeneratePlaneGradientTriangles(frontGradient, backGradient));
     }
 
-    private static EventList<Face> GenerateFaces(IList<Texture>? textures)
+    private static EventList<Triangle> GenerateTriangles(Texture frontTexture, Texture backTexture)
     {
-        return new EventList<Face>((textures is not null && textures.Count > 0)
-                                   ? HardcodedMeshData.GeneratePlaneTextureFace(textures[0])
-                                   : HardcodedMeshData.PlaneSolidFaces);
+        return new EventList<Triangle>(HardcodedMeshData.GeneratePlaneTextureTriangles(frontTexture, backTexture));
+    }
+
+    private static EventList<Face> GenerateFaces(IList<GradientTriangle> triangles)
+    {
+        return new EventList<Face>(HardcodedMeshData.GeneratePlaneGradientFace());
+    }
+
+    private static EventList<Face> GenerateFaces(IList<SolidTriangle> triangles)
+    {
+        return new EventList<Face>(HardcodedMeshData.PlaneSolidFaces);
+    }
+
+    private static EventList<Face> GenerateFaces(IList<TextureTriangle> triangles)
+    {
+        return new EventList<Face>(HardcodedMeshData.GeneratePlaneTextureFace(triangles));
     }
 
     #endregion

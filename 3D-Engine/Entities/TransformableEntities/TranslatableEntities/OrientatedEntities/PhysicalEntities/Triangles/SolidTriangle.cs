@@ -11,6 +11,7 @@
  */
 
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
+using Imagenic.Core.Enums;
 using System;
 using System.Drawing;
 
@@ -30,9 +31,53 @@ public sealed class SolidTriangle : Triangle
     // Appearance
     public Color Colour { get; set; } = Properties.Settings.Default.FaceColour;
 
+    private Color frontColour, backColour;
+    public Color FrontColour
+    {
+        get => frontColour;
+        set
+        {
+            if (value == frontColour) return;
+            frontColour = value;
+            InvokeRenderEvent(RenderUpdate.NewRender);
+        }
+    }
+    public Color BackColour
+    {
+        get => backColour;
+        set
+        {
+            if (value == backColour) return;
+            backColour = value;
+            InvokeRenderEvent(RenderUpdate.NewRender);
+        }
+    }
+
     #endregion
 
     #region Constructors
+
+    public SolidTriangle(Vertex p1,
+                         Vertex p2,
+                         Vertex p3,
+                         Color colour)
+        : this(p1, p2, p3, colour, colour)
+    { }
+
+    public SolidTriangle(Vertex p1,
+                         Vertex p2,
+                         Vertex p3,
+                         Color frontColour,
+                         Color backColour)
+        : base(p1, p2, p3
+            #if DEBUG
+            , MessageBuilder<SolidTriangleCreatedMessage>.Instance()
+            #endif
+            )
+    {
+        FrontColour = frontColour;
+        BackColour = backColour;
+    }
 
     internal SolidTriangle(Vector4D p1, Vector4D p2, Vector4D p3) => (P1, P2, P3) = (p1, p2, p3);
 

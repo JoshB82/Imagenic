@@ -42,6 +42,17 @@ public abstract class Triangle : PhysicalEntity
 
     #endregion
 
+    #region Constructors
+
+    public Triangle(Vertex p1, Vertex p2, Vertex p3)
+    {
+        ModelP1 = p1;
+        ModelP2 = p2;
+        ModelP3 = p3;
+    }
+
+    #endregion
+
     #region Methods
 
     internal void ApplyMatrix(Matrix4x4 matrix) => (P1, P2, P3) = (matrix * P1, matrix * P2, matrix * P3);
