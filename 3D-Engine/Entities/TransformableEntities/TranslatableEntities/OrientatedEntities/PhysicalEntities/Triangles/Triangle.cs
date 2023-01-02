@@ -10,45 +10,68 @@
  *
  */
 
-using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects;
-using _3D_Engine.Renderers;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
-using Imagenic.Core.Maths;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Entities;
 
-public abstract class Triangle : PhysicalEntity
+public class Triangle : Entity
 {
     #region Fields and Properties
 
-    internal List<RendererBase> Renderers { get; set; }
+    private FaceStyle frontStyle, backStyle;
+    public FaceStyle FrontStyle
+    {
+        get => frontStyle;
+        set
+        {
+            frontStyle = value;
+        }
+    }
+    public FaceStyle BackStyle
+    {
+        get => backStyle;
+        set
+        {
+            backStyle = value;
+        }
+    }
 
     // Appearance
-    public bool DrawOutline { get; set; } = false;
+    //public bool DrawOutline { get; set; } = false;
     //public bool Visible { get; set; } = true;
 
     // Model space values
-    public Vertex ModelP1 { get; set; }
-    public Vertex ModelP2 { get; set; }
-    public Vertex ModelP3 { get; set; }
+    public Vertex P1 { get; set; }
+    public Vertex P2 { get; set; }
+    public Vertex P3 { get; set; }
 
+    /*
     // Calculation values
     internal Vector4D P1 { get; set; }
     internal Vector4D P2 { get; set; }
     internal Vector4D P3 { get; set; }
+    */
 
     #endregion
 
     #region Constructors
 
-    public Triangle(Vertex p1, Vertex p2, Vertex p3)
+    public Triangle([DisallowNull] FaceStyle frontStyle,
+                    [DisallowNull] FaceStyle backStyle,
+                    [DisallowNull] Vertex p1,
+                    [DisallowNull] Vertex p2,
+                    [DisallowNull] Vertex p3)
+        : base(MessageBuilder<TriangleCreatedMessage>.Instance())
     {
-        ModelP1 = p1;
-        ModelP2 = p2;
-        ModelP3 = p3;
+        ThrowIfNull(frontStyle, backStyle);
+        FrontStyle = frontStyle;
+        BackStyle = backStyle;
+
+        ThrowIfNull(p1, p2, p3);
+        P1 = p1;
+        P2 = p2;
+        P3 = p3;
     }
 
     #endregion

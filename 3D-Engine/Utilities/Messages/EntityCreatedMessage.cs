@@ -61,6 +61,13 @@ internal class VertexCreatedMessage : TranslatableEntityCreatedMessage, IMessage
     public new static MessageInterpolatedStringHandler<VertexCreatedMessage> AllText => $"With parameters: {{{0}, {1}}}";
 }
 
+internal class FaceCreatedMessage : EntityCreatedMessage, IMessage<FaceCreatedMessage>
+{
+    public static new MessageInterpolatedStringHandler<FaceCreatedMessage> BriefText => $"Face created.";
+    public static new MessageInterpolatedStringHandler<FaceCreatedMessage> DetailedText => $"Face created with parameters {{{0}}}.";
+    public static new MessageInterpolatedStringHandler<FaceCreatedMessage> AllText => $"Face created with parameters {{{0}}}.";
+}
+
 internal class RenderingEntityCreatedMessage : OrientatedEntityCreatedMessage, IMessage<RenderingEntityCreatedMessage>
 {
 

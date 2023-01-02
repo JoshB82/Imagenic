@@ -46,9 +46,9 @@ public class Ray : Entity
         mesh.CalculateModelToWorldMatrix();
         intersectionDistance = mesh.Structure.Faces.SelectMany(face => face.Triangles.Select(triangle =>
         {
-            Vector3D p1 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP1.Point, 1));
-            Vector3D p2 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP2.Point, 1));
-            Vector3D p3 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.ModelP3.Point, 1));
+            Vector3D p1 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.P1.Point, 1));
+            Vector3D p2 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.P2.Point, 1));
+            Vector3D p3 = (Vector3D)(mesh.ModelToWorld * new Vector4D(triangle.P3.Point, 1));
             PlanePoints planePoints = new(p1, p2, p3);
 
             DoesIntersect(planePoints, out float? distance);

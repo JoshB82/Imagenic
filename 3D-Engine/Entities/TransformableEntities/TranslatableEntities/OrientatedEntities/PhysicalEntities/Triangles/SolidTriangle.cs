@@ -81,7 +81,7 @@ public sealed class SolidTriangle : Triangle
 
     internal SolidTriangle(Vector4D p1, Vector4D p2, Vector4D p3) => (P1, P2, P3) = (p1, p2, p3);
 
-    public SolidTriangle(Vertex modelP1, Vertex modelP2, Vertex modelP3) => (ModelP1, ModelP2, ModelP3) = (modelP1, modelP2, modelP3);
+    public SolidTriangle(Vertex modelP1, Vertex modelP2, Vertex modelP3) => (P1, P2, P3) = (modelP1, modelP2, modelP3);
 
     #endregion
 
@@ -118,7 +118,7 @@ public sealed class SolidTriangle : Triangle
         );
     }
 
-    internal override void ResetVertices() => (P1, P2, P3) = (ModelP1.Point, ModelP2.Point, ModelP3.Point);
+    internal override void ResetVertices() => (P1, P2, P3) = (P1.Point, P2.Point, P3.Point);
 
     #endregion
 }

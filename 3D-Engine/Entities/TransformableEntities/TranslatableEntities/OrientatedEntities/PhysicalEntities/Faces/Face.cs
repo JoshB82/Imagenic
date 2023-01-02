@@ -1,12 +1,13 @@
 ﻿using Imagenic.Core.Attributes;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
+using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Imagenic.Core.Entities;
 
-public abstract class Face : PhysicalEntity
+public class Face : Entity
 {
     #region Fields and Properties
 
@@ -85,8 +86,20 @@ public abstract class Face : PhysicalEntity
         set
         {
             if (value == triangles) return;
+            ThrowIfNull(value);
+            ThrowIfEmpty(value);
             triangles = value;
-            InvokeRenderingEvents();
+
+            vertices.Clear();
+            foreach (Triangle triangle in triangles)
+            {
+                vertices.Add(triangle.P1);
+                vertices.Add(triangle.P2);
+                vertices.Add(triangle.P3);
+            }
+            vertices = vertices.Distinct().ToEventList();
+
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
 
@@ -125,14 +138,21 @@ public abstract class Face : PhysicalEntity
         Edges = edges;
     }
 
-    public Face(params Triangle[] triangles)
-    {
-        Triangles = triangles;
-    }
+    public Face([DisallowNull] FaceStyle frontStyle,
+                [DisallowNull] FaceStyle backStyle,
+                params Triangle[] triangles)
+        : this(frontStyle, backStyle, triangles)
+    { }
 
-    public Face(IList<Triangle> triangles)
+    public Face([DisallowNull] FaceStyle frontStyle,
+                [DisallowNull] FaceStyle backStyle,
+                IEnumerable<Triangle> triangles)
+        : base(MessageBuilder<FaceCreatedMessage>.Instance())
     {
-        Triangles = triangles;
+        ThrowIfNull(frontStyle, backStyle);
+        FrontStyle = frontStyle;
+        BackStyle = backStyle;
+        Triangles = new EventList<Triangle>(triangles.ToList());
     }
 
     #endregion

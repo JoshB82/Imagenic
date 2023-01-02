@@ -1,6 +1,9 @@
 ﻿using Imagenic.Core.Utilities.Messages;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Imagenic.Core.Utilities.Helpers;
@@ -60,6 +63,16 @@ internal static class ExceptionHelper
                 .AddParameter(param3Name)
                 .AddParameter(param4Name)
                 .BuildIntoException<ArgumentNullException>();
+        }
+    }
+
+    internal static void ThrowIfEmpty<T>(IEnumerable<T> source)
+    {
+        if (!source.Any())
+        {
+            throw MessageBuilder<ArgumentCannotBeEmptyMessage>.Instance()
+                .AddParameter(source)
+                .BuildIntoException<ArgumentException>();
         }
     }
 

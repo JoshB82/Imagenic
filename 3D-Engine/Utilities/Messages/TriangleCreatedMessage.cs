@@ -1,11 +1,13 @@
 ﻿namespace Imagenic.Core.Utilities.Messages;
 
-internal class TriangleCreatedMessage : PhysicalEntityCreatedMessage, IMessage<TriangleCreatedMessage>
+internal class TriangleCreatedMessage : EntityCreatedMessage, IMessage<TriangleCreatedMessage>
 {
     public static new MessageInterpolatedStringHandler<TriangleCreatedMessage> BriefText => $"Triangle created.";
     public static new MessageInterpolatedStringHandler<TriangleCreatedMessage> DetailedText => $"Triangle created with parameters {{{0}}}.";
     public static new MessageInterpolatedStringHandler<TriangleCreatedMessage> AllText => $"Triangle created with parameters {{{0}}}.";
 }
+
+//-----
 
 internal sealed class GradientTriangleCreatedMessage : TriangleCreatedMessage, IMessage<GradientTriangleCreatedMessage>
 {

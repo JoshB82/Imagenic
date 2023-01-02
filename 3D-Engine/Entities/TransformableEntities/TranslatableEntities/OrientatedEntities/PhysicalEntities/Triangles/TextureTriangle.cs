@@ -19,13 +19,7 @@ public sealed class TextureTriangle : Triangle
 {
     #region Fields and Properties
 
-    // Appearance
-    public Texture TextureObject { get; set; }
-
-    // Texture space values
-    public Vector3D TextureT1 { get; set; }
-    public Vector3D TextureT2 { get; set; }
-    public Vector3D TextureT3 { get; set; }
+    
 
     // Calculation values
     internal Vector3D T1 { get; set; }
@@ -57,7 +51,7 @@ public sealed class TextureTriangle : Triangle
                            Vector3D textureT3,
                            Texture textureObject)
     {
-        (ModelP1, ModelP2, ModelP3) = (modelP1, modelP2, modelP3);
+        (P1, P2, P3) = (modelP1, modelP2, modelP3);
         (TextureT1, TextureT2, TextureT3) = (textureT1, textureT2, textureT3);
         TextureObject = textureObject;
     }
@@ -68,7 +62,7 @@ public sealed class TextureTriangle : Triangle
 
     internal override void ResetVertices()
     {
-        (P1, P2, P3) = (ModelP1.Point, ModelP2.Point, ModelP3.Point);
+        (P1, P2, P3) = (P1.Point, P2.Point, P3.Point);
         (T1, T2, T3) = (TextureT1, TextureT2, TextureT3);
     }
 

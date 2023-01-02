@@ -51,7 +51,7 @@ public sealed class GradientTriangle : Triangle
 
     }
 
-    internal override void ResetVertices() => (P1, P2, P3) = (ModelP1.Point, ModelP2.Point, ModelP3.Point);
+    internal override void ResetVertices() => (P1, P2, P3) = (P1.Point, P2.Point, P3.Point);
 
     #endregion
 }

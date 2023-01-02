@@ -12,6 +12,7 @@
 
 using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Entities;
 
@@ -95,9 +96,10 @@ public sealed class Line : Mesh
     /// <param name="worldOrientation">The initial orientation of the <see cref="Line"/>.</param>
     /// <param name="length">The length of the <see cref="Line"/>.</param>
     public Line(Vector3D worldOrigin,
-                Orientation worldOrientation,
-                float length)
-        : base(worldOrigin, worldOrientation, GenerateStructure()
+                [DisallowNull] Orientation worldOrientation,
+                float length,
+                [DisallowNull] EdgeStyle style)
+        : base(worldOrigin, worldOrientation, GenerateStructure(style)
         #if DEBUG
               , MessageBuilder<LineCreatedMessage>.Instance()
         #endif
@@ -112,8 +114,9 @@ public sealed class Line : Mesh
     /// <param name="worldOrigin">The initial location of the <see cref="Line"/>; also one of two endpoints.</param>
     /// <param name="endPosition">One of two endpoints.</param>
     public Line(Vector3D worldOrigin,
-                Vector3D endPosition)
-        : this(worldOrigin, Orientation.OrientationZY, (endPosition - worldOrigin).Magnitude())
+                Vector3D endPosition,
+                [DisallowNull] EdgeStyle style)
+        : this(worldOrigin, Orientation.OrientationZY, (endPosition - worldOrigin).Magnitude(), style)
     {
         DrawFaces = false;
     }
@@ -122,22 +125,22 @@ public sealed class Line : Mesh
 
     #region Methods
 
-    private static MeshStructure GenerateStructure()
+    private static MeshStructure GenerateStructure(EdgeStyle style)
     {
         EventList<Vertex> vertices = GenerateVertices();
-        EventList<Edge> edges = GenerateEdges();
+        EventList<Edge> edges = GenerateEdges(style);
 
         return new MeshStructure(Dimension.One, vertices, edges, null, null, null);
     }
 
     private static EventList<Vertex> GenerateVertices()
     {
-        return new EventList<Vertex>(HardcodedMeshData.LineVertices);
+        return new EventList<Vertex>(MeshData.LineVertices);
     }
 
-    private static EventList<Edge> GenerateEdges()
+    private static EventList<Edge> GenerateEdges(EdgeStyle style)
     {
-        return new EventList<Edge>(HardcodedMeshData.LineEdges);
+        return new EventList<Edge>(MeshData.GenerateLineEdges(style));
     }
 
     #endregion
