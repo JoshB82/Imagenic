@@ -14,6 +14,7 @@ using System.Drawing;
 using Imagenic.Core.Renderers.Rasterising;
 using Imagenic.Core.Maths;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.RenderingEntities.Cameras.PerspectiveCameras;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {

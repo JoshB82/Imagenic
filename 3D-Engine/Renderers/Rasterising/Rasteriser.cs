@@ -2,6 +2,7 @@
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Images;
+using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
@@ -53,11 +54,35 @@ public class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
 
     #region Methods
 
-    public async override IAsyncEnumerable<TImage> RenderAsync(PhysicalEntity physicalEntity, CancellationToken token = default)
+    public async override Task<TImage> RenderAsync(CancellationToken token = default)
     {
-        await DecomposePhysicalEntity.Decompose(physicalEntity, token);
+        foreach (PhysicalEntity physicalEntity in RenderingOptions.PhysicalEntitiesToRender)
+        {
+            var drawRequired = await DecomposePhysicalEntity.Decompose(physicalEntity, RenderCamera, token, out IEnumerable<DrawableTriangle> decomposition);
+            foreach (DrawableTriangle triangleToBeDrawn in decomposition)
+            {
+                switch (triangleToBeDrawn.faceStyleToBeDrawn)
+                {
+                    case SolidStyle:
+                        await Drawer.InterpolateSolidStyle(triangleToBeDrawn);
+                        break;
+                    case TextureStyle:
+                        await Drawer.InterpolateTextureStyle();
+                        break;
+                    case GradientStyle:
+                        await Drawer.InterpolateGradientStyle();
+                        break;
+                }
+            }
+        }
     }
 
+    public async override IAsyncEnumerable<TImage> RenderAsync(PhysicalEntity physicalEntity, CancellationToken token = default)
+    {
+        await DecomposePhysicalEntity.Decompose(physicalEntity, RenderCamera, token);
+    }
+
+    /*
     private void UpdateSubscribers(SceneEntity sceneObject, bool addSubscription)
     {
         Action<Entity> updater = addSubscription
@@ -66,7 +91,7 @@ public class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
 
         ApplyUpdater(updater, sceneObject);
     }
-
+    */
     /*protected override void ApplyUpdater(Action<Entity> updater)
     {
         foreach (Triangle triangle in TriangleBuffer)
@@ -77,10 +102,7 @@ public class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
         sceneObject.ForEach(s => updater(s));
     }*/
 
-    public async override Task<TImage> RenderAsync(CancellationToken token = default)
-    {
-
-    }
+    
 
 
 

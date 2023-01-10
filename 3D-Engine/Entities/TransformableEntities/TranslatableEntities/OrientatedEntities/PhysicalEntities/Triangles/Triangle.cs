@@ -45,13 +45,11 @@ public class Triangle : Entity
     public Vertex P1 { get; set; }
     public Vertex P2 { get; set; }
     public Vertex P3 { get; set; }
-
-    /*
+    
     // Calculation values
-    internal Vector4D P1 { get; set; }
-    internal Vector4D P2 { get; set; }
-    internal Vector4D P3 { get; set; }
-    */
+    internal Vector4D CalcP1 { get; set; }
+    internal Vector4D CalcP2 { get; set; }
+    internal Vector4D CalcP3 { get; set; }
 
     #endregion
 
@@ -78,7 +76,23 @@ public class Triangle : Entity
 
     #region Methods
 
-    internal void ApplyMatrix(Matrix4x4 matrix) => (P1, P2, P3) = (matrix * P1, matrix * P2, matrix * P3);
+    public override Triangle ShallowCopy() => (Triangle)MemberwiseClone();
+    public override Triangle DeepCopy()
+    {
+        var triangle = (Triangle)base.DeepCopy();
+        triangle.P1 = P1;
+        triangle.P2 = P2;
+        triangle.P3 = P3;
+        triangle.FrontStyle = frontStyle;
+        triangle.BackStyle = backStyle;
+        return triangle;
+    }
+
+    internal void ApplyMatrix(Matrix4x4 matrix) => (CalcP1, CalcP2, CalcP3) = (matrix * CalcP1, matrix * CalcP2, matrix * CalcP3);
+
+    //
+
+
 
     internal static (Vector4D p1, Vector4D p2, Vector4D p3) ApplyMatrix(Matrix4x4 matrix, (Vector4D p1, Vector4D p2, Vector4D p3))
     {

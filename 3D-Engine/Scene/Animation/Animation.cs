@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
+/*
 namespace _3D_Engine
 {
     class Animation
@@ -23,4 +24,4 @@ namespace _3D_Engine
             }
         }
     }
-}
+}*/

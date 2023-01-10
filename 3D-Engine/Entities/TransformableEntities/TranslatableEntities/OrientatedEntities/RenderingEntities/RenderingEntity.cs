@@ -11,16 +11,11 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.RenderingEntities.Lights;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.RenderingEntities.Cameras.OrthogonalCameras;
 using Imagenic.Core.Enums;
 using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Renderers;
-using Imagenic.Core.Utilities.Messages;
 using System;
 using System.Collections.Generic;
 
@@ -53,21 +48,12 @@ public abstract partial class RenderingEntity : OrientatedEntity
 
     // Clipping Planes
     internal ClippingPlane[] ViewClippingPlanes { get; set; }
-    internal static readonly ClippingPlane[] ScreenClippingPlanes = new ClippingPlane[]
-    {
-        new(-Vector3D.One, Vector3D.UnitX), // Left
-        new(-Vector3D.One, Vector3D.UnitY), // Bottom
-        new(-Vector3D.One, Vector3D.UnitZ), // Near
-        new(Vector3D.One, Vector3D.UnitNegativeX), // Right
-        new(Vector3D.One, Vector3D.UnitNegativeY), // Top
-        new(Vector3D.One, Vector3D.UnitNegativeZ) // Far
-    };
 
     // Matrices
     public Matrix4x4 WorldToView { get; private set; }
-    internal override void CalculateModelToWorldMatrix()
+    protected override void RegenerateModelToWorldMatrix()
     {
-        base.CalculateModelToWorldMatrix();
+        base.RegenerateModelToWorldMatrix();
         WorldToView = ModelToWorld.Inverse();
     }
 
@@ -204,6 +190,8 @@ public abstract partial class RenderingEntity : OrientatedEntity
             }
         }
     }
+
+    /*
     public virtual int RenderWidth
     {
         get => renderWidth;
@@ -225,7 +213,7 @@ public abstract partial class RenderingEntity : OrientatedEntity
             UpdateProperties();
             RequestNewRenders();
         }
-    }
+    }*/
 
     internal List<Edge> VolumeEdges = new();
 

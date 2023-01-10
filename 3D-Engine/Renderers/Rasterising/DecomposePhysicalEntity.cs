@@ -1,11 +1,9 @@
-﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
-using Imagenic.Core.Entities;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
-using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
+﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Enums;
+using Imagenic.Core.Renderers.Clippers;
+using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,8 +13,8 @@ internal class DecomposePhysicalEntity
 {
     #if DEBUG
 
-    private static MessageBuilder<> mbDecomposeStart = new MessageBuilder<>();
-    private static MessageBuilder<> mbDecomposeFinish = new MessageBuilder<>();
+    private static MessageBuilder<DecomposeStartMessage> mbDecomposeStart = new MessageBuilder<DecomposeStartMessage>();
+    private static MessageBuilder<DecomposeFinishMessage> mbDecomposeFinish = new MessageBuilder<DecomposeFinishMessage>();
 
     #endif
 
@@ -40,7 +38,7 @@ internal class DecomposePhysicalEntity
 
         #if DEBUG
 
-        mbDecomposeFinish.Build().
+        mbDecomposeFinish.Build().DisplayInConsole();
 
         #endif
     }
@@ -64,16 +62,19 @@ internal class DecomposePhysicalEntity
     private async static Task TransformTriangle(Triangle triangle, RenderingEntity renderingEntity, Dimension meshDimension, ref Matrix4x4 modelToView)
     {
         //var vertices4D = (triangle.P1, triangle.P2, triangle.P3);
-        //var vertices4D = new VectorTriple<Vector4D>(triangle.P1, triangle.P2, triangle.P3);
-        var calcTriangle = triangle.DeepCopy();
+        //var triangle4D = new VectorTriple<Vector4D>(triangle.P1, triangle.P2, triangle.P3);
+        //var calcTriangle = triangle.DeepCopy();
 
         // Reset the vertices to model space values
         //triangle.ResetVertices();
+        triangle.CalcP1 = new Vector4D(triangle.P1.WorldOrigin, 1);
+        triangle.CalcP2 = new Vector4D(triangle.P2.WorldOrigin, 1);
+        triangle.CalcP3 = new Vector4D(triangle.P3.WorldOrigin, 1);
 
         // Move the face from model space to view space
         //triangle.ApplyMatrix(modelToView);
         //vertices4D = Triangle.ApplyMatrix(modelToView, vertices4D);
-        vertices4D.ApplyMatrix(modelToView);
+        triangle.ApplyMatrix(modelToView);
 
         // Back-face culling if the mesh is three-dimensional
         if (meshDimension == Dimension.Three)
@@ -89,14 +90,14 @@ internal class DecomposePhysicalEntity
 
         // Clip the face in view space
         //Queue<Triangle> triangleClip = new();
-        var triangleClipQueue = new Queue<VectorTriple<Vector4D>>();
-        triangleClipQueue.Enqueue(vertices4D);
+        var triangleClipQueue = new Queue<Triangle>();
+        triangleClipQueue.Enqueue(triangle);
         if (!Clipping.ClipTriangles(triangleClipQueue, ViewClippingPlanes))
         {
             return;
         }
 
-        if (new TriangleClipper(vertices4D, ViewClippingPlanes).Clip().Count == 0)
+        if (new TriangleClipper(triangle, ViewClippingPlanes).Clip().Count == 0)
         {
             return;
         }
@@ -107,50 +108,66 @@ internal class DecomposePhysicalEntity
             // Move the face from view space to screen space
             //clippedTriangle.ApplyMatrix(ViewToScreen);
             //vertices4D = Triangle.ApplyMatrix(ViewToScreen, vertices4D);
-            vertices4D = vertices4D.ApplyMatrix(ViewToScreen);
+            clippedTriangle.ApplyMatrix(ViewToScreen);
 
             if (renderingEntity is PerspectiveCamera or Spotlight)
             {
                 //var clippedVertices4D = (p1: clippedTriangle.P1, p2: clippedTriangle.P2, p3: clippedTriangle.P3);
-                var clippedVertices4D = new VectorTriple<Vector4D>(clippedTriangle.P1, clippedTriangle.P2, clippedTriangle.P3);
+                //var clippedVertices4D = new VectorTriple<Vector4D>(clippedTriangle.P1, clippedTriangle.P2, clippedTriangle.P3);
 
-                clippedVertices4D.p1 /= clippedVertices4D.p1.w;
-                clippedVertices4D.p2 /= clippedVertices4D.p2.w;
-                clippedVertices4D.p3 /= clippedVertices4D.p3.w;
+                float w1 = clippedTriangle.CalcP1.w;
+                float w2 = clippedTriangle.CalcP2.w;
+                float w3 = clippedTriangle.CalcP3.w;
 
-                if (renderingEntity is PerspectiveCamera && clippedTriangle is TextureTriangle clippedTextureFace)
+                clippedTriangle.CalcP1 /= w1;
+                clippedTriangle.CalcP2 /= w2;
+                clippedTriangle.CalcP3 /= w3;
+
+                if (renderingEntity is PerspectiveCamera)
                 {
+                    if (clippedTriangle.FrontStyle is TextureStyle textureFrontStyle)
+                    {
+                        textureFrontStyle.T1 /= w1;
+                        textureFrontStyle.T2 /= w2;
+                        textureFrontStyle.T3 /= w3;
+                    }
+
+                    if (clippedTriangle.BackStyle is TextureStyle textureBackStyle)
+                    {
+                        textureBackStyle.T1 /= w1;
+                        textureBackStyle.T2 /= w2;
+                        textureBackStyle.T3 /= w3;
+                    }
+
                     //var clippedTextureVertices = (p1: clippedTextureFace.T1, p2: clippedTextureFace.T2, p3: clippedTextureFace.T3);
-                    var clippedTextureVertices = new VectorTriple<Vector3D>(clippedTextureFace.T1, clippedTextureFace.T2, clippedTextureFace.T3);
+                    //var clippedTextureVertices = new VectorTriple<Vector3D>(clippedTextureFace.T1, clippedTextureFace.T2, clippedTextureFace.T3);
                     // ??
-                    clippedTextureVertices.p1 /= clippedTriangle.P1.w;
-                    clippedTextureVertices.p2 /= clippedTriangle.P2.w;
-                    clippedTextureVertices.p3 /= clippedTriangle.P3.w;
+                    
                 }
             }
         }
 
         // Clip the face in screen space
-        if (!Clipping.ClipTriangles(triangleClip, ScreenClippingPlanes))
+        if (new TriangleClipper(triangleClipQueue, ScreenClippingPlanes).Clip().Count == 0)
         {
             return;
         } // anything outside cube?
 
-        foreach (Triangle clippedFace in triangleClip)
+        foreach (Triangle clippedTriangle in triangleClipQueue)
         {
             // Skip the face if it is flat
-            if ((clippedFace.P1.x == clippedFace.P2.x && clippedFace.P2.x == clippedFace.P3.x) ||
-                (clippedFace.P1.y == clippedFace.P2.y && clippedFace.P2.y == clippedFace.P3.y))
+            if ((clippedTriangle.P1.WorldOrigin.x == clippedTriangle.P2.WorldOrigin.x && clippedTriangle.P2.WorldOrigin.x == clippedTriangle.P3.WorldOrigin.x) ||
+                (clippedTriangle.P1.WorldOrigin.y == clippedTriangle.P2.WorldOrigin.y && clippedTriangle.P2.WorldOrigin.y == clippedTriangle.P3.WorldOrigin.y))
             {
                 continue;
             }
 
             // Move the face from screen space to window space
-            clippedFace.ApplyMatrix(ScreenToWindow);
+            clippedTriangle.ApplyMatrix(ScreenToWindow);
             
 
             // Call the required interpolator method
-            clippedFace.Interpolator(this, bufferAction);
+            clippedTriangle.Interpolator(this, bufferAction);
         }
     }
 }

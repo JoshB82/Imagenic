@@ -11,10 +11,10 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using _3D_Engine.Enums;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.RenderingEntities.Lights;
 using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
@@ -223,6 +223,12 @@ public abstract partial class Camera : RenderingEntity
     #endregion
 
     #region Methods
+
+    private protected static Orientation GenerateOrientation(Vector3D worldOrigin, TranslatableEntity pointedAt, Vector3D directionUp)
+    {
+        ThrowIfNull(pointedAt);
+        return Orientation.CreateOrientationForwardUp(pointedAt.WorldOrigin - worldOrigin, directionUp);
+    }
 
     public async Task<Bitmap> Render(SceneEntity sceneToRender, int renderWidth, int renderHeight, PixelFormat renderPixelFormat, bool includeChildren = true)
     {

@@ -10,59 +10,59 @@
  * Encapsulates creation of a perspective camera.
  */
 
-using static _3D_Engine.Properties.Settings;
-using static System.MathF;
-using _3D_Engine.Entities.Groups;
-using Imagenic.Core.Maths;
+using System.Diagnostics.CodeAnalysis;
 
-namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
+namespace Imagenic.Core.Entities;
+
+/// <summary>
+/// Defines a <see cref="PerspectiveCamera"/>.
+/// </summary>
+public sealed class PerspectiveCamera : Camera
 {
-    /// <summary>
-    /// Encapsulates creation of a <see cref="PerspectiveCamera"/>.
-    /// </summary>
-    public sealed class PerspectiveCamera : Camera
+    #region Constructors
+
+    public PerspectiveCamera(Vector3D worldOrigin, [DisallowNull] Orientation worldOrientation) : this(worldOrigin, worldOrientation, Defaults.Default.CameraWidth, Defaults.Default.CameraHeight, Defaults.Default.CameraZNear, Defaults.Default.CameraZFar) { }
+
+    public PerspectiveCamera(Vector3D worldOrigin, [DisallowNull] Orientation worldOrientation, float viewWidth, float viewHeight, float zNear, float zFar) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar
+        #if DEBUG
+        , MessageBuilder<PerspectiveCameraCreatedMessage>.Instance()
+        #endif
+        )
     {
-        #region Constructors
+        ScreenToView = Matrix4x4.Zero;
+        ScreenToView.m23 = 1;
+    }
 
-        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar, Default.CameraRenderWidth, Default.CameraRenderHeight) { }
+    public static PerspectiveCamera PerspectiveCameraAngle(Vector3D worldOrigin, [DisallowNull] Orientation worldOrientation, float fovX, float fovY, float zNear, float zFar) => new(worldOrigin, worldOrientation, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar);
 
-        public PerspectiveCamera(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
+    public PerspectiveCamera(Vector3D worldOrigin, [DisallowNull] TranslatableEntity pointedAt, Vector3D directionUp) : this(worldOrigin, GenerateOrientation(worldOrigin, pointedAt, directionUp)) { }
+
+    public PerspectiveCamera(Vector3D worldOrigin, [DisallowNull] TranslatableEntity pointedAt, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : this(worldOrigin, GenerateOrientation(worldOrigin, pointedAt, directionUp), viewWidth, viewHeight, zNear, zFar) { }
+
+    public static PerspectiveCamera PerspectiveCameraAngle(Vector3D worldOrigin, [DisallowNull] TranslatableEntity pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar) => PerspectiveCameraAngle(worldOrigin, GenerateOrientation(worldOrigin, pointedAt, directionUp), fovX, fovY, zNear, zFar);
+
+    #endregion
+
+    #region Methods
+    /*
+    internal override void ProcessLighting(Group sceneToRender)
+    {
+        for (int x = 0; x < RenderWidth; x++)
         {
-            ScreenToView = Matrix4x4.Zero;
-            ScreenToView.m23 = 1;
-        }
-
-        public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => new(origin, directionForward, directionUp, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar, renderWidth, renderHeight);
-
-        public PerspectiveCamera(Vector3D origin, SceneEntity pointedAt, Vector3D directionUp) : this(origin, pointedAt.WorldOrigin - origin, directionUp) { }
-
-        public PerspectiveCamera(Vector3D origin, SceneEntity pointedAt, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : this(origin, pointedAt.WorldOrigin - origin, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight) { }
-
-        public static PerspectiveCamera PerspectiveCameraAngle(Vector3D origin, SceneEntity pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar, int renderWidth, int renderHeight) => PerspectiveCameraAngle(origin, pointedAt.WorldOrigin - origin, directionUp, fovX, fovY, zNear, zFar, renderWidth, renderHeight);
-
-        #endregion
-
-        #region Methods
-
-        internal override void ProcessLighting(Group sceneToRender)
-        {
-            for (int x = 0; x < RenderWidth; x++)
+            for (int y = 0; y < RenderHeight; y++)
             {
-                for (int y = 0; y < RenderHeight; y++)
+                if (zBuffer.Values[x][y] != outOfBoundsValue)
                 {
-                    if (zBuffer.Values[x][y] != outOfBoundsValue)
-                    {
-                        // Move the point from window space to screen space
-                        Vector4D screenSpacePoint = WindowToScreen * new Vector4D(x, y, zBuffer.Values[x][y], 1);
+                    // Move the point from window space to screen space
+                    Vector4D screenSpacePoint = WindowToScreen * new Vector4D(x, y, zBuffer.Values[x][y], 1);
 
-                        // Move the point from screen space to world space and apply lighting
-                        screenSpacePoint *= 2 * ZNear * ZFar / (ZNear + ZFar - screenSpacePoint.z * (ZFar - ZNear));
-                        ApplyLighting(ScreenToWorld * screenSpacePoint, ref colourBuffer.Values[x][y], x, y, sceneToRender);
-                    }
+                    // Move the point from screen space to world space and apply lighting
+                    screenSpacePoint *= 2 * ZNear * ZFar / (ZNear + ZFar - screenSpacePoint.z * (ZFar - ZNear));
+                    ApplyLighting(ScreenToWorld * screenSpacePoint, ref colourBuffer.Values[x][y], x, y, sceneToRender);
                 }
             }
         }
-
-        #endregion
     }
+    */
+    #endregion
 }

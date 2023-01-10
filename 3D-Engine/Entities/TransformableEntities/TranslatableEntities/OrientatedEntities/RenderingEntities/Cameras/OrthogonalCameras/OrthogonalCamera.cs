@@ -10,10 +10,12 @@
  * Defines an orthogonal camera.
  */
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Imagenic.Core.Entities;
 
 /// <summary>
-/// Encapsulates creation of a <see cref="OrthogonalCamera"/>.
+/// Defines a <see cref="OrthogonalCamera"/>.
 /// </summary>
 public sealed class OrthogonalCamera : Camera
 {
@@ -29,27 +31,27 @@ public sealed class OrthogonalCamera : Camera
 
     #region Constructors
 
-    public OrthogonalCamera(Vector3D worldOrigin, Orientation worldOrientation) : this(worldOrigin, worldOrientation, Default.CameraWidth, Default.CameraHeight, Default.CameraZNear, Default.CameraZFar, Default.CameraRenderWidth, Default.CameraRenderHeight) { }
+    public OrthogonalCamera(Vector3D worldOrigin, [DisallowNull] Orientation worldOrientation) : this(worldOrigin, worldOrientation, Defaults.Default.CameraWidth, Defaults.Default.CameraHeight, Defaults.Default.CameraZNear, Defaults.Default.CameraZFar) { }
 
-    public OrthogonalCamera(Vector3D worldOrigin, Orientation worldOrientation, float viewWidth, float viewHeight, float zNear, float zFar) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar
+    public OrthogonalCamera(Vector3D worldOrigin, [DisallowNull] Orientation worldOrientation, float viewWidth, float viewHeight, float zNear, float zFar) : base(worldOrigin, worldOrientation, viewWidth, viewHeight, zNear, zFar
         #if DEBUG
         , MessageBuilder<OrthogonalCameraCreatedMessage>.Instance()
         #endif
         )
     { }
 
-    public static OrthogonalCamera OrthogonalCameraAngle(Vector3D worldOrigin, Orientation worldOrientation, float fovX, float fovY, float zNear, float zFar) => new OrthogonalCamera(worldOrigin, worldOrientation, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar);
+    public static OrthogonalCamera OrthogonalCameraAngle(Vector3D worldOrigin, [DisallowNull] Orientation worldOrientation, float fovX, float fovY, float zNear, float zFar) => new OrthogonalCamera(worldOrigin, worldOrientation, Tan(fovX / 2) * zNear * 2, Tan(fovY / 2) * zNear * 2, zNear, zFar);
 
-    public OrthogonalCamera(Vector3D worldOrigin, TranslatableEntity pointedAt, Vector3D directionUp) : this(worldOrigin, Orientation.CreateOrientationForwardUp(pointedAt.WorldOrigin - worldOrigin, directionUp)) { }
+    public OrthogonalCamera(Vector3D worldOrigin, [DisallowNull] TranslatableEntity pointedAt, Vector3D directionUp) : this(worldOrigin, GenerateOrientation(worldOrigin, pointedAt, directionUp)) { }
 
-    public OrthogonalCamera(Vector3D worldOrigin, TranslatableEntity pointedAt, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : this(worldOrigin, Orientation.CreateOrientationForwardUp(pointedAt.WorldOrigin - worldOrigin, directionUp), viewWidth, viewHeight, zNear, zFar) { }
+    public OrthogonalCamera(Vector3D worldOrigin, [DisallowNull] TranslatableEntity pointedAt, Vector3D directionUp, float viewWidth, float viewHeight, float zNear, float zFar) : this(worldOrigin, GenerateOrientation(worldOrigin, pointedAt, directionUp), viewWidth, viewHeight, zNear, zFar) { }
 
-    public static OrthogonalCamera OrthogonalCameraAngle(Vector3D worldOrigin, TranslatableEntity pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar) => OrthogonalCameraAngle(worldOrigin, Orientation.CreateOrientationForwardUp(pointedAt.WorldOrigin - worldOrigin, directionUp), fovX, fovY, zNear, zFar);
+    public static OrthogonalCamera OrthogonalCameraAngle(Vector3D worldOrigin, [DisallowNull] TranslatableEntity pointedAt, Vector3D directionUp, float fovX, float fovY, float zNear, float zFar) => OrthogonalCameraAngle(worldOrigin, GenerateOrientation(worldOrigin, pointedAt, directionUp), fovX, fovY, zNear, zFar);
 
     #endregion
 
     #region Methods
-
+    /*
     internal override void ProcessLighting(Group sceneToRender)
     {
         Matrix4x4 windowToWorld = ViewToWorld * ScreenToView * WindowToScreen;
@@ -69,6 +71,6 @@ public sealed class OrthogonalCamera : Camera
             }
         }
     }
-
+    */
     #endregion
 }

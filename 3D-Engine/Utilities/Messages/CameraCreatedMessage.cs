@@ -13,3 +13,10 @@ internal sealed class OrthogonalCameraCreatedMessage : CameraCreatedMessage, IMe
     public static new MessageInterpolatedStringHandler<OrthogonalCameraCreatedMessage> DetailedText => $"OrthogonalCamera created with parameters {{{0}}}.";
     public static new MessageInterpolatedStringHandler<OrthogonalCameraCreatedMessage> AllText => $"OrthogonalCamera created with parameters {{{0}}}.";
 }
+
+internal sealed class PerspectiveCameraCreatedMessage : CameraCreatedMessage, IMessage<PerspectiveCameraCreatedMessage>
+{
+    public static new MessageInterpolatedStringHandler<PerspectiveCameraCreatedMessage> BriefText => $"PerspectiveCamera created.";
+    public static new MessageInterpolatedStringHandler<PerspectiveCameraCreatedMessage> DetailedText => $"PerspectiveCamera created with parameters {{{0}}}.";
+    public static new MessageInterpolatedStringHandler<PerspectiveCameraCreatedMessage> AllText => $"PerspectiveCamera created with parameters {{{0}}}.";
+}

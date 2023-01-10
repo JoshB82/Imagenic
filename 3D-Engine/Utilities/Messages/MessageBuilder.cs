@@ -76,6 +76,12 @@ public sealed class MessageBuilder<TMessage> : IMessageBuilder<TMessage> where T
         return this;
     }*/
 
+    public IMessageBuilder<TMessage> UpdateParameter<TValue>(int index, TValue? value)
+    {
+        TMessage.ConstantParameters[index] = value?.ToString() ?? "null";
+        return this;
+    }
+
     /// <summary>
     /// Adds the specified type names to the message being built.
     /// </summary>

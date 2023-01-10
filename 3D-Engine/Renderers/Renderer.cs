@@ -28,6 +28,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Imagenic.Core.Utilities.Node;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 
 namespace Imagenic.Core.Renderers;
 
@@ -38,6 +39,18 @@ namespace Imagenic.Core.Renderers;
 public abstract class Renderer<TImage> where TImage : Image
 {
     #region Fields and Properties
+
+    internal static readonly ClippingPlane[] ScreenClippingPlanes = new ClippingPlane[]
+    {
+        new(-Vector3D.One, Vector3D.UnitX), // Left
+        new(-Vector3D.One, Vector3D.UnitY), // Bottom
+        new(-Vector3D.One, Vector3D.UnitZ), // Near
+        new(Vector3D.One, Vector3D.UnitNegativeX), // Right
+        new(Vector3D.One, Vector3D.UnitNegativeY), // Top
+        new(Vector3D.One, Vector3D.UnitNegativeZ) // Far
+    };
+
+    
 
     internal bool NewRenderNeeded { get; set; }
     private readonly Action newRenderDelegate;

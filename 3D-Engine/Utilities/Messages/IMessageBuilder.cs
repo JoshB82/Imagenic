@@ -23,6 +23,8 @@ public interface IMessageBuilder<out TMessage>
                                                           bool includeParamName = false,
                                                           [CallerArgumentExpression("parameter")] string? paramName = default);
 
+    public IMessageBuilder<TMessage> UpdateParameter<TValue>(int index, TValue? value);
+
     public IMessageBuilder<TMessage> AddTypeName<TType>();
 
     public IMessageBuilder<TMessage> AddTypeName([DisallowNull] [ThrowIfNull] string typeName);

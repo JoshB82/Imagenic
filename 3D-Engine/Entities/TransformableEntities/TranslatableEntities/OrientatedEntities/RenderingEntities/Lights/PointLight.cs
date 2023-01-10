@@ -1,18 +1,19 @@
-﻿namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Imagenic.Core.Entities;
+
+public sealed class PointLight : Light
 {
-    public sealed class PointLight : Light
+    #region Fields and Properties
+
+    #endregion
+
+    #region Constructors
+
+    public PointLight(Vector3D worldOrigin, [DisallowNull] Orientation worldOrientation, float strength, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(worldOrigin, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
     {
-        #region Fields and Properties
-
-        #endregion
-
-        #region Constructors
-
-        public PointLight(Vector3D origin, Vector3D directionForward, Vector3D directionUp, float strength, float viewWidth, float viewHeight, float zNear, float zFar, int renderWidth, int renderHeight) : base(origin, directionForward, directionUp, viewWidth, viewHeight, zNear, zFar, renderWidth, renderHeight)
-        {
-            Strength = strength;
-        }
-
-        #endregion
+        Strength = strength;
     }
+
+    #endregion
 }
