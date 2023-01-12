@@ -19,6 +19,41 @@ namespace Imagenic.Core.Entities;
 /// </summary>
 public sealed class PerspectiveCamera : Camera
 {
+    #region Fields and Properties
+
+    public override float ViewWidth
+    {
+        get => base.ViewWidth;
+        set
+        {
+            base.ViewWidth = value;
+
+            viewToScreen.m00 = 2 * ZNear / base.ViewWidth;
+            float semiWidth = base.ViewWidth / 2, semiHeight = ViewHeight / 2;
+            ViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, -semiHeight, ZNear), new Vector3D(-semiWidth, semiHeight, ZNear));
+            ViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, semiHeight, ZNear), new Vector3D(semiWidth, -semiHeight, ZNear));
+        }
+    }
+
+    public override float ViewHeight
+    {
+        get => base.ViewHeight;
+        set
+        {
+            base.ViewHeight = value;
+
+            // Update view-to-screen matrix
+            viewToScreen.m11 = 2 * ZNear / base.ViewHeight;
+
+            // Update top and bottom clipping planes
+            float semiWidth = base.ViewWidth / 2, semiHeight = base.ViewHeight / 2;
+            ViewClippingPlanes[4].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, semiHeight, ZNear), new Vector3D(semiWidth, semiHeight, ZNear));
+            ViewClippingPlanes[1].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, -semiHeight, ZNear), new Vector3D(-semiWidth, -semiHeight, ZNear));
+        }
+    }
+
+    #endregion
+
     #region Constructors
 
     public PerspectiveCamera(Vector3D worldOrigin, [DisallowNull] Orientation worldOrientation) : this(worldOrigin, worldOrientation, Defaults.Default.CameraWidth, Defaults.Default.CameraHeight, Defaults.Default.CameraZNear, Defaults.Default.CameraZFar) { }

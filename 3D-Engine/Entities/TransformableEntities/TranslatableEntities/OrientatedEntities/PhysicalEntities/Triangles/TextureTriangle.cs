@@ -10,7 +10,6 @@
  *
  */
 
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using System;
 
 namespace Imagenic.Core.Entities;

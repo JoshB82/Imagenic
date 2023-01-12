@@ -36,16 +36,6 @@ public abstract partial class RenderingEntity : OrientatedEntity
 
     #endif
 
-    //internal override IMessageBuilder<RenderingEntityCreatedMessage> MessageBuilder { get; }
-
-    // Buffers
-    internal Buffer2D<float> zBuffer;
-    internal virtual void UpdateProperties()
-    {
-        zBuffer = new(renderWidth, renderHeight);
-        ScreenToWindow = Transform.Scale(0.5f * (renderWidth - 1), 0.5f * (renderHeight - 1), 1) * windowTranslate;
-    }
-
     // Clipping Planes
     internal ClippingPlane[] ViewClippingPlanes { get; set; }
 
@@ -57,22 +47,15 @@ public abstract partial class RenderingEntity : OrientatedEntity
         WorldToView = ModelToWorld.Inverse();
     }
 
-    private Matrix4x4 viewToScreen;
+    protected Matrix4x4 viewToScreen;
     public Matrix4x4 ViewToScreen
     {
         get => viewToScreen;
-        private set
-        {
-            viewToScreen = value;
-        }
+        private set => viewToScreen = value;
     }
-
-    public Matrix4x4 ScreenToWindow { get; private set; }
-    protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
 
     // View Volume
     private float viewWidth, viewHeight, zNear, zFar;
-    private int renderWidth, renderHeight;
 
     /// <summary>
     /// The width of the <see cref="RenderingEntity">RenderingObject's</see> view/near plane.
@@ -84,23 +67,10 @@ public abstract partial class RenderingEntity : OrientatedEntity
         {
             if (value == viewWidth) return;
             viewWidth = value;
-            RequestNewRenders();
-
-            switch (this)
-            {
-                case OrthogonalCamera or DistantLight:
-                    UpdateMatrixOrthogonal1();
-                    UpdateClippingPlaneOrthogonal1();
-                    break;
-                case PerspectiveCamera or Spotlight:
-                    UpdateMatrixPerspective1();
-                    UpdateClippingPlanePerspective1();
-                    break;
-                default:
-                    throw Exceptions.RenderingObjectTypeNotSupported;
-            }
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
+
     /// <summary>
     /// The height of the <see cref="RenderingEntity">RenderingObject's</see> view/near plane.
     /// </summary>
@@ -111,23 +81,38 @@ public abstract partial class RenderingEntity : OrientatedEntity
         {
             if (value == viewHeight) return;
             viewHeight = value;
-            RequestNewRenders();
-
-            switch (this)
-            {
-                case OrthogonalCamera or DistantLight:
-                    UpdateMatrixOrthogonal2();
-                    UpdateClippingPlaneOrthogonal2();
-                    break;
-                case PerspectiveCamera or Spotlight:
-                    UpdateMatrixPerspective2();
-                    UpdateClippingPlanePerspective2();
-                    break;
-                default:
-                    throw Exceptions.RenderingObjectTypeNotSupported;
-            }
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
+
+
+
+    private int renderWidth, renderHeight;
+
+
+
+    //internal override IMessageBuilder<RenderingEntityCreatedMessage> MessageBuilder { get; }
+
+    // Buffers
+
+    internal virtual void UpdateProperties()
+    {
+        zBuffer = new(renderWidth, renderHeight);
+        ScreenToWindow = Transform.Scale(0.5f * (renderWidth - 1), 0.5f * (renderHeight - 1), 1) * windowTranslate;
+    }
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
     /// <summary>
     /// The depth of the <see cref="RenderingEntity">RenderingObject's</see> view to the near plane.
     /// </summary>
@@ -387,19 +372,17 @@ public abstract partial class RenderingEntity : OrientatedEntity
     private void UpdateMatrixPerspective1()
     {
         // Update view-to-screen matrix
-        viewToScreen.m00 = 2 * zNear / viewWidth;
+        
     }
 
     private void UpdateMatrixOrthogonal2()
     {
-        // Update view-to-screen matrix
-        viewToScreen.m11 = 2 / viewHeight;
+        
     }
 
     private void UpdateMatrixPerspective2()
     {
-        // Update view-to-screen matrix
-        viewToScreen.m11 = 2 * zNear / viewHeight;
+        
     }
 
     private void UpdateMatrixOrthogonal3()
@@ -419,34 +402,25 @@ public abstract partial class RenderingEntity : OrientatedEntity
     }
 
     // Update clipping planes
-    private void UpdateClippingPlaneOrthogonal1()
-    {
-        // Update left and right clipping planes
-        ViewClippingPlanes[0].Point.x = -viewWidth / 2;
-        ViewClippingPlanes[3].Point.x = viewWidth / 2;
-    }
+    
+    
+        
+    
 
     private void UpdateClippingPlanePerspective1()
     {
         // Update left and right clipping planes
-        float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
-        ViewClippingPlanes[0].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, semiHeight, zNear));
-        ViewClippingPlanes[3].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, semiHeight, zNear), new Vector3D(semiWidth, -semiHeight, zNear));
+        
     }
 
     private void UpdateClippingPlaneOrthogonal2()
     {
-        // Update top and bottom clipping planes
-        ViewClippingPlanes[1].Point.y = -viewHeight / 2;
-        ViewClippingPlanes[4].Point.y = viewHeight / 2;
+        
     }
 
     private void UpdateClippingPlanePerspective2()
     {
-        // Update top and bottom clipping planes
-        float semiWidth = viewWidth / 2, semiHeight = viewHeight / 2;
-        ViewClippingPlanes[4].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(-semiWidth, semiHeight, zNear), new Vector3D(semiWidth, semiHeight, zNear));
-        ViewClippingPlanes[1].Normal = Vector3D.NormalFromPlane(Vector3D.Zero, new Vector3D(semiWidth, -semiHeight, zNear), new Vector3D(-semiWidth, -semiHeight, zNear));
+        
     }
 
     private void UpdateClippingPlaneOrthogonal3()

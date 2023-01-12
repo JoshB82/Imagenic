@@ -15,15 +15,48 @@ using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using System;
 using System.Drawing;
-using static System.MathF;
 
-namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.RenderingEntities.Lights;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// Encapsulates creation of a <see cref="DistantLight"/>.
 /// </summary>
 public sealed class DistantLight : Light
 {
+    #region Fields and Properties
+
+    public override float ViewWidth
+    {
+        get => base.ViewWidth;
+        set
+        {
+            base.ViewWidth = value;
+
+            viewToScreen.m00 = 2 / base.ViewWidth;
+            // Update left and right clipping planes
+            ViewClippingPlanes[0].Point.x = -base.ViewWidth / 2;
+            ViewClippingPlanes[3].Point.x = base.ViewWidth / 2;
+        }
+    }
+
+    public override float ViewHeight
+    {
+        get => base.ViewHeight;
+        set
+        {
+            base.ViewHeight = value;
+
+            // Update view-to-screen matrix
+            viewToScreen.m11 = 2 / base.ViewHeight;
+
+            // Update top and bottom clipping planes
+            ViewClippingPlanes[1].Point.y = -base.ViewHeight / 2;
+            ViewClippingPlanes[4].Point.y = base.ViewHeight / 2;
+        }
+    }
+
+    #endregion
+
     #region Constructors
 
     public DistantLight(Vector3D origin, Vector3D directionForward, Vector3D directionUp) : this(origin, directionForward, directionUp, Default.LightStrength, Default.ShadowMapViewWidth, Default.ShadowMapViewHeight, Default.ShadowMapZNear, Default.ShadowMapZFar, Default.ShadowMapRenderWidth, Default.ShadowMapRenderHeight) { }

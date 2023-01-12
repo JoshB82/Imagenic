@@ -27,6 +27,36 @@ public sealed class OrthogonalCamera : Camera
 
     #endif
 
+    public override float ViewWidth
+    {
+        get => base.ViewWidth;
+        set
+        {
+            base.ViewWidth = value;
+
+            viewToScreen.m00 = 2 / base.ViewWidth;
+            // Update left and right clipping planes
+            ViewClippingPlanes[0].Point.x = -base.ViewWidth / 2;
+            ViewClippingPlanes[3].Point.x = base.ViewWidth / 2;
+        }
+    }
+
+    public override float ViewHeight
+    {
+        get => base.ViewHeight;
+        set
+        {
+            base.ViewHeight = value;
+
+            // Update view-to-screen matrix
+            viewToScreen.m11 = 2 / base.ViewHeight;
+
+            // Update top and bottom clipping planes
+            ViewClippingPlanes[1].Point.y = -base.ViewHeight / 2;
+            ViewClippingPlanes[4].Point.y = base.ViewHeight / 2;
+        }
+    }
+
     #endregion
 
     #region Constructors
@@ -51,6 +81,10 @@ public sealed class OrthogonalCamera : Camera
     #endregion
 
     #region Methods
+
+
+
+
     /*
     internal override void ProcessLighting(Group sceneToRender)
     {

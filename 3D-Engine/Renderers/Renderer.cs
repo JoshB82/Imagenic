@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using Imagenic.Core.Utilities.Node;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
+using Imagenic.Core.Maths.Transformations;
 
 namespace Imagenic.Core.Renderers;
 
@@ -50,7 +51,10 @@ public abstract class Renderer<TImage> where TImage : Image
         new(Vector3D.One, Vector3D.UnitNegativeZ) // Far
     };
 
-    
+    internal Buffer2D<float> zBuffer;
+
+    public Matrix4x4 ScreenToWindow { get; private set; }
+    protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
 
     internal bool NewRenderNeeded { get; set; }
     private readonly Action newRenderDelegate;

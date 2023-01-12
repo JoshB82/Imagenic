@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 
 namespace _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras
 {

@@ -19,7 +19,7 @@ namespace Imagenic.Core.Entities;
 /// <summary>
 /// An abstract base class that defines objects of type <see cref="Light"/>. Any object which inherits from this class provides lighting functionality.
 /// </summary>
-public abstract partial class Light : RenderingObject
+public abstract partial class Light : RenderingEntity
 {
     #region Fields and Properties
 

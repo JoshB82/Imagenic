@@ -1,7 +1,7 @@
-﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
-using Imagenic.Core.Entities;
+﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Images;
 using System;
+using static Imagenic.Core.Maths.NumericManipulation;
 
 namespace Imagenic.Core.Renderers.Rasterising;
 
@@ -49,8 +49,8 @@ internal class Drawer
 
                 if (sx > ex)
                 {
-                    NumericManipulation.Swap(ref sx, ref ex);
-                    NumericManipulation.Swap(ref sz, ref ez);
+                    Swap(ref sx, ref ex);
+                    Swap(ref sz, ref ez);
                 }
 
                 float t = 0, tStep = 1f / (ex - sx);
@@ -77,8 +77,8 @@ internal class Drawer
 
                 if (sx > ex)
                 {
-                    NumericManipulation.Swap(ref sx, ref ex);
-                    NumericManipulation.Swap(ref sz, ref ez);
+                    Swap(ref sx, ref ex);
+                    Swap(ref sz, ref ez);
                 }
 
                 float t = 0, tStep = 1f / (ex - sx);
@@ -145,10 +145,10 @@ internal class Drawer
                 // ?
                 if (sx > ex)
                 {
-                    NumericManipulation.Swap(ref sx, ref ex);
-                    NumericManipulation.Swap(ref stx, ref etx);
-                    NumericManipulation.Swap(ref sty, ref ety);
-                    NumericManipulation.Swap(ref stz, ref etz);
+                    Swap(ref sx, ref ex);
+                    Swap(ref stx, ref etx);
+                    Swap(ref sty, ref ety);
+                    Swap(ref stz, ref etz);
                 }
 
                 float t = 0, tStep = 1f / (ex - sx);
@@ -183,10 +183,10 @@ internal class Drawer
 
                 if (sx > ex)
                 {
-                    NumericManipulation.Swap(ref sx, ref ex);
-                    NumericManipulation.Swap(ref stx, ref etx);
-                    NumericManipulation.Swap(ref sty, ref ety);
-                    NumericManipulation.Swap(ref stz, ref etz);
+                    Swap(ref sx, ref ex);
+                    Swap(ref stx, ref etx);
+                    Swap(ref sty, ref ety);
+                    Swap(ref stz, ref etz);
                 }
 
                 float t = 0, tStep = 1f / (ex - sx);

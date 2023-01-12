@@ -10,7 +10,6 @@
  *
  */
 
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Rendering;
 using Imagenic.Core.Enums;
 using System;
 using System.Drawing;
