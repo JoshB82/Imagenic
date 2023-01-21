@@ -52,6 +52,40 @@ public sealed class PerspectiveCamera : Camera
         }
     }
 
+    public override float ZNear
+    {
+        get => base.ZNear;
+        set
+        {
+            base.ZNear = value;
+
+            // Update view-to-screen matrix
+            viewToScreen.m00 = 2 * base.ZNear / base.ViewWidth;
+            viewToScreen.m11 = 2 * base.ZNear / base.ViewHeight;
+            viewToScreen.m22 = (base.ZFar + base.ZNear) / (base.ZFar - base.ZNear);
+            viewToScreen.m23 = -(2 * base.ZFar * base.ZNear) / (base.ZFar - base.ZNear);
+
+            // Update near clipping plane
+            ViewClippingPlanes[2].Point.z = base.ZNear;
+        }
+    }
+
+    public override float ZFar
+    {
+        get => base.ZFar;
+        set
+        {
+            base.ZNear = value;
+
+            // Update view-to-screen matrix
+            viewToScreen.m22 = (base.ZFar + base.ZNear) / (base.ZFar - base.ZNear);
+            viewToScreen.m23 = -(2 * base.ZFar * base.ZNear) / (base.ZFar - base.ZNear);
+
+            // Update far clipping plane
+            ViewClippingPlanes[5].Point.z = base.ZFar;
+        }
+    }
+
     #endregion
 
     #region Constructors

@@ -12,6 +12,7 @@
 
 using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Entities;
@@ -26,6 +27,7 @@ namespace Imagenic.Core.Entities;
 /// <item><description><strong>One</strong> edge.</description></item>
 /// </list>
 /// </remarks>
+[Serializable]
 public sealed class Line : Mesh
 {
     #region Fields and Properties

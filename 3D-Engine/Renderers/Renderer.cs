@@ -14,22 +14,17 @@ using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using Imagenic.Core.Entities;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
-using Imagenic.Core.Entities.SceneObjects.Meshes;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Renderers.Animations;
 using Imagenic.Core.Images;
 using Imagenic.Core.Images.ImageOptions;
-using Imagenic.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Imagenic.Core.Utilities.Node;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using Imagenic.Core.Maths.Transformations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Renderers;
 
@@ -54,7 +49,32 @@ public abstract class Renderer<TImage> where TImage : Image
     internal Buffer2D<float> zBuffer;
 
     public Matrix4x4 ScreenToWindow { get; private set; }
-    protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0)); //?
+    protected static readonly Matrix4x4 windowTranslate = Transform.Translate(new Vector3D(1, 1, 0));
+
+    public IImageOptions<TImage> ImageOptions { get; set; }
+
+    private RenderingOptions renderingOptions;
+    [DisallowNull]
+    public RenderingOptions RenderingOptions
+    {
+        get => renderingOptions;
+        set
+        {
+            ThrowIfNull(value);
+            renderingOptions.RenderSizeChanged -= RenderSizeChangedUpdate;
+            renderingOptions = value;
+            renderingOptions.RenderSizeChanged += RenderSizeChangedUpdate;
+        }
+    }
+
+    internal void RenderSizeChangedUpdate(int newRenderWidth, int newRenderHeight)
+    {
+        zBuffer = new(newRenderWidth, newRenderHeight);
+        ScreenToWindow = Transform.Scale(0.5f * (newRenderWidth - 1), 0.5f * (newRenderHeight - 1), 1) * windowTranslate;
+    }
+
+
+
 
     internal bool NewRenderNeeded { get; set; }
     private readonly Action newRenderDelegate;
@@ -112,8 +132,7 @@ public abstract class Renderer<TImage> where TImage : Image
             }
         }
     }
-    public IImageOptions<TImage> ImageOptions { get; set; }
-    public RenderingOptions RenderingOptions { get; set; }
+    
 
     #endregion
 

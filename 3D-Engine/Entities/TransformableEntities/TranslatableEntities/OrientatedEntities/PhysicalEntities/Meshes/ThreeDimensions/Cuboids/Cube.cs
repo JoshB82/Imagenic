@@ -12,7 +12,10 @@
 
 using Imagenic.Core.Enums;
 using Imagenic.Core.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Linq;
 
 namespace Imagenic.Core.Entities;
@@ -24,6 +27,7 @@ namespace Imagenic.Core.Entities;
 /// Composition<br/>
 /// It has six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
 /// </remarks>
+[Serializable]
 public class Cube : Mesh
 {
     #region Fields and Properties
@@ -66,6 +70,20 @@ public class Cube : Mesh
     {
         MessageBuilder.AddParameter(sideLength);
         SideLength = sideLength;
+    }
+
+    public Cube(Vector3D worldOrigin,
+                [DisallowNull] Orientation worldOrientation,
+                float sideLength,
+                EdgeStyle edgeStyle,
+                FaceStyle exteriorFaceStyle)
+        : base(worldOrigin, worldOrientation, GenerateStructure(edgeStyle, new FaceStyle[] { exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle })
+            #if DEBUG
+            , MessageBuilder<CubeCreatedMessage>.Instance()
+            #endif
+            )
+    {
+
     }
 
     /// <summary>
@@ -119,11 +137,11 @@ public class Cube : Mesh
 
     #region Methods
 
-    private static MeshStructure GenerateStructure(IList<Texture>? textures)
+    private static MeshStructure GenerateStructure(EdgeStyle edgeStyle, FaceStyle[] exteriorStyles)
     {
         EventList<Vertex> vertices = GenerateVertices();
-        EventList<Edge> edges = GenerateEdges();
-        EventList<Triangle> triangles = GenerateTriangles();
+        EventList<Edge> edges = GenerateEdges(edgeStyle);
+        EventList<Triangle> triangles = GenerateTriangles(exteriorStyles);
         EventList<Face> faces = GenerateFaces();
 
         return new MeshStructure(Dimension.Three, vertices, edges, triangles, faces, textures);
@@ -131,17 +149,17 @@ public class Cube : Mesh
 
     private static EventList<Vertex> GenerateVertices()
     {
-        return new EventList<Vertex>(HardcodedMeshData.CuboidVertices);
+        return new EventList<Vertex>(MeshData.CuboidVertices);
     }
 
-    private static EventList<Edge> GenerateEdges()
+    private static EventList<Edge> GenerateEdges(EdgeStyle edgeStyle)
     {
-        return new EventList<Edge>(HardcodedMeshData.CuboidEdges);
+        return new EventList<Edge>(MeshData.GenerateCuboidEdges(edgeStyle));
     }
 
-    private static EventList<Triangle> GenerateTriangles()
+    private static EventList<Triangle> GenerateTriangles(FaceStyle[] exteriorStyles)
     {
-
+        return new EventList<Triangle>(MeshData.GenerateCuboidTriangles(SolidStyle.Black, exteriorStyles);
     }
 
     private static IList<Face> GenerateFaces()

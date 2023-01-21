@@ -12,10 +12,7 @@
 
 using _3D_Engine.Constants;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.RenderingEntities.Lights;
 using Imagenic.Core.Enums;
-using Imagenic.Core.Maths.Transformations;
-using Imagenic.Core.Renderers;
 using System;
 using System.Collections.Generic;
 
@@ -56,10 +53,7 @@ public abstract partial class RenderingEntity : OrientatedEntity
 
     // View Volume
     private float viewWidth, viewHeight, zNear, zFar;
-
-    /// <summary>
-    /// The width of the <see cref="RenderingEntity">RenderingObject's</see> view/near plane.
-    /// </summary>
+    
     public virtual float ViewWidth
     {
         get => viewWidth;
@@ -85,34 +79,6 @@ public abstract partial class RenderingEntity : OrientatedEntity
         }
     }
 
-
-
-    private int renderWidth, renderHeight;
-
-
-
-    //internal override IMessageBuilder<RenderingEntityCreatedMessage> MessageBuilder { get; }
-
-    // Buffers
-
-    internal virtual void UpdateProperties()
-    {
-        zBuffer = new(renderWidth, renderHeight);
-        ScreenToWindow = Transform.Scale(0.5f * (renderWidth - 1), 0.5f * (renderHeight - 1), 1) * windowTranslate;
-    }
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
     /// <summary>
     /// The depth of the <see cref="RenderingEntity">RenderingObject's</see> view to the near plane.
     /// </summary>
@@ -123,23 +89,10 @@ public abstract partial class RenderingEntity : OrientatedEntity
         {
             if (value == zNear) return;
             zNear = value;
-            RequestNewRenders();
-
-            switch (this)
-            {
-                case OrthogonalCamera or DistantLight:
-                    UpdateMatrixOrthogonal3();
-                    UpdateClippingPlaneOrthogonal3();
-                    break;
-                case PerspectiveCamera or Spotlight:
-                    UpdateMatrixPerspective3();
-                    UpdateClippingPlanePerspective3();
-                    break;
-                default:
-                    throw Exceptions.RenderingObjectTypeNotSupported;
-            }
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
+
     /// <summary>
     /// The depth of the <see cref="RenderingEntity">RenderingObject's</see> view to the far plane.
     /// </summary>
@@ -150,29 +103,7 @@ public abstract partial class RenderingEntity : OrientatedEntity
         {
             if (value == zFar) return;
             zFar = value;
-            RequestNewRenders();
-
-            switch (this)
-            {
-                case OrthogonalCamera or DistantLight:
-                    UpdateMatrixOrthogonal3();
-
-                    // Update far clipping plane
-                    ViewClippingPlanes[5].Point.z = zFar;
-
-                    break;
-                case PerspectiveCamera or Spotlight:
-                    // Update view-to-screen matrix
-                    viewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
-                    viewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
-
-                    // Update far clipping plane
-                    ViewClippingPlanes[5].Point.z = zFar;
-
-                    break;
-                default:
-                    throw Exceptions.RenderingObjectTypeNotSupported;
-            }
+            InvokeRenderEvent(RenderUpdate.NewRender & RenderUpdate.NewShadowMap);
         }
     }
 
@@ -199,6 +130,8 @@ public abstract partial class RenderingEntity : OrientatedEntity
             RequestNewRenders();
         }
     }*/
+
+    // Buffers
 
     internal List<Edge> VolumeEdges = new();
 
@@ -353,9 +286,6 @@ public abstract partial class RenderingEntity : OrientatedEntity
         this.viewHeight = viewHeight;
         this.zNear = zNear;
         this.zFar = zFar;
-        this.renderWidth = renderWidth;
-        this.renderHeight = renderHeight;
-        UpdateProperties();
     }
 
     #endregion
@@ -375,31 +305,13 @@ public abstract partial class RenderingEntity : OrientatedEntity
         
     }
 
-    private void UpdateMatrixOrthogonal2()
-    {
-        
-    }
+    
 
-    private void UpdateMatrixPerspective2()
-    {
-        
-    }
+    
 
-    private void UpdateMatrixOrthogonal3()
-    {
-        // Update view-to-screen matrix
-        viewToScreen.m22 = 2 / (zFar - zNear);
-        viewToScreen.m23 = -(zFar + zNear) / (zFar - zNear);
-    }
+    
 
-    private void UpdateMatrixPerspective3()
-    {
-        // Update view-to-screen matrix
-        viewToScreen.m00 = 2 * zNear / viewWidth;
-        viewToScreen.m11 = 2 * zNear / viewHeight;
-        viewToScreen.m22 = (zFar + zNear) / (zFar - zNear);
-        viewToScreen.m23 = -(2 * zFar * zNear) / (zFar - zNear);
-    }
+    
 
     // Update clipping planes
     
@@ -413,27 +325,13 @@ public abstract partial class RenderingEntity : OrientatedEntity
         
     }
 
-    private void UpdateClippingPlaneOrthogonal2()
-    {
-        
-    }
+    
 
-    private void UpdateClippingPlanePerspective2()
-    {
-        
-    }
+    
 
-    private void UpdateClippingPlaneOrthogonal3()
-    {
-        // Update near clipping plane
-        ViewClippingPlanes[2].Point.z = zNear;
-    }
+    
 
-    private void UpdateClippingPlanePerspective3()
-    {
-        // Update near clipping plane
-        ViewClippingPlanes[2].Point.z = zNear;
-    }
+    
 
     #endregion
 }

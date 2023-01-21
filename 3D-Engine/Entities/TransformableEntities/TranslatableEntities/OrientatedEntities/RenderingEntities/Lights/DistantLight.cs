@@ -25,6 +25,9 @@ public sealed class DistantLight : Light
 {
     #region Fields and Properties
 
+    /// <summary>
+    /// The width of the <see cref="DistantLight">distant light's</see> view/near plane.
+    /// </summary>
     public override float ViewWidth
     {
         get => base.ViewWidth;
@@ -52,6 +55,38 @@ public sealed class DistantLight : Light
             // Update top and bottom clipping planes
             ViewClippingPlanes[1].Point.y = -base.ViewHeight / 2;
             ViewClippingPlanes[4].Point.y = base.ViewHeight / 2;
+        }
+    }
+
+    public override float ZNear
+    {
+        get => base.ZNear;
+        set
+        {
+            base.ZNear = value;
+
+            // Update view-to-screen matrix
+            viewToScreen.m22 = 2 / (base.ZFar - base.ZNear);
+            viewToScreen.m23 = -(base.ZFar + base.ZNear) / (base.ZFar - base.ZNear);
+
+            // Update near clipping plane
+            ViewClippingPlanes[2].Point.z = base.ZNear;
+        }
+    }
+
+    public override float ZFar
+    {
+        get => base.ZFar;
+        set
+        {
+            base.ZFar = value;
+
+            // Update view-to-screen matrix
+            viewToScreen.m22 = 2 / (base.ZFar - base.ZNear);
+            viewToScreen.m23 = -(base.ZFar + base.ZNear) / (base.ZFar - base.ZNear);
+
+            // Update far clipping plane
+            ViewClippingPlanes[5].Point.z = base.ZFar;
         }
     }
 
