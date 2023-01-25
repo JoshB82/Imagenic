@@ -69,36 +69,36 @@ internal static class MeshData
         };
     }
 
-    internal static IList<Triangle> GenerateCuboidTriangles(FaceStyle frontStyle, FaceStyle backStyle)
+    internal static IList<Triangle> GenerateCuboidTriangles(FaceStyle[] frontStyles, FaceStyle[] backStyles)
     {
         return new List<Triangle>
         {
-            new Triangle(frontStyle, backStyle, CuboidVertices[0], CuboidVertices[1], CuboidVertices[2]), // 0
-            new Triangle(frontStyle, backStyle, CuboidVertices[0], CuboidVertices[2], CuboidVertices[3]), // 1
-            new Triangle(frontStyle, backStyle, CuboidVertices[1], CuboidVertices[5], CuboidVertices[6]), // 2
-            new Triangle(frontStyle, backStyle, CuboidVertices[1], CuboidVertices[6], CuboidVertices[2]), // 3
-            new Triangle(frontStyle, backStyle, CuboidVertices[5], CuboidVertices[4], CuboidVertices[7]), // 4
-            new Triangle(frontStyle, backStyle, CuboidVertices[5], CuboidVertices[7], CuboidVertices[6]), // 5
-            new Triangle(frontStyle, backStyle, CuboidVertices[4], CuboidVertices[0], CuboidVertices[3]), // 6
-            new Triangle(frontStyle, backStyle, CuboidVertices[4], CuboidVertices[3], CuboidVertices[7]), // 7
-            new Triangle(frontStyle, backStyle, CuboidVertices[3], CuboidVertices[2], CuboidVertices[6]), // 8
-            new Triangle(frontStyle, backStyle, CuboidVertices[3], CuboidVertices[6], CuboidVertices[7]), // 9
-            new Triangle(frontStyle, backStyle, CuboidVertices[1], CuboidVertices[0], CuboidVertices[4]), // 10
-            new Triangle(frontStyle, backStyle, CuboidVertices[1], CuboidVertices[4], CuboidVertices[5])  // 11
+            new Triangle(frontStyles[2], backStyles[2], CuboidVertices[0], CuboidVertices[1], CuboidVertices[2]), // 0 [Back-1]
+            new Triangle(frontStyles[2], backStyles[2], CuboidVertices[0], CuboidVertices[2], CuboidVertices[3]), // 1 [Back-2]
+            new Triangle(frontStyles[1], backStyles[1], CuboidVertices[1], CuboidVertices[5], CuboidVertices[6]), // 2 [Right-1]
+            new Triangle(frontStyles[1], backStyles[1], CuboidVertices[1], CuboidVertices[6], CuboidVertices[2]), // 3 [Right-2]
+            new Triangle(frontStyles[0], backStyles[0], CuboidVertices[5], CuboidVertices[4], CuboidVertices[7]), // 4 [Front-1]
+            new Triangle(frontStyles[0], backStyles[0], CuboidVertices[5], CuboidVertices[7], CuboidVertices[6]), // 5 [Front-2]
+            new Triangle(frontStyles[3], backStyles[3], CuboidVertices[4], CuboidVertices[0], CuboidVertices[3]), // 6 [Left-1]
+            new Triangle(frontStyles[3], backStyles[3], CuboidVertices[4], CuboidVertices[3], CuboidVertices[7]), // 7 [Left-2]
+            new Triangle(frontStyles[4], backStyles[4], CuboidVertices[3], CuboidVertices[2], CuboidVertices[6]), // 8 [Top-1]
+            new Triangle(frontStyles[4], backStyles[4], CuboidVertices[3], CuboidVertices[6], CuboidVertices[7]), // 9 [Top-2]
+            new Triangle(frontStyles[5], backStyles[5], CuboidVertices[1], CuboidVertices[0], CuboidVertices[4]), // 10 [Bottom-1]
+            new Triangle(frontStyles[5], backStyles[5], CuboidVertices[1], CuboidVertices[4], CuboidVertices[5])  // 11 [Bottom-2]
         };
     }
 
-    internal static IList<Face> GenerateCuboidFaces(FaceStyle frontStyle, FaceStyle backStyle)
+    internal static IList<Face> GenerateCuboidFaces(FaceStyle[] frontStyles, FaceStyle[] backStyles)
     {
-        IList<Triangle> triangles = GenerateCuboidTriangles(frontStyle, backStyle);
+        IList<Triangle> triangles = GenerateCuboidTriangles(frontStyles, backStyles);
         return new List<Face>
         {
-            new Face(frontStyle, backStyle, triangles[0], triangles[1]),// 0 [Back]
-            new Face(frontStyle, backStyle, triangles[2], triangles[3]), // 1 [Right]
-            new Face(frontStyle, backStyle, triangles[4], triangles[5]), // 2 [Front]
-            new Face(frontStyle, backStyle, triangles[6], triangles[7]), // 3 [Left]
-            new Face(frontStyle, backStyle, triangles[8], triangles[9]), // 4 [Top]
-            new Face(frontStyle, backStyle, triangles[10], triangles[11]) // 5 [Bottom]
+            new Face(frontStyles[2], backStyles[2], triangles[0], triangles[1]),// 0 [Back]
+            new Face(frontStyles[1], backStyles[1], triangles[2], triangles[3]), // 1 [Right]
+            new Face(frontStyles[0], backStyles[0], triangles[4], triangles[5]), // 2 [Front]
+            new Face(frontStyles[3], backStyles[3], triangles[6], triangles[7]), // 3 [Left]
+            new Face(frontStyles[4], backStyles[4], triangles[8], triangles[9]), // 4 [Top]
+            new Face(frontStyles[5], backStyles[5], triangles[10], triangles[11]) // 5 [Bottom]
         };
     }
 

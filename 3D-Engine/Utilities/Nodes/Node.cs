@@ -336,7 +336,9 @@ public class Node<T> : Node
     public Node(T? content) : this() => Content = content;
     public Node(T? content, Node parent) : this() => (Content, Parent) = (content, parent);
     public Node(T? content, IEnumerable<Node> children) : this() => (Content, Children) = (content, children);
+    public Node(T? content, params Node[] children) : this(content, (IEnumerable<Node>)children) { }
     public Node(T? content, Node parent, IEnumerable<Node> children) : this() => (Content, Parent, Children) = (content, parent, children);
+    public Node(T? content, Node parent, params Node[] children) : this(content, parent, (IEnumerable<Node>)children) { }
 
     #endregion
 

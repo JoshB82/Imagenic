@@ -10,29 +10,33 @@
  * Defines an arrow mesh.
  */
 
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Enums;
+using Imagenic.Core.Utilities.Node;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace Imagenic.Core.Entities;
 
+[Serializable]
 public sealed class Arrow : Mesh
 {
     #region Fields and Properties
 
     // Axes
-    public static readonly Arrow ZAxis = new Arrow(Vector3D.Zero, Orientation.OrientationZY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution).ColourAllSolidFaces(Color.Blue);
-    public static readonly Arrow YAxis = new Arrow(Vector3D.Zero, Orientation.OrientationYNegativeZ, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution).ColourAllSolidFaces(Color.Green);
-    public static readonly Arrow XAxis = new Arrow(Vector3D.Zero, Orientation.OrientationXY, Default.AxisArrowBodyLength, Default.AxisArrowTipLength, Default.AxisArrowBodyRadius, Default.AxisArrowTipRadius, Default.AxisArrowResolution).ColourAllSolidFaces(Color.Red);
+    public static readonly Arrow ZAxis = new Arrow(Vector3D.Zero, Orientation.OrientationZY, Defaults.Default.AxisArrowBodyLength, Defaults.Default.AxisArrowTipLength, Defaults.Default.AxisArrowBodyRadius, Defaults.Default.AxisArrowTipRadius, Defaults.Default.AxisArrowResolution).ColourAllSolidFaces(Color.Blue);
+    public static readonly Arrow YAxis = new Arrow(Vector3D.Zero, Orientation.OrientationYNegativeZ, Defaults.Default.AxisArrowBodyLength, Defaults.Default.AxisArrowTipLength, Defaults.Default.AxisArrowBodyRadius, Defaults.Default.AxisArrowTipRadius, Defaults.Default.AxisArrowResolution).ColourAllSolidFaces(Color.Green);
+    public static readonly Arrow XAxis = new Arrow(Vector3D.Zero, Orientation.OrientationXY, Defaults.Default.AxisArrowBodyLength, Defaults.Default.AxisArrowTipLength, Defaults.Default.AxisArrowBodyRadius, Defaults.Default.AxisArrowTipRadius, Defaults.Default.AxisArrowResolution).ColourAllSolidFaces(Color.Red);
 
-    public static readonly WorldPoint Axes = GenerateAxes();
+    public static readonly Node<WorldPoint> Axes = GenerateAxes();
 
-    private static WorldPoint GenerateAxes()
+    private static Node<WorldPoint> GenerateAxes()
     {
-        WorldPoint axes = new WorldPoint(Vector3D.Zero);
-        axes.AddChildren(XAxis, YAxis, ZAxis);
-        return axes;
+        var axes = new WorldPoint(Vector3D.Zero);
+        var XAxisNode = new Node<Arrow>(XAxis);
+        var YAxisNode = new Node<Arrow>(YAxis);
+        var ZAxisNode = new Node<Arrow>(ZAxis);
+        return new Node<WorldPoint>(axes, XAxisNode, YAxisNode, ZAxisNode);
     }
 
     private Vector3D tipPosition;

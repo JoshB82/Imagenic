@@ -13,6 +13,8 @@ internal class Program
 {
     public static void Main(string[] args)
     {
+        Cube cubeTest = new Cube(Vector3D.Zero, Orientation.OrientationXY, 100, SolidEdgeStyle.Black, SolidStyle.Red)
+
         Cube cube = new Cube(Vector3D.Zero);
 
         cube.Start(0, 1.5f, out Transition t1)

@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 
 namespace Imagenic.Core.Entities;
 
@@ -65,8 +66,54 @@ public class Cube : Mesh
     /// <param name="worldOrientation">The orientation of the <see cref="Cube"/> in world space.</param>
     /// <param name="sideLength">The length of each side.</param>
     public Cube(Vector3D worldOrigin,
-                Orientation worldOrientation,
-                float sideLength) : base(worldOrigin, worldOrientation, GenerateStructure())
+                [DisallowNull] Orientation worldOrientation,
+                float sideLength) : this(worldOrigin, worldOrientation, sideLength, SolidEdgeStyle.Black, SolidStyle.Red)
+    { }
+
+    /// <summary>
+    /// Creates a <see cref="Cube"/> mesh with specified edge and face styles.
+    /// </summary>
+    /// <param name="worldOrigin">The position of the <see cref="Cube"/>.</param>
+    /// <param name="worldOrientation">The orientation of the <see cref="Cube"/>.</param>
+    /// <param name="sideLength">The length of each side.</param>
+    /// <param name="edgeStyle">The appearance of each edge.</param>
+    /// <param name="exteriorFaceStyle">The appearance of each exterior face.</param>
+    public Cube(Vector3D worldOrigin,
+                [DisallowNull] Orientation worldOrientation,
+                float sideLength,
+                [DisallowNull] EdgeStyle edgeStyle,
+                [DisallowNull] FaceStyle exteriorFaceStyle)
+        : this(worldOrigin, worldOrientation, sideLength, edgeStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle)
+    { }
+
+    /// <summary>
+    /// Creates a <see cref="Cube"/> mesh with specified edge and face styles.
+    /// </summary>
+    /// <param name="worldOrigin">The position of the <see cref="Cube"/>.</param>
+    /// <param name="worldOrientation">The orientation of the <see cref="Cube"/>.</param>
+    /// <param name="sideLength">The length of each side.</param>
+    /// <param name="edgeStyle">The appearance of each edge.</param>
+    /// <param name="exteriorFrontFaceStyle">The appearance of the front face.</param>
+    /// <param name="exteriorRightFaceStyle">The appearance of the right face.</param>
+    /// <param name="exteriorBackFaceStyle">The appearance of the back face.</param>
+    /// <param name="exteriorLeftFaceStyle">The appearance of the left face.</param>
+    /// <param name="exteriorTopFaceStyle">The appearance of the top face.</param>
+    /// <param name="exteriorBottomFaceStyle">The appearance of the bottom face.</param>
+    public Cube(Vector3D worldOrigin,
+                [DisallowNull] Orientation worldOrientation,
+                float sideLength,
+                [DisallowNull] EdgeStyle edgeStyle,
+                [DisallowNull] FaceStyle exteriorFrontFaceStyle,
+                [DisallowNull] FaceStyle exteriorRightFaceStyle,
+                [DisallowNull] FaceStyle exteriorBackFaceStyle,
+                [DisallowNull] FaceStyle exteriorLeftFaceStyle,
+                [DisallowNull] FaceStyle exteriorTopFaceStyle,
+                [DisallowNull] FaceStyle exteriorBottomFaceStyle)
+        : base(worldOrigin, worldOrientation, GenerateStructure(edgeStyle, new FaceStyle[] { exteriorFrontFaceStyle, exteriorRightFaceStyle, exteriorBackFaceStyle, exteriorLeftFaceStyle, exteriorTopFaceStyle, exteriorBottomFaceStyle })
+            #if DEBUG
+            , MessageBuilder<CubeCreatedMessage>.Instance()
+            #endif
+            )
     {
         MessageBuilder.AddParameter(sideLength);
         SideLength = sideLength;
@@ -74,18 +121,10 @@ public class Cube : Mesh
 
     public Cube(Vector3D worldOrigin,
                 [DisallowNull] Orientation worldOrientation,
-                float sideLength,
-                EdgeStyle edgeStyle,
-                FaceStyle exteriorFaceStyle)
-        : base(worldOrigin, worldOrientation, GenerateStructure(edgeStyle, new FaceStyle[] { exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle })
-            #if DEBUG
-            , MessageBuilder<CubeCreatedMessage>.Instance()
-            #endif
-            )
-    {
+                [DisallowNull] Square square) : this(worldOrigin, worldOrientation, square.SideLength, square.Structure.Edges[0].Style, square.Structure.Faces[0].FrontStyle)
+    { }
 
-    }
-
+    /*
     /// <summary>
     /// Creates a textured <see cref="Cube"/> mesh, specifying a single <see cref="Texture"/> for all sides.
     /// </summary>
@@ -126,23 +165,18 @@ public class Cube : Mesh
         SideLength = sideLength;
     }
 
-    public Cube(Vector3D worldOrigin, Orientation worldOrientation, Square square) : base(worldOrigin, worldOrientation, 3)
-    {
-        SideLength = square.SideLength;
-        cube.Content.Textures = Structure.Textures;
-        cube.Content.Faces[0] = Structure.Faces[0];
-    }
-
+    
+    */
     #endregion
 
     #region Methods
 
-    private static MeshStructure GenerateStructure(EdgeStyle edgeStyle, FaceStyle[] exteriorStyles)
+    private static MeshStructure GenerateStructure(EdgeStyle edgeStyle, FaceStyle[] exteriorFaceStyles)
     {
         EventList<Vertex> vertices = GenerateVertices();
         EventList<Edge> edges = GenerateEdges(edgeStyle);
-        EventList<Triangle> triangles = GenerateTriangles(exteriorStyles);
-        EventList<Face> faces = GenerateFaces();
+        EventList<Triangle> triangles = GenerateTriangles(exteriorFaceStyles);
+        EventList<Face> faces = GenerateFaces(exteriorFaceStyles);
 
         return new MeshStructure(Dimension.Three, vertices, edges, triangles, faces, textures);
     }

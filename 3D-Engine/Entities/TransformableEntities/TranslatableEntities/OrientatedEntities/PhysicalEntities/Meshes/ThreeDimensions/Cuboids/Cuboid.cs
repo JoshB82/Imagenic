@@ -10,17 +10,14 @@
  * Defines creation of a Cuboid Mesh.
  */
 
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Edges;
-using Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Faces;
-using Imagenic.Core.Entities.SceneObjects.Meshes;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components;
-using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
 using Imagenic.Core.Enums;
+using Imagenic.Core.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalEntities.Meshes.ThreeDimensions.Cuboids;
+namespace Imagenic.Core.Entities;
 
 /// <summary>
 /// A mesh of a cuboid.
@@ -29,6 +26,7 @@ namespace Imagenic.Core.Entities.PositionedEntities.OrientatedEntities.PhysicalE
 /// Composition:<br/>
 /// Six square <see cref="Face">faces</see>, each consisting of two <see cref="Triangle">triangles</see>, 12 <see cref="Edge">edges</see> and eight <see cref="Vertex">vertices</see>.
 /// </remarks>
+[Serializable]
 public sealed class Cuboid : Mesh
 {
     #region Fields and Properties
@@ -72,6 +70,12 @@ public sealed class Cuboid : Mesh
         }
     }
 
+    #if DEBUG
+
+    private protected override IMessageBuilder<CuboidCreatedMessage>? MessageBuilder => (IMessageBuilder<CuboidCreatedMessage>?)base.MessageBuilder;
+
+    #endif
+
     #endregion
 
     #region Constructors
@@ -85,15 +89,47 @@ public sealed class Cuboid : Mesh
     /// <param name="width">The width of the <see cref="Cuboid"/>.</param>
     /// <param name="height">The height of the <see cref="Cuboid"/>.</param>
     public Cuboid(Vector3D worldOrigin,
-                  Orientation worldOrientation,
+                  [DisallowNull] Orientation worldOrientation,
                   float length,
                   float width,
-                  float height) : base(worldOrigin, worldOrientation, GenerateStructure())
+                  float height)
+        : this(worldOrigin, worldOrientation, length, width, height, SolidEdgeStyle.Black, SolidStyle.Red)
+    { }
+
+    public Cuboid(Vector3D worldOrigin,
+                  [DisallowNull] Orientation worldOrientation,
+                  float length,
+                  float width,
+                  float height,
+                  [DisallowNull] EdgeStyle edgeStyle,
+                  [DisallowNull] FaceStyle exteriorFaceStyle)
+        : this(worldOrigin, worldOrientation, length, width, height, edgeStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle, exteriorFaceStyle)
+    { }
+
+    public Cuboid(Vector3D worldOrigin,
+                  [DisallowNull] Orientation worldOrientation,
+                  float length,
+                  float width,
+                  float height,
+                  [DisallowNull] EdgeStyle edgeStyle,
+                  [DisallowNull] FaceStyle exteriorFrontFaceStyle,
+                  [DisallowNull] FaceStyle exteriorRightFaceStyle,
+                  [DisallowNull] FaceStyle exteriorBackFaceStyle,
+                  [DisallowNull] FaceStyle exteriorLeftFaceStyle,
+                  [DisallowNull] FaceStyle exteriorTopFaceStyle,
+                  [DisallowNull] FaceStyle exteriorBottomFaceStyle)
+        : base(worldOrigin, worldOrientation, GenerateStructure(edgeStyle, new FaceStyle[] { exteriorFrontFaceStyle, exteriorRightFaceStyle, exteriorBackFaceStyle, exteriorLeftFaceStyle, exteriorTopFaceStyle, exteriorBottomFaceStyle })
+        #if DEBUG
+              , MessageBuilder<CuboidCreatedMessage>.Instance()
+        #endif
+              )
     {
         Length = length;
         Width = width;
         Height = height;
     }
+
+    /*
 
     /// <summary>
     /// Creates a textured <see cref="Cuboid"/> mesh, specifying a single <see cref="Texture"/> for all sides.
@@ -146,40 +182,39 @@ public sealed class Cuboid : Mesh
         Width = width;
         Height = height;
     }
-
+    */
     #endregion
 
     #region Methods
 
-    private static MeshStructure GenerateStructure()
+    private static MeshStructure GenerateStructure(EdgeStyle edgeStyle, FaceStyle[] exteriorFaceStyles)
     {
-        IList<Vertex> vertices = GenerateVertices();
-        IList<Edge> edges = GenerateEdges();
-        IList<Face> faces = GenerateFaces();
+        EventList<Vertex> vertices = GenerateVertices();
+        EventList<Edge> edges = GenerateEdges(edgeStyle);
+        EventList<Triangle> triangles = GenerateTriangles(exteriorFaceStyles);
+        EventList<Face> faces = GenerateFaces(exteriorFaceStyles);
 
-        return new MeshStructure(Dimension.Three, vertices, edges, faces);
+        return new MeshStructure(Dimension.Three, vertices, edges, triangles, faces);
     }
 
-    private static IList<Vertex> GenerateVertices()
+    private static EventList<Vertex> GenerateVertices()
     {
-        return HardcodedMeshData.CuboidVertices;
+        return new EventList<Vertex>(MeshData.CuboidVertices);
     }
 
-    private static IList<Edge> GenerateEdges()
+    private static EventList<Edge> GenerateEdges(EdgeStyle edgeStyle)
     {
-        return HardcodedMeshData.CuboidEdges;
+        return new EventList<Edge>(MeshData.GenerateCuboidEdges(edgeStyle));
     }
 
-    private static IList<Face> GenerateFaces()
+    private static EventList<Triangle> GenerateTriangles(FaceStyle[] exteriorFaceStyles)
     {
-        if (Structure.Textures is null)
-        {
-            return HardcodedMeshData.CuboidSolidFaces;
-        }
-        else
-        {
-            return HardcodedMeshData.GenerateCuboidTextureFaces(Structure.Textures.ToArray());
-        }
+        return new EventList<Triangle>(MeshData.GenerateCuboidTriangles(new FaceStyle[] { SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black }, exteriorFaceStyles));
+    }
+
+    private static EventList<Face> GenerateFaces(FaceStyle[] exteriorFaceStyles)
+    {
+        return new EventList<Face>(MeshData.GenerateCuboidFaces(new FaceStyle[] { SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black }, exteriorFaceStyles));
     }
 
     #endregion
