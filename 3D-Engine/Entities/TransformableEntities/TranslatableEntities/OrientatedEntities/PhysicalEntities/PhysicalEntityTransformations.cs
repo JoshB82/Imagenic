@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.CascadeBuffers;
+using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -13,6 +14,14 @@ public static class PhysicalEntityTransformations
     #region ScaleX method
 
     #region TPhysicalEntity
+
+    /*
+     * Don't use vv
+    private static void ScaleXTransform<TPhysicalEntity>(TPhysicalEntity e, float scaleFactor) where TPhysicalEntity : PhysicalEntity
+    {
+        e.Scaling = new Vector3D(e.Scaling.x * scaleFactor, e.Scaling.y, e.Scaling.z);
+    }
+    */
 
     /// <summary>
     /// Scales a <typeparamref name="TPhysicalEntity"/> in the x-direction.
@@ -108,6 +117,56 @@ public static class PhysicalEntityTransformations
     {
         ThrowIfNull(physicalEntities, predicate);
         return physicalEntities.Transform(e => e.Scaling = new Vector3D(e.Scaling.x * scaleFactor, e.Scaling.y, e.Scaling.z), predicate);
+    }
+
+    #endregion
+
+    #region Node<TPhysicalEntity>
+
+    public static Node<TPhysicalEntity> ScaleX<TPhysicalEntity>(
+        [DisallowNull] this Node<TPhysicalEntity> physicalEntityNode, float scaleFactor) where TPhysicalEntity : PhysicalEntity
+    {
+        ThrowIfNull(physicalEntityNode);
+        physicalEntityNode.GetDescendantsAndSelfOfType<PhysicalEntity>()
+                          .GetAllContents()
+                          .Transform(e => { e.Scaling = new Vector3D(e.Scaling.x * scaleFactor, e.Scaling.y, e.Scaling.z); });
+        return physicalEntityNode;
+    }
+
+    public static Node<TPhysicalEntity> ScaleX<TPhysicalEntity>(
+        [DisallowNull] this Node<TPhysicalEntity> physicalEntityNode, float scaleFactor,
+        [DisallowNull] Func<PhysicalEntity, bool> predicate) where TPhysicalEntity : PhysicalEntity
+    {
+        ThrowIfNull(physicalEntityNode);
+        physicalEntityNode.GetDescendantsAndSelfOfType<PhysicalEntity>()
+                          .GetAllContents()
+                          .Transform(e => { e.Scaling = new Vector3D(e.Scaling.x * scaleFactor, e.Scaling.y, e.Scaling.z); }, predicate);
+        return physicalEntityNode;
+    }
+
+    #endregion
+
+    #region IEnumerable<Node<TPhysicalEntity>>
+
+    public static IEnumerable<Node<TPhysicalEntity>> ScaleX<TPhysicalEntity>(
+        [DisallowNull] this IEnumerable<Node<TPhysicalEntity>> physicalEntityNodes, float scaleFactor) where TPhysicalEntity : PhysicalEntity
+    {
+        ThrowIfNull(physicalEntityNodes);
+        physicalEntityNodes.GetDescendantsAndSelfOfType<PhysicalEntity>()
+                           .GetAllContents()
+                           .Transform(e => { e.Scaling = new Vector3D(e.Scaling.x * scaleFactor, e.Scaling.y, e.Scaling.z); });
+        return physicalEntityNodes;
+    }
+
+    public static IEnumerable<Node<TPhysicalEntity>> ScaleX<TPhysicalEntity>(
+        [DisallowNull] this IEnumerable<Node<TPhysicalEntity>> physicalEntityNodes, float scaleFactor,
+        [DisallowNull] Func<PhysicalEntity, bool> predicate) where TPhysicalEntity : PhysicalEntity
+    {
+        ThrowIfNull(physicalEntityNodes);
+        physicalEntityNodes.GetDescendantsAndSelfOfType<PhysicalEntity>()
+                           .GetAllContents()
+                           .Transform(e => { e.Scaling = new Vector3D(e.Scaling.x * scaleFactor, e.Scaling.y, e.Scaling.z); }, predicate);
+        return physicalEntityNodes;
     }
 
     #endregion
