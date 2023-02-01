@@ -145,5 +145,13 @@ public sealed class Line : Mesh
         return new EventList<Edge>(MeshData.GenerateLineEdges(style));
     }
 
+    public override Line ShallowCopy() => (Line)MemberwiseClone();
+    public override Line DeepCopy()
+    {
+        var line = (Line)base.DeepCopy();
+        line.Length = length;
+        return line;
+    }
+
     #endregion
 }

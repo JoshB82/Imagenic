@@ -11,10 +11,13 @@
  */
 
 using Imagenic.Core.Enums;
+using Imagenic.Core.Utilities;
 using Imagenic.Core.Utilities.Node;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Linq;
 
 namespace Imagenic.Core.Entities;
 
@@ -157,6 +160,36 @@ public sealed class Arrow : Mesh
 
     #region Constructors
 
+    public Arrow(Vector3D worldOrigin,
+                 [DisallowNull] Orientation worldOrientation,
+                 float bodyLength,
+                 float tipLength,
+                 float bodyRadius,
+                 float tipRadius,
+                 int resolution,
+                 [DisallowNull] EdgeStyle edgeStyle,
+                 [DisallowNull] FaceStyle exteriorFaceStyle)
+        : base(worldOrigin, worldOrientation, GenerateStructure(resolution, bodyLength, tipLength, bodyRadius, tipRadius, edgeStyle, exteriorFaceStyle)
+              #if DEBUG
+              , MessageBuilder<ArrowCreatedMessage>.Instance()
+              #endif
+              )
+    { }
+
+    public Arrow(Vector3D worldOrigin,
+                 Vector3D tipPosition,
+                 Vector3D directionUp,
+                 float bodyLength,
+                 float tipLength,
+                 float bodyRadius,
+                 float tipRadius,
+                 int resolution,
+                 [DisallowNull] EdgeStyle edgeStyle,
+                 [DisallowNull] FaceStyle exteriorFaceStyle)
+        : this(worldOrigin, Orientation.CreateOrientationForwardUp(tipPosition - worldOrigin, directionUp), bodyLength, tipLength, bodyRadius, tipRadius, resolution, edgeStyle, exteriorFaceStyle)
+    { }
+
+    /*
     internal Arrow(Vector3D worldOrigin,
                    Orientation worldOrientation,
                    float bodyLength,
@@ -174,60 +207,42 @@ public sealed class Arrow : Mesh
         this.tipRadius = tipRadius;
         this.resolution = resolution;
     }
-
-    public Arrow(Vector3D worldOrigin,
-                    Orientation worldOrientation,
-                    float bodyLength,
-                    float tipLength,
-                    float bodyRadius,
-                    float tipRadius,
-                    int resolution) : this(worldOrigin, worldOrientation, bodyLength, tipLength, bodyRadius, tipRadius, resolution, true) { }
-
-    public static Arrow ArrowTipPosition(Vector3D worldOrigin,
-                                            Vector3D tipPosition,
-                                            Vector3D directionUp,
-                                            float bodyLength,
-                                            float tipLength,
-                                            float bodyRadius,
-                                            float tipRadius,
-                                            int resolution)
-    {
-        return new Arrow(worldOrigin, Orientation.CreateOrientationForwardUp(tipPosition - worldOrigin, directionUp), bodyLength, tipLength, bodyRadius, tipRadius, resolution, true);
-    }
+    */
 
     #endregion
 
     #region Methods
 
-    private static MeshStructure GenerateStructure(int resolution, float bodyLength, float tipLength, float bodyRadius, float tipRadius)
+    private static MeshStructure GenerateStructure(int resolution, float bodyLength, float tipLength, float bodyRadius, float tipRadius, EdgeStyle edgeStyle, FaceStyle exteriorFaceStyle)
     {
-        IList<Vertex> vertices = GenerateVertices(resolution, bodyLength, tipLength, bodyRadius, tipRadius);
-        IList<Edge> edges = GenerateEdges(vertices, resolution);
-        IList<Face> faces = GenerateFaces(vertices, resolution);
+        EventList<Vertex> vertices = GenerateVertices(resolution, bodyLength, tipLength, bodyRadius, tipRadius);
+        EventList<Edge> edges = GenerateEdges(vertices, resolution, edgeStyle);
+        EventList<Triangle> triangles = GenerateTriangles(vertices, resolution, exteriorFaceStyle);
+        EventList<Face> faces = GenerateFaces(triangles, resolution, exteriorFaceStyle);
 
-        return new MeshStructure(Dimension.Three, vertices, edges, faces);
+        return new MeshStructure(Dimension.Three, vertices, edges, triangles, faces);
     }
 
-    private static IList<Vertex> GenerateVertices(int resolution, float bodyLength, float tipLength, float bodyRadius, float tipRadius)
+    private static EventList<Vertex> GenerateVertices(int resolution, float bodyLength, float tipLength, float bodyRadius, float tipRadius)
     {
         IList<Vertex> vertices = new Vertex[3 * resolution + 3];
-        vertices[0] = new(new Vector4D(0, 0, 0, 1));
-        vertices[1] = new(new Vector4D(Vector3D.UnitZ * bodyLength, 1));
-        vertices[2] = new(new Vector4D(Vector3D.UnitZ * (bodyLength + tipLength), 1));
+        vertices[0] = new(Vector3D.Zero);
+        vertices[1] = new(Vector3D.UnitZ * bodyLength);
+        vertices[2] = new(Vector3D.UnitZ * (bodyLength + tipLength));
 
         float angle = Tau / resolution;
         for (int i = 0; i < resolution; i++)
         {
             float sin = Sin(angle * i), cos = Cos(angle * i);
-            vertices[i + 3] = new(new Vector4D(cos * bodyRadius, sin * bodyRadius, 0, 1));
-            vertices[i + resolution + 3] = new(new Vector4D(cos * bodyRadius, sin * bodyRadius, bodyLength, 1));
-            vertices[i + 2 * resolution + 3] = new(new Vector4D(cos * tipRadius, sin * tipRadius, bodyLength, 1));
+            vertices[i + 3] = new(new Vector3D(cos * bodyRadius, sin * bodyRadius, 0));
+            vertices[i + resolution + 3] = new(new Vector3D(cos * bodyRadius, sin * bodyRadius, bodyLength));
+            vertices[i + 2 * resolution + 3] = new(new Vector3D(cos * tipRadius, sin * tipRadius, bodyLength));
         }
 
-        return vertices;
+        return new EventList<Vertex>(vertices);
     }
 
-    private static IList<Edge> GenerateEdges(IList<Vertex> vertices, int resolution)
+    private static EventList<Edge> GenerateEdges(IList<Vertex> vertices, int resolution, EdgeStyle edgeStyle)
     {
         IList<Edge> edges = new Edge[5 * resolution];
 
@@ -247,39 +262,63 @@ public sealed class Arrow : Mesh
             edges[i + 4 * resolution] = new SolidEdge(vertices[i + 2 * resolution + 3], vertices[2]);
         }
 
-        DrawEdges = false;
+        //DrawEdges = false;
 
-        return edges;
+        return new EventList<Edge>(edges);
     }
 
-    private static IList<Triangle> GenerateTriangles()
+    private static EventList<Triangle> GenerateTriangles(IList<Vertex> vertices, int resolution, FaceStyle exteriorFaceStyle)
     {
-
-    }
-
-    private static IList<Face> GenerateFaces(IList<Vertex> vertices, int resolution)
-    {
-        IList<Face> faces = new Face[2 * resolution + 2];
-
-        Triangles = new SolidTriangle[6 * resolution];
+        IList<Triangle> triangles = new Triangle[6 * resolution];
+        var interiorFaceStyle = SolidStyle.Black;
 
         for (int i = 0; i < resolution - 1; i++)
         {
-            Triangles[i] = new SolidTriangle(vertices[i + 3], vertices[0], vertices[i + 4]);
-            Triangles[i + resolution] = new SolidTriangle(vertices[i + 3], vertices[i + resolution + 3], vertices[i + resolution + 4]);
-            Triangles[i + 2 * resolution] = new SolidTriangle(vertices[i + 3], vertices[i + resolution + 4], vertices[i + 4]);
-            Triangles[i + 3 * resolution] = new SolidTriangle(vertices[i + resolution + 3], vertices[i + 2 * resolution + 4], vertices[i + 2 * resolution + 3]);
-            Triangles[i + 4 * resolution] = new SolidTriangle(vertices[i + resolution + 3], vertices[i + resolution + 4], vertices[i + 2 * resolution + 4]);
-            Triangles[i + 5 * resolution] = new SolidTriangle(vertices[i + 2 * resolution + 3], vertices[i + 2 * resolution + 4], vertices[2]);
+            triangles[i] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[i + 3], vertices[0], vertices[i + 4]);
+            triangles[i + resolution] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[i + 3], vertices[i + resolution + 3], vertices[i + resolution + 4]);
+            triangles[i + 2 * resolution] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[i + 3], vertices[i + resolution + 4], vertices[i + 4]);
+            triangles[i + 3 * resolution] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[i + resolution + 3], vertices[i + 2 * resolution + 4], vertices[i + 2 * resolution + 3]);
+            triangles[i + 4 * resolution] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[i + resolution + 3], vertices[i + resolution + 4], vertices[i + 2 * resolution + 4]);
+            triangles[i + 5 * resolution] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[i + 2 * resolution + 3], vertices[i + 2 * resolution + 4], vertices[2]);
         }
-        Triangles[resolution - 1] = new SolidTriangle(vertices[resolution + 2], vertices[0], vertices[3]);
-        Triangles[2 * resolution - 1] = new SolidTriangle(vertices[resolution + 2], vertices[2 * resolution + 2], vertices[resolution + 3]);
-        Triangles[3 * resolution - 1] = new SolidTriangle(vertices[resolution + 2], vertices[resolution + 3], vertices[3]);
-        Triangles[4 * resolution - 1] = new SolidTriangle(vertices[2 * resolution + 2], vertices[2 * resolution + 3], vertices[3 * resolution + 2]);
-        Triangles[5 * resolution - 1] = new SolidTriangle(vertices[2 * resolution + 2], vertices[resolution + 3], vertices[2 * resolution + 3]);
-        Triangles[6 * resolution - 1] = new SolidTriangle(vertices[3 * resolution + 2], vertices[2 * resolution + 3], vertices[2]);
+        triangles[resolution - 1] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[resolution + 2], vertices[0], vertices[3]);
+        triangles[2 * resolution - 1] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[resolution + 2], vertices[2 * resolution + 2], vertices[resolution + 3]);
+        triangles[3 * resolution - 1] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[resolution + 2], vertices[resolution + 3], vertices[3]);
+        triangles[4 * resolution - 1] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[2 * resolution + 2], vertices[2 * resolution + 3], vertices[3 * resolution + 2]);
+        triangles[5 * resolution - 1] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[2 * resolution + 2], vertices[resolution + 3], vertices[2 * resolution + 3]);
+        triangles[6 * resolution - 1] = new Triangle(interiorFaceStyle, exteriorFaceStyle, vertices[3 * resolution + 2], vertices[2 * resolution + 3], vertices[2]);
 
-        return faces;
+        return new EventList<Triangle>(triangles);
+    }
+
+    private static EventList<Face> GenerateFaces(IList<Triangle> triangles, int resolution, FaceStyle exteriorFaceStyle)
+    {
+        IList<Face> faces = new Face[2 * resolution + 2];
+        var interiorFaceStyle = SolidStyle.Black;
+
+        faces[0] = new Face(interiorFaceStyle, exteriorFaceStyle, triangles.Take(resolution));
+        faces[1] = new Face(interiorFaceStyle, exteriorFaceStyle, triangles.Skip(3 * resolution).Take(2 * resolution));
+        for (int i = 0; i < resolution; i++)
+        {
+            faces[i + 2] = new Face(interiorFaceStyle, exteriorFaceStyle, triangles[i + resolution], triangles[i + 2 * resolution]);
+            faces[i + resolution + 2] = new Face(interiorFaceStyle, exteriorFaceStyle, triangles[i + 5 * resolution]);
+        }
+
+        return new EventList<Face>(faces);
+    }
+
+    public override Arrow ShallowCopy() => (Arrow)MemberwiseClone();
+    public override Arrow DeepCopy()
+    {
+        var arrow = (Arrow)base.DeepCopy();
+        arrow.tipPosition = tipPosition;
+        arrow.length = length;
+        arrow.bodyLength = bodyLength;
+        arrow.tipLength = tipLength;
+        arrow.bodyRadius = bodyRadius;
+        arrow.tipRadius = tipRadius;
+        arrow.resolution = resolution;
+        return arrow;
     }
 
     #endregion

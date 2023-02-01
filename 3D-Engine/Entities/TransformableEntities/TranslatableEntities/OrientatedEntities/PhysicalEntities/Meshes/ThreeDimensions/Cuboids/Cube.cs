@@ -208,6 +208,14 @@ public class Cube : Mesh
         }
     }
 
+    public override Cube ShallowCopy() => (Cube)MemberwiseClone();
+    public override Cube DeepCopy()
+    {
+        var cube = (Cube)base.DeepCopy();
+        cube.sideLength = sideLength;
+        return cube;
+    }
+
     #endregion
 
     #region Casting

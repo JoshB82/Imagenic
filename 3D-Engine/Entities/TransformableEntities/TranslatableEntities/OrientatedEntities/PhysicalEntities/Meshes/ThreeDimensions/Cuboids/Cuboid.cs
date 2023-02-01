@@ -217,6 +217,16 @@ public sealed class Cuboid : Mesh
         return new EventList<Face>(MeshData.GenerateCuboidFaces(new FaceStyle[] { SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black, SolidStyle.Black }, exteriorFaceStyles));
     }
 
+    public override Cuboid ShallowCopy() => (Cuboid)MemberwiseClone();
+    public override Cuboid DeepCopy()
+    {
+        var cuboid = (Cuboid)base.DeepCopy();
+        cuboid.length = length;
+        cuboid.height = height;
+        cuboid.width = width;
+        return cuboid;
+    }
+
     #endregion
 
     #region Casting
