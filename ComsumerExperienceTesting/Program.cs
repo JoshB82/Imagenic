@@ -13,7 +13,15 @@ internal class Program
 {
     public static void Main(string[] args)
     {
-        Cube cubeTest = new Cube(Vector3D.Zero, Orientation.OrientationXY, 100, SolidEdgeStyle.Black, SolidStyle.Red)
+        Cube cubeTest = new Cube(Vector3D.Zero, Orientation.OrientationXY, 100, SolidEdgeStyle.Black, SolidStyle.Red);
+
+        cubeTest.Transform(e => e.SideLength++)
+                .Transform((e, i) => e.SideLength += i);
+
+        float i = 0;
+        cubeTest.Transform(e => { i = e.SideLength++; })
+                .Transform(e => e.SideLength += i);
+
 
         Cube cube = new Cube(Vector3D.Zero);
 

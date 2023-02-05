@@ -2,11 +2,31 @@
 using System;
 using Imagenic.Core.Transitions;
 using Imagenic.Core.Attributes;
+using Imagenic.Core.Entities.TransformableEntities;
 
 namespace Imagenic.Core.Entities;
 
-internal static class Implementations
+internal static class TransformableEntityTransformations_Implementations
 {
+    internal static TTransformableEntity Transform<TTransformableEntity>(
+        this TTransformableEntity transformableEntity,
+        Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
+    {
+        if (transformableEntity.Transitions.Count > 0)
+        {
+            foreach (Transition transition in transformableEntity.Transitions)
+            {
+                var transformationNode = new TransformationNode<TTransformableEntity>(transformation);
+                transition.TransformationNodes.Add(transformationNode);
+            }
+        }
+        else
+        {
+            transformation(transformableEntity);
+        }
+        return transformableEntity;
+    }
+
     internal static TTransformableEntity Transform<TTransformableEntity>(
         [DisallowNull] this TTransformableEntity transformableEntity,
         [DisallowNull] Action<TTransformableEntity> transformation,
@@ -16,6 +36,24 @@ internal static class Implementations
         if (predicate(transformableEntity))
         {
             transformation(transformableEntity);
+        }
+        return transformableEntity;
+    }
+
+    internal static TTransformableEntity Transform<TTransformableEntity, TOutput>(
+        this TTransformableEntity transformableEntity,
+        Func<TTransformableEntity, TOutput?> transformation) where TTransformableEntity : TransformableEntity
+    {
+        if (transformableEntity.Transitions.Count > 0)
+        {
+            foreach (Transition transition in transformableEntity.Transitions)
+            {
+                //var transformation = new TransformationN
+            }
+        }
+        else
+        {
+
         }
         return transformableEntity;
     }

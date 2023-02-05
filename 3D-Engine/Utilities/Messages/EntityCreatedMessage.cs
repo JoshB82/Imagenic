@@ -61,6 +61,13 @@ internal class VertexCreatedMessage : TranslatableEntityCreatedMessage, IMessage
     public new static MessageInterpolatedStringHandler<VertexCreatedMessage> AllText => $"With parameters: {{{0}, {1}}}";
 }
 
+internal class RayCreatedMessage : EntityCreatedMessage, IMessage<RayCreatedMessage>
+{
+    public static new MessageInterpolatedStringHandler<RayCreatedMessage> BriefText => $"Ray created.";
+    public static new MessageInterpolatedStringHandler<RayCreatedMessage> DetailedText => $"Ray created with parameters {{{0}}}.";
+    public static new MessageInterpolatedStringHandler<RayCreatedMessage> AllText => $"Ray created with parameters {{{0}}}.";
+}
+
 internal class FaceCreatedMessage : EntityCreatedMessage, IMessage<FaceCreatedMessage>
 {
     public static new MessageInterpolatedStringHandler<FaceCreatedMessage> BriefText => $"Face created.";

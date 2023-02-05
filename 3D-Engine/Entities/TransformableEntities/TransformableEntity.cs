@@ -17,6 +17,8 @@ public abstract class TransformableEntity : Entity
 
     public List<Transition> Transitions { get; set; } = new();
 
+    public List<TransformationNode> TransformationNodes { get; set; } = new();
+
     #if DEBUG
 
     private protected override IMessageBuilder<TransformableEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<TransformableEntityCreatedMessage>?)base.MessageBuilder;

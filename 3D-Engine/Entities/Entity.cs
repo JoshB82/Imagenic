@@ -1,7 +1,5 @@
 ﻿using Imagenic.Core.Enums;
-using Imagenic.Core.Utilities;
 using System;
-using System.Collections.Generic;
 
 namespace Imagenic.Core.Entities;
 
@@ -45,25 +43,24 @@ public abstract class Entity
 
     #region Constructors
 
-    #if DEBUG
-
-    private protected Entity(IMessageBuilder<EntityCreatedMessage> mb)
+    private protected Entity(
+        #if DEBUG
+        IMessageBuilder<EntityCreatedMessage> mb
+        #endif
+        )
     {
+        #if DEBUG
         MessageBuilder = mb.AddParameter(nextId);
+        #endif
     }
 
-    #else
-
-    protected Entity()
+    /*protected Entity()
     {
         /*MessageBuilder = MessageBuilder<EntityCreatedMessage>.Instance()
                                                              .AddParameter(nextId)
                                                              .Build()
                                                              .DisplayInConsole();*/
-    }
-
-    #endif
-
+//}
     #endregion
 
     #region Methods
