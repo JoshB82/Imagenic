@@ -1,5 +1,6 @@
 ﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Enums;
+using Imagenic.Core.Images;
 using Imagenic.Core.Renderers.Clippers;
 using Imagenic.Core.Utilities;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Imagenic.Core.Renderers.Rasterising;
 
-internal class DecomposePhysicalEntity
+public partial class Rasteriser<TImage>
 {
     #if DEBUG
 
@@ -18,7 +19,7 @@ internal class DecomposePhysicalEntity
 
     #endif
 
-    internal async static Task Decompose(PhysicalEntity physicalEntity, RenderingEntity renderingEntity, CancellationToken token)
+    internal async Task<bool> Decompose(PhysicalEntity physicalEntity, RenderingEntity renderingEntity, CancellationToken token)
     {
         #if DEBUG
 
@@ -29,11 +30,9 @@ internal class DecomposePhysicalEntity
         switch (physicalEntity)
         {
             case Mesh mesh:
-                await DecomposeMesh(mesh, renderingEntity, token);
-                break;
+                return await DecomposeMesh(mesh, renderingEntity, token);
             case Face face:
-                await DecomposeFace(face, renderingEntity, token);
-                break;
+                return await DecomposeFace(face, renderingEntity, token);
         }
 
         #if DEBUG
@@ -43,7 +42,7 @@ internal class DecomposePhysicalEntity
         #endif
     }
 
-    private async static Task DecomposeMesh(Mesh mesh, RenderingEntity renderingEntity, CancellationToken token)
+    private async static Task<bool> DecomposeMesh(Mesh mesh, RenderingEntity renderingEntity, CancellationToken token)
     {
         foreach (Face face in mesh.Structure.Faces)
         {
@@ -51,7 +50,7 @@ internal class DecomposePhysicalEntity
         }
     }
 
-    private async static Task DecomposeFace(Face face, RenderingEntity renderingEntity, CancellationToken token)
+    private async static Task<bool> DecomposeFace(Face face, RenderingEntity renderingEntity, CancellationToken token)
     {
         foreach (Triangle triangle in face.Triangles)
         {
@@ -59,62 +58,43 @@ internal class DecomposePhysicalEntity
         }
     }
 
-    private async static Task TransformTriangle(Triangle triangle, RenderingEntity renderingEntity, Dimension meshDimension, ref Matrix4x4 modelToView)
+    private bool TransformTriangle(Triangle triangle, RenderingEntity renderingEntity, Dimension meshDimension, ref Matrix4x4 modelToView, out List<DrawableTriangle> decomposition)
     {
-        //var vertices4D = (triangle.P1, triangle.P2, triangle.P3);
-        //var triangle4D = new VectorTriple<Vector4D>(triangle.P1, triangle.P2, triangle.P3);
-        //var calcTriangle = triangle.DeepCopy();
+        decomposition = new List<DrawableTriangle>();
 
         // Reset the vertices to model space values
-        //triangle.ResetVertices();
         triangle.CalcP1 = new Vector4D(triangle.P1.WorldOrigin, 1);
         triangle.CalcP2 = new Vector4D(triangle.P2.WorldOrigin, 1);
         triangle.CalcP3 = new Vector4D(triangle.P3.WorldOrigin, 1);
 
         // Move the face from model space to view space
-        //triangle.ApplyMatrix(modelToView);
-        //vertices4D = Triangle.ApplyMatrix(modelToView, vertices4D);
         triangle.ApplyMatrix(modelToView);
 
         // Back-face culling if the mesh is three-dimensional
         if (meshDimension == Dimension.Three)
         {
             // Discard the face if it is not visible from the rendering object's point of view
-            //var vertices3D = (p1: (Vector3D)triangle.P1, p2: (Vector3D)triangle.P2, p3: (Vector3D)triangle.P3);
-            var vertices3D = new VectorTriple<Vector3D>((Vector3D)triangle.P1, (Vector3D)triangle.P2, (Vector3D)triangle.P3);
-            if (vertices3D.p1 * Vector3D.NormalFromPlane(vertices3D.p1, vertices3D.p2, vertices3D.p3) >= 0)
+            if (triangle.P1.WorldOrigin * Vector3D.NormalFromPlane(triangle.P1.WorldOrigin, triangle.P2.WorldOrigin, triangle.P3.WorldOrigin) >= 0)
             {
-                return;
+                return false;
             }
         }
 
         // Clip the face in view space
-        //Queue<Triangle> triangleClip = new();
-        var triangleClipQueue = new Queue<Triangle>();
-        triangleClipQueue.Enqueue(triangle);
-        if (!Clipping.ClipTriangles(triangleClipQueue, ViewClippingPlanes))
+        var triangleClipper = new TriangleClipper(triangle, renderingEntity.ViewClippingPlanes);
+        if (triangleClipper.Clip().Count == 0)
         {
-            return;
-        }
-
-        if (new TriangleClipper(triangle, ViewClippingPlanes).Clip().Count == 0)
-        {
-            return;
+            return false;
         }
 
         // Move the new triangles from view space to screen space, including a correction for perspective
-        foreach (Triangle clippedTriangle in triangleClipQueue)
+        foreach (Triangle clippedTriangle in triangleClipper.TriangleQueue)
         {
             // Move the face from view space to screen space
-            //clippedTriangle.ApplyMatrix(ViewToScreen);
-            //vertices4D = Triangle.ApplyMatrix(ViewToScreen, vertices4D);
-            clippedTriangle.ApplyMatrix(ViewToScreen);
+            clippedTriangle.ApplyMatrix(renderingEntity.ViewToScreen);
 
             if (renderingEntity is PerspectiveCamera or Spotlight)
             {
-                //var clippedVertices4D = (p1: clippedTriangle.P1, p2: clippedTriangle.P2, p3: clippedTriangle.P3);
-                //var clippedVertices4D = new VectorTriple<Vector4D>(clippedTriangle.P1, clippedTriangle.P2, clippedTriangle.P3);
-
                 float w1 = clippedTriangle.CalcP1.w;
                 float w2 = clippedTriangle.CalcP2.w;
                 float w3 = clippedTriangle.CalcP3.w;
@@ -138,22 +118,18 @@ internal class DecomposePhysicalEntity
                         textureBackStyle.T2 /= w2;
                         textureBackStyle.T3 /= w3;
                     }
-
-                    //var clippedTextureVertices = (p1: clippedTextureFace.T1, p2: clippedTextureFace.T2, p3: clippedTextureFace.T3);
-                    //var clippedTextureVertices = new VectorTriple<Vector3D>(clippedTextureFace.T1, clippedTextureFace.T2, clippedTextureFace.T3);
-                    // ??
-                    
                 }
             }
         }
 
         // Clip the face in screen space
-        if (new TriangleClipper(triangleClipQueue, ScreenClippingPlanes).Clip().Count == 0)
+        triangleClipper.ClippingPlanes = ScreenClippingPlanes;
+        if (triangleClipper.Clip().Count == 0)
         {
-            return;
+            return false;
         } // anything outside cube?
 
-        foreach (Triangle clippedTriangle in triangleClipQueue)
+        foreach (Triangle clippedTriangle in triangleClipper.TriangleQueue)
         {
             // Skip the face if it is flat
             if ((clippedTriangle.P1.WorldOrigin.x == clippedTriangle.P2.WorldOrigin.x && clippedTriangle.P2.WorldOrigin.x == clippedTriangle.P3.WorldOrigin.x) ||
@@ -164,10 +140,14 @@ internal class DecomposePhysicalEntity
 
             // Move the face from screen space to window space
             clippedTriangle.ApplyMatrix(ScreenToWindow);
-            
+
 
             // Call the required interpolator method
-            clippedTriangle.Interpolator(this, bufferAction);
+            //clippedTriangle.Interpolator(this, bufferAction);
+            //var drawableTriangle = new DrawableTriangle(clippedTriangle.CalcP1.x, clippedTriangle.);
+            decomposition.Add(drawableTriangle);
         }
+
+        return true;
     }
 }

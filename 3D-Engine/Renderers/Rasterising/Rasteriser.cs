@@ -5,13 +5,14 @@ using Imagenic.Core.Images;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Imagenic.Core.Renderers.Rasterising;
 
-public class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
+public partial class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
 {
     #region Fields and Properties
 
@@ -56,22 +57,34 @@ public class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
 
     public async override Task<TImage> RenderAsync(CancellationToken token = default)
     {
+        if (RenderingOptions.PhysicalEntitiesToRender is null)
+        {
+            return null;
+        }
         foreach (PhysicalEntity physicalEntity in RenderingOptions.PhysicalEntitiesToRender)
         {
             var drawRequired = await DecomposePhysicalEntity.Decompose(physicalEntity, RenderCamera, token, out IEnumerable<DrawableTriangle> decomposition);
-            foreach (DrawableTriangle triangleToBeDrawn in decomposition)
+            if (drawRequired)
             {
-                switch (triangleToBeDrawn.faceStyleToBeDrawn)
+                var colourBuffer = new Buffer2D<Color>(RenderingOptions.RenderWidth, RenderingOptions.RenderHeight);
+                foreach (DrawableTriangle triangleToBeDrawn in decomposition)
                 {
-                    case SolidStyle:
-                        await Drawer.InterpolateSolidStyle(triangleToBeDrawn);
-                        break;
-                    case TextureStyle:
-                        await Drawer.InterpolateTextureStyle();
-                        break;
-                    case GradientStyle:
-                        await Drawer.InterpolateGradientStyle();
-                        break;
+                    switch (triangleToBeDrawn.faceStyleToBeDrawn)
+                    {
+                        case SolidStyle:
+                            var action = (DrawableTriangle triangle, Buffer2D<Color> colourBuffer, int x, int y, float z) =>
+                            {
+                                colourBuffer.Values[x][y] = ((SolidStyle)triangle.faceStyleToBeDrawn).Colour;
+                            };
+                            Interpolator.InterpolateSolidStyle(triangleToBeDrawn, colourBuffer, action);
+                            break;
+                        case TextureStyle:
+                            await Interpolator.InterpolateTextureStyle();
+                            break;
+                        case GradientStyle:
+                            await Interpolator.InterpolateGradientStyle();
+                            break;
+                    }
                 }
             }
         }

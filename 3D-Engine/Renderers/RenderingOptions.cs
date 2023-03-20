@@ -1,5 +1,4 @@
 ﻿using Imagenic.Core.Entities;
-using Imagenic.Core.Maths.Transformations;
 using Imagenic.Core.Renderers.Animations;
 using System;
 using System.Collections.Generic;

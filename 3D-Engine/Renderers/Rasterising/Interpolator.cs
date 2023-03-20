@@ -1,20 +1,28 @@
 ﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Images;
 using System;
+using System.Drawing;
 using static Imagenic.Core.Maths.NumericManipulation;
 
 namespace Imagenic.Core.Renderers.Rasterising;
 
-internal class Drawer
+internal static class Interpolator
 {
     // Interpolation (source!)
-    internal static void InterpolateSolidStyle(
-        Action<object, int, int, float> action,
-        object @object,
-        int x1, int y1, float z1,
-        int x2, int y2, float z2,
-        int x3, int y3, float z3)
+    internal static void InterpolateSolidStyle(DrawableTriangle triangle, Buffer2D<Color> colourBuffer,
+        Action<DrawableTriangle, Buffer2D<Color>, int, int, float> action)
     {
+        // Extract values
+        int x1 = triangle.x1;
+        int y1 = triangle.y1;
+        float z1 = triangle.z1;
+        int x2 = triangle.x2;
+        int y2 = triangle.y2;
+        float z2 = triangle.z2;
+        int x3 = triangle.x3;
+        int y3 = triangle.y3;
+        float z3 = triangle.z3;
+
         // Create steps
         float dyStep1 = y1 - y2;
         float dyStep2 = y1 - y3;
@@ -57,7 +65,7 @@ internal class Drawer
                 for (int x = sx; x <= ex; x++)
                 {
                     float z = sz + t * (ez - sz);
-                    action(@object, x, y, z);
+                    action(triangle, colourBuffer, x, y, z);
 
                     t += tStep;
                 }
@@ -85,7 +93,7 @@ internal class Drawer
                 for (int x = sx; x <= ex; x++)
                 {
                     float z = sz + t * (ez - sz);
-                    action(@object, x, y, z);
+                    action(triangle, colourBuffer, x, y, z);
 
                     t += tStep;
                 }
@@ -93,11 +101,10 @@ internal class Drawer
         }
     }
 
-    internal static void InterpolateTextureStyle(
-            Bitmap texture,
-            int x1, int y1, float tx1, float ty1, float tz1,
-            int x2, int y2, float tx2, float ty2, float tz2,
-            int x3, int y3, float tx3, float ty3, float tz3)
+    internal static void InterpolateTextureStyle(Buffer2D<Color> colourBuffer, Bitmap texture,
+                                                 int x1, int y1, float tx1, float ty1, float tz1,
+                                                 int x2, int y2, float tx2, float ty2, float tz2,
+                                                 int x3, int y3, float tx3, float ty3, float tz3)
     {
         // Create steps
         float dyStep1 = y1 - y2;
@@ -158,7 +165,9 @@ internal class Drawer
                     int ty = (sty + t * (ety - sty)).RoundToInt();
                     float tz = stz + t * (etz - stz);
 
-                    TextureAddPointToBuffers(texture, x, y, tz, tx, ty);
+                    colourBuffer.Values[x][y] = 
+
+                    //TextureAddPointToBuffers(texture, x, y, tz, tx, ty);
 
                     t += tStep;
                 }
