@@ -6,11 +6,15 @@ internal class DrawableTriangle
 {
     #region Fields and Properties
 
-    public int x1, y1;
+    /*public int x1, y1;
     public int x2, y2;
-    public int x3, y3;
+    public int x3, y3;*/
 
-    public float z1, z2, z3;
+    //public float z1, z2, z3;
+
+    public Vector4D P1 { get; set; }
+    public Vector4D P2 { get; set; }
+    public Vector4D P3 { get; set; }
 
     public FaceStyle faceStyleToBeDrawn;
 
@@ -18,6 +22,15 @@ internal class DrawableTriangle
 
     #region Constructors
 
+    public DrawableTriangle(Vector4D p1, Vector4D p2, Vector4D p3, FaceStyle faceStyleToBeDrawn)
+    {
+        P1 = p1;
+        P2 = p2;
+        P3 = p3;
+        this.faceStyleToBeDrawn = faceStyleToBeDrawn;
+    }
+
+    /*
     public DrawableTriangle(int x1, int y1, float z1,
                             int x2, int y2, float z2,
                             int x3, int y3, float z3,
@@ -33,7 +46,13 @@ internal class DrawableTriangle
         this.y3 = y3;
         this.z3 = z3;
         this.faceStyleToBeDrawn = faceStyleToBeDrawn;
-    }
+    }*/
+
+    #endregion
+
+    #region Methods
+
+    internal void ApplyMatrix(Matrix4x4 matrix) => (P1, P2, P3) = (matrix * P1, matrix * P2, matrix * P3);
 
     #endregion
 }

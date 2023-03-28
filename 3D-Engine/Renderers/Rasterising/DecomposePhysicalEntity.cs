@@ -60,15 +60,19 @@ public partial class Rasteriser<TImage>
 
     private bool TransformTriangle(Triangle triangle, RenderingEntity renderingEntity, Dimension meshDimension, ref Matrix4x4 modelToView, out List<DrawableTriangle> decomposition)
     {
-        decomposition = new List<DrawableTriangle>();
+        decomposition = new List<DrawableTriangle>
+        {
+            new DrawableTriangle(new Vector4D(triangle.P1.WorldOrigin, 1),
+            new Vector4D(triangle.P2.WorldOrigin, 1),
+            new Vector4D(triangle.P3.WorldOrigin, 1), null)
+        };
 
         // Reset the vertices to model space values
-        triangle.CalcP1 = new Vector4D(triangle.P1.WorldOrigin, 1);
-        triangle.CalcP2 = new Vector4D(triangle.P2.WorldOrigin, 1);
-        triangle.CalcP3 = new Vector4D(triangle.P3.WorldOrigin, 1);
+
+
 
         // Move the face from model space to view space
-        triangle.ApplyMatrix(modelToView);
+        decomposition[0].ApplyMatrix(modelToView);
 
         // Back-face culling if the mesh is three-dimensional
         if (meshDimension == Dimension.Three)
