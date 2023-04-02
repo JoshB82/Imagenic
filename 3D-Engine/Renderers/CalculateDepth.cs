@@ -9,7 +9,7 @@
  * Code description for this file:
  * Provides methods for generating data required to generate depth values.
  */
-
+/*
 using _3D_Engine.Entities.Groups;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;

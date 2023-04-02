@@ -49,7 +49,7 @@ public class Buffer2D<T>
         }
     }
 
-    public T[][] Values { get; set; }
+    public T?[][] Values { get; set; }
 
     #endregion
 
@@ -66,7 +66,7 @@ public class Buffer2D<T>
 
     #region Methods
 
-    public void SetAllToValue(T value)
+    public void SetAllToValue(T? value)
     {
         for (int i = 0; i < firstDimensionSize; i++)
         {
@@ -79,7 +79,7 @@ public class Buffer2D<T>
 
     public void SetAllToDefault() => SetAllToValue(default);
 
-    public void ForEach(Action<T> action)
+    public void ForEach(Action<T?> action)
     {
         for (int i = 0; i < firstDimensionSize; i++)
         {
@@ -90,7 +90,7 @@ public class Buffer2D<T>
         }
     }
 
-    public void ForEach(Action<T, int, int> action)
+    public void ForEach(Action<T?, int, int> action)
     {
         for (int i = 0; i < firstDimensionSize; i++)
         {

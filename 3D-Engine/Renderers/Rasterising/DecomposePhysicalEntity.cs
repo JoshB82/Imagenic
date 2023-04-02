@@ -58,14 +58,21 @@ public partial class Rasteriser<TImage>
         }
     }
 
-    private bool TransformTriangle(Triangle triangle, RenderingEntity renderingEntity, Dimension meshDimension, ref Matrix4x4 modelToView, out List<DrawableTriangle> decomposition)
+    private bool TransformTriangle(Triangle triangle,
+                                   RenderingEntity renderingEntity,
+                                   Dimension meshDimension,
+                                   ref Matrix4x4 modelToView,
+                                   out List<DrawableTriangle> decomposition)
     {
-        decomposition = new List<DrawableTriangle>
+        decomposition = new List<DrawableTriangle>()
         {
             new DrawableTriangle(new Vector4D(triangle.P1.WorldOrigin, 1),
-            new Vector4D(triangle.P2.WorldOrigin, 1),
-            new Vector4D(triangle.P3.WorldOrigin, 1), null)
+                          new Vector4D(triangle.P2.WorldOrigin, 1),
+                          new Vector4D(triangle.P3.WorldOrigin, 1), null)
         };
+
+
+
 
         // Reset the vertices to model space values
 
@@ -84,6 +91,8 @@ public partial class Rasteriser<TImage>
             }
         }
 
+        
+
         // Clip the face in view space
         var triangleClipper = new TriangleClipper(triangle, renderingEntity.ViewClippingPlanes);
         if (triangleClipper.Clip().Count == 0)
@@ -92,36 +101,37 @@ public partial class Rasteriser<TImage>
         }
 
         // Move the new triangles from view space to screen space, including a correction for perspective
-        foreach (Triangle clippedTriangle in triangleClipper.TriangleQueue)
+        foreach (DrawableTriangle clippedTriangle in triangleClipper.TriangleQueue)
         {
             // Move the face from view space to screen space
             clippedTriangle.ApplyMatrix(renderingEntity.ViewToScreen);
 
             if (renderingEntity is PerspectiveCamera or Spotlight)
             {
-                float w1 = clippedTriangle.CalcP1.w;
-                float w2 = clippedTriangle.CalcP2.w;
-                float w3 = clippedTriangle.CalcP3.w;
+                float w1 = clippedTriangle.P1.w;
+                float w2 = clippedTriangle.P2.w;
+                float w3 = clippedTriangle.P3.w;
 
-                clippedTriangle.CalcP1 /= w1;
-                clippedTriangle.CalcP2 /= w2;
-                clippedTriangle.CalcP3 /= w3;
+                clippedTriangle.P1 /= w1;
+                clippedTriangle.P2 /= w2;
+                clippedTriangle.P3 /= w3;
 
                 if (renderingEntity is PerspectiveCamera)
                 {
-                    if (clippedTriangle.FrontStyle is TextureStyle textureFrontStyle)
+                    if (clippedTriangle.faceStyleToBeDrawn is TextureStyle textureFrontStyle)
                     {
                         textureFrontStyle.T1 /= w1;
                         textureFrontStyle.T2 /= w2;
                         textureFrontStyle.T3 /= w3;
                     }
 
+                    /*
                     if (clippedTriangle.BackStyle is TextureStyle textureBackStyle)
                     {
                         textureBackStyle.T1 /= w1;
                         textureBackStyle.T2 /= w2;
                         textureBackStyle.T3 /= w3;
-                    }
+                    }*/
                 }
             }
         }
@@ -133,7 +143,7 @@ public partial class Rasteriser<TImage>
             return false;
         } // anything outside cube?
 
-        foreach (Triangle clippedTriangle in triangleClipper.TriangleQueue)
+        foreach (DrawableTriangle clippedTriangle in triangleClipper.TriangleQueue)
         {
             // Skip the face if it is flat
             if ((clippedTriangle.P1.WorldOrigin.x == clippedTriangle.P2.WorldOrigin.x && clippedTriangle.P2.WorldOrigin.x == clippedTriangle.P3.WorldOrigin.x) ||
