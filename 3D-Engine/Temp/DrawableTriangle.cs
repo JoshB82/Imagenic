@@ -1,7 +1,7 @@
 ﻿using Imagenic.Core.Entities;
 
 namespace Imagenic.Core.Renderers.Rasterising;
-
+/*
 internal sealed class DrawableTriangle
 {
     #region Fields and Properties
@@ -35,7 +35,7 @@ internal class DrawableTriangle2
     public int x3, y3;*/
 
     //public float z1, z2, z3;
-
+    /*
     public Vector4D P1 { get; set; }
     public Vector4D P2 { get; set; }
     public Vector4D P3 { get; set; }
@@ -71,7 +71,7 @@ internal class DrawableTriangle2
         this.z3 = z3;
         this.faceStyleToBeDrawn = faceStyleToBeDrawn;
     }*/
-
+    /*
     #endregion
 
     #region Methods
@@ -79,4 +79,4 @@ internal class DrawableTriangle2
     internal void ApplyMatrix(Matrix4x4 matrix) => (P1, P2, P3) = (matrix * P1, matrix * P2, matrix * P3);
 
     #endregion
-}
+}*/

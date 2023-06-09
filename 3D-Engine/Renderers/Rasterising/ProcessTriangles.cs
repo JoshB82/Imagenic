@@ -1,7 +1,6 @@
 ﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
-using Imagenic.Core.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Renderers.Rasterising;
 using Imagenic.Core.Utilities;
 using System;
@@ -13,6 +12,7 @@ using System.Threading.Tasks;
 namespace _3D_Engine.Renderers.Rasterising;
 internal class ProcessTriangles
 {
+    /*
     private async Task ProcessTriangles()
     {
         #if DEBUG
@@ -52,5 +52,5 @@ internal class ProcessTriangles
         
 
         
-    }
+    }*/
 }

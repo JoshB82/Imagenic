@@ -1,5 +1,4 @@
 ﻿using Imagenic.Core.Entities;
-using System;
 using System.Drawing;
 using static Imagenic.Core.Maths.NumericManipulation;
 
@@ -107,7 +106,7 @@ internal sealed class SolidRenderTriangle : RenderTriangle
                 for (int x = sx; x <= ex; x++)
                 {
                     float z = sz + t * (ez - sz);
-                    OnInterpolation(colourBuffer, x, y, z);
+                    OnInterpolation(colourBuffer, zBuffer, x, y, z);
 
                     t += tStep;
                 }
@@ -135,7 +134,7 @@ internal sealed class SolidRenderTriangle : RenderTriangle
                 for (int x = sx; x <= ex; x++)
                 {
                     float z = sz + t * (ez - sz);
-                    OnInterpolation(colourBuffer, x, y, z);
+                    OnInterpolation(colourBuffer, zBuffer, x, y, z);
 
                     t += tStep;
                 }
