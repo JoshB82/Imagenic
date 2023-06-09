@@ -12,20 +12,20 @@ internal class TriangleClipper
     #region Fields and Properties
 
     internal ClippingPlane[] ClippingPlanes { get; set; }
-    internal Queue<DrawableTriangle> TriangleQueue { get; }
+    internal Queue<RenderTriangle> TriangleQueue { get; }
 
     #endregion
 
     #region Constructors
 
-    internal TriangleClipper(DrawableTriangle startingTriangle, ClippingPlane[] clippingPlanes)
+    internal TriangleClipper(RenderTriangle startingTriangle, ClippingPlane[] clippingPlanes)
     {
         ClippingPlanes = clippingPlanes;
-        TriangleQueue = new Queue<DrawableTriangle>();
+        TriangleQueue = new Queue<RenderTriangle>();
         TriangleQueue.Enqueue(startingTriangle);
     }
 
-    internal TriangleClipper(Queue<DrawableTriangle> triangleQueue, ClippingPlane[] clippingPlanes)
+    internal TriangleClipper(Queue<RenderTriangle> triangleQueue, ClippingPlane[] clippingPlanes)
     {
         ClippingPlanes = clippingPlanes;
         TriangleQueue = triangleQueue;
@@ -35,22 +35,32 @@ internal class TriangleClipper
 
     #region Methods
 
-    internal Queue<DrawableTriangle> Clip()
+    internal Queue<RenderTriangle> Clip()
     {
         Vector3D[] insidePoints = new Vector3D[3], outsidePoints = new Vector3D[3];
         int insidePointCount = 0, outsidePointCount = 0;
 
         var triangle = TriangleQueue.Dequeue();
 
+        if (triangle.faceStyleToBeDrawn is SolidStyle)
+        {
+            foreach (ClippingPlane clippingPlane in ClippingPlanes)
+            {
+                int noTrianglesRemaining = TriangleQueue.Count;
+                while (noTrianglesRemaining-- > 0) ClipSolidStyleTriangle(triangle, clippingPlane.Point, clippingPlane.Normal);
+            }
+        }
+
         if (triangle.faceStyleToBeDrawn is TextureStyle textureStyle)
         {
             foreach (ClippingPlane clippingPlane in ClippingPlanes)
             {
                 int noTrianglesRemaining = TriangleQueue.Count;
-                while (noTrianglesRemaining-- > 0) ClipTextureStyle(triangle, textureStyle, clippingPlane.Point, clippingPlane.Normal);
+                while (noTrianglesRemaining-- > 0) ClipTextureStyleTriangle(triangle, textureStyle, clippingPlane.Point, clippingPlane.Normal);
             }
-            return TriangleQueue;
         }
+
+        return TriangleQueue;
 
         /*
         if (triangle.FrontStyle is TextureStyle frontStyle && triangle.BackStyle is TextureStyle backStyle)
@@ -87,42 +97,41 @@ internal class TriangleClipper
         //{
 
         //}
-        
+
 
         return TriangleQueue;
 
-        void ClipTextureTriangle(DrawableTriangle tt, TextureStyle textureStyle, Vector3D planePoint, Vector3D planeNormal)
+        void ClipTextureStyleTriangle(TextureRenderTriangle rt, Vector3D planePoint, Vector3D planeNormal)
         {
-            if (PointDistanceFromPlane((Vector3D)tt.P1, planePoint, planeNormal) >= 0)
+            Vector3D p1 = (Vector3D)rt.P1, p2 = (Vector3D)rt.P2, p3 = (Vector3D)rt.P3;
+            Vector3D[] insideTexturePoints = new Vector3D[3], outsideTexturePoints = new Vector3D[3];
+
+            if (PointDistanceFromPlane(p1, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = (Vector3D)tt.P1;
-                insidePointCount++;
+                insidePoints[insidePointCount++] = p1;
+                insideTexturePoints[insidePointCount] = ((TextureStyle)rt.faceStyleToBeDrawn).T1;
             }
             else
             {
-                outsidePoints[outsidePointCount] = (Vector3D)tt.P1;
-                outsidePointCount++;
+                outsidePoints[outsidePointCount++] = p1;
             }
 
-            if (PointDistanceFromPlane((Vector3D)tt.P2, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane(p2, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = (Vector3D)tt.P2;
-                insidePointCount++;
+                insidePoints[insidePointCount++] = p2;
             }
             else
             {
-                outsidePoints[outsidePointCount] = (Vector3D)tt.P2;
-                outsidePointCount++;
+                outsidePoints[outsidePointCount++] = p2;
             }
 
-            if (PointDistanceFromPlane((Vector3D)tt.P3, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane(p3, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = (Vector3D)tt.P3;
-                insidePointCount++;
+                insidePoints[insidePointCount] = p3;
             }
             else
             {
-                outsidePoints[outsidePointCount] = (Vector3D)tt.P3;
+                outsidePoints[outsidePointCount] = p3;
             }
 
             switch (insidePointCount)
@@ -132,72 +141,69 @@ internal class TriangleClipper
                     break;
                 case 1:
                     // One point is on the inside, so only a smaller triangle is needed
-                    Vector4D intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out float d1), 1);
-                    Vector4D intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2), 1);
+                    var intersection1 = new Vector4D(LineIntersectPlane(insidePoints[0], outsidePoints[0], planePoint, planeNormal, out float d1), 1);
+                    var intersection2 = new Vector4D(LineIntersectPlane(insidePoints[0], outsidePoints[1], planePoint, planeNormal, out float d2), 1);
 
-                    st.P1 = insidePoints[0];
-                    st.P2 = intersection1;
-                    st.P3 = intersection2;
-                    TriangleQueue.Enqueue(st);
+                    rt.P1 = insidePoints[0];
+                    rt.P2 = intersection1;
+                    rt.P3 = intersection2;
+                    TriangleQueue.Enqueue(rt);
 
                     //Triangle triangle1;
                     //triangle1 = new SolidTriangle(insidePoints[0], intersection1, intersection2) { Colour = ((SolidTriangle)triangleToClip).Colour };
                     break;
                 case 2:
                     // Two points are on the inside, so a quadrilateral is formed and split into two triangles
-                    intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d1), 1);
-                    intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2), 1);
+                    intersection1 = new Vector4D(LineIntersectPlane(insidePoints[0], outsidePoints[0], planePoint, planeNormal, out d1), 1);
+                    intersection2 = new Vector4D(LineIntersectPlane(insidePoints[1], outsidePoints[0], planePoint, planeNormal, out d2), 1);
 
                     //triangle1 = new SolidTriangle(insidePoints[0], intersection1, insidePoints[1]) { Colour = ((SolidTriangle)triangleToClip).Colour };
-                    st.P1 = insidePoints[0];
-                    st.P2 = intersection1;
-                    st.P3 = insidePoints[1];
-                    var st2 = new SolidTriangle(insidePoints[1], intersection1, intersection2) { Colour = st.Colour };
+                    rt.P1 = insidePoints[0];
+                    rt.P2 = intersection1;
+                    rt.P3 = insidePoints[1];
+                    var rt2 = new TextureRenderTriangle(insidePoints[1], intersection1, intersection2);
 
-                    TriangleQueue.Enqueue(st);
-                    TriangleQueue.Enqueue(st2);
+                    TriangleQueue.Enqueue(rt);
+                    TriangleQueue.Enqueue(rt2);
                     break;
                 case 3:
                     // All points are on the inside, so enqueue the triangle unchanged
-                    TriangleQueue.Enqueue(st);
+                    TriangleQueue.Enqueue(rt);
                     break;
             }
         }
 
 
-        void ClipSolidTriangle(SolidTriangle st, Vector3D planePoint, Vector3D planeNormal)
+        void ClipSolidStyleTriangle(RenderTriangle rt, Vector3D planePoint, Vector3D planeNormal)
         {
-            // Determine what vertices of the SolidTriangle are inside and outside.
-            if (PointDistanceFromPlane((Vector3D)st.P1, planePoint, planeNormal) >= 0)
+            Vector3D p1 = (Vector3D)rt.P1, p2 = (Vector3D)rt.P2, p3 = (Vector3D)rt.P3;
+
+            // Determine what vertices of the RenderTriangle are inside and outside.
+            if (PointDistanceFromPlane(p1, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = st.P1;
-                insidePointCount++;
+                insidePoints[insidePointCount++] = p1;
             }
             else
             {
-                outsidePoints[outsidePointCount] = st.P1;
-                outsidePointCount++;
+                outsidePoints[outsidePointCount++] = p1;
             }
 
-            if (PointDistanceFromPlane((Vector3D)st.P2, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane(p2, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = st.P2;
-                insidePointCount++;
+                insidePoints[insidePointCount++] = p2;
             }
             else
             {
-                outsidePoints[outsidePointCount] = st.P2;
-                outsidePointCount++;
+                outsidePoints[outsidePointCount++] = p2;
             }
 
-            if (PointDistanceFromPlane((Vector3D)st.P3, planePoint, planeNormal) >= 0)
+            if (PointDistanceFromPlane(p3, planePoint, planeNormal) >= 0)
             {
-                insidePoints[insidePointCount] = st.P3;
-                insidePointCount++;
+                insidePoints[insidePointCount++] = p3;
             }
             else
             {
-                outsidePoints[outsidePointCount] = st.P3;
+                outsidePoints[outsidePointCount++] = p3;
             }
 
             switch (insidePointCount)
@@ -207,38 +213,39 @@ internal class TriangleClipper
                     break;
                 case 1:
                     // One point is on the inside, so only a smaller triangle is needed
-                    Vector4D intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out float d1), 1);
-                    Vector4D intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[1], planePoint, planeNormal, out float d2), 1);
+                    var intersection1 = new Vector4D(LineIntersectPlane(insidePoints[0], outsidePoints[0], planePoint, planeNormal, out float d1), 1);
+                    var intersection2 = new Vector4D(LineIntersectPlane(insidePoints[0], outsidePoints[1], planePoint, planeNormal, out float d2), 1);
 
-                    st.P1 = insidePoints[0];
-                    st.P2 = intersection1;
-                    st.P3 = intersection2;
-                    TriangleQueue.Enqueue(st);
+                    rt.P1 = insidePoints[0];
+                    rt.P2 = intersection1;
+                    rt.P3 = intersection2;
+                    TriangleQueue.Enqueue(rt);
 
                     //Triangle triangle1;
                     //triangle1 = new SolidTriangle(insidePoints[0], intersection1, intersection2) { Colour = ((SolidTriangle)triangleToClip).Colour };
                     break;
                 case 2:
                     // Two points are on the inside, so a quadrilateral is formed and split into two triangles
-                    intersection1 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[0], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d1), 1);
-                    intersection2 = new Vector4D(LineIntersectPlane((Vector3D)insidePoints[1], (Vector3D)outsidePoints[0], planePoint, planeNormal, out d2), 1);
+                    intersection1 = new Vector4D(LineIntersectPlane(insidePoints[0], outsidePoints[0], planePoint, planeNormal, out d1), 1);
+                    intersection2 = new Vector4D(LineIntersectPlane(insidePoints[1], outsidePoints[0], planePoint, planeNormal, out d2), 1);
 
                     //triangle1 = new SolidTriangle(insidePoints[0], intersection1, insidePoints[1]) { Colour = ((SolidTriangle)triangleToClip).Colour };
-                    st.P1 = insidePoints[0];
-                    st.P2 = intersection1;
-                    st.P3 = insidePoints[1];
-                    var st2 = new SolidTriangle(insidePoints[1], intersection1, intersection2) { Colour = st.Colour };
+                    rt.P1 = insidePoints[0];
+                    rt.P2 = intersection1;
+                    rt.P3 = insidePoints[1];
+                    var rt2 = new RenderTriangle(insidePoints[1], intersection1, intersection2, rt.faceStyleToBeDrawn);
 
-                    TriangleQueue.Enqueue(st);
-                    TriangleQueue.Enqueue(st2);
+                    TriangleQueue.Enqueue(rt);
+                    TriangleQueue.Enqueue(rt2);
                     break;
                 case 3:
                     // All points are on the inside, so enqueue the triangle unchanged
-                    TriangleQueue.Enqueue(st);
+                    TriangleQueue.Enqueue(rt);
                     break;
             }
         }
 
+        /*
         void ClipDoubleTextureStyle(Triangle triangle, TextureStyle frontTextureStyle, TextureStyle backTextureStyle, Vector3D planePoint, Vector3D planeNormal)
         {
             Vector3D[] insideFrontTexturePoints = new Vector3D[3], outsideFrontTexturePoints = new Vector3D[3];
@@ -464,7 +471,7 @@ internal class TriangleClipper
         void ClipGradientTriangle(GradientTriangle gt, Vector3D planePoint, Vector3D planeNormal)
         {
 
-        }
+        }*/
     }
 
     #endregion

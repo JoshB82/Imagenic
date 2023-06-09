@@ -18,21 +18,6 @@ public abstract class Entity
     // Rendering events
     internal event Action<RenderUpdate>? RenderAlteringPropertyChanged;
 
-    //internal event Action RenderAlteringPropertyChanged;
-    //internal event Action ShadowMapAlteringPropertyChanged;
-
-/*internal void InvokeRenderingEvents(bool renderEvent = true, bool shadowMapEvent = true)
-{
-    if (renderEvent)
-    {
-        RenderAlteringPropertyChanged?.Invoke();
-    }
-    if (shadowMapEvent)
-    {
-        ShadowMapAlteringPropertyChanged?.Invoke();
-    }
-}*/
-
     #if DEBUG
 
     private protected virtual IMessageBuilder<EntityCreatedMessage>? MessageBuilder { get; }
@@ -79,6 +64,4 @@ public abstract class Entity
     }
 
     #endregion
-
-    //public EventList<Transition> Transitions { get; set; }
 }

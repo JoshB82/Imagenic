@@ -206,8 +206,3 @@ public class Ray : Entity
 
     #endregion
 }
-
-public struct IntersectionInfo
-{
-    public Vector3D Point { get; }
-}

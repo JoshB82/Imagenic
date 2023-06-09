@@ -51,6 +51,8 @@ public partial class Mesh : PhysicalEntity
         }
     }
 
+    public Dimension Dimension { get; }
+
     /// <summary>
     /// The <see cref="Vertex">vertices</see> in the <see cref="Mesh"/>.
     /// </summary>

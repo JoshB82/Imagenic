@@ -1,12 +1,9 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Cameras;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Images;
-using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -55,45 +52,57 @@ public partial class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
 
     #region Methods
 
-    public async override Task<TImage> RenderAsync(CancellationToken token = default)
+    private static Action<SolidRenderTriangle, Buffer2D<Color>, int, int, float> SolidStyleInterpolation = (triangle, colourBuffer, x, y, z) =>
+                            {
+                                
+                            };
+
+public async override Task<TImage?> RenderAsync(CancellationToken token = default)
     {
+        // Check if there is anything to render.
         if (RenderingOptions.PhysicalEntitiesToRender is null)
         {
             return null;
         }
+
         foreach (PhysicalEntity physicalEntity in RenderingOptions.PhysicalEntitiesToRender)
         {
-            var drawRequired = await DecomposePhysicalEntity.Decompose(physicalEntity, RenderCamera, token, out IEnumerable<DrawableTriangle> decomposition);
+            var renderTriangles = new List<RenderTriangle>();
+            var drawRequired = Decompose(physicalEntity, RenderCamera, renderTriangles);
             if (drawRequired)
             {
                 var colourBuffer = new Buffer2D<Color>(RenderingOptions.RenderWidth, RenderingOptions.RenderHeight);
-                foreach (DrawableTriangle triangleToBeDrawn in decomposition)
+
+                foreach (RenderTriangle triangleToBeDrawn in renderTriangles)
                 {
-                    switch (triangleToBeDrawn.faceStyleToBeDrawn)
+                    triangleToBeDrawn.Interpolate(colourBuffer);
+
+
+                    /*
+                    switch (triangleToBeDrawn)
                     {
-                        case SolidStyle:
-                            var action = (DrawableTriangle triangle, Buffer2D<Color> colourBuffer, int x, int y, float z) =>
-                            {
-                                colourBuffer.Values[x][y] = ((SolidStyle)triangle.faceStyleToBeDrawn).Colour;
-                            };
+                        case SolidRenderTriangle:
+                            
                             Interpolator.InterpolateSolidStyle(triangleToBeDrawn, colourBuffer, action);
                             break;
-                        case TextureStyle:
+                        case TextureRenderTriangle:
                             await Interpolator.InterpolateTextureStyle();
                             break;
                         case GradientStyle:
                             await Interpolator.InterpolateGradientStyle();
                             break;
                     }
+                    */
                 }
             }
         }
     }
 
+    /*
     public async override IAsyncEnumerable<TImage> RenderAsync(PhysicalEntity physicalEntity, CancellationToken token = default)
     {
         await DecomposePhysicalEntity.Decompose(physicalEntity, RenderCamera, token);
-    }
+    }*/
 
     /*
     private void UpdateSubscribers(SceneEntity sceneObject, bool addSubscription)
@@ -114,10 +123,6 @@ public partial class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
 
         sceneObject.ForEach(s => updater(s));
     }*/
-
-    
-
-
 
     #endregion
 }

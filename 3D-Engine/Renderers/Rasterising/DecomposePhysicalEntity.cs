@@ -1,12 +1,9 @@
 ﻿using Imagenic.Core.Entities;
 using Imagenic.Core.Enums;
-using Imagenic.Core.Images;
 using Imagenic.Core.Renderers.Clippers;
 using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Imagenic.Core.Renderers.Rasterising;
 
@@ -19,7 +16,9 @@ public partial class Rasteriser<TImage>
 
     #endif
 
-    internal async Task<bool> Decompose(PhysicalEntity physicalEntity, RenderingEntity renderingEntity, CancellationToken token)
+    internal bool Decompose(PhysicalEntity physicalEntity,
+                            RenderingEntity renderingEntity,
+                            List<RenderTriangle>? renderTriangles = null)
     {
         #if DEBUG
 
@@ -27,12 +26,15 @@ public partial class Rasteriser<TImage>
 
         #endif
 
+        renderTriangles ??= new();
+        Matrix4x4 modelToView = renderingEntity.WorldToView * physicalEntity.ModelToWorld;
+
         switch (physicalEntity)
         {
             case Mesh mesh:
-                return await DecomposeMesh(mesh, renderingEntity, token);
-            case Face face:
-                return await DecomposeFace(face, renderingEntity, token);
+                return DecomposeMesh(mesh, renderingEntity, ref modelToView, renderTriangles);
+            //case Face face:
+                //return await DecomposeFace(face, renderingEntity, token);
         }
 
         #if DEBUG
@@ -40,68 +42,81 @@ public partial class Rasteriser<TImage>
         mbDecomposeFinish.Build().DisplayInConsole();
 
         #endif
+
+        return renderTriangles.Any();
     }
 
-    private async static Task<bool> DecomposeMesh(Mesh mesh, RenderingEntity renderingEntity, CancellationToken token)
+    private bool DecomposeMesh(Mesh mesh,
+                               RenderingEntity renderingEntity,
+                               ref Matrix4x4 modelToView,
+                               List<RenderTriangle>? renderTriangles = null)
     {
-        foreach (Face face in mesh.Structure.Faces)
+        renderTriangles ??= new();
+
+        if (mesh.Structure.Faces is not null)
         {
-            await DecomposeFace(face, renderingEntity, token);
+            foreach (Face face in mesh.Structure.Faces)
+            {
+                // Back-face culling if the mesh is three-dimensional
+                if (mesh.Dimension == Dimension.Three)
+                {
+                    // Skip the face if it is not visible from the rendering object's point of view
+                    Triangle triangle = face.Triangles[0];
+                    if (triangle.P1.WorldOrigin * Vector3D.NormalFromPlane(triangle.P1.WorldOrigin, triangle.P2.WorldOrigin, triangle.P3.WorldOrigin) >= 0)
+                    {
+                        continue;
+                    }
+                }
+
+                DecomposeFace(face, renderingEntity, ref modelToView, renderTriangles);
+            }
         }
+
+        return renderTriangles.Any();
     }
 
-    private async static Task<bool> DecomposeFace(Face face, RenderingEntity renderingEntity, CancellationToken token)
+    private bool DecomposeFace(Face face,
+                               RenderingEntity renderingEntity,
+                               ref Matrix4x4 modelToView,
+                               List<RenderTriangle>? renderTriangles = null)
     {
+        renderTriangles ??= new();
+
         foreach (Triangle triangle in face.Triangles)
         {
-            await TransformTriangle(triangle, renderEntity, ref modelToView);
+            TransformTriangle(triangle, renderingEntity, ref modelToView, renderTriangles);
         }
+
+        return renderTriangles.Any();
     }
 
     private bool TransformTriangle(Triangle triangle,
                                    RenderingEntity renderingEntity,
-                                   Dimension meshDimension,
                                    ref Matrix4x4 modelToView,
-                                   out List<DrawableTriangle> decomposition)
+                                   List<RenderTriangle>? renderTriangles = null)
     {
-        decomposition = new List<DrawableTriangle>()
+        renderTriangles ??= new();
+
+        // Create copy of triangle to transform
+        RenderTriangle startingRenderTriangle = triangle.FrontStyle switch
         {
-            new DrawableTriangle(new Vector4D(triangle.P1.WorldOrigin, 1),
-                          new Vector4D(triangle.P2.WorldOrigin, 1),
-                          new Vector4D(triangle.P3.WorldOrigin, 1), null)
+            SolidStyle solidStyle => new SolidRenderTriangle(triangle.P1.WorldOrigin, triangle.P2.WorldOrigin, triangle.P3.WorldOrigin, solidStyle),
+            TextureStyle textureStyle => new TextureRenderTriangle(triangle.P1.WorldOrigin, triangle.P2.WorldOrigin, triangle.P3.WorldOrigin, textureStyle.T1, textureStyle.T2, textureStyle.T3, textureStyle),
+            _ => throw new System.Exception("Unsupported triangle style.")
         };
 
-
-
-
-        // Reset the vertices to model space values
-
-
-
         // Move the face from model space to view space
-        decomposition[0].ApplyMatrix(modelToView);
-
-        // Back-face culling if the mesh is three-dimensional
-        if (meshDimension == Dimension.Three)
-        {
-            // Discard the face if it is not visible from the rendering object's point of view
-            if (triangle.P1.WorldOrigin * Vector3D.NormalFromPlane(triangle.P1.WorldOrigin, triangle.P2.WorldOrigin, triangle.P3.WorldOrigin) >= 0)
-            {
-                return false;
-            }
-        }
-
-        
+        startingRenderTriangle.ApplyMatrix(modelToView);
 
         // Clip the face in view space
-        var triangleClipper = new TriangleClipper(triangle, renderingEntity.ViewClippingPlanes);
+        var triangleClipper = new TriangleClipper(startingRenderTriangle, renderingEntity.ViewClippingPlanes);
         if (triangleClipper.Clip().Count == 0)
         {
             return false;
         }
 
         // Move the new triangles from view space to screen space, including a correction for perspective
-        foreach (DrawableTriangle clippedTriangle in triangleClipper.TriangleQueue)
+        foreach (RenderTriangle clippedTriangle in triangleClipper.TriangleQueue)
         {
             // Move the face from view space to screen space
             clippedTriangle.ApplyMatrix(renderingEntity.ViewToScreen);
@@ -118,20 +133,12 @@ public partial class Rasteriser<TImage>
 
                 if (renderingEntity is PerspectiveCamera)
                 {
-                    if (clippedTriangle.faceStyleToBeDrawn is TextureStyle textureFrontStyle)
+                    if (clippedTriangle is TextureRenderTriangle textureTriangle)
                     {
-                        textureFrontStyle.T1 /= w1;
-                        textureFrontStyle.T2 /= w2;
-                        textureFrontStyle.T3 /= w3;
+                        textureTriangle.T1 /= w1;
+                        textureTriangle.T2 /= w2;
+                        textureTriangle.T3 /= w3;
                     }
-
-                    /*
-                    if (clippedTriangle.BackStyle is TextureStyle textureBackStyle)
-                    {
-                        textureBackStyle.T1 /= w1;
-                        textureBackStyle.T2 /= w2;
-                        textureBackStyle.T3 /= w3;
-                    }*/
                 }
             }
         }
@@ -143,11 +150,11 @@ public partial class Rasteriser<TImage>
             return false;
         } // anything outside cube?
 
-        foreach (DrawableTriangle clippedTriangle in triangleClipper.TriangleQueue)
+        foreach (RenderTriangle clippedTriangle in triangleClipper.TriangleQueue)
         {
             // Skip the face if it is flat
-            if ((clippedTriangle.P1.WorldOrigin.x == clippedTriangle.P2.WorldOrigin.x && clippedTriangle.P2.WorldOrigin.x == clippedTriangle.P3.WorldOrigin.x) ||
-                (clippedTriangle.P1.WorldOrigin.y == clippedTriangle.P2.WorldOrigin.y && clippedTriangle.P2.WorldOrigin.y == clippedTriangle.P3.WorldOrigin.y))
+            if ((clippedTriangle.P1.x == clippedTriangle.P2.x && clippedTriangle.P2.x == clippedTriangle.P3.x) ||
+                (clippedTriangle.P1.y == clippedTriangle.P2.y && clippedTriangle.P2.y == clippedTriangle.P3.y))
             {
                 continue;
             }
@@ -155,13 +162,10 @@ public partial class Rasteriser<TImage>
             // Move the face from screen space to window space
             clippedTriangle.ApplyMatrix(ScreenToWindow);
 
-
             // Call the required interpolator method
-            //clippedTriangle.Interpolator(this, bufferAction);
-            //var drawableTriangle = new DrawableTriangle(clippedTriangle.CalcP1.x, clippedTriangle.);
-            decomposition.Add(drawableTriangle);
+            renderTriangles.Add(clippedTriangle);
         }
 
-        return true;
+        return renderTriangles.Any();
     }
 }
