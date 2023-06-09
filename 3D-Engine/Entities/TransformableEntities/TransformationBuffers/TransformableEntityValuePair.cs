@@ -1,6 +1,4 @@
-﻿using Imagenic.Core.Entities.TransformableEntities;
-
-namespace Imagenic.Core.Entities.CascadeBuffers;
+﻿namespace Imagenic.Core.Entities.CascadeBuffers;
 
 public sealed class TransformableEntityValuePair<TTransformableEntity, TValue> where TTransformableEntity : TransformableEntity
 {

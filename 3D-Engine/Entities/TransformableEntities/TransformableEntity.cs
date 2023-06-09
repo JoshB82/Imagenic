@@ -17,7 +17,7 @@ public abstract class TransformableEntity : Entity
 
     public List<Transition> Transitions { get; set; } = new();
 
-    public List<TransformationNode> TransformationNodes { get; set; } = new();
+    //public List<TransformationNode> TransformationNodes { get; set; } = new();
 
     #if DEBUG
 
@@ -56,7 +56,7 @@ public abstract class TransformableEntity : Entity
         return transformableEntity;
     }
 
-    public void ResolveNodes()
+    /*public void ResolveNodes()
     {
         foreach (Node node in TransformationsNode.GetDescendantsAndSelf())
         {
@@ -85,21 +85,21 @@ public abstract class TransformableEntity : Entity
             {
 
             }
-        }
+        }*/
     }
 
 #endregion
 
 
     //public EventList<Transition> Transitions { get; set; } = new();
-    internal Queue<Transition> Transformations { get; set; } = new();
+    //internal Queue<Transition> Transformations { get; set; } = new();
 
     //ExpressionTree
-
+    /*
 #region Methods
 
     
-
+    /*
     public void Resolve() => Resolve<object>(null);
 
     internal void Resolve<TInput>(TInput? input)

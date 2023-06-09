@@ -103,10 +103,15 @@ internal class Program
 
         Console.ReadLine();
 
+        cube = cube.Transform((e, i) => e.CastsShadows = i, i == 3);
+        cube.Transform((e, i) => { e.CastsShadows = i; });
+
         cube.Transform((e, i) => e.CastsShadows = i, Console.ReadLine() == "yes")
             .Transform((e, i) => e.DrawFaces = i)
             .Transform((e, i) => { e.DrawEdges = i; })
             .TranslateX(3);
+
+        
 
         cubes.Transform((e, i) => { e.Opacity = i; }, float.Parse(Console.ReadLine() ?? string.Empty))
              .Transform((e, i) => e.DrawOutline = i, bool.Parse(Console.ReadLine() ?? string.Empty))

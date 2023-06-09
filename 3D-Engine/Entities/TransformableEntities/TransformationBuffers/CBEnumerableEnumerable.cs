@@ -1,6 +1,4 @@
 ﻿using Imagenic.Core.Entities.CascadeBuffers;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 using System;
 using System.Collections;
 using System.Collections.Generic;

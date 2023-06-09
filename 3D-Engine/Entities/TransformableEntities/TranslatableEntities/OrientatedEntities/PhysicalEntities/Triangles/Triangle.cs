@@ -47,9 +47,9 @@ public class Triangle : Entity
     public Vertex P3 { get; set; }
     
     // Calculation values
-    internal Vector4D CalcP1 { get; set; }
-    internal Vector4D CalcP2 { get; set; }
-    internal Vector4D CalcP3 { get; set; }
+    //internal Vector4D CalcP1 { get; set; }
+    //internal Vector4D CalcP2 { get; set; }
+    //internal Vector4D CalcP3 { get; set; }
 
     #endregion
 
@@ -88,23 +88,23 @@ public class Triangle : Entity
         return triangle;
     }
 
-    internal void ApplyMatrix(Matrix4x4 matrix) => (CalcP1, CalcP2, CalcP3) = (matrix * CalcP1, matrix * CalcP2, matrix * CalcP3);
+    //internal void ApplyMatrix(Matrix4x4 matrix) => (CalcP1, CalcP2, CalcP3) = (matrix * CalcP1, matrix * CalcP2, matrix * CalcP3);
 
-    //
+    
 
 
 
-    internal static (Vector4D p1, Vector4D p2, Vector4D p3) ApplyMatrix(Matrix4x4 matrix, (Vector4D p1, Vector4D p2, Vector4D p3))
+    /*internal static (Vector4D p1, Vector4D p2, Vector4D p3) ApplyMatrix(Matrix4x4 matrix, (Vector4D p1, Vector4D p2, Vector4D p3))
     {
         return (matrix * p1, matrix * p2, matrix * p3);
     }
 
     internal abstract void Interpolator(RenderingEntity renderingObject, Action<object, int, int, float> bufferAction);
     internal abstract void ResetVertices();
-
+    */
     #endregion
 }
-
+/*
 public struct PlanePoints
 {
     public Vector3D P1 { get; private set; }
@@ -131,4 +131,4 @@ public struct PlanePoints
     }
 
     //internal void ApplyMatrix(Matrix4x4 matrix) => (P1, P2, P3) = (matrix * P1, matrix * P2, matrix * P3);
-}
+}*/

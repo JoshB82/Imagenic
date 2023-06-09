@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Imagenic.Core.Entities;
-
+/*
 public sealed class TransformationBufferValueValue<TTransformableEntity, TValue> : TransformableEntity, ITransformationBuffer
     where TTransformableEntity : TransformableEntity
 {
@@ -83,3 +83,4 @@ public sealed class TransformationBufferValueValue<TTransformableEntity, TValue>
 
     #endregion
 }
+*/

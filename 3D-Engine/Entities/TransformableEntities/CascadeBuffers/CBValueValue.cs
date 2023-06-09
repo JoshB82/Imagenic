@@ -1,6 +1,4 @@
 ﻿using Imagenic.Core.Entities;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
@@ -29,28 +27,28 @@ public sealed class CascadeBufferValueValue<TEntity, TValue>
 
     public TEntity Transform([DisallowNull] Action<TEntity, TValue?> transformation)
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         transformation(Entity, Value);
         return Entity;
     }
 
     public TEntity Transform<TInput>([DisallowNull] Action<TEntity, TValue?, TInput?> transformation, TInput? transformationInput)
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         transformation(Entity, Value, transformationInput);
         return Entity;
     }
 
     public CascadeBufferValueValue<TEntity, TOutput?> Transform<TOutput>([DisallowNull] Func<TEntity, TValue?, TOutput?> transformation)
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         var output = transformation(Entity, Value);
         return new CascadeBufferValueValue<TEntity, TOutput?>(Entity, output);
     }
 
     public CascadeBufferValueValue<TEntity, TOutput?> Transform<TInput, TOutput>([DisallowNull] Func<TEntity, TValue?, TInput?, TOutput?> transformation, TInput? transformationInput)
     {
-        ThrowIfParameterIsNull(transformation);
+        ThrowIfNull(transformation);
         var output = transformation(Entity, Value, transformationInput);
         return new CascadeBufferValueValue<TEntity, TOutput?>(Entity, output);
     }
@@ -73,6 +71,31 @@ public static class CascadeBufferValueValueExtensions
     {
         return cascadeBuffer.Transform((translatableEntity, value) => { translatableEntity.WorldOrigin += new Vector3D(value + distance, 0, 0); return value + distance; });
     }
+
+    /*
+
+    public interface ITransformationBuffer<TTransformableEntity, TValue>
+    {
+    }
+
+    public static class ITransformationBufferExtensions
+    {
+        public ITransformationBuffer<TTransformableEntity> Transform<TTransformableEntity>(
+            this ITransformationBuffer<TTransformableEntity> transformableEntity,
+            Action<TTransformableEntity> transformation) where TTransformableEntity : TransformableEntity
+        {
+            transformation(transformableEntity);
+            return transformableEntity;
+        }
+    }
+
+    public static ITransformationBuffer<TTranslatableEntity, float> Translate<TTranslatableEntity>(
+        this ITransformationBuffer<TTranslatableEntity, float> tb, float distance = 0, bool propagate = false) where TTranslatableEntity : TranslatableEntity
+    {
+        return tb.Transform(e => e.)
+    }
+
+    */
 
     #endregion
 

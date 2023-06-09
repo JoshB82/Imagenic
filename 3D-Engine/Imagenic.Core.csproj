@@ -21,10 +21,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
-
-    <ItemGroup>
-	    <PackageReference Include="ClrHeapAllocationAnalyzer" Version="3.0.0" />
-    </ItemGroup>
 	
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -58,9 +54,13 @@
     <Folder Include="Utilities\Exceptions\" />
   </ItemGroup>
 
+	<!-- COMMENTED OUT
+	
   <ItemGroup>
     <ProjectReference Include="..\Imagenic.SourceGenerators.Test\Imagenic.SourceGenerators.CountableContexts.csproj" />
     <ProjectReference Include="..\NullCheckerSourceGenerator\Imagenic.SourceGenerators.NullCheckers.csproj" />
   </ItemGroup>
+
+    -->
 
 </Project>
