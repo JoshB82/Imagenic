@@ -1,9 +1,9 @@
-﻿using _3D_Engine.Entities.SceneObjects.RenderingObjects;
-using Imagenic.Core.Entities;
+﻿using Imagenic.Core.Entities;
 using System.Collections.Generic;
 using System;
 using static Imagenic.Core.Maths.Vectors.Vector3D;
 using Imagenic.Core.Renderers.Rasterising;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.RenderingEntities;
 
 namespace Imagenic.Core.Renderers.Clippers;
 

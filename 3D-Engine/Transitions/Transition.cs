@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.Entities;
+using Imagenic.Core.Entities.TransformableEntities.Transitions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

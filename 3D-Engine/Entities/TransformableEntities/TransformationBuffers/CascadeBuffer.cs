@@ -11,7 +11,7 @@ namespace Imagenic.Core.Entities.CascadeBuffers;
 
 
 
-
+/*
 internal static class CascadeBufferHelper
 {
     internal static void ApplyTransformationToComplexObject<TInspect, TEntity, TValue>(TInspect toBeInspected, Action<TEntity, TValue> transformation, Node<TValue> values)
@@ -75,4 +75,4 @@ internal static class CascadeBufferHelper
     {
 
     }
-}
+}*/

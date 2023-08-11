@@ -26,6 +26,7 @@ public partial class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
         }
     }
 
+    /*
     public override SceneEntity SceneObjectsToRender
     {
         get => base.SceneObjectsToRender;
@@ -37,13 +38,13 @@ public partial class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
 
             UpdateSubscribers(base.SceneObjectsToRender, true);
         }
-    }
+    }*/
 
     #endregion
 
     #region Constructors
 
-    public Rasteriser()
+    public Rasteriser(RenderingOptions renderingOptions) : base(renderingOptions)
     {
         shadowMapDelegate = () => NewShadowMapNeeded = true;
     }
@@ -57,7 +58,7 @@ public partial class Rasteriser<TImage> : Renderer<TImage> where TImage : Image
                                 
                             };
 
-public async override Task<TImage?> RenderAsync(CancellationToken token = default)
+    public async override Task<TImage?> RenderAsync(CancellationToken token = default)
     {
         // Check if there is anything to render.
         if (RenderingOptions.PhysicalEntitiesToRender is null)
@@ -72,10 +73,11 @@ public async override Task<TImage?> RenderAsync(CancellationToken token = defaul
             if (drawRequired)
             {
                 var colourBuffer = new Buffer2D<Color>(RenderingOptions.RenderWidth, RenderingOptions.RenderHeight);
+                var zBuffer = new Buffer2D<float>(RenderingOptions.RenderWidth, RenderingOptions.RenderHeight);
 
                 foreach (RenderTriangle triangleToBeDrawn in renderTriangles)
                 {
-                    triangleToBeDrawn.Interpolate(colourBuffer);
+                    triangleToBeDrawn.Interpolate(colourBuffer, zBuffer);
 
 
                     /*
@@ -96,6 +98,8 @@ public async override Task<TImage?> RenderAsync(CancellationToken token = defaul
                 }
             }
         }
+
+        return null;
     }
 
     /*

@@ -1,21 +1,20 @@
-﻿namespace _3D_Engine.Entities.SceneObjects.RenderingObjects
+﻿namespace Imagenic.Core.Entities;
+
+internal sealed class ClippingPlane
 {
-    internal sealed class ClippingPlane
+    /// <summary>
+    /// A point on the clipping plane.
+    /// </summary>
+    internal Vector3D Point;
+
+    /// <summary>
+    /// Normal vector pointing towards the volume to keep. (on the boundary?, clipping in non-linear space?)
+    /// </summary>
+    internal Vector3D Normal;
+
+    internal ClippingPlane(Vector3D point, Vector3D normal)
     {
-        /// <summary>
-        /// A point on the clipping plane.
-        /// </summary>
-        internal Vector3D Point;
-
-        /// <summary>
-        /// Normal vector pointing towards the volume to keep. (on the boundary?, clipping in non-linear space?)
-        /// </summary>
-        internal Vector3D Normal;
-
-        internal ClippingPlane(Vector3D point, Vector3D normal)
-        {
-            Point = point;
-            Normal = normal;
-        }
+        Point = point;
+        Normal = normal;
     }
 }

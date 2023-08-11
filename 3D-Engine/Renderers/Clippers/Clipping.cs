@@ -10,9 +10,9 @@
  * Defines static methods for clipping edges and faces against specified planes.
  */
 
-using _3D_Engine.Entities.SceneObjects.RenderingObjects;
 using Imagenic.Core.Entities;
 using Imagenic.Core.Entities.SceneObjects.Meshes.Components.Triangles;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.RenderingEntities;
 using System;
 using System.Collections.Generic;
 

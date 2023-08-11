@@ -10,7 +10,9 @@
  * Encapsulates creation of a light.
  */
 
+using Imagenic.Core.Enums;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 
@@ -26,7 +28,7 @@ public abstract partial class Light : RenderingEntity
     // Appearance
     private Color colour = Color.White;
     /// <summary>
-    /// The <see cref="Color"/> of the <see cref="Light"/>.
+    /// The colour of the <see cref="Light"/>.
     /// </summary>
     public Color Colour
     {
@@ -35,7 +37,7 @@ public abstract partial class Light : RenderingEntity
         {
             if (value == colour) return;
             colour = value;
-            InvokeRenderingEvents(true, false);
+            InvokeRenderEvent(RenderUpdate.NewRender);
         }
     }
 
@@ -51,7 +53,7 @@ public abstract partial class Light : RenderingEntity
             }
             if (value == strength) return;
             strength = value;
-            InvokeRenderingEvents(true, false);
+            InvokeRenderEvent(RenderUpdate.NewRender);
         }
     }
 
@@ -59,8 +61,8 @@ public abstract partial class Light : RenderingEntity
 
     #region Constructors
 
-    internal Light(Vector3D worldOrigin,
-                    Orientation worldOrientation,
+    protected Light(Vector3D worldOrigin,
+                    [DisallowNull] Orientation worldOrientation,
                     float viewWidth,
                     float viewHeight,
                     float zNear,
@@ -70,6 +72,7 @@ public abstract partial class Light : RenderingEntity
 
     #region Methods
 
+    /*
     // Export
     /// <summary>
     /// Exports the shadow map to the current working directory of the application, in an "Export" folder.
@@ -141,6 +144,6 @@ public abstract partial class Light : RenderingEntity
 
         #endif
     }
-
+    */
     #endregion
 }

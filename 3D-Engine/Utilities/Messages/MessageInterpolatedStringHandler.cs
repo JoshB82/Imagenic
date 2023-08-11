@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Imagenic.Core.Utilities.Messages;
@@ -23,6 +24,15 @@ public ref struct MessageInterpolatedStringHandler<TMessage> where TMessage : IM
     {
         builder.Append(t switch
         {
+            List<string> => $"{{ {string.Join("; ", t)} }}",
+            int paramNum => TMessage.ConstantParameters![paramNum],
+            null => "null",
+            _ => t.ToString()
+        });
+
+        /*
+        builder.Append(t switch
+        {
             int paramNum => messageBuilder.ParametersToBeResolved?[paramNum](),
             null => "null",
             _ => t.ToString()
@@ -39,7 +49,7 @@ public ref struct MessageInterpolatedStringHandler<TMessage> where TMessage : IM
         else
         {
             builder.Append(t?.ToString());
-        }
+        }*/
     }
 
     internal string Build() => builder.ToString();

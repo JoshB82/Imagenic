@@ -11,7 +11,6 @@
  */
 
 using _3D_Engine.Entities.SceneObjects;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects.Lights;
 using Imagenic.Core.Entities.SceneObjects.Meshes;
 using System;
 using System.Drawing;

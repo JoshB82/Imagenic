@@ -4,6 +4,7 @@ using Imagenic.Core.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Imagenic.Core.Entities;
 
@@ -153,6 +154,11 @@ public class Face : Entity
         FrontStyle = frontStyle;
         BackStyle = backStyle;
         Triangles = new EventList<Triangle>(triangles.ToList());
+    }
+
+    public Face(params Triangle[] triangles)
+    {
+        
     }
 
     #endregion

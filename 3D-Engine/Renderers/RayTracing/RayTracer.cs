@@ -1,13 +1,11 @@
 ﻿using _3D_Engine.Entities.SceneObjects;
-using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.PhysicalEntities;
+using Imagenic.Core.Entities;
 using Imagenic.Core.Images;
 using Imagenic.Core.Images.ImageOptions;
 using Imagenic.Core.Renderers.Animations;
 using Imagenic.Core.Utilities.Node;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,9 +22,9 @@ public partial class RayTracer<T> : Renderer<T> where T : Image
 
     #region Constructors
 
-    public RayTracer(SceneEntity toRender, RenderingOptions renderingOptions) : this(toRender, renderingOptions, null) { }
+    public RayTracer(RenderingOptions renderingOptions) : this(renderingOptions, null) { }
 
-    public RayTracer(SceneEntity toRender, RenderingOptions renderingOptions, IImageOptions<T> imageOptions) : base(toRender, renderingOptions, imageOptions) { }
+    public RayTracer(RenderingOptions renderingOptions, IImageOptions<T> imageOptions) : base(renderingOptions, imageOptions) { }
 
     #endregion
 
@@ -34,9 +32,10 @@ public partial class RayTracer<T> : Renderer<T> where T : Image
 
     public async override Task<T> RenderAsync(CancellationToken token)
     {
-        return await GenerateImage();
+        return null;
+        //return await GenerateImage();
     }
-
+    /*
     public async override IAsyncEnumerable<T> RenderAsync(PhysicalEntity physicalEntity, Animation animation, [EnumeratorCancellation] CancellationToken token = default)
     {
         foreach (Frame frame in animation.Frames)
@@ -80,6 +79,6 @@ public partial class RayTracer<T> : Renderer<T> where T : Image
             return new Bitmap(colourBuffer);
         }
     }
-
+    */
     #endregion
 }

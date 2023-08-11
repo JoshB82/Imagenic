@@ -14,6 +14,7 @@ namespace Imagenic.Core.Renderers.RayTracing
 {
     public partial class RayTracer
     {
+        /*
         private Buffer2D<Task<bool>> taskBuffer;
         private Buffer2D<Color> colourBuffer;
 
@@ -96,5 +97,6 @@ namespace Imagenic.Core.Renderers.RayTracing
                 return false;
             }
         }
+        */
     }
 }

@@ -176,9 +176,9 @@ public class Cube : Mesh
         EventList<Vertex> vertices = GenerateVertices();
         EventList<Edge> edges = GenerateEdges(edgeStyle);
         EventList<Triangle> triangles = GenerateTriangles(exteriorFaceStyles);
-        EventList<Face> faces = GenerateFaces(exteriorFaceStyles);
+        EventList<Face> faces = GenerateFaces(triangles);
 
-        return new MeshStructure(Dimension.Three, vertices, edges, triangles, faces, textures);
+        return new MeshStructure(Dimension.Three, vertices, edges, triangles, faces);
     }
 
     private static EventList<Vertex> GenerateVertices()
@@ -193,11 +193,12 @@ public class Cube : Mesh
 
     private static EventList<Triangle> GenerateTriangles(FaceStyle[] exteriorStyles)
     {
-        return new EventList<Triangle>(MeshData.GenerateCuboidTriangles(SolidStyle.Black, exteriorStyles);
+        return new EventList<Triangle>(MeshData.GenerateCuboidTriangles(SolidStyle.Black, exteriorStyles));
     }
 
-    private static IList<Face> GenerateFaces()
+    private static EventList<Face> GenerateFaces(IList<Triangle> triangles)
     {
+        /*
         if (Structure.Textures is null)
         {
             return HardcodedMeshData.CuboidSolidFaces;
@@ -205,7 +206,9 @@ public class Cube : Mesh
         else
         {
             return HardcodedMeshData.GenerateCuboidTextureFaces(Structure.Textures.ToArray());
-        }
+        }*/
+
+        return new EventList<Face>(MeshData.GenerateCuboidFaces(triangles));
     }
 
     public override Cube ShallowCopy() => (Cube)MemberwiseClone();

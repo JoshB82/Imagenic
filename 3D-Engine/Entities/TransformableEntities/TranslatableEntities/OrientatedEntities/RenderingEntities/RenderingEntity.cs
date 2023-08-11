@@ -11,7 +11,7 @@
  */
 
 using _3D_Engine.Constants;
-using _3D_Engine.Entities.SceneObjects.RenderingObjects;
+using Imagenic.Core.Entities.TransformableEntities.TranslatableEntities.OrientatedEntities.RenderingEntities;
 using Imagenic.Core.Enums;
 using System;
 using System.Collections.Generic;
@@ -151,51 +151,7 @@ public abstract partial class RenderingEntity : OrientatedEntity
 
             VolumeEdges.Clear();
 
-            float semiViewWidth = viewWidth / 2, semiViewHeight = viewHeight / 2;
-
-            Vertex zeroPoint = new(new Vector4D(0, 0, 0, 1));
-            Vertex nearTopLeftPoint = new(new Vector4D(-semiViewWidth, semiViewHeight, ZNear, 1));
-            Vertex nearTopRightPoint = new(new Vector4D(semiViewWidth, semiViewHeight, ZNear, 1));
-            Vertex nearBottomLeftPoint = new(new Vector4D(-semiViewWidth, -semiViewHeight, ZNear, 1));
-            Vertex nearBottomRightPoint = new(new Vector4D(semiViewWidth, -semiViewHeight, ZNear, 1));
-
-            if ((volumeStyle & VolumeOutline.Near) == VolumeOutline.Near)
-            {
-                VolumeEdges.AddRange(new Edge[]
-                {
-                    new DashedEdge(zeroPoint, nearTopLeftPoint), // Near top left
-                    new DashedEdge(zeroPoint, nearTopRightPoint), // Near top right
-                    new DashedEdge(zeroPoint, nearBottomLeftPoint), // Near bottom left
-                    new DashedEdge(zeroPoint, nearBottomRightPoint), // Near bottom right
-                    new DashedEdge(nearTopLeftPoint, nearTopRightPoint), // Near top
-                    new DashedEdge(nearBottomLeftPoint, nearBottomRightPoint), // Near bottom
-                    new DashedEdge(nearTopLeftPoint, nearBottomLeftPoint), // Near left
-                    new DashedEdge(nearTopRightPoint, nearBottomRightPoint) // Near right
-                });
-            }
-
-            if ((volumeStyle & VolumeOutline.Far) == VolumeOutline.Far)
-            {
-                float ratio = (this is OrthogonalCamera or DistantLight) ? 1 : ZFar / ZNear;
-                float semiViewWidthRatio = semiViewWidth * ratio, semiViewHeightRatio = semiViewHeight * ratio;
-
-                Vertex farTopLeftPoint = new(new Vector4D(-semiViewWidthRatio, semiViewHeightRatio, ZFar, 1));
-                Vertex farTopRightPoint = new(new Vector4D(semiViewWidthRatio, semiViewHeightRatio, ZFar, 1));
-                Vertex farBottomLeftPoint = new(new Vector4D(-semiViewWidthRatio, -semiViewHeightRatio, ZFar, 1));
-                Vertex farBottomRightPoint = new(new Vector4D(semiViewWidthRatio, -semiViewHeightRatio, ZFar, 1));
-
-                VolumeEdges.AddRange(new Edge[]
-                {
-                    new DashedEdge(nearTopLeftPoint, farTopLeftPoint), // Far top left
-                    new DashedEdge(nearTopRightPoint, farTopRightPoint), // Far top right
-                    new DashedEdge(nearBottomLeftPoint, farBottomLeftPoint), // Far bottom left
-                    new DashedEdge(nearBottomRightPoint, farBottomRightPoint), // Far bottom right
-                    new DashedEdge(farTopLeftPoint, farTopRightPoint), // Far top
-                    new DashedEdge(farBottomLeftPoint, farBottomRightPoint), // Far bottom
-                    new DashedEdge(farTopLeftPoint, farBottomLeftPoint), // Far left
-                    new DashedEdge(farTopRightPoint, farBottomRightPoint) // Far right
-                });
-            }
+            
         }
     }
 

@@ -2,7 +2,7 @@
 using Imagenic.Core.Utilities.Node;
 using System;
 
-namespace Imagenic.Core.Transitions;
+namespace Imagenic.Core.Entities.TransformableEntities.Transitions;
 
 public abstract class TransformationNode : Node { }
 
