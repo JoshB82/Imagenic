@@ -34,18 +34,26 @@ public abstract class TranslatableEntity : TransformableEntity
         }
     }
 
-    #if DEBUG
-
-    private protected override IMessageBuilder<TranslatableEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<TranslatableEntityCreatedMessage>?)base.MessageBuilder;
-
-    #endif
-
     #endregion
 
     #region Constructors
 
+    private protected TranslatableEntity(Vector3D worldOrigin)
+    {
+        this.worldOrigin = worldOrigin;
+        RegenerateTranslationMatrix();
+
+        #if DEBUG
+
+        mb.AddParameter("WorldOrigin", worldOrigin);
+
+        #endif
+    }
+
+    /*
     #if DEBUG
 
+    
     private protected TranslatableEntity(Vector3D worldOrigin, IMessageBuilder<TranslatableEntityCreatedMessage> mb) : base(mb)
     {
         MessageBuilder!.AddParameter(worldOrigin);
@@ -60,12 +68,7 @@ public abstract class TranslatableEntity : TransformableEntity
     }
 
     #endif
-
-    private void NonDebugConstructorBody(Vector3D worldOrigin)
-    {
-        this.worldOrigin = worldOrigin;
-        RegenerateTranslationMatrix();
-    }
+    */
 
     #endregion
 

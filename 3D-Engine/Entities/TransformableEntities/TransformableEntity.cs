@@ -21,7 +21,7 @@ public abstract class TransformableEntity : Entity
 
     #if DEBUG
 
-    private protected override IMessageBuilder<TransformableEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<TransformableEntityCreatedMessage>?)base.MessageBuilder;
+    //private protected override IMessageBuilder<TransformableEntityCreatedMessage>? MessageBuilder => (IMessageBuilder<TransformableEntityCreatedMessage>?)base.MessageBuilder;
 
     #endif
 
@@ -29,6 +29,7 @@ public abstract class TransformableEntity : Entity
 
     #region Constructors
 
+    /*
     #if DEBUG
 
     private protected TransformableEntity(IMessageBuilder<TransformableEntityCreatedMessage> mb) : base(mb)
@@ -43,6 +44,13 @@ public abstract class TransformableEntity : Entity
     }
 
     #endif
+
+    */
+
+    public TransformableEntity()
+    {
+        
+    }
 
     #endregion
 

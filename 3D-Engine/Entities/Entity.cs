@@ -1,4 +1,5 @@
 ﻿using Imagenic.Core.Enums;
+using Imagenic.Core.Utilities.Messages2;
 using System;
 
 namespace Imagenic.Core.Entities;
@@ -20,7 +21,9 @@ public abstract class Entity
 
     #if DEBUG
 
-    private protected virtual IMessageBuilder<EntityCreatedMessage>? MessageBuilder { get; }
+    //private protected virtual IMessageBuilder<EntityCreatedMessage>? MessageBuilder { get; }
+
+    private protected MessageBuilder2<EntityCreatedMessage2> mb = new();
 
     #endif
 
@@ -28,6 +31,7 @@ public abstract class Entity
 
     #region Constructors
 
+    /*
     private protected Entity(
         #if DEBUG
         IMessageBuilder<EntityCreatedMessage> mb
@@ -45,7 +49,18 @@ public abstract class Entity
                                                              .AddParameter(nextId)
                                                              .Build()
                                                              .DisplayInConsole();*/
-//}
+    
+    //}
+
+    protected Entity()
+    {
+        #if DEBUG
+
+        mb.AddParameter("ID", Id);
+
+        #endif
+    }
+
     #endregion
 
     #region Methods
