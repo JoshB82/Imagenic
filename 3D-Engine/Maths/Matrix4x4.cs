@@ -12,6 +12,7 @@
 
 using _3D_Engine.Constants;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Imagenic.Core.Maths;
 
@@ -137,7 +138,7 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>
     /// Creates a <see cref="Matrix4x4"/> from a two-dimensional array of elements.
     /// </summary>
     /// <param name="elements">The array containing elements to be entered into the <see cref= "Matrix4x4"/>.</param>
-    public Matrix4x4(float[,] elements)
+    public Matrix4x4([DisallowNull] float[,] elements)
     {
         if (elements is null)
         {
@@ -158,7 +159,7 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>
     /// Creates a <see cref="Matrix4x4"/> from a jagged array of elements.
     /// </summary>
     /// <param name="elements">The array containing elements to be entered into the <see cref="Matrix4x4"/>.</param>
-    public Matrix4x4(float[][] elements)
+    public Matrix4x4([DisallowNull] float[][] elements)
     {
         if (elements is null)
         {
@@ -316,30 +317,21 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>
         };
 
     /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Subtraction(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
-    public static Matrix4x4 operator -(Matrix4x4 m1, Matrix4x4 m2) =>
-        new()
+    public static Matrix4x4 operator -(Matrix4x4 m1, Matrix4x4 m2)
+    {
+        return new()
         {
-            m00 = m1.m00 - m2.m00,
-            m01 = m1.m01 - m2.m01,
-            m02 = m1.m02 - m2.m02,
-            m03 = m1.m03 - m2.m03,
-            m10 = m1.m10 - m2.m10,
-            m11 = m1.m11 - m2.m11,
-            m12 = m1.m12 - m2.m12,
-            m13 = m1.m13 - m2.m13,
-            m20 = m1.m20 - m2.m20,
-            m21 = m1.m21 - m2.m21,
-            m22 = m1.m22 - m2.m22,
-            m23 = m1.m23 - m2.m23,
-            m30 = m1.m30 - m2.m30,
-            m31 = m1.m31 - m2.m31,
-            m32 = m1.m32 - m2.m32,
-            m33 = m1.m33 - m2.m33
+            m00 = m1.m00 - m2.m00, m01 = m1.m01 - m2.m01, m02 = m1.m02 - m2.m02, m03 = m1.m03 - m2.m03,
+            m10 = m1.m10 - m2.m10, m11 = m1.m11 - m2.m11, m12 = m1.m12 - m2.m12, m13 = m1.m13 - m2.m13,
+            m20 = m1.m20 - m2.m20, m21 = m1.m21 - m2.m21, m22 = m1.m22 - m2.m22, m23 = m1.m23 - m2.m23,
+            m30 = m1.m30 - m2.m30, m31 = m1.m31 - m2.m31, m32 = m1.m32 - m2.m32, m33 = m1.m33 - m2.m33
         };
+    }
 
     /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Matrix4x4)']/*"/>
-    public static Matrix4x4 operator *(Matrix4x4 m1, Matrix4x4 m2) =>
-        new
+    public static Matrix4x4 operator *(Matrix4x4 m1, Matrix4x4 m2)
+    {
+        return new
         (
             m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20 + m1.m03 * m2.m30,
             m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21 + m1.m03 * m2.m31,
@@ -358,6 +350,7 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>
             m1.m30 * m2.m02 + m1.m31 * m2.m12 + m1.m32 * m2.m22 + m1.m33 * m2.m32,
             m1.m30 * m2.m03 + m1.m31 * m2.m13 + m1.m32 * m2.m23 + m1.m33 * m2.m33
         );
+    }
 
     /// <include file="Help_8.xml" path="doc/members/member[@name='M:_3D_Engine.Matrix4x4.op_Multiply(_3D_Engine.Matrix4x4,_3D_Engine.Vector4D)']/*"/>
     public static Vector4D operator *(Matrix4x4 m, Vector4D v) =>

@@ -29,24 +29,6 @@ public abstract class TransformableEntity : Entity
 
     #region Constructors
 
-    /*
-    #if DEBUG
-
-    private protected TransformableEntity(IMessageBuilder<TransformableEntityCreatedMessage> mb) : base(mb)
-    {
-
-    }
-
-    #else
-
-    public TransformableEntity() : base()
-    {
-    }
-
-    #endif
-
-    */
-
     public TransformableEntity()
     {
         
